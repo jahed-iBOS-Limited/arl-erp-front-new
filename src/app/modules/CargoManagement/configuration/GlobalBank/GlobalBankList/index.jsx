@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import Loading from '../../../../_helper/_loading';
 import PaginationSearch from '../../../../_helper/_search';
@@ -30,8 +30,9 @@ export default function GlobalBankList() {
     PageSize = pageSize,
   ) => {
     GetGlobalBankList(
-      `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ??
-        ''}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${
+        searchValue ?? ''
+      }`,
     );
   };
   const handleDelete = (id) => {

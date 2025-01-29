@@ -1,60 +1,60 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
-import { generateJsonToExcel } from "../../../_helper/excel/jsonToExcel";
-import { eProcurementBaseURL } from "../../../../App";
+} from '../../../_helper/_dateFormate';
+import { generateJsonToExcel } from '../../../_helper/excel/jsonToExcel';
+import { eProcurementBaseURL } from '../../../../../App';
 
 export const rfqReportExcel = (rowData) => {
   const header = [
     {
-      text: "SL",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "sl",
+      text: 'SL',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'sl',
     },
     {
-      text: "RFQ No",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "requestForQuotationCode",
+      text: 'RFQ No',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'requestForQuotationCode',
     },
     {
-      text: "RFQ Date",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "rfqdate",
+      text: 'RFQ Date',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'rfqdate',
     },
     {
-      text: "Currency",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "currencyCode",
+      text: 'Currency',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'currencyCode',
     },
     {
-      text: "RFQ Start Date-Time",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "quotationEntryStart",
+      text: 'RFQ Start Date-Time',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'quotationEntryStart',
     },
     {
-      text: "RFQ End Date-Time",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "validTillDate",
+      text: 'RFQ End Date-Time',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'validTillDate',
     },
     {
-      text: "Status",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "status",
+      text: 'Status',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'status',
     },
     {
-      text: "Created By",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "createdBy",
+      text: 'Created By',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'createdBy',
     },
   ];
 
@@ -68,16 +68,16 @@ export const rfqReportExcel = (rowData) => {
     };
   });
 
-  generateJsonToExcel(header, _data, "Request For Quotation Report");
+  generateJsonToExcel(header, _data, 'Request For Quotation Report');
 };
 
 export const createQuotationPrepare = async (
   erpUserId,
-  requestForQuotationId
+  requestForQuotationId,
 ) => {
   try {
     const response = await axios.post(
-      `${eProcurementBaseURL}/RequestForQuotation/UpdateRequestForQuotationStatus?erpUserId=${erpUserId}&requestForQuotationId=${requestForQuotationId}&type=Prepared`
+      `${eProcurementBaseURL}/RequestForQuotation/UpdateRequestForQuotationStatus?erpUserId=${erpUserId}&requestForQuotationId=${requestForQuotationId}&type=Prepared`,
     );
     return response?.data;
   } catch (error) {

@@ -1,58 +1,56 @@
-import { Button } from "@material-ui/core";
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../../_helper/TextArea";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+import { Button } from '@mui/material';
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
   const { id } = useParams();
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    phone: Yup.number().required("Phone is required"),
-    email: Yup.string()
-      .required("Email is required")
-      .email("Email is invalid"),
+    name: Yup.string().required('Name is required'),
+    phone: Yup.number().required('Phone is required'),
+    email: Yup.string().required('Email is required').email('Email is invalid'),
     storied: Yup.object().shape({
-      value: Yup.number().required("This fields is required"),
-      label: Yup.string().required("This fields is required"),
+      value: Yup.number().required('This fields is required'),
+      label: Yup.string().required('This fields is required'),
     }),
     projectStatus: Yup.object().shape({
-      value: Yup.number().required("Project Status is required"),
-      label: Yup.string().required("Project Status is required"),
+      value: Yup.number().required('Project Status is required'),
+      label: Yup.string().required('Project Status is required'),
     }),
     division: Yup.object().shape({
-      value: Yup.number().required("Division is required"),
-      label: Yup.string().required("Division is required"),
+      value: Yup.number().required('Division is required'),
+      label: Yup.string().required('Division is required'),
     }),
     district: Yup.object().shape({
-      value: Yup.number().required("District is required"),
-      label: Yup.string().required("District is required"),
+      value: Yup.number().required('District is required'),
+      label: Yup.string().required('District is required'),
     }),
     // thana: Yup.object().shape({
     //   value: Yup.number().required("Thana is required"),
     //   label: Yup.string().required("Thana is required"),
     // }),
-    shipToPartnerName: Yup.string().required("Shop is required"),
+    shipToPartnerName: Yup.string().required('Shop is required'),
     shipToPartnerAddress: Yup.string().required(
-      "Retail Shop Address is required"
+      'Retail Shop Address is required',
     ),
     updatedDateTime: id
-      ? Yup.string().required("Date & Time is required")
+      ? Yup.string().required('Date & Time is required')
       : Yup.string(),
   });
   const formikRef = React.useRef(null);
@@ -88,31 +86,31 @@ function CreateCustomerLeadGeneration() {
       updateHandler();
     } else {
       const payload = {
-        partName: "Suspect",
+        partName: 'Suspect',
         header: {
           businessUnitId: selectedBusinessUnit?.value,
           customerAcquisitionId: 0,
-          customerName: values?.name || "",
-          customerEmail: values?.email || "",
-          customerPhone: values?.phone || "",
-          storied: values?.storied?.label || "",
+          customerName: values?.name || '',
+          customerEmail: values?.email || '',
+          customerPhone: values?.phone || '',
+          storied: values?.storied?.label || '',
           projectStatusId: values?.projectStatus?.value || 0,
-          projectStatusName: values?.projectStatus?.label || "",
+          projectStatusName: values?.projectStatus?.label || '',
           divisionId: values?.division?.value || 0,
           districtId: values?.district?.value || 0,
           transportZoneId: values?.thana?.value || 0,
           // shipToPartnerId: values?.shipPoint?.value || 0,
-          shipToPartnerName: values?.shipToPartnerName || "",
-          shipToPartnerAddress: values?.shipToPartnerAddress || "",
+          shipToPartnerName: values?.shipToPartnerName || '',
+          shipToPartnerAddress: values?.shipToPartnerAddress || '',
           businessPartnerId: 0,
           referenceId: values?.reference?.value || 0,
-          referenceName: values?.reference?.label || "",
-          deliveryAddress: values?.deliveryAddress || "",
-          referralSource: values?.sourceOrAdvertise?.label || "",
+          referenceName: values?.reference?.label || '',
+          deliveryAddress: values?.deliveryAddress || '',
+          referralSource: values?.sourceOrAdvertise?.label || '',
           territoryId: values?.territory?.value || 0,
           areaId: values?.area?.value || 0,
           regionId: values?.region?.value || 0,
-          currentStage: "Suspect",
+          currentStage: 'Suspect',
           lastActionBy: userId || 0,
           updatedDateTime: new Date(),
           isRejected: false,
@@ -125,7 +123,7 @@ function CreateCustomerLeadGeneration() {
             customerAcquisitionId: 0,
             itemId: item?.item?.value || 0,
             uomId: item?.item?.uomId || 0,
-            uomName: item?.item?.uomName || "",
+            uomName: item?.item?.uomName || '',
             quantity: item?.quantity || 0,
           };
         }),
@@ -139,7 +137,7 @@ function CreateCustomerLeadGeneration() {
             cb();
           }
         },
-        "save"
+        'save',
       );
     }
   };
@@ -147,15 +145,15 @@ function CreateCustomerLeadGeneration() {
   const updateHandler = (isRejected = false) => {
     const values = formikRef.current.values;
 
-    let nextStage = "";
-    if (data.currentStage === "Suspect") {
-      nextStage = "Prospect";
-    } else if (data.currentStage === "Prospect") {
-      nextStage = "Lead";
-    } else if (data.currentStage === "Lead") {
-      nextStage = "Customer";
-    } else if (data.currentStage === "Customer") {
-      nextStage = "Client";
+    let nextStage = '';
+    if (data.currentStage === 'Suspect') {
+      nextStage = 'Prospect';
+    } else if (data.currentStage === 'Prospect') {
+      nextStage = 'Lead';
+    } else if (data.currentStage === 'Lead') {
+      nextStage = 'Customer';
+    } else if (data.currentStage === 'Customer') {
+      nextStage = 'Client';
     } else {
       nextStage = data?.currentStage;
     }
@@ -164,23 +162,23 @@ function CreateCustomerLeadGeneration() {
       header: {
         businessUnitId: selectedBusinessUnit?.value,
         customerAcquisitionId: id,
-        customerName: values?.name || "",
-        customerEmail: values?.email || "",
-        customerPhone: values?.phone || "",
-        storied: values?.storied?.label || "",
+        customerName: values?.name || '',
+        customerEmail: values?.email || '',
+        customerPhone: values?.phone || '',
+        storied: values?.storied?.label || '',
         projectStatusId: values?.projectStatus?.value || 0,
-        projectStatusName: values?.projectStatus?.label || "",
+        projectStatusName: values?.projectStatus?.label || '',
         divisionId: values?.division?.value || 0,
         districtId: values?.district?.value || 0,
         transportZoneId: values?.thana?.value || 0,
         // shipToPartnerId: values?.shipPoint?.value || 0,
-        shipToPartnerName: values?.shipToPartnerName || "",
-        shipToPartnerAddress: values?.shipToPartnerAddress || "",
+        shipToPartnerName: values?.shipToPartnerName || '',
+        shipToPartnerAddress: values?.shipToPartnerAddress || '',
         businessPartnerId: 0,
         referenceId: values?.reference?.value || 0,
-        referenceName: values?.reference?.label || "",
-        deliveryAddress: values?.deliveryAddress || "",
-        referralSource: values?.sourceOrAdvertise?.label || "",
+        referenceName: values?.reference?.label || '',
+        deliveryAddress: values?.deliveryAddress || '',
+        referralSource: values?.sourceOrAdvertise?.label || '',
         territoryId: values?.territory?.value || 0,
         areaId: values?.area?.value || 0,
         regionId: values?.region?.value || 0,
@@ -197,7 +195,7 @@ function CreateCustomerLeadGeneration() {
           customerAcquisitionId: item?.item?.customerAcquisitionId || 0,
           itemId: item?.item?.value || 0,
           uomId: item?.item?.uomId || 0,
-          uomName: item?.item?.uomName || "",
+          uomName: item?.item?.uomName || '',
           quantity: item?.quantity || 0,
         };
       }),
@@ -206,18 +204,18 @@ function CreateCustomerLeadGeneration() {
       `/oms/SalesQuotation/UpdateCustomerAcquisitionPipeline`,
       payload,
       () => history.goBack(),
-      "update"
+      'update',
     );
   };
 
   const getDistrict = (divisionId) => {
     getDistrictDDL(
-      `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
+      `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`,
     );
   };
   const getThana = (districtId) => {
     getThanaDDL(
-      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
+      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`,
     );
   };
 
@@ -225,7 +223,7 @@ function CreateCustomerLeadGeneration() {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
       )
       .then((res) => {
         return res?.data;
@@ -244,7 +242,7 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setAreaDDL(modifyData);
-      }
+      },
     );
   };
   const getTerritory = (areaId) => {
@@ -259,29 +257,29 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setTerritoryDDL(modifyData);
-      }
+      },
     );
   };
 
   // get all ddl
   React.useEffect(() => {
-    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
+    getDivisionDDL('/oms/TerritoryInfo/GetDivisionDDL?countryId=18');
     getStoriedDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`,
     );
     getProjectStatusDDL(
       `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${
         selectedBusinessUnit?.value === 4 ? 4 : 0
-      }&typeId=2&referenceId=2`
+      }&typeId=2&referenceId=2`,
     );
     getSourceOrAdvertiseDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`,
     );
     getBrandDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`,
     );
     getShipPointDDL(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`
+      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`,
     );
     // /oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=4&userId=204856&typeName=Region&distributionChannelId=46
 
@@ -296,10 +294,10 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setRegionDDL(modifyData);
-      }
+      },
     );
     getItemDDL(
-      `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`
+      `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -311,100 +309,100 @@ function CreateCustomerLeadGeneration() {
         `/oms/SalesQuotation/GetCustomerAcquisitionById?customerAcquisitionId=${id}`,
         (data) => {
           formikRef.current.setValues({
-            updatedDateTime: "",
-            name: data?.customerName || "",
-            phone: data?.customerPhone || "",
-            email: data?.customerEmail || "",
+            updatedDateTime: '',
+            name: data?.customerName || '',
+            phone: data?.customerPhone || '',
+            email: data?.customerEmail || '',
             storied: data?.storied
               ? {
                   value: data?.storiedId || 0,
-                  label: data?.storied || "",
+                  label: data?.storied || '',
                 }
-              : "",
+              : '',
             projectStatus: data?.projectStatusId
               ? {
                   value: data?.projectStatusId || 0,
-                  label: data?.projectStatusName || "",
+                  label: data?.projectStatusName || '',
                 }
-              : "",
+              : '',
             division: data?.divisionId
               ? {
                   value: data?.divisionId || 0,
-                  label: data?.divisionName || "",
+                  label: data?.divisionName || '',
                 }
-              : "",
+              : '',
             district: data?.districtId
               ? {
                   value: data?.districtId || 0,
-                  label: data?.districtName || "",
+                  label: data?.districtName || '',
                 }
-              : "",
+              : '',
             thana: data?.transportZoneId
               ? {
                   value: data?.transportZoneId || 0,
-                  label: data?.transportZoneName || "",
+                  label: data?.transportZoneName || '',
                 }
-              : "",
-            shipToPartnerName: data?.shipToPartnerName || "",
-            shipToPartnerAddress: data?.shipToPartnerAddress || "",
-            deliveryAddress: data?.deliveryAddress || "",
+              : '',
+            shipToPartnerName: data?.shipToPartnerName || '',
+            shipToPartnerAddress: data?.shipToPartnerAddress || '',
+            deliveryAddress: data?.deliveryAddress || '',
             sourceOrAdvertise: data?.referralSource
               ? {
                   value: data?.referralSource || 0,
-                  label: data?.referralSource || "",
+                  label: data?.referralSource || '',
                 }
-              : "",
+              : '',
             reference: data?.referenceId
               ? {
                   value: data?.referenceId || 0,
-                  label: data?.referenceName || "",
+                  label: data?.referenceName || '',
                 }
-              : "",
+              : '',
             brand: data?.currentBrandId
               ? {
                   value: data?.currentBrandId || 0,
-                  label: data?.currentBrandName || "",
+                  label: data?.currentBrandName || '',
                 }
-              : "",
+              : '',
             shipPoint: data?.shipPointId
               ? {
                   value: data?.shipPointId || 0,
-                  label: data?.shipPointName || "",
+                  label: data?.shipPointName || '',
                 }
-              : "",
+              : '',
             region: data?.regionId
               ? {
                   value: data?.regionId || 0,
-                  label: data?.regionName || "",
+                  label: data?.regionName || '',
                 }
-              : "",
+              : '',
             area: data?.areaId
               ? {
                   value: data?.areaId || 0,
-                  label: data?.areaName || "",
+                  label: data?.areaName || '',
                 }
-              : "",
+              : '',
             territory: data?.territoryId
               ? {
                   value: data?.territoryId || 0,
-                  label: data?.territoryName || "",
+                  label: data?.territoryName || '',
                 }
-              : "",
+              : '',
             row: data?.rowList?.map((item) => {
               return {
                 item: {
                   ...item,
                   value: item?.itemId || 0,
-                  label: item?.itemName || "",
+                  label: item?.itemName || '',
                   uomId: item?.uomId || 0,
-                  uomName: item?.uomName || "",
+                  uomName: item?.uomName || '',
                 },
-                uom: item?.uomName || "",
+                uom: item?.uomName || '',
                 quantity: item?.quantity || 0,
               };
             }),
           });
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -413,8 +411,8 @@ function CreateCustomerLeadGeneration() {
     <ICustomCard
       title={
         id
-          ? "Update Customer Lead Generation"
-          : "Create Customer Lead Generation"
+          ? 'Update Customer Lead Generation'
+          : 'Create Customer Lead Generation'
       }
       backHandler={() => {
         history.goBack();
@@ -432,9 +430,9 @@ function CreateCustomerLeadGeneration() {
                 <button
                   onClick={() => {
                     const objProps = {
-                      title: "Are You Sure?",
+                      title: 'Are You Sure?',
                       message:
-                        "Are you sure you want to reject this customer lead generation?",
+                        'Are you sure you want to reject this customer lead generation?',
                       yesAlertFunc: () => {
                         updateHandler(true);
                       },
@@ -457,31 +455,31 @@ function CreateCustomerLeadGeneration() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          id: "",
-          name: "",
-          phone: "",
-          email: "",
-          storied: "",
-          projectStatus: "",
-          division: "",
-          district: "",
-          thana: "",
-          shipToPartnerName: "",
-          shipToPartnerAddress: "",
-          deliveryAddress: "",
-          sourceOrAdvertise: "",
-          reference: "",
-          brand: "",
-          shipPoint: "",
-          region: "",
-          area: "",
-          territory: "",
+          id: '',
+          name: '',
+          phone: '',
+          email: '',
+          storied: '',
+          projectStatus: '',
+          division: '',
+          district: '',
+          thana: '',
+          shipToPartnerName: '',
+          shipToPartnerAddress: '',
+          deliveryAddress: '',
+          sourceOrAdvertise: '',
+          reference: '',
+          brand: '',
+          shipPoint: '',
+          region: '',
+          area: '',
+          territory: '',
           row: [],
-          item: "",
-          uom: "",
+          item: '',
+          uom: '',
           uomId: 0,
-          quantity: "",
-          updatedDateTime: "",
+          quantity: '',
+          updatedDateTime: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -497,9 +495,9 @@ function CreateCustomerLeadGeneration() {
             <Form className="form form-label-right">
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '10px',
                 }}
               >
                 <div className="form-group row global-form">
@@ -512,7 +510,7 @@ function CreateCustomerLeadGeneration() {
                         name="updatedDateTime"
                         value={values?.updatedDateTime}
                         onChange={(e) => {
-                          setFieldValue("updatedDateTime", e.target.value);
+                          setFieldValue('updatedDateTime', e.target.value);
                         }}
                       />
                     </div>
@@ -525,7 +523,7 @@ function CreateCustomerLeadGeneration() {
                       name="name"
                       value={values?.name}
                       onChange={(e) => {
-                        setFieldValue("name", e.target.value);
+                        setFieldValue('name', e.target.value);
                       }}
                     />
                   </div>
@@ -537,7 +535,7 @@ function CreateCustomerLeadGeneration() {
                       name="phone"
                       value={values?.phone}
                       onChange={(e) => {
-                        setFieldValue("phone", e.target.value);
+                        setFieldValue('phone', e.target.value);
                       }}
                     />
                   </div>
@@ -549,7 +547,7 @@ function CreateCustomerLeadGeneration() {
                       name="email"
                       value={values?.email}
                       onChange={(e) => {
-                        setFieldValue("email", e.target.value);
+                        setFieldValue('email', e.target.value);
                       }}
                     />
                   </div>
@@ -557,13 +555,13 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={
-                        selectedBusinessUnit?.value === 4 ? "Storied" : "Type"
+                        selectedBusinessUnit?.value === 4 ? 'Storied' : 'Type'
                       }
                       options={storiedDDL || []}
                       value={values?.storied}
                       name="storied"
                       onChange={(valueOption) => {
-                        setFieldValue("storied", valueOption || "");
+                        setFieldValue('storied', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -572,12 +570,12 @@ function CreateCustomerLeadGeneration() {
                   {/* projectStatus */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Project Status"}
+                      label={'Project Status'}
                       options={projectStatusDDL || []}
                       value={values?.projectStatus}
                       name="projectStatus"
                       onChange={(valueOption) => {
-                        setFieldValue("projectStatus", valueOption || "");
+                        setFieldValue('projectStatus', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -586,14 +584,14 @@ function CreateCustomerLeadGeneration() {
                   {/* division */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Division"}
+                      label={'Division'}
                       options={divisionDDL || []}
                       value={values?.division}
                       name="division"
                       onChange={(valueOption) => {
-                        setFieldValue("division", valueOption || "");
-                        setFieldValue("district", "");
-                        setFieldValue("thana", "");
+                        setFieldValue('division', valueOption || '');
+                        setFieldValue('district', '');
+                        setFieldValue('thana', '');
                         valueOption?.value && getDistrict(valueOption?.value);
                       }}
                       errors={errors}
@@ -603,13 +601,13 @@ function CreateCustomerLeadGeneration() {
                   {/* district */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"District"}
+                      label={'District'}
                       options={districtDDL || []}
                       value={values?.district}
                       name="district"
                       onChange={(valueOption) => {
-                        setFieldValue("district", valueOption || "");
-                        setFieldValue("thana", "");
+                        setFieldValue('district', valueOption || '');
+                        setFieldValue('thana', '');
                         valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
@@ -620,12 +618,12 @@ function CreateCustomerLeadGeneration() {
                   {/* thana */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Thana"}
+                      label={'Thana'}
                       options={thanaDDL || []}
                       value={values?.thana}
                       name="thana"
                       onChange={(valueOption) => {
-                        setFieldValue("thana", valueOption || "");
+                        setFieldValue('thana', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -644,7 +642,7 @@ function CreateCustomerLeadGeneration() {
                       name="shipToPartnerName"
                       value={values?.shipToPartnerName}
                       onChange={(e) => {
-                        setFieldValue("shipToPartnerName", e.target.value);
+                        setFieldValue('shipToPartnerName', e.target.value);
                       }}
                     />
                   </div>
@@ -680,19 +678,19 @@ function CreateCustomerLeadGeneration() {
                       name="deliveryAddress"
                       value={values?.deliveryAddress}
                       onChange={(e) => {
-                        setFieldValue("deliveryAddress", e.target.value);
+                        setFieldValue('deliveryAddress', e.target.value);
                       }}
                     />
                   </div>
                   {/* sourceOrAdvertise */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Source/Advertise"}
+                      label={'Source/Advertise'}
                       options={sourceOrAdvertiseDDL || []}
                       value={values?.sourceOrAdvertise}
                       name="sourceOrAdvertise"
                       onChange={(valueOption) => {
-                        setFieldValue("sourceOrAdvertise", valueOption || "");
+                        setFieldValue('sourceOrAdvertise', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -705,7 +703,7 @@ function CreateCustomerLeadGeneration() {
                       selectedValue={values?.reference}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("reference", valueOption);
+                        setFieldValue('reference', valueOption);
                       }}
                       loadOptions={loadRef}
                     />
@@ -713,12 +711,12 @@ function CreateCustomerLeadGeneration() {
                   {/* brand */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Brand"}
+                      label={'Brand'}
                       options={brandDDL || []}
                       value={values?.brand}
                       name="brand"
                       onChange={(valueOption) => {
-                        setFieldValue("brand", valueOption || "");
+                        setFieldValue('brand', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -727,12 +725,12 @@ function CreateCustomerLeadGeneration() {
                   {/* shipPoint */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Ship Point"}
+                      label={'Ship Point'}
                       options={shipPointDDL || []}
                       value={values?.shipPoint}
                       name="shipPoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption || "");
+                        setFieldValue('shipPoint', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -741,14 +739,14 @@ function CreateCustomerLeadGeneration() {
                   {/* region */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Region"}
+                      label={'Region'}
                       options={regionDDL || []}
                       value={values?.region}
                       name="region"
                       onChange={(valueOption) => {
-                        setFieldValue("region", valueOption || "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('region', valueOption || '');
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         valueOption?.value && getArea(valueOption?.value);
                       }}
                       errors={errors}
@@ -758,13 +756,13 @@ function CreateCustomerLeadGeneration() {
                   {/* area */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Area"}
+                      label={'Area'}
                       options={areaDDL || []}
                       value={values?.area}
                       name="area"
                       onChange={(valueOption) => {
-                        setFieldValue("area", valueOption || "");
-                        setFieldValue("territory", "");
+                        setFieldValue('area', valueOption || '');
+                        setFieldValue('territory', '');
                         valueOption?.value && getTerritory(valueOption?.value);
                       }}
                       errors={errors}
@@ -775,12 +773,12 @@ function CreateCustomerLeadGeneration() {
                   {/* territory */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Territory"}
+                      label={'Territory'}
                       options={territoryDDL || []}
                       value={values?.territory}
                       name="territory"
                       onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption || "");
+                        setFieldValue('territory', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -800,14 +798,14 @@ function CreateCustomerLeadGeneration() {
 
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Item"}
+                      label={'Item'}
                       options={itemDDL || []}
                       value={values?.item}
                       name="item"
                       onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                        setFieldValue("uom", valueOption?.uomName || "");
-                        setFieldValue("uomId", valueOption?.uomId || 0);
+                        setFieldValue('item', valueOption);
+                        setFieldValue('uom', valueOption?.uomName || '');
+                        setFieldValue('uomId', valueOption?.uomId || 0);
                       }}
                       errors={errors}
                       touched={touched}
@@ -821,7 +819,7 @@ function CreateCustomerLeadGeneration() {
                       name="uom"
                       value={values?.uom}
                       onChange={(e) => {
-                        setFieldValue("uom", e.target.value);
+                        setFieldValue('uom', e.target.value);
                       }}
                       disabled
                     />
@@ -834,7 +832,7 @@ function CreateCustomerLeadGeneration() {
                       name="quantity"
                       value={values?.quantity}
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                     />
                   </div>
@@ -844,31 +842,31 @@ function CreateCustomerLeadGeneration() {
                       type="button"
                       className="btn btn-primary  mt-5"
                       onClick={() => {
-                        if (values.item === "") {
-                          toast.warn("Item is required");
+                        if (values.item === '') {
+                          toast.warn('Item is required');
                           return;
                         }
-                        if (values.uom === "") {
-                          toast.warn("UOM is required");
+                        if (values.uom === '') {
+                          toast.warn('UOM is required');
                           return;
                         }
-                        if (values.quantity === "") {
-                          toast.warn("Quantity is required");
+                        if (values.quantity === '') {
+                          toast.warn('Quantity is required');
                           return;
                         }
                         // item is exist
                         const isExist =
                           Array.isArray(values?.row) &&
                           values.row.some(
-                            (item) => item?.item?.value === values?.item?.value
+                            (item) => item?.item?.value === values?.item?.value,
                           );
 
                         if (isExist) {
-                          toast.warn("Duplicate item not allowed");
+                          toast.warn('Duplicate item not allowed');
                           return;
                         }
 
-                        setFieldValue("row", [
+                        setFieldValue('row', [
                           ...values?.row,
                           {
                             item: values.item,
@@ -877,10 +875,10 @@ function CreateCustomerLeadGeneration() {
                             quantity: values.quantity,
                           },
                         ]);
-                        setFieldValue("item", "");
-                        setFieldValue("uom", "");
-                        setFieldValue("uomId", 0);
-                        setFieldValue("quantity", "");
+                        setFieldValue('item', '');
+                        setFieldValue('uom', '');
+                        setFieldValue('uomId', 0);
+                        setFieldValue('quantity', '');
                       }}
                     >
                       Add
@@ -911,9 +909,9 @@ function CreateCustomerLeadGeneration() {
                                 <Button
                                   onClick={() => {
                                     const filterData = values.row.filter(
-                                      (itm, indx) => indx !== index
+                                      (itm, indx) => indx !== index,
                                     );
-                                    setFieldValue("row", filterData);
+                                    setFieldValue('row', filterData);
                                   }}
                                   color="error"
                                   size="small"

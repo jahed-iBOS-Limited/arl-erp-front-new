@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { APIUrl, imarineBaseUrl } from '../../../../App';
+import { APIUrl, imarineBaseUrl } from '../../../../../App';
 import { _todayDate } from '../../../chartering/_chartinghelper/_todayDate';
 import { _dateFormatter } from '../../../chartering/_chartinghelper/_dateFormatter';
 
@@ -72,8 +72,9 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId ||
-        0}${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
+        vesselId || 0
+      }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -206,9 +207,7 @@ const headerRowmaker = async (header, row, setSingleData, setRowData) => {
     workingTime: '',
     workingTimeFrom: '',
     layTimeDate: _todayDate(),
-    layhTimeDay: moment(_todayDate())
-      .format('ddd')
-      .toUpperCase(),
+    layhTimeDay: moment(_todayDate()).format('ddd').toUpperCase(),
     remark: '',
 
     cargoUomSuffix: header?.cargoUomSuffix || '',
@@ -279,7 +278,7 @@ const headerRowmaker = async (header, row, setSingleData, setRowData) => {
   for (let i = 0; i < rowlist?.length; i++) {
     let item = rowlist[i];
     if (item?.rowlist) {
-      item.rowlist.sort(function(a, b) {
+      item.rowlist.sort(function (a, b) {
         if (a.workingTimeFrom < b.workingTimeFrom) return -1;
         else return 1;
       });
@@ -287,7 +286,7 @@ const headerRowmaker = async (header, row, setSingleData, setRowData) => {
     }
   }
   if (sortedArray?.length > 0) {
-    sortedArray.sort(function(a, b) {
+    sortedArray.sort(function (a, b) {
       if (a.layTimeDate < b.layTimeDate) return -1;
       else return 1;
     });

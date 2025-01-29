@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import logisticsLogo from './logisticsLogo.png';

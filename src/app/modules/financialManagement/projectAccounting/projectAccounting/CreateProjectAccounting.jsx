@@ -1,75 +1,75 @@
-import * as yup from "yup";
-import React from "react";
+import * as yup from 'yup';
+import React from 'react';
 // import NewSelect from "../../../_helper/_select";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 
-import Loading from "../../../_helper/_loading";
-import { CardHeader, Card } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import Loading from '../../../_helper/_loading';
+import { CardHeader, Card } from '@mui/material';
+import { Form, Formik } from 'formik';
 
 import {
   CardBody,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { IInput } from "../../../_helper/_input";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import FormikError from "../../../_helper/_formikError";
-import axios from "axios";
-import moment from "moment/moment";
-import { createProjectDescription } from "./projectApi";
-import NewSelect from "../../../_helper/_select";
-import { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { useState } from "react";
-import { ISelect } from "../../../_helper/_inputDropDown";
+} from '../../../../../_metronic/_partials/controls';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { IInput } from '../../../_helper/_input';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import FormikError from '../../../_helper/_formikError';
+import axios from 'axios';
+import moment from 'moment/moment';
+import { createProjectDescription } from './projectApi';
+import NewSelect from '../../../_helper/_select';
+import { useEffect } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { useState } from 'react';
+import { ISelect } from '../../../_helper/_inputDropDown';
 
 // init data
 const initData = {
   intProjectId: 0,
-  strProjectName: "",
-  strLocation: "",
+  strProjectName: '',
+  strLocation: '',
   intOwnerId: 0,
   intGlId: 0,
   intSubGlId: 0,
-  dteStartDate: "",
-  dteEndDate: "",
-  numExpectedValue: "",
+  dteStartDate: '',
+  dteEndDate: '',
+  numExpectedValue: '',
 };
 
 // validation schema
 const validationSchema = yup.object().shape({
   strProjectName: yup
     .string()
-    .required("Project Name is required")
-    .typeError("Project Name is required"),
+    .required('Project Name is required')
+    .typeError('Project Name is required'),
   strLocation: yup.string(),
   numExpectedValue: yup
-    .number("please enter a number")
-    .required("Expected value is required")
-    .typeError("Expected value is required"),
+    .number('please enter a number')
+    .required('Expected value is required')
+    .typeError('Expected value is required'),
   intOwnerId: yup
     .object({ label: yup.string(), value: yup.number() })
-    .required("Owner is required")
-    .typeError("Owner is required"),
+    .required('Owner is required')
+    .typeError('Owner is required'),
   intGlId: yup
     .object({ label: yup.string(), value: yup.number() })
-    .required("General ledger is required")
-    .typeError("General ledger is required"),
+    .required('General ledger is required')
+    .typeError('General ledger is required'),
   intSubGlId: yup
     .object({ label: yup.string(), value: yup.number() })
-    .required("Business Transaction is required")
-    .typeError("Business Transaction is required"),
+    .required('Business Transaction is required')
+    .typeError('Business Transaction is required'),
   dteStartDate: yup
     .date()
-    .required("Start Date is required")
-    .typeError("Start Date is required"),
+    .required('Start Date is required')
+    .typeError('Start Date is required'),
   dteEndDate: yup
     .date()
-    .required("End Date is required")
-    .typeError("End Date is required"),
+    .required('End Date is required')
+    .typeError('End Date is required'),
 });
 
 const CreateProjectAccounting = ({
@@ -80,7 +80,7 @@ const CreateProjectAccounting = ({
   // get account data
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   const [generalLedger, setGeneralLedger] = useState([]);
   const [businessTransaction, setBusinessTransaction] = useState([]);
@@ -92,14 +92,14 @@ const CreateProjectAccounting = ({
     intProjectId: 0,
     intAccountId: profileData?.accountId,
     intBusinessUnitId: selectedBusinessUnit?.value,
-    strProjectName: "",
-    strLocation: "",
-    intOwnerId: "",
-    intGlId: "",
-    intSubGlId: "",
-    strOwner: "",
-    dteStartDate: " ",
-    dteEndDate: " ",
+    strProjectName: '',
+    strLocation: '',
+    intOwnerId: '',
+    intGlId: '',
+    intSubGlId: '',
+    strOwner: '',
+    dteStartDate: ' ',
+    dteEndDate: ' ',
     numExpectedValue: 0,
     intStatusId: 0,
     isActive: true,
@@ -114,7 +114,7 @@ const CreateProjectAccounting = ({
       (res) => {
         // console.log('first',res)
         setGeneralLedger(res);
-      }
+      },
     ); // eslint-disable-next-line
   }, []);
 
@@ -145,10 +145,10 @@ const CreateProjectAccounting = ({
                 value: projectDescription?.intSubGlId,
               },
               dteStartDate: moment(projectDescription?.dteStartDate).format(
-                "YYYY-MM-DD"
+                'YYYY-MM-DD',
               ),
               dteEndDate: moment(projectDescription?.dteEndDate).format(
-                "YYYY-MM-DD"
+                'YYYY-MM-DD',
               ),
             }
           : initData
@@ -162,7 +162,7 @@ const CreateProjectAccounting = ({
           profileData,
           postData,
           setProject,
-          initPayload
+          initPayload,
         );
         // console.log(values)
         !isEdit && resetForm();
@@ -182,13 +182,13 @@ const CreateProjectAccounting = ({
             <Card>
               {true && <ModalProgressBar />}
               <div className="d-flex justify-content-between align-items-center">
-                <CardHeader title={"Create Project"}>
+                <CardHeader title={'Create Project'}>
                   <CardHeaderToolbar></CardHeaderToolbar>
                 </CardHeader>
                 <ButtonStyleOne
                   type="submit"
-                  label={"Save"}
-                  style={{ marginRight: "15px", padding: "5px 15px" }}
+                  label={'Save'}
+                  style={{ marginRight: '15px', padding: '5px 15px' }}
                   disabled={loading}
                 />
               </div>
@@ -198,9 +198,9 @@ const CreateProjectAccounting = ({
                   {/* project Name */}
                   <div className="col-md-3">
                     <div>
-                      <span style={{ paddingRight: "10px" }}>Project Name</span>
+                      <span style={{ paddingRight: '10px' }}>Project Name</span>
                       <IInput
-                        value={values.strProjectName || ""}
+                        value={values.strProjectName || ''}
                         name="strProjectName"
                         onChange={handleChange}
                       />
@@ -208,9 +208,9 @@ const CreateProjectAccounting = ({
                   </div>
 
                   {/* project Owner */}
-                  <div className="col-md-3" style={{ marginTop: "" }}>
+                  <div className="col-md-3" style={{ marginTop: '' }}>
                     <div className="mr-2">
-                      <span style={{ paddingRight: "10px" }}>Owner</span>
+                      <span style={{ paddingRight: '10px' }}>Owner</span>
 
                       <SearchAsyncSelect
                         menuPosition="fixed"
@@ -218,13 +218,13 @@ const CreateProjectAccounting = ({
                         label="Owner"
                         selectedValue={values?.intOwnerId}
                         handleChange={(valueOption) => {
-                          setFieldValue("intOwnerId", valueOption);
+                          setFieldValue('intOwnerId', valueOption);
                         }}
                         loadOptions={(value) => {
                           if (value?.length < 2) return [];
                           return axios
                             .get(
-                              `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
+                              `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
                             )
                             .then((response) => {
                               return response.data;
@@ -240,13 +240,13 @@ const CreateProjectAccounting = ({
                     </div>
                   </div>
                   {/* general ledger */}
-                  <div className="col-md-3" style={{ marginTop: "-5px" }}>
+                  <div className="col-md-3" style={{ marginTop: '-5px' }}>
                     <NewSelect
                       menuPosition="fixed"
                       name="intGlId"
                       options={[...generalLedger]}
                       // options={[{label:'a',value:1},{label:'b',value:2}]}
-                      value={values.intGlId || ""}
+                      value={values.intGlId || ''}
                       label="General Ledger"
                       onChange={(valueOption) => {
                         valueOption?.value
@@ -262,9 +262,9 @@ const CreateProjectAccounting = ({
                                 ...item,
                               }));
                               setBusinessTransaction(modifiedData);
-                            }
+                            },
                           );
-                        setFieldValue("intGlId", valueOption);
+                        setFieldValue('intGlId', valueOption);
                       }}
                       placeholder="General Ledger"
                     />
@@ -275,17 +275,17 @@ const CreateProjectAccounting = ({
                     />
                   </div>
                   {/* business transaction */}
-                  <div className="col-md-3" style={{ marginTop: "-5px" }}>
+                  <div className="col-md-3" style={{ marginTop: '-5px' }}>
                     <ISelect
                       menuPosition="fixed"
                       label="Business Transaction"
                       options={[...businessTransaction]}
-                      value={values.intSubGlId || ""}
+                      value={values.intSubGlId || ''}
                       name="intSubGlId"
                       setFieldValue={setFieldValue}
                       isDisabled={isDisable}
                       onChange={(valueOption) => {
-                        setFieldValue("intSubGlId", valueOption);
+                        setFieldValue('intSubGlId', valueOption);
                       }}
                       placeholder="Business Transaction"
                     />
@@ -313,9 +313,9 @@ const CreateProjectAccounting = ({
                   {/* location */}
                   <div className="col-md-3">
                     <div>
-                      <span style={{ paddingRight: "10px" }}>Location</span>
+                      <span style={{ paddingRight: '10px' }}>Location</span>
                       <IInput
-                        value={values.strLocation || ""}
+                        value={values.strLocation || ''}
                         name="strLocation"
                         onChange={handleChange}
                       />
@@ -325,14 +325,14 @@ const CreateProjectAccounting = ({
                   {/* project startDate */}
                   <div className="col-md-3">
                     <div>
-                      <div style={{ width: "80px" }}>Start Date</div>
+                      <div style={{ width: '80px' }}>Start Date</div>
                       <input
                         className="trans-date cj-landing-date"
                         value={values?.dteStartDate}
                         name="dteStartDate"
                         onBlur={handleBlur}
                         onChange={(e) => {
-                          setFieldValue("dteStartDate", e.target.value);
+                          setFieldValue('dteStartDate', e.target.value);
                         }}
                         type="date"
                       />
@@ -347,13 +347,13 @@ const CreateProjectAccounting = ({
                   {/* project End date */}
                   <div className="col-md-3 ">
                     <div>
-                      <div style={{ width: "80px" }}>End Date</div>
+                      <div style={{ width: '80px' }}>End Date</div>
                       <input
                         className="trans-date cj-landing-date"
                         value={values?.dteEndDate}
                         name="dteEndDate"
                         onChange={(e) => {
-                          setFieldValue("dteEndDate", e.target.value);
+                          setFieldValue('dteEndDate', e.target.value);
                         }}
                         type="date"
                       />
@@ -366,16 +366,16 @@ const CreateProjectAccounting = ({
                   </div>
 
                   {/* <div className="col-md-3 col-lg-2">
-                    
+
                   </div> */}
 
                   <div className="col-md-3">
                     <div className="">
-                      <span style={{ paddingRight: "10px" }}>
+                      <span style={{ paddingRight: '10px' }}>
                         Expected Value
                       </span>
                       <IInput
-                        value={values.numExpectedValue || ""}
+                        value={values.numExpectedValue || ''}
                         name="numExpectedValue"
                         onChange={handleChange}
                       />

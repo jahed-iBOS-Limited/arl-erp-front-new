@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const getASLLAgencyRegistrationLandingApi = async (
   accId,
@@ -11,16 +11,16 @@ export const getASLLAgencyRegistrationLandingApi = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   setter([]);
   try {
-    const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : "";
-    const _verselId = verselId ? `&VesselId=${verselId}` : "";
-    const _vesselTypeId =  verselType ? `&VesselTypeId=${verselType}` : "";
+    const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : '';
+    const _verselId = verselId ? `&VesselId=${verselId}` : '';
+    const _vesselTypeId = verselType ? `&VesselTypeId=${verselType}` : '';
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}${_verselId}${_vesselTypeId}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}${_verselId}${_vesselTypeId}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -32,7 +32,7 @@ export const getASLLAgencyRegistrationLandingApi = async (
 export const getSBUListDDLApi = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
     );
     setter(res?.data);
   } catch (error) {}
@@ -40,7 +40,7 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
 export const getVesselTypeDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`,
     );
     setter(res?.data);
   } catch (error) {}
@@ -48,7 +48,7 @@ export const getVesselTypeDDL = async (accId, buId, setter) => {
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetVoyageNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetVoyageNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     setter(
       res?.data?.map((voyageNo, idx) => {
@@ -56,7 +56,7 @@ export const getVoyageNoDDLApi = async (accId, buId, setter) => {
           value: voyageNo,
           label: voyageNo,
         };
-      })
+      }),
     );
   } catch (error) {}
 };
@@ -64,7 +64,7 @@ export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationById?id=${id}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationById?id=${id}`,
     );
     setLoading(false);
     setter(res?.data);
@@ -84,10 +84,10 @@ export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
 //   }
 // };
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
-  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
+  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ''; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`,
     );
     setter(res.data);
   } catch (error) {
@@ -106,47 +106,47 @@ export const GetDomesticPortDDL = async (setter) => {
 export const attachment_action = async (
   attachment,
   setFieldValue,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
-  setFieldValue("attachment", "");
+  setFieldValue('attachment', '');
   try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
-    toast.success("Upload  successfully");
-    setFieldValue("attachment", data?.[0]?.id);
+    toast.success('Upload  successfully');
+    setFieldValue('attachment', data?.[0]?.id);
     setLoading(false);
   } catch (error) {
     setLoading(false);
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
 export const vesselTypeDDL = [
-  { value: 1, label: "Rental Vessel" },
-  { value: 2, label: "Own Vessel" },
+  { value: 1, label: 'Rental Vessel' },
+  { value: 2, label: 'Own Vessel' },
 ];
 
 export const createUpdateASLLAgencyRegistration = async (
   payload,
   setDisabled,
-  cb
+  cb,
 ) => {
   try {
     setDisabled(true);
     await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateASLLAgencyRegistration`,
-      payload
+      payload,
     );
 
-    toast.success("Submitted Successfully");
+    toast.success('Submitted Successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -158,7 +158,7 @@ export const createUpdateASLLAgencyRegistration = async (
 export const getCargoDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`
+      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`,
     );
     setter(res.data);
   } catch (error) {

@@ -1,57 +1,57 @@
-import * as yup from "yup";
-import React, { useState } from "react";
-import NewSelect from "../../../_helper/_select";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import * as yup from 'yup';
+import React, { useState } from 'react';
+import NewSelect from '../../../_helper/_select';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
-import Loading from "../../../_helper/_loading";
-import { CardHeader, Card } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import Loading from '../../../_helper/_loading';
+import { CardHeader, Card } from '@mui/material';
+import { Form, Formik } from 'formik';
 import {
   CardBody,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { IInput } from "../../../_helper/_input";
+} from '../../../../../_metronic/_partials/controls';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { IInput } from '../../../_helper/_input';
 import {
   PlusOutlined,
   DeleteOutlined,
   CloseOutlined,
   SaveOutlined,
-} from "@ant-design/icons";
-import { shallowEqual, useSelector } from "react-redux";
-import { createRole, getRoleDDL, saveTeam } from "./projectApi";
-import { useEffect } from "react";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import FormikError from "../../../_helper/_formikError";
-import { toast } from "react-toastify";
+} from '@ant-design/icons';
+import { shallowEqual, useSelector } from 'react-redux';
+import { createRole, getRoleDDL, saveTeam } from './projectApi';
+import { useEffect } from 'react';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import FormikError from '../../../_helper/_formikError';
+import { toast } from 'react-toastify';
 
 // validation schema
 const validationSchema = yup.object().shape({
   intTeamId: yup
     .string()
-    .required("Team is required")
-    .typeError("Team is required"),
+    .required('Team is required')
+    .typeError('Team is required'),
   intRoleId: yup
     .string()
-    .required("Role Name is required")
-    .typeError("Role Name is required"),
+    .required('Role Name is required')
+    .typeError('Role Name is required'),
 });
 
 const createRolePayload = {
   intRoleId: 0,
   intAccountId: 0,
   intBusinessUnitId: 0,
-  strRoleName: "",
+  strRoleName: '',
   isActive: true,
   intCreatedBy: 0,
 };
 const initData = {
   // intProjectDescriptionId: 0,
-  intTeamId: "",
-  intRoleId: "",
+  intTeamId: '',
+  intRoleId: '',
 };
 
 const Team = ({
@@ -64,11 +64,11 @@ const Team = ({
   // const [loading, setLoading] = useState(false);
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   const [addRole, setAddRole] = useState(false);
   const [allTeam, setAllTeam] = useState([]);
-  const [newRole, setNewRole] = useState("");
+  const [newRole, setNewRole] = useState('');
 
   // console.log(projectTeam)
   const [, getData] = useAxiosGet();
@@ -99,7 +99,7 @@ const Team = ({
           // console.log("get", data);
 
           setRoleDDL(response);
-        }
+        },
       );
     }
     // eslint-disable-next-line
@@ -136,9 +136,9 @@ const Team = ({
         const isDuplicate = allTeam.some((item) =>
           item?.isEdit
             ? item?.intTeamMemberId === values.intTeamId?.value
-            : item?.intTeamId?.value === values.intTeamId?.value
+            : item?.intTeamId?.value === values.intTeamId?.value,
         );
-        isDuplicate && toast.warning("Duplicate Detected");
+        isDuplicate && toast.warning('Duplicate Detected');
         !isDuplicate && setAllTeam((prev) => [...prev, values]);
         resetForm();
       }}
@@ -157,13 +157,13 @@ const Team = ({
             <Card>
               {true && <ModalProgressBar />}
               <div className="d-flex justify-content-between align-items-center">
-                <CardHeader title={"Create Team"}>
+                <CardHeader title={'Create Team'}>
                   <CardHeaderToolbar></CardHeaderToolbar>
                 </CardHeader>
                 <ButtonStyleOne
                   type="button"
-                  label={"Save"}
-                  style={{ marginRight: "15px", padding: "5px 15px" }}
+                  label={'Save'}
+                  style={{ marginRight: '15px', padding: '5px 15px' }}
                   disabled={
                     (project?.intProjectId || project?.id) && !loading
                       ? false
@@ -177,7 +177,7 @@ const Team = ({
                       allTeam,
                       postData,
                       isEdit,
-                      setProject
+                      setProject,
                     )
                   }
                 />
@@ -188,21 +188,21 @@ const Team = ({
                   {/* team */}
                   <div
                     className="col-md-3 col-lg-3"
-                    style={{ marginTop: "5px" }}
+                    style={{ marginTop: '5px' }}
                   >
-                    <span style={{ paddingRight: "10px" }}>Team Member</span>
+                    <span style={{ paddingRight: '10px' }}>Team Member</span>
                     <SearchAsyncSelect
                       menuPosition="fixed"
                       name="intTeamId"
                       selectedValue={values?.intTeamId}
                       handleChange={(valueOption) => {
-                        setFieldValue("intTeamId", valueOption);
+                        setFieldValue('intTeamId', valueOption);
                       }}
                       loadOptions={(value) => {
                         if (value?.length < 2) return [];
                         return axios
                           .get(
-                            `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
+                            `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
                           )
                           .then((response) => {
                             return response.data;
@@ -219,7 +219,7 @@ const Team = ({
 
                   <div
                     className="col-md-3 col-lg-3"
-                    style={{ marginTop: "4px" }}
+                    style={{ marginTop: '4px' }}
                   >
                     <div className="d-flex justify-content-between  ">
                       <div>Role</div>
@@ -229,7 +229,7 @@ const Team = ({
                         >
                           <PlusOutlined
                             className="text-primary px-3"
-                            style={{ fontSize: "12px", cursor: "pointer" }}
+                            style={{ fontSize: '12px', cursor: 'pointer' }}
                           />
                           Add new
                         </div>
@@ -246,22 +246,22 @@ const Team = ({
                                   getRoleDDL,
                                   setRoleDDL,
                                   setAddRole,
-                                  createRolePayload
+                                  createRolePayload,
                                 );
                               }}
                               className="text-primary px-3"
-                              style={{ fontSize: "12px", cursor: "pointer" }}
+                              style={{ fontSize: '12px', cursor: 'pointer' }}
                             />
                           </div>
                           <div>
                             <CloseOutlined
                               onClick={() => {
                                 setAddRole(false);
-                                setNewRole("");
-                                values.intRoleId = "";
+                                setNewRole('');
+                                values.intRoleId = '';
                               }}
                               className="text-primary px-3"
-                              style={{ fontSize: "12px", cursor: "pointer" }}
+                              style={{ fontSize: '12px', cursor: 'pointer' }}
                             />
                           </div>
                         </div>
@@ -276,7 +276,7 @@ const Team = ({
                         label="Role"
                         isHiddenLabel={true}
                         onChange={(valueOption) => {
-                          setFieldValue("intRoleId", valueOption);
+                          setFieldValue('intRoleId', valueOption);
                         }}
                         placeholder="Role"
                         errors={errors}
@@ -284,7 +284,7 @@ const Team = ({
                       />
                     ) : (
                       <IInput
-                        value={values?.intRoleId || ""}
+                        value={values?.intRoleId || ''}
                         name="intRoleId"
                         placeholder="Enter new role"
                         onChange={(e) => {
@@ -301,7 +301,7 @@ const Team = ({
                         type="button"
                         onClick={handleSubmit}
                         label="Add"
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         disabled={addRole}
                       />
                     </div>
@@ -316,9 +316,9 @@ const Team = ({
                           {allTeam?.length > 0 && (
                             <thead>
                               <tr>
-                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: '50px' }}>SL</th>
 
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Team Memeber
                                   </div>
@@ -326,11 +326,11 @@ const Team = ({
 
                                 <th
                                   className="text-left"
-                                  style={{ width: "100px" }}
+                                  style={{ width: '100px' }}
                                 >
                                   <div className="text-left ml-1">Role</div>
                                 </th>
-                                <th style={{ width: "150px" }}>Action</th>
+                                <th style={{ width: '150px' }}>Action</th>
                               </tr>
                             </thead>
                           )}
@@ -345,11 +345,11 @@ const Team = ({
                                 </td>
                                 <td className="text-left">
                                   {item?.isEdit
-                                    ? item?.strRole || "N/A"
+                                    ? item?.strRole || 'N/A'
                                     : item?.intRoleId?.label}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   <div className="text-center">
                                     <span onClick={() => {}}>
                                       <DeleteOutlined

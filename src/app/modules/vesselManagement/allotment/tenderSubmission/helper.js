@@ -1,22 +1,9 @@
-import axios from "axios";
-import { Field, getIn } from "formik";
-import React from "react";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-
-// ! Common Landing, Create, Edit & Print
-// Error message display field for field array of of tender submission create & edit page
-export const ErrorMessage = ({ name }) => (
-  <Field
-    name={name}
-    render={({ form }) => {
-      const error = getIn(form.errors, name);
-      const touch = getIn(form.touched, name);
-      return touch && error ? error : null;
-    }}
-  />
-);
+import axios from 'axios';
+import { Field, getIn } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // Generate business partner ddl
 export const generateBusinessPartnerDDL = (buUnId) => {
@@ -26,60 +13,60 @@ export const generateBusinessPartnerDDL = (buUnId) => {
   const bcicValue = isBongoTraders ? 89497 : 73245;
 
   return [
-    { value: bcicValue, label: "BCIC" },
-    { value: 88075, label: "BADC" },
-    { value: 3, label: "BADC(MOP)" },
+    { value: bcicValue, label: 'BCIC' },
+    { value: 88075, label: 'BADC' },
+    { value: 3, label: 'BADC(MOP)' },
   ];
 };
 
 // Approve status for landing page
 export const approveStatusDDL = [
-  { value: 0, label: "All" },
-  { value: 1, label: "Win" },
-  { value: 2, label: "Pending" },
-  { value: 3, label: "Reject" },
+  { value: 0, label: 'All' },
+  { value: 1, label: 'Win' },
+  { value: 2, label: 'Pending' },
+  { value: 3, label: 'Reject' },
 ];
 
 // Inital data for tender submission create & edit page
 export const initData = {
   // common state bcic, badc, badc(mop)
-  businessPartner: "",
-  enquiry: "",
-  submissionDate: "",
-  remarks: "",
+  businessPartner: '',
+  enquiry: '',
+  submissionDate: '',
+  remarks: '',
 
   // common bcic & badc
-  foreignQnt: "",
-  productName: "",
-  loadPort: "",
-  layCan: "",
-  foreignPriceUSD: "", // edit
+  foreignQnt: '',
+  productName: '',
+  loadPort: '',
+  layCan: '',
+  foreignPriceUSD: '', // edit
 
   // bcic state
-  dischargePort: "",
-  commercialNo: "",
-  commercialDate: "",
+  dischargePort: '',
+  commercialNo: '',
+  commercialDate: '',
   localTransportations: [
     {
-      godownName: "",
-      quantity: "",
-      price: "",
+      godownName: '',
+      quantity: '',
+      price: '',
     },
   ],
 
   // badc
-  dueDate: "",
-  dueTime: "",
-  lotQty: "",
-  contractDate: "",
-  pricePerBag: "", // edit
+  dueDate: '',
+  dueTime: '',
+  lotQty: '',
+  contractDate: '',
+  pricePerBag: '', // edit
 
   // badc (mop)
-  distance0100: "",
-  distance101200: "",
-  distance201300: "",
-  distance301400: "",
-  distance401500: "",
+  distance0100: '',
+  distance101200: '',
+  distance201300: '',
+  distance301400: '',
+  distance401500: '',
   mopRowsData: [],
 };
 
@@ -87,139 +74,130 @@ export const initData = {
 export const createPageValidationSchema = Yup.object({
   // common state bcic, badc, badc(mop)
   businessPartner: Yup.object({
-    label: Yup.string().required("Business partner label is required"),
-    value: Yup.string().required("Business partner value is required"),
-  }).required("Business partner is required"),
-  enquiry: Yup.string().required("Enquiry is required"),
-  submissionDate: Yup.date().required("Submission date is required"),
+    label: Yup.string().required('Business partner label is required'),
+    value: Yup.string().required('Business partner value is required'),
+  }).required('Business partner is required'),
+  enquiry: Yup.string().required('Enquiry is required'),
+  submissionDate: Yup.date().required('Submission date is required'),
   remarks: Yup.string(),
 
   // common bcic & badc
   foreignQnt: Yup.number()
     .positive()
     .min(0)
-    .when("businessPartner", {
+    .when('businessPartner', {
       is: (businessPartner) =>
-        businessPartner && businessPartner?.label === "BADC",
-      then: Yup.number()
-        .positive()
-        .min(0)
-        .required("Foreign qnt is required"),
-      otherwise: Yup.number()
-        .positive()
-        .min(0),
+        businessPartner && businessPartner?.label === 'BADC',
+      then: Yup.number().positive().min(0).required('Foreign qnt is required'),
+      otherwise: Yup.number().positive().min(0),
     }),
-  productName: Yup.string().when("businessPartner", {
+  productName: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Product name is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.string().required('Product name is required'),
     otherwise: Yup.string(),
   }),
-  loadPort: Yup.string().when("businessPartner", {
+  loadPort: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Load port is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.string().required('Load port is required'),
     otherwise: Yup.string(),
   }),
-  foreignPriceUSD: Yup.number()
-    .positive()
-    .min(0),
-  layCan: Yup.string().when("businessPartner", {
+  foreignPriceUSD: Yup.number().positive().min(0),
+  layCan: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
       businessPartner &&
-      (businessPartner?.label === "BCIC" || businessPartner?.label === "BADC"),
-    then: Yup.string().required("Laycan is required"),
+      (businessPartner?.label === 'BCIC' || businessPartner?.label === 'BADC'),
+    then: Yup.string().required('Laycan is required'),
     otherwise: Yup.string(),
   }),
 
   // bcic
-  dischargePort: Yup.string().when("businessPartner", {
+  dischargePort: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BCIC",
-    then: Yup.string().required("Discharge port is required"),
+      businessPartner && businessPartner?.label === 'BCIC',
+    then: Yup.string().required('Discharge port is required'),
     otherwise: Yup.string(),
   }),
-  commercialDate: Yup.date().when("businessPartner", {
+  commercialDate: Yup.date().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BCIC",
-    then: Yup.date().required("Commercial date is required"),
+      businessPartner && businessPartner?.label === 'BCIC',
+    then: Yup.date().required('Commercial date is required'),
     otherwise: Yup.date(),
   }),
-  commercialNo: Yup.string().when("businessPartner", {
+  commercialNo: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BCIC",
-    then: Yup.string().required("Commercial no is required"),
+      businessPartner && businessPartner?.label === 'BCIC',
+    then: Yup.string().required('Commercial no is required'),
     otherwise: Yup.string(),
   }),
   localTransportations: Yup.array()
     .of(
       Yup.object({
-        godownName: Yup.string().when("$.businessPartner", {
+        godownName: Yup.string().when('$.businessPartner', {
           is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BCIC",
-          then: Yup.string().required("Godown is required"),
+            businessPartner && businessPartner?.label === 'BCIC',
+          then: Yup.string().required('Godown is required'),
           otherwise: Yup.string(),
         }),
         quantity: Yup.number()
           .positive()
           .min(0)
-          .when("$.businessPartner", {
+          .when('$.businessPartner', {
             is: (businessPartner) =>
-              businessPartner && businessPartner?.label === "BCIC",
-            then: Yup.number().required("Quantity is required"),
+              businessPartner && businessPartner?.label === 'BCIC',
+            then: Yup.number().required('Quantity is required'),
             otherwise: Yup.number(),
           }),
         price: Yup.number()
           .positive()
           .min(0)
-          .when("$.businessPartner", {
+          .when('$.businessPartner', {
             is: (businessPartner) => {
               // console.log(businessPartner);
-              return businessPartner && businessPartner?.label === "BCIC";
+              return businessPartner && businessPartner?.label === 'BCIC';
             },
-            then: Yup.number().required("Price is required"),
+            then: Yup.number().required('Price is required'),
             otherwise: Yup.number(),
           }),
-      })
+      }),
     )
-    .when("businessPartner", {
+    .when('businessPartner', {
       is: (businessPartner) =>
-        businessPartner && businessPartner?.label === "BCIC",
+        businessPartner && businessPartner?.label === 'BCIC',
       then: Yup.array()
-        .min(1, "Minimum 1 local transport")
-        .max(14, "Maximum 14 local transport")
-        .required("Local transport is required"),
+        .min(1, 'Minimum 1 local transport')
+        .max(14, 'Maximum 14 local transport')
+        .required('Local transport is required'),
       otherwise: Yup.array().notRequired(),
     }),
 
   // badc
-  dueDate: Yup.date().when("businessPartner", {
+  dueDate: Yup.date().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.date().required("Due date is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.date().required('Due date is required'),
     otherwise: Yup.date(),
   }),
-  dueTime: Yup.string().when("businessPartner", {
+  dueTime: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Due time is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.string().required('Due time is required'),
     otherwise: Yup.string(),
   }),
-  lotQty: Yup.string().when("businessPartner", {
+  lotQty: Yup.string().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Lot Qty is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.string().required('Lot Qty is required'),
     otherwise: Yup.string(),
   }),
-  contractDate: Yup.date().when("businessPartner", {
+  contractDate: Yup.date().when('businessPartner', {
     is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.date().required("Contract date is required"),
+      businessPartner && businessPartner?.label === 'BADC',
+    then: Yup.date().required('Contract date is required'),
     otherwise: Yup.date(),
   }),
-  pricePerBag: Yup.number()
-    .positive()
-    .min(0),
+  pricePerBag: Yup.number().positive().min(0),
 
   // badc (mop)
   // distance0100: Yup.number()
@@ -262,15 +240,15 @@ export const createPageValidationSchema = Yup.object({
 // Validation schema for landing page
 export const landingPageValidationSchema = Yup.object({
   businessPartner: Yup.object({
-    value: Yup.string().required("Select a status"),
-    label: Yup.string().required("Select a status"),
-  }).required("Select a business partner"),
-  fromDate: Yup.date().required("Please enter from date"),
-  toDate: Yup.date().required("Please enter to date"),
+    value: Yup.string().required('Select a status'),
+    label: Yup.string().required('Select a status'),
+  }).required('Select a business partner'),
+  fromDate: Yup.date().required('Please enter from date'),
+  toDate: Yup.date().required('Please enter to date'),
   approveStatus: Yup.object({
-    value: Yup.string().required("Select a status"),
-    label: Yup.string().required("Select a status"),
-  }).required("Select a status"),
+    value: Yup.string().required('Select a status'),
+    label: Yup.string().required('Select a status'),
+  }).required('Select a status'),
 });
 
 // Fetch tender details with tender id
@@ -278,7 +256,7 @@ export const fetchTenderDetailsForCreateEditPage = (
   tenderId,
   accountId,
   buUnId,
-  getTenderDetailsCallback
+  getTenderDetailsCallback,
 ) => {
   const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
   getTenderDetailsCallback(url);
@@ -291,17 +269,17 @@ export const fetchSubmittedTenderData = (
   values,
   pageNo,
   pageSize,
-  getTenderDetailsListFunc
+  getTenderDetailsListFunc,
 ) => {
-  let url = "";
+  let url = '';
 
-  if (values?.businessPartner?.label === "BCIC") {
+  if (values?.businessPartner?.label === 'BCIC') {
     url = `/tms/TenderSubmission/GetTenderSubmissionpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
   }
-  if (values?.businessPartner?.label === "BADC") {
+  if (values?.businessPartner?.label === 'BADC') {
     url = `/tms/TenderSubmission/GetBIDCTenderpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
   }
-  if (values?.businessPartner?.label === "BADC(MOP)") {
+  if (values?.businessPartner?.label === 'BADC(MOP)') {
     url = `/tms/TenderSubmission/GetBADCMOPConfigurationlanding?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
   }
 
@@ -322,19 +300,19 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   values,
   tenderId,
   getTenderDetailsFunc,
-  callback
+  callback,
 ) => {
-  let url = "";
+  let url = '';
   // console.log(values?.businessPartnerName?.label);
 
-  if (values?.businessPartner?.label === "BCIC") {
+  if (values?.businessPartner?.label === 'BCIC') {
     url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
   }
-  if (values?.businessPartner?.label === "BADC") {
+  if (values?.businessPartner?.label === 'BADC') {
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
   // Here this is only for edit but for print we use fetchBADCMOPRowsDataForPrintPage func for backend issuu
-  if (values?.businessPartner?.label === "BADC(MOP)") {
+  if (values?.businessPartner?.label === 'BADC(MOP)') {
     url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
   }
   getTenderDetailsFunc(url, (values) => {
@@ -345,13 +323,13 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
 // Select Edit Id
 export const selectEditId = (item) => {
   switch (item?.businessPartnerName) {
-    case "BCIC":
-    case "BADC":
+    case 'BCIC':
+    case 'BADC':
       return item?.tenderId;
-    case "BADC(MOP)":
+    case 'BADC(MOP)':
       return item?.mopTenderId;
     default:
-      return "";
+      return '';
   }
 };
 
@@ -369,7 +347,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             label: header?.dischargePortName,
             value: header?.dischargePortId,
           }
-        : "",
+        : '',
       commercialNo: header?.commercialNo,
       commercialDate: _dateFormatter(header?.commercialDate),
       remarks: header?.strRemarks,
@@ -379,7 +357,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             label: header?.motherVesselName,
             value: header?.motherVesselId,
           }
-        : "",
+        : '',
       localTransportations: rows?.map((item) => {
         return {
           tenderRowId: item?.tenderRowId,
@@ -389,7 +367,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
                 value: item?.godownId,
                 label: item?.godownName,
               }
-            : "",
+            : '',
           quantity: item?.quantity,
           price: item?.perQtyTonPriceBd,
           perQtyPriceWords: item?.perQtyTonPriceBd,
@@ -407,7 +385,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             value: header?.businessPartnerId,
             label: header?.businessPartnerName,
           }
-        : "",
+        : '',
       // common
       enquiry: header?.enquiryNo,
       submissionDate: _dateFormatter(header?.submissionDate),
@@ -418,7 +396,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             label: header?.loadPortName,
             value: header?.loadPortId,
           }
-        : "",
+        : '',
       // edit
       foreignPriceUSD: header?.foreignPriceUsd,
       attachment: header?.attachment,
@@ -464,7 +442,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             value: headerDTO?.businessPartnerId,
             label: headerDTO?.businessPartnerName,
           }
-        : "",
+        : '',
       remarks: headerDTO?.strRemarks,
 
       // edit
@@ -493,7 +471,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             value: tenderDetails?.businessPartnerId,
             label: tenderDetails?.businessPartnerName,
           }
-        : "",
+        : '',
       // common
       enquiry: tenderDetails?.enquiryNo,
       submissionDate: _dateFormatter(tenderDetails?.submissionDate),
@@ -504,7 +482,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
             label: tenderDetails?.loadPortName,
             value: tenderDetails?.loadPortId,
           }
-        : "",
+        : '',
       // edit
       foreignPriceUSD: tenderDetails?.foreignPriceUsd,
       attachment: tenderDetails?.attachment,
@@ -518,18 +496,18 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
 // Select url for create tender on create and edit page with business partner & tenderId. BADC MOP use different url for update
 export const selectUrl = (businessPartner, mopTenderId) => {
   switch (businessPartner) {
-    case "BCIC":
+    case 'BCIC':
       return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
-    case "BADC":
+    case 'BADC':
       return `/tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
-    case "BADC(MOP)":
+    case 'BADC(MOP)':
       // tenderId. BADC MOP use different url for update
       if (mopTenderId) {
         return `/tms/TenderSubmission/UpdateBADCMOPConfiguration`;
       }
       return `/tms/TenderSubmission/CreateBADCMOPConfiguration`;
     default:
-      return "";
+      return '';
   }
 };
 
@@ -537,7 +515,7 @@ export const selectUrl = (businessPartner, mopTenderId) => {
 export const selectPayload = (
   values,
   mopRowsData,
-  { accountId, buUnId, buUnName, tenderId, userId }
+  { accountId, buUnId, buUnName, tenderId, userId },
 ) => {
   const globalPayload = {
     accountId: accountId,
@@ -566,7 +544,7 @@ export const selectPayload = (
   };
 
   // BCIC tender submission payload
-  if (values?.businessPartner?.label === "BCIC") {
+  if (values?.businessPartner?.label === 'BCIC') {
     return {
       header: {
         // global
@@ -601,7 +579,7 @@ export const selectPayload = (
   }
 
   // BADC tender submission payload
-  if (values?.businessPartner?.label === "BADC") {
+  if (values?.businessPartner?.label === 'BADC') {
     return {
       // global
       ...globalPayload,
@@ -621,7 +599,7 @@ export const selectPayload = (
   }
 
   // BADC(MOP) tender submission payload
-  if (values?.businessPartner?.label === "BADC(MOP)") {
+  if (values?.businessPartner?.label === 'BADC(MOP)') {
     const payload = {
       headerDTO: {
         // global
@@ -656,46 +634,46 @@ export const selectPayload = (
 
 // For number to text convert
 const ones = [
-  "",
-  "One",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
+  '',
+  'One',
+  'Two',
+  'Three',
+  'Four',
+  'Five',
+  'Six',
+  'Seven',
+  'Eight',
+  'Nine',
 ];
 const teens = [
-  "Ten",
-  "Eleven",
-  "Twelve",
-  "Thirteen",
-  "Fourteen",
-  "Fifteen",
-  "Sixteen",
-  "Seventeen",
-  "Eighteen",
-  "Nineteen",
+  'Ten',
+  'Eleven',
+  'Twelve',
+  'Thirteen',
+  'Fourteen',
+  'Fifteen',
+  'Sixteen',
+  'Seventeen',
+  'Eighteen',
+  'Nineteen',
 ];
 const tens = [
-  "",
-  "",
-  "Twenty",
-  "Thirty",
-  "Forty", // Fix spelling here
-  "Fifty",
-  "Sixty",
-  "Seventy",
-  "Eighty",
-  "Ninety",
+  '',
+  '',
+  'Twenty',
+  'Thirty',
+  'Forty', // Fix spelling here
+  'Fifty',
+  'Sixty',
+  'Seventy',
+  'Eighty',
+  'Ninety',
 ];
-const thousands = ["", "Thousand", "Million", "Billion"]; // Western style (Million, Billion)
+const thousands = ['', 'Thousand', 'Million', 'Billion']; // Western style (Million, Billion)
 
 // Helper function for convert number to text
 function convertToWords(num) {
-  if (num === 0) return "Zero";
+  if (num === 0) return 'Zero';
 
   let parts = [];
   let thousandIndex = 0;
@@ -705,38 +683,38 @@ function convertToWords(num) {
     if (part > 0) {
       parts.unshift(
         convertBelowThousand(part) +
-          (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
+          (thousands[thousandIndex] ? ' ' + thousands[thousandIndex] : ''),
       );
     }
     num = Math.floor(num / 1000);
     thousandIndex++;
   }
 
-  return parts.join(" ").trim();
+  return parts.join(' ').trim();
 }
 
 // convert number to text
 function convertBelowThousand(num) {
-  if (num === 0) return "";
+  if (num === 0) return '';
   if (num < 10) return ones[num];
   if (num < 20) return teens[num - 10];
   if (num < 100)
     return (
-      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "")
+      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + ones[num % 10] : '')
     );
   return (
     ones[Math.floor(num / 100)] +
-    " Hundred" +
-    (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "")
+    ' Hundred' +
+    (num % 100 !== 0 ? ' and ' + convertBelowThousand(num % 100) : '')
   );
 }
 
 // Main function for convert number to text
-export function convertToText(n = 0, uoc = "TAKA") {
-  if (n === "" || n === null || n === 0) return "";
+export function convertToText(n = 0, uoc = 'TAKA') {
+  if (n === '' || n === null || n === 0) return '';
 
   // Handle decimal part
-  const [integerPart, decimalPart] = n.toString().split(".");
+  const [integerPart, decimalPart] = n.toString().split('.');
 
   const integerWords = convertToWords(parseInt(integerPart, 10)).trim();
 
@@ -747,7 +725,7 @@ export function convertToText(n = 0, uoc = "TAKA") {
     const decimalWords = convertToWords(parseInt(decimalPart, 10)).trim();
     if (decimalWords) {
       result += ` AND ${decimalWords.toUpperCase()} ${
-        uoc === "USD" ? "CENTS" : "PAISA"
+        uoc === 'USD' ? 'CENTS' : 'PAISA'
       }`;
     }
   }
@@ -770,7 +748,7 @@ export const getDischargePortDDL = async (setter) => {
 export const GetLoadPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
+      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`,
     );
     setter(res?.data);
   } catch (error) {
@@ -784,7 +762,7 @@ export const fetchGodownDDLList = (
   accountId,
   buUnId,
   getGodownDDLFunc,
-  updateGodownDDLFunc
+  updateGodownDDLFunc,
 ) => {
   const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
     businessPartner?.value
@@ -805,10 +783,10 @@ export const fetchMotherVesselLists = (
   accId,
   buUnId,
   portId,
-  getMotherVesselDDL
+  getMotherVesselDDL,
 ) => {
   getMotherVesselDDL(
-    `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`
+    `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`,
   );
 };
 
@@ -861,7 +839,7 @@ export const fetchMOPRowsData = (
   buUnId,
   getMopRowsDataFunc,
   values,
-  updateMopRowsData
+  updateMopRowsData,
 ) => {
   getMopRowsDataFunc(
     `/tms/TenderSubmission/GetBADCMopMasterConfigation?AccountId=${accountId}&BusinessUnitId=${buUnId}`,
@@ -896,7 +874,7 @@ export const fetchMOPRowsData = (
         };
       });
       updateMopRowsData(modifyData);
-    }
+    },
   );
 };
 
@@ -1003,36 +981,36 @@ export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
 
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [
-  "SL",
-  "Port Name",
-  "Ghat Name",
-  "Distance",
-  "Rang0to100",
-  "Rang101to200",
-  "Rang201to300",
-  "Rang301to400",
-  "Rang401to500",
-  "TotalRate",
-  "TaxVat",
-  "InvoiceCost",
-  "LabourBill",
-  "TransPortCost",
-  "AdditionalCost",
-  "TotalCost",
-  "TotalReceive",
-  "Quantity",
-  "BillAmount",
-  "CostAmount",
-  "ProfitAmount",
+  'SL',
+  'Port Name',
+  'Ghat Name',
+  'Distance',
+  'Rang0to100',
+  'Rang101to200',
+  'Rang201to300',
+  'Rang301to400',
+  'Rang401to500',
+  'TotalRate',
+  'TaxVat',
+  'InvoiceCost',
+  'LabourBill',
+  'TransPortCost',
+  'AdditionalCost',
+  'TotalCost',
+  'TotalReceive',
+  'Quantity',
+  'BillAmount',
+  'CostAmount',
+  'ProfitAmount',
 ];
 
 // mop tender create data table header
 export const mopTenderEditDataTableHeader = [
-  "SL",
-  "Port Name",
-  "Ghat Name",
-  "Quantity",
-  "Actual Quantity",
+  'SL',
+  'Port Name',
+  'Ghat Name',
+  'Quantity',
+  'Actual Quantity',
 ];
 
 // Common field value changer for distance, additional cost, labour cost, invoice cost, trasport cost, quantity
@@ -1043,7 +1021,7 @@ export const commonFieldValueChange = (
   values,
   mopRowsData,
   updateMopRowsData,
-  fieldName
+  fieldName,
 ) => {
   const newValue = +e.target.value || 0;
 
@@ -1051,7 +1029,7 @@ export const commonFieldValueChange = (
   const updatedItem = { ...item, [fieldName]: newValue };
 
   const distributedDistance = distributeDistance(
-    fieldName === "distance" ? newValue : item?.distance
+    fieldName === 'distance' ? newValue : item?.distance,
   );
   // console.log(updatedItem?.additionalCost);
   // console.log(item?.additionalCost);
@@ -1094,17 +1072,17 @@ export const fetchBADCMOPRowsDataForPrintPage = (
   mopTenderId,
   getTenderDetailsFunc,
   callback,
-  type = "initReport",
-  portId
+  type = 'initReport',
+  portId,
 ) => {
-  let url = "";
+  let url = '';
 
-  if (type === "initReport") {
+  if (type === 'initReport') {
     url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
-  } else if (type === "finalReport") {
+  } else if (type === 'finalReport') {
     url = `/tms/TenderSubmission/GetBADCMopActualQuantity?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
   } else {
-    url = "";
+    url = '';
   }
 
   getTenderDetailsFunc(url, () => {

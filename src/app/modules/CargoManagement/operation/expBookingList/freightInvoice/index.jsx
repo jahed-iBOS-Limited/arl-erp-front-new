@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
@@ -17,12 +17,8 @@ const FreightInvoice = ({ rowClickData }) => {
     shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
-  const [
-    ,
-    getCargoBookingInvoice,
-    cargoBookingInvoiceLoading,
-    ,
-  ] = useAxiosPost();
+  const [, getCargoBookingInvoice, cargoBookingInvoiceLoading, ,] =
+    useAxiosPost();
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,

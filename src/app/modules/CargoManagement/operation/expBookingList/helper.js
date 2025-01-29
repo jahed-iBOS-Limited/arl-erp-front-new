@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import axios from 'axios';
 

@@ -1,35 +1,35 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelectMulti from "../../../../_helper/SearchAsyncSelectMulti";
-import { attachmentUpload } from "./helper";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelectMulti from '../../../../_helper/SearchAsyncSelectMulti';
+import { attachmentUpload } from './helper';
 const validationSchema = Yup.object().shape({
-  startDateTime: Yup.string().required("Start Date is required"),
-  endDateTime: Yup.string().required("End Date is required"),
-  address: Yup.string().required("Location is required"),
+  startDateTime: Yup.string().required('Start Date is required'),
+  endDateTime: Yup.string().required('End Date is required'),
+  address: Yup.string().required('Location is required'),
   meetingType: Yup.object().shape({
-    value: Yup.string().required("Meeting Type is required"),
-    label: Yup.string().required("Meeting Type is required"),
+    value: Yup.string().required('Meeting Type is required'),
+    label: Yup.string().required('Meeting Type is required'),
   }),
-  meetingWithName: Yup.string().required("Meeting With is required"),
-  description: Yup.string().required("Description is required"),
-  outcome: Yup.string().required("Outcome is required"),
+  meetingWithName: Yup.string().required('Meeting With is required'),
+  description: Yup.string().required('Description is required'),
+  outcome: Yup.string().required('Outcome is required'),
   scheduleTypeName: Yup.object().shape({
-    value: Yup.number().required("Schedule Type is required"),
-    label: Yup.string().required("Schedule Type is required"),
+    value: Yup.number().required('Schedule Type is required'),
+    label: Yup.string().required('Schedule Type is required'),
   }),
-  followUpDate: Yup.string().required("Follow Up Date is required"),
+  followUpDate: Yup.string().required('Follow Up Date is required'),
 });
 export default function MeetingTab({ data }) {
   const formikRef = React.useRef(null);
@@ -50,61 +50,61 @@ export default function MeetingTab({ data }) {
       followUpActivityId: 0,
       businessUnitId: selectedBusinessUnit?.value,
       customerAcquisitionId: data?.customerAcquisitionId || 0,
-      stageName: data?.currentStage || "",
+      stageName: data?.currentStage || '',
 
       activityTypeId: 3,
-      activityTypeName: "Meeting",
+      activityTypeName: 'Meeting',
 
       //   activityDateTime: values?.activityDateTime || new Date(),
 
-      meetingType: values?.meetingType?.label || "",
+      meetingType: values?.meetingType?.label || '',
 
       meetingWithId: 0,
-      meetingWithName: values?.meetingWithName || "",
+      meetingWithName: values?.meetingWithName || '',
 
       invitedAttendees:
         values?.invitedAttendees?.length > 0
           ? values?.invitedAttendees?.map((item) => item?.label).join()
-          : "",
+          : '',
       invitedAttendeesId:
         values?.invitedAttendees?.length > 0
           ? values?.invitedAttendees?.map((item) => item?.value).join()
-          : "",
-      address: values?.address || "",
+          : '',
+      address: values?.address || '',
 
       startDateTime: values?.startDateTime || new Date(),
       endDateTime: values?.endDateTime || new Date(),
 
-      description: values?.description || "",
-      outcome: values?.outcome || "",
+      description: values?.description || '',
+      outcome: values?.outcome || '',
 
-      attachment: values?.documentFileId || "",
+      attachment: values?.documentFileId || '',
       actionBy: userId || 0,
 
       scheduleTypeId: values?.scheduleTypeName?.value || 0,
-      scheduleTypeName: values?.scheduleTypeName?.label || "",
+      scheduleTypeName: values?.scheduleTypeName?.label || '',
 
       followUpDate: values?.followUpDate || new Date(),
 
-      followUpMeetingType: values?.meetingType?.label || "",
-      followUpAddress: values?.followUpAddress || "",
+      followUpMeetingType: values?.meetingType?.label || '',
+      followUpAddress: values?.followUpAddress || '',
     };
     SaveCustomerFollowUpActivity(
-      "/oms/SalesQuotation/CreateCustomerFollowUpActivity",
+      '/oms/SalesQuotation/CreateCustomerFollowUpActivity',
       payload,
       () => {
         if (cb) {
           cb();
         }
       },
-      "save"
+      'save',
     );
   };
   const invitedAttendeesDDL = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
       )
       .then((res) => {
         return res?.data;
@@ -117,7 +117,7 @@ export default function MeetingTab({ data }) {
   }, []);
   return (
     <ICustomCard
-      title={"Meeting"}
+      title={'Meeting'}
       saveHandler={(values) => {
         formikRef.current.submitForm();
       }}
@@ -129,19 +129,19 @@ export default function MeetingTab({ data }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          startDateTime: "",
-          endDateTime: "",
-          address: "",
-          meetingType: "",
-          meetingWithName: "",
-          description: "",
-          outcome: "",
-          scheduleTypeName: "",
-          followUpDate: "",
-          followUpAddress: "",
-          invitedAttendees: "",
-          attachment: "",
-          documentFileId: "",
+          startDateTime: '',
+          endDateTime: '',
+          address: '',
+          meetingType: '',
+          meetingWithName: '',
+          description: '',
+          outcome: '',
+          scheduleTypeName: '',
+          followUpDate: '',
+          followUpAddress: '',
+          invitedAttendees: '',
+          attachment: '',
+          documentFileId: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -157,9 +157,9 @@ export default function MeetingTab({ data }) {
             <Form className="form form-label-right">
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '10px',
                 }}
               >
                 <div className="form-group row global-form">
@@ -171,7 +171,7 @@ export default function MeetingTab({ data }) {
                       name="startDateTime"
                       value={values?.startDateTime}
                       onChange={(e) => {
-                        setFieldValue("startDateTime", e.target.value);
+                        setFieldValue('startDateTime', e.target.value);
                       }}
                       placeholder="Start Date"
                     />
@@ -185,7 +185,7 @@ export default function MeetingTab({ data }) {
                       value={values?.endDateTime}
                       placeholder="End Date"
                       onChange={(e) => {
-                        setFieldValue("endDateTime", e.target.value);
+                        setFieldValue('endDateTime', e.target.value);
                       }}
                     />
                   </div>
@@ -197,7 +197,7 @@ export default function MeetingTab({ data }) {
                       value={values?.address}
                       placeholder="Location"
                       onChange={(e) => {
-                        setFieldValue("address", e.target.value);
+                        setFieldValue('address', e.target.value);
                       }}
                     />
                   </div>
@@ -205,21 +205,21 @@ export default function MeetingTab({ data }) {
                   {/* Meeting Type */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Meeting Type"}
+                      label={'Meeting Type'}
                       options={[
                         {
-                          value: "1",
-                          label: "Online",
+                          value: '1',
+                          label: 'Online',
                         },
                         {
-                          value: "2",
-                          label: "Physical",
+                          value: '2',
+                          label: 'Physical',
                         },
                       ]}
                       value={values?.meetingType}
                       name="meetingType"
                       onChange={(valueOption) => {
-                        setFieldValue("meetingType", valueOption || "");
+                        setFieldValue('meetingType', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -233,7 +233,7 @@ export default function MeetingTab({ data }) {
                       value={values?.meetingWithName}
                       placeholder="Meeting With"
                       onChange={(e) => {
-                        setFieldValue("meetingWithName", e.target.value);
+                        setFieldValue('meetingWithName', e.target.value);
                       }}
                     />
                   </div>
@@ -245,9 +245,9 @@ export default function MeetingTab({ data }) {
                       isSearchIcon={true}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("invitedAttendees", valueOption);
+                          setFieldValue('invitedAttendees', valueOption);
                         } else {
-                          setFieldValue("invitedAttendees", []);
+                          setFieldValue('invitedAttendees', []);
                         }
                       }}
                       loadOptions={invitedAttendeesDDL}
@@ -262,7 +262,7 @@ export default function MeetingTab({ data }) {
                       value={values?.description}
                       placeholder="Description"
                       onChange={(e) => {
-                        setFieldValue("description", e.target.value);
+                        setFieldValue('description', e.target.value);
                       }}
                     />
                   </div>
@@ -274,19 +274,19 @@ export default function MeetingTab({ data }) {
                       value={values?.outcome}
                       placeholder="Outcome"
                       onChange={(e) => {
-                        setFieldValue("outcome", e.target.value);
+                        setFieldValue('outcome', e.target.value);
                       }}
                     />
                   </div>
                   {/* scheduleType */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Schedule Type"}
+                      label={'Schedule Type'}
                       options={scheduleTypeDDL || []}
                       value={values?.scheduleTypeName}
                       name="scheduleTypeName"
                       onChange={(valueOption) => {
-                        setFieldValue("scheduleTypeName", valueOption || "");
+                        setFieldValue('scheduleTypeName', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -300,7 +300,7 @@ export default function MeetingTab({ data }) {
                       name="followUpDate"
                       value={values?.followUpDate}
                       onChange={(e) => {
-                        setFieldValue("followUpDate", e.target.value);
+                        setFieldValue('followUpDate', e.target.value);
                       }}
                     />
                   </div>
@@ -312,7 +312,7 @@ export default function MeetingTab({ data }) {
                       value={values?.followUpAddress}
                       placeholder="Address"
                       onChange={(e) => {
-                        setFieldValue("followUpAddress", e.target.value);
+                        setFieldValue('followUpAddress', e.target.value);
                       }}
                     />
                   </div>
@@ -332,7 +332,7 @@ export default function MeetingTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId)
+                            getDownlloadFileView_Action(values?.documentFileId),
                           );
                         }}
                       >
@@ -345,10 +345,10 @@ export default function MeetingTab({ data }) {
             </Form>
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -356,7 +356,7 @@ export default function MeetingTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}
@@ -365,7 +365,7 @@ export default function MeetingTab({ data }) {
                 setOpen(false);
                 attachmentUpload(fileObjects).then((data) => {
                   const documentFileId = data?.[0]?.id;
-                  setFieldValue("documentFileId", documentFileId || "");
+                  setFieldValue('documentFileId', documentFileId || '');
                 });
               }}
               showPreviews={true}

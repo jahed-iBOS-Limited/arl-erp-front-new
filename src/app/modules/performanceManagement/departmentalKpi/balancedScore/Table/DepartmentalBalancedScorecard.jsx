@@ -1,13 +1,13 @@
-import { DoubleArrow } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import ObjectiveImg from "./images/objective.png";
-import KpiImg from "./images/kpi.png";
-import SrfImg from "./images/srf.png";
-import TargetImg from "./images/target.png";
-import AchievementImg from "./images/achievement.png";
-import ProgressImg from "./images/progress.png";
-import "./departmentalScorecardStyles.css";
-import { useSelector } from "react-redux";
+import { DoubleArrow } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import ObjectiveImg from './images/objective.png';
+import KpiImg from './images/kpi.png';
+import SrfImg from './images/srf.png';
+import TargetImg from './images/target.png';
+import AchievementImg from './images/achievement.png';
+import ProgressImg from './images/progress.png';
+import './departmentalScorecardStyles.css';
+import { useSelector } from 'react-redux';
 
 const DepartmentalBalancedScorecard = () => {
   //   const [colorIndex, setColorIndex] = useState(0);
@@ -21,14 +21,14 @@ const DepartmentalBalancedScorecard = () => {
     report,
     departmentName,
   } = useSelector(
-    (state) => state?.localStorage?.DepartmentalBalancedScorecardData
+    (state) => state?.localStorage?.DepartmentalBalancedScorecardData,
   );
 
   useEffect(() => {
     setIndex(currentItem?.index);
   }, [currentItem]);
-  let colorArr = ["#a6a6a6", "#ffd966"];
-  const [index, setIndex] = useState("");
+  let colorArr = ['#a6a6a6', '#ffd966'];
+  const [index, setIndex] = useState('');
   const [datas, setDatas] = useState([]);
   const [colorIndex, setColorIndex] = useState(0);
 
@@ -72,23 +72,23 @@ const DepartmentalBalancedScorecard = () => {
         <div className="departmental-balanced-report-header">
           <h2>{heading}</h2>
           {departmentName && (
-            <h3 style={{ textAlign: "center" }}>{departmentName || ""}</h3>
+            <h3 style={{ textAlign: 'center' }}>{departmentName || ''}</h3>
           )}
           <p>
-            {newData[index]?.strFrequency} ({from?.label} - {to?.label},{" "}
+            {newData[index]?.strFrequency} ({from?.label} - {to?.label},{' '}
             {year?.label})
           </p>
         </div>
         <div className="departmental-balanced-report-body">
           <div className="row">
             <div className="col-md-12">
-              {" "}
+              {' '}
               <div className="button-container-grid row justify-content-between">
                 <div className="col-md-2 button">
-                  <p style={{ marginRight: "1rem" }}>
+                  <p style={{ marginRight: '1rem' }}>
                     <DoubleArrow />
                   </p>
-                  <p style={{ fontSize: "1.3rem" }}>
+                  <p style={{ fontSize: '1.3rem' }}>
                     {newData[index]?.heading}
                   </p>
                 </div>
@@ -96,17 +96,17 @@ const DepartmentalBalancedScorecard = () => {
                   <span
                     onClick={() => handleArrowLeft()}
                     className="prev-btn"
-                    style={{ borderRadius: "50%", padding:"10px 15px" }}
+                    style={{ borderRadius: '50%', padding: '10px 15px' }}
                   >
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                   </span>
-                  <span style={{ padding: "0px 8px" }}>
+                  <span style={{ padding: '0px 8px' }}>
                     {index + 1} / {newData?.length}
                   </span>
                   <span
                     onClick={() => handleArrowRight()}
                     className="next-btn"
-                    style={{ borderRadius: "50%", padding:"10px 15px" }}
+                    style={{ borderRadius: '50%', padding: '10px 15px' }}
                   >
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                   </span>
@@ -130,11 +130,11 @@ const DepartmentalBalancedScorecard = () => {
                         <div
                           className="scorecard-body"
                           style={{
-                            textAlign: "left",
-                            width: "100%",
+                            textAlign: 'left',
+                            width: '100%',
                             fontWeight: 500,
-                            fontSize: "20px",
-                            color: "#101828",
+                            fontSize: '20px',
+                            color: '#101828',
                           }}
                         >
                           {newData[index]?.objective}
@@ -147,16 +147,16 @@ const DepartmentalBalancedScorecard = () => {
                           <p>KPI</p>
                         </div>
                         <img className="vector-img" src={KpiImg} alt="vector" />
-                      </div>{" "}
+                      </div>{' '}
                       <div className="scorecard-body-container">
                         <div
                           className="scorecard-body"
                           style={{
-                            textAlign: "left",
-                            width: "100%",
+                            textAlign: 'left',
+                            width: '100%',
                             fontWeight: 500,
-                            fontSize: "20px",
-                            color: "#101828",
+                            fontSize: '20px',
+                            color: '#101828',
                           }}
                         >
                           {newData[index]?.kpi}
@@ -174,11 +174,11 @@ const DepartmentalBalancedScorecard = () => {
                         <div
                           className="scorecard-body"
                           style={{
-                            textAlign: "left",
-                            width: "100%",
+                            textAlign: 'left',
+                            width: '100%',
                             fontWeight: 500,
-                            fontSize: "20px",
-                            color: "#101828",
+                            fontSize: '20px',
+                            color: '#101828',
                           }}
                         >
                           {newData[index]?.strFrequency}
@@ -198,7 +198,7 @@ const DepartmentalBalancedScorecard = () => {
                       </div>
                       <div className="scorecard-body-container">
                         <div
-                          style={{ fontSize: "30px" }}
+                          style={{ fontSize: '30px' }}
                           className="scorecard-body"
                         >
                           {newData[index]?.numTarget || 0}
@@ -218,7 +218,7 @@ const DepartmentalBalancedScorecard = () => {
                       </div>
                       <div className="scorecard-body-container">
                         <div
-                          style={{ fontSize: "30px" }}
+                          style={{ fontSize: '30px' }}
                           className="scorecard-body"
                         >
                           {newData[index]?.numAchivement || 0}
@@ -238,7 +238,7 @@ const DepartmentalBalancedScorecard = () => {
                       </div>
                       <div className="scorecard-body-container">
                         <div
-                          style={{ fontSize: "30px" }}
+                          style={{ fontSize: '30px' }}
                           className="scorecard-body"
                         >
                           {(newData[index]?.numAchivement === 0 &&
@@ -254,12 +254,12 @@ const DepartmentalBalancedScorecard = () => {
                                 (newData[index]?.numTarget * 100) /
                                 newData[index]?.numAchivement
                               ).toFixed(2)}
-                          %{" "}
+                          %{' '}
                           {newData[index]?.numAchivement !== 0 &&
                             newData[index]?.numTarget !== 0 && (
                               <i
                                 className={`ml-2 fas fa-arrow-alt-${report?.arrowText}`}
-                                style={{ fontSize: "30px", display: "inline" }}
+                                style={{ fontSize: '30px', display: 'inline' }}
                               ></i>
                             )}
                         </div>
@@ -273,13 +273,13 @@ const DepartmentalBalancedScorecard = () => {
           <div className="mt-4 row">
             <div
               className="col-md-12 kpi-remarks-wrapper"
-              style={{ backgroundColor: "#FFFFFF", padding: "1.5rem" }}
+              style={{ backgroundColor: '#FFFFFF', padding: '1.5rem' }}
             >
               <h2
                 style={{
                   fontWeight: 600,
-                  fontSize: "1.1rem",
-                  color: "#344054",
+                  fontSize: '1.1rem',
+                  color: '#344054',
                 }}
               >
                 REMARKS
@@ -287,9 +287,9 @@ const DepartmentalBalancedScorecard = () => {
               <p
                 style={{
                   fontWeight: 400,
-                  color: "#172B4D",
-                  fontSize: "1.2rem",
-                  marginTop: "1.3rem",
+                  color: '#172B4D',
+                  fontSize: '1.2rem',
+                  marginTop: '1.3rem',
                 }}
               >
                 {newData?.[index]?.remarks}

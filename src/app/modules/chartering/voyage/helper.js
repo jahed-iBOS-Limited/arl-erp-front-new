@@ -1,13 +1,13 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../_chartinghelper/_dateFormatter";
-import { _todayDate } from "../_chartinghelper/_todayDate";
-import { imarineBaseUrl } from "../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../_chartinghelper/_dateFormatter';
+import { _todayDate } from '../_chartinghelper/_todayDate';
+import { imarineBaseUrl } from '../../../../App';
 
 const validateTimeCharterer = (voyageType, name) => {
   if (+voyageType?.value === 1) {
-    return Yup.string().required(`${!name ? "This field" : name} is required`);
+    return Yup.string().required(`${!name ? 'This field' : name} is required`);
   } else {
     return Yup.string();
   }
@@ -16,82 +16,82 @@ const validateTimeCharterer = (voyageType, name) => {
 // Validation schema
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel Name is required"),
-    value: Yup.string().required("Vessel Name is required"),
+    label: Yup.string().required('Vessel Name is required'),
+    value: Yup.string().required('Vessel Name is required'),
   }),
   hireType: Yup.object().shape({
-    label: Yup.string().required("Ship Type is required"),
-    value: Yup.string().required("Ship Type is required"),
+    label: Yup.string().required('Ship Type is required'),
+    value: Yup.string().required('Ship Type is required'),
   }),
   voyageType: Yup.object().shape({
-    label: Yup.string().required("Voyage Type is required"),
-    value: Yup.string().required("Voyage Type is required"),
+    label: Yup.string().required('Voyage Type is required'),
+    value: Yup.string().required('Voyage Type is required'),
   }),
-  startDate: Yup.string().required("Voyage Start Date is required"),
-  completionDate: Yup.string().required("Voyage Completion Date is required"),
-  voyageDuration: Yup.string().required("Voyage Duration is required"),
-  chartererVoyageCode: Yup.object().when("fromCharterer", {
+  startDate: Yup.string().required('Voyage Start Date is required'),
+  completionDate: Yup.string().required('Voyage Completion Date is required'),
+  voyageDuration: Yup.string().required('Voyage Duration is required'),
+  chartererVoyageCode: Yup.object().when('fromCharterer', {
     is: true,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Charterer Voyage Code is required"),
-        label: Yup.string().required("Charterer Voyage Code is required"),
+        value: Yup.string().required('Charterer Voyage Code is required'),
+        label: Yup.string().required('Charterer Voyage Code is required'),
       })
-      .typeError("Charterer Voyage Code is required"),
+      .typeError('Charterer Voyage Code is required'),
     otherwise: Yup.object(),
   }),
 
   /* Validation For Time Charterer */
-  brokerCommission: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "Broker Commission")
+  brokerCommission: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'Broker Commission'),
   ),
-  addressCommission: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "Address Commission")
+  addressCommission: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'Address Commission'),
   ),
-  charterName: Yup.object().when("voyageType", (voyageType) => {
+  charterName: Yup.object().when('voyageType', (voyageType) => {
     if (+voyageType?.value === 1) {
       return Yup.object().shape({
-        value: Yup.string().required("Charter Name is required"),
-        label: Yup.string().required("Charter Name is required"),
+        value: Yup.string().required('Charter Name is required'),
+        label: Yup.string().required('Charter Name is required'),
       });
     } else {
       return Yup.object();
     }
   }),
-  startPort: Yup.object().when("voyageType", (voyageType) => {
+  startPort: Yup.object().when('voyageType', (voyageType) => {
     if (+voyageType?.value === 1) {
       return Yup.object().shape({
-        value: Yup.string().required("This Field is required"),
-        label: Yup.string().required("This Field is required"),
+        value: Yup.string().required('This Field is required'),
+        label: Yup.string().required('This Field is required'),
       });
     } else {
       return Yup.object();
     }
   }),
-  endPort: Yup.object().when("voyageType", (voyageType) => {
+  endPort: Yup.object().when('voyageType', (voyageType) => {
     if (+voyageType?.value === 1) {
       return Yup.object().shape({
-        value: Yup.string().required("This Field is required"),
-        label: Yup.string().required("This Field is required"),
+        value: Yup.string().required('This Field is required'),
+        label: Yup.string().required('This Field is required'),
       });
     } else {
       return Yup.object();
     }
   }),
-  lsmgoPrice: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "LSMGO")
+  lsmgoPrice: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'LSMGO'),
   ),
-  lsifoPrice: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "LSFO")
+  lsifoPrice: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'LSFO'),
   ),
-  iloch: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "iloch")
+  iloch: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'iloch'),
   ),
-  cve30Days: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "C/V/E 30 Days")
+  cve30Days: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'C/V/E 30 Days'),
   ),
-  dailyHire: Yup.object().when("voyageType", (voyageType) =>
-    validateTimeCharterer(voyageType, "Daily Hire")
+  dailyHire: Yup.object().when('voyageType', (voyageType) =>
+    validateTimeCharterer(voyageType, 'Daily Hire'),
   ),
 });
 
@@ -105,17 +105,17 @@ export const getVoyageLandingData = async (
   /* Optinal */
   voyageNo,
   vesselName,
-  status
+  status,
 ) => {
   setLoading(true);
 
-  const voyageNoStr = voyageNo ? `&VoyageNo=${voyageNo}` : "";
-  const vesselNameStr = vesselName ? `&searchByVesselName=${vesselName}` : "";
-  const statusStr = status ? `&type=${status}` : "";
+  const voyageNoStr = voyageNo ? `&VoyageNo=${voyageNo}` : '';
+  const vesselNameStr = vesselName ? `&searchByVesselName=${vesselName}` : '';
+  const statusStr = status ? `&type=${status}` : '';
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`,
     );
 
     setter(res?.data);
@@ -132,7 +132,7 @@ export const createVoyage = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/Voyage/CreateVoyage`,
-      data
+      data,
     );
     cb(res?.data);
     setLoading(false);
@@ -147,12 +147,12 @@ export const editVoyage = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyage`,
-      data
+      data,
     );
     toast.success(res?.data?.message, { toastId: 456789 });
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
     setLoading(false);
   }
 };
@@ -161,7 +161,7 @@ export const editVoyageRow = async (data, getByIdCalled, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyageRow`,
-      data
+      data,
     );
     toast.success(res?.data?.message, { toastId: 456 });
     getByIdCalled();
@@ -178,7 +178,7 @@ export const editVoyageTimeCharterer = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyageForTimeChtr`,
-      data
+      data,
     );
     setLoading(false);
     toast.success(res?.data?.message, { toastId: 456 });
@@ -194,7 +194,7 @@ export const DeleteVoyage = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${imarineBaseUrl}/domain/Voyage/DeleteVoyage?voyageId=${id}`
+      `${imarineBaseUrl}/domain/Voyage/DeleteVoyage?voyageId=${id}`,
     );
     if (res?.status === 200) {
       cb();
@@ -209,7 +209,7 @@ export const activeInactiveVoyage = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`
+      `${imarineBaseUrl}/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`,
     );
     toast.success(res?.data?.message);
     cb();
@@ -223,17 +223,17 @@ export const activeInactiveVoyage = async (id, status, setLoading, cb) => {
 export const GetOwnerVesselCharterVoyageID = async (
   vesselId,
   setFieldValue,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`,
     );
-    setFieldValue("chartererVoyageCode", res?.data);
+    setFieldValue('chartererVoyageCode', res?.data);
     setLoading(false);
   } catch (error) {
-    setFieldValue("chartererVoyageCode", "");
+    setFieldValue('chartererVoyageCode', '');
     setLoading(false);
   }
 };
@@ -243,12 +243,12 @@ export const getVoyageById = async (
   setSingleData,
   setChartererRowData,
   setBusinessPartnerGrid,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`,
     );
 
     const headerData = res?.data?.objVoyage;
@@ -266,15 +266,15 @@ export const getVoyageById = async (
         value: headerData?.vesselId,
         label: headerData?.vesselName,
         ownerId: headerData?.ownerId || 0,
-        ownerName: headerData?.ownerName || "",
+        ownerName: headerData?.ownerName || '',
       },
       ownerId: headerData?.ownerId || 0,
-      ownerName: headerData?.ownerName || "",
+      ownerName: headerData?.ownerName || '',
       voyageType: {
         value: headerData?.voyageTypeId,
         label: headerData?.voyageTypeName,
       },
-      currentVoyageNo: headerData?.voyageNo || "",
+      currentVoyageNo: headerData?.voyageNo || '',
       chartererVoyageCode: {
         value: 0,
         label: headerData?.voyageCode,
@@ -287,54 +287,54 @@ export const getVoyageById = async (
         hireTypeId: headerData?.hireTypeId,
         hireTypeName: headerData?.hireTypeName,
       },
-      businessPartnerName: "",
-      businessPartnerType: "",
+      businessPartnerName: '',
+      businessPartnerType: '',
       charterName:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : {
               value: chartererRowDataResponse[0]?.charterId,
               label: chartererRowDataResponse[0]?.charterName,
             },
       brokerName:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : {
               value: chartererRowDataResponse[0]?.brokerId,
               label: chartererRowDataResponse[0]?.brokerName,
             },
       brokerCommission:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.brokerCommission,
       addressCommission:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.addressCommission,
       // new added
       deliveryDate:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.deliveryDateTime,
       reDeliveryDate:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.reDeliveryDateTime,
       // above two are new added
       freightPercentage:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.freightPercentage,
       startPort:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : {
               value: chartererRowDataResponse[0]?.loadPortId,
               label: chartererRowDataResponse[0]?.loadPortName,
             },
       endPort:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : {
               value: chartererRowDataResponse[0]?.dischargePortId,
               label: chartererRowDataResponse[0]?.dischargePortName,
@@ -345,26 +345,26 @@ export const getVoyageById = async (
           : _dateFormatter(chartererRowDataResponse[0]?.cpDate),
       layCanFrom:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : _dateFormatter(chartererRowDataResponse[0]?.layCanFrom) ||
             _todayDate(),
       layCanTo:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : _dateFormatter(chartererRowDataResponse[0]?.layCanTo) ||
             _todayDate(),
-      lsmgoPrice: chartererRowDataResponse[0]?.lsmgoPrice || "",
-      lsifoPrice: chartererRowDataResponse[0]?.lsifoPrice || "",
-      iloch: chartererRowDataResponse[0]?.iloch || "",
-      cve30Days: chartererRowDataResponse[0]?.cveday || "",
-      dailyHire: chartererRowDataResponse[0]?.dailyHire || "",
-      ap: chartererRowDataResponse[0]?.apamount || "",
-      others: chartererRowDataResponse[0]?.othersAmount || "",
-      totalAmount: chartererRowDataResponse[0]?.totalHireAmount || "",
+      lsmgoPrice: chartererRowDataResponse[0]?.lsmgoPrice || '',
+      lsifoPrice: chartererRowDataResponse[0]?.lsifoPrice || '',
+      iloch: chartererRowDataResponse[0]?.iloch || '',
+      cve30Days: chartererRowDataResponse[0]?.cveday || '',
+      dailyHire: chartererRowDataResponse[0]?.dailyHire || '',
+      ap: chartererRowDataResponse[0]?.apamount || '',
+      others: chartererRowDataResponse[0]?.othersAmount || '',
+      totalAmount: chartererRowDataResponse[0]?.totalHireAmount || '',
       dueAmount: 0,
       detention:
         headerData?.voyageTypeId === 2
-          ? ""
+          ? ''
           : chartererRowDataResponse[0]?.detention,
     });
 
@@ -382,12 +382,12 @@ export const getVoyageCompletionChecklist = async (
   voyageTypeId,
   setter,
   setLoading,
-  setShow
+  setShow,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -401,7 +401,7 @@ export const getVoyageCompletionChecklist = async (
 export const getBusinessPartnerType = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`,
     );
     setter(res?.data);
   } catch (error) {
@@ -415,13 +415,13 @@ export const fileDownload = async (url, fileName, setLoading) => {
 
     axios({
       url: url,
-      method: "GET",
-      responseType: "blob",
+      method: 'GET',
+      responseType: 'blob',
     }).then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
-      link.setAttribute("download", `${fileName}.pdf`);
+      link.setAttribute('download', `${fileName}.pdf`);
       document.body.appendChild(link);
       link.click();
     });
@@ -446,6 +446,6 @@ export const fileDownload = async (url, fileName, setLoading) => {
     //   });
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message || "Failed, try again");
+    toast.warn(error?.response?.data?.message || 'Failed, try again');
   }
 };

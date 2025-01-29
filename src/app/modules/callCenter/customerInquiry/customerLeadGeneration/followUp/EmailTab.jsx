@@ -1,31 +1,25 @@
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { attachmentUpload } from "./helper";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { attachmentUpload } from './helper';
 const validationSchema = Yup.object().shape({
-  activityDateTime: Yup.string().required("Date is required"),
-  to: Yup.string()
-    .required("To is required")
-    .email("Invalid email address"),
-  cc: Yup.string()
-    .required("CC is required")
-    .email("Invalid email address"),
-  bcc: Yup.string()
-    .required("BCC is required")
-    .email("Invalid email address"),
-  titleOrSubject: Yup.string().required("Subject is required"),
-  description: Yup.string().required("Description is required"),
-  followUpDate: Yup.string().required("Follow Up Date is required"),
+  activityDateTime: Yup.string().required('Date is required'),
+  to: Yup.string().required('To is required').email('Invalid email address'),
+  cc: Yup.string().required('CC is required').email('Invalid email address'),
+  bcc: Yup.string().required('BCC is required').email('Invalid email address'),
+  titleOrSubject: Yup.string().required('Subject is required'),
+  description: Yup.string().required('Description is required'),
+  followUpDate: Yup.string().required('Follow Up Date is required'),
 });
 export default function EmailTab({ data }) {
   const formikRef = React.useRef(null);
@@ -46,37 +40,37 @@ export default function EmailTab({ data }) {
       followUpActivityId: 0,
       businessUnitId: selectedBusinessUnit?.value,
       customerAcquisitionId: data?.customerAcquisitionId || 0,
-      stageName: data?.currentStage || "",
+      stageName: data?.currentStage || '',
       activityTypeId: 2,
-      activityTypeName: "Email",
+      activityTypeName: 'Email',
 
-      from: values?.from || "",
-      to: values?.to || "",
-      cc: values?.cc || "",
-      bcc: values?.bcc || "",
+      from: values?.from || '',
+      to: values?.to || '',
+      cc: values?.cc || '',
+      bcc: values?.bcc || '',
 
       activityDateTime: values?.activityDateTime || new Date(),
-      titleOrSubject: values?.titleOrSubject || "",
+      titleOrSubject: values?.titleOrSubject || '',
 
-      description: values?.description || "",
+      description: values?.description || '',
       //   outcome: values?.outcome || "",
-      attachment: values?.documentFileId || "",
+      attachment: values?.documentFileId || '',
       actionBy: userId || 0,
 
       scheduleTypeId: values?.scheduleTypeName?.value || 0,
-      scheduleTypeName: values?.scheduleTypeName?.label || "",
+      scheduleTypeName: values?.scheduleTypeName?.label || '',
 
       followUpDate: values?.followUpDate || new Date(),
     };
     SaveCustomerFollowUpActivity(
-      "/oms/SalesQuotation/CreateCustomerFollowUpActivity",
+      '/oms/SalesQuotation/CreateCustomerFollowUpActivity',
       payload,
       () => {
         if (cb) {
           cb();
         }
       },
-      "save"
+      'save',
     );
   };
 
@@ -87,7 +81,7 @@ export default function EmailTab({ data }) {
   }, []);
   return (
     <ICustomCard
-      title={"Email"}
+      title={'Email'}
       saveHandler={(values) => {
         formikRef.current.submitForm();
       }}
@@ -99,16 +93,16 @@ export default function EmailTab({ data }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          activityDateTime: "",
-          to: "",
-          cc: "",
-          bcc: "",
-          titleOrSubject: "",
-          description: "",
-          scheduleTypeName: "",
-          followUpDate: "",
-          attachment: "",
-          documentFileId: "",
+          activityDateTime: '',
+          to: '',
+          cc: '',
+          bcc: '',
+          titleOrSubject: '',
+          description: '',
+          scheduleTypeName: '',
+          followUpDate: '',
+          attachment: '',
+          documentFileId: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -124,9 +118,9 @@ export default function EmailTab({ data }) {
             <Form className="form form-label-right">
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '10px',
                 }}
               >
                 <div className="form-group row global-form">
@@ -138,7 +132,7 @@ export default function EmailTab({ data }) {
                       name="activityDateTime"
                       value={values?.activityDateTime}
                       onChange={(e) => {
-                        setFieldValue("activityDateTime", e.target.value);
+                        setFieldValue('activityDateTime', e.target.value);
                       }}
                     />
                   </div>
@@ -150,7 +144,7 @@ export default function EmailTab({ data }) {
                       value={values?.to}
                       placeholder="To"
                       onChange={(e) => {
-                        setFieldValue("to", e.target.value);
+                        setFieldValue('to', e.target.value);
                       }}
                     />
                   </div>
@@ -162,7 +156,7 @@ export default function EmailTab({ data }) {
                       value={values?.cc}
                       placeholder="cc"
                       onChange={(e) => {
-                        setFieldValue("cc", e.target.value);
+                        setFieldValue('cc', e.target.value);
                       }}
                     />
                   </div>
@@ -174,7 +168,7 @@ export default function EmailTab({ data }) {
                       value={values?.bcc}
                       placeholder="bcc"
                       onChange={(e) => {
-                        setFieldValue("bcc", e.target.value);
+                        setFieldValue('bcc', e.target.value);
                       }}
                     />
                   </div>
@@ -186,7 +180,7 @@ export default function EmailTab({ data }) {
                       value={values?.titleOrSubject}
                       placeholder="Subject"
                       onChange={(e) => {
-                        setFieldValue("titleOrSubject", e.target.value);
+                        setFieldValue('titleOrSubject', e.target.value);
                       }}
                     />
                   </div>
@@ -198,7 +192,7 @@ export default function EmailTab({ data }) {
                       value={values?.description}
                       placeholder="Description"
                       onChange={(e) => {
-                        setFieldValue("description", e.target.value);
+                        setFieldValue('description', e.target.value);
                       }}
                     />
                   </div>
@@ -206,12 +200,12 @@ export default function EmailTab({ data }) {
                   {/* scheduleType */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Schedule Type"}
+                      label={'Schedule Type'}
                       options={scheduleTypeDDL || []}
                       value={values?.scheduleTypeName}
                       name="scheduleTypeName"
                       onChange={(valueOption) => {
-                        setFieldValue("scheduleTypeName", valueOption || "");
+                        setFieldValue('scheduleTypeName', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -225,7 +219,7 @@ export default function EmailTab({ data }) {
                       name="followUpDate"
                       value={values?.followUpDate}
                       onChange={(e) => {
-                        setFieldValue("followUpDate", e.target.value);
+                        setFieldValue('followUpDate', e.target.value);
                       }}
                     />
                   </div>
@@ -243,7 +237,7 @@ export default function EmailTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId)
+                            getDownlloadFileView_Action(values?.documentFileId),
                           );
                         }}
                       >
@@ -256,10 +250,10 @@ export default function EmailTab({ data }) {
             </Form>
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -267,7 +261,7 @@ export default function EmailTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}
@@ -276,7 +270,7 @@ export default function EmailTab({ data }) {
                 setOpen(false);
                 attachmentUpload(fileObjects).then((data) => {
                   const documentFileId = data?.[0]?.id;
-                  setFieldValue("documentFileId", documentFileId || "");
+                  setFieldValue('documentFileId', documentFileId || '');
                 });
               }}
               showPreviews={true}

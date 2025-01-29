@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { APIUrl } from "../../../../App";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { APIUrl } from '../../../../../App';
 
 export const getPurchaseInvoiceGridData = async (
   accId,
@@ -13,13 +13,13 @@ export const getPurchaseInvoiceGridData = async (
   setLoading,
   pageNo,
   pageSize,
-  search
+  search,
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceSearchPasignation?${searchPath}AccountId=${accId}&UnitId=${buId}&SbuId=${SbuId}&Plant=${plantId}&WearHouse=${wareId}&PurchaseOrganizationId=${purId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/procurement/SupplierInvoice/GetSupplierInvoiceSearchPasignation?${searchPath}AccountId=${accId}&UnitId=${buId}&SbuId=${SbuId}&Plant=${plantId}&WearHouse=${wareId}&PurchaseOrganizationId=${purId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -33,7 +33,7 @@ export const getPurchaseInvoiceGridData = async (
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -47,24 +47,24 @@ export const savePurchaseInvoice = async (
   setgrnGridData,
   geGrossAmount,
   setGinvoice,
-  setDisabled
+  setDisabled,
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
       `/procurement/SupplierInvoice/CreateSupplierInvoice`,
-      data
+      data,
     );
     // if (res.status === 200) {
     if (res?.data?.statuscode === 200) {
       setgrnGridData([]);
-      geGrossAmount("");
-      setGinvoice("");
-      toast.success(res.data?.message || "Submitted successfully");
+      geGrossAmount('');
+      setGinvoice('');
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     } else {
-      toast.error(res.data?.message || "Invoice Already Exists");
+      toast.error(res.data?.message || 'Invoice Already Exists');
       setDisabled(false);
     }
     // }
@@ -79,10 +79,10 @@ export const CreateAdvanceForSupplier = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/fino/SupplierInvoiceInfo/CreateAdvanceForSupplier`,
-      data
+      data,
     );
     if (res?.data?.statuscode === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     } else {
@@ -99,7 +99,7 @@ export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
   try {
     const res = await Axios.get(
       // `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`
-      `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}&SbuId=${sbuId}`
+      `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}&SbuId=${sbuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -110,7 +110,7 @@ export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -121,7 +121,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -132,7 +132,7 @@ export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
 export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${SBUId}`
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${SBUId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -143,7 +143,7 @@ export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
 export const GetAdvanceForSupplierById = async (poId, setter) => {
   try {
     const res = await Axios.get(
-      `/fino/SupplierInvoiceInfo/GetAdvanceForSupplierById?PoId=${poId}`
+      `/fino/SupplierInvoiceInfo/GetAdvanceForSupplierById?PoId=${poId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -158,11 +158,11 @@ export const getPurchaseDDL = async (
   pogId,
   plantId,
   wId,
-  setter
+  setter,
 ) => {
   try {
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PurchaseOrganizationId=${pogId}&PlantId=${plantId}&WarehouseId=${wId}`
+      `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PurchaseOrganizationId=${pogId}&PlantId=${plantId}&WarehouseId=${wId}`,
     );
     if (res.status === 200 && res?.data) {
       const options = res.data
@@ -194,12 +194,12 @@ export const getGRNDDL = async (
   wareId,
   refId,
   refCode,
-  setter
+  setter,
 ) => {
   try {
     const res = await Axios.get(
       // `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}`
-      `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}&ReferenceId=${refId}&ReferenceCode=${refCode}`
+      `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}&ReferenceId=${refId}&ReferenceCode=${refCode}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -210,7 +210,7 @@ export const getGRNDDL = async (
 export const getSingleDataForEdit = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`
+      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`,
     );
     if (res.status === 200 && res?.data) {
       let setDtoValue = res?.data?.objHeaderDTO;
@@ -260,7 +260,7 @@ export const getSingleDataForEdit = async (id, setter) => {
 export const getSingleData = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`
+      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -272,16 +272,16 @@ export const savePurchaseEditInvoice = async (
   data,
   cb,
   setDisabled,
-  singleDataCB
+  singleDataCB,
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.put(
       `/procurement/SupplierInvoice/EditSupplierInvoice`,
-      data
+      data,
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Update successfully");
+      toast.success(res?.message || 'Update successfully');
       setDisabled(false);
       singleDataCB();
       //cb()
@@ -294,26 +294,26 @@ export const savePurchaseEditInvoice = async (
 export const purchaseInvoiceAttachment_action = async (attachment, cb) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
   try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await Axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     return data;
   } catch (error) {
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
 export const purchaseInvoiceImageFile_api = async (id) => {
   try {
     const res = await Axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
     );
 
     if (res.status === 200 && res.data) {
@@ -322,30 +322,16 @@ export const purchaseInvoiceImageFile_api = async (id) => {
   } catch (error) {}
 };
 
-
-
-export const postCancelInvoiceAction = async (
-  POId
-) => {
+export const postCancelInvoiceAction = async (POId) => {
   try {
-    const res = await Axios.put(
+    const res = await Axios
+      .put
       //`/procurement/PurchaseOrder/CancelPurchaseRequest?PurchaseOrderId=${POId}&OrderType=${POorderTypeID}&RefType=${refTypeId}`
-    );
+      ();
     if (res.status === 200) {
-      toast.success("Cancel Successfully")
+      toast.success('Cancel Successfully');
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed")
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };
-
-
-
-
-
-
-
-
-
-
-

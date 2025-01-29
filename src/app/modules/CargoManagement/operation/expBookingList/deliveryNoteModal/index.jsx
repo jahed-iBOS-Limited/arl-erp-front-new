@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import logisticsLogo from './logisticsLogo.png';
 import './style.css';

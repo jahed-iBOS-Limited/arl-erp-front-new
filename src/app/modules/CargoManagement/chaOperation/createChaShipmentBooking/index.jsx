@@ -1,118 +1,114 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
-import ICustomCard from "../../../_helper/_customCard";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import FormikError from "../../../_helper/_formikError";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import ICustomCard from '../../../_helper/_customCard';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import FormikError from '../../../_helper/_formikError';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 const INCOTERMS_OPTIONS = [
-  { label: "EXW", value: "exw" },
-  { label: "FCA", value: "fca" },
-  { label: "FOB", value: "fob" },
-  { label: "CIF", value: "cif" },
-  { label: "CPT", value: "cpt" },
-  { label: "DAP", value: "dap" },
-  { label: "DDP", value: "ddp" },
-  { label: "CFR", value: "cfr" },
-  { label: "DDU", value: "ddu" },
-  { label: "Other", value: "other" },
+  { label: 'EXW', value: 'exw' },
+  { label: 'FCA', value: 'fca' },
+  { label: 'FOB', value: 'fob' },
+  { label: 'CIF', value: 'cif' },
+  { label: 'CPT', value: 'cpt' },
+  { label: 'DAP', value: 'dap' },
+  { label: 'DDP', value: 'ddp' },
+  { label: 'CFR', value: 'cfr' },
+  { label: 'DDU', value: 'ddu' },
+  { label: 'Other', value: 'other' },
 ];
 const initData = {
   // top section
   impExpType: 1,
-  hblOrHawb: "",
-  mblOrMawb: "",
-  transportMode: "",
-  carrier: "",
-  customer: "",
-  ffw: "",
-  shipper: "",
-  fclOrLcl: "",
-  portOfReceive: "",
-  consignee: "",
-  incoterm: "",
-  portOfLoading: "",
-  thirdPartyPay: "",
-  depoOrPlace: "",
-  portOfDelivery: "",
-  csSalesPic: "",
-  commodity: "",
-  placeOfDelivery: "",
-  containerQty: "",
-  currency: "",
-  exchangeRate: "",
+  hblOrHawb: '',
+  mblOrMawb: '',
+  transportMode: '',
+  carrier: '',
+  customer: '',
+  ffw: '',
+  shipper: '',
+  fclOrLcl: '',
+  portOfReceive: '',
+  consignee: '',
+  incoterm: '',
+  portOfLoading: '',
+  thirdPartyPay: '',
+  depoOrPlace: '',
+  portOfDelivery: '',
+  csSalesPic: '',
+  commodity: '',
+  placeOfDelivery: '',
+  containerQty: '',
+  currency: '',
+  exchangeRate: '',
   // middle section
-  copyDocReceived: "",
-  invoiceValue: "",
-  commercialInvoiceNo: "",
-  invoiceDate: "",
-  originCountry: "",
-  assessed: "",
-  assessedDate: "",
-  exp: "",
-  expDate: "",
-  remarks: "",
-  quantity: "",
-  billOfEntry: "",
-  billOfEntryDate: "",
-  dischargingVesselNo: "",
-  netWeight: "",
-  grossWeight: "",
-  volumetricWeight: "",
-  etaDate: "",
-  ataDate: "",
-  cbmWeight: "",
+  copyDocReceived: '',
+  invoiceValue: '',
+  commercialInvoiceNo: '',
+  invoiceDate: '',
+  originCountry: '',
+  assessed: '',
+  assessedDate: '',
+  exp: '',
+  expDate: '',
+  remarks: '',
+  quantity: '',
+  billOfEntry: '',
+  billOfEntryDate: '',
+  dischargingVesselNo: '',
+  netWeight: '',
+  grossWeight: '',
+  volumetricWeight: '',
+  etaDate: '',
+  ataDate: '',
+  cbmWeight: '',
 };
 
 const validationSchema = Yup.object().shape({
-  hblOrHawb: Yup.string().required("HBL/HAWB is required"),
+  hblOrHawb: Yup.string().required('HBL/HAWB is required'),
   transportMode: Yup.object().shape({
-    value: Yup.string().required("Transport Mode is required"),
+    value: Yup.string().required('Transport Mode is required'),
   }),
   customer: Yup.object().shape({
-    value: Yup.string().required("Customer is required"),
+    value: Yup.string().required('Customer is required'),
   }),
   fclOrLcl: Yup.object().shape({
-    value: Yup.string().required("FCL/LCL is required"),
+    value: Yup.string().required('FCL/LCL is required'),
   }),
   commodity: Yup.object().shape({
-    value: Yup.string().required("Commodity is required"),
+    value: Yup.string().required('Commodity is required'),
   }),
   // containerQty: Yup.number().required("Container Quantity is required"),
   currency: Yup.object().shape({
-    value: Yup.string().required("Currency is required"),
+    value: Yup.string().required('Currency is required'),
   }),
-  copyDocReceived: Yup.string().required("Copy Doc Received is required"),
-  invoiceValue: Yup.number().required("Invoice Value is required"),
+  copyDocReceived: Yup.string().required('Copy Doc Received is required'),
+  invoiceValue: Yup.number().required('Invoice Value is required'),
   commercialInvoiceNo: Yup.string().required(
-    "Commercial Invoice No is required"
+    'Commercial Invoice No is required',
   ),
-  invoiceDate: Yup.string().required("Invoice Date is required"),
-  exp: Yup.string().required("EXP is required"),
-  etaDate: Yup.string().required("ETA Date is required"),
-  grossWeight: Yup.number().required("Gross Weight is required"),
-  ataDate: Yup.string().required("ATA Date is required"),
+  invoiceDate: Yup.string().required('Invoice Date is required'),
+  exp: Yup.string().required('EXP is required'),
+  etaDate: Yup.string().required('ETA Date is required'),
+  grossWeight: Yup.number().required('Gross Weight is required'),
+  ataDate: Yup.string().required('ATA Date is required'),
 });
 function CreateChaShipmentBooking() {
   const formikRef = React.useRef(null);
-  const [
-    ,
-    SaveOrUpdateChaShipmentBooking,
-    saveOrUpdateChaShipmentLoading,
-    ,
-  ] = useAxiosPost();
+  const [, SaveOrUpdateChaShipmentBooking, saveOrUpdateChaShipmentLoading, ,] =
+    useAxiosPost();
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const [
     airServiceProviderDDLData,
@@ -137,54 +133,54 @@ function CreateChaShipmentBooking() {
       bookingId: singleChaShipmentBooking?.chabookingId || 0,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
-      hblNo: values?.hblOrHawb || "",
-      mblNo: values?.mblOrMawb || "",
-      hablNo: "",
-      mawblNo: "",
+      hblNo: values?.hblOrHawb || '',
+      mblNo: values?.mblOrMawb || '',
+      hablNo: '',
+      mawblNo: '',
       impExpId: values?.impExpType,
-      impExp: values?.impExpType === 1 ? "Export" : "Import",
+      impExp: values?.impExpType === 1 ? 'Export' : 'Import',
       carrierId: values?.carrier?.value || 0,
-      carrierName: values?.carrier?.label || "",
+      carrierName: values?.carrier?.label || '',
       customerId: values?.customer?.value || 0,
-      customerName: values?.customer?.label || "",
+      customerName: values?.customer?.label || '',
       modeOfTransportId: values?.transportMode?.value || 0,
-      modeOfTransportName: values?.transportMode?.label || "",
-      ffw: values?.ffw?.label || "",
+      modeOfTransportName: values?.transportMode?.label || '',
+      ffw: values?.ffw?.label || '',
       ffwId: 0,
       shipperId: 0,
-      shipperName: values?.shipper?.label || "",
+      shipperName: values?.shipper?.label || '',
       consigneeId: 0,
       incotermId: 0,
-      incotermName: values?.incoterm?.label || "",
-      consignee: values?.consignee?.label || "",
+      incotermName: values?.incoterm?.label || '',
+      consignee: values?.consignee?.label || '',
       fcllclId: values?.fclOrLcl?.value || 0,
-      fcllclName: values?.fclOrLcl?.label || "",
-      portOfReceive: values?.portOfReceive?.label || "",
-      portOfLoading: values?.portOfLoading?.label || "",
-      portOfDelivery: values?.portOfDelivery?.label || "",
-      placeOfDelivery: values?.placeOfDelivery || "",
+      fcllclName: values?.fclOrLcl?.label || '',
+      portOfReceive: values?.portOfReceive?.label || '',
+      portOfLoading: values?.portOfLoading?.label || '',
+      portOfDelivery: values?.portOfDelivery?.label || '',
+      placeOfDelivery: values?.placeOfDelivery || '',
       depoPlaceId: values?.depoOrPlace?.value || 0,
-      depoPlaceName: values?.depoOrPlace?.label || "",
+      depoPlaceName: values?.depoOrPlace?.label || '',
       commodityId: values?.commodity?.value || 0,
-      commodityName: values?.commodity?.label || "",
+      commodityName: values?.commodity?.label || '',
       thirdPartyId: 0,
-      thirdPartyName: values?.thirdPartyPay?.label || "",
-      csSalesPic: values?.csSalesPic?.label || "",
+      thirdPartyName: values?.thirdPartyPay?.label || '',
+      csSalesPic: values?.csSalesPic?.label || '',
       cssalesPicId: 0,
       containerQty: values?.containerQty || 0,
-      copyDocReceived: values?.copyDocReceived || "",
+      copyDocReceived: values?.copyDocReceived || '',
       originCountryId: values?.originCountry?.value || 0,
-      originCountry: values?.originCountry?.label || "",
-      remarks: values?.remarks || "",
-      dischargingVesselNo: values?.dischargingVesselNo || "",
-      invoiceValue: values?.invoiceValue || "",
-      commercialInvoiceNo: values?.commercialInvoiceNo || "",
+      originCountry: values?.originCountry?.label || '',
+      remarks: values?.remarks || '',
+      dischargingVesselNo: values?.dischargingVesselNo || '',
+      invoiceValue: values?.invoiceValue || '',
+      commercialInvoiceNo: values?.commercialInvoiceNo || '',
       ...(values?.invoiceDate ? { invoiceDate: values?.invoiceDate } : {}),
-      assessed: values?.assessed || "",
+      assessed: values?.assessed || '',
       ...(values?.assessedDate ? { assessedDate: values?.assessedDate } : {}),
-      exporter: "",
+      exporter: '',
       quantity: values?.quantity || 0,
-      billOfEntry: values?.billOfEntry || "",
+      billOfEntry: values?.billOfEntry || '',
       ...(values?.billOfEntryDate
         ? { billOfEntryDate: values?.billOfEntryDate }
         : {}),
@@ -193,9 +189,9 @@ function CreateChaShipmentBooking() {
       netWeight: values?.netWeight || 0,
       volumetricWeight: values?.volumetricWeight || 0,
       exchangeRate: values?.exchangeRate || 0,
-      exp: values?.exp || "",
+      exp: values?.exp || '',
       ...(values?.expDate ? { expDate: values?.expDate } : {}),
-      currency: values?.currency?.label || "",
+      currency: values?.currency?.label || '',
       ...(values?.etaDate ? { eta: values?.expDate } : {}),
       ...(values?.ataDate ? { ata: values?.ataDate } : {}),
       isActive: true,
@@ -212,7 +208,7 @@ function CreateChaShipmentBooking() {
           cb();
         }
       },
-      true
+      true,
     );
   };
 
@@ -223,7 +219,7 @@ function CreateChaShipmentBooking() {
         `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${0}&participntTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        }
+        },
       );
     }
 
@@ -233,7 +229,7 @@ function CreateChaShipmentBooking() {
         `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${0}&participntTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        }
+        },
       );
     }
   };
@@ -251,10 +247,10 @@ function CreateChaShipmentBooking() {
           };
         });
         setCurrencyList(modifyData);
-      }
+      },
     );
     getConsigneeCountryList(
-      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -274,136 +270,136 @@ function CreateChaShipmentBooking() {
                   value: resData?.modeOfTransportId,
                   label: resData?.modeOfTransportName,
                 }
-              : "",
+              : '',
             carrier: resData?.carrierName
               ? {
                   value: resData?.carrierId,
                   label: resData?.carrierName,
                 }
-              : "",
+              : '',
             customer: resData?.customerId
               ? {
                   value: resData?.customerId,
                   label: resData?.customerName,
                 }
-              : "",
+              : '',
             ffw: resData?.ffw
               ? {
                   value: resData?.ffw,
                   label: resData?.ffw,
                 }
-              : "",
+              : '',
             shipper: resData?.shipperName
               ? {
                   value: resData?.shipperId || 0,
                   label: resData?.shipperName,
                 }
-              : "",
+              : '',
             fclOrLcl: resData?.fcllclId
               ? {
                   value: resData?.fcllclId,
                   label: resData?.fcllclName,
                 }
-              : "",
+              : '',
             portOfReceive: resData?.portOfReceive
               ? {
                   value: resData?.portOfReceiveId || 0,
                   label: resData?.portOfReceive,
                 }
-              : "",
+              : '',
             consignee: resData?.consignee
               ? {
                   value: resData?.consigneeId,
                   label: resData?.consignee,
                 }
-              : "",
+              : '',
             incoterm: resData?.incotermName
               ? {
                   value: 0,
                   label: resData?.incotermName,
                 }
-              : "",
+              : '',
             portOfLoading: resData?.portOfLoading
               ? {
                   value: 1,
                   label: resData?.portOfLoading,
                 }
-              : "",
+              : '',
             thirdPartyPay: resData?.thirdPartyName
               ? {
                   value: resData?.thirdPartyId,
                   label: resData?.thirdPartyName,
                 }
-              : "",
+              : '',
             depoOrPlace: resData?.depoPlaceId
               ? {
                   value: resData?.depoPlaceId,
                   label: resData?.depoPlaceName,
                 }
-              : "",
+              : '',
             portOfDelivery: resData?.portOfDelivery
               ? {
                   value: resData?.portOfDeliveryId || 0,
                   label: resData?.portOfDelivery,
                 }
-              : "",
+              : '',
             csSalesPic: resData?.csSalesPic
               ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
-              : "",
+              : '',
             commodity: resData?.commodityId
               ? {
                   value: resData?.commodityId,
                   label: resData?.commodityName,
                 }
-              : "",
-            placeOfDelivery: resData?.placeOfDelivery || "",
-            containerQty: resData?.containerQty || "",
+              : '',
+            placeOfDelivery: resData?.placeOfDelivery || '',
+            containerQty: resData?.containerQty || '',
             currency: resData?.currency
               ? {
                   value: 0,
                   label: resData?.currency,
                 }
-              : "",
-            exchangeRate: resData?.exchangeRate || "",
+              : '',
+            exchangeRate: resData?.exchangeRate || '',
             // middle section
 
             copyDocReceived: resData?.copyDocReceived
               ? _dateFormatter(resData?.copyDocReceived)
-              : "",
-            invoiceValue: resData?.invoiceValue || "",
-            commercialInvoiceNo: resData?.commercialInvoiceNo || "",
+              : '',
+            invoiceValue: resData?.invoiceValue || '',
+            commercialInvoiceNo: resData?.commercialInvoiceNo || '',
             invoiceDate: resData?.invoiceDate
               ? _dateFormatter(resData?.invoiceDate)
-              : "",
+              : '',
             originCountry: resData?.originCountryId
               ? {
                   value: resData?.originCountryId,
                   label: resData?.originCountry,
                 }
-              : "",
-            assessed: resData?.assessed || "",
+              : '',
+            assessed: resData?.assessed || '',
             assessedDate: resData?.assessedDate
               ? _dateFormatter(resData?.assessedDate)
-              : "",
-            exp: resData?.exp || "",
-            expDate: resData?.expDate ? _dateFormatter(resData?.expDate) : "",
-            remarks: resData?.remarks || "",
-            quantity: resData?.quantity || "",
-            billOfEntry: resData?.billOfEntry || "",
+              : '',
+            exp: resData?.exp || '',
+            expDate: resData?.expDate ? _dateFormatter(resData?.expDate) : '',
+            remarks: resData?.remarks || '',
+            quantity: resData?.quantity || '',
+            billOfEntry: resData?.billOfEntry || '',
             billOfEntryDate: resData?.billOfEntryDate
               ? _dateFormatter(resData?.billOfEntryDate)
-              : "",
-            dischargingVesselNo: resData?.dischargingVesselNo || "",
-            netWeight: resData?.netWeight || "",
-            grossWeight: resData?.grossWeight || "",
-            volumetricWeight: resData?.volumetricWeight || "",
-            etaDate: resData?.eta ? _dateFormatter(resData?.eta) : "",
-            ataDate: resData?.ata ? _dateFormatter(resData?.ata) : "",
-            cbmWeight: resData?.cbmWeight || "",
+              : '',
+            dischargingVesselNo: resData?.dischargingVesselNo || '',
+            netWeight: resData?.netWeight || '',
+            grossWeight: resData?.grossWeight || '',
+            volumetricWeight: resData?.volumetricWeight || '',
+            etaDate: resData?.eta ? _dateFormatter(resData?.eta) : '',
+            ataDate: resData?.ata ? _dateFormatter(resData?.ata) : '',
+            cbmWeight: resData?.cbmWeight || '',
           };
 
           formikRef.current.setValues(valuesObj);
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -411,7 +407,7 @@ function CreateChaShipmentBooking() {
 
   return (
     <ICustomCard
-      title={id ? "Edit CHA Shipment Booking" : "Create CHA Shipment Booking"}
+      title={id ? 'Edit CHA Shipment Booking' : 'Create CHA Shipment Booking'}
       backHandler={() => {
         history.goBack();
       }}
@@ -450,9 +446,9 @@ function CreateChaShipmentBooking() {
                           name="impExpType"
                           checked={values?.impExpType === 1}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setFieldValue("impExpType", 1);
+                            setFieldValue('impExpType', 1);
                           }}
                         />
                         Export
@@ -463,9 +459,9 @@ function CreateChaShipmentBooking() {
                           name="impExpType"
                           checked={values?.impExpType === 2}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setFieldValue("impExpType", 2);
+                            setFieldValue('impExpType', 2);
                           }}
                         />
                         Import
@@ -481,7 +477,7 @@ function CreateChaShipmentBooking() {
                       name="hblOrHawb"
                       value={values?.hblOrHawb}
                       onChange={(e) => {
-                        setFieldValue("hblOrHawb", e.target.value);
+                        setFieldValue('hblOrHawb', e.target.value);
                       }}
                     />
                   </div>
@@ -494,7 +490,7 @@ function CreateChaShipmentBooking() {
                       name="mblOrMawb"
                       value={values?.mblOrMawb}
                       onChange={(e) => {
-                        setFieldValue("mblOrMawb", e.target.value);
+                        setFieldValue('mblOrMawb', e.target.value);
                       }}
                     />
                   </div>
@@ -503,28 +499,28 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Transport Mode"}
+                      label={'Transport Mode'}
                       options={[
                         {
                           value: 1,
-                          label: "Air",
+                          label: 'Air',
                         },
                         {
                           value: 2,
-                          label: "Sea",
+                          label: 'Sea',
                         },
                         {
                           value: 3,
-                          label: "Land",
+                          label: 'Land',
                         },
                       ]}
                       value={values?.transportMode}
                       name="transportMode"
                       onChange={(valueOption) => {
-                        setFieldValue("transportMode", valueOption || "");
-                        setFieldValue("carrier", "");
-                        setFieldValue("containerQty", "");
-                        const typeId = valueOption?.label === "Air" ? 6 : 5;
+                        setFieldValue('transportMode', valueOption || '');
+                        setFieldValue('carrier', '');
+                        setFieldValue('containerQty', '');
+                        const typeId = valueOption?.label === 'Air' ? 6 : 5;
                         if ([1, 2].includes(valueOption?.value)) {
                           transportModeHandelar(typeId, values?.impExpType);
                         }
@@ -536,17 +532,17 @@ function CreateChaShipmentBooking() {
 
                   {[1, 2].includes(values?.transportMode?.value) && (
                     <>
-                      {" "}
+                      {' '}
                       {/* Carrier */}
                       <div className="col-lg-3">
                         <NewSelect
                           placeholder=" "
-                          label={"Carrier"}
+                          label={'Carrier'}
                           options={airServiceProviderDDLData || []}
                           value={values?.carrier}
                           name="carrier"
                           onChange={(valueOption) => {
-                            setFieldValue("carrier", valueOption || "");
+                            setFieldValue('carrier', valueOption || '');
                           }}
                           errors={errors}
                           touched={touched}
@@ -564,7 +560,7 @@ function CreateChaShipmentBooking() {
                           name="carrier"
                           value={values?.carrier?.label}
                           onChange={(e) => {
-                            setFieldValue("carrier", { label: e.target.value });
+                            setFieldValue('carrier', { label: e.target.value });
                           }}
                         />
                       </div>
@@ -577,7 +573,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.customer}
                       handleChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       placeholder="Select Customer"
                       loadOptions={(v) => {
@@ -585,7 +581,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -603,7 +599,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.ffw}
                       handleChange={(valueOption) => {
-                        setFieldValue("ffw", valueOption);
+                        setFieldValue('ffw', valueOption);
                       }}
                       placeholder="Select ffw"
                       loadOptions={(v) => {
@@ -611,7 +607,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=1&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=1&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -626,7 +622,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.shipper}
                       handleChange={(valueOption) => {
-                        setFieldValue("shipper", valueOption);
+                        setFieldValue('shipper', valueOption);
                       }}
                       placeholder="Select Shipper"
                       loadOptions={(v) => {
@@ -634,7 +630,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=2&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=2&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -647,21 +643,21 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"FCL/LCL"}
+                      label={'FCL/LCL'}
                       options={[
                         {
                           value: 1,
-                          label: "FCL",
+                          label: 'FCL',
                         },
                         {
                           value: 2,
-                          label: "LCL",
+                          label: 'LCL',
                         },
                       ]}
                       value={values?.fclOrLcl}
                       name="fclOrLcl"
                       onChange={(valueOption) => {
-                        setFieldValue("fclOrLcl", valueOption || "");
+                        setFieldValue('fclOrLcl', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -673,7 +669,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.portOfReceive}
                       handleChange={(valueOption) => {
-                        setFieldValue("portOfReceive", valueOption);
+                        setFieldValue('portOfReceive', valueOption);
                       }}
                       placeholder="Select Place of Receipt"
                       loadOptions={(v) => {
@@ -681,7 +677,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=6&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=6&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -697,7 +693,7 @@ function CreateChaShipmentBooking() {
                       isCreatableSelect
                       selectedValue={values?.consignee}
                       handleChange={(valueOption) => {
-                        setFieldValue("consignee", valueOption);
+                        setFieldValue('consignee', valueOption);
                       }}
                       placeholder="Select Consignee"
                       loadOptions={(v) => {
@@ -705,7 +701,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=3&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=3&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -715,12 +711,12 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Incoterm"}
+                      label={'Incoterm'}
                       options={INCOTERMS_OPTIONS || []}
                       value={values?.incoterm}
                       name="incoterm"
                       onChange={(valueOption) => {
-                        setFieldValue("incoterm", valueOption || "");
+                        setFieldValue('incoterm', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -732,7 +728,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.portOfLoading}
                       handleChange={(valueOption) => {
-                        setFieldValue("portOfLoading", valueOption);
+                        setFieldValue('portOfLoading', valueOption);
                       }}
                       placeholder="Select Port of Loading"
                       loadOptions={(v) => {
@@ -740,7 +736,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=4&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=4&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -756,7 +752,7 @@ function CreateChaShipmentBooking() {
                       isCreatableSelect
                       selectedValue={values?.thirdPartyPay}
                       handleChange={(valueOption) => {
-                        setFieldValue("thirdPartyPay", valueOption);
+                        setFieldValue('thirdPartyPay', valueOption);
                       }}
                       placeholder="Select Third Party Pay"
                       loadOptions={(v) => {
@@ -764,7 +760,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -776,12 +772,12 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Depo/Place"}
+                      label={'Depo/Place'}
                       options={warehouseDDL || []}
                       value={values?.depoOrPlace}
                       name="depoOrPlace"
                       onChange={(valueOption) => {
-                        setFieldValue("depoOrPlace", valueOption || "");
+                        setFieldValue('depoOrPlace', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -793,7 +789,7 @@ function CreateChaShipmentBooking() {
                     <SearchAsyncSelect
                       selectedValue={values?.portOfDelivery}
                       handleChange={(valueOption) => {
-                        setFieldValue("portOfDelivery", valueOption);
+                        setFieldValue('portOfDelivery', valueOption);
                       }}
                       placeholder="Select Port of Delivery"
                       loadOptions={(v) => {
@@ -801,7 +797,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=5&search=${searchValue}`
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=5&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -817,13 +813,13 @@ function CreateChaShipmentBooking() {
                       isCreatableSelect
                       selectedValue={values?.csSalesPic}
                       handleChange={(valueOption) => {
-                        setFieldValue("csSalesPic", valueOption);
+                        setFieldValue('csSalesPic', valueOption);
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
+                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`,
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -846,7 +842,7 @@ function CreateChaShipmentBooking() {
                       name="commodity"
                       value={values?.commodity}
                       onChange={(valueOption) => {
-                        setFieldValue("commodity", valueOption);
+                        setFieldValue('commodity', valueOption);
                       }}
                       placeholder="Commodity Name"
                       errors={errors}
@@ -861,7 +857,7 @@ function CreateChaShipmentBooking() {
                       name="placeOfDelivery"
                       value={values?.placeOfDelivery}
                       onChange={(e) => {
-                        setFieldValue("placeOfDelivery", e.target.value);
+                        setFieldValue('placeOfDelivery', e.target.value);
                       }}
                       placeholder="Place of Delivery"
                     />
@@ -876,7 +872,7 @@ function CreateChaShipmentBooking() {
                           name="containerQty"
                           value={values?.containerQty}
                           onChange={(e) => {
-                            setFieldValue("containerQty", e.target.value);
+                            setFieldValue('containerQty', e.target.value);
                           }}
                           errors={errors}
                           touched={touched}
@@ -889,12 +885,12 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Currency"}
+                      label={'Currency'}
                       options={currencyList || []}
                       value={values?.currency}
                       name="currency"
                       onChange={(valueOption) => {
-                        setFieldValue("currency", valueOption || "");
+                        setFieldValue('currency', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -909,7 +905,7 @@ function CreateChaShipmentBooking() {
                       name="exchangeRate"
                       value={values?.exchangeRate}
                       onChange={(e) => {
-                        setFieldValue("exchangeRate", e.target.value);
+                        setFieldValue('exchangeRate', e.target.value);
                       }}
                     />
                   </div>
@@ -925,7 +921,7 @@ function CreateChaShipmentBooking() {
                       name="copyDocReceived"
                       value={values?.copyDocReceived}
                       onChange={(e) => {
-                        setFieldValue("copyDocReceived", e.target.value);
+                        setFieldValue('copyDocReceived', e.target.value);
                       }}
                     />
                   </div>
@@ -937,7 +933,7 @@ function CreateChaShipmentBooking() {
                       name="invoiceValue"
                       value={values?.invoiceValue}
                       onChange={(e) => {
-                        setFieldValue("invoiceValue", e.target.value);
+                        setFieldValue('invoiceValue', e.target.value);
                       }}
                     />
                   </div>
@@ -950,7 +946,7 @@ function CreateChaShipmentBooking() {
                       name="commercialInvoiceNo"
                       value={values?.commercialInvoiceNo}
                       onChange={(e) => {
-                        setFieldValue("commercialInvoiceNo", e.target.value);
+                        setFieldValue('commercialInvoiceNo', e.target.value);
                       }}
                     />
                   </div>
@@ -962,7 +958,7 @@ function CreateChaShipmentBooking() {
                       name="invoiceDate"
                       value={values?.invoiceDate}
                       onChange={(e) => {
-                        setFieldValue("invoiceDate", e.target.value);
+                        setFieldValue('invoiceDate', e.target.value);
                       }}
                     />
                   </div>
@@ -970,12 +966,12 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Origin Country"}
+                      label={'Origin Country'}
                       options={consigneeCountryList || []}
                       value={values?.originCountry}
                       name="originCountry"
                       onChange={(valueOption) => {
-                        setFieldValue("originCountry", valueOption || "");
+                        setFieldValue('originCountry', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -990,7 +986,7 @@ function CreateChaShipmentBooking() {
                       name="assessed"
                       value={values?.assessed}
                       onChange={(e) => {
-                        setFieldValue("assessed", e.target.value);
+                        setFieldValue('assessed', e.target.value);
                       }}
                     />
                   </div>
@@ -1002,7 +998,7 @@ function CreateChaShipmentBooking() {
                       name="assessedDate"
                       value={values?.assessedDate}
                       onChange={(e) => {
-                        setFieldValue("assessedDate", e.target.value);
+                        setFieldValue('assessedDate', e.target.value);
                       }}
                     />
                   </div>
@@ -1010,24 +1006,24 @@ function CreateChaShipmentBooking() {
                   {/* Exp */}
                   <div className="col-lg-3">
                     <InputField
-                      label={values?.impExpType === 2 ? "IP" : "EXP"}
+                      label={values?.impExpType === 2 ? 'IP' : 'EXP'}
                       type="text"
                       name="exp"
                       value={values?.exp}
                       onChange={(e) => {
-                        setFieldValue("exp", e.target.value);
+                        setFieldValue('exp', e.target.value);
                       }}
                     />
                   </div>
                   {/* Exp Date */}
                   <div className="col-lg-3">
                     <InputField
-                      label={values?.impExpType === 2 ? "IP Date" : "EXP Date"}
+                      label={values?.impExpType === 2 ? 'IP Date' : 'EXP Date'}
                       type="date"
                       name="expDate"
                       value={values?.expDate}
                       onChange={(e) => {
-                        setFieldValue("expDate", e.target.value);
+                        setFieldValue('expDate', e.target.value);
                       }}
                     />
                   </div>
@@ -1040,7 +1036,7 @@ function CreateChaShipmentBooking() {
                       name="remarks"
                       value={values?.remarks}
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                   </div>
@@ -1052,7 +1048,7 @@ function CreateChaShipmentBooking() {
                       name="quantity"
                       value={values?.quantity}
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                     />
                   </div>
@@ -1064,7 +1060,7 @@ function CreateChaShipmentBooking() {
                       name="billOfEntry"
                       value={values?.billOfEntry}
                       onChange={(e) => {
-                        setFieldValue("billOfEntry", e.target.value);
+                        setFieldValue('billOfEntry', e.target.value);
                       }}
                     />
                   </div>
@@ -1076,7 +1072,7 @@ function CreateChaShipmentBooking() {
                       name="billOfEntryDate"
                       value={values?.billOfEntryDate}
                       onChange={(e) => {
-                        setFieldValue("billOfEntryDate", e.target.value);
+                        setFieldValue('billOfEntryDate', e.target.value);
                       }}
                     />
                   </div>
@@ -1088,7 +1084,7 @@ function CreateChaShipmentBooking() {
                       name="dischargingVesselNo"
                       value={values?.dischargingVesselNo}
                       onChange={(e) => {
-                        setFieldValue("dischargingVesselNo", e.target.value);
+                        setFieldValue('dischargingVesselNo', e.target.value);
                       }}
                       placeholder="Name & Voy"
                     />
@@ -1101,7 +1097,7 @@ function CreateChaShipmentBooking() {
                       name="netWeight"
                       value={values?.netWeight}
                       onChange={(e) => {
-                        setFieldValue("netWeight", e.target.value);
+                        setFieldValue('netWeight', e.target.value);
                       }}
                     />
                   </div>
@@ -1113,7 +1109,7 @@ function CreateChaShipmentBooking() {
                       name="grossWeight"
                       value={values?.grossWeight}
                       onChange={(e) => {
-                        setFieldValue("grossWeight", e.target.value);
+                        setFieldValue('grossWeight', e.target.value);
                       }}
                     />
                   </div>
@@ -1124,7 +1120,7 @@ function CreateChaShipmentBooking() {
                       name="volumetricWeight"
                       value={values?.volumetricWeight}
                       onChange={(e) => {
-                        setFieldValue("volumetricWeight", e.target.value);
+                        setFieldValue('volumetricWeight', e.target.value);
                       }}
                     />
                   </div>
@@ -1137,7 +1133,7 @@ function CreateChaShipmentBooking() {
                       name="etaDate"
                       value={values?.etaDate}
                       onChange={(e) => {
-                        setFieldValue("etaDate", e.target.value);
+                        setFieldValue('etaDate', e.target.value);
                       }}
                     />
                   </div>
@@ -1149,7 +1145,7 @@ function CreateChaShipmentBooking() {
                       name="ataDate"
                       value={values?.ataDate}
                       onChange={(e) => {
-                        setFieldValue("ataDate", e.target.value);
+                        setFieldValue('ataDate', e.target.value);
                       }}
                     />
                   </div>
@@ -1161,7 +1157,7 @@ function CreateChaShipmentBooking() {
                       name="cbmWeight"
                       value={values?.cbmWeight}
                       onChange={(e) => {
-                        setFieldValue("cbmWeight", e.target.value);
+                        setFieldValue('cbmWeight', e.target.value);
                       }}
                     />
                   </div>

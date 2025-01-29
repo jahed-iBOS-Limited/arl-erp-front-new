@@ -1,10 +1,10 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from '../../../../App';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const validationSchema = Yup.object().shape({
-  consigneeName: Yup.string().required("Consignee Name is required"),
+  consigneeName: Yup.string().required('Consignee Name is required'),
 });
 
 export const getConsigneeList = async (
@@ -13,12 +13,12 @@ export const getConsigneeList = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerLandingPagingSearch?accountId=${accId}&businessUnitId=${buId}&PartnertypeId=2&ChannleId=0&status=true&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&approveType=1`
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerLandingPagingSearch?accountId=${accId}&businessUnitId=${buId}&PartnertypeId=2&ChannleId=0&status=true&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&approveType=1`,
     );
     // const res = await axios.get(
     //   `${imarineBaseUrl}/domain/LighterConsignee/LighterConsigneePagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -36,7 +36,7 @@ export const createConsignee = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterConsignee/CreateLighterConsignee`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();
@@ -52,14 +52,14 @@ export const saveEditedConsignee = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterConsignee/EditLighterConsignee`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "An error occurred while updating!"
+      error?.response?.data?.message || 'An error occurred while updating!',
     );
     setLoading(false);
   }
