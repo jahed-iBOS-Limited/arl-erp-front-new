@@ -14,6 +14,8 @@ import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IOU from "./IOU";
+import ServiceAndCharge from "./ServiceAndCharge";
 import ViewInfo from "./viewInfo";
 import ViewInvoice from "./ViewInvoice";
 
@@ -33,8 +35,7 @@ export default function ChaShipmentBooking() {
   ] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [viewModal, setViewModal] = useState(false);
-  const [openInvoice, setOpenInvoice] = useState(false);
+  const [openModalObject, setOpenModalObject] = useState({});
   const [clickRowDto, setClickRowDto] = useState({});
   let history = useHistory();
   const formikRef = React.useRef(null);
@@ -131,6 +132,20 @@ export default function ChaShipmentBooking() {
                         <th>Net Weight</th>
                         <th>Gross Weight</th>
                         <th>Volumetric Weight</th>
+                        <th
+                          style={{
+                            width: "140px",
+                          }}
+                        >
+                          Service & Charge
+                        </th>
+                        <th
+                          style={{
+                            width: "30px",
+                          }}
+                        >
+                          IOU
+                        </th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -159,6 +174,34 @@ export default function ChaShipmentBooking() {
                               <td>{item?.grossWeight}</td>
                               <td>{item?.volumetricWeight}</td>
                               <td>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setOpenModalObject({
+                                      ...openModalObject,
+                                      isOpenServiceCharge: true,
+                                    });
+                                    setClickRowDto(item);
+                                  }}
+                                >
+                                  Service & Charge
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setOpenModalObject({
+                                      ...openModalObject,
+                                      isOpenIOU: true,
+                                    });
+                                    setClickRowDto(item);
+                                  }}
+                                >
+                                  IOU
+                                </button>
+                              </td>
+                              <td>
                                 <div
                                   style={{
                                     display: "flex",
@@ -168,7 +211,10 @@ export default function ChaShipmentBooking() {
                                 >
                                   <span
                                     onClick={() => {
-                                      setViewModal(true);
+                                      setOpenModalObject({
+                                        ...openModalObject,
+                                        isView: true,
+                                      });
                                       setClickRowDto(item);
                                     }}
                                   >
@@ -176,7 +222,10 @@ export default function ChaShipmentBooking() {
                                   </span>
                                   <span
                                     onClick={() => {
-                                      setOpenInvoice(true);
+                                      setOpenModalObject({
+                                        ...openModalObject,
+                                        isOpenInvoice: true,
+                                      });
                                       setClickRowDto(item);
                                     }}
                                   >
@@ -216,27 +265,68 @@ export default function ChaShipmentBooking() {
                     }}
                   />
                 )}
-
-                {viewModal && (
+                {/* view details modal */}
+                {openModalObject?.isView && (
                   <IViewModal
-                    show={viewModal}
+                    show={openModalObject?.isView}
                     onHide={() => {
-                      setViewModal(false);
+                      setOpenModalObject({
+                        ...openModalObject,
+                        isView: false,
+                      });
+                      setClickRowDto({});
                     }}
                     title={"View Information"}
                   >
                     <ViewInfo clickRowDto={clickRowDto} />
                   </IViewModal>
                 )}
-                {openInvoice && (
+                {/* invoice */}
+                {openModalObject?.isOpenInvoice && (
                   <IViewModal
-                    show={openInvoice}
+                    show={openModalObject?.isOpenInvoice}
                     onHide={() => {
-                      setOpenInvoice(false);
+                      setOpenModalObject({
+                        ...openModalObject,
+                        isOpenInvoice: false,
+                      });
+                      setClickRowDto({});
                     }}
                     title={"View Invoice"}
                   >
                     <ViewInvoice clickRowDto={clickRowDto} />
+                  </IViewModal>
+                )}
+                {/* service & charge */}
+                {openModalObject?.isOpenServiceCharge && (
+                  <IViewModal
+                    show={openModalObject?.isOpenServiceCharge}
+                    onHide={() => {
+                      setOpenModalObject({
+                        ...openModalObject,
+                        isOpenServiceCharge: false,
+                      });
+                      setClickRowDto({});
+                    }}
+                    title={"Service & Charge"}
+                  >
+                    <ServiceAndCharge clickRowDto={clickRowDto} />
+                  </IViewModal>
+                )}
+                {/* IOU */}
+                {openModalObject?.isOpenIOU && (
+                  <IViewModal
+                    show={openModalObject?.isOpenIOU}
+                    onHide={() => {
+                      setOpenModalObject({
+                        ...openModalObject,
+                        isOpenIOU: false,
+                      });
+                      setClickRowDto({});
+                    }}
+                    title={"IOU"}
+                  >
+                    <IOU clickRowDto={clickRowDto} />
                   </IViewModal>
                 )}
               </div>

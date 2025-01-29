@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../App";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import logisticsLogo from "./logisticsLogo.png";
+import { imarineBaseUrl } from "../../../../../App";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
-export default function ViewInvoice({ clickRowDto }) {
+export default function IOU({ clickRowDto }) {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -80,8 +79,13 @@ export default function ViewInvoice({ clickRowDto }) {
       id: 12,
       name: "IGM Correction Misc. Exp.",
     },
+
     {
       id: 13,
+      name: "Agency Commission on Invoice Value",
+    },
+    {
+      id: 18,
       name: "Documents Handeling Charge",
     },
     {
@@ -173,7 +177,7 @@ export default function ViewInvoice({ clickRowDto }) {
                 <div>
                   <span>Booking Number: N/A</span> <br /> <br />
                   <img
-                    src={logisticsLogo}
+                    src={"/logisticsLogo.png"}
                     alt="Company Logo"
                     style={{ height: "50px" }}
                   />
@@ -219,7 +223,7 @@ export default function ViewInvoice({ clickRowDto }) {
           <tbody>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Bill To:
+                Indentor Name:
               </td>
               <td style={cellStyle}>Invoice No.: </td>
               <td colSpan="2" style={cellStyle}>
@@ -228,7 +232,7 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Name: {singleChaShipmentBooking?.customerName}
+                Cash Received By: {singleChaShipmentBooking?.customerName}
               </td>
               <td style={cellStyle}>Date:</td>
               <td colSpan="2" style={cellStyle}>
@@ -311,7 +315,8 @@ export default function ViewInvoice({ clickRowDto }) {
               <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
                 Description
               </th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>QTY</th>
+              <th style={{ ...cellStyle, textAlign: "center" }}>Qty/Unit</th>
+              <th style={{ ...cellStyle, textAlign: "center" }}>Rate</th>
               <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
             </tr>
             {item.map((item, index) => (
@@ -321,13 +326,8 @@ export default function ViewInvoice({ clickRowDto }) {
                   {item?.name}
                 </td>
                 <td style={cellStyle}></td>
-                <td
-                  style={{
-                    ...cellStyle,
-                    border: "none",
-                    borderRight: "1px solid #000",
-                  }}
-                ></td>
+                <td style={cellStyle}></td>
+                <td style={cellStyle}></td>
               </tr>
             ))}
             <tr>
@@ -341,19 +341,19 @@ export default function ViewInvoice({ clickRowDto }) {
               />
             </tr>
             <tr>
-              <td colSpan="4" style={totalStyle}>
+              <td colSpan="5" style={totalStyle}>
                 Sub Total:
               </td>
               <td style={cellStyle}>0</td>
             </tr>
             <tr>
-              <td colSpan="4" style={totalStyle}>
+              <td colSpan="5" style={totalStyle}>
                 Advance:
               </td>
               <td style={cellStyle}>0</td>
             </tr>
             <tr>
-              <td colSpan="4" style={totalStyle}>
+              <td colSpan="5" style={totalStyle}>
                 Total Due:
               </td>
               <td style={cellStyle}>0</td>
