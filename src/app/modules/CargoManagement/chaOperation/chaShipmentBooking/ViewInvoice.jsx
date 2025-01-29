@@ -170,11 +170,14 @@ export default function ViewInvoice({ clickRowDto }) {
                 </div>
               </td>
               <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
-                <img
-                  src={logisticsLogo}
-                  alt="Company Logo"
-                  style={{ height: "50px" }}
-                />
+                <div>
+                  <span>Booking Number: N/A</span> <br /> <br />
+                  <img
+                    src={logisticsLogo}
+                    alt="Company Logo"
+                    style={{ height: "50px" }}
+                  />
+                </div>
               </td>
             </tr>
             <tr>
@@ -196,9 +199,10 @@ export default function ViewInvoice({ clickRowDto }) {
                   fontWeight: "bold",
                   border: "1px solid #000",
                   padding: "5px 0",
+                  textTransform: "uppercase",
                 }}
               >
-                Tax Invoice
+                Invoice
               </td>
             </tr>
             <tr>
@@ -243,7 +247,7 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Place of Customs: {singleChaShipmentBooking?.portOfReceive}
+                Port of Delivery: {singleChaShipmentBooking?.portOfDelivery}
               </td>
               <td colSpan="3" style={cellStyle}>
                 Weight: {singleChaShipmentBooking?.grossWeight}
