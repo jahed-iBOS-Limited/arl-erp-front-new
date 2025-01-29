@@ -177,7 +177,7 @@ export default function LoanRegisterViewForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={renewId}
+                    isDisabled={renewId||location?.state?.isLoanApproved}
                     label="Facility"
                     placeholder="Facility"
                   />
@@ -192,7 +192,7 @@ export default function LoanRegisterViewForm({
                       setFieldValue("loanAccNo", e.target.value);
                     }}
                     type="string"
-                    disabled={renewId}
+                    disabled={renewId||location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -202,7 +202,7 @@ export default function LoanRegisterViewForm({
                     name="openingDate"
                     placeholder="Date"
                     type="date"
-                    disabled={renewId}
+                    disabled={renewId||location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -248,7 +248,7 @@ export default function LoanRegisterViewForm({
                     min="0"
                     step="any"
                     // disabled={isEdit}
-                    disabled={renewId}
+                    disabled={renewId||location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -284,6 +284,7 @@ export default function LoanRegisterViewForm({
                       touched={touched}
                       label="Disbursement Purpose"
                       placeholder="Disbursement Purpose"
+                      isDisabled={location?.state?.isLoanApproved}
                     />
                   </div>
                 )}

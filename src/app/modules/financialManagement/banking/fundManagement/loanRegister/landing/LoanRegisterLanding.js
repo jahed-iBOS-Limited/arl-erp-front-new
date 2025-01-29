@@ -906,8 +906,7 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() => {
                                         if (
-                                          item?.numPrinciple - item?.numPaid <
-                                          1
+                                          item?.numPrinciple - item?.numPaid <=0
                                         ) {
                                           toast.warn('You have already repaid');
                                           return;
@@ -962,7 +961,21 @@ const LoanRegisterLanding = () => {
                                           marginRight: '4px',
                                           cursor: 'pointer',
                                         }}
-                                        onClick={() => confirm(item, values)}
+                                        onClick={() => {
+                                          if(item?.numPrinciple === 0 && item?.intTenureDays>0){
+                                            toast.warn('Principal should be greater than 0')
+                                            return 
+                                          }else if(item?.numPrinciple > 0 && item?.intTenureDays===0){
+                                            toast.warn('Tenure Days should be greater than 0')
+                                            return 
+                                          }else if(item?.numPrinciple === 0 && item?.intTenureDays===0){
+                                            toast.warn('Principal & Tenure Days should be greater than 0')
+                                            return 
+                                          }else{
+                                            confirm(item, values)
+                                          }
+                                          
+                                        }}
                                       >
                                         Confirm
                                       </span>
@@ -979,7 +992,7 @@ const LoanRegisterLanding = () => {
                                         <i class="fas fa-print"></i>
                                       </ICon>
                                     </span>
-                                    {!item?.isLoanApproved ? (
+                                   
                                       <span
                                         onClick={() =>
                                           history.push({
@@ -990,7 +1003,7 @@ const LoanRegisterLanding = () => {
                                       >
                                         <IEdit />
                                       </span>
-                                    ) : null}
+                                  
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
