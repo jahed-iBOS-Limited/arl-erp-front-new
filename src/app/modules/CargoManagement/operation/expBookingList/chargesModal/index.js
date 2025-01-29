@@ -767,7 +767,15 @@ function ChargesModal({ rowClickData, CB }) {
                               item?.billRegisterId ||
                               item?.advancedBillRegisterId
                             }
-                            options={shipingCargoTypeDDL || []}
+                            options={[
+                              ...(shipingCargoTypeDDL ?? []).filter(
+                                (i) => i?.value !== 8,
+                              ),
+                              {
+                                label: `Others`,
+                                value: 0,
+                              },
+                            ]}
                             value={
                               item?.paymentPartyType
                                 ? {
