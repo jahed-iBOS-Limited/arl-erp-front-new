@@ -374,7 +374,7 @@ function ExpBookingList() {
                             minWidth: '165px',
                           }}
                         >
-                          Shipment Order Invoice
+                          Shipment Order
                         </th>
                         {['Air', 'Sea-Air'].includes(
                           values?.modeOfTransport?.label,
@@ -702,7 +702,7 @@ function ExpBookingList() {
                                         });
                                       }}
                                     >
-                                      Shipment Order Invoice
+                                      Shipment Order
                                     </button>
                                   </span>
                                 </td>
@@ -913,7 +913,7 @@ function ExpBookingList() {
                                 <td>
                                   <span>
                                     <button
-                                      disabled={!isCompletedMasterBl}
+                                      // disabled={!isCompletedMasterBl}
                                       className={
                                         item?.isCharges
                                           ? 'btn btn-sm btn-success px-1 py-1'
@@ -1718,7 +1718,7 @@ function ExpBookingList() {
                         isShipmentOrderInvoice: false,
                       });
                     }}
-                    title="Shipment Order Invoice"
+                    title="Shipment Order"
                   >
                     <ShipmentOrderInvoice rowClickData={rowClickData} />
                   </IViewModal>
