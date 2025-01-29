@@ -77,7 +77,11 @@ export default function PartialChallanTable({ obj }) {
                       )}
 
                       {/* These columns should appear correctly per row */}
-                      <td>{element?.itemName}</td>
+                      <td
+                        style={{
+                          textAlign: 'center'
+                        }}
+                      >{element?.itemName}</td>
                       <td className="text-right">{_fixedPoint(element?.itemPrice, true, 0)}</td>
                       <td className="text-right">{_fixedPoint(element?.quantity, true)}</td>
                       <td className="text-right">{_fixedPoint(element?.amount, true)}</td>
