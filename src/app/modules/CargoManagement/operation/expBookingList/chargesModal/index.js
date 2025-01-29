@@ -55,7 +55,7 @@ function ChargesModal({ rowClickData, CB }) {
     if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
-      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=1`,
       (resShippingHeadOfCharges) => {
         getBookedRequestBillingData(
           `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
