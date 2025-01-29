@@ -98,9 +98,9 @@ const validationSchema = Yup.object().shape({
   ),
   invoiceDate: Yup.string().required("Invoice Date is required"),
   exp: Yup.string().required("EXP is required"),
-  etaDate: Yup.string().required("ETA Date is required"),
+  // etaDate: Yup.string().required("ETA Date is required"),
   grossWeight: Yup.number().required("Gross Weight is required"),
-  ataDate: Yup.string().required("ATA Date is required"),
+  // ataDate: Yup.string().required("ATA Date is required"),
 });
 function CreateChaShipmentBooking() {
   const formikRef = React.useRef(null);
