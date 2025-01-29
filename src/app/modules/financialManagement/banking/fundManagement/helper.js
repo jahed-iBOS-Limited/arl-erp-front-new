@@ -298,8 +298,12 @@ export const createLoanRegister = async (
     );
 
     setDisabled(false);
-    if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+    if (res?.data?.statuscode === 200) {
+      toast.success(res?.data?.message || "Submitted successfully");
+      cb();
+    }
+    if (res?.data?.statuscode > 200) {
+      toast.warn(res?.data?.message || "Something went wrong");
       cb();
     }
   } catch (error) {

@@ -15,6 +15,8 @@ import NotPermitted from "../../performanceManagement/notPermittedPage/notPermit
 import ExportShipping from "./exportShipping";
 import ExportShipmentForm from "./exportShipping/Form/addEditForm";
 import LoadingSlip from "./loadingSlip";
+import ShipmentLoadDetailsLandingPage from "./shipmentLoadDetails";
+import ShipmentLoadDetailsCreateEditPage from "./shipmentLoadDetails/createEdit";
 
 export function ShipmentManagementPages() {
 
@@ -59,6 +61,27 @@ export function ShipmentManagementPages() {
         from="/transport-management/shipmentmanagement/exportshipping/add"
         component={ExportShipmentForm}
       />
+
+
+      {/* Shipment Load Details */}
+      <ContentRoute
+        from="/transport-management/shipmentmanagement/ShipmentLoadDetails/:type/:id"
+        component={ShipmentLoadDetailsCreateEditPage}
+      />
+
+
+      <ContentRoute
+        from="/transport-management/shipmentmanagement/ShipmentLoadDetails/create"
+        component={ShipmentLoadDetailsCreateEditPage}
+      />
+
+      <ContentRoute
+        from="/transport-management/shipmentmanagement/ShipmentLoadDetails"
+        component={ShipmentLoadDetailsLandingPage}
+      />
+
+
+
 
       <ContentRoute
         from="/transport-management/shipmentmanagement/exportshipping"
