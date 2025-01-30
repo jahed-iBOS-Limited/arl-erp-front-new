@@ -276,6 +276,7 @@ export default function FundTransferCreate({ viewType }) {
                                                                             const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
                                                                             const isBankToBank = item?.strTransferBy === "Bank To Bank";
                                                                             const isBankToCash = item?.strTransferBy === "Bank To Cash";
+                                                                            const isCashToBank = item?.strTransferBy === "Cash To Bank";
 
                                                                             // Helper function to generate selected form values
                                                                             const getSelectedFormValues = () => {
@@ -345,7 +346,7 @@ export default function FundTransferCreate({ viewType }) {
                                                                                     pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
                                                                                     state: baseState,
                                                                                 });
-                                                                            } else if (isBankToCash && isApproved && isTransferNotCreated) {
+                                                                            } else if (isCashToBank && isApproved && isTransferNotCreated) {
                                                                                 history.push({
                                                                                     pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
                                                                                     state: baseState,
