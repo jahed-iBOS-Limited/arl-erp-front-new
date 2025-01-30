@@ -1,8 +1,11 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
-// import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import "./style.css";
 
@@ -26,13 +29,36 @@ const charges = [
   { id: 17, description: "Additional" },
 ];
 const validationSchema = Yup.object().shape({});
-function ServiceAndCharge({ rowClickData, CB }) {
-  const formikRef = React.useRef(null);
-  // const { profileData } = useSelector(
-  //   (state) => state?.authData || {},
-  //   shallowEqual
-  // );
 
+function ServiceAndCharge({ clickRowDto, CB }) {
+  const formikRef = React.useRef(null);
+  const [
+    shippingHeadOfCharges,
+    getShippingHeadOfCharges,
+    shippingHeadOfChargesLoading,
+    setShippingHeadOfCharges,
+  ] = useAxiosGet();
+  const [
+    ,
+    getBookedRequestBillingData,
+    bookedRequestBillingDataLoading,
+    setBookedRequestBillingData,
+  ] = useAxiosGet();
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
+  React.useEffect(() => {
+    getShippingHeadOfCharges(
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=2`,
+      (resShippingHeadOfCharges) => {
+        getBookedRequestBillingData(
+          `${imarineBaseUrl}/domain/CHAShipment/GetChaServiceChargeData?ChabookingId=${clickRowDto?.chabookingId}`,
+          (resSveData) => {}
+        );
+      }
+    );
+  }, []);
   const saveHandler = (values, cb) => {
     console.log(values);
   };
@@ -252,7 +278,11 @@ function ServiceAndCharge({ rowClickData, CB }) {
                                 : ""
                             }
                             handleChange={(valueOption) => {}}
-                            loadOptions={(v) => {}}
+                            loadOptions={(v) => {
+                              let url = `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?search=${v}&accountId=1&businessUnitId=${selectedBusinessUnit?.value}`;
+                              if (v?.length < 2) return [];
+                              return axios.get(url).then((res) => res?.data);
+                            }}
                           />
                         </td>
                       </tr>
