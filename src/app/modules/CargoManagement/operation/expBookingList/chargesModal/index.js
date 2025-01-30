@@ -21,7 +21,7 @@ function ChargesModal({ rowClickData, CB }) {
     (state) => state?.authData || {},
     shallowEqual,
   );
-  // const bookingRequestId = rowClickData?.bookingRequestId;
+  const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
   const [
@@ -55,10 +55,11 @@ function ChargesModal({ rowClickData, CB }) {
     if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
-      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=1`,
       (resShippingHeadOfCharges) => {
+        // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
@@ -767,7 +768,15 @@ function ChargesModal({ rowClickData, CB }) {
                               item?.billRegisterId ||
                               item?.advancedBillRegisterId
                             }
-                            options={shipingCargoTypeDDL || []}
+                            options={[
+                              ...(shipingCargoTypeDDL ?? []).filter(
+                                (i) => i?.value !== 8,
+                              ),
+                              {
+                                label: `Others`,
+                                value: 0,
+                              },
+                            ]}
                             value={
                               item?.paymentPartyType
                                 ? {

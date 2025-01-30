@@ -1,7 +1,6 @@
 import CryptoJS from 'crypto-js';
 import { Formik } from 'formik';
 import moment from 'moment';
-import '../expBookingList/style.css';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -14,6 +13,7 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import BillGenerate from '../expBookingList/bill';
 import BLModal from '../expBookingList/blModal';
 import Details from '../expBookingList/bookingDetails';
 import ChargesModal from '../expBookingList/chargesModal';
@@ -29,11 +29,9 @@ import ManifestModal from '../expBookingList/manifestModal';
 import MasterHBAWModal from '../expBookingList/masterHAWBModal';
 import MasterHBLModal from '../expBookingList/masterHBLModal';
 import ReceiveModal from '../expBookingList/receiveModal';
-import TransportModal from '../expBookingList/transportModal';
-import BillGenerate from '../expBookingList/bill';
 import SeaAirMasterBL from '../expBookingList/SeaAirMasterBl';
-import AirPreAlert from '../expBookingList/airPreAlart';
-import ShipmentOrderInvoice from '../expBookingList/shipmentOrderInvoice';
+import '../expBookingList/style.css';
+import TransportModal from '../expBookingList/transportModal';
 const validationSchema = Yup.object().shape({});
 function ImpBookingList() {
   const { profileData } = useSelector(
@@ -367,24 +365,10 @@ function ImpBookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '165px',
-                          }}
-                        >
-                          Shipment Order Invoice
-                        </th>
-                        <th
-                          style={{
                             minWidth: '140px',
                           }}
                         >
                           Shipment Planning
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '95px',
-                          }}
-                        >
-                          Air Pre Alert
                         </th>
 
                         <th
@@ -593,27 +577,6 @@ function ImpBookingList() {
                                 <td>
                                   <span>
                                     <button
-                                      disabled={!item?.isConfirm}
-                                      className={
-                                        item?.isConfirm
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isShipmentOrderInvoice: true,
-                                        });
-                                      }}
-                                    >
-                                      Shipment Order Invoice
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
                                       disabled={
                                         item?.isPlaning || !item?.isConfirm
                                       }
@@ -631,27 +594,6 @@ function ImpBookingList() {
                                       }}
                                     >
                                       Shipment Planning
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={!item?.isPlaning}
-                                      className={
-                                        item?.isPlaning
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isAirPreAlert: true,
-                                        });
-                                      }}
-                                    >
-                                      Air Pre Alert
                                     </button>
                                   </span>
                                 </td>
@@ -1299,44 +1241,6 @@ function ImpBookingList() {
                     title="Booking Details"
                   >
                     <Details rowClickData={rowClickData} />
-                  </IViewModal>
-                </>
-              )}
-
-              {/* AirPreAlert */}
-              {isModalShowObj?.isAirPreAlert && (
-                <>
-                  {' '}
-                  <IViewModal
-                    show={isModalShowObj?.isAirPreAlert}
-                    onHide={() => {
-                      setIsModalShowObj({
-                        ...isModalShowObj,
-                        isAirPreAlert: false,
-                      });
-                    }}
-                    title="Air Pre Alert"
-                  >
-                    <AirPreAlert rowClickData={rowClickData} />
-                  </IViewModal>
-                </>
-              )}
-
-              {/* ShipmentOrderInvoice */}
-              {isModalShowObj?.isShipmentOrderInvoice && (
-                <>
-                  {' '}
-                  <IViewModal
-                    show={isModalShowObj?.isShipmentOrderInvoice}
-                    onHide={() => {
-                      setIsModalShowObj({
-                        ...isModalShowObj,
-                        isShipmentOrderInvoice: false,
-                      });
-                    }}
-                    title="Shipment Order Invoice"
-                  >
-                    <ShipmentOrderInvoice rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}

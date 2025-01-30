@@ -31,11 +31,9 @@ function DamageEntryForm() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const commonGridFunc = (values) => {
-    const urlTwo = `/oms/SalesReturnAndCancelProcess/GetDeliveryDataForSalesReturnPartial?accountId=${accId}&businessUnitId=${buId}&channelId=${
-      values?.channel?.value
-    }&businessPartnerId=${values?.customer?.value || 0}&FromDate=${
-      values?.fromDate
-    }&ToDate=${values?.toDate}`;
+    const urlTwo = `/oms/SalesReturnAndCancelProcess/GetDeliveryDataForSalesReturnPartial?accountId=${accId}&businessUnitId=${buId}&channelId=${values?.channel?.value
+      }&businessPartnerId=${values?.customer?.value || 0}&FromDate=${values?.fromDate
+      }&ToDate=${values?.toDate}`;
 
     getSalesReturnPreData(urlTwo, setLoading, (resData) => {
       const modifyData = resData?.data?.map((item) => ({
@@ -73,14 +71,13 @@ function DamageEntryForm() {
       toast.warn("Please select at least one item");
       return;
     }
-
     const qtyCheck = selectedItems?.filter((header) => {
       return header?.rowData?.find(
         (row) =>
           row?.returnQty > row?.quantity ||
           row?.returnQty >
-            // row?.quantity * (2 / 100) fixed to two decimal
-            _fixedPoint(row?.quantity * (2 / 100), false)
+          // row?.quantity * (2 / 100) fixed to two decimal
+          _fixedPoint(row?.quantity * (2 / 100), false)
       );
     });
 
@@ -114,14 +111,33 @@ function DamageEntryForm() {
           salesReturnType: 2,
           actionBy: userId,
         },
-        row: header?.rowData?.map((row) => {
+        // row: header?.rowData?.map((row) => {
+        //   console.log("row?.returnQty", row?.returnQty)
+        //   return {
+        //     referenceId: 0,
+        //     referenceCode: "string",
+        //     itemId: row?.itemId,
+        //     itemName: row?.itemName,
+        //     uoMId: 0,
+        //     uoMName: "string",
+        //     issueQty: 0,
+        //     returnQty: row?.returnQty || 0,
+        //     basePrice: row?.itemPrice,
+        //     returnPercentage: _fixedPoint(
+        //       (row?.returnQty / row?.quantity) * 100,
+        //       false
+        //     ),
+        //   };
+        // }),
+        //! filter if not returnQty
+        row: header?.rowData?.filter((row) => row?.returnQty).map((row) => {
           return {
             referenceId: 0,
-            referenceCode: "string",
+            referenceCode: "",
             itemId: row?.itemId,
             itemName: row?.itemName,
             uoMId: 0,
-            uoMName: "string",
+            uoMName: "",
             issueQty: 0,
             returnQty: row?.returnQty,
             basePrice: row?.itemPrice,
@@ -131,7 +147,6 @@ function DamageEntryForm() {
             ),
           };
         }),
-
         img: {
           attatchment: uploadedImage[0]?.id || "",
         },
