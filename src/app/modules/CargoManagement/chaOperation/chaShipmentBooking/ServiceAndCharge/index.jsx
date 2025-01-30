@@ -104,14 +104,10 @@ function ServiceAndCharge({ clickRowDto, CB }) {
           createdAt: new Date(),
           serviceChargeDate: new Date(),
           // item?.serviceChargeId then updateBy
-          // ...(item?.serviceChargeId && {
-          //   updatedAt: new Date(),
-          //   updatedBy: profileData?.userId || 0,
-          // }),
-          // updatedAt: item?.serviceChargeId ? new Date() : null,
-          // updatedBy: item?.serviceChargeId ? profileData?.userId : null,
-          // updatedAt: new Date(),
-          //  updatedBy: profileData?.userId || 0,
+          ...(item?.serviceChargeId && {
+            updatedAt: new Date(),
+            updatedBy: profileData?.userId || 0,
+          }),
         };
       });
 
