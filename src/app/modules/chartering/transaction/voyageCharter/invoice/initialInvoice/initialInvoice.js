@@ -4,15 +4,16 @@ import ReactToPrint from "react-to-print";
 import { ToWords } from "to-words";
 import { getOwnerBankInfoDetailsByStakeHolderId } from "../../../../helper";
 // import akijShippingLogo from "../../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
+import { shallowEqual, useSelector } from "react-redux";
+import { getLetterHead } from "../../../../../financialManagement/report/bankLetter/helper";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
 import {
   _formatMoneyWithDoller,
   _formatMoneyWithDollerZero,
 } from "../../../../_chartinghelper/_formatMoney";
+import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import { BankInfoComponent } from "../BankInfoComponent";
 import "../style.css";
-import letterhead from "../../../assets/images/shipping_line_pte_letterhead.jpeg";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -70,6 +71,7 @@ export const totalNetPayableInitialInvoice = (rowData) => {
 function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
   const [bankInfoData, setBankInfoData] = useState();
   const { values, errors, touched, setFieldValue } = formikprops;
+  const {selectedBusinessUnit}=useSelector(state=>state?.authData,shallowEqual)
 
   /* For View Only */
   const viewType = invoiceHireData?.freightInvoiceId;
@@ -160,7 +162,9 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
         ref={printRef}
         className="p-4 voyageChartererInvoice"
         style={{
-          backgroundImage: `url(${letterhead})`,
+          backgroundImage: `url(${getLetterHead({
+                          buId: selectedBusinessUnit?.value,
+                        })})`,
           backgroundRepeat: "no-repeat",
           // backgroundPosition: "center",
           backgroundPosition: "50% 50%",
