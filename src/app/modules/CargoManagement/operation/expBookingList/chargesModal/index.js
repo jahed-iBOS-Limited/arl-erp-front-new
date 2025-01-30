@@ -406,7 +406,7 @@ function ChargesModal({ rowClickData, CB }) {
                     <th colspan="4" className="group-header collection-header">
                       Collection <span>(Amounts & Party)</span>
                     </th>
-                    <th colspan="6" className="group-header payment-header">
+                    <th colspan="5" className="group-header payment-header">
                       Payment <span>(Amounts & Party)</span>
                     </th>
                     <th rowspan="2">Action</th>
@@ -744,7 +744,8 @@ function ChargesModal({ rowClickData, CB }) {
                             disabled={
                               isDisabled ||
                               item?.invoiceId ||
-                              !item?.collectionParty
+                              !item?.collectionParty ||
+                              item?.isCommonPaymentCombind
                             }
                             value={item?.collectionDummyAmount}
                             name="collectionDummyAmount"
@@ -804,7 +805,8 @@ function ChargesModal({ rowClickData, CB }) {
                               isDisabled ||
                               !item?.paymentPartyType ||
                               item?.billRegisterId ||
-                              item?.advancedBillRegisterId
+                              item?.advancedBillRegisterId ||
+                              item?.isCommonPaymentCombind
                             }
                             selectedValue={
                               item?.paymentParty
@@ -1012,9 +1014,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <button
-                              disabled={
-                                isDisabled || item?.isCommonPaymentCombind
-                              }
+                              disabled={isDisabled}
                               type="button"
                               className="btn btn-primary"
                               onClick={() => {
