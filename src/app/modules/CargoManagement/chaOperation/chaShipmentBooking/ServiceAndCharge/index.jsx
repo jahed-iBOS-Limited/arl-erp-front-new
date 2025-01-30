@@ -2,32 +2,16 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import "./style.css";
 
-const charges = [
-  { id: 1, description: "Customs Duty (bfusnugnsfbgysdf)" },
-  { id: 2, description: "Freight Forwarder NOC Fee" },
-  { id: 3, description: "Shipping Charge" },
-  { id: 4, description: "Port Charge" },
-  { id: 5, description: "C&F Association Fee" },
-  { id: 6, description: "B/L verify" },
-  { id: 7, description: "BSTI Charge" },
-  { id: 8, description: "Examin Leabur Charge" },
-  { id: 9, description: "Delivery Leabur Charge" },
-  { id: 10, description: "Special Delivery Charge" },
-  { id: 11, description: "IGM Correction Misc. Exp." },
-  { id: 12, description: "Documents Handeling Charge" },
-  { id: 13, description: "Agency Commission on Invoice Value" },
-  { id: 14, description: "Transport Charge" },
-  { id: 15, description: "Transport Leabour Charge for (Loading/ Unloading)" },
-  { id: 16, description: "Misc Exp. For Documentation/ Shipment Error" },
-  { id: 17, description: "Additional" },
-];
 const validationSchema = Yup.object().shape({});
 
 function ServiceAndCharge({ clickRowDto, CB }) {
@@ -42,8 +26,9 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     ,
     getBookedRequestBillingData,
     bookedRequestBillingDataLoading,
-    setBookedRequestBillingData,
   ] = useAxiosGet();
+  const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
+
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -54,18 +39,120 @@ function ServiceAndCharge({ clickRowDto, CB }) {
       (resShippingHeadOfCharges) => {
         getBookedRequestBillingData(
           `${imarineBaseUrl}/domain/CHAShipment/GetChaServiceChargeData?ChabookingId=${clickRowDto?.chabookingId}`,
-          (resSveData) => {}
+          (resSveData) => {
+            const arryList = [];
+            if (resShippingHeadOfCharges?.length > 0) {
+              resShippingHeadOfCharges.forEach((item) => {
+                const saveHeadOfChargeList =
+                  resSveData?.filter(
+                    (findItem) => findItem?.headOfChargeId === item?.value
+                  ) || [];
+
+                if (saveHeadOfChargeList?.length > 0) {
+                  saveHeadOfChargeList.forEach((saveItem) => {
+                    const obj = {
+                      ...item,
+                      ...saveItem,
+                      collectionRate: saveItem?.collectionRate || "",
+                      collectionQty: saveItem?.collectionQty || "",
+                      collectionAmount: saveItem?.collectionAmount || "",
+                      paymentRate: saveItem?.paymentRate || "",
+                      paymentQty: saveItem?.paymentQty || "",
+                      paymentAmount: saveItem?.paymentAmount || "",
+                      party: saveItem?.partyName || "",
+                      partyId: saveItem?.partyId || 0,
+                      checked: saveItem ? true : false,
+                    };
+                    arryList.push(obj);
+                  });
+                } else {
+                  const obj = {
+                    ...item,
+                    headOfCharges: item?.label || "",
+                    headOfChargeId: item?.value || 0,
+                  };
+                  arryList.push(obj);
+                }
+              });
+              setShippingHeadOfCharges([...arryList]);
+            }
+          }
         );
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const saveHandler = (values, cb) => {
-    console.log(values);
+    const payloadList = shippingHeadOfCharges
+      ?.filter((item) => item?.checked)
+      .map((item) => {
+        return {
+          serviceChargeId: item?.serviceChargeId || 0,
+          bookingId: clickRowDto?.chabookingId || 0,
+          headOfChargeId: item?.headOfChargeId || 0,
+          headOfCharges: item?.headOfCharges || "",
+          collectionRate: item?.collectionRate || 0,
+          collectionQty: item?.collectionQty || 0,
+          collectionAmount: item?.collectionAmount || 0,
+          paymentRate: item?.paymentRate || 0,
+          paymentQty: item?.paymentQty || 0,
+          paymentAmount: item?.paymentAmount || 0,
+          partyId: item?.partyId || 0,
+          partyName: item?.party || "",
+          isActive: true,
+          createdBy: profileData?.userId || 0,
+          createdAt: new Date(),
+          // item?.serviceChargeId then updateBy
+          ...(item?.serviceChargeId && {
+            updatedAt: new Date(),
+            updatedBy: profileData?.userId || 0,
+          }),
+          // updatedAt: item?.serviceChargeId ? new Date() : null,
+          // updatedBy: item?.serviceChargeId ? profileData?.userId : null,
+        };
+      });
+
+    // ----------end verify -------------
+    if (payloadList.length === 0) {
+      return toast.warn("Please select at least one charge");
+    }
+    const validateAttributes = (payloadList, attributeLabels) => {
+      for (const [attr, label] of Object.entries(attributeLabels)) {
+        const emptyItem = payloadList?.find((item) => !item[attr]);
+        if (emptyItem) {
+          toast.warn(
+            `Please enter ${label} for "${emptyItem?.headOfCharges}" Attribute`
+          );
+          return false;
+        }
+      }
+      return true;
+    };
+    // all attributes to check
+    const attributesToCheck = {
+      collectionRate: "Collection Rate",
+      collectionQty: "Collection Qty",
+      collectionAmount: "Collection Amount",
+      paymentRate: "Payment Rate",
+      paymentQty: "Payment Qty",
+      paymentAmount: "Payment Amount",
+      partyName: "Party",
+    };
+    if (!validateAttributes(payloadList, attributesToCheck)) return;
+    // ----------end verify -------------
+
+    getSaveBookedRequestBilling(
+      `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaServiceAndCharge`,
+      payloadList,
+      CB
+    );
   };
 
   return (
     <div className="chargesModal">
-      {/* {isLoading && <Loading />} */}
+      {(bookedRequestBilling ||
+        shippingHeadOfChargesLoading ||
+        bookedRequestBillingDataLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -174,19 +261,56 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {charges?.map((item, index) => {
+                  {shippingHeadOfCharges?.map((item, index) => {
+                    const isDisabled = !item?.checked || item?.serviceChargeId;
                     return (
                       <tr key={index}>
                         <td>
                           <input
-                            // disabled={item?.billingId}
+                            disabled={item?.serviceChargeId}
                             type="checkbox"
                             checked={item?.checked}
-                            onChange={(e) => {}}
+                            onChange={(e) => {
+                              setShippingHeadOfCharges(
+                                shippingHeadOfCharges?.map((data) => {
+                                  if (data?.value === item?.value) {
+                                    return {
+                                      ...data,
+                                      checked: e?.target?.checked,
+                                      collectionRate: e?.target?.checked
+                                        ? item?.collectionRate
+                                        : "",
+                                      collectionQty: e?.target?.checked
+                                        ? item?.collectionQty
+                                        : "",
+                                      collectionAmount: e?.target?.checked
+                                        ? item?.collectionAmount
+                                        : "",
+                                      paymentRate: e?.target?.checked
+                                        ? item?.paymentRate
+                                        : "",
+                                      paymentQty: e?.target?.checked
+                                        ? item?.paymentQty
+                                        : "",
+                                      paymentAmount: e?.target?.checked
+                                        ? item?.paymentAmount
+                                        : "",
+                                      party: e?.target?.checked
+                                        ? item?.party
+                                        : "",
+                                      partyId: e?.target?.checked
+                                        ? item?.partyId
+                                        : 0,
+                                    };
+                                  }
+                                  return data;
+                                })
+                              );
+                            }}
                           />
                         </td>
                         <td>{index + 1}</td>
-                        <td>{item?.description}</td>
+                        <td>{item?.headOfCharges}</td>
 
                         {/* Collection Rate */}
                         <td className="collection-border-right">
@@ -195,10 +319,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionRate}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("collectionRate", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].collectionRate = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Collection QTY */}
@@ -208,10 +335,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionQty}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("collectionQty", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].collectionQty = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Collection Amount */}
@@ -221,10 +351,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionAmount}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("collectionAmount", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].collectionAmount = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Payment Rate */}
@@ -234,10 +367,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentRate}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("paymentRate", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentRate = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Payment QTY */}
@@ -247,10 +383,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentQty}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("paymentQty", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentQty = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Payment Amount */}
@@ -260,15 +399,19 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentAmount}
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("paymentAmount", e.target.value);
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentAmount = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                             min={0}
                             step="any"
+                            disabled={isDisabled}
                           />
                         </td>
                         {/* Party */}
                         <td className="payment-border-right">
                           <SearchAsyncSelect
+                            isDisabled={isDisabled}
                             selectedValue={
                               item?.party
                                 ? {
@@ -277,7 +420,12 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                                   }
                                 : ""
                             }
-                            handleChange={(valueOption) => {}}
+                            handleChange={(valueOption) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].party = valueOption?.label;
+                              copyPrv[index].partyId = valueOption?.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
                             loadOptions={(v) => {
                               let url = `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?search=${v}&accountId=1&businessUnitId=${selectedBusinessUnit?.value}`;
                               if (v?.length < 2) return [];
