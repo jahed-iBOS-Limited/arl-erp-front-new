@@ -310,7 +310,17 @@ export default function ChaShipmentBooking() {
                     }}
                     title={"Service & Charge"}
                   >
-                    <ServiceAndCharge clickRowDto={clickRowDto} />
+                    <ServiceAndCharge
+                      clickRowDto={clickRowDto}
+                      CB={() => {
+                        commonGetData("", pageNo, pageSize, values);
+                        setOpenModalObject({
+                          ...openModalObject,
+                          isOpenServiceCharge: false,
+                        });
+                        setClickRowDto({});
+                      }}
+                    />
                   </IViewModal>
                 )}
                 {/* IOU */}
