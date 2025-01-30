@@ -268,6 +268,10 @@ export default function _Form({
     (i) => i.value === headerData?.pgiShippoint?.value
   )?.isGateMaintain;
 
+  // need card input of shippoint of ready mix
+  // 120 - Dhour Ready Mix
+  const needCardInputShippointReadyMix = [120];
+
   useEffect(() => {
     if (vehicleDDL?.length > 0 && document.getElementById("cardNoInput")) {
       document.getElementById("cardNoInput").focus();
@@ -513,7 +517,11 @@ export default function _Form({
                           ) : itm?.type === "cardInput" ? (
                             isGateMaintain && (
                               <>
-                                {isGateMaintain && buId === 175 ? (
+                                {isGateMaintain &&
+                                buId === 175 &&
+                                !needCardInputShippointReadyMix.includes(
+                                  headerData?.pgiShippoint?.value // current shippoint value
+                                ) ? (
                                   <></>
                                 ) : (
                                   <>
