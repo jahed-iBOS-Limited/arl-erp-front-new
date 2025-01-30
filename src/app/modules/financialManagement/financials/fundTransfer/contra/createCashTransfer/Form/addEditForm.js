@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
 import  "./style.css";
@@ -42,7 +42,9 @@ export default function CashJournaFormContra({
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  // const { state: intRequestToUnitId } = useLocation();
+  const location = useLocation();
+  let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
+  let { intRequestToUnitId } = transferRowItem || {}// For Bank Transfer Only
   const headerData = {
     accountingJournalTypeId : 3 // Hard coded for Cash Transfer
   }
@@ -73,7 +75,10 @@ export default function CashJournaFormContra({
       buttons: [
         {
           label: "Ok",
-          onClick: () => noAlertFunc(),
+          onClick: () =>  () => {
+            history.goBack();
+            noAlertFunc()
+          },
         },
       ],
     });
@@ -263,6 +268,7 @@ export default function CashJournaFormContra({
         netAmount={netAmount}
         attachmentFile = {attachmentFile}
         setAttachmentFile = {setAttachmentFile}
+        transferRowItem={transferRowItem}
       />
     </IForm>
   );
