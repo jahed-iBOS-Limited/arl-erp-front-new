@@ -21,7 +21,7 @@ function ChargesModal({ rowClickData, CB }) {
     (state) => state?.authData || {},
     shallowEqual,
   );
-  // const bookingRequestId = rowClickData?.bookingRequestId;
+  const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
   const [
@@ -57,8 +57,9 @@ function ChargesModal({ rowClickData, CB }) {
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=1`,
       (resShippingHeadOfCharges) => {
+        // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
