@@ -9,6 +9,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { common } from "@material-ui/core/colors";
 const validationSchema = Yup.object().shape({});
 export default function IOU({ clickRowDto, CB }) {
   const formikRef = React.useRef(null);
@@ -66,62 +67,65 @@ export default function IOU({ clickRowDto, CB }) {
       getSingleChaShipmentBooking(
         `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
       );
-      getShippingHeadOfCharges(
-        `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=2`,
-        (resShippingHeadOfCharges) => {
-          getSavedIOUData(
-            `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
-            (resSveData) => {
-              const arryList = [];
-
-              if (resShippingHeadOfCharges?.length > 0) {
-                resShippingHeadOfCharges.forEach((item) => {
-                  // parse data to array
-                  const safeParseData = (data) => {
-                    try {
-                      const parsed = JSON.parse(data);
-                      return Array.isArray(parsed) ? parsed : [];
-                    } catch {
-                      return [];
-                    }
-                  };
-                  const parseData = safeParseData(
-                    resSveData?.chaIouInvoice || []
-                  );
-
-                  const saveHeadOfChargeList =
-                    parseData?.filter(
-                      (findItem) => findItem?.headOfChargeId === item?.value
-                    ) || [];
-
-                  if (saveHeadOfChargeList?.length > 0) {
-                    saveHeadOfChargeList.forEach((saveItem) => {
-                      const obj = {
-                        ...item,
-                        ...saveItem,
-                        quantity: saveItem?.quantity || 0,
-                        rate: saveItem?.rate || 0,
-                      };
-                      arryList.push(obj);
-                    });
-                  } else {
-                    const obj = {
-                      ...item,
-                      headOfCharges: item?.label || "",
-                      headOfChargeId: item?.value || 0,
-                    };
-                    arryList.push(obj);
-                  }
-                });
-                setShippingHeadOfCharges([...arryList]);
-              }
-            }
-          );
-        }
-      );
+      commonGetShippingHeadOfCharges();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowDto]);
+  const commonGetShippingHeadOfCharges = () => {
+    getShippingHeadOfCharges(
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=2`,
+      (resShippingHeadOfCharges) => {
+        getSavedIOUData(
+          `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
+          (resSveData) => {
+            const arryList = [];
+
+            if (resShippingHeadOfCharges?.length > 0) {
+              resShippingHeadOfCharges.forEach((item) => {
+                // parse data to array
+                const safeParseData = (data) => {
+                  try {
+                    const parsed = JSON.parse(data);
+                    return Array.isArray(parsed) ? parsed : [];
+                  } catch {
+                    return [];
+                  }
+                };
+                const parseData = safeParseData(
+                  resSveData?.chaIouInvoice || []
+                );
+
+                const saveHeadOfChargeList =
+                  parseData?.filter(
+                    (findItem) => findItem?.headOfChargeId === item?.value
+                  ) || [];
+
+                if (saveHeadOfChargeList?.length > 0) {
+                  saveHeadOfChargeList.forEach((saveItem) => {
+                    const obj = {
+                      ...item,
+                      ...saveItem,
+                      quantity: saveItem?.quantity || 0,
+                      rate: saveItem?.rate || 0,
+                    };
+                    arryList.push(obj);
+                  });
+                } else {
+                  const obj = {
+                    ...item,
+                    headOfCharges: item?.label || "",
+                    headOfChargeId: item?.value || 0,
+                  };
+                  arryList.push(obj);
+                }
+              });
+              setShippingHeadOfCharges([...arryList]);
+            }
+          }
+        );
+      }
+    );
+  };
 
   if (singleChaShipmentBookingLoading) {
     return <Loading />;
@@ -208,6 +212,7 @@ export default function IOU({ clickRowDto, CB }) {
                   onClick={() => {
                     resetForm();
                     setIsEditModeOn(false);
+                    commonGetShippingHeadOfCharges();
                   }}
                 >
                   <i
