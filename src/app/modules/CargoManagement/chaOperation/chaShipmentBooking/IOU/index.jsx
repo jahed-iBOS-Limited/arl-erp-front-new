@@ -175,7 +175,10 @@ export default function IOU({ clickRowDto }) {
               </td>
               <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
                 <div>
-                  <span>Booking Number: N/A</span> <br /> <br />
+                  <span>
+                    Booking Number: {singleChaShipmentBooking?.chabookingCode}
+                  </span>{" "}
+                  <br /> <br />
                   <img
                     src={"/logisticsLogo.png"}
                     alt="Company Logo"

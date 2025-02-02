@@ -1,35 +1,47 @@
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import { default as Axios, default as axios } from "axios";
-import React, { useEffect, useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { toast } from "react-toastify";
-import FormContainer from "../_metronic/_partials/dashboards/formContainer";
-import { Layout } from "../_metronic/layout";
-import BasePage from "./BasePage";
-import { publicRouteList } from "./PublicRoutes";
-import TokenExpiredPopUp from "./TokenExpiredPopUp";
-import { Logout } from "./modules/Auth";
-import * as requestFromServer from "./modules/Auth/_redux/Auth_Api";
-import { authSlice } from "./modules/Auth/_redux/Auth_Slice";
-import { LoginPage2 } from "./modules/Auth/pages/loginPage2/AuthPage";
-import { getCookie } from "./modules/_helper/_cookie";
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import { default as Axios, default as axios } from 'axios';
+import React, { lazy, useState, useEffect } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import FormContainer from '../_metronic/_partials/dashboards/formContainer';
+import { Layout } from '../_metronic/layout';
+import BasePage from './BasePage';
+import { publicRouteList } from './PublicRoutes';
+import TokenExpiredPopUp from './TokenExpiredPopUp';
+import { Logout } from './modules/Auth';
+import * as requestFromServer from './modules/Auth/_redux/Auth_Api';
+import { authSlice } from './modules/Auth/_redux/Auth_Slice';
+import { LoginPage2 } from './modules/Auth/pages/loginPage2/AuthPage';
+import { getCookie } from './modules/_helper/_cookie';
 import {
   getOID_Action,
   getShippointDDLCommon_action,
-} from "./modules/_helper/_redux/Actions";
+} from './modules/_helper/_redux/Actions';
 import {
   setNotifyCountAction,
   setSignalRConnectionAction,
-} from "./modules/_helper/chattingAppRedux/Action";
-import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
-import DepartmentalBalancedScorecard from "./modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard";
-import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
-import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
-import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
-import Maintenance from "./pages/Maintenance";
-// import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
+} from './modules/_helper/chattingAppRedux/Action';
+import { serviceWorkerPoppup } from './modules/_helper/serviceWorkerPoppup';
+import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
+
+const DepartmentalBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard'
+  ),
+);
+const KPIScoreCardNew = lazy(() =>
+  import(
+    './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew'
+  ),
+);
+const SBUBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard'
+  ),
+);
+const Maintenance = lazy(() => import('./pages/Maintenance'));
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
@@ -44,26 +56,26 @@ export function Routes() {
 
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual
+    shallowEqual,
   );
   const { profileData, selectedBusinessUnit, isExpiredPassword } = useSelector(
     (state) => {
       return state.authData;
     },
-    shallowEqual
+    shallowEqual,
   );
   const connection = useSelector(
     (state) => state?.chattingApp?.signalRConnection,
-    shallowEqual
+    shallowEqual,
   );
 
   const notifyCount = useSelector(
     (state) => state?.chattingApp?.notifyCount,
-    shallowEqual
+    shallowEqual,
   );
 
   const { actions } = authSlice;
-  Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   serviceWorkerPoppup();
   const dispatch = useDispatch();
@@ -74,8 +86,8 @@ export function Routes() {
         getShippointDDLCommon_action(
           profileData?.userId,
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
       dispatch(getOID_Action(profileData?.employeeId));
     }
@@ -84,16 +96,16 @@ export function Routes() {
 
   // ======for peopleDesk user=====
   useEffect(() => {
-    const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
-    let info = JSON.parse(loginInfoPeopleDesk || "{}");
+    const loginInfoPeopleDesk = getCookie('loginInfoPeopleDesk');
+    let info = JSON.parse(loginInfoPeopleDesk || '{}');
 
     // invalid user check for peopleDesk
     if (info?.isAuth && info?.email && profileData?.emailAddress) {
       if (profileData?.emailAddress !== info?.email) {
-        if (window.location.origin === "https://erp.peopledesk.io") {
-          toast.error("Invalid User");
+        if (window.location.origin === 'https://erp.peopledesk.io') {
+          toast.error('Invalid User');
           dispatch(actions.LogOut());
-          window.location.href = "https://arl.peopledesk.io";
+          window.location.href = 'https://arl.peopledesk.io';
         }
       }
     }
@@ -105,16 +117,16 @@ export function Routes() {
           tokenData: {
             token: info?.tokenData,
           },
-        })
+        }),
       );
       Axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${info?.tokenData}`;
       requestFromServer
         .profileAPiCall(info?.email)
         .then((res) => {
           dispatch(actions.ProfileFetched(res));
-          dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ""));
+          dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ''));
           connectionHub(info?.peopledeskApiURL);
           const data = res?.data?.[0];
           if (data?.accountId && data?.userId) {
@@ -123,7 +135,7 @@ export function Routes() {
               .then((res) => {
                 const findBu = res?.data?.find(
                   (item) =>
-                    item?.organizationUnitReffId === info?.peopleDeskBuId
+                    item?.organizationUnitReffId === info?.peopleDeskBuId,
                 );
                 if (findBu) {
                   if (
@@ -138,7 +150,7 @@ export function Routes() {
                         address: findBu?.businessUnitAddress,
                         imageId: findBu?.image,
                         isReload: true,
-                      })
+                      }),
                     );
                   }
                 }
@@ -155,9 +167,9 @@ export function Routes() {
     }
     // if is not auth then redirect to peopledesk login page
     if (!info?.isAuth) {
-      if (window.location.origin === "https://erp.peopledesk.io") {
+      if (window.location.origin === 'https://erp.peopledesk.io') {
         dispatch(actions.LogOut());
-        window.location.href = "https://arl.peopledesk.io";
+        window.location.href = 'https://arl.peopledesk.io';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,17 +192,17 @@ export function Routes() {
 
   // ===============Notification ===============
   const employeeId = profileData?.employeeId;
-  const signalR_KEY = "iBOS__" + window.location.origin;
+  const signalR_KEY = 'iBOS__' + window.location.origin;
   const orgId = profileData?.accountId;
 
-  const notify_KEY = signalR_KEY + "__notify_" + orgId + "_" + employeeId;
+  const notify_KEY = signalR_KEY + '__notify_' + orgId + '_' + employeeId;
   const connectionHub = async (peopledeskApiURL) => {
     const notifyRes = await axios.get(
-      `${peopledeskApiURL}/Notification/GetNotificationCountErp?employeeId=${employeeId}&accountId=${orgId}`
+      `${peopledeskApiURL}/Notification/GetNotificationCountErp?employeeId=${employeeId}&accountId=${orgId}`,
     );
     dispatch(setNotifyCountAction(notifyRes?.data));
     const connectionHub = new HubConnectionBuilder()
-      .withUrl("https://signal.peopledesk.io/NotificationHub")
+      .withUrl('https://signal.peopledesk.io/NotificationHub')
       .withAutomaticReconnect()
       .build();
     if (connectionHub) {
@@ -204,16 +216,16 @@ export function Routes() {
       connection.on(`sendTo_${notify_KEY}`, (count) => {
         dispatch(setNotifyCountAction(notifyCount + 1));
         if (count) {
-          toast.info("A new notification has come!!", {
+          toast.info('A new notification has come!!', {
             autoClose: 2000,
             limit: 10,
             closeOnClick: true,
             newestOnTop: true,
           });
           if (document.hidden) {
-            if (Notification.permission === "granted") {
+            if (Notification.permission === 'granted') {
               new Notification(`New notification !!!`, {
-                body: "A new notification has come!!",
+                body: 'A new notification has come!!',
               });
             }
           }
@@ -229,37 +241,16 @@ export function Routes() {
     };
 
     if (
-      process.env.NODE_ENV === "production" &&
-      window.location.origin !== "https://deverp.ibos.io" &&
+      process.env.NODE_ENV === 'production' &&
+      window.location.origin !== 'https://deverp.ibos.io' &&
       window.innerWidth > 768
     ) {
-      document.addEventListener("contextmenu", handleContextmenu);
+      document.addEventListener('contextmenu', handleContextmenu);
     }
     return function cleanup() {
-      document.removeEventListener("contextmenu", handleContextmenu);
+      document.removeEventListener('contextmenu', handleContextmenu);
     };
   }, []);
-
-  // useEffect(() => {
-  //   let interval = null;
-  //   if (
-  //     process.env.NODE_ENV === "production" &&
-  //     window.location.origin !== "https://deverp.ibos.io"
-  //   ) {
-  //     interval = setInterval(() => {
-  //       if (!isOpen) {
-  //         detectBrowserConsole(setIsOpen);
-  //       }
-  //     }, 500);
-  //   }
-  //   return () => {
-  //     interval && clearInterval(interval);
-  //   };
-  // }, [isOpen]);
-
-  // if (isOpen) {
-  //   return <div></div>;
-  // }
 
   return (
     <Switch>
@@ -318,11 +309,11 @@ export function Routes() {
             style={{
               backgroundImage:
                 "url('http://localhost:3000/static/media/loginBg.c4628164.png')",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              height: "100vh",
-              width: "100vw",
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              height: '100vh',
+              width: '100vw',
               opacity: 0.8,
               zIndex: 2,
             }}
