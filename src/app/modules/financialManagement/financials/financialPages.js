@@ -39,8 +39,8 @@ import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditF
 import FundTransfer from "./fundTransfer";
 import ContraCreate from "./fundTransfer/contra/create";
 import InterCompanyTransferRequestCreate from "./fundTransfer/interCompanyTransferRequest/create";
-import FundTransferApproval from "./fundTransferApproval";
-import FundTransferCreate from "./fundTransferCreate";
+import FundTransferApproval from "./fundTransfer/fundTransferApproval";
+import FundTransferCreate from "./fundTransfer/fundTransferCreate";
 import BankJournalCreateFormContra from "./fundTransfer/contra/createBankTransfer/addForm";
 import CashJournaFormContra from "./fundTransfer/contra/createCashTransfer/Form/addEditForm";
 import BankReceiptForJounal from "./fundTransfer/contra/createBankReceipt/addForm";
