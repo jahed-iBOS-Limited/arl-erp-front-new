@@ -215,6 +215,7 @@ export default function FundTransferCreate({ viewType }) {
                                                     <th>From Account/GL</th>
                                                     <th>To Account/GL</th>
                                                     <th>Sending Jounal</th>
+                                                    <th>Receiving Journal</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -242,6 +243,9 @@ export default function FundTransferCreate({ viewType }) {
                                                         <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
                                                         <td className='text-center bold text-success '>
                                                             {item?.strSendingJournal}
+                                                        </td>
+                                                        <td className='text-center bold text-success '>
+                                                            {item?.strReceivingJournal}
                                                         </td>
                                                         <td className="text-center">
                                                             {_dateFormatter(item.dteExpectedDate)}
