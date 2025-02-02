@@ -1,12 +1,24 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
+import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-
-export default function IOU({ clickRowDto }) {
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+const validationSchema = Yup.object().shape({});
+export default function IOU({ clickRowDto, CB }) {
+  const formikRef = React.useRef(null);
+  const [isEditModeOn, setIsEditModeOn] = React.useState(false);
+  const [
+    shippingHeadOfCharges,
+    getShippingHeadOfCharges,
+    shippingHeadOfChargesLoading,
+    setShippingHeadOfCharges,
+  ] = useAxiosGet();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -16,6 +28,8 @@ export default function IOU({ clickRowDto }) {
     getSingleChaShipmentBooking,
     singleChaShipmentBookingLoading,
   ] = useAxiosGet();
+  const [savedIOUData, getSavedIOUData, isLoading] = useAxiosGet();
+  const [, saveIOUInvoice, isSaving] = useAxiosPost();
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -34,77 +48,7 @@ export default function IOU({ clickRowDto }) {
         }
       `,
   });
-  const item = [
-    {
-      id: 1,
-      name: "Customs Duty",
-    },
-    {
-      id: 2,
-      name: "Freight Forwarder NOC Fee",
-    },
-    {
-      id: 3,
-      name: "Shipping Charge",
-    },
-    {
-      id: 5,
-      name: "Port Charge",
-    },
-    {
-      id: 6,
-      name: "C&F Association Fee",
-    },
-    {
-      id: 7,
-      name: "B/L verify",
-    },
-    {
-      id: 8,
-      name: "BSTI Charge",
-    },
-    {
-      id: 9,
-      name: "Examin Leabur Charge",
-    },
-    {
-      id: 10,
-      name: "Delivery Leabur Charge",
-    },
-    {
-      id: 11,
-      name: "Special Delivery Charge",
-    },
-    {
-      id: 12,
-      name: "IGM Correction Misc. Exp.",
-    },
 
-    {
-      id: 13,
-      name: "Agency Commission on Invoice Value",
-    },
-    {
-      id: 18,
-      name: "Documents Handeling Charge",
-    },
-    {
-      id: 14,
-      name: "Transport Charge",
-    },
-    {
-      id: 15,
-      name: "Transport Leabour Charge for (Loading/ Unloading)",
-    },
-    {
-      id: 16,
-      name: "Misc Exp. For Documentation/ Shipment Error",
-    },
-    {
-      id: 17,
-      name: "Additional",
-    },
-  ];
   const tableStyle = {
     fontSize: "12px",
     width: "100%",
@@ -122,6 +66,59 @@ export default function IOU({ clickRowDto }) {
       getSingleChaShipmentBooking(
         `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
       );
+      getShippingHeadOfCharges(
+        `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=2`,
+        (resShippingHeadOfCharges) => {
+          getSavedIOUData(
+            `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
+            (resSveData) => {
+              const arryList = [];
+
+              if (resShippingHeadOfCharges?.length > 0) {
+                resShippingHeadOfCharges.forEach((item) => {
+                  // parse data to array
+                  const safeParseData = (data) => {
+                    try {
+                      const parsed = JSON.parse(data);
+                      return Array.isArray(parsed) ? parsed : [];
+                    } catch {
+                      return [];
+                    }
+                  };
+                  const parseData = safeParseData(
+                    resSveData?.chaIouInvoice || []
+                  );
+
+                  const saveHeadOfChargeList =
+                    parseData?.filter(
+                      (findItem) => findItem?.headOfChargeId === item?.value
+                    ) || [];
+
+                  if (saveHeadOfChargeList?.length > 0) {
+                    saveHeadOfChargeList.forEach((saveItem) => {
+                      const obj = {
+                        ...item,
+                        ...saveItem,
+                        quantity: saveItem?.quantity || 0,
+                        rate: saveItem?.rate || 0,
+                      };
+                      arryList.push(obj);
+                    });
+                  } else {
+                    const obj = {
+                      ...item,
+                      headOfCharges: item?.label || "",
+                      headOfChargeId: item?.value || 0,
+                    };
+                    arryList.push(obj);
+                  }
+                });
+                setShippingHeadOfCharges([...arryList]);
+              }
+            }
+          );
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowDto]);
@@ -136,254 +133,383 @@ export default function IOU({ clickRowDto }) {
     padding: "5px",
     border: "1px solid #000",
   };
-
+  const saveHandler = (values, cb) => {
+    const modifyData = shippingHeadOfCharges
+      ?.filter((item) => item?.quantity > 0 && item?.rate > 0)
+      .map((item) => {
+        return {
+          headOfChargeId: item?.headOfChargeId || 0,
+          headOfCharges: item?.headOfCharges || "",
+          quantity: item?.quantity || 0,
+          rate: item?.rate || 0,
+          amount: item?.quantity * item?.rate || 0,
+        };
+      });
+    const payload = {
+      iouInvoiceId: savedIOUData?.iouInvoiceId || 0,
+      chaBookingId: clickRowDto?.chabookingId || 0,
+      chaIouInvoice: JSON.stringify(modifyData),
+    };
+    saveIOUInvoice(
+      `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaIouInvoice`,
+      payload,
+      CB
+    );
+  };
   return (
-    <div>
-      <div className="d-flex justify-content-end py-2">
-        <button
-          onClick={handlePrint}
-          type="button"
-          className="btn btn-primary px-3 py-2"
-        >
-          <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-          Print
-        </button>
-      </div>
-      <div
-        style={{
-          fontSize: 13,
-        }}
-        ref={componentRef}
-      >
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              <td colSpan="4" style={cellStyle}>
-                <div>
-                  <span>Company: {selectedBusinessUnit?.label}</span> <br />{" "}
-                  <hr />
-                  <span>
-                    Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                  </span>{" "}
-                  <br /> <br /> <hr />
-                  <span>Phone No: N/A</span> <br />
-                  <hr />
-                  <span>Email ID: N/A</span> <br />
-                  <hr />
-                  <span>BIN: N/A</span> <br />
-                </div>
-              </td>
-              <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
-                <div>
-                  <span>
-                    Booking Number: {singleChaShipmentBooking?.chabookingCode}
-                  </span>{" "}
-                  <br /> <br />
-                  <img
-                    src={"/logisticsLogo.png"}
-                    alt="Company Logo"
-                    style={{ height: "50px" }}
-                  />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                colSpan="6"
-                style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
-                }}
-              />
-            </tr>
-            <tr>
-              <td
-                colSpan="6"
-                style={{
-                  textAlign: "center",
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  border: "1px solid #000",
-                  padding: "5px 0",
-                  textTransform: "uppercase",
-                }}
-              >
-                Invoice
-              </td>
-            </tr>
-            <tr>
-              <td
-                colSpan="6"
-                style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
-                }}
-              />
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                Indentor Name:
-              </td>
-              <td style={cellStyle}>Invoice No.: </td>
-              <td colSpan="2" style={cellStyle}>
-                {singleChaShipmentBooking?.commercialInvoiceNo}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                Cash Received By: {singleChaShipmentBooking?.customerName}
-              </td>
-              <td style={cellStyle}>Date:</td>
-              <td colSpan="2" style={cellStyle}>
-                {singleChaShipmentBooking?.dteCreatedAt
-                  ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
-                  : ""}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                Address: N/A
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Commodity: {singleChaShipmentBooking?.commodityName}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                Port of Delivery: {singleChaShipmentBooking?.portOfDelivery}
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Weight: {singleChaShipmentBooking?.grossWeight}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                IP/EXP No.: {singleChaShipmentBooking?.exp}
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Quantity: {singleChaShipmentBooking?.containerQty}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                IP/EXP Date:{" "}
-                {singleChaShipmentBooking?.expDate
-                  ? _dateFormatter(singleChaShipmentBooking?.expDate)
-                  : ""}
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Delivery Place: {singleChaShipmentBooking?.placeOfDelivery}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                LC No.: N/A
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="3" style={cellStyle}>
-                LC Date: N/A
-              </td>
-              <td colSpan="3" style={cellStyle}>
-                Invoice Value: {singleChaShipmentBooking?.invoiceValue}
-              </td>
-            </tr>
-            <tr>
-              <td style={cellStyle} colSpan="3">
-                Bill of Entry / Export No.:{" "}
-                {singleChaShipmentBooking?.billOfEntry}
-              </td>
-              <td style={cellStyle} colSpan="3"></td>
-            </tr>
-            <tr>
-              <td
-                colSpan="6"
-                style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
-                }}
-              />
-            </tr>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{}}
+      validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm();
+        });
+      }}
+      innerRef={formikRef}
+    >
+      {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
+        <Form>
+          {(isLoading || isSaving || shippingHeadOfChargesLoading) && (
+            <Loading />
+          )}
+          {/* {console.log("Values", values)} */}
+          {/* {console.log("errors", errors)} */}
+          <div className="d-flex justify-content-end py-2">
+            {!isEditModeOn && (
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button
+                  onClick={() => setIsEditModeOn(true)}
+                  type="button"
+                  className="btn btn-primary px-3 py-2"
+                >
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  Edit
+                </button>
+                <button
+                  onClick={handlePrint}
+                  type="button"
+                  className="btn btn-primary px-3 py-2"
+                >
+                  <i
+                    className="mr-1 fa fa-print pointer"
+                    aria-hidden="true"
+                  ></i>
+                  Print
+                </button>
+              </div>
+            )}
 
-            <tr>
-              <th style={cellStyle}>SL.</th>
-              <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
-                Description
-              </th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Qty/Unit</th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Rate</th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
-            </tr>
-            {item.map((item, index) => (
-              <tr key={index}>
-                <td style={cellStyle}>{index + 1}</td>
-                <td colSpan="2" style={cellStyle}>
-                  {item?.name}
-                </td>
-                <td style={cellStyle}></td>
-                <td style={cellStyle}></td>
-                <td style={cellStyle}></td>
-              </tr>
-            ))}
-            <tr>
-              <td
-                colSpan="6"
-                style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
-                }}
-              />
-            </tr>
-            <tr>
-              <td colSpan="5" style={totalStyle}>
-                Sub Total:
-              </td>
-              <td style={cellStyle}>0</td>
-            </tr>
-            <tr>
-              <td colSpan="5" style={totalStyle}>
-                Advance:
-              </td>
-              <td style={cellStyle}>0</td>
-            </tr>
-            <tr>
-              <td colSpan="5" style={totalStyle}>
-                Total Due:
-              </td>
-              <td style={cellStyle}>0</td>
-            </tr>
-            <tr>
-              <td colSpan="6" style={cellStyle}>
-                Amount in words:
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="6" style={cellStyle}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "50px 50px 5px 50px",
+            {isEditModeOn && (
+              <div className="d-flex gap-2">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 ml-2"
+                  onClick={() => {
+                    resetForm();
+                    setIsEditModeOn(false);
                   }}
                 >
-                  <div>Prepared By:</div>
-                  <div>Checked By:</div>
-                  <div>Confirmed By:</div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+                  <i
+                    className="mr-1 fa fa-times pointer"
+                    aria-hidden="true"
+                  ></i>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary px-3 py-2 ml-2"
+                >
+                  <i className="mr-1 fa fa-save pointer" aria-hidden="true"></i>
+                  Save
+                </button>
+              </div>
+            )}
+          </div>
+          <div
+            style={{
+              fontSize: 13,
+            }}
+            ref={componentRef}
+          >
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <td colSpan="4" style={cellStyle}>
+                    <div>
+                      <span>Company: {selectedBusinessUnit?.label}</span> <br />{" "}
+                      <hr />
+                      <span>
+                        Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
+                      </span>{" "}
+                      <br /> <br /> <hr />
+                      <span>Phone No: N/A</span> <br />
+                      <hr />
+                      <span>Email ID: N/A</span> <br />
+                      <hr />
+                      <span>BIN: N/A</span> <br />
+                    </div>
+                  </td>
+                  <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+                    <div>
+                      <span>
+                        Booking Number:{" "}
+                        {singleChaShipmentBooking?.chabookingCode}
+                      </span>{" "}
+                      <br /> <br />
+                      <img
+                        src={"/logisticsLogo.png"}
+                        alt="Company Logo"
+                        style={{ height: "50px" }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    colSpan="6"
+                    style={{
+                      backgroundColor: "#365339",
+                      height: "1.5rem",
+                      border: "1px solid #000",
+                    }}
+                  />
+                </tr>
+                <tr>
+                  <td
+                    colSpan="6"
+                    style={{
+                      textAlign: "center",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      border: "1px solid #000",
+                      padding: "5px 0",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Invoice
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    colSpan="6"
+                    style={{
+                      backgroundColor: "#365339",
+                      height: "1.5rem",
+                      border: "1px solid #000",
+                    }}
+                  />
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    Indentor Name:
+                  </td>
+                  <td style={cellStyle}>Invoice No.: </td>
+                  <td colSpan="2" style={cellStyle}>
+                    {singleChaShipmentBooking?.commercialInvoiceNo}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    Cash Received By: {singleChaShipmentBooking?.customerName}
+                  </td>
+                  <td style={cellStyle}>Date:</td>
+                  <td colSpan="2" style={cellStyle}>
+                    {singleChaShipmentBooking?.dteCreatedAt
+                      ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
+                      : ""}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    Address: N/A
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Commodity: {singleChaShipmentBooking?.commodityName}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    Port of Delivery: {singleChaShipmentBooking?.portOfDelivery}
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Weight: {singleChaShipmentBooking?.grossWeight}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    IP/EXP No.: {singleChaShipmentBooking?.exp}
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Quantity: {singleChaShipmentBooking?.containerQty}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    IP/EXP Date:{" "}
+                    {singleChaShipmentBooking?.expDate
+                      ? _dateFormatter(singleChaShipmentBooking?.expDate)
+                      : ""}
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Delivery Place: {singleChaShipmentBooking?.placeOfDelivery}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    LC No.: N/A
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3" style={cellStyle}>
+                    LC Date: N/A
+                  </td>
+                  <td colSpan="3" style={cellStyle}>
+                    Invoice Value: {singleChaShipmentBooking?.invoiceValue}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={cellStyle} colSpan="3">
+                    Bill of Entry / Export No.:{" "}
+                    {singleChaShipmentBooking?.billOfEntry}
+                  </td>
+                  <td style={cellStyle} colSpan="3"></td>
+                </tr>
+                <tr>
+                  <td
+                    colSpan="6"
+                    style={{
+                      backgroundColor: "#365339",
+                      height: "1.5rem",
+                      border: "1px solid #000",
+                    }}
+                  />
+                </tr>
+
+                <tr>
+                  <th style={cellStyle}>SL.</th>
+                  <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+                    Description
+                  </th>
+                  <th style={{ ...cellStyle, textAlign: "center" }}>
+                    Qty/Unit
+                  </th>
+                  <th style={{ ...cellStyle, textAlign: "center" }}>Rate</th>
+                  <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
+                </tr>
+                {shippingHeadOfCharges?.map((item, index) => {
+                  const total =
+                    item?.quantity && item?.rate
+                      ? item.quantity * item.rate
+                      : 0;
+                  const displayValue = total > 0 ? total : "";
+
+                  return (
+                    <tr key={index}>
+                      <td style={cellStyle}>{index + 1}</td>
+                      <td colSpan="2" style={cellStyle}>
+                        {item?.headOfCharges}
+                      </td>
+                      <td style={cellStyle}>
+                        {isEditModeOn ? (
+                          <InputField
+                            type="text"
+                            name="quantity"
+                            value={item?.quantity}
+                            placeholder="Quantity"
+                            onChange={(e) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].quantity = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                          />
+                        ) : (
+                          item?.quantity
+                        )}
+                      </td>
+                      <td style={cellStyle}>
+                        {isEditModeOn ? (
+                          <InputField
+                            type="text"
+                            name="rate"
+                            value={item?.rate}
+                            placeholder="Rate"
+                            onChange={(e) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].rate = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                          />
+                        ) : (
+                          item?.rate
+                        )}
+                      </td>
+                      <td style={cellStyle}>{displayValue}</td>
+                    </tr>
+                  );
+                })}
+                <tr>
+                  <td
+                    colSpan="6"
+                    style={{
+                      backgroundColor: "#365339",
+                      height: "1.5rem",
+                      border: "1px solid #000",
+                    }}
+                  />
+                </tr>
+                <tr>
+                  <td colSpan="5" style={totalStyle}>
+                    Sub Total:
+                  </td>
+                  <td style={cellStyle}>
+                    {shippingHeadOfCharges
+                      ?.filter((item) => item?.quantity > 0 && item?.rate > 0)
+                      ?.reduce((a, b) => a + b?.quantity * b?.rate, 0) || 0}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="5" style={totalStyle}>
+                    Advance:
+                  </td>
+                  <td style={cellStyle}>0</td>
+                </tr>
+                <tr>
+                  <td colSpan="5" style={totalStyle}>
+                    Total Due:
+                  </td>
+                  <td style={cellStyle}>0</td>
+                </tr>
+                <tr>
+                  <td colSpan="6" style={cellStyle}>
+                    Amount in words:
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="6" style={cellStyle}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "50px 50px 5px 50px",
+                      }}
+                    >
+                      <div>Prepared By:</div>
+                      <div>Checked By:</div>
+                      <div>Confirmed By:</div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
