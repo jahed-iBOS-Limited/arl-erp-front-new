@@ -1,6 +1,6 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { default as Axios, default as axios } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useState, useEffect } from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -24,12 +24,24 @@ import {
   setSignalRConnectionAction,
 } from './modules/_helper/chattingAppRedux/Action';
 import { serviceWorkerPoppup } from './modules/_helper/serviceWorkerPoppup';
-import DepartmentalBalancedScorecard from './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard';
-import KPIScoreCardNew from './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew';
-import SBUBalancedScorecard from './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard';
 import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
-import Maintenance from './pages/Maintenance';
-// import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
+
+const DepartmentalBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard'
+  ),
+);
+const KPIScoreCardNew = lazy(() =>
+  import(
+    './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew'
+  ),
+);
+const SBUBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard'
+  ),
+);
+const Maintenance = lazy(() => import('./pages/Maintenance'));
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
@@ -239,27 +251,6 @@ export function Routes() {
       document.removeEventListener('contextmenu', handleContextmenu);
     };
   }, []);
-
-  // useEffect(() => {
-  //   let interval = null;
-  //   if (
-  //     process.env.NODE_ENV === "production" &&
-  //     window.location.origin !== "https://deverp.ibos.io"
-  //   ) {
-  //     interval = setInterval(() => {
-  //       if (!isOpen) {
-  //         detectBrowserConsole(setIsOpen);
-  //       }
-  //     }, 500);
-  //   }
-  //   return () => {
-  //     interval && clearInterval(interval);
-  //   };
-  // }, [isOpen]);
-
-  // if (isOpen) {
-  //   return <div></div>;
-  // }
 
   return (
     <Switch>
