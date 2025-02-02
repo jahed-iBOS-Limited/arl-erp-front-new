@@ -7,8 +7,7 @@ import { LayoutSplashScreen } from '../_metronic/layout';
 import useMenuTracking from './modules/_helper/customHooks/useMenuTracking.jsx';
 import MobileFirstAlert from './modules/_helper/mobileFirstAlert';
 import { useKeyPress } from './modules/_helper/useKeyPress';
-import PaymentPages from './modules/payment/PaymentPages';
-import SelfServicePages from './modules/selfService/SelfServicePages';
+
 import TokenExpiredPopUp from './TokenExpiredPopUp';
 
 const ShippingOperaionPages = lazy(() =>
@@ -107,12 +106,16 @@ const ShippingAgencyPages = lazy(() =>
 const CargoManagementPages = lazy(() =>
   import('./modules/CargoManagement/cargoManagementPages.js'),
 );
+const SelfServicePages = lazy(() =>
+  import('./modules/selfService/SelfServicePages'),
+);
+const PaymentPages = lazy(() => import('./modules/payment/PaymentPages'));
 const BasePage = () => {
   const { isExpiredToken, isAuth, isExpiredPassword, menu } = useSelector(
     (state) => state?.authData,
     shallowEqual,
   );
-  useMenuTracking() // logs for page visited
+  useMenuTracking(); // logs for page visited
 
   // const isExpiredToken = true;
   // const isAuth = true;
