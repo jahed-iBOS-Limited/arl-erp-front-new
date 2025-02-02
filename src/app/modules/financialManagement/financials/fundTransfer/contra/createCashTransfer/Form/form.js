@@ -27,7 +27,7 @@ import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
 import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
 import placeholderImg from "../../../../../../_helper/images/placeholderImg.png";
 import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../createBankTransfer/helper";
-import { approveHandeler } from "../../../../fundTransferApproval/helper";
+import { approveHandeler } from "../../../fundTransferApproval/helper";
 import useAxiosPost from "../../../../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../../../../_helper/_loading";
 
@@ -220,7 +220,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      isUpdateGivenBankInfo: true,
+                      actionName:"Cash Transfer"
                     });
                     resetForm(initData);
                     setRowDto([]);

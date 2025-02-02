@@ -49,7 +49,7 @@ import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import DebitCredit from './DebitCredit';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import Loading from '../../../../../_helper/_loading';
-import { approveHandeler } from '../../../fundTransferApproval/helper';
+import { approveHandeler } from '../../fundTransferApproval/helper';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -154,7 +154,7 @@ export default function _Form({
         setSendToGLBank,
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -211,7 +211,7 @@ export default function _Form({
       );
     }
 
-    if(true){
+    if (true) {
       getGlList(`/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -242,7 +242,7 @@ export default function _Form({
               : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
+          let bankPaymentValues = { ...values } //If you want to resetFrom write code after this line.
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -264,7 +264,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      isUpdateGivenBankInfo : jorunalType === 5
+                      actionName: jorunalType === 5 ? "Bank Payments" : jorunalType === 6 ? "Bank Transfer" : ""
                     });
 
 
@@ -481,7 +481,7 @@ export default function _Form({
                                 isSearchable={true}
                                 styles={customStyles}
                                 placeholder="Partner Bank Account"
-                                // isDisabled={jorunalType === 5}
+                              // isDisabled={jorunalType === 5}
                               />
                             </div>
                           )}
