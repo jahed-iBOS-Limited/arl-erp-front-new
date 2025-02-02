@@ -65,7 +65,7 @@ export default function LoanRegisterCreate({
               label: location?.state?.disbursementPurposeName,
             }
           : "",
-        loanRemarks: location?.state?.loanRemarks,
+        remarks: location?.state?.loanRemarks || "",
       });
     }
   }, [renewId, location, editId]);
@@ -126,6 +126,7 @@ export default function LoanRegisterCreate({
         actionById: profileData?.userId || 0,
         disbursementPurposeId: values?.disbursementPurpose?.value || 0,
         disbursementPurposeName: values?.disbursementPurpose?.label || "",
+        loanRemarks: values?.remarks || "",
       };
       loadRegisterEdit({ editPayload, setDisabled, cb });
       return;
