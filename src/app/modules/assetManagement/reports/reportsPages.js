@@ -33,7 +33,7 @@ export function ReportsPages() {
       <Redirect exact={true} from="/mngAsset/report" to="/mngAsset/report" />
 
       <ContentRoute
-        from="/mngAsset/report/asset-List"
+        from="/mngAsset/report/AssetCheckInOut"
         component={AssetCheckInOut}
       />
       {/* Asset Assign */}

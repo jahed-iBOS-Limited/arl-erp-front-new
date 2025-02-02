@@ -43,8 +43,9 @@ export default function CashJournaFormContra({
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const location = useLocation();
-  let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
-  let { intRequestToUnitId } = transferRowItem || {}// For Bank Transfer Only
+  // let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}
+  let { transferRowItem } = location?.state || {}
+  // let { intRequestToUnitId } = transferRowItem || {}
   const headerData = {
     accountingJournalTypeId : 3 // Hard coded for Cash Transfer
   }

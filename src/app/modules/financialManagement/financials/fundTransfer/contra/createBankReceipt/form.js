@@ -49,7 +49,7 @@ import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import DebitCredit from './DebitCredit';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import Loading from '../../../../../_helper/_loading';
-import { approveHandeler } from '../../../fundTransferApproval/helper';
+import { approveHandeler } from '../../fundTransferApproval/helper';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -265,7 +265,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      isUpdateGivenBankInfo : jorunalType === 4
+                      actionName:"Bank Receipt"
                     });
 
 
