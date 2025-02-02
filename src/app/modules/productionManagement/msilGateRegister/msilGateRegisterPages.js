@@ -30,6 +30,7 @@ import VisitorRegisterCreateEdit from "./visitorRegister/createEdit";
 import Weightbridge from "./weightBridge";
 import WeightbridgeEdit from "./weightBridge/createEdit";
 import WeightScale from "./weightScale";
+import ForcedGateOutPage from "./forcedGateOut";
 
 export function MsilGateRegisterPages() {
   const userRole = useSelector(
@@ -190,6 +191,12 @@ export function MsilGateRegisterPages() {
       <ContentRoute
         path="/production-management/msil-gate-register/RMAutoPO"
         component={RowMaterialAutoPR}
+      />
+
+      {/* Forec Gate Out Page */}
+      <ContentRoute
+        path="/production-management/msil-gate-register/Forced-Gate-Out"
+        component={ForcedGateOutPage}
       />
     </Switch>
   );
