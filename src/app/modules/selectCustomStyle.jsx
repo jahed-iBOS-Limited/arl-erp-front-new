@@ -1,13 +1,13 @@
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    minHeight: '30px',
-    height: '30px',
+    minHeight: '22px',
+    height: '22px',
   }),
 
   valueContainer: (provided, state) => ({
     ...provided,
-    height: '30px',
+    height: '22px',
     padding: '0 6px',
   }),
 
@@ -20,7 +20,7 @@ const customStyles = {
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
-    height: '26px',
+    height: '22px',
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
