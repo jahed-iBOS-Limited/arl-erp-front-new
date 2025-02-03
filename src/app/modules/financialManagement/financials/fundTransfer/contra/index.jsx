@@ -34,7 +34,8 @@ export default function Contra({ viewType }) {
     const [gridData, getGridData, loading] = useAxiosGet();
     const [parentTransferType, setParentTransferType] = useState({ actionId: 1, actionName: "Bank Transfer" });
 
-    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
+    // const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
+    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }] : [{ value: 3, label: "Cash To Bank" }]
 
     const saveHandler = (values, cb) => { };
     const history = useHistory();

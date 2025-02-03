@@ -2,17 +2,17 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from "react-router";
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import IForm from '../../../_helper/_form';
-import IAdd from '../../../_helper/_helperIcons/_add';
-import InputField from '../../../_helper/_inputField';
-import Loading from '../../../_helper/_loading';
-import { _monthLastDate } from '../../../_helper/_monthLastDate';
-import PaginationSearch from '../../../_helper/_search';
-import NewSelect from '../../../_helper/_select';
-import PaginationTable from '../../../_helper/_tablePagination';
-import { _todayDate } from '../../../_helper/_todayDate';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import IAdd from '../../../../_helper/_helperIcons/_add';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _monthLastDate } from '../../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 
 
@@ -212,6 +212,7 @@ export default function FundTransferApproval({ viewType }) {
                                                     <th>From Account/GL</th>
                                                     <th>To Account/GL</th>
                                                     <th>Sending Jounal</th>
+                                                    <th>Receiving Journal</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -239,6 +240,9 @@ export default function FundTransferApproval({ viewType }) {
                                                         <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
                                                         <td className='text-center bold text-success '>
                                                             {item?.strSendingJournal}
+                                                        </td>
+                                                        <td className='text-center bold text-success '>
+                                                            {item?.strReceivingJournal}
                                                         </td>
                                                         <td className="text-center">
                                                             {_dateFormatter(item.dteExpectedDate)}
@@ -273,6 +277,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                             const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
                                                                             const isBankToBank = item?.strTransferBy === "Bank To Bank";
                                                                             const isBankToCash = item?.strTransferBy === "Bank To Cash";
+                                                                            const isCashToBank = item?.strTransferBy === "Cash To Bank";
 
                                                                             // Helper function to generate selected form values
                                                                             const getSelectedFormValues = () => {
@@ -342,7 +347,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                                     pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
                                                                                     state: baseState,
                                                                                 });
-                                                                            } else if (isBankToCash && isApproved && isTransferNotCreated) {
+                                                                            } else if (isCashToBank && isApproved && isTransferNotCreated) {
                                                                                 history.push({
                                                                                     pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
                                                                                     state: baseState,

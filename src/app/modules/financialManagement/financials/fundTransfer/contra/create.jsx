@@ -62,7 +62,8 @@ export default function ContraCreate() {
     const location = useLocation();
     const { parentTransferType, viewType } = location?.state || {};
 
-    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
+    // const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
+    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }] : [{ value: 3, label: "Cash To Bank" }]
 
 
     const { profileData, selectedBusinessUnit } = useSelector((state) => {

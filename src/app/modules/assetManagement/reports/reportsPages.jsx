@@ -10,6 +10,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 import AssetDepreciationHistoryView from "./HistoryAssetDepreciation/view";
 import VehicleExpireStatus from "./expireStatus";
+import AssetCheckInOut from "./assetCheckInOunt";
 export function ReportsPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
@@ -31,6 +32,10 @@ export function ReportsPages() {
     <Switch>
       <Redirect exact={true} from="/mngAsset/report" to="/mngAsset/report" />
 
+      <ContentRoute
+        from="/mngAsset/report/AssetCheckInOut"
+        component={AssetCheckInOut}
+      />
       {/* Asset Assign */}
       <ContentRoute
         from="/mngAsset/report/asset-Assign"

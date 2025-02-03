@@ -1,21 +1,21 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import IForm from '../../../_helper/_form';
-import IApproval from '../../../_helper/_helperIcons/_approval';
-import Loading from '../../../_helper/_loading';
-import PaginationSearch from '../../../_helper/_search';
-import PaginationTable from '../../../_helper/_tablePagination';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { approveHandeler } from './helper';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import IConfirmModal from '../../../_helper/_confirmModal';
-import NewSelect from '../../../_helper/_select';
-import InputField from '../../../_helper/_inputField';
-import IClose from '../../../_helper/_helperIcons/_close';
-import { _todayDate } from '../../../_helper/_todayDate';
-import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _monthLastDate } from '../../../../_helper/_monthLastDate';
 
 const initData = {
   fundTrasferType: { value: 1, label: 'Contra' },
@@ -274,7 +274,8 @@ export default function FundTransferApproval({ viewType }) {
                                                 '',
                                               );
                                             },
-                                            isApproved: 1
+                                            isApproved: 1,
+                                            actionName:"Approve"
                                           });
                                         },
                                         noAlertFunc: () => { },
@@ -299,7 +300,8 @@ export default function FundTransferApproval({ viewType }) {
                                               '',
                                             );
                                           },
-                                          isApproved: 2
+                                          isApproved: 2,
+                                          actionName:"Reject"
                                         });
                                       },
                                       noAlertFunc: () => { },

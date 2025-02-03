@@ -27,6 +27,9 @@ import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
 import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
 import placeholderImg from "../../../../../../_helper/images/placeholderImg.png";
 import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../createBankTransfer/helper";
+import { approveHandeler } from "../../../fundTransferApproval/helper";
+import useAxiosPost from "../../../../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../../../../_helper/_loading";
 
 
 
@@ -110,6 +113,7 @@ export default function _Form({
   netAmount,
   attachmentFile,
   setAttachmentFile,
+  transferRowItem,
 }) {
   const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
   const [bankAccountDDL, setBankAccountDDL] = useState([]);
@@ -121,6 +125,8 @@ export default function _Form({
   const [revenueElementDDL, setRevenueElementDDL] = useState([])
   const inputAttachFile = useRef(null);
   const dispatch = useDispatch();
+  const [, onUpdateJournalHandler, updateJounalLoader] = useAxiosPost();
+
 
 
 
@@ -155,21 +161,18 @@ export default function _Form({
 
   useEffect(() => {
     getPartnerTypeDDLAction(setPartnerTypeDDL);
-    getCostCenterDDL( selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
-    getRevenueElementListDDL(selectedBusinessUnit.value,setRevenueElementDDL)
-    getRevenueCenterListDDL(selectedBusinessUnit.value,setRevenueCenterDDL)
+    getCostCenterDDL(selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
+    getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL)
+    getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL)
   }, [selectedBusinessUnit, profileData]);
 
   const loadTransactionList = (v) => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`
       )
       .then((res) => {
@@ -177,13 +180,14 @@ export default function _Form({
       })
       .catch((err) => []);
   };
-  
+
   const onButtonAttachmentClick = () => {
     inputAttachFile.current.click();
   };
 
   return (
     <>
+    {updateJounalLoader && <Loading/>}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -191,10 +195,12 @@ export default function _Form({
           headerData?.accountingJournalTypeId === 1
             ? receiptsJournal
             : headerData?.accountingJournalTypeId === 2
-            ? paymentsJournal
-            : transferJournal
+              ? paymentsJournal
+              : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
+
           return confirmAlert({
             title: "Are you sure?",
             message: "",
@@ -202,19 +208,32 @@ export default function _Form({
               {
                 label: "Yes",
                 onClick: () => {
-                  saveHandler(values, () => {
+                  saveHandler(values, (journalCode) => {
+                    approveHandeler({
+                      item: transferRowItem,
+                      onApproveHandler: onUpdateJournalHandler,
+                      profileData,
+                      cb: () => {
+
+                      },
+                      isApproved: 1,
+                      isTransferCreated: 1,
+                      journalCode: journalCode,
+                      bankPaymentValues: bankPaymentValues,
+                      actionName:"Cash Transfer"
+                    });
                     resetForm(initData);
                     setRowDto([]);
                   });
                 },
               },
               {
-                label : "No",
-                onClick : () => ""
+                label: "No",
+                onClick: () => ""
               }
             ],
           });
-          
+
         }}
       >
         {({
@@ -248,30 +267,30 @@ export default function _Form({
                     {/* col-lg-6 */}
                     {(headerData?.accountingJournalTypeId === 1 ||
                       headerData?.accountingJournalTypeId === 2) && (
-                      <div className="col-lg-6 pl pr-1 mb-2">
-                        <label>Select Cash GL</label>
-                        <Select
-                          label="Select Cash GL"
-                          options={generalLedgerDDL || []}
-                          value={values.cashGLPlus}
-                          name="cashGLPlus"
-                          setFieldValue={setFieldValue}
-                          errors={errors}
-                          touched={touched}
-                          isSearchable={true}
-                          styles={customStyles}
-                          placeholder="Select Cash GL"
-                          onChange={(valueOption) => {
-                            setFieldValue("cashGLPlus", valueOption);
-                          }}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="cashGLPlus"
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-6 pl pr-1 mb-2">
+                          <label>Select Cash GL</label>
+                          <Select
+                            label="Select Cash GL"
+                            options={generalLedgerDDL || []}
+                            value={values.cashGLPlus}
+                            name="cashGLPlus"
+                            setFieldValue={setFieldValue}
+                            errors={errors}
+                            touched={touched}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Select Cash GL"
+                            onChange={(valueOption) => {
+                              setFieldValue("cashGLPlus", valueOption);
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="cashGLPlus"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
                     {/* col-lg-6 */}
                     {headerData?.accountingJournalTypeId === 3 ? (
@@ -513,151 +532,151 @@ export default function _Form({
                       />
                     </div>
                     {/* it will be changed if user select bank receipt from previous page */}
-                    {headerData?.accountingJournalTypeId===1?(
+                    {headerData?.accountingJournalTypeId === 1 ? (
                       <>
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Revenue Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueCenter", valueOption);
-                              }}
-                              value={values?.revenueCenter}
-                              options={revenueCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueCenter"
-                              touched={touched}
-                            />
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Revenue Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueCenter", valueOption);
+                            }}
+                            value={values?.revenueCenter}
+                            options={revenueCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Revenue Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueElement", valueOption);
-                              }}
-                              value={values?.revenueElement}
-                              options={revenueElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueElement"
-                              touched={touched}
-                            />
+                          <label>Revenue Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueElement", valueOption);
+                            }}
+                            value={values?.revenueElement}
+                            options={revenueElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
-                    ):(
+                    ) : (
                       <>
-                      
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Cost Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                if(valueOption){
-                                  setFieldValue("costCenter", valueOption);
-                                  getCostElementDDL( selectedBusinessUnit.value, profileData.accountId, valueOption?.value, setCostElementDDL);   
-                                  setFieldValue("costElement", "");
-                                }else{
-                                  setCostElementDDL([])
-                                  setFieldValue("costCenter", "");
-                                  setFieldValue("costElement", "");
-                                }
-                              }}
-                              value={values?.costCenter}
-                              options={costCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costCenter"
-                              touched={touched}
-                            />
+
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Cost Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              if (valueOption) {
+                                setFieldValue("costCenter", valueOption);
+                                getCostElementDDL(selectedBusinessUnit.value, profileData.accountId, valueOption?.value, setCostElementDDL);
+                                setFieldValue("costElement", "");
+                              } else {
+                                setCostElementDDL([])
+                                setFieldValue("costCenter", "");
+                                setFieldValue("costElement", "");
+                              }
+                            }}
+                            value={values?.costCenter}
+                            options={costCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Cost Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costElement", valueOption);
-                              }}
-                              value={values?.costElement}
-                              options={costElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costElement"
-                              touched={touched}
-                            />
+                          <label>Cost Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("costElement", valueOption);
+                            }}
+                            value={values?.costElement}
+                            options={costElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
                     )}
-                  {(headerData?.accountingJournalTypeId === 2 && !isEdit ) ? (
-                     <div className="col-lg-12">
-                     <label>Attachment </label>
-                     <div
-                       className={
-                         attachmentFile
-                           ? "image-upload-box with-img"
-                           : "image-upload-box"
-                       }
-                       onClick={onButtonAttachmentClick}
-                       style={{
-                         cursor: "pointer",
-                         position: "relative",
-                         height: "35px",
-                       }}
-                     >
-                       <input
-                         onChange={(e) => {
-                           if (e.target.files?.[0]) {
-                            attachmentUpload(e.target.files)
-                               .then((data) => {
-                                 setAttachmentFile(data?.[0]?.id);
-                               })
-                               .catch((error) => {
-                                 setAttachmentFile("");
-                               });
-                           }
-                         }}
-                         type="file"
-                         ref={inputAttachFile}
-                         id="file"
-                         style={{ display: "none" }}
-                       />
-                       <div>
-                         {!attachmentFile && (
-                           <img
-                             style={{ maxWidth: "50px" }}
-                             src={placeholderImg}
-                             className="img-fluid"
-                             alt="Upload or drag documents"
-                           />
-                         )}
-                       </div>
-                       {attachmentFile && (
-                         <div className="d-flex align-items-center">
-                           <p
-                             style={{
-                               fontSize: "12px",
-                               fontWeight: "500",
-                               color: "#0072E5",
-                               cursor: "pointer",
-                               margin: "0px",
-                             }}
-                           >
-                             {attachmentFile}
-                           </p>
-                           <OverlayTrigger
+                    {(headerData?.accountingJournalTypeId === 2 && !isEdit) ? (
+                      <div className="col-lg-12">
+                        <label>Attachment </label>
+                        <div
+                          className={
+                            attachmentFile
+                              ? "image-upload-box with-img"
+                              : "image-upload-box"
+                          }
+                          onClick={onButtonAttachmentClick}
+                          style={{
+                            cursor: "pointer",
+                            position: "relative",
+                            height: "35px",
+                          }}
+                        >
+                          <input
+                            onChange={(e) => {
+                              if (e.target.files?.[0]) {
+                                attachmentUpload(e.target.files)
+                                  .then((data) => {
+                                    setAttachmentFile(data?.[0]?.id);
+                                  })
+                                  .catch((error) => {
+                                    setAttachmentFile("");
+                                  });
+                              }
+                            }}
+                            type="file"
+                            ref={inputAttachFile}
+                            id="file"
+                            style={{ display: "none" }}
+                          />
+                          <div>
+                            {!attachmentFile && (
+                              <img
+                                style={{ maxWidth: "50px" }}
+                                src={placeholderImg}
+                                className="img-fluid"
+                                alt="Upload or drag documents"
+                              />
+                            )}
+                          </div>
+                          {attachmentFile && (
+                            <div className="d-flex align-items-center">
+                              <p
+                                style={{
+                                  fontSize: "12px",
+                                  fontWeight: "500",
+                                  color: "#0072E5",
+                                  cursor: "pointer",
+                                  margin: "0px",
+                                }}
+                              >
+                                {attachmentFile}
+                              </p>
+                              <OverlayTrigger
                                 overlay={
                                   <Tooltip id="cs-icon">
                                     View Attachment
@@ -682,10 +701,10 @@ export default function _Form({
                                   ></i>
                                 </span>
                               </OverlayTrigger>
-                         </div>
-                       )}
-                     </div>
-                   </div> ) : null}
+                            </div>
+                          )}
+                        </div>
+                      </div>) : null}
                     {headerData?.accountingJournalTypeId !== 3 && (
                       <div className="col-lg-12 text-right pl-0 bank-journal">
                         <button

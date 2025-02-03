@@ -2,6 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import { saveSalesOrderInactiveView } from "../helper";
+import { shallowEqual, useSelector } from "react-redux";
 
 export default function SalesOrderReportModal({
   data,
@@ -11,6 +12,11 @@ export default function SalesOrderReportModal({
   landingDataCallback,
   setLoading,
 }) {
+
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual); 
+
   // Undelivery QTY Handler
   const rowDtoHandler = (name, value, index) => {
     let copy = [...data];
@@ -30,6 +36,7 @@ export default function SalesOrderReportModal({
         orderQuantity: +item?.orderQuantity,
         deliveredQuantity: +item?.deliveredQuantity,
         undeliveryQuantity: +item?.undeliveryQuantity,
+        actionBy: profileData?.userId,
       };
     });
     saveSalesOrderInactiveView(payload, setLoading, landingDataCallback);

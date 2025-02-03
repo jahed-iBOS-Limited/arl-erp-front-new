@@ -535,7 +535,9 @@ export default function ReceiveInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          disableHandler(true)
           saveHandler(values, () => {
+            disableHandler(false)
             resetForm(initData);
           });
         }}

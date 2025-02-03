@@ -24,12 +24,24 @@ import {
   setSignalRConnectionAction,
 } from './modules/_helper/chattingAppRedux/Action';
 import { serviceWorkerPoppup } from './modules/_helper/serviceWorkerPoppup';
-import DepartmentalBalancedScorecard from './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard';
-import KPIScoreCardNew from './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew';
-import SBUBalancedScorecard from './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard';
 import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
-import Maintenance from './pages/Maintenance';
-// import { detectBrowserConsole } from './modules/_helper/detectBrowserConsole';
+
+const DepartmentalBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard'
+  ),
+);
+const KPIScoreCardNew = lazy(() =>
+  import(
+    './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew'
+  ),
+);
+const SBUBalancedScorecard = lazy(() =>
+  import(
+    './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard'
+  ),
+);
+const Maintenance = lazy(() => import('./pages/Maintenance'));
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
@@ -85,7 +97,7 @@ export function Routes() {
   // ======for peopleDesk user=====
   useEffect(() => {
     const loginInfoPeopleDesk = getCookie('loginInfoPeopleDesk');
-    const info = JSON.parse(loginInfoPeopleDesk || '{}');
+    let info = JSON.parse(loginInfoPeopleDesk || '{}');
 
     // invalid user check for peopleDesk
     if (info?.isAuth && info?.email && profileData?.emailAddress) {

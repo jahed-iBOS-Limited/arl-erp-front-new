@@ -21,7 +21,7 @@ function ChargesModal({ rowClickData, CB }) {
     (state) => state?.authData || {},
     shallowEqual,
   );
-  // const bookingRequestId = rowClickData?.bookingRequestId;
+  const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
   const [
@@ -55,10 +55,11 @@ function ChargesModal({ rowClickData, CB }) {
     if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
-      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges?typeId=1`,
       (resShippingHeadOfCharges) => {
+        // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
@@ -288,7 +289,6 @@ function ChargesModal({ rowClickData, CB }) {
       CB,
     );
   };
-
   return (
     <div className="chargesModal">
       {(bookedRequestBilling ||
@@ -405,7 +405,7 @@ function ChargesModal({ rowClickData, CB }) {
                     <th colspan="4" className="group-header collection-header">
                       Collection <span>(Amounts & Party)</span>
                     </th>
-                    <th colspan="6" className="group-header payment-header">
+                    <th colspan="5" className="group-header payment-header">
                       Payment <span>(Amounts & Party)</span>
                     </th>
                     <th rowspan="2">Action</th>
@@ -502,96 +502,89 @@ function ChargesModal({ rowClickData, CB }) {
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
-                              setShippingHeadOfCharges(
-                                shippingHeadOfCharges?.map((data) => {
-                                  if (data?.value === item?.value) {
-                                    return {
-                                      ...data,
-                                      checked: e?.target?.checked,
-                                      currencyId: e?.target?.checked
-                                        ? item?.currencyId
-                                        : 0,
-                                      currency: e?.target?.checked
-                                        ? item?.currency
-                                        : '',
-                                      exchangeRate: e?.target?.checked
-                                        ? item?.exchangeRate
-                                        : '',
-                                      collectionActualAmount: e?.target?.checked
-                                        ? item?.collectionActualAmount
-                                        : '',
-                                      collectionDummyAmount: e?.target?.checked
-                                        ? item?.collectionDummyAmount
-                                        : '',
-                                      collectionPartyType: e?.target?.checked
-                                        ? item?.collectionPartyType
-                                        : '',
-                                      collectionPartyTypeId: e?.target?.checked
-                                        ? item?.collectionPartyTypeId
-                                        : 0,
-                                      collectionParty: e?.target?.checked
-                                        ? item?.collectionParty
-                                        : '',
-                                      collectionPartyId: e?.target?.checked
-                                        ? item?.collectionPartyId
-                                        : 0,
-                                      paymentActualAmount: e?.target?.checked
-                                        ? item?.paymentActualAmount
-                                        : '',
-                                      paymentDummyAmount: e?.target?.checked
-                                        ? item?.paymentDummyAmount
-                                        : '',
-                                      paymentAdvanceAmount: e?.target?.checked
-                                        ? item?.paymentAdvanceAmount
-                                        : '',
-                                      paymentPartyType: e?.target?.checked
-                                        ? item?.paymentPartyType
-                                        : '',
-                                      paymentPartyTypeId: e?.target?.checked
-                                        ? item?.paymentPartyTypeId
-                                        : 0,
-                                      paymentParty: e?.target?.checked
-                                        ? item?.paymentParty
-                                        : '',
-                                      paymentPartyId: e?.target?.checked
-                                        ? item?.paymentPartyId
-                                        : 0,
+                              const newObj = {
+                                ...item,
+                                checked: e?.target?.checked,
+                                currencyId: e?.target?.checked
+                                  ? item?.currencyId
+                                  : 0,
+                                currency: e?.target?.checked
+                                  ? item?.currency
+                                  : '',
+                                exchangeRate: e?.target?.checked
+                                  ? item?.exchangeRate
+                                  : '',
+                                collectionActualAmount: e?.target?.checked
+                                  ? item?.collectionActualAmount
+                                  : '',
+                                collectionDummyAmount: e?.target?.checked
+                                  ? item?.collectionDummyAmount
+                                  : '',
+                                collectionPartyType: e?.target?.checked
+                                  ? item?.collectionPartyType
+                                  : '',
+                                collectionPartyTypeId: e?.target?.checked
+                                  ? item?.collectionPartyTypeId
+                                  : 0,
+                                collectionParty: e?.target?.checked
+                                  ? item?.collectionParty
+                                  : '',
+                                collectionPartyId: e?.target?.checked
+                                  ? item?.collectionPartyId
+                                  : 0,
+                                paymentActualAmount: e?.target?.checked
+                                  ? item?.paymentActualAmount
+                                  : '',
+                                paymentDummyAmount: e?.target?.checked
+                                  ? item?.paymentDummyAmount
+                                  : '',
+                                paymentAdvanceAmount: e?.target?.checked
+                                  ? item?.paymentAdvanceAmount
+                                  : '',
+                                paymentPartyType: e?.target?.checked
+                                  ? item?.paymentPartyType
+                                  : '',
+                                paymentPartyTypeId: e?.target?.checked
+                                  ? item?.paymentPartyTypeId
+                                  : 0,
+                                paymentParty: e?.target?.checked
+                                  ? item?.paymentParty
+                                  : '',
+                                paymentPartyId: e?.target?.checked
+                                  ? item?.paymentPartyId
+                                  : 0,
 
-                                      isActulCombindToMbl: e?.target?.checked
-                                        ? item?.isActulCombindToMbl
-                                        : false,
-                                      isDummyCombindToMbl: e?.target?.checked
-                                        ? item?.isDummyCombindToMbl
-                                        : false,
-                                      isPaymentCombindToMbl: e?.target?.checked
-                                        ? item?.isPaymentCombindToMbl
-                                        : false,
-                                      profitSharePercentage: e?.target?.checked
-                                        ? item?.profitSharePercentage
-                                        : '',
-                                      converstionRateUsd: e?.target?.checked
-                                        ? item?.converstionRateUsd
-                                        : '',
-                                      paymentActualCombindAmount: e?.target
-                                        ?.checked
-                                        ? item?.paymentActualCombindAmount
-                                        : '',
-                                      paymentDummyCombindAmount: e?.target
-                                        ?.checked
-                                        ? item?.paymentDummyCombindAmount
-                                        : '',
-                                      paymentAdvanceCombindAmount: e?.target
-                                        ?.checked
-                                        ? item?.paymentAdvanceCombindAmount
-                                        : '',
-                                      isCommonPaymentCombind: e?.target?.checked
-                                        ? item?.isCommonPaymentCombind
-                                        : false,
-                                    };
-                                  }
-                                  return data;
-                                }),
-                              );
+                                isActulCombindToMbl: e?.target?.checked
+                                  ? item?.isActulCombindToMbl
+                                  : false,
+                                isDummyCombindToMbl: e?.target?.checked
+                                  ? item?.isDummyCombindToMbl
+                                  : false,
+                                isPaymentCombindToMbl: e?.target?.checked
+                                  ? item?.isPaymentCombindToMbl
+                                  : false,
+                                profitSharePercentage: e?.target?.checked
+                                  ? item?.profitSharePercentage
+                                  : '',
+                                converstionRateUsd: e?.target?.checked
+                                  ? item?.converstionRateUsd
+                                  : '',
+                                paymentActualCombindAmount: e?.target?.checked
+                                  ? item?.paymentActualCombindAmount
+                                  : '',
+                                paymentDummyCombindAmount: e?.target?.checked
+                                  ? item?.paymentDummyCombindAmount
+                                  : '',
+                                paymentAdvanceCombindAmount: e?.target?.checked
+                                  ? item?.paymentAdvanceCombindAmount
+                                  : '',
+                                isCommonPaymentCombind: e?.target?.checked
+                                  ? item?.isCommonPaymentCombind
+                                  : false,
+                              };
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index] = newObj;
+                              setShippingHeadOfCharges(copyPrv);
                             }}
                           />
                         </td>
@@ -743,7 +736,8 @@ function ChargesModal({ rowClickData, CB }) {
                             disabled={
                               isDisabled ||
                               item?.invoiceId ||
-                              !item?.collectionParty
+                              !item?.collectionParty ||
+                              item?.isCommonPaymentCombind
                             }
                             value={item?.collectionDummyAmount}
                             name="collectionDummyAmount"
@@ -767,7 +761,15 @@ function ChargesModal({ rowClickData, CB }) {
                               item?.billRegisterId ||
                               item?.advancedBillRegisterId
                             }
-                            options={shipingCargoTypeDDL || []}
+                            options={[
+                              ...(shipingCargoTypeDDL ?? []).filter(
+                                (i) => i?.value !== 8,
+                              ),
+                              {
+                                label: `Others`,
+                                value: 0,
+                              },
+                            ]}
                             value={
                               item?.paymentPartyType
                                 ? {
@@ -795,7 +797,8 @@ function ChargesModal({ rowClickData, CB }) {
                               isDisabled ||
                               !item?.paymentPartyType ||
                               item?.billRegisterId ||
-                              item?.advancedBillRegisterId
+                              item?.advancedBillRegisterId ||
+                              item?.isCommonPaymentCombind
                             }
                             selectedValue={
                               item?.paymentParty
@@ -1001,20 +1004,21 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <button
-                              disabled={
-                                isDisabled || item?.isCommonPaymentCombind
-                              }
+                              disabled={isDisabled}
                               type="button"
                               className="btn btn-primary"
                               onClick={() => {
+                                const hardCopy = JSON.parse(
+                                  JSON.stringify(shippingHeadOfCharges),
+                                );
                                 // copy above row item copy and add new row
-                                const aboveRow = shippingHeadOfCharges?.[index];
+                                const aboveRow = hardCopy?.[index];
                                 if (!aboveRow) {
                                   return toast.warn('Please select above row');
                                 }
                                 // insert new row below the above row
-                                setShippingHeadOfCharges([
-                                  ...shippingHeadOfCharges?.slice(0, index + 1),
+                                const modifiedData = [
+                                  ...hardCopy?.slice(0, index + 1),
                                   {
                                     headOfCharges:
                                       aboveRow?.headOfCharges || '',
@@ -1031,9 +1035,18 @@ function ChargesModal({ rowClickData, CB }) {
                                       aboveRow?.converstionRateUsd || 0,
                                     profitSharePercentage:
                                       aboveRow?.profitSharePercentage || 0,
+                                    collectionActualAmount: '',
+                                    collectionDummyAmount: '',
+                                    paymentDummyAmount: '',
+                                    paymentActualAmount: '',
                                   },
-                                  ...shippingHeadOfCharges?.slice(index + 1),
-                                ]);
+                                  ...hardCopy?.slice(index + 1),
+                                ];
+                                console.log(
+                                  JSON.stringify(modifiedData, null, 2),
+                                  'modifiedData',
+                                );
+                                setShippingHeadOfCharges(modifiedData);
                               }}
                             >
                               <i className="fa fa-clone" aria-hidden="true"></i>
