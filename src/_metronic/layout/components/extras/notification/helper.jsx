@@ -57,7 +57,7 @@ export const NotificationRirectFunc = (data) => {
 const redirectBaseURLGenerated = (data) => {
   let redirectBaseURL = '';
   // if development then open in erpLocalUrl
-  if (import.meta.env.NODE_ENV === 'development') {
+  if (import.meta.env.MODE === 'development') {
     if (data?.isErpMenu) {
       redirectBaseURL = window.location.origin;
     } else {

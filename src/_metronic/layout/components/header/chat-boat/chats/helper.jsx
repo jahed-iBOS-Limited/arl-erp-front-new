@@ -59,7 +59,7 @@ export const sendMessage = async (payload, chatList, setChatList) => {
 
 export const getChatResponse = async (payload, cb) => {
   const apiUrl =
-    import.meta.env.NODE_ENV === 'development'
+    import.meta.env.MODE === 'development'
       ? `https://deverpchat.ibos.io/erp/manual_qna`
       : `https://erpchat.ibos.io/erp/manual_qna`;
 

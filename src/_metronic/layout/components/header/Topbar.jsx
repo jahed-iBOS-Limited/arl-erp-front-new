@@ -18,7 +18,7 @@ export function Topbar() {
     <>
       <div className="topbar">
         <ChatBoat />
-        {/* <ReactSpeechRecognition /> */}
+        <ReactSpeechRecognition />
         {layoutProps.viewUserDisplay && <QuickUserToggler />}
       </div>
     </>

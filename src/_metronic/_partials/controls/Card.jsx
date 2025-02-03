@@ -151,7 +151,7 @@ export const Card = forwardRef(({ fluidHeight, className, ...props }, ref) => (
 ));
 
 // Set display names for debugging.
-if (import.meta.env.NODE_ENV !== 'production') {
+if (import.meta.env.MODE !== 'production') {
   Card.displayName = 'Card';
 
   CardHeader.displayName = 'CardHeader';
