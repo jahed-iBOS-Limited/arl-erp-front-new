@@ -71,12 +71,30 @@ export default function LoanRegisterViewForm({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+  const [maturityDate, setMaturityDate] = useState("");
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (formikRef.current) {
+      const { openingDate, termDays } = formikRef.current.values;
+      onSetMaturityDate(openingDate, termDays)
+    }
+  }, [formikRef.current?.values?.openingDate, formikRef.current?.values?.termDays]);
+
+  const onSetMaturityDate = (openingDate, termDays) => {
+    setMaturityDate("");
+    if (openingDate && termDays > 0) {
+      const openingDateObj = new Date(openingDate);
+      const calculatedDate = new Date(openingDateObj);
+      calculatedDate.setDate(calculatedDate.getDate() + Number(termDays));
+      setMaturityDate(calculatedDate.toISOString().split("T")[0]);
+    }
+  }
 
   return (
     <>
@@ -177,7 +195,7 @@ export default function LoanRegisterViewForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={renewId||location?.state?.isLoanApproved}
+                    isDisabled={renewId || location?.state?.isLoanApproved}
                     label="Facility"
                     placeholder="Facility"
                   />
@@ -192,17 +210,23 @@ export default function LoanRegisterViewForm({
                       setFieldValue("loanAccNo", e.target.value);
                     }}
                     type="string"
-                    disabled={renewId||location?.state?.isLoanApproved}
+                    disabled={renewId || location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2">
                   <label>Opening Date</label>
                   <InputField
                     value={values?.openingDate}
+                    onChange={(e) => {
+                      setFieldValue("openingDate", e.target.value);
+                      let openingDate = e.target.value;
+                      let termDays = values?.termDays;
+                      onSetMaturityDate(openingDate, termDays)
+                    }}
                     name="openingDate"
                     placeholder="Date"
                     type="date"
-                    disabled={renewId||location?.state?.isLoanApproved}
+                    disabled={renewId || location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -212,6 +236,9 @@ export default function LoanRegisterViewForm({
                     name="termDays"
                     placeholder="Tenor (Days)"
                     onChange={(e) => {
+                      let openingDate = values?.openingDate;
+                      let termDays = e.target.value;
+                      onSetMaturityDate(openingDate, termDays)
                       if (e.target.value > 0) {
                         setFieldValue("termDays", e.target.value);
                       } else {
@@ -221,6 +248,14 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
+                  />
+                </div>
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label>Maturity Date</label>
+                  <InputField
+                    value={maturityDate || ""}
+                    disabled
+                    type="date"
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -248,7 +283,7 @@ export default function LoanRegisterViewForm({
                     min="0"
                     step="any"
                     // disabled={isEdit}
-                    disabled={renewId||location?.state?.isLoanApproved}
+                    disabled={renewId || location?.state?.isLoanApproved}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -267,7 +302,7 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    // disabled={isEdit}
+                  // disabled={isEdit}
                   />
                 </div>
 
@@ -288,7 +323,7 @@ export default function LoanRegisterViewForm({
                     />
                   </div>
                 )}
-                {!(renewId || isEdit) && (
+                {!(renewId) && (
                   <>
                     <div className="col-lg-2 ">
                       <label>Loan Remarks</label>
