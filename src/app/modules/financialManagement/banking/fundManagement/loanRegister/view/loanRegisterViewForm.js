@@ -177,7 +177,7 @@ export default function LoanRegisterViewForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={isEdit || renewId}
+                    // isDisabled={isEdit || renewId}
                     label="Bank Account"
                     placeholder="Bank Account"
                   />
@@ -319,7 +319,7 @@ export default function LoanRegisterViewForm({
                       touched={touched}
                       label="Disbursement Purpose"
                       placeholder="Disbursement Purpose"
-                      isDisabled={location?.state?.isLoanApproved}
+                      // isDisabled={location?.state?.isLoanApproved}
                     />
                   </div>
                 )}
