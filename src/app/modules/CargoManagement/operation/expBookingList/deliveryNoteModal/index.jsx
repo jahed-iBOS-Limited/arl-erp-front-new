@@ -95,7 +95,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 <td style={cellStyle}>{item?.containerNumber}</td>
                 <td style={cellStyle}>{item?.sealNumber}</td>
                 <td style={cellStyle}>{item?.size}</td>
-                <td style={cellStyle}>N/A</td>
+                <td style={cellStyle}>{item?.kgs}</td>
                 <td style={cellStyle}>{item?.quantity}</td>
               </tr>
             ))}
@@ -342,7 +342,21 @@ export default function DeliveryNoteModal({ rowClickData }) {
               <td colSpan="3" style={cellStyle}>
                 <div>
                   <span>BL No:</span> <br />
-                  <span>{bookingData?.blnumber}</span>
+                  <span>
+                    {bookingData?.seaMasterBlCode &&
+                    bookingData?.airMasterBlCode ? (
+                      <>
+                        {bookingData?.seaMasterBlCode}{" "}
+                        {bookingData?.airMasterBlCode
+                          ? ", " + bookingData?.airMasterBlCode
+                          : ""}
+                      </>
+                    ) : (
+                      bookingData?.seaMasterBlCode ||
+                      bookingData?.airMasterBlCode ||
+                      ""
+                    )}
+                  </span>
                 </div>
               </td>
             </tr>
@@ -506,7 +520,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 <td style={cellStyle}>{item?.descriptionOfGoods}</td>
                 <td style={cellStyle}>N/A</td>
                 <td style={cellStyle}>{item?.totalGrossWeightKG}</td>
-                <td style={cellStyle}>N/A</td>
+                <td style={cellStyle}>{item?.totalVolumeCBM}</td>
               </tr>
             ))}
 
