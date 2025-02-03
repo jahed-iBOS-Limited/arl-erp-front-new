@@ -53,7 +53,7 @@ export const serviceWorkerPoppup = () => {
       );
     },
     error(error) {
-      if (import.meta.env.NODE_ENV === 'production') {
+      if (import.meta.env.MODE === 'production') {
         console.error('Error during service worker registration:', error);
       }
     },

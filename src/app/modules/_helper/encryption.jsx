@@ -14,7 +14,7 @@ export const makeEncryption = (data) => {
       padding: CryptoJS.pad.Pkcs7,
     },
   ).toString();
-  // return import.meta.env.NODE_ENV === "production"  ? encryptedText : data;
+  // return import.meta.env.MODE === "production"  ? encryptedText : data;
   return encryptedText;
 };
 
@@ -25,7 +25,7 @@ export const makeEncryption = (data) => {
 //     padding: CryptoJS.pad.Pkcs7,
 //   });
 //   const decryptedData = decrypt.toString(CryptoJS.enc.Utf8);
-//   // return import.meta.env.NODE_ENV === "production"
+//   // return import.meta.env.MODE === "production"
 //   //   ? decryptedData
 //   //   : JSON.stringify(data);
 //   if (decryptedData) {

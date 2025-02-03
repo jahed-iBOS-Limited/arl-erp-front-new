@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { makeStyles, useTheme } from '@mui/styles';
 import { makeStyles, useTheme } from '@mui/styles';
 
 import TablePagination from '@mui/material/TablePagination';
@@ -122,8 +121,8 @@ export default function PaginationTable({
         inputProps: { 'aria-label': 'rows per page' },
         native: true,
       }}
-      onChangePage={handleChangePage}
-      onChangeRowsPerPage={handleChangeRowsPerPage}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
       ActionsComponent={TablePaginationActions}
     />
   );

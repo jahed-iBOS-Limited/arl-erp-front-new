@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-// import PDFViewer from "mgr-pdf-viewer-react";
 import { Modal } from 'react-bootstrap';
 import { ModalProgressBar } from '../../../_metronic/_partials/controls';
 import ISpinner from './_spinner';
+import PDFViewer from './pdfViewer';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { setDownlloadFileViewEmpty } from './_redux/Actions';
 const AttachmentViewer = ({ isShow, btnText }) => {
@@ -67,13 +67,10 @@ const AttachmentViewer = ({ isShow, btnText }) => {
                   <div></div>
                   <div style={{ overflowX: 'scroll' }}>
                     {imageView?.type === 'application/pdf' ? (
-                      <></>
+                      <>
+                        <PDFViewer url={imageView?.url} />
+                      </>
                     ) : (
-                      // <PDFViewer
-                      //   document={{
-                      //     url: imageView?.url,
-                      //   }}
-                      // />
                       <img
                         src={imageView?.url}
                         alt=""
