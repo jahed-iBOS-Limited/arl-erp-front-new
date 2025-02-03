@@ -310,7 +310,7 @@ export default function PartnerSales() {
         businessPartnerId: +id,
         shipPointId: +itm?.shipPointId,
         isDefaultShippoint: itm.isDefaultShippoint,
-        distanceKm: 0,
+        distanceKm: itm?.distanceKm || 0,
         actionBy,
       };
     });
