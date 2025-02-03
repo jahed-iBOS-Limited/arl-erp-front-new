@@ -372,7 +372,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                     <strong> Place of Delivery</strong>
                   </span>{" "}
                   <br />
-                  <span>N/A</span>
+                  <span> {bookingData?.finalDestinationAddress}</span>
                 </div>
               </td>
             </tr>
@@ -432,7 +432,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 <td style={cellStyle}>{item?.recvQuantity}</td>
                 <td style={cellStyle}>{item?.typeOfCargo}</td>
                 <td style={cellStyle}>{item?.descriptionOfGoods}</td>
-                <td style={cellStyle}>N/A</td>
+                <td style={cellStyle}>{bookingData?.shippingMark || "N/A"} </td>
                 <td style={cellStyle}>{item?.totalGrossWeightKG}</td>
                 <td style={cellStyle}>{item?.totalVolumeCBM}</td>
               </tr>
