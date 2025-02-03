@@ -1,6 +1,6 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { default as Axios, default as axios } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy } from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';

@@ -4,8 +4,7 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { LayoutSplashScreen } from '../_metronic/layout/index.jsx';
 import { useKeyPress } from './modules/_helper/useKeyPress.jsx';
-import PaymentPages from './modules/payment/PaymentPages';
-import SelfServicePages from './modules/selfService/SelfServicePages';
+import useMenuTracking from './modules/_helper/customHooks/useMenuTracking';
 import TokenExpiredPopUp from './TokenExpiredPopUp';
 import MobileFirstAlert from './modules/_helper/mobileFirstAlert/index.jsx';
 
