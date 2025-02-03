@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../../App";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../../../App';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function IOU({ clickRowDto }) {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const [
     singleChaShipmentBooking,
@@ -20,7 +20,7 @@ export default function IOU({ clickRowDto }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
         @media print {
           body {
@@ -37,90 +37,90 @@ export default function IOU({ clickRowDto }) {
   const item = [
     {
       id: 1,
-      name: "Customs Duty",
+      name: 'Customs Duty',
     },
     {
       id: 2,
-      name: "Freight Forwarder NOC Fee",
+      name: 'Freight Forwarder NOC Fee',
     },
     {
       id: 3,
-      name: "Shipping Charge",
+      name: 'Shipping Charge',
     },
     {
       id: 5,
-      name: "Port Charge",
+      name: 'Port Charge',
     },
     {
       id: 6,
-      name: "C&F Association Fee",
+      name: 'C&F Association Fee',
     },
     {
       id: 7,
-      name: "B/L verify",
+      name: 'B/L verify',
     },
     {
       id: 8,
-      name: "BSTI Charge",
+      name: 'BSTI Charge',
     },
     {
       id: 9,
-      name: "Examin Leabur Charge",
+      name: 'Examin Leabur Charge',
     },
     {
       id: 10,
-      name: "Delivery Leabur Charge",
+      name: 'Delivery Leabur Charge',
     },
     {
       id: 11,
-      name: "Special Delivery Charge",
+      name: 'Special Delivery Charge',
     },
     {
       id: 12,
-      name: "IGM Correction Misc. Exp.",
+      name: 'IGM Correction Misc. Exp.',
     },
 
     {
       id: 13,
-      name: "Agency Commission on Invoice Value",
+      name: 'Agency Commission on Invoice Value',
     },
     {
       id: 18,
-      name: "Documents Handeling Charge",
+      name: 'Documents Handeling Charge',
     },
     {
       id: 14,
-      name: "Transport Charge",
+      name: 'Transport Charge',
     },
     {
       id: 15,
-      name: "Transport Leabour Charge for (Loading/ Unloading)",
+      name: 'Transport Leabour Charge for (Loading/ Unloading)',
     },
     {
       id: 16,
-      name: "Misc Exp. For Documentation/ Shipment Error",
+      name: 'Misc Exp. For Documentation/ Shipment Error',
     },
     {
       id: 17,
-      name: "Additional",
+      name: 'Additional',
     },
   ];
   const tableStyle = {
-    fontSize: "12px",
-    width: "100%",
-    borderCollapse: "collapse",
+    fontSize: '12px',
+    width: '100%',
+    borderCollapse: 'collapse',
   };
 
   const cellStyle = {
-    border: "1px solid #000",
-    padding: "5px",
-    textAlign: "left",
+    border: '1px solid #000',
+    padding: '5px',
+    textAlign: 'left',
   };
 
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
-        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,10 +131,10 @@ export default function IOU({ clickRowDto }) {
   }
 
   const totalStyle = {
-    fontWeight: "bold",
-    textAlign: "right",
-    padding: "5px",
-    border: "1px solid #000",
+    fontWeight: 'bold',
+    textAlign: 'right',
+    padding: '5px',
+    border: '1px solid #000',
   };
 
   return (
@@ -160,11 +160,11 @@ export default function IOU({ clickRowDto }) {
             <tr>
               <td colSpan="4" style={cellStyle}>
                 <div>
-                  <span>Company: {selectedBusinessUnit?.label}</span> <br />{" "}
+                  <span>Company: {selectedBusinessUnit?.label}</span> <br />{' '}
                   <hr />
                   <span>
                     Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                  </span>{" "}
+                  </span>{' '}
                   <br /> <br /> <hr />
                   <span>Phone No: N/A</span> <br />
                   <hr />
@@ -173,16 +173,16 @@ export default function IOU({ clickRowDto }) {
                   <span>BIN: N/A</span> <br />
                 </div>
               </td>
-              <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+              <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                 <div>
                   <span>
                     Booking Number: {singleChaShipmentBooking?.chabookingCode}
-                  </span>{" "}
+                  </span>{' '}
                   <br /> <br />
                   <img
-                    src={"/logisticsLogo.png"}
+                    src={'/logisticsLogo.png'}
                     alt="Company Logo"
-                    style={{ height: "50px" }}
+                    style={{ height: '50px' }}
                   />
                 </div>
               </td>
@@ -191,9 +191,9 @@ export default function IOU({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#365339',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
@@ -201,12 +201,12 @@ export default function IOU({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  textAlign: "center",
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  border: "1px solid #000",
-                  padding: "5px 0",
-                  textTransform: "uppercase",
+                  textAlign: 'center',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  border: '1px solid #000',
+                  padding: '5px 0',
+                  textTransform: 'uppercase',
                 }}
               >
                 Invoice
@@ -216,9 +216,9 @@ export default function IOU({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#365339',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
@@ -241,7 +241,7 @@ export default function IOU({ clickRowDto }) {
               <td colSpan="2" style={cellStyle}>
                 {singleChaShipmentBooking?.dteCreatedAt
                   ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
-                  : ""}
+                  : ''}
               </td>
             </tr>
             <tr>
@@ -270,10 +270,10 @@ export default function IOU({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                IP/EXP Date:{" "}
+                IP/EXP Date:{' '}
                 {singleChaShipmentBooking?.expDate
                   ? _dateFormatter(singleChaShipmentBooking?.expDate)
-                  : ""}
+                  : ''}
               </td>
               <td colSpan="3" style={cellStyle}>
                 Delivery Place: {singleChaShipmentBooking?.placeOfDelivery}
@@ -297,7 +297,7 @@ export default function IOU({ clickRowDto }) {
             </tr>
             <tr>
               <td style={cellStyle} colSpan="3">
-                Bill of Entry / Export No.:{" "}
+                Bill of Entry / Export No.:{' '}
                 {singleChaShipmentBooking?.billOfEntry}
               </td>
               <td style={cellStyle} colSpan="3"></td>
@@ -306,21 +306,21 @@ export default function IOU({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#365339',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
 
             <tr>
               <th style={cellStyle}>SL.</th>
-              <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+              <th colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                 Description
               </th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Qty/Unit</th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Rate</th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>Qty/Unit</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>Rate</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>Amount</th>
             </tr>
             {item.map((item, index) => (
               <tr key={index}>
@@ -337,9 +337,9 @@ export default function IOU({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#365339',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
@@ -370,9 +370,9 @@ export default function IOU({ clickRowDto }) {
               <td colSpan="6" style={cellStyle}>
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "50px 50px 5px 50px",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '50px 50px 5px 50px',
                   }}
                 >
                   <div>Prepared By:</div>
