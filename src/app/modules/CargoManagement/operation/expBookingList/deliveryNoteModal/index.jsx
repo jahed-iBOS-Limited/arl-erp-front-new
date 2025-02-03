@@ -199,14 +199,18 @@ export default function DeliveryNoteModal({ rowClickData }) {
             textAlign: "center",
           }}
         >
-          <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span>
+          <span style={{ fontSize: 18, fontWeight: 600 }}>DELIVERY NOTE</span>
           <br />
-          <span> {selectedBusinessUnit?.label}</span>
+          <span style={{ fontSize: 16 }}> {selectedBusinessUnit?.label}</span>
           <br />
-          <span> House - 5, Road - 6, Sector 1, Uttara, Dhaka</span> <br />
+          <span style={{ fontSize: 14 }}>
+            {" "}
+            House - 5, Road - 6, Sector 1, Uttara, Dhaka
+          </span>{" "}
+          <br />
         </div>
 
-        <div style={{ backgroundColor: "#D6DADD", height: "1px" }} />
+        {/* <div style={{ backgroundColor: "#D6DADD", height: "1px" }} /> */}
 
         <table style={tableStyle}>
           <thead>
@@ -269,39 +273,64 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 {bookingData?.notifyPartyDtl2?.contactNumber} <br />
                 {bookingData?.notifyPartyDtl2?.email} <br />
               </td>
-              <td
-                style={{
-                  ...cellStyle,
-                }}
-                colSpan="2"
-              >
-                <div>
-                  <span>
-                    <strong>Vessel</strong>
-                  </span>
-                  <br />
-                  <span>
-                    {bookingData?.transportPlanning
-                      ?.map((item) => item?.vesselName)
-                      .filter(Boolean)
-                      .join(", ")}
-                  </span>
-                </div>
-              </td>
-              <td style={cellStyle} colSpan="3">
-                <div>
-                  <span>
-                    <strong>Voyage No</strong>
-                  </span>
-                  <br />
-                  <span>
-                    {bookingData?.transportPlanning
-                      ?.map((item) => item?.voyagaNo)
-                      .filter(Boolean)
-                      .join(", ")}
-                  </span>
-                </div>
-              </td>
+              {selectedModeOfTransport === 1 && (
+                <td
+                  style={{
+                    ...cellStyle,
+                  }}
+                  colSpan="4"
+                >
+                  <div>
+                    <span>
+                      <strong>IATA number</strong>
+                    </span>
+                    <br />
+                    <span>
+                      {bookingData?.transportPlanning
+                        ?.map((item) => item?.iatanumber)
+                        .filter(Boolean)
+                        .join(", ")}
+                    </span>
+                  </div>
+                </td>
+              )}
+              {selectedModeOfTransport === 2 && (
+                <>
+                  <td
+                    style={{
+                      ...cellStyle,
+                    }}
+                    colSpan="2"
+                  >
+                    <div>
+                      <span>
+                        <strong>Vessel</strong>
+                      </span>
+                      <br />
+                      <span>
+                        {bookingData?.transportPlanning
+                          ?.map((item) => item?.vesselName)
+                          .filter(Boolean)
+                          .join(", ")}
+                      </span>
+                    </div>
+                  </td>
+                  <td style={cellStyle} colSpan="3">
+                    <div>
+                      <span>
+                        <strong>Voyage No</strong>
+                      </span>
+                      <br />
+                      <span>
+                        {bookingData?.transportPlanning
+                          ?.map((item) => item?.voyagaNo)
+                          .filter(Boolean)
+                          .join(", ")}
+                      </span>
+                    </div>
+                  </td>
+                </>
+              )}
             </tr>
             <tr>
               <td style={cellStyle} colSpan="4">
