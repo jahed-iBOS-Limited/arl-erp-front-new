@@ -16,29 +16,29 @@ import {
 } from './app/modules/_helper/encryption';
 import { withEncryptedAPI } from './app/modules/_helper/withEncryptedAPI';
 import { setIsExpiredTokenActions } from './app/modules/Auth/_redux/Auth_Actions';
-const origin = 'https://erp.ibos.io';
-export const imarineBaseUrl =
-  process.env.NODE_ENV === 'development' ||
-  window.location?.hostname === 'deverp.ibos.io'
-    ? 'https://imarine.ibos.io'
-    : 'https://imarine.ibos.io';
+import useServiceWorkerUpdate from './app/modules/_helper/useServiceWorkerUpdate';
 
-export const marineBaseUrlPythonAPI =
-  process.env.NODE_ENV === 'development' ||
-  window.location?.hostname === 'deverp.ibos.io'
-    ? 'https://marine.ibos.io'
-    : 'https://marine.ibos.io';
+const origin = window.location.origin;
+const isDevelopmentOrDevHost = () =>
+  import.meta.env.MODE === 'development' ||
+  window.location?.hostname === 'deverp.ibos.io';
+console.log(import.meta.env.MODE);
+export const imarineBaseUrl = isDevelopmentOrDevHost()
+  ? 'https://devimarine.ibos.io'
+  : 'https://imarine.ibos.io';
 
-export const eProcurementBaseURL =
-  process.env.NODE_ENV === 'development' ||
-  window.location?.hostname === 'deverp.ibos.io'
-    ? 'https://arl.peopledesk.io/api'
-    : 'https://arl.peopledesk.io/api';
+export const marineBaseUrlPythonAPI = isDevelopmentOrDevHost()
+  ? 'https://devmarine.ibos.io'
+  : 'https://marine.ibos.io';
 
-// live-url: https://erp.peopledesk.io
+export const eProcurementBaseURL = isDevelopmentOrDevHost()
+  ? 'https://devarl.peopledesk.io/api'
+  : 'https://arl.peopledesk.io/api';
 
-export const APIUrl =
-  process.env.NODE_ENV === 'development' ? 'https://erp.ibos.io' : origin;
+export const APIUrl = isDevelopmentOrDevHost()
+  ? 'https://deverp.ibos.io'
+  : origin;
+
 Axios.defaults.baseURL = APIUrl;
 
 interface AppProps {
@@ -48,6 +48,7 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
+  const { updateAvailable } = useServiceWorkerUpdate();
   // Request Interceptor
   Axios.interceptors.request.use(
     async (config) => {
@@ -176,6 +177,11 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
       }
     },
   );
+
+  if (updateAvailable) {
+    alert('New version available. Please refresh the page to update.');
+  }
+  console.log(updateAvailable, 'updateAvailable');
   return (
     /* Provide Redux store */
     <Provider store={store}>

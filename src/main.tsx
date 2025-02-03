@@ -13,13 +13,13 @@ import {
   MetronicSubheaderProvider,
 } from './_metronic/layout';
 import './app.css';
-const { PUBLIC_URL } = import.meta.env.NODE_ENV || {};
+
 createRoot(document.getElementById('root')!).render(
   <>
     <MetronicLayoutProvider>
       <MetronicSubheaderProvider>
         <MetronicSplashScreenProvider>
-          <App store={store} persistor={persistor} basename={PUBLIC_URL} />
+          <App store={store} persistor={persistor} basename={'/'} />
         </MetronicSplashScreenProvider>
       </MetronicSubheaderProvider>
     </MetronicLayoutProvider>
