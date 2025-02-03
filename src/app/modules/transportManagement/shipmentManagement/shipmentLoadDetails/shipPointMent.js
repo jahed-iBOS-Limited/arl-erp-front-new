@@ -6,7 +6,13 @@ import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
 
 const ShipPointShipMentDDL = ({ obj }) => {
-  const { values, errors, touched, setFieldValue, isEditingMode } = obj;
+  const {
+    values,
+    errors,
+    touched,
+    setFieldValue,
+    isEditingMode,
+  } = obj;
 
   //redux
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -68,18 +74,22 @@ const ShipPointShipMentDDL = ({ obj }) => {
         }}
       />
 
-      <CommonDDLFieldComponent
-        obj={{
-          name: "shipment",
-          ddl: shipmentLoadDDL,
-          label: "Shipment",
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isDisabled: isEditingMode,
-        }}
-      />
+      {values?.reportType?.label === "Details" ? (
+        <CommonDDLFieldComponent
+          obj={{
+            name: "shipment",
+            ddl: [{ value: 0, label: "All" }, ...shipmentLoadDDL],
+            label: "Shipment",
+            values,
+            errors,
+            touched,
+            setFieldValue,
+            isDisabled: isEditingMode,
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
