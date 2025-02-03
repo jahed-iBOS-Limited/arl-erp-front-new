@@ -47,7 +47,7 @@ const middleware = [
 const store = configureStore({
   reducer: persistedReducer,
   middleware,
-  devTools: import.meta.env.NODE_ENV !== 'production',
+  devTools: import.meta.env.MODE !== 'production',
   enhancers: [reduxBatch],
 });
 
