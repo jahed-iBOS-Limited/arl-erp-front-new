@@ -15,13 +15,15 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-
+    "incremental": true,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "types": ["vite-plugin-pwa/client"]
   },
   "include": ["src"]
 }
