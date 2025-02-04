@@ -79,6 +79,47 @@ export default function LoanRegisterViewForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(()=>{
+
+    if(initData?.bank?.value){
+      
+      const fetchBankAccountDDL = () => {
+        getBankAccountDDLByBankId(
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          initData?.bank?.value,
+          setAccountDDL,
+          setLoading
+        );
+      };
+    
+      const fetchFacilityDDL = () => {
+        getFacilityDLL(
+          selectedBusinessUnit?.value,
+          initData?.bank?.value,
+          (resData) => {
+            setFacilityDDL(resData);
+            if (!renewId && !isEdit && formikRef.current) {
+              const facilityFind = resData?.find(
+                (item) => item?.value === 2
+              );
+              formikRef.current.setFieldValue("facility", facilityFind || "");
+              formikRef.current.setFieldValue(
+                "termDays",
+                facilityFind?.tenorDays || 0
+              );
+            }
+          },
+          setLoading
+        );
+      };
+    
+      fetchBankAccountDDL();
+      fetchFacilityDDL();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[initData])
+
   useEffect(() => {
     if (formikRef.current) {
       const { openingDate, termDays } = formikRef.current.values;

@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { _dateTimeFormatter } from '../../../_helper/_dateFormate';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 export default function ItemRateHistoryModal({ propsObj }) {
+
+   const {  selectedBusinessUnit } = useSelector((state) => {
+      return state.authData;
+    }, shallowEqual);
+
   const { singleData } = propsObj;
   const [historyData, getHistoryData] = useAxiosGet();
 
@@ -36,8 +41,8 @@ export default function ItemRateHistoryModal({ propsObj }) {
               <th>Effective Date</th>
               <th>Last Update Date</th>
               <th>Update By</th>
-              <th>Rate (Dhaka)</th>
-              <th>Rate (Chittagong)</th>
+              <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
               <th>View</th>
             </tr>
           </thead>
@@ -54,7 +59,7 @@ export default function ItemRateHistoryModal({ propsObj }) {
                   </td>
                   <td>{item?.updatedByName}</td>
                   <td className="text-center">{item?.itemRate}</td>
-                  <td className="text-center">{item?.itemRateOthers}</td>
+                 {![144, 189, 188].includes(selectedBusinessUnit?.value) &&  <td className="text-center">{item?.itemRateOthers}</td>}
                   <td className="text-center">
                     {singleData?.attachment ? (
                       <OverlayTrigger

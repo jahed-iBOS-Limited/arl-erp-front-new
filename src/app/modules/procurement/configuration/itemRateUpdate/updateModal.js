@@ -34,8 +34,8 @@ export default function UpdateItemRateModal({ propsObj }) {
               <th>Item Name</th>
               <th>Uom</th>
               <th>Effective Date</th>
-              <th>Rate (Dhaka)</th>
-              <th>Rate (Chittagong)</th>
+              <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
               <th>Action</th>
             </tr>
           </thead>
@@ -69,7 +69,7 @@ export default function UpdateItemRateModal({ propsObj }) {
                   }}
                 />
               </td>
-              <td className="text-center">
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <td className="text-center">
                 <InputField
                   type="number"
                   value={modifyData?.itemOthersRate || ''}
@@ -80,7 +80,7 @@ export default function UpdateItemRateModal({ propsObj }) {
                     setModifyData(data);
                   }}
                 />
-              </td>
+              </td>}
               <td className="text-center">
                 <div className="">
                   <AttachmentUploaderNew
