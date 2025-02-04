@@ -93,7 +93,7 @@ export default function RateAgreement() {
         <>
           {rowDtoLoading && <Loading />}
           <IForm
-            title="Rate Agreement"
+            title="Sales Contract"
             isHiddenReset
             isHiddenBack
             isHiddenSave
