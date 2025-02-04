@@ -186,7 +186,7 @@ export default function _Form({
   const channelBulk = headerData?.distributionChannel?.value === 67;
   const objDiscountGrandTotal =
   selectedBusinessUnit?.value === 232 && isEdit && objDiscount?.length > 0
-    ? objDiscount?.reduce((acc, item) => acc + item?.numDiscountAmount, 0)
+    ? objDiscount?.reduce((acc, item) => (acc += item?.numDiscountAmount), 0)
     : 0;
 
   return (
