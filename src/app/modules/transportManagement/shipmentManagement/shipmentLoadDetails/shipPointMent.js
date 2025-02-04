@@ -1,18 +1,12 @@
 import React, { useEffect } from "react";
-import NewSelect from "../../../_helper/_select";
-import { fetchCommonDDL } from "./helper";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { fetchCommonDDL } from "./helper";
 
 const ShipPointShipMentDDL = ({ obj }) => {
-  const {
-    values,
-    errors,
-    touched,
-    setFieldValue,
-    isEditingMode,
-  } = obj;
+  const { values, errors, touched, setFieldValue, isEditingMode } = obj;
 
   //redux
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -74,22 +68,18 @@ const ShipPointShipMentDDL = ({ obj }) => {
         }}
       />
 
-      {values?.reportType?.label === "Details" ? (
-        <CommonDDLFieldComponent
-          obj={{
-            name: "shipment",
-            ddl: [{ value: 0, label: "All" }, ...shipmentLoadDDL],
-            label: "Shipment",
-            values,
-            errors,
-            touched,
-            setFieldValue,
-            isDisabled: isEditingMode,
-          }}
-        />
-      ) : (
-        <></>
-      )}
+      <CommonDDLFieldComponent
+        obj={{
+          name: "shipment",
+          ddl: [{ value: 0, label: "All" }, ...shipmentLoadDDL],
+          label: "Shipment",
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          isDisabled: isEditingMode,
+        }}
+      />
     </>
   );
 };

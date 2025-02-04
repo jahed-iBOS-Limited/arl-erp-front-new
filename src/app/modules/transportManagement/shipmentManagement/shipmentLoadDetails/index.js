@@ -1,25 +1,25 @@
 import { Form, Formik } from "formik";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import {
+  fetchCommonDDL,
   fetchShipmentDetailsData,
   landingInitData,
   landingValidation,
   reportTypeDDL,
 } from "./helper";
-import ShipPointShipMentDDL from "./shipPointMent";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import NewSelect from "../../../_helper/_select";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 
 export default function ShipmentLoadDetailsLandingPage() {
   //redux
-  const { selectedBusinessUnit } = useSelector(
+  const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
@@ -32,13 +32,36 @@ export default function ShipmentLoadDetailsLandingPage() {
     shipmentLoadDetailsData,
     getShipmentLoadDetails,
     getShipmentLoadDetailsLoading,
+    setShipmentLoadDetailsData,
   ] = useAxiosGet();
 
   const [
     shipmentLoadTopSheetData,
     getShipmentLoadTopSheet,
     getShipmentLoadTopSheetLoading,
+    setShipmentLoadTopSheetData,
   ] = useAxiosGet();
+
+  const [shipPointDDL, getShipPointDDL, getShipPointDDLLoading] = useAxiosGet();
+
+  const [
+    shipmentLoadDDL,
+    getShipmentLoadDDL,
+    getShipmentLoadDDLLoading,
+  ] = useAxiosGet();
+
+  // use effect initial load
+  useEffect(() => {
+    // inital shippoint ddl load
+    fetchCommonDDL({
+      getApi: getShipPointDDL,
+      apiName: "shipPoint",
+      values: {},
+      selectedBusinessUnit,
+      profileData,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // save handler
   const showHandler = (values, cb) => {
@@ -53,7 +76,16 @@ export default function ShipmentLoadDetailsLandingPage() {
 
   // is Loading
   const isLoading =
-    getShipmentLoadDetailsLoading || getShipmentLoadTopSheetLoading;
+    getShipmentLoadDetailsLoading ||
+    getShipmentLoadTopSheetLoading ||
+    getShipPointDDLLoading ||
+    getShipmentLoadDDLLoading;
+
+  // reset table data
+  const resetTable = () => {
+    setShipmentLoadDetailsData([]); // details
+    setShipmentLoadTopSheetData([]); // top sheet
+  };
 
   return (
     <Formik
@@ -62,10 +94,9 @@ export default function ShipmentLoadDetailsLandingPage() {
       validationSchema={landingValidation}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         showHandler(values, () => {
-          resetForm(landingInitData);
+          // resetForm(landingInitData);
         });
       }}
-
     >
       {({
         handleSubmit,
@@ -118,22 +149,55 @@ export default function ShipmentLoadDetailsLandingPage() {
                         shipment: "",
                         shippoint: "",
                       });
+                      resetTable();
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
 
-                {/* This is common for landing & create. From updated requirement- The shipment ddl will not show at landing for top sheet report type that's there is some more modification. */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="shippoint"
+                    options={shipPointDDL}
+                    value={values?.shippoint}
+                    label="Shippoint"
+                    onChange={(valueOption) => {
+                      setFieldValue("shippoint", valueOption);
+                      // call shipment ddl on shippont change
+                      fetchCommonDDL({
+                        getApi: getShipmentLoadDDL,
+                        apiName: "shipmentLoading",
+                        values: {
+                          ...values,
+                          shippoint: valueOption,
+                        },
+                        selectedBusinessUnit,
+                        profileData,
+                      });
+                      resetTable();
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
 
-                <ShipPointShipMentDDL
-                  obj={{
-                    values,
-                    errors,
-                    touched,
-                    setFieldValue,
-                  }}
-                />
+                {[1].includes(values?.reportType?.value) ? (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="shipment"
+                      options={[{ value: 0, label: "All" }, ...shipmentLoadDDL]}
+                      value={values?.shipment}
+                      label="Shipment"
+                      onChange={(valueOption) => {
+                        setFieldValue("shipment", valueOption);
+                        resetTable();
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                ) : null}
 
                 {[2].includes(values?.reportType?.value) ? (
                   <FromDateToDateForm
@@ -142,6 +206,7 @@ export default function ShipmentLoadDetailsLandingPage() {
                       setFieldValue,
                       errors,
                       touched,
+                      cb: resetTable,
                     }}
                   />
                 ) : (
@@ -159,7 +224,7 @@ export default function ShipmentLoadDetailsLandingPage() {
                 </div>
               </div>
 
-              {values?.reportType?.label === "Details" ? (
+              {values?.reportType?.value === 1 ? (
                 <ShipmentLoadDetailsTable
                   obj={{ shipmentLoadDetailsData, history }}
                 />
