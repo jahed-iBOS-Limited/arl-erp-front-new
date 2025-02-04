@@ -23,7 +23,6 @@ import {
   setNotifyCountAction,
   setSignalRConnectionAction,
 } from './modules/_helper/chattingAppRedux/Action';
-import { serviceWorkerPoppup } from './modules/_helper/serviceWorkerPoppup';
 import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
 
 const DepartmentalBalancedScorecard = lazy(() =>
@@ -76,8 +75,6 @@ export function Routes() {
 
   const { actions } = authSlice;
   Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-  serviceWorkerPoppup();
   const dispatch = useDispatch();
 
   useEffect(() => {
