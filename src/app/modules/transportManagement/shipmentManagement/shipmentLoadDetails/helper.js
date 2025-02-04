@@ -1,33 +1,79 @@
 import * as Yup from "yup";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import { _monthLastDate } from "../../../_helper/_monthLastDate";
 
 /* ====== landing page ======= */
 export const landingInitData = {
+  reportType: "",
   shippoint: "",
   shipment: "",
+  fromDate: _monthFirstDate(),
+  toDate: _monthLastDate(),
 };
+
+// report type ddl
+export const reportTypeDDL = [
+  { value: 1, label: "Details" },
+  { value: 2, label: "Top Sheet" },
+];
 
 // landing validation
 export const landingValidation = Yup.object().shape({
+  reportType: Yup.object({
+    value: Yup.number().required("Report type is required"),
+    label: Yup.string().required("Report type is required"),
+  }).required("Report type is required"),
   shippoint: Yup.object({
     value: Yup.number().required("Shippoint is required"),
     label: Yup.string().required("Shippoint is required"),
   }).required("Shippoint is required"),
-  shipment: Yup.object({
-    value: Yup.number().required("Shipment is required"),
-    label: Yup.string().required("Shipment is required"),
-  }).required("Shipment is required"),
+  shipment: Yup.object().when("reportType", (reportType, schema) => {
+    if (reportType?.label === "Details") {
+      return schema.required("Shipment is required");
+    }
+    return schema.notRequired();
+  }),
+  fromDate: Yup.date().when("reportType", (reportType, schema) => {
+    if (reportType?.label === "Details") {
+      return schema.notRequired();
+    }
+    return schema.required("From date is required");
+  }),
+  toDate: Yup.date().when("reportType", (reportType, schema) => {
+    if (reportType?.label === "Details") {
+      return schema.notRequired();
+    }
+    return schema.required("To date is required");
+  }),
 });
 
 // landing details fetch
 export function fetchShipmentDetailsData(obj) {
   // destrcuture
-  const { getShipmentLoadDetails, values, selectedBusinessUnit, cb } = obj;
-  const { shipment } = values;
+  const {
+    getShipmentLoadDetails,
+    getShipmentLoadTopSheet,
+    values,
+    selectedBusinessUnit,
+    cb,
+  } = obj;
+  const { shipment, reportType, shippoint, fromDate, toDate } = values;
 
-  getShipmentLoadDetails(
-    `/oms/ShipmentTransfer/GetShipmentLoading?businessUnitId=${selectedBusinessUnit?.value}&shipmentId=${shipment?.value}`,
-    cb
-  );
+  switch (reportType?.label) {
+    case "Details":
+      return getShipmentLoadDetails(
+        `/oms/ShipmentTransfer/GetShipmentLoading?businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${shippoint?.value}&shipmentId=${shipment?.value}`,
+        cb
+      );
+    case "Top Sheet":
+      return getShipmentLoadTopSheet(
+        `/oms/ShipmentTransfer/GetShipmentLoadingTopSheet?businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${shippoint?.value}&fromDate=${fromDate}&toDate=${toDate}`,
+        cb
+      );
+
+    default:
+      return false;
+  }
 }
 
 /* ====== common create , edit page ======= */
@@ -80,6 +126,7 @@ export function generateEditInitData(location) {
       totalNetWeight,
       totalLoadQuantity,
       totalRemainingQuantity,
+      loadingDate,
     },
   } = location;
 
@@ -97,6 +144,7 @@ export function generateEditInitData(location) {
       totalRemainingQuantity: totalRemainingQuantity || 30,
     },
     quantity: quantity,
+    loadingDate: loadingDate,
     existingQuantity: quantity, // set current quantity in hidden state named existing Quantity because we need to do validation of current quantity & remaining quantity when editing
     isEditing: true, // enable edit true by default when set state for edit (this doesn't called in inital)
   };
@@ -150,6 +198,7 @@ export const createInitData = {
   shipment: "",
   shift: "",
   quantity: "",
+  loadingDate: "",
 };
 
 /* ====== edit page ======= */
@@ -186,4 +235,6 @@ export const validationSchema = Yup.object().shape({
         }
       }
     ),
+
+  loadingDate: Yup.date().required("Loading date is required"),
 });

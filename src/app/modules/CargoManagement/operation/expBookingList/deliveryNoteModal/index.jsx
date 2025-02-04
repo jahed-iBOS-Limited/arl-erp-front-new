@@ -1,20 +1,34 @@
-import React, { useEffect, useRef } from 'react';
-import { imarineBaseUrl } from '../../../../../App';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import logisticsLogo from './logisticsLogo.png';
-import './style.css';
+import React, { useEffect, useRef } from "react";
+import { imarineBaseUrl } from "../../../../../App";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import logisticsLogo from "./logisticsLogo.png";
+import "./style.css";
 
-import moment from 'moment';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
-import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import Loading from "../../../../_helper/_loading";
+const tableStyle = {
+  fontSize: "12px",
+  width: "100%",
+  borderCollapse: "collapse",
+};
+
+const cellStyle = {
+  border: "1px solid #000",
+  padding: "5px",
+  textAlign: "left",
+};
 
 export default function DeliveryNoteModal({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
+  const [
+    selectedModeOfTransport,
+    setSelectedModeOfTransport,
+  ] = React.useState();
   const componentRef = useRef();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
 
   const [
@@ -26,6 +40,13 @@ export default function DeliveryNoteModal({ rowClickData }) {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        (data) => {
+          const modeOfTransportId = [2, 3].includes(data?.modeOfTransportId)
+            ? 2
+            : 1;
+
+          setSelectedModeOfTransport(modeOfTransportId);
+        }
       );
     }
 
@@ -33,9 +54,19 @@ export default function DeliveryNoteModal({ rowClickData }) {
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};
+
+  const transportPlanningSea =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 2;
+    }) || "";
+  const transportPlanningAir =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 1;
+    }) || "";
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: 'Customs-RTGS',
+    documentTitle: "Customs-RTGS",
     pageStyle: `
           @media print {
             body {
@@ -55,15 +86,77 @@ export default function DeliveryNoteModal({ rowClickData }) {
         <Loading />
       </div>
     );
+  const TransportPlanningTable = ({ transportPlanning, modeOfTransport }) => {
+    if (modeOfTransport === "Sea") {
+      return (
+        <div>
+          <table
+            border="1"
+            cellPadding="5"
+            cellSpacing="0"
+            style={{ width: "100%" }}
+          >
+            <thead>
+              <tr style={{ backgroundColor: "#D6DADD" }}>
+                <th style={cellStyle}>Container No.</th>
+                <th style={cellStyle}>Seal No.</th>
+                <th style={cellStyle}>Size</th>
+                <th style={cellStyle}> Weight</th>
+                <th style={cellStyle}>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transportPlanning?.containerDesc?.map((item, index) => (
+                <tr key={index}>
+                  <td style={cellStyle}>{item?.containerNumber}</td>
+                  <td style={cellStyle}>{item?.sealNumber}</td>
+                  <td style={cellStyle}>{item?.size}</td>
+                  <td style={cellStyle}>{item?.kgs}</td>
+                  <td style={cellStyle}>{item?.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    } else return null;
+  };
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: '20px',
-        }}
-      >
+      <div className="d-flex justify-content-between mt-2">
+        <div>
+          {rowClickData?.modeOfTransportId === 3 && (
+            <div>
+              {" "}
+              <label className="mr-3">
+                <input
+                  type="radio"
+                  name="billingType"
+                  checked={selectedModeOfTransport === 1}
+                  className="mr-1 pointer"
+                  style={{ position: "relative", top: "2px" }}
+                  onChange={(e) => {
+                    setSelectedModeOfTransport(1);
+                  }}
+                />
+                Air
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="billingType"
+                  checked={selectedModeOfTransport === 2}
+                  className="mr-1 pointer"
+                  style={{ position: "relative", top: "2px" }}
+                  onChange={(e) => {
+                    setSelectedModeOfTransport(2);
+                  }}
+                />
+                Sea
+              </label>
+            </div>
+          )}
+        </div>
         <button
           onClick={handlePrint}
           type="button"
@@ -77,15 +170,15 @@ export default function DeliveryNoteModal({ rowClickData }) {
       <div
         style={{
           fontSize: 11,
-          display: 'grid',
+          display: "grid",
           gap: 10,
-          position: 'relative',
+          position: "relative",
         }}
         ref={componentRef}
       >
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
           }}
@@ -96,184 +189,277 @@ export default function DeliveryNoteModal({ rowClickData }) {
             style={{
               height: 25,
               width: 150,
-              objectFit: 'cover',
+              objectFit: "cover",
             }}
           />
         </div>
 
         <div
           style={{
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
-          <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span>
+          <span style={{ fontSize: 18, fontWeight: 600 }}>DELIVERY NOTE</span>
           <br />
-          <span> {selectedBusinessUnit?.label}</span>
+          <span style={{ fontSize: 16 }}> {selectedBusinessUnit?.label}</span>
           <br />
-          <span> House - 5, Road - 6, Sector 1, Uttara, Dhaka</span> <br />
+          <span style={{ fontSize: 14 }}>
+            {" "}
+            House - 5, Road - 6, Sector 1, Uttara, Dhaka
+          </span>{" "}
+          <br />
         </div>
 
-        <div style={{ backgroundColor: '#D6DADD', height: '1px' }} />
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr ',
-            // border: "1px solid #000000",
-          }}
-        >
-          {/* left side  */}
-          <div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>
-                Booking Request Code{' '}
-              </span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.bookingRequestCode}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Consignee</span>
-              <span style={{ padding: 2 }}>: {bookingData?.consigneeName}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Address</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.consigneeAddress}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>
-                Contact Person
-              </span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.consigneeContactPerson}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Contact No</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.consigneeContact}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Email</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.consigneeEmail}
-              </span>
-            </div>
-          </div>
-          {/* right side */}
-          <div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Shipper </span>
-              <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Address</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.shipperAddress}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>
-                contactPerson{' '}
-              </span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.shipperContactPerson}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Contact </span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.shipperContact}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Email </span>
-              <span style={{ padding: 2 }}>: {bookingData?.shipperEmail}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Delivery At</span>
-              <span style={{ padding: 2 }}>
-                :{' '}
-                {moment(bookingData?.requestDeliveryDate).format(
-                  'YYYY-MM-DD HH:mm:ss',
-                )}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2, fontWeight: 600 }}>Vehicle</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.transportPlanning?.vehicleInfo}
-              </span>
-            </div>
-          </div>
-        </div>
+        {/* <div style={{ backgroundColor: "#D6DADD", height: "1px" }} /> */}
+
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              <td
+                colSpan="3"
+                style={{
+                  ...cellStyle,
+                  textAlign: "center",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                <div>
+                  <span>DELIVERY ORDER</span> <br />
+                </div>
+              </td>
+              <td colSpan="3" style={cellStyle}>
+                <div>
+                  <span>BL No:</span> <br />
+                  <span>
+                    {bookingData?.seaMasterBlCode &&
+                    bookingData?.airMasterBlCode ? (
+                      <>
+                        {bookingData?.seaMasterBlCode}{" "}
+                        {bookingData?.airMasterBlCode
+                          ? ", " + bookingData?.airMasterBlCode
+                          : ""}
+                      </>
+                    ) : (
+                      bookingData?.seaMasterBlCode ||
+                      bookingData?.airMasterBlCode ||
+                      ""
+                    )}
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                colSpan="2"
+                rowSpan={5}
+                style={{
+                  ...cellStyle,
+                  textAlign: "start",
+                  verticalAlign: "top",
+                }}
+              >
+                <strong>Notify Party (Complete Name & Address)</strong>
+                <br />
+                {bookingData?.notifyPartyDtl1?.participantsName} <br />
+                {bookingData?.notifyPartyDtl1?.address} <br />
+                {bookingData?.notifyPartyDtl1?.contactPerson} <br />
+                {bookingData?.notifyPartyDtl1?.contactNumber} <br />
+                {bookingData?.notifyPartyDtl1?.email} <br />
+                <br /> <hr />
+                {bookingData?.notifyPartyDtl2?.participantsName} <br />
+                {bookingData?.notifyPartyDtl2?.address} <br />
+                {bookingData?.notifyPartyDtl2?.contactPerson} <br />
+                {bookingData?.notifyPartyDtl2?.contactNumber} <br />
+                {bookingData?.notifyPartyDtl2?.email} <br />
+              </td>
+              {selectedModeOfTransport === 1 && (
+                <td
+                  style={{
+                    ...cellStyle,
+                  }}
+                  colSpan="4"
+                >
+                  <div>
+                    <span>
+                      <strong>IATA number</strong>
+                    </span>
+                    <br />
+                    <span>
+                      {bookingData?.transportPlanning
+                        ?.map((item) => item?.iatanumber)
+                        .filter(Boolean)
+                        .join(", ")}
+                    </span>
+                  </div>
+                </td>
+              )}
+              {selectedModeOfTransport === 2 && (
+                <>
+                  <td
+                    style={{
+                      ...cellStyle,
+                    }}
+                    colSpan="2"
+                  >
+                    <div>
+                      <span>
+                        <strong>Vessel</strong>
+                      </span>
+                      <br />
+                      <span>
+                        {bookingData?.transportPlanning
+                          ?.map((item) => item?.vesselName)
+                          .filter(Boolean)
+                          .join(", ")}
+                      </span>
+                    </div>
+                  </td>
+                  <td style={cellStyle} colSpan="3">
+                    <div>
+                      <span>
+                        <strong>Voyage No</strong>
+                      </span>
+                      <br />
+                      <span>
+                        {bookingData?.transportPlanning
+                          ?.map((item) => item?.voyagaNo)
+                          .filter(Boolean)
+                          .join(", ")}
+                      </span>
+                    </div>
+                  </td>
+                </>
+              )}
+            </tr>
+            <tr>
+              <td style={cellStyle} colSpan="4">
+                <div>
+                  <span>
+                    <strong> Place of Receipt</strong>
+                  </span>{" "}
+                  <br />
+                  <span>{bookingData?.originAddress}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style={cellStyle} colSpan="4">
+                <div>
+                  <span>
+                    <strong> Port of Loading</strong>
+                  </span>{" "}
+                  <br />
+                  <span> {bookingData?.portOfLoading}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style={cellStyle} colSpan="4">
+                <div>
+                  <span>
+                    <strong> Port of Discharge</strong>
+                  </span>{" "}
+                  <br />
+                  <span> {bookingData?.portOfDischarge}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style={cellStyle} colSpan="4">
+                <div>
+                  <span>
+                    <strong> Place of Delivery</strong>
+                  </span>{" "}
+                  <br />
+                  <span> {bookingData?.finalDestinationAddress}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                colSpan="2"
+                style={{
+                  ...cellStyle,
+                  verticalAlign: "top",
+                }}
+              >
+                <div>
+                  <span>
+                    <strong>CONSIGNEE (Complete Name & Address)</strong> <br />
+                    {bookingData?.consigneeName}
+                    <br />
+                    {bookingData?.consigneeAddress}
+                    <br />
+                    {bookingData?.consigneeContactPerson}
+                    <br />
+                    {bookingData?.consigneeContact}
+                    <br />
+                    {bookingData?.consigneeEmail}
+                  </span>{" "}
+                  <br />
+                </div>
+              </td>
+              <td colSpan="4" style={{ ...cellStyle, verticalAlign: "top" }}>
+                <div>
+                  <span>
+                    <strong> Shipper (Complete Name & Address)</strong>
+                    <br />
+                    {bookingData?.shipperName}
+                    <br />
+                    {bookingData?.shipperAddress}
+                    <br />
+                    {bookingData?.shipperContactPerson}
+                    <br />
+                    {bookingData?.shipperContact}
+                    <br />
+                    {bookingData?.shipperEmail}
+                  </span>{" "}
+                  <br />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style={cellStyle}>Quantity</td>
+              <td style={cellStyle}>Package</td>
+              <td style={cellStyle}>Description of Goods</td>
+              <td style={cellStyle}> Marks & Numbers</td>
+              <td style={cellStyle}>Gross Weight</td>
+              <td style={cellStyle}>Measurement</td>
+            </tr>
+            {bookingData?.rowsData?.map((item, index) => (
+              <tr key={index}>
+                <td style={cellStyle}>{item?.recvQuantity}</td>
+                <td style={cellStyle}>{item?.typeOfCargo}</td>
+                <td style={cellStyle}>{item?.descriptionOfGoods}</td>
+                <td style={cellStyle}>{bookingData?.shippingMark || "N/A"} </td>
+                <td style={cellStyle}>{item?.totalGrossWeightKG}</td>
+                <td style={cellStyle}>{item?.totalVolumeCBM}</td>
+              </tr>
+            ))}
+
+            <tr>
+              <td
+                colSpan="6"
+                style={{
+                  height: "1.5rem",
+                  //  border: "1px solid #000",
+                }}
+              />
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <TransportPlanningTable
+          transportPlanning={
+            selectedModeOfTransport === 1
+              ? transportPlanningAir
+              : transportPlanningSea
+          }
+          modeOfTransport={selectedModeOfTransport === 1 ? "Air" : "Sea"}
+        />
+
         {/* table  */}
         <div
           style={{
@@ -285,10 +471,10 @@ export default function DeliveryNoteModal({ rowClickData }) {
             border="1"
             cellPadding="5"
             cellSpacing="0"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
             <thead>
-              <tr style={{ backgroundColor: '#D6DADD' }}>
+              <tr style={{ backgroundColor: "#D6DADD" }}>
                 <th>SL</th>
                 <th>Attribute</th>
                 <th>Amount</th>
@@ -297,16 +483,16 @@ export default function DeliveryNoteModal({ rowClickData }) {
             <tbody>
               {bookingData?.billingData?.map((row, index) => (
                 <tr key={index}>
-                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                  <td style={{ textAlign: "center" }}>{index + 1}</td>
                   <td>{row?.headOfCharges}</td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td style={{ textAlign: "right" }}>
                     {row.collectionActualAmount}
                   </td>
                 </tr>
               ))}
-              <tr style={{ fontSize: 14, fontWeight: 600, textAlign: 'right' }}>
-                <td colSpan="2" style={{ textAlign: 'right' }}>
-                  {' '}
+              <tr style={{ fontSize: 14, fontWeight: 600, textAlign: "right" }}>
+                <td colSpan="2" style={{ textAlign: "right" }}>
+                  {" "}
                   Total
                 </td>
                 <td>
@@ -322,34 +508,34 @@ export default function DeliveryNoteModal({ rowClickData }) {
         {/* signature  */}
         <div
           style={{
-            paddingTop: '5rem',
+            paddingTop: "5rem",
           }}
         >
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
             }}
           >
             <div>
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Officer
               </span>
             </div>
             <div>
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Driver's Signature
               </span>
             </div>
             <div
               style={{
-                textAlign: 'right',
+                textAlign: "right",
               }}
             >
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Receiver's Signature With Seal & Date
               </span>
             </div>
