@@ -42,32 +42,42 @@ export default function LoanRegisterCreate({
   useEffect(() => {
     if (renewId || editId) {
       setModifyData({
-        bank: {
-          value: location?.state?.intBankId,
-          label: location?.state?.strBankName,
-        },
-        facility: {
-          value: location?.state?.intLoanFacilityId,
-          label: location?.state?.facilityName,
-        },
-        account: {
-          value: location?.state?.intBankAccountId,
-          label: location?.state?.strBankAccountNumber,
-        },
-        openingDate: _dateFormatter(location?.state?.dteStartDate),
+        bank: location?.state?.intBankId && location?.state?.strBankName
+          ? {
+              value: location.state.intBankId,
+              label: location.state.strBankName,
+            }
+          : "",
+        facility: location?.state?.intLoanFacilityId && location?.state?.facilityName
+          ? {
+              value: location.state.intLoanFacilityId,
+              label: location.state.facilityName,
+            }
+          : "",
+        account: location?.state?.intBankAccountId && location?.state?.strBankAccountNumber
+          ? {
+              value: location.state.intBankAccountId,
+              label: location.state.strBankAccountNumber,
+            }
+          : "",
+        openingDate: location?.state?.dteStartDate
+          ? _dateFormatter(location.state.dteStartDate)
+          : "",
         loanAccNo: location?.state?.strLoanAccountName || "",
         termDays: location?.state?.intTenureDays || 0,
         principle: location?.state?.numPrinciple || 0,
         interestRate: location?.state?.numInterestRate || 0,
-        disbursementPurpose: location?.state?.disbursementPurposeId
+        disbursementPurpose: location?.state?.disbursementPurposeId &&
+          location?.state?.disbursementPurposeName
           ? {
-              value: location?.state?.disbursementPurposeId,
-              label: location?.state?.disbursementPurposeName,
+              value: location.state.disbursementPurposeId,
+              label: location.state.disbursementPurposeName,
             }
           : "",
         remarks: location?.state?.loanRemarks || "",
       });
     }
+    
   }, [renewId, location, editId]);
   const singleData = useSelector((state) => {
     return state.costControllingUnit?.singleData;
