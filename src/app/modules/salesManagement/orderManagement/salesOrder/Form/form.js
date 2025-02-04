@@ -166,6 +166,7 @@ export default function _Form({
   collectionDays,
   getCommissionRatesForEssential,
   brokerDDL,
+  objDiscount
 }) {
   const dispatch = useDispatch();
   const debounce = useDebounce();
@@ -183,6 +184,10 @@ export default function _Form({
   const isBUILineAsia = selectedBusinessUnit?.value === 209;
   const isBUICommodities = selectedBusinessUnit?.value === 221;
   const channelBulk = headerData?.distributionChannel?.value === 67;
+  const objDiscountGrandTotal =
+  selectedBusinessUnit?.value === 232 && isEdit && objDiscount?.length > 0
+    ? objDiscount?.reduce((acc, item) => acc + item?.numDiscountAmount, 0)
+    : 0;
 
   return (
     <>
@@ -1182,6 +1187,41 @@ export default function _Form({
                         </div>
                       </>
                     )}
+
+                    {/* If the bussiness unit is agro feed 232 & approved mode than show below content */}
+
+                    {
+                      selectedBusinessUnit?.value===232 && isEdit && objDiscount?.length>0 ?
+                      
+                        
+                      <div class="col-lg-6 offset-md-3">
+                     
+                  
+                      <p className="my-2 text-center">
+                       {objDiscount.map((item)=>(
+                         <>
+                         <strong>{item?.commissionTypeName}: </strong>  
+                         {" "}
+                         <span>{item?.numDiscountAmount}</span>
+                         {" "}
+                         </>
+                       ))}
+
+                        <strong>Grand Total: </strong>  
+                         {" "}
+                         <span>{objDiscountGrandTotal}</span>
+                         {" "}
+                      </p>
+                   
+                  
+                      </div>
+                   
+                        
+                    :null
+                    }
+                    
+
+
                     <div className="offset-lg-2 col-lg-5 d-flex justify-content-lg-end">
                       <div className="right mt-4">
                         <div>
