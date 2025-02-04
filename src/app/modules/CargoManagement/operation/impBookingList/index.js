@@ -97,12 +97,10 @@ function ImpBookingList() {
     modeOfTransportId = 1,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+      ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -131,7 +129,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId
+      item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -162,7 +160,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -289,7 +287,7 @@ function ImpBookingList() {
                             minWidth: '120px',
                           }}
                         >
-                          Shipper Name
+                          Consignee Name
                         </th>
                         <th
                           style={{
@@ -456,19 +454,19 @@ function ImpBookingList() {
                                   {item?.bookingRequestCode}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperContact}
+                                  {item?.consigneeContact}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperName}
+                                  {item?.consigneeName}
                                 </td>
                                 <td className="text-left">
                                   {moment(item?.createdAt).format('DD-MM-YYYY')}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperEmail}
+                                  {item?.consigneeEmail}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperCountry}
+                                  {item?.consigCountry}
                                 </td>
                                 <td className="text-left">
                                   {item?.portOfDischarge}
@@ -476,7 +474,7 @@ function ImpBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                  item?.airMasterBlCode ? (
+                                    item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -1061,9 +1059,8 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                  } Report`}
+                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({

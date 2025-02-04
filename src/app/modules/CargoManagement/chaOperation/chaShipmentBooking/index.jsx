@@ -336,7 +336,17 @@ export default function ChaShipmentBooking() {
                     }}
                     title={"IOU"}
                   >
-                    <IOU clickRowDto={clickRowDto} />
+                    <IOU
+                      clickRowDto={clickRowDto}
+                      CB={() => {
+                        commonGetData("", pageNo, pageSize, values);
+                        setOpenModalObject({
+                          ...openModalObject,
+                          isOpenIOU: false,
+                        });
+                        setClickRowDto({});
+                      }}
+                    />
                   </IViewModal>
                 )}
               </div>
