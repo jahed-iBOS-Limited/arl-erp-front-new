@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import NewSelect from "../../../_helper/_select";
-import { fetchCommonDDL } from "./helper";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { fetchCommonDDL } from "./helper";
 
 const ShipPointShipMentDDL = ({ obj }) => {
   const { values, errors, touched, setFieldValue, isEditingMode } = obj;
@@ -71,7 +71,7 @@ const ShipPointShipMentDDL = ({ obj }) => {
       <CommonDDLFieldComponent
         obj={{
           name: "shipment",
-          ddl: shipmentLoadDDL,
+          ddl: [{ value: 0, label: "All" }, ...shipmentLoadDDL],
           label: "Shipment",
           values,
           errors,
