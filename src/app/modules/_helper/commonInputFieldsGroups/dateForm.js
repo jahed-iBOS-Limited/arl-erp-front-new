@@ -12,6 +12,7 @@ function FromDateToDateForm({ obj }) {
     type,
     disabled,
     step, // the attribute "step" is used to show the second value in the date-time input field
+    cb,
   } = obj;
 
   const col = colSize ? colSize : `col-lg-3`;
@@ -30,6 +31,7 @@ function FromDateToDateForm({ obj }) {
             setFieldValue("fromDate", e.target.value);
             onChange &&
               onChange({ ...values, fromDate: e?.target?.value }, "fromDate");
+            cb && cb();
           }}
           disabled={disabled}
         />
@@ -61,6 +63,7 @@ function FromDateToDateForm({ obj }) {
             setFieldValue("toDate", e.target.value);
             onChange &&
               onChange({ ...values, toDate: e?.target?.value }, "toDate");
+            cb && cb();
           }}
           disabled={disabled}
         />
