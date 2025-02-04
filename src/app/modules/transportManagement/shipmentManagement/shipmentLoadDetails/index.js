@@ -279,7 +279,7 @@ function ShipmentLoadDetailsTable({ obj }) {
                   {index + 1}
                 </td>
                 <td>{item?.shipmentCode}</td>
-                <td>{_dateFormatter(item?.creationDate)}</td>
+                <td>{_dateFormatter(item?.loadingDate)}</td>
                 <td>{item?.shiftName}</td>
                 <td className="text-right">{item?.quantity}</td>
 

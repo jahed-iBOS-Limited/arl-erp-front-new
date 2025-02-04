@@ -1,5 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -13,8 +15,6 @@ import {
   validationSchema,
 } from "./helper";
 import ShipPointShipMentDDL, { CommonDDLFieldComponent } from "./shipPointMent";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
 
 export default function ShipmentLoadDetailsCreateEditPage() {
   //redux
@@ -50,7 +50,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
   // save handler
   const saveHandler = (values, params, cb) => {
     // destrcuture
-    const { shipment, shift, quantity } = values;
+    const { shipment, shift, quantity, loadingDate } = values;
     // generate save payload
     const payload = {
       autoId: isEditingMode(params) ? +params?.id : 0, // if editing mode than provide it's id otherwise 0
@@ -58,6 +58,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
       shiftName: shift?.label || "",
       quantity: +quantity || 0,
       actionBy: profileData?.userId,
+      loadingDate: loadingDate,
     };
     // console.log(payload);
 
@@ -158,6 +159,18 @@ export default function ShipmentLoadDetailsCreateEditPage() {
                     type="number"
                     onChange={(e) => {
                       setFieldValue("quantity", e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-3  ">
+                  <InputField
+                    value={values?.loadingDate}
+                    label="Loading Date"
+                    type="date"
+                    name="loadingDate"
+                    onChange={(e) => {
+                      setFieldValue("loadingDate", e.target.value);
                     }}
                   />
                 </div>

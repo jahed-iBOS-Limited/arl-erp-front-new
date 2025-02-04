@@ -126,6 +126,7 @@ export function generateEditInitData(location) {
       totalNetWeight,
       totalLoadQuantity,
       totalRemainingQuantity,
+      loadingDate,
     },
   } = location;
 
@@ -143,6 +144,7 @@ export function generateEditInitData(location) {
       totalRemainingQuantity: totalRemainingQuantity || 30,
     },
     quantity: quantity,
+    loadingDate: loadingDate,
     existingQuantity: quantity, // set current quantity in hidden state named existing Quantity because we need to do validation of current quantity & remaining quantity when editing
     isEditing: true, // enable edit true by default when set state for edit (this doesn't called in inital)
   };
@@ -196,6 +198,7 @@ export const createInitData = {
   shipment: "",
   shift: "",
   quantity: "",
+  loadingDate: "",
 };
 
 /* ====== edit page ======= */
@@ -232,4 +235,6 @@ export const validationSchema = Yup.object().shape({
         }
       }
     ),
+
+  loadingDate: Yup.date().required("Loading date is required"),
 });
