@@ -322,10 +322,10 @@ export default function ViewInvoice({ clickRowDto }) {
               <td colSpan="5" style={totalStyle}>
                 Sub Total:
               </td>
-              <td style={cellStyle}>{totalCollectionAmount}</td>
+              <td style={totalStyle}>{totalCollectionAmount}</td>
             </tr>
             <tr>
-              <td colSpan="6" style={cellStyle}>
+              <td colSpan="6" style={totalStyle}>
                 Amount in words:{' '}
                 <span
                   style={{
