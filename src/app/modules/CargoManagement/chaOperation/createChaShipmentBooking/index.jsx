@@ -71,6 +71,8 @@ const initData = {
   etaDate: '',
   ataDate: '',
   cbmWeight: '',
+  lcDate: '',
+  lcNo: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -198,6 +200,8 @@ function CreateChaShipmentBooking() {
       currency: values?.currency?.label || '',
       ...(values?.etaDate ? { eta: values?.expDate } : {}),
       ...(values?.ataDate ? { ata: values?.ataDate } : {}),
+      lcNo: values?.lcNo || '',
+      ...(values?.lcDate ? { lcDate: values?.lcDate } : {}),
       isActive: true,
       createdBy: profileData?.userId,
       updatedAt: new Date(),
@@ -400,6 +404,8 @@ function CreateChaShipmentBooking() {
             etaDate: resData?.eta ? _dateFormatter(resData?.eta) : '',
             ataDate: resData?.ata ? _dateFormatter(resData?.ata) : '',
             cbmWeight: resData?.cbmWeight || '',
+            lcDate: resData?.lcDate ? _dateFormatter(resData?.lcDate) : '',
+            lcNo: resData?.lcNo || '',
           };
 
           formikRef.current.setValues(valuesObj);
@@ -454,6 +460,7 @@ function CreateChaShipmentBooking() {
                           onChange={(e) => {
                             setFieldValue('impExpType', 1);
                           }}
+                          disabled={id}
                         />
                         Export
                       </label>
@@ -467,6 +474,7 @@ function CreateChaShipmentBooking() {
                           onChange={(e) => {
                             setFieldValue('impExpType', 2);
                           }}
+                          disabled={id}
                         />
                         Import
                       </label>
@@ -531,6 +539,7 @@ function CreateChaShipmentBooking() {
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={id}
                     />
                   </div>
 
@@ -1168,6 +1177,32 @@ function CreateChaShipmentBooking() {
                       value={values?.cbmWeight}
                       onChange={(e) => {
                         setFieldValue('cbmWeight', e.target.value);
+                      }}
+                    />
+                  </div>
+
+                  {/* Lc Date */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="LC Date"
+                      type="date"
+                      name="lcDate"
+                      value={values?.lcDate}
+                      onChange={(e) => {
+                        setFieldValue('lcDate', e.target.value);
+                      }}
+                    />
+                  </div>
+
+                  {/* Lc No */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="LC No"
+                      type="text"
+                      name="lcNo"
+                      value={values?.lcNo}
+                      onChange={(e) => {
+                        setFieldValue('lcNo', e.target.value);
                       }}
                     />
                   </div>
