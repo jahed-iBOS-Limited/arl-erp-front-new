@@ -298,7 +298,7 @@ export default function RateAgreementCreate() {
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm
-            title={` Sales Contract ${id ? "" : "Create"}`}
+            title={` Purchase Agreement ${id ? "" : "Create"}`}
             getProps={setObjprops}
           >
             <Form onSubmit={handleSubmit}>
