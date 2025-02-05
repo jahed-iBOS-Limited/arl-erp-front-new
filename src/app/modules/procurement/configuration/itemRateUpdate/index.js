@@ -260,8 +260,8 @@ export default function ItemRateUpdate() {
                           <th>Item Name</th>
                           <th>Uom</th>
                           <th>Effective Date</th>
-                          <th>Rate (Dhaka)</th>
-                          <th>Rate (Chittagong)</th>
+                          <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
+                          {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -276,9 +276,9 @@ export default function ItemRateUpdate() {
                               {_dateTimeFormatter(item?.effectiveDate)}
                             </td>
                             <td className="text-center">{item?.itemRate}</td>
-                            <td className="text-center">
+                            {![144, 189, 188].includes(selectedBusinessUnit?.value) && <td className="text-center">
                               {item?.itemOthersRate}
-                            </td>
+                            </td>}
                             <td className="text-center">
                               <div className="">
                                 {item?.attachment ? (
