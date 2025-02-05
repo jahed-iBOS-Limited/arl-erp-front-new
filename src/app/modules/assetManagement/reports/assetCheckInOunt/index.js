@@ -28,7 +28,7 @@ export default function AssetCheckInOut() {
     const getReportData = (values) => {
         let strStatus = values?.status?.value === null ? "" : `&Status=${values?.status?.value}`;
         getGridData(
-            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}&&AssetId=${values?.asset?.value || 0}${strStatus}`
+            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}&AssetId=${values?.asset?.value || 0}${strStatus}`
         );
     };
 
