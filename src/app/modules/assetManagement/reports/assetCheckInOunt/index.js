@@ -68,6 +68,7 @@ export default function AssetCheckInOut() {
                                         options={departmentList || []}
                                         value={values?.department}
                                         label="Department"
+                                        isDisabled={values?.businessUnit?.label === "All"}
                                         onChange={(valueOption) => setFieldValue("department", valueOption)}
                                     />
                                 </div>
