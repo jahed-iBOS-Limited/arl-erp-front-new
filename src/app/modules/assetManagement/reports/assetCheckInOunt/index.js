@@ -28,7 +28,7 @@ export default function AssetCheckInOut() {
     const getReportData = (values) => {
         let strStatus = values?.status?.value === null ? "" : `&Status=${values?.status?.value}`;
         getGridData(
-            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}&&AssetId=${values?.asset?.value || 0}${strStatus}`
+            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}&AssetId=${values?.asset?.value || 0}${strStatus}`
         );
     };
 
@@ -68,6 +68,7 @@ export default function AssetCheckInOut() {
                                         options={departmentList || []}
                                         value={values?.department}
                                         label="Department"
+                                        isDisabled={values?.businessUnit?.label === "All"}
                                         onChange={(valueOption) => setFieldValue("department", valueOption)}
                                     />
                                 </div>
@@ -131,7 +132,7 @@ export default function AssetCheckInOut() {
                                 </div>
                                 <div className="col-lg-3">
                                     <button
-                                        disabled={!values?.status?.label || (values?.businessUnit?.label && !values?.employee?.label)}
+                                        disabled={!values?.status?.label || (values?.businessUnit?.label === "All" && !values?.employee?.label)}
                                         type="button"
                                         className="btn btn-primary mt-4"
                                         onClick={() => getReportData(values)}
