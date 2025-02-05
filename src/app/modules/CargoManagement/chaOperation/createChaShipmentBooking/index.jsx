@@ -847,7 +847,11 @@ function CreateChaShipmentBooking() {
                       name="commodity"
                       value={values?.commodity}
                       onChange={(valueOption) => {
-                        setFieldValue('commodity', valueOption);
+                        const modifyData = {
+                          value: 0,
+                          label: valueOption?.label || '',
+                        };
+                        setFieldValue('commodity', modifyData);
                       }}
                       placeholder="Commodity Name"
                       errors={errors}
