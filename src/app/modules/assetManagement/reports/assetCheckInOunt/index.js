@@ -132,7 +132,7 @@ export default function AssetCheckInOut() {
                                 </div>
                                 <div className="col-lg-3">
                                     <button
-                                        disabled={!values?.status?.label || (values?.businessUnit?.label && !values?.employee?.label)}
+                                        disabled={!values?.status?.label || (values?.businessUnit?.label === "All" && !values?.employee?.label)}
                                         type="button"
                                         className="btn btn-primary mt-4"
                                         onClick={() => getReportData(values)}
