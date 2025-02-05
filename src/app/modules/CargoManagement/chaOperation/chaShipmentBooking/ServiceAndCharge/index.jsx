@@ -1,16 +1,16 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import "./style.css";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import './style.css';
 
 const validationSchema = Yup.object().shape({});
 
@@ -31,7 +31,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   React.useEffect(() => {
     getShippingHeadOfCharges(
@@ -45,7 +45,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
               resShippingHeadOfCharges.forEach((item) => {
                 const saveHeadOfChargeList =
                   resSveData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value
+                    (findItem) => findItem?.headOfChargeId === item?.value,
                   ) || [];
 
                 if (saveHeadOfChargeList?.length > 0) {
@@ -53,13 +53,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     const obj = {
                       ...item,
                       ...saveItem,
-                      collectionRate: saveItem?.collectionRate || "",
-                      collectionQty: saveItem?.collectionQty || "",
-                      collectionAmount: saveItem?.collectionAmount || "",
-                      paymentRate: saveItem?.paymentRate || "",
-                      paymentQty: saveItem?.paymentQty || "",
-                      paymentAmount: saveItem?.paymentAmount || "",
-                      party: saveItem?.partyName || "",
+                      collectionRate: saveItem?.collectionRate || '',
+                      collectionQty: saveItem?.collectionQty || '',
+                      collectionAmount: saveItem?.collectionAmount || '',
+                      paymentRate: saveItem?.paymentRate || '',
+                      paymentQty: saveItem?.paymentQty || '',
+                      paymentAmount: saveItem?.paymentAmount || '',
+                      party: saveItem?.partyName || '',
                       partyId: saveItem?.partyId || 0,
                       checked: saveItem ? true : false,
                     };
@@ -68,7 +68,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                 } else {
                   const obj = {
                     ...item,
-                    headOfCharges: item?.label || "",
+                    headOfCharges: item?.label || '',
                     headOfChargeId: item?.value || 0,
                   };
                   arryList.push(obj);
@@ -76,9 +76,9 @@ function ServiceAndCharge({ clickRowDto, CB }) {
               });
               setShippingHeadOfCharges([...arryList]);
             }
-          }
+          },
         );
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -90,7 +90,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
           serviceChargeId: item?.serviceChargeId || 0,
           bookingId: clickRowDto?.chabookingId || 0,
           headOfChargeId: item?.headOfChargeId || 0,
-          headOfCharges: item?.headOfCharges || "",
+          headOfCharges: item?.headOfCharges || '',
           collectionRate: item?.collectionRate || 0,
           collectionQty: item?.collectionQty || 0,
           collectionAmount: item?.collectionAmount || 0,
@@ -98,7 +98,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
           paymentQty: item?.paymentQty || 0,
           paymentAmount: item?.paymentAmount || 0,
           partyId: item?.partyId || 0,
-          partyName: item?.party || "",
+          partyName: item?.party || '',
           isActive: true,
           createdBy: profileData?.userId || 0,
           createdAt: new Date(),
@@ -113,14 +113,14 @@ function ServiceAndCharge({ clickRowDto, CB }) {
 
     // ----------end verify -------------
     if (payloadList.length === 0) {
-      return toast.warn("Please select at least one charge");
+      return toast.warn('Please select at least one charge');
     }
     const validateAttributes = (payloadList, attributeLabels) => {
       for (const [attr, label] of Object.entries(attributeLabels)) {
         const emptyItem = payloadList?.find((item) => !item[attr]);
         if (emptyItem) {
           toast.warn(
-            `Please enter ${label} for "${emptyItem?.headOfCharges}" Attribute`
+            `Please enter ${label} for "${emptyItem?.headOfCharges}" Attribute`,
           );
           return false;
         }
@@ -129,13 +129,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     };
     // all attributes to check
     const attributesToCheck = {
-      collectionRate: "Collection Rate",
-      collectionQty: "Collection Qty",
-      collectionAmount: "Collection Amount",
-      paymentRate: "Payment Rate",
-      paymentQty: "Payment Qty",
-      paymentAmount: "Payment Amount",
-      partyName: "Party",
+      collectionRate: 'Collection Rate',
+      collectionQty: 'Collection Qty',
+      collectionAmount: 'Collection Amount',
+      paymentRate: 'Payment Rate',
+      paymentQty: 'Payment Qty',
+      paymentAmount: 'Payment Amount',
+      partyName: 'Party',
     };
     if (!validateAttributes(payloadList, attributesToCheck)) return;
     // ----------end verify -------------
@@ -143,8 +143,26 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaServiceAndCharge`,
       payloadList,
-      CB
+      CB,
     );
+  };
+
+  const commonRowHandler = ({ index, key, value }) => {
+    const prvShippingHeadOfCharges = [...shippingHeadOfCharges];
+    prvShippingHeadOfCharges[index][key] = value;
+
+    const collectionRate =
+      +prvShippingHeadOfCharges[index]?.collectionRate || 0;
+    const collectionQty = +prvShippingHeadOfCharges[index]?.collectionQty || 0;
+    const collectionAmount = collectionRate * collectionQty;
+    prvShippingHeadOfCharges[index].collectionAmount = collectionAmount;
+
+    const paymentRate = +prvShippingHeadOfCharges[index]?.paymentRate || 0;
+    const paymentQty = +prvShippingHeadOfCharges[index]?.paymentQty || 0;
+    const paymentAmount = paymentRate * paymentQty;
+    prvShippingHeadOfCharges[index].paymentAmount = paymentAmount;
+
+    setShippingHeadOfCharges(prvShippingHeadOfCharges);
   };
 
   return (
@@ -155,13 +173,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          collectionRate: "",
-          collectionQty: "",
-          collectionAmount: "",
-          paymentRate: "",
-          paymentQty: "",
-          paymentAmount: "",
-          party: "",
+          collectionRate: '',
+          collectionQty: '',
+          collectionAmount: '',
+          paymentRate: '',
+          paymentQty: '',
+          paymentAmount: '',
+          party: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -202,7 +220,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                   <tr>
                     <th
                       style={{
-                        minWidth: "150px",
+                        minWidth: '150px',
                       }}
                       className="collection-header"
                     >
@@ -210,7 +228,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        minWidth: "150px",
+                        minWidth: '150px',
                       }}
                       className="collection-header"
                     >
@@ -218,7 +236,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: "60px",
+                        width: '60px',
                       }}
                       className="collection-header"
                     >
@@ -227,7 +245,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
 
                     <th
                       style={{
-                        minWidth: "150px",
+                        minWidth: '150px',
                       }}
                       className="payment-header"
                     >
@@ -235,7 +253,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        minWidth: "150px",
+                        minWidth: '150px',
                       }}
                       className="payment-header"
                     >
@@ -243,7 +261,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: "60px",
+                        width: '60px',
                       }}
                       className="payment-header"
                     >
@@ -251,7 +269,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: "60px",
+                        width: '60px',
                       }}
                       className="payment-header"
                     >
@@ -278,32 +296,32 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                                       checked: e?.target?.checked,
                                       collectionRate: e?.target?.checked
                                         ? item?.collectionRate
-                                        : "",
+                                        : '',
                                       collectionQty: e?.target?.checked
                                         ? item?.collectionQty
-                                        : "",
+                                        : '',
                                       collectionAmount: e?.target?.checked
                                         ? item?.collectionAmount
-                                        : "",
+                                        : '',
                                       paymentRate: e?.target?.checked
                                         ? item?.paymentRate
-                                        : "",
+                                        : '',
                                       paymentQty: e?.target?.checked
                                         ? item?.paymentQty
-                                        : "",
+                                        : '',
                                       paymentAmount: e?.target?.checked
                                         ? item?.paymentAmount
-                                        : "",
+                                        : '',
                                       party: e?.target?.checked
                                         ? item?.party
-                                        : "",
+                                        : '',
                                       partyId: e?.target?.checked
                                         ? item?.partyId
                                         : 0,
                                     };
                                   }
                                   return data;
-                                })
+                                }),
                               );
                             }}
                           />
@@ -318,9 +336,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionRate}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionRate = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'collectionRate',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -334,9 +354,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionQty}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionQty = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'collectionQty',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -344,20 +366,8 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                           />
                         </td>
                         {/* Collection Amount */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="collectionAmount"
-                            value={item?.collectionAmount}
-                            type="number"
-                            onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionAmount = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
+                        <td className="collection-border-right text-right">
+                          {item?.collectionAmount}
                         </td>
                         {/* Payment Rate */}
                         <td className="collection-border-right">
@@ -366,9 +376,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentRate}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentRate = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'paymentRate',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -382,9 +394,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentQty}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentQty = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'paymentQty',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -392,20 +406,8 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                           />
                         </td>
                         {/* Payment Amount */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="paymentAmount"
-                            value={item?.paymentAmount}
-                            type="number"
-                            onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentAmount = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
+                        <td className="collection-border-right text-right">
+                          {item?.paymentAmount}
                         </td>
                         {/* Party */}
                         <td className="payment-border-right">
@@ -417,7 +419,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                                     label: item?.party,
                                     value: item?.partyId || 0,
                                   }
-                                : ""
+                                : ''
                             }
                             handleChange={(valueOption) => {
                               const copyPrv = [...shippingHeadOfCharges];
