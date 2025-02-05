@@ -262,19 +262,18 @@ export default function ViewInvoice({ clickRowDto }) {
           <tbody>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Bill To:
+                <b>Bill To</b>
               </td>
-              <td style={cellStyle}>Invoice No.: </td>
-              <td colSpan="2" style={cellStyle}>
-                {singleChaShipmentBooking?.commercialInvoiceNo}
+              <td colSpan="3" style={cellStyle}>
+                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}{' '}
               </td>
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
                 Name: {singleChaShipmentBooking?.customerName}
               </td>
-              <td style={cellStyle}>Date:</td>
-              <td colSpan="2" style={cellStyle}>
+              <td style={cellStyle} colSpan="3">
+                Date:{' '}
                 {singleChaShipmentBooking?.dteCreatedAt
                   ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
                   : ''}
@@ -317,26 +316,23 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                LC No.: N/A
+                LC No.:{singleChaShipmentBooking?.lcNo || 'N/A'}
               </td>
               <td colSpan="3" style={cellStyle}>
-                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
+                LC Date:{' '}
+                {singleChaShipmentBooking?.lcDate
+                  ? _dateFormatter(singleChaShipmentBooking?.lcDate)
+                  : 'N/A'}
               </td>
             </tr>
             <tr>
-              <td colSpan="3" style={cellStyle}>
-                LC Date: N/A
-              </td>
               <td colSpan="3" style={cellStyle}>
                 Invoice Value: {singleChaShipmentBooking?.invoiceValue}
               </td>
-            </tr>
-            <tr>
               <td style={cellStyle} colSpan="3">
                 Bill of Entry / Export No.:{' '}
                 {singleChaShipmentBooking?.billOfEntry}
               </td>
-              <td style={cellStyle} colSpan="3"></td>
             </tr>
             <tr>
               <td
