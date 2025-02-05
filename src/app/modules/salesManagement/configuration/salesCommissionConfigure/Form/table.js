@@ -1,5 +1,7 @@
 import React from "react";
 import InputField from "../../../../_helper/_inputField";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { Button } from "react-bootstrap";
 
 const SalesCommissionConfigureFormTable = ({ obj }) => {
   const { rowData, setRowData, values, akijAgroFeedCommissionTypeList } = obj;
@@ -35,10 +37,10 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
         19,
         // 22
       ].includes(values?.commissionType?.value) && (
-        <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
+        <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler,setRowData }} />
       )}
       {[14, 16, 20, 23].includes(values?.commissionType?.value) && (
-        <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
+        <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler ,setRowData}} />
       )}
       {[
         17,
@@ -56,7 +58,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
         ...akijAgroFeedCommissionTypeList,
       ].includes(values?.commissionType?.value) && (
         <TableThree
-          obj={{ selectedAll, allSelect, rowData, rowDataHandler, values }}
+          obj={{ selectedAll, allSelect, rowData, rowDataHandler, values,setRowData }}
         />
       )}
     </div>
@@ -66,7 +68,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
 export default SalesCommissionConfigureFormTable;
 
 const TableOne = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler,setRowData } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -93,6 +95,7 @@ const TableOne = ({ obj }) => {
               {/* <th>Sales Qty</th>
             <th>Rate/bag</th>
             <th>Commission</th> */}
+            <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -174,6 +177,22 @@ const TableOne = ({ obj }) => {
                       }}
                     />
                   </td>
+                  <td>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        onClick={() => {
+                          const prv = [...rowData];
+                          const filtered = prv.filter((_, i) => i !== index);
+                          setRowData(filtered);
+                        }}
+                        color="error"
+                        size="small"
+                        title="Remove"
+                      >
+                        <IDelete />
+                      </Button>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
@@ -185,7 +204,7 @@ const TableOne = ({ obj }) => {
 };
 
 const TableTwo = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler,setRowData } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -210,6 +229,7 @@ const TableTwo = ({ obj }) => {
               <th>BA Rate/bag</th>
               <th>CP Rate/bag</th>
               <th>CA Rate/Bag</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -306,6 +326,22 @@ const TableTwo = ({ obj }) => {
                       }}
                     />
                   </td>
+                  <td>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        onClick={() => {
+                          const prv = [...rowData];
+                          const filtered = prv.filter((_, i) => i !== index);
+                          setRowData(filtered);
+                        }}
+                        color="error"
+                        size="small"
+                        title="Remove"
+                      >
+                        <IDelete />
+                      </Button>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
@@ -317,7 +353,7 @@ const TableTwo = ({ obj }) => {
 };
 
 const TableThree = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler, values } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler, values,setRowData } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -360,6 +396,7 @@ const TableThree = ({ obj }) => {
               {/* <th>1-99%</th>
               <th>100-999%</th>
               <th> {">"}999% </th> */}
+              <th rowSpan={2}>Actions</th>
             </tr>
             <tr>
               <th>From</th>
@@ -520,6 +557,23 @@ const TableThree = ({ obj }) => {
                       }}
                     />
                   </td> */}
+
+<td>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        onClick={() => {
+                          const prv = [...rowData];
+                          const filtered = prv.filter((_, i) => i !== index);
+                          setRowData(filtered);
+                        }}
+                        color="error"
+                        size="small"
+                        title="Remove"
+                      >
+                        <IDelete />
+                      </Button>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
