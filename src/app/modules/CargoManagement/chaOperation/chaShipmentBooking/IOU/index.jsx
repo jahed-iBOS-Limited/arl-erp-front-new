@@ -301,7 +301,7 @@ export default function IOU({ clickRowDto, CB }) {
                       textTransform: 'uppercase',
                     }}
                   >
-                    IOU From
+                    IOU Form
                   </td>
                 </tr>
                 <tr>
