@@ -1,16 +1,18 @@
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../App";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import logisticsLogo from "./logisticsLogo.png";
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../App';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import logisticsLogo from './logisticsLogo.png';
+import './ViewInvoice.css';
+import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
 
 export default function ViewInvoice({ clickRowDto }) {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const [
     singleChaShipmentBooking,
@@ -21,7 +23,7 @@ export default function ViewInvoice({ clickRowDto }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
         @media print {
           body {
@@ -35,88 +37,23 @@ export default function ViewInvoice({ clickRowDto }) {
         }
       `,
   });
-  const item = [
-    {
-      id: 1,
-      name: "Customs Duty",
-    },
-    {
-      id: 2,
-      name: "Freight Forwarder NOC Fee",
-    },
-    {
-      id: 3,
-      name: "Shipping Charge",
-    },
-    {
-      id: 5,
-      name: "Port Charge",
-    },
-    {
-      id: 6,
-      name: "C&F Association Fee",
-    },
-    {
-      id: 7,
-      name: "B/L verify",
-    },
-    {
-      id: 8,
-      name: "BSTI Charge",
-    },
-    {
-      id: 9,
-      name: "Examin Leabur Charge",
-    },
-    {
-      id: 10,
-      name: "Delivery Leabur Charge",
-    },
-    {
-      id: 11,
-      name: "Special Delivery Charge",
-    },
-    {
-      id: 12,
-      name: "IGM Correction Misc. Exp.",
-    },
-    {
-      id: 13,
-      name: "Documents Handeling Charge",
-    },
-    {
-      id: 14,
-      name: "Transport Charge",
-    },
-    {
-      id: 15,
-      name: "Transport Leabour Charge for (Loading/ Unloading)",
-    },
-    {
-      id: 16,
-      name: "Misc Exp. For Documentation/ Shipment Error",
-    },
-    {
-      id: 17,
-      name: "Additional",
-    },
-  ];
+
   const tableStyle = {
-    fontSize: "12px",
-    width: "100%",
-    borderCollapse: "collapse",
+    fontSize: '12px',
+    width: '100%',
+    borderCollapse: 'collapse',
   };
 
   const cellStyle = {
-    border: "1px solid #000",
-    padding: "5px",
-    textAlign: "left",
+    border: '1px solid #000',
+    padding: '2px',
+    textAlign: 'left',
   };
 
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
-        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,14 +64,24 @@ export default function ViewInvoice({ clickRowDto }) {
   }
 
   const totalStyle = {
-    fontWeight: "bold",
-    textAlign: "right",
-    padding: "5px",
-    border: "1px solid #000",
+    fontWeight: 'bold',
+    textAlign: 'right',
+    padding: '5px',
+    border: '1px solid #000',
   };
 
+  const totalCollectionAmount = singleChaShipmentBooking?.chaServiceCharges?.reduce(
+    (acc, curr) => {
+      const collectionQty = +curr?.collectionQty || 0;
+      const collectionRate = +curr?.collectionRate || 0;
+      const collectionAmount = collectionQty * collectionRate;
+      return acc + collectionAmount;
+    },
+    0,
+  );
+
   return (
-    <div>
+    <div className="chaShipmentBookingInvoice">
       <div className="d-flex justify-content-end py-2">
         <button
           onClick={handlePrint}
@@ -156,26 +103,30 @@ export default function ViewInvoice({ clickRowDto }) {
             <tr>
               <td colSpan="4" style={cellStyle}>
                 <div>
-                  <span>Company: {selectedBusinessUnit?.label}</span> <br />{" "}
-                  <hr />
+                  <span>Company: {selectedBusinessUnit?.label}</span> <br />{' '}
+                  <hr style={{ margin: '3px 0px' }} />
                   <span>
                     Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                  </span>{" "}
-                  <br /> <br /> <hr />
+                  </span>{' '}
+                  <hr style={{ margin: '3px 0px' }} />
                   <span>Phone No: N/A</span> <br />
-                  <hr />
+                  <hr style={{ margin: '3px 0px' }} />
                   <span>Email ID: N/A</span> <br />
-                  <hr />
+                  <hr style={{ margin: '3px 0px' }} />
                   <span>BIN: N/A</span> <br />
                 </div>
               </td>
-              <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+              <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                 <div>
-                  <span>Booking Number: N/A</span> <br /> <br />
+                  <span>
+                    Booking Number:{' '}
+                    <b>{singleChaShipmentBooking?.chabookingCode}</b>
+                  </span>{' '}
+                  <br /> <br />
                   <img
                     src={logisticsLogo}
                     alt="Company Logo"
-                    style={{ height: "50px" }}
+                    style={{ height: '35px' }}
                   />
                 </div>
               </td>
@@ -184,9 +135,9 @@ export default function ViewInvoice({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#ecf0f3',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
@@ -194,12 +145,12 @@ export default function ViewInvoice({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  textAlign: "center",
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  border: "1px solid #000",
-                  padding: "5px 0",
-                  textTransform: "uppercase",
+                  textAlign: 'center',
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  border: '1px solid #000',
+                  padding: '5px 0',
+                  textTransform: 'uppercase',
                 }}
               >
                 Invoice
@@ -209,9 +160,9 @@ export default function ViewInvoice({ clickRowDto }) {
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#ecf0f3',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
@@ -219,27 +170,26 @@ export default function ViewInvoice({ clickRowDto }) {
           <tbody>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Bill To:
+                <b>Bill To</b>
               </td>
-              <td style={cellStyle}>Invoice No.: </td>
-              <td colSpan="2" style={cellStyle}>
-                {singleChaShipmentBooking?.commercialInvoiceNo}
+              <td colSpan="3" style={cellStyle}>
+                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}{' '}
               </td>
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
                 Name: {singleChaShipmentBooking?.customerName}
               </td>
-              <td style={cellStyle}>Date:</td>
-              <td colSpan="2" style={cellStyle}>
+              <td style={cellStyle} colSpan="3">
+                Date:{' '}
                 {singleChaShipmentBooking?.dteCreatedAt
                   ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
-                  : ""}
+                  : ''}
               </td>
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                Address: N/A
+                Address: {singleChaShipmentBooking?.customerAddress || 'N/A'}
               </td>
               <td colSpan="3" style={cellStyle}>
                 Commodity: {singleChaShipmentBooking?.commodityName}
@@ -263,10 +213,10 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                IP/EXP Date:{" "}
+                IP/EXP Date:{' '}
                 {singleChaShipmentBooking?.expDate
                   ? _dateFormatter(singleChaShipmentBooking?.expDate)
-                  : ""}
+                  : ''}
               </td>
               <td colSpan="3" style={cellStyle}>
                 Delivery Place: {singleChaShipmentBooking?.placeOfDelivery}
@@ -274,102 +224,126 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
             <tr>
               <td colSpan="3" style={cellStyle}>
-                LC No.: N/A
+                LC No.:{singleChaShipmentBooking?.lcNo || 'N/A'}
               </td>
               <td colSpan="3" style={cellStyle}>
-                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
+                LC Date:{' '}
+                {singleChaShipmentBooking?.lcDate
+                  ? _dateFormatter(singleChaShipmentBooking?.lcDate)
+                  : 'N/A'}
               </td>
             </tr>
             <tr>
-              <td colSpan="3" style={cellStyle}>
-                LC Date: N/A
-              </td>
               <td colSpan="3" style={cellStyle}>
                 Invoice Value: {singleChaShipmentBooking?.invoiceValue}
               </td>
-            </tr>
-            <tr>
               <td style={cellStyle} colSpan="3">
-                Bill of Entry / Export No.:{" "}
+                Bill of Entry / Export No.:{' '}
                 {singleChaShipmentBooking?.billOfEntry}
               </td>
-              <td style={cellStyle} colSpan="3"></td>
             </tr>
             <tr>
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#transparent',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
 
             <tr>
               <th style={cellStyle}>SL.</th>
-              <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+              <th colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                 Description
               </th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>QTY</th>
-              <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>QTY</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>Rate</th>
+              <th style={{ ...cellStyle, textAlign: 'center' }}>Amount</th>
             </tr>
-            {item.map((item, index) => (
-              <tr key={index}>
-                <td style={cellStyle}>{index + 1}</td>
-                <td colSpan="2" style={cellStyle}>
-                  {item?.name}
-                </td>
-                <td style={cellStyle}></td>
-                <td
-                  style={{
-                    ...cellStyle,
-                    border: "none",
-                    borderRight: "1px solid #000",
-                  }}
-                ></td>
-              </tr>
-            ))}
+            {singleChaShipmentBooking?.chaServiceCharges?.map((item, index) => {
+              const collectionQty = +item?.collectionQty || 0;
+              const collectionRate = +item?.collectionRate || 0;
+              const collectionAmount = collectionQty * collectionRate;
+              return (
+                <>
+                  <tr key={index}>
+                    <td
+                      style={{
+                        ...cellStyle,
+                        width: '15px',
+                      }}
+                    >
+                      {index + 1}
+                    </td>
+                    <td colSpan="2" style={cellStyle}>
+                      {item?.headOfCharges}
+                    </td>
+                    <td
+                      style={{
+                        ...cellStyle,
+                        width: '150px',
+                      }}
+                    >
+                      {item?.collectionQty}
+                    </td>
+                    <td
+                      style={{
+                        ...cellStyle,
+                        width: '150px',
+                      }}
+                    >
+                      {item?.collectionRate}
+                    </td>
+                    <td
+                      style={{
+                        ...cellStyle,
+                        width: '150px',
+                      }}
+                    >
+                      {collectionAmount}
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
             <tr>
               <td
                 colSpan="6"
                 style={{
-                  backgroundColor: "#365339",
-                  height: "1.5rem",
-                  border: "1px solid #000",
+                  backgroundColor: '#ecf0f3',
+                  height: '1.5rem',
+                  border: '1px solid #000',
                 }}
               />
             </tr>
             <tr>
-              <td colSpan="4" style={totalStyle}>
+              <td colSpan="5" style={totalStyle}>
                 Sub Total:
               </td>
-              <td style={cellStyle}>0</td>
+              <td style={totalStyle}>{totalCollectionAmount}</td>
             </tr>
             <tr>
-              <td colSpan="4" style={totalStyle}>
-                Advance:
-              </td>
-              <td style={cellStyle}>0</td>
-            </tr>
-            <tr>
-              <td colSpan="4" style={totalStyle}>
-                Total Due:
-              </td>
-              <td style={cellStyle}>0</td>
-            </tr>
-            <tr>
-              <td colSpan="6" style={cellStyle}>
-                Amount in words:
+              <td colSpan="6" style={totalStyle}>
+                Amount in words:{' '}
+                <span
+                  style={{
+                    textTransform: 'capitalize',
+                  }}
+                >
+                  {totalCollectionAmount &&
+                    convertNumberToWords(totalCollectionAmount || 0)}
+                </span>
               </td>
             </tr>
             <tr>
               <td colSpan="6" style={cellStyle}>
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "50px 50px 5px 50px",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '150px 50px 5px 50px',
                   }}
                 >
                   <div>Prepared By:</div>
