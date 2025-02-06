@@ -17,8 +17,15 @@ const validationSchema = Yup.object().shape({
   // }),
 });
 
-const FinanceModal = ({ rowClickData, CB }) => {
-  const tradeTypeId = rowClickData?.tradeTypeId || 1;
+const FinanceModal = ({ clickRowDto, CB }) => {
+  const [paymentPartyListDDL, setPaymentPartyListDDL] = useState([]);
+
+  const [
+    chaServiceChargeData,
+    getChaServiceChargeData,
+    chaServiceChargeLoading,
+    setShippingHeadOfCharges,
+  ] = useAxiosGet();
   const formikRef = React.useRef(null);
   const [activeTab, setActiveTab] = useState('invoice');
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -27,25 +34,49 @@ const FinanceModal = ({ rowClickData, CB }) => {
   );
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
 
-  const bookingRequestId = rowClickData?.bookingRequestId;
-  const [
-    masterBLWiseBilling,
-    getMasterBLWiseBilling,
-    masterBLWiseBillingLoading,
-  ] = useAxiosGet();
   const [
     ,
     saveLogisticBillRegister,
-    logisticBillRegisterLoading,
+    chaBillRegisterLoading,
     ,
   ] = useAxiosPost();
 
-  useEffect(() => {
-    commonGetByIdHandler(0, false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
+  const commonGetByIdHandler = (dataList, type, values) => {
+    setBillingDataFilterData([]);
+    if (type === 'invoice') {
+      // filter by collectionAmount
+      const filterByCollectionAmount = dataList?.filter(
+        (item) => (+item?.collectionAmount || 0) > 0 && !item?.invoiceCode,
+      );
+      const newData = filterByCollectionAmount?.map((item) => {
+        return {
+          ...item,
+          rate: item?.collectionRate,
+          amount: item?.collectionAmount,
+          qty: item?.collectionQty,
+        };
+      });
+      setBillingDataFilterData(newData);
+    }
 
-  const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {};
+    if (type === 'billGenerate') {
+      const filterByPaymentParty = dataList?.filter(
+        (item) =>
+          item?.partyId === values?.paymentParty?.value &&
+          (+item?.paymentAmount || 0) > 0 &&
+          !item?.billRegisterCode,
+      );
+      const newData = filterByPaymentParty?.map((item) => {
+        return {
+          ...item,
+          rate: item?.paymentRate,
+          amount: item?.paymentAmount,
+          qty: item?.paymentQty,
+        };
+      });
+      setBillingDataFilterData(newData);
+    }
+  };
 
   const saveHandler = (values) => {
     if (billingDataFilterData?.length === 0)
@@ -64,39 +95,52 @@ const FinanceModal = ({ rowClickData, CB }) => {
     );
   };
 
-  // filter by paymentPartyId
-
-  const invoiceTypeHandeler = (valueOption) => {
-    setBillingDataFilterData([]);
-    if (activeTab === 'invoice') {
-    }
-
-    if (activeTab === 'billGenerate') {
-    }
-  };
-
   const handleChange = (event, newValue, values) => {
-    const copyValues = { ...values };
     if (formikRef.current) {
       formikRef.current.resetForm();
-      setBillingDataFilterData([]);
     }
+    commonGetByIdHandler(chaServiceChargeData, newValue);
     setActiveTab(newValue);
-    // const modeOfTransportId = copyValues?.billingType;
-    // formikRef.current.setFieldValue('billingType', modeOfTransportId);
-    // if (newValue === 'invoice') {
-    //   commonGetByIdHandler(modeOfTransportId, false);
-    // }
-    // if (newValue === 'billGenerate') {
-    //   commonGetByIdHandler(modeOfTransportId, true);
-    // }
   };
+
+  useEffect(() => {
+    if (clickRowDto?.chabookingId) {
+      getChaServiceChargeData(
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaServiceChargeData?ChabookingId=${clickRowDto?.chabookingId}`,
+        (resData) => {
+          commonGetByIdHandler(resData, 'invoice');
+
+          const billingDataList = resData
+            ?.filter((i) => i.partyId)
+            ?.map((item) => {
+              return {
+                ...item,
+                value: item?.partyId,
+                label: item?.partyName,
+                partyId: item?.partyId,
+              };
+            });
+          const unique = [
+            ...new Map(
+              billingDataList.map((item) => [item['partyId'], item]),
+            ).values(),
+          ];
+          setPaymentPartyListDDL(unique || []);
+        },
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickRowDto]);
+
+  const invoiceTypeHandeler = (values) => {
+    commonGetByIdHandler(chaServiceChargeData, activeTab, values);
+  };
+
   return (
     <>
       <div>
-        {(masterBLWiseBillingLoading || logisticBillRegisterLoading) && (
-          <Loading />
-        )}
+        {(chaServiceChargeLoading || chaBillRegisterLoading) && <Loading />}
       </div>
       <>
         <Formik
@@ -128,7 +172,7 @@ const FinanceModal = ({ rowClickData, CB }) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      disabled={masterBLWiseBilling?.length === 0}
+                      disabled={billingDataFilterData?.length === 0}
                       onClick={() => {
                         handleSubmit();
                       }}
@@ -163,6 +207,11 @@ const FinanceModal = ({ rowClickData, CB }) => {
                     <BillCmp
                       values={values}
                       billingDataFilterData={billingDataFilterData}
+                      invoiceTypeHandeler={invoiceTypeHandeler}
+                      paymentPartyListDDL={paymentPartyListDDL}
+                      errors={errors}
+                      touched={touched}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                 </Box>
@@ -197,7 +246,10 @@ const BillCmp = ({
             label="Partner"
             onChange={(valueOption) => {
               setFieldValue('paymentParty', valueOption);
-              invoiceTypeHandeler(valueOption);
+              invoiceTypeHandeler({
+                ...values,
+                paymentParty: valueOption,
+              });
             }}
             placeholder="Select Partner"
             errors={errors}
@@ -211,8 +263,8 @@ const BillCmp = ({
             <tr>
               <th>SL</th>
               <th>Attribute</th>
-              <th> Rate</th>
-              <th>Actual</th>
+              <th>Rate</th>
+              <th>Qty</th>
               <th>Amount</th>
             </tr>
           </thead>
@@ -224,17 +276,23 @@ const BillCmp = ({
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
+                  <td style={{ textAlign: 'right' }}>{row?.rate}</td>
+                  <td style={{ textAlign: 'right' }}>{row?.qty}</td>
+                  <td style={{ textAlign: 'right' }}>{row?.amount}</td>
                 </tr>
               ))}
             <tr>
               <td colSpan="4" style={{ textAlign: 'right' }}>
-                Total
+                <b>Total</b>
               </td>
               <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-                  0,
-                )}
+                <b>
+                  {' '}
+                  {billingDataFilterData?.reduce(
+                    (acc, curr) => acc + (+curr?.amount || 0),
+                    0,
+                  )}
+                </b>
               </td>
             </tr>
           </tbody>
@@ -244,7 +302,7 @@ const BillCmp = ({
   );
 };
 
-const InvoiceCmp = ({ billingDataFilterData, values }) => {
+const InvoiceCmp = ({ billingDataFilterData }) => {
   return (
     <>
       <div className="table-responsive">
@@ -253,30 +311,34 @@ const InvoiceCmp = ({ billingDataFilterData, values }) => {
             <tr>
               <th>SL</th>
               <th>Attribute</th>
-              <th> Rate</th>
-              <th>Actual</th>
+              <th>Rate</th>
+              <th>Qty</th>
               <th>Amount</th>
             </tr>
           </thead>
           <tbody>
-            {values?.paymentParty?.value &&
-              billingDataFilterData?.map((row, index) => (
-                <tr key={index}>
-                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
-                  <td className="align-middle">
-                    <label>{row?.headOfCharges}</label>
-                  </td>
-                </tr>
-              ))}
+            {billingDataFilterData?.map((row, index) => (
+              <tr key={index}>
+                <td style={{ textAlign: 'right' }}> {index + 1} </td>
+                <td className="align-middle">
+                  <label>{row?.headOfCharges}</label>
+                </td>
+                <td style={{ textAlign: 'right' }}>{row?.rate}</td>
+                <td style={{ textAlign: 'right' }}>{row?.qty}</td>
+                <td style={{ textAlign: 'right' }}>{row?.amount}</td>
+              </tr>
+            ))}
             <tr>
               <td colSpan="4" style={{ textAlign: 'right' }}>
-                Total
+                <b>Total</b>
               </td>
               <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-                  0,
-                )}
+                <b>
+                  {billingDataFilterData?.reduce(
+                    (acc, curr) => acc + (+curr?.amount || 0),
+                    0,
+                  )}
+                </b>
               </td>
             </tr>
           </tbody>
