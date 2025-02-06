@@ -138,7 +138,10 @@ export default function IOU({ clickRowDto, CB }) {
   };
   const saveHandler = (values, cb) => {
     const modifyData = shippingHeadOfCharges
-      ?.filter((item) => item?.quantity > 0 && item?.rate > 0)
+      ?.filter((item) => {
+        const total = (+item?.rate || 0) * (+item?.quantity || 0);
+        return total > 0;
+      })
       .map((item) => {
         return {
           headOfChargeId: item?.headOfChargeId || 0,
@@ -159,6 +162,8 @@ export default function IOU({ clickRowDto, CB }) {
       CB,
     );
   };
+
+  console.log(shippingHeadOfCharges, 'shippingHeadOfCharges');
   return (
     <Formik
       enableReinitialize={true}
@@ -176,8 +181,6 @@ export default function IOU({ clickRowDto, CB }) {
           {(isLoading || isSaving || shippingHeadOfChargesLoading) && (
             <Loading />
           )}
-          {/* {console.log("Values", values)} */}
-          {/* {console.log("errors", errors)} */}
           <div className="d-flex justify-content-end py-2">
             {!isEditModeOn && (
               <div style={{ display: 'flex', gap: '10px' }}>
@@ -415,12 +418,8 @@ export default function IOU({ clickRowDto, CB }) {
                   )}
                 </tr>
                 {shippingHeadOfCharges?.map((item, index) => {
-                  const total =
-                    item?.quantity && item?.rate
-                      ? item.quantity * item.rate
-                      : 0;
+                  const total = (+item?.rate || 0) * (+item?.quantity || 0);
                   const displayValue = total > 0 ? total : '';
-
                   return (
                     <tr key={index}>
                       <td
@@ -550,9 +549,10 @@ export default function IOU({ clickRowDto, CB }) {
                     Sub Total:
                   </td>
                   <td style={cellStyle}>
-                    {shippingHeadOfCharges
-                      ?.filter((item) => item?.quantity > 0 && item?.rate > 0)
-                      ?.reduce((a, b) => a + b?.quantity * b?.rate, 0) || 0}
+                    {shippingHeadOfCharges?.reduce((a, b) => {
+                      const total = (+b?.rate || 0) * (+b?.quantity || 0);
+                      return a + total;
+                    }, 0) || 0}
                   </td>
                 </tr>
                 <tr>
