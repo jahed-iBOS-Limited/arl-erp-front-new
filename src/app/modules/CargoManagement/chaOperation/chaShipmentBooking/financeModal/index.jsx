@@ -9,6 +9,7 @@ import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import NewSelect from '../../../../_helper/_select';
+import TextArea from '../../../../_helper/TextArea';
 
 const validationSchema = Yup.object().shape({
   // paymentParty: Yup.object().shape({
@@ -78,11 +79,61 @@ const FinanceModal = ({ clickRowDto, CB }) => {
     }
   };
 
+  //   [
+  //     {
+  //         "serviceChargeId": 1,
+  //         "bookingId": 1,
+  //         "headOfChargeId": 35,
+  //         "headOfCharges": "Customs Duty (bfusnugnsfbgysdf)",
+  //         "collectionRate": 10.000000,
+  //         "collectionQty": 20,
+  //         "collectionAmount": 200.000000,
+  //         "paymentRate": 30.000000,
+  //         "paymentQty": 40,
+  //         "paymentAmount": 1200.000000,
+  //         "serviceChargeDate": "2025-02-06T11:10:40.057",
+  //         "partyId": 106248,
+  //         "partyName": "Jaman Interiors and Exteriors Ltd.",
+  //         "isActive": true,
+  //         "createdBy": 521235,
+  //         "createdAt": "2025-02-06T10:10:20.657",
+  //         "updatedAt": "2025-02-06T11:10:38.927",
+  //         "updatedBy": 521235,
+  //         "billRegisterId": null,
+  //         "billRegisterCode": null,
+  //         "adjustmentJournalId": null,
+  //         "invoiceId": null,
+  //         "invoiceCode": null
+  //     }
+  // ]
   const saveHandler = (values) => {
     if (billingDataFilterData?.length === 0)
       return toast.warning('No data found to save');
+
+    if (!clickRowDto?.customerId) return toast.warning('Customer not found');
     const payload = {
-      headerData: {},
+      accountId: profileData?.accountId,
+      unitId: selectedBusinessUnit?.value,
+      bookingDate: new Date(),
+      bookingNumber: clickRowDto?.chabookingCode,
+      paymentTerms: values?.narration || '',
+      actionBy: profileData?.userId,
+      businessPartnerId: clickRowDto?.customerId || 0,
+      businessPartnerName: clickRowDto?.customerName || '',
+      rowString: billingDataFilterData?.map((item) => {
+        return {
+          intBillingId: item?.bookingId || 0,
+          intHeadOfChargeid: item?.headOfChargeId || 0,
+          strHeadoffcharges: item?.headOfCharges || '',
+          intCurrencyid: 0,
+          strCurrency: '',
+          numrate: item?.rate || 0,
+          numconverstionrate: 0,
+          strUom: '',
+          numamount: item?.amount || 0,
+          numvatAmount: 0,
+        };
+      }),
     };
 
     saveLogisticBillRegister(
@@ -256,6 +307,16 @@ const BillCmp = ({
             touched={touched}
           />
         </div>
+        {/* Naration */}
+        <div className="col-lg-3">
+          <label>Narration</label>
+          <TextArea
+            placeholder="Write your narration"
+            value={values?.narration}
+            name="narration"
+            type="text"
+          />
+        </div>
       </div>{' '}
       <div className="table-responsive">
         <table className="table global-table">
@@ -302,9 +363,21 @@ const BillCmp = ({
   );
 };
 
-const InvoiceCmp = ({ billingDataFilterData }) => {
+const InvoiceCmp = ({ billingDataFilterData, values }) => {
   return (
     <>
+      <div className="form-group row global-form">
+        {/* Naration */}
+        <div className="col-lg-3">
+          <label>Narration</label>
+          <TextArea
+            placeholder="Write your narration"
+            value={values?.narration}
+            name="narration"
+            type="text"
+          />
+        </div>
+      </div>{' '}
       <div className="table-responsive">
         <table className="table global-table">
           <thead>
