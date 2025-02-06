@@ -137,7 +137,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
     };
 
     saveLogisticBillRegister(
-      `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
+      `${imarineBaseUrl}/domain/CHAShipment/ChaShipmentBookingInvoice`,
       payload,
       (data) => {
         CB();
