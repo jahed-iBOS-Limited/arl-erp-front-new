@@ -220,9 +220,10 @@ export const getExpenseLandingPagination = async (
 ) => {
   try {
     setLoading(true);
-    const res = await Axios.get(
-      `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`
-    );
+    let apiUrl = supervisor === "employee" ? `/fino/Expense/ExpenseEmployeeLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&fromDate=${fromDate}&toDate=${toDate}` : 
+                                            `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`
+
+    const res = await Axios.get(apiUrl);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
