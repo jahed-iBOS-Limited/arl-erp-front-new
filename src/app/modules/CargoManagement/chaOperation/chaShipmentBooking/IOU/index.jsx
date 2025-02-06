@@ -57,7 +57,7 @@ export default function IOU({ clickRowDto, CB }) {
 
   const cellStyle = {
     border: '1px solid #000',
-    padding: '2x',
+    padding: '2px',
     textAlign: 'left',
   };
 
@@ -78,7 +78,6 @@ export default function IOU({ clickRowDto, CB }) {
           `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
           (resSveData) => {
             const arryList = [];
-
             if (resShippingHeadOfCharges?.length > 0) {
               resShippingHeadOfCharges.forEach((item) => {
                 // parse data to array
@@ -104,12 +103,13 @@ export default function IOU({ clickRowDto, CB }) {
                     const obj = {
                       ...item,
                       ...saveItem,
-                      quantity: saveItem?.quantity || 0,
-                      rate: saveItem?.rate || 0,
+                      quantity: saveItem?.quantity || '',
+                      rate: saveItem?.rate || '',
                     };
                     arryList.push(obj);
                   });
                 } else {
+                  console.log('first');
                   const obj = {
                     ...item,
                     headOfCharges: item?.label || '',
@@ -241,12 +241,14 @@ export default function IOU({ clickRowDto, CB }) {
                 <tr>
                   <td colSpan="4" style={cellStyle}>
                     <div>
-                      <span>Company: {selectedBusinessUnit?.label}</span> <br />{' '}
+                      <span>
+                        Company: <b>{selectedBusinessUnit?.label}</b>
+                      </span>
                       <hr style={{ margin: '3px 0px' }} />
                       <span>
                         Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
                       </span>{' '}
-                      <hr />
+                      <hr style={{ margin: '3px 0px' }} />
                       <span>Phone No: N/A</span> <br />
                       <hr style={{ margin: '3px 0px' }} />
                       <span>Email ID: N/A</span> <br />
@@ -258,13 +260,13 @@ export default function IOU({ clickRowDto, CB }) {
                     <div>
                       <span>
                         Booking Number:{' '}
-                        {singleChaShipmentBooking?.chabookingCode}
+                        <b>{singleChaShipmentBooking?.chabookingCode}</b>
                       </span>{' '}
                       <br /> <br />
                       <img
                         src={'/logisticsLogo.png'}
                         alt="Company Logo"
-                        style={{ height: '50px' }}
+                        style={{ height: '35px' }}
                       />
                     </div>
                   </td>
@@ -310,17 +312,16 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="3" style={cellStyle}>
                     Indentor Name:
                   </td>
-                  <td style={cellStyle}>Invoice No.: </td>
-                  <td colSpan="2" style={cellStyle}>
-                    {singleChaShipmentBooking?.commercialInvoiceNo}
+                  <td colSpan="3" style={cellStyle}>
+                    Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
                   </td>
                 </tr>
                 <tr>
                   <td colSpan="3" style={cellStyle}>
                     Cash Received By: {singleChaShipmentBooking?.customerName}
                   </td>
-                  <td style={cellStyle}>Date:</td>
-                  <td colSpan="2" style={cellStyle}>
+                  <td colSpan="3" style={cellStyle}>
+                    Date:{' '}
                     {singleChaShipmentBooking?.dteCreatedAt
                       ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
                       : ''}
@@ -418,7 +419,7 @@ export default function IOU({ clickRowDto, CB }) {
                       <td
                         style={{
                           ...cellStyle,
-                          width: '15px',
+                          width: '30px',
                         }}
                       >
                         {index + 1}
@@ -500,18 +501,6 @@ export default function IOU({ clickRowDto, CB }) {
                       ?.filter((item) => item?.quantity > 0 && item?.rate > 0)
                       ?.reduce((a, b) => a + b?.quantity * b?.rate, 0) || 0}
                   </td>
-                </tr>
-                <tr>
-                  <td colSpan="5" style={totalStyle}>
-                    Advance:
-                  </td>
-                  <td style={cellStyle}>0</td>
-                </tr>
-                <tr>
-                  <td colSpan="5" style={totalStyle}>
-                    Total Due:
-                  </td>
-                  <td style={cellStyle}>0</td>
                 </tr>
                 <tr>
                   <td colSpan="6" style={cellStyle}>

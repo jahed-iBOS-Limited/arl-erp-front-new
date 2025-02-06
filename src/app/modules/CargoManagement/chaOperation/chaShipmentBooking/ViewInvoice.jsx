@@ -276,7 +276,7 @@ export default function ViewInvoice({ clickRowDto }) {
                     <td
                       style={{
                         ...cellStyle,
-                        width: '15px',
+                        width: '30px',
                       }}
                     >
                       {index + 1}
