@@ -406,6 +406,13 @@ export default function IOU({ clickRowDto, CB }) {
                   </th>
                   <th style={{ ...cellStyle, textAlign: 'center' }}>Rate</th>
                   <th style={{ ...cellStyle, textAlign: 'center' }}>Amount</th>
+                  {isEditModeOn && (
+                    <>
+                      <th style={{ ...cellStyle, textAlign: 'center' }}>
+                        Action
+                      </th>
+                    </>
+                  )}
                 </tr>
                 {shippingHeadOfCharges?.map((item, index) => {
                   const total =
@@ -479,9 +486,55 @@ export default function IOU({ clickRowDto, CB }) {
                       >
                         {displayValue}
                       </td>
+
+                      {isEditModeOn && (
+                        <>
+                          <td>
+                            <div
+                              className="d-flex justify-content-center"
+                              style={{
+                                gap: '5px',
+                              }}
+                            >
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  const hardCopy = JSON.parse(
+                                    JSON.stringify(shippingHeadOfCharges),
+                                  );
+                                  const aboveRow = hardCopy?.[index];
+                                  // insert new row below the above row
+                                  const modifiedData = [
+                                    ...hardCopy?.slice(0, index + 1),
+                                    {
+                                      headOfCharges:
+                                        aboveRow?.headOfCharges || '',
+                                      headOfChargeId:
+                                        aboveRow?.headOfChargeId || 0,
+                                    },
+                                    ...hardCopy?.slice(index + 1),
+                                  ];
+                                  console.log(
+                                    JSON.stringify(modifiedData, null, 2),
+                                    'modifiedData',
+                                  );
+                                  setShippingHeadOfCharges(modifiedData);
+                                }}
+                              >
+                                <i
+                                  className="fa fa-clone"
+                                  aria-hidden="true"
+                                ></i>
+                              </button>
+                            </div>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   );
                 })}
+
                 <tr>
                   <td
                     colSpan="6"
