@@ -9,6 +9,7 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
 const validationSchema = Yup.object().shape({});
 export default function IOU({ clickRowDto, CB }) {
   const formikRef = React.useRef(null);
@@ -163,7 +164,11 @@ export default function IOU({ clickRowDto, CB }) {
     );
   };
 
-  console.log(shippingHeadOfCharges, 'shippingHeadOfCharges');
+  const totalAmount =
+    shippingHeadOfCharges?.reduce((a, b) => {
+      const total = (+b?.rate || 0) * (+b?.quantity || 0);
+      return a + total;
+    }, 0) || 0;
   return (
     <Formik
       enableReinitialize={true}
@@ -437,11 +442,12 @@ export default function IOU({ clickRowDto, CB }) {
                         style={{
                           ...cellStyle,
                           width: '150px',
+                          textAlign: 'right',
                         }}
                       >
                         {isEditModeOn ? (
                           <InputField
-                            type="text"
+                            type="number"
                             name="quantity"
                             value={item?.quantity}
                             placeholder="Quantity"
@@ -459,11 +465,12 @@ export default function IOU({ clickRowDto, CB }) {
                         style={{
                           ...cellStyle,
                           width: '150px',
+                          textAlign: 'right',
                         }}
                       >
                         {isEditModeOn ? (
                           <InputField
-                            type="text"
+                            type="number"
                             name="rate"
                             value={item?.rate}
                             placeholder="Rate"
@@ -481,6 +488,7 @@ export default function IOU({ clickRowDto, CB }) {
                         style={{
                           ...cellStyle,
                           width: '150px',
+                          textAlign: 'right',
                         }}
                       >
                         {displayValue}
@@ -548,16 +556,17 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="5" style={totalStyle}>
                     Sub Total:
                   </td>
-                  <td style={cellStyle}>
-                    {shippingHeadOfCharges?.reduce((a, b) => {
-                      const total = (+b?.rate || 0) * (+b?.quantity || 0);
-                      return a + total;
-                    }, 0) || 0}
-                  </td>
+                  <td style={cellStyle}>{totalAmount}</td>
                 </tr>
                 <tr>
                   <td colSpan="6" style={cellStyle}>
-                    Amount in words:
+                    <span
+                      style={{
+                        textTransform: 'capitalize',
+                      }}
+                    >
+                      {totalAmount && convertNumberToWords(totalAmount || 0)}
+                    </span>
                   </td>
                 </tr>
                 <tr>
@@ -566,7 +575,7 @@ export default function IOU({ clickRowDto, CB }) {
                       style={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        padding: '50px 50px 5px 50px',
+                        padding: '150px 50px 5px 50px',
                       }}
                     >
                       <div>Prepared By:</div>
