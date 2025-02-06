@@ -129,13 +129,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     };
     // all attributes to check
     const attributesToCheck = {
-      collectionRate: 'Collection Rate',
-      collectionQty: 'Collection Qty',
-      collectionAmount: 'Collection Amount',
-      paymentRate: 'Payment Rate',
-      paymentQty: 'Payment Qty',
-      paymentAmount: 'Payment Amount',
-      partyName: 'Party',
+      // collectionRate: 'Collection Rate',
+      // collectionQty: 'Collection Qty',
+      // collectionAmount: 'Collection Amount',
+      // paymentRate: 'Payment Rate',
+      // paymentQty: 'Payment Qty',
+      // paymentAmount: 'Payment Amount',
+      // partyName: 'Party',
     };
     if (!validateAttributes(payloadList, attributesToCheck)) return;
     // ----------end verify -------------
@@ -269,7 +269,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: '60px',
+                        width: '220px',
                       }}
                       className="payment-header"
                     >
@@ -279,7 +279,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                 </thead>
                 <tbody>
                   {shippingHeadOfCharges?.map((item, index) => {
-                    const isDisabled = !item?.checked || item?.serviceChargeId;
+                    const isDisabled = !item?.checked;
                     return (
                       <tr key={index}>
                         <td>

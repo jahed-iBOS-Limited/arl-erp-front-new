@@ -15,7 +15,7 @@ const tableStyle = {
 
 const cellStyle = {
   border: '1px solid #000',
-  padding: '5px',
+  padding: '3px',
   textAlign: 'left',
 };
 
@@ -121,6 +121,31 @@ export default function DeliveryNoteModal({ rowClickData }) {
       );
     } else return null;
   };
+
+  const NotifyPartyDetails = ({ notifyParty }) => (
+    <>
+      {notifyParty?.participantsName && (
+        <>
+          {notifyParty.participantsName} <br />
+        </>
+      )}
+      {notifyParty?.address && (
+        <>
+          {notifyParty.address} <br />
+        </>
+      )}
+      {notifyParty?.contactPerson && (
+        <>
+          {notifyParty.contactPerson} <br />
+        </>
+      )}
+      {notifyParty?.email && (
+        <>
+          {notifyParty.email} <br />
+        </>
+      )}
+    </>
+  );
   return (
     <div>
       <div className="d-flex justify-content-between mt-2">
@@ -231,22 +256,32 @@ export default function DeliveryNoteModal({ rowClickData }) {
               </td>
               <td colSpan="3" style={cellStyle}>
                 <div>
-                  <span>BL No:</span> <br />
-                  <span>
-                    {bookingData?.seaMasterBlCode &&
-                    bookingData?.airMasterBlCode ? (
-                      <>
-                        {bookingData?.seaMasterBlCode}{' '}
-                        {bookingData?.airMasterBlCode
-                          ? ', ' + bookingData?.airMasterBlCode
-                          : ''}
-                      </>
-                    ) : (
-                      bookingData?.seaMasterBlCode ||
-                      bookingData?.airMasterBlCode ||
-                      ''
-                    )}
-                  </span>
+                  <div>
+                    <span>
+                      HBL No: <b>{bookingData?.hblnumber}</b>
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      MBL No:{' '}
+                      <b>
+                        {' '}
+                        {bookingData?.seaMasterBlCode &&
+                        bookingData?.airMasterBlCode ? (
+                          <>
+                            {bookingData?.seaMasterBlCode}{' '}
+                            {bookingData?.airMasterBlCode
+                              ? ', ' + bookingData?.airMasterBlCode
+                              : ''}
+                          </>
+                        ) : (
+                          bookingData?.seaMasterBlCode ||
+                          bookingData?.airMasterBlCode ||
+                          ''
+                        )}
+                      </b>
+                    </span>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -262,15 +297,17 @@ export default function DeliveryNoteModal({ rowClickData }) {
               >
                 <strong>Notify Party (Complete Name & Address)</strong>
                 <br />
-                {bookingData?.notifyPartyDtl1?.participantsName} <br />
-                {bookingData?.notifyPartyDtl1?.address} <br />
-                {bookingData?.notifyPartyDtl1?.contactPerson} <br />
-                {bookingData?.notifyPartyDtl1?.email} <br />
-                <br /> <hr />
-                {bookingData?.notifyPartyDtl2?.participantsName} <br />
-                {bookingData?.notifyPartyDtl2?.address} <br />
-                {bookingData?.notifyPartyDtl2?.contactPerson} <br />
-                {bookingData?.notifyPartyDtl2?.email} <br />
+                {bookingData?.notifyPartyDtl1 && (
+                  <NotifyPartyDetails
+                    notifyParty={bookingData.notifyPartyDtl1}
+                  />
+                )}
+                <hr />
+                {bookingData?.notifyPartyDtl2 && (
+                  <NotifyPartyDetails
+                    notifyParty={bookingData.notifyPartyDtl2}
+                  />
+                )}
               </td>
               {selectedModeOfTransport === 1 && (
                 <td
@@ -281,9 +318,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 >
                   <div>
                     <span>
-                      <strong>IATA number</strong>
+                      <strong>IATA number: </strong>
                     </span>
-                    <br />
                     <span>
                       {bookingData?.transportPlanning
                         ?.map((item) => item?.iatanumber)
@@ -303,9 +339,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
                   >
                     <div>
                       <span>
-                        <strong>Vessel</strong>
+                        <strong>Vessel: </strong>
                       </span>
-                      <br />
                       <span>
                         {bookingData?.transportPlanning
                           ?.map((item) => item?.vesselName)
@@ -317,9 +352,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
                   <td style={cellStyle} colSpan="3">
                     <div>
                       <span>
-                        <strong>Voyage No</strong>
+                        <strong>Voyage No: </strong>
                       </span>
-                      <br />
                       <span>
                         {bookingData?.transportPlanning
                           ?.map((item) => item?.voyagaNo)
@@ -335,9 +369,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
               <td style={cellStyle} colSpan="4">
                 <div>
                   <span>
-                    <strong> Place of Receipt</strong>
+                    <strong> Place of Receipt: </strong>
                   </span>{' '}
-                  <br />
                   <span>{bookingData?.originAddress}</span>
                 </div>
               </td>
@@ -346,9 +379,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
               <td style={cellStyle} colSpan="4">
                 <div>
                   <span>
-                    <strong> Port of Loading</strong>
+                    <strong> Port of Loading: </strong>
                   </span>{' '}
-                  <br />
                   <span> {bookingData?.portOfLoading}</span>
                 </div>
               </td>
@@ -357,9 +389,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
               <td style={cellStyle} colSpan="4">
                 <div>
                   <span>
-                    <strong> Port of Discharge</strong>
+                    <strong> Port of Discharge: </strong>
                   </span>{' '}
-                  <br />
                   <span> {bookingData?.portOfDischarge}</span>
                 </div>
               </td>
@@ -368,9 +399,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
               <td style={cellStyle} colSpan="4">
                 <div>
                   <span>
-                    <strong> Place of Delivery</strong>
+                    <strong> Place of Delivery: </strong>
                   </span>{' '}
-                  <br />
                   <span> {bookingData?.finalDestinationAddress}</span>
                 </div>
               </td>
@@ -386,15 +416,33 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 <div>
                   <span>
                     <strong>CONSIGNEE (Complete Name & Address)</strong> <br />
-                    {bookingData?.consigneeName}
-                    <br />
-                    {bookingData?.consigneeAddress}
-                    <br />
-                    {bookingData?.consigneeContactPerson}
-                    <br />
-                    {bookingData?.consigneeContact}
-                    <br />
-                    {bookingData?.consigneeEmail}
+                    {bookingData?.consigneeName && (
+                      <>
+                        {bookingData?.consigneeName}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.consigneeAddress && (
+                      <>
+                        {bookingData?.consigneeAddress}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.consigneeContactPerson && (
+                      <>
+                        {bookingData?.consigneeContactPerson}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.consigneeContact && (
+                      <>
+                        {bookingData?.consigneeContact}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.consigneeEmail && (
+                      <>{bookingData?.consigneeEmail}</>
+                    )}
                   </span>{' '}
                   <br />
                 </div>
@@ -404,15 +452,34 @@ export default function DeliveryNoteModal({ rowClickData }) {
                   <span>
                     <strong> Shipper (Complete Name & Address)</strong>
                     <br />
-                    {bookingData?.shipperName}
-                    <br />
-                    {bookingData?.shipperAddress}
-                    <br />
-                    {bookingData?.shipperContactPerson}
-                    <br />
-                    {bookingData?.shipperContact}
-                    <br />
-                    {bookingData?.shipperEmail}
+
+                    {bookingData?.shipperName && (
+                      <>
+                        {bookingData?.shipperName}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.shipperAddress && (
+                      <>
+                        {bookingData?.shipperAddress}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.shipperContactPerson && (
+                      <>
+                        {bookingData?.shipperContactPerson}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.shipperContact && (
+                      <>
+                        {bookingData?.shipperContact}
+                        <br />
+                      </>
+                    )}
+                    {bookingData?.shipperEmail && (
+                      <>{bookingData?.shipperEmail}</>
+                    )}
                   </span>{' '}
                   <br />
                 </div>
@@ -462,7 +529,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
         {/* signature  */}
         <div
           style={{
-            paddingTop: '7srem',
+            paddingTop: '7rem',
           }}
         >
           <div
