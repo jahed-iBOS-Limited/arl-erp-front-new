@@ -581,6 +581,7 @@ const ExpenseRegisterLanding = () => {
                         options={[
                           { value: true, label: "Supervisor" },
                           { value: false, label: "Line Manager" },
+                          { value: "employee", label: "Employee"},
                         ]}
                         value={values?.supervisor}
                         label="View As"
@@ -760,7 +761,7 @@ const ExpenseRegisterLanding = () => {
                                 <td>
                                   <div className="pr-2 text-right">
                                     {/* "Supervisor === true" or Line Manager===false  */}
-                                    {(values?.supervisor?.value
+                                    {(values?.supervisor?.value === "employee" ? item?.totalAmount : values?.supervisor?.value === true
                                       ? item?.totalSupervisorAmount ||
                                         item?.totalAmount
                                       : item?.totalLineManagerAmount ||
