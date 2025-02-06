@@ -267,7 +267,7 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                     <div>
                       <span>
-                        Booking Number:{' '}
+                        Booking /Job Number:{' '}
                         <b>{singleChaShipmentBooking?.chabookingCode}</b>
                       </span>{' '}
                       <br /> <br />
@@ -301,7 +301,7 @@ export default function IOU({ clickRowDto, CB }) {
                       textTransform: 'uppercase',
                     }}
                   >
-                    Invoice
+                    IOU From
                   </td>
                 </tr>
                 <tr>
@@ -318,7 +318,7 @@ export default function IOU({ clickRowDto, CB }) {
               <tbody>
                 <tr>
                   <td colSpan="3" style={cellStyle}>
-                    Indentor Name:
+                    <b> Indentor Name</b>
                   </td>
                   <td colSpan="3" style={cellStyle}>
                     Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
@@ -356,7 +356,13 @@ export default function IOU({ clickRowDto, CB }) {
                     IP/EXP No.: {singleChaShipmentBooking?.exp}
                   </td>
                   <td colSpan="3" style={cellStyle}>
-                    Quantity: {singleChaShipmentBooking?.containerQty}
+                    {singleChaShipmentBooking?.modeOfTransportName ===
+                      'Sea' && (
+                      <>
+                        Container quantity:{' '}
+                        {singleChaShipmentBooking?.containerQty}
+                      </>
+                    )}
                   </td>
                 </tr>
                 <tr>
@@ -372,26 +378,23 @@ export default function IOU({ clickRowDto, CB }) {
                 </tr>
                 <tr>
                   <td colSpan="3" style={cellStyle}>
-                    LC No.: N/A
+                    LC No.:{singleChaShipmentBooking?.lcNo || 'N/A'}
                   </td>
                   <td colSpan="3" style={cellStyle}>
-                    Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}
+                    LC Date:{' '}
+                    {singleChaShipmentBooking?.lcDate
+                      ? _dateFormatter(singleChaShipmentBooking?.lcDate)
+                      : 'N/A'}
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan="3" style={cellStyle}>
-                    LC Date: N/A
-                  </td>
                   <td colSpan="3" style={cellStyle}>
                     Invoice Value: {singleChaShipmentBooking?.invoiceValue}
                   </td>
-                </tr>
-                <tr>
                   <td style={cellStyle} colSpan="3">
                     Bill of Entry / Export No.:{' '}
                     {singleChaShipmentBooking?.billOfEntry}
                   </td>
-                  <td style={cellStyle} colSpan="3"></td>
                 </tr>
                 <tr>
                   <td
