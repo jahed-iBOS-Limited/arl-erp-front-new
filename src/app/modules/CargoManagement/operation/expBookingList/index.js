@@ -98,6 +98,7 @@ function ExpBookingList() {
     PageSize = pageSize,
     modeOfTransportId = 1,
   ) => {
+    setShipBookingReqLanding([]);
     getShipBookingReqLanding(
       `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
         profileData?.userReferenceId

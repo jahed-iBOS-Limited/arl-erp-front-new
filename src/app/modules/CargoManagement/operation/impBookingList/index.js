@@ -96,11 +96,14 @@ function ImpBookingList() {
     PageSize = pageSize,
     modeOfTransportId = 1,
   ) => {
+    setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-      ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -129,7 +132,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-      item?.freightAgentReferenceId
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -160,7 +163,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -474,7 +477,7 @@ function ImpBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                    item?.airMasterBlCode ? (
+                                  item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -1059,8 +1062,9 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                    } Report`}
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
