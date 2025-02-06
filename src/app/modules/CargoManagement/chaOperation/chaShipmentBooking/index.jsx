@@ -7,6 +7,7 @@ import ICustomCard from '../../../_helper/_customCard';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import IEdit from '../../../_helper/_helperIcons/_edit';
 import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IView from '../../../_helper/_helperIcons/_view';
 import Loading from '../../../_helper/_loading';
 import PaginationSearch from '../../../_helper/_search';
@@ -18,6 +19,7 @@ import IOU from './IOU';
 import ServiceAndCharge from './ServiceAndCharge';
 import ViewInfo from './viewInfo';
 import ViewInvoice from './ViewInvoice';
+import FinanceModal from './financeModal';
 
 const validationSchema = Yup.object().shape({});
 const initialValues = {
@@ -213,6 +215,15 @@ export default function ChaShipmentBooking() {
                                 >
                                   <span
                                     onClick={() => {
+                                      history.push(
+                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`,
+                                      );
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
+                                  <span
+                                    onClick={() => {
                                       setOpenModalObject({
                                         ...openModalObject,
                                         isView: true,
@@ -233,14 +244,28 @@ export default function ChaShipmentBooking() {
                                   >
                                     <InfoCircle title={'View Invoice'} />
                                   </span>
-                                  <span
-                                    onClick={() => {
-                                      history.push(
-                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`,
-                                      );
-                                    }}
-                                  >
-                                    <IEdit />
+
+                                  <span>
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">Finance</Tooltip>
+                                      }
+                                    >
+                                      <span
+                                        onClick={() => {
+                                          setOpenModalObject({
+                                            ...openModalObject,
+                                            isFinanceModal: true,
+                                          });
+                                          setClickRowDto(item);
+                                        }}
+                                      >
+                                        <i
+                                          className={`fas pointer fa fa-money`}
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
                                   </span>
                                 </div>
                               </td>
@@ -345,6 +370,33 @@ export default function ChaShipmentBooking() {
                         setOpenModalObject({
                           ...openModalObject,
                           isOpenIOU: false,
+                        });
+                        setClickRowDto({});
+                      }}
+                    />
+                  </IViewModal>
+                )}
+
+                {/* Finance Modal show */}
+                {openModalObject?.isFinanceModal && (
+                  <IViewModal
+                    show={openModalObject?.isFinanceModal}
+                    onHide={() => {
+                      setOpenModalObject({
+                        ...openModalObject,
+                        isFinanceModal: false,
+                      });
+                      setClickRowDto({});
+                    }}
+                    title={'Finance'}
+                  >
+                    <FinanceModal
+                      clickRowDto={clickRowDto}
+                      CB={() => {
+                        commonGetData('', pageNo, pageSize, values);
+                        setOpenModalObject({
+                          ...openModalObject,
+                          isFinanceModal: false,
                         });
                         setClickRowDto({});
                       }}

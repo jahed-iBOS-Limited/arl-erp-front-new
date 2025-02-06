@@ -220,21 +220,10 @@ function CreateChaShipmentBooking() {
     );
   };
 
-  const transportModeHandelar = (typeId, tradeTypeId) => {
-    // tradeTypeId  = 1 export
-    if (tradeTypeId === 1) {
+  const transportModeHandelar = (typeId) => {
+    if (typeId) {
       getAirServiceProviderDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${0}&participntTypeId=${typeId}`,
-        (res) => {
-          setAirServiceProviderDDL(res);
-        },
-      );
-    }
-
-    // tradeTypeId  = 2 import
-    if (tradeTypeId === 2) {
-      getAirServiceProviderDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${0}&participntTypeId=${typeId}`,
+        `${imarineBaseUrl}/domain/CHAShipment/GetCarrierDDL?carriarTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
         },
@@ -532,9 +521,9 @@ function CreateChaShipmentBooking() {
                         setFieldValue('transportMode', valueOption || '');
                         setFieldValue('carrier', '');
                         setFieldValue('containerQty', '');
-                        const typeId = valueOption?.label === 'Air' ? 6 : 5;
+                        setAirServiceProviderDDL([]);
                         if ([1, 2].includes(valueOption?.value)) {
-                          transportModeHandelar(typeId, values?.impExpType);
+                          transportModeHandelar(valueOption?.value);
                         }
                       }}
                       errors={errors}
