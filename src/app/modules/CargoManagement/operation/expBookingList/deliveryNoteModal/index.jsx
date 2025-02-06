@@ -258,7 +258,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 <div>
                   <div>
                     <span>
-                      HBL: <b>{bookingData?.hblnumber}</b>
+                      HBL No: <b>{bookingData?.hblnumber}</b>
                     </span>
                   </div>
                   <div>
