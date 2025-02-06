@@ -208,7 +208,11 @@ export default function ViewInvoice({ clickRowDto }) {
                 IP/EXP No.: {singleChaShipmentBooking?.exp}
               </td>
               <td colSpan="3" style={cellStyle}>
-                Quantity: {singleChaShipmentBooking?.containerQty}
+                {singleChaShipmentBooking?.modeOfTransportName === 'Sea' && (
+                  <>
+                    Container quantity: {singleChaShipmentBooking?.containerQty}
+                  </>
+                )}
               </td>
             </tr>
             <tr>
@@ -272,7 +276,7 @@ export default function ViewInvoice({ clickRowDto }) {
                     <td
                       style={{
                         ...cellStyle,
-                        width: '15px',
+                        width: '30px',
                       }}
                     >
                       {index + 1}
