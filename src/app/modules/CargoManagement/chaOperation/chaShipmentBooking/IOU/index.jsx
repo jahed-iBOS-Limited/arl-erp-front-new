@@ -257,11 +257,12 @@ export default function IOU({ clickRowDto, CB }) {
                         Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
                       </span>{' '}
                       <hr style={{ margin: '3px 0px' }} />
-                      <span>Phone No: N/A</span> <br />
+                      <span>Phone: 08000555777</span> <br />
+                      <span>Mobile No: 01332500859</span> <br />
                       <hr style={{ margin: '3px 0px' }} />
                       <span>Email ID: N/A</span> <br />
                       <hr style={{ margin: '3px 0px' }} />
-                      <span>BIN: N/A</span> <br />
+                      <span>BIN: 005848637-0203</span> <br />
                     </div>
                   </td>
                   <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
