@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 const validationSchema = Yup.object().shape({});
 export default function IOU({ clickRowDto, CB }) {
   const formikRef = React.useRef(null);
@@ -21,7 +21,7 @@ export default function IOU({ clickRowDto, CB }) {
   ] = useAxiosGet();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const [
     singleChaShipmentBooking,
@@ -34,7 +34,7 @@ export default function IOU({ clickRowDto, CB }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
         @media print {
           body {
@@ -50,21 +50,21 @@ export default function IOU({ clickRowDto, CB }) {
   });
 
   const tableStyle = {
-    fontSize: "12px",
-    width: "100%",
-    borderCollapse: "collapse",
+    fontSize: '12px',
+    width: '100%',
+    borderCollapse: 'collapse',
   };
 
   const cellStyle = {
-    border: "1px solid #000",
-    padding: "5px",
-    textAlign: "left",
+    border: '1px solid #000',
+    padding: '2x',
+    textAlign: 'left',
   };
 
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
-        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
       );
       commonGetShippingHeadOfCharges();
     }
@@ -91,12 +91,12 @@ export default function IOU({ clickRowDto, CB }) {
                   }
                 };
                 const parseData = safeParseData(
-                  resSveData?.chaIouInvoice || []
+                  resSveData?.chaIouInvoice || [],
                 );
 
                 const saveHeadOfChargeList =
                   parseData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value
+                    (findItem) => findItem?.headOfChargeId === item?.value,
                   ) || [];
 
                 if (saveHeadOfChargeList?.length > 0) {
@@ -112,7 +112,7 @@ export default function IOU({ clickRowDto, CB }) {
                 } else {
                   const obj = {
                     ...item,
-                    headOfCharges: item?.label || "",
+                    headOfCharges: item?.label || '',
                     headOfChargeId: item?.value || 0,
                   };
                   arryList.push(obj);
@@ -120,9 +120,9 @@ export default function IOU({ clickRowDto, CB }) {
               });
               setShippingHeadOfCharges([...arryList]);
             }
-          }
+          },
         );
-      }
+      },
     );
   };
 
@@ -131,10 +131,10 @@ export default function IOU({ clickRowDto, CB }) {
   }
 
   const totalStyle = {
-    fontWeight: "bold",
-    textAlign: "right",
-    padding: "5px",
-    border: "1px solid #000",
+    fontWeight: 'bold',
+    textAlign: 'right',
+    padding: '5px',
+    border: '1px solid #000',
   };
   const saveHandler = (values, cb) => {
     const modifyData = shippingHeadOfCharges
@@ -142,7 +142,7 @@ export default function IOU({ clickRowDto, CB }) {
       .map((item) => {
         return {
           headOfChargeId: item?.headOfChargeId || 0,
-          headOfCharges: item?.headOfCharges || "",
+          headOfCharges: item?.headOfCharges || '',
           quantity: item?.quantity || 0,
           rate: item?.rate || 0,
           amount: item?.quantity * item?.rate || 0,
@@ -156,7 +156,7 @@ export default function IOU({ clickRowDto, CB }) {
     saveIOUInvoice(
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaIouInvoice`,
       payload,
-      CB
+      CB,
     );
   };
   return (
@@ -180,7 +180,7 @@ export default function IOU({ clickRowDto, CB }) {
           {/* {console.log("errors", errors)} */}
           <div className="d-flex justify-content-end py-2">
             {!isEditModeOn && (
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
                 <button
                   onClick={() => setIsEditModeOn(true)}
                   type="button"
@@ -241,30 +241,30 @@ export default function IOU({ clickRowDto, CB }) {
                 <tr>
                   <td colSpan="4" style={cellStyle}>
                     <div>
-                      <span>Company: {selectedBusinessUnit?.label}</span> <br />{" "}
-                      <hr />
+                      <span>Company: {selectedBusinessUnit?.label}</span> <br />{' '}
+                      <hr style={{ margin: '3px 0px' }} />
                       <span>
                         Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                      </span>{" "}
-                      <br /> <br /> <hr />
+                      </span>{' '}
+                      <hr />
                       <span>Phone No: N/A</span> <br />
-                      <hr />
+                      <hr style={{ margin: '3px 0px' }} />
                       <span>Email ID: N/A</span> <br />
-                      <hr />
+                      <hr style={{ margin: '3px 0px' }} />
                       <span>BIN: N/A</span> <br />
                     </div>
                   </td>
-                  <td colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+                  <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                     <div>
                       <span>
-                        Booking Number:{" "}
+                        Booking Number:{' '}
                         {singleChaShipmentBooking?.chabookingCode}
-                      </span>{" "}
+                      </span>{' '}
                       <br /> <br />
                       <img
-                        src={"/logisticsLogo.png"}
+                        src={'/logisticsLogo.png'}
                         alt="Company Logo"
-                        style={{ height: "50px" }}
+                        style={{ height: '50px' }}
                       />
                     </div>
                   </td>
@@ -273,9 +273,9 @@ export default function IOU({ clickRowDto, CB }) {
                   <td
                     colSpan="6"
                     style={{
-                      backgroundColor: "#365339",
-                      height: "1.5rem",
-                      border: "1px solid #000",
+                      backgroundColor: '#ecf0f3',
+                      height: '1.5rem',
+                      border: '1px solid #000',
                     }}
                   />
                 </tr>
@@ -283,12 +283,12 @@ export default function IOU({ clickRowDto, CB }) {
                   <td
                     colSpan="6"
                     style={{
-                      textAlign: "center",
-                      fontSize: "24px",
-                      fontWeight: "bold",
-                      border: "1px solid #000",
-                      padding: "5px 0",
-                      textTransform: "uppercase",
+                      textAlign: 'center',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      border: '1px solid #000',
+                      padding: '5px 0',
+                      textTransform: 'uppercase',
                     }}
                   >
                     Invoice
@@ -298,9 +298,9 @@ export default function IOU({ clickRowDto, CB }) {
                   <td
                     colSpan="6"
                     style={{
-                      backgroundColor: "#365339",
-                      height: "1.5rem",
-                      border: "1px solid #000",
+                      backgroundColor: '#ecf0f3',
+                      height: '1.5rem',
+                      border: '1px solid #000',
                     }}
                   />
                 </tr>
@@ -323,7 +323,7 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="2" style={cellStyle}>
                     {singleChaShipmentBooking?.dteCreatedAt
                       ? _dateFormatter(singleChaShipmentBooking?.dteCreatedAt)
-                      : ""}
+                      : ''}
                   </td>
                 </tr>
                 <tr>
@@ -352,10 +352,10 @@ export default function IOU({ clickRowDto, CB }) {
                 </tr>
                 <tr>
                   <td colSpan="3" style={cellStyle}>
-                    IP/EXP Date:{" "}
+                    IP/EXP Date:{' '}
                     {singleChaShipmentBooking?.expDate
                       ? _dateFormatter(singleChaShipmentBooking?.expDate)
-                      : ""}
+                      : ''}
                   </td>
                   <td colSpan="3" style={cellStyle}>
                     Delivery Place: {singleChaShipmentBooking?.placeOfDelivery}
@@ -379,7 +379,7 @@ export default function IOU({ clickRowDto, CB }) {
                 </tr>
                 <tr>
                   <td style={cellStyle} colSpan="3">
-                    Bill of Entry / Export No.:{" "}
+                    Bill of Entry / Export No.:{' '}
                     {singleChaShipmentBooking?.billOfEntry}
                   </td>
                   <td style={cellStyle} colSpan="3"></td>
@@ -388,38 +388,50 @@ export default function IOU({ clickRowDto, CB }) {
                   <td
                     colSpan="6"
                     style={{
-                      backgroundColor: "#365339",
-                      height: "1.5rem",
-                      border: "1px solid #000",
+                      backgroundColor: 'transparent',
+                      height: '1.5rem',
+                      border: '1px solid #000',
                     }}
                   />
                 </tr>
 
                 <tr>
                   <th style={cellStyle}>SL.</th>
-                  <th colSpan="2" style={{ ...cellStyle, textAlign: "center" }}>
+                  <th colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
                     Description
                   </th>
-                  <th style={{ ...cellStyle, textAlign: "center" }}>
+                  <th style={{ ...cellStyle, textAlign: 'center' }}>
                     Qty/Unit
                   </th>
-                  <th style={{ ...cellStyle, textAlign: "center" }}>Rate</th>
-                  <th style={{ ...cellStyle, textAlign: "center" }}>Amount</th>
+                  <th style={{ ...cellStyle, textAlign: 'center' }}>Rate</th>
+                  <th style={{ ...cellStyle, textAlign: 'center' }}>Amount</th>
                 </tr>
                 {shippingHeadOfCharges?.map((item, index) => {
                   const total =
                     item?.quantity && item?.rate
                       ? item.quantity * item.rate
                       : 0;
-                  const displayValue = total > 0 ? total : "";
+                  const displayValue = total > 0 ? total : '';
 
                   return (
                     <tr key={index}>
-                      <td style={cellStyle}>{index + 1}</td>
+                      <td
+                        style={{
+                          ...cellStyle,
+                          width: '15px',
+                        }}
+                      >
+                        {index + 1}
+                      </td>
                       <td colSpan="2" style={cellStyle}>
                         {item?.headOfCharges}
                       </td>
-                      <td style={cellStyle}>
+                      <td
+                        style={{
+                          ...cellStyle,
+                          width: '150px',
+                        }}
+                      >
                         {isEditModeOn ? (
                           <InputField
                             type="text"
@@ -436,7 +448,12 @@ export default function IOU({ clickRowDto, CB }) {
                           item?.quantity
                         )}
                       </td>
-                      <td style={cellStyle}>
+                      <td
+                        style={{
+                          ...cellStyle,
+                          width: '150px',
+                        }}
+                      >
                         {isEditModeOn ? (
                           <InputField
                             type="text"
@@ -453,7 +470,14 @@ export default function IOU({ clickRowDto, CB }) {
                           item?.rate
                         )}
                       </td>
-                      <td style={cellStyle}>{displayValue}</td>
+                      <td
+                        style={{
+                          ...cellStyle,
+                          width: '150px',
+                        }}
+                      >
+                        {displayValue}
+                      </td>
                     </tr>
                   );
                 })}
@@ -461,9 +485,9 @@ export default function IOU({ clickRowDto, CB }) {
                   <td
                     colSpan="6"
                     style={{
-                      backgroundColor: "#365339",
-                      height: "1.5rem",
-                      border: "1px solid #000",
+                      backgroundColor: '#ecf0f3',
+                      height: '1.5rem',
+                      border: '1px solid #000',
                     }}
                   />
                 </tr>
@@ -498,9 +522,9 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="6" style={cellStyle}>
                     <div
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        padding: "50px 50px 5px 50px",
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '50px 50px 5px 50px',
                       }}
                     >
                       <div>Prepared By:</div>
