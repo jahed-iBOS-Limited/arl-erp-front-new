@@ -390,6 +390,7 @@ export default function _Form({
                           { value: 1, label: "Cash" },
                           { value: 2, label: "Credit" },
                           { value: 3, label: "Both" },
+                          { value: 3, label: "Short Time (Credit)" },
                         ]}
                         value={values?.paymentMode}
                         label="Payment Mode"

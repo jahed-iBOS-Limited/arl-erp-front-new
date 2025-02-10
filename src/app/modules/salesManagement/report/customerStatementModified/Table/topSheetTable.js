@@ -12,7 +12,8 @@ const TopSheetTable = ({ rowData, excelRef }) => {
     "Region",
     "Area",
     "Territory",
-    "Quantity",
+    "Quantity (Challan)",
+    "Quantity (Ton)",
     "Amount",
   ];
   return (
@@ -40,6 +41,9 @@ const TopSheetTable = ({ rowData, excelRef }) => {
                 <td>{e.strTerritory}</td>
                 <td className="text-right">
                   {_fixedPoint(e.numQuantity, true)}
+                </td>
+                <td className="text-right">
+                  {_fixedPoint(e.numQuantityTon, true)}
                 </td>
                 <td className="text-right">{_fixedPoint(e.numAmount, true)}</td>
               </tr>
