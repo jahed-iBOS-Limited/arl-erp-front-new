@@ -55,6 +55,7 @@ const validationSchema = Yup.object().shape({
 
 export default function _Form({
   initData,
+  scfAdviceFormikRef,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -78,6 +79,10 @@ export default function _Form({
   typeDDL,
   supportButtonRefs,
   prepareChequeVoucher,
+  getBankAsPartnerDDL,
+  bankAsPartnerDDL,
+  scfSaveBtnRef,
+  handleSCFBankAdjustmentJournal
 }) {
   //to manage prepare all voucher button
   const [, setIsAble] = useState("");
@@ -217,6 +222,7 @@ export default function _Form({
             setRowDto([]);
           });
         }}
+        innerRef={scfAdviceFormikRef}
       >
         {({
           handleSubmit,
@@ -261,6 +267,17 @@ export default function _Form({
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("type", valueOption);
+                          dispatch(
+                            SetFinancialsPaymentAdviceAction({
+                              ...values,
+                              type: valueOption,
+                            })
+                          );
+
+                          if (valueOption.value !== 8) {
+                            setFieldValue("billType", "");
+                          }
+
                           if (valueOption.value === 1) {
                             setFieldValue("cashGl", "");
                           } else if (valueOption.value === 4) {
@@ -268,13 +285,27 @@ export default function _Form({
                           } else if (valueOption?.value === 2) {
                             setFieldValue("accountNo", "");
                             setFieldValue("cashGl", "");
+                          } else if (valueOption?.value === 8) {
+                            // fetch bank as a partner ddl
+                            getBankAsPartnerDDL(
+                              `/fino/CommonFino/GetBankAsSupplierDDL?businessUnitId=${selectedBusinessUnit.value}`
+                            );
+                            // supplier invoice type
+                            const supplierInvoiceTypeForSCF =
+                              billType?.length > 0 &&
+                              billType?.filter((item) => item?.value === 1);
+
+                            setFieldValue(
+                              "billType",
+                              supplierInvoiceTypeForSCF[0]
+                            );
                           }
                         } else {
                           setFieldValue("type", "");
                           setFieldValue("cashGl", "");
                           setFieldValue("accountNo", "");
+                          setFieldValue("billType", "");
                         }
-
                         // setFieldValue("type", "Bank");
                         setRowDto([]);
                       }}
@@ -354,6 +385,22 @@ export default function _Form({
                       Bank
                     </label>
                   </div> */}
+                  {/* If Instrument Type is SCF */}
+                  {values.type.value === 8 && (
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="bank"
+                        options={bankAsPartnerDDL || []}
+                        value={values?.bank}
+                        label="Bank As Partner"
+                        onChange={(valueOption) => {
+                          setFieldValue("bank", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                   {values.type.value === 4 && (
                     <div className="col-lg-2">
                       <NewSelect
@@ -439,6 +486,8 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={values?.type?.value === 8}
+                      // disable when instruement is scf
                     />
                   </div>
                   <div className="col-lg-2">
@@ -501,15 +550,42 @@ export default function _Form({
                       Prepare Voucher
                     </button>
                   </div>
+                  <div
+                    style={{ marginTop: "22px", marginLeft: "6px" }}
+                    className="col-lg-2"
+                  >
+                    <button
+                      style={{ display: "none" }}
+                      className="btn btn-primary"
+                      disabled={!values?.sbuUnit}
+                      type="button"
+                      ref={scfSaveBtnRef}
+                      onClick={() => {
+                        handleSCFBankAdjustmentJournal(
+                          scfAdviceFormikRef?.current?.values,
+                          () => {
+                            resetForm(initData);
+                            setRowDto([]);
+                          }
+                        );
+                      }}
+                    >
+                      Adjustment Journal
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div style={{display:"flex",justifyContent:"space-between"}}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <PaginationSearch
                   placeholder="Bill No Search"
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
-                {values?.billType?.value === 1 && <p style={{fontWeight:"bold"}} className="text-right">Amount: {sumSelectedValue(rowDto)}</p>}
+                {values?.billType?.value === 1 && (
+                  <p style={{ fontWeight: "bold" }} className="text-right">
+                    Amount: {sumSelectedValue(rowDto)}
+                  </p>
+                )}
               </div>
 
               {[1, 2]?.includes(values?.billType?.value) ? (
