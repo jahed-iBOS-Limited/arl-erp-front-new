@@ -1,7 +1,9 @@
-import * as requestFromServer from "./Api";
-import { deliverySlice } from "./Slice";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import * as requestFromServer from './Api';
+import { deliverySlice } from './Slice';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { APIUrl } from '../../../../../App';
+import store from '../../../../../../redux/store';
 const { actions: slice } = deliverySlice;
 
 //GetShipPointDDLAction action
@@ -24,7 +26,7 @@ export const GetCategoryDDLAction = () => (dispatch) => {
 };
 //GetWarehouseDDLAction action
 export const GetWarehouseDDLAction = (accId, buId, shipPointId) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.SetWarehouseDDL([]));
   return requestFromServer
@@ -48,7 +50,7 @@ export const GetShipToPartyDDLAction = (
   accId,
   buId,
   soldToPartnerId,
-  shipPointId
+  shipPointId,
 ) => (dispatch) => {
   return requestFromServer
     .GetShipToPartyDDL(accId, buId, soldToPartnerId, shipPointId)
@@ -63,8 +65,9 @@ export const GetShipToPartyDDLAction = (
 export const GetSalesOrderListDDLAction = (
   buId,
   soldToPartnerId,
-  shipToPartyId
+  shipToPartyId,
 ) => (dispatch) => {
+  dispatch(slice.SetSalesOrderDDL([]));
   return requestFromServer
     .GetSalesOrderListDDL(buId, soldToPartnerId, shipToPartyId)
     .then((res) => {
@@ -78,9 +81,10 @@ export const GetSalesOrderListDDLAction = (
 export const GetDataBySalesOrderAction = (
   salesOrderId,
   wearHouseId,
-  setDisabled
+  setDisabled,
 ) => (dispatch) => {
   setDisabled && setDisabled(true);
+  dispatch(slice.SetSalesOrderList([]));
   return requestFromServer
     .GetDataBySalesOrder(salesOrderId, wearHouseId)
     .then((res) => {
@@ -116,21 +120,39 @@ export const GetItemPlantLocationAction = (whId, ItemId) => (dispatch) => {
   });
 };
 
+async function fetchRequest(url, options = {}) {
+  const response = await fetch(`${APIUrl}${url}`, options);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.message || 'Something went wrong');
+  }
+  return response.json();
+}
 // action for save created data
 export const saveCreateDelivery = (payload) => () => {
+  console.log(payload, 'payload====');
+  const token = store.getState()?.authData?.tokenData?.token;
   payload.setDisabled(true);
-  return requestFromServer
-    .saveCreateData(payload.data)
+  return fetchRequest(`/wms/Delivery/CreateDelivery`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload.data),
+  })
     .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+      console.log(res, 'res====');
+      if (res.statuscode === 200) {
+        toast.success(res?.message || 'Submitted successfully');
         payload.cb();
-        payload.responseDataCB(res.data?.deliveryCode);
+        payload.responseDataCB(res?.deliveryCode);
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-      toast.error(err?.response?.data?.message);
+      console.log(err, 'err=====');
+      toast.error(err?.message || 'Something went wrong');
       payload.setDisabled(false);
     });
 };
@@ -141,10 +163,10 @@ export const saveEditedDelivery = (payload, setDisabled, history) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
         history &&
-          history.push("/inventory-management/warehouse-management/delivery");
+          history.push('/inventory-management/warehouse-management/delivery');
       }
     })
     .catch((err) => {
@@ -165,7 +187,7 @@ export const getDeliveryGridData = (
   channelId,
   status,
   fromDate,
-  toDate
+  toDate,
 ) => (dispatch) => {
   setLoading(true);
   return requestFromServer
@@ -180,7 +202,7 @@ export const getDeliveryGridData = (
       channelId,
       status,
       fromDate,
-      toDate
+      toDate,
     )
     .then((res) => {
       setLoading(false);
@@ -198,24 +220,24 @@ export const getDeliveryById = (id) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         const item = res?.data;
-        console.log("item",item);
+        console.log('item', item);
 
         const modifiedSalesOrderList = [];
         if (res?.data?.objListDeliveryRowDetailsDTO?.length > 0) {
           res.data.objListDeliveryRowDetailsDTO.forEach((ele, idx) => {
             const obj = {
               ...ele,
-              warehouse: item?.objDeliveryHeaderLandingDTO?.warehouseName || "",
+              warehouse: item?.objDeliveryHeaderLandingDTO?.warehouseName || '',
               warehouseId: item?.objDeliveryHeaderLandingDTO?.warehouseId || 0,
               shipToParty:
-                item?.objDeliveryHeaderLandingDTO?.shipToPartnerName || "",
+                item?.objDeliveryHeaderLandingDTO?.shipToPartnerName || '',
               shipToPartnerAddress:
                 res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerAddress ||
-                "",
+                '',
 
               deliveryQty: +ele?.quantity || 0,
               salesOrderId: ele?.salesOrderId || 0,
-              salesOrder: ele?.salesOrderCode || "",
+              salesOrder: ele?.salesOrderCode || '',
               salesOrderRowId: ele.salesOrderRowId || 0,
               amount: +ele?.itemPrice * +ele?.quantity,
               specification: ele.specification,
@@ -232,7 +254,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               numItemPrice: +ele?.itemPrice - (+ele?.shipmentExtraRate || 0),
               extraRate: +ele?.shipmentExtraRate || 0,
               numOrderQuantity: +ele?.orderQuantity,
-              scannedItemSerialList:ele?.rowItemSerialList,
+              scannedItemSerialList: ele?.rowItemSerialList,
               objLocation: [
                 {
                   value: ele?.locationId,
@@ -244,7 +266,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               const itemFindIdx = modifiedSalesOrderList?.findIndex(
                 (i) =>
                   i?.itemId === ele?.itemAgainstOffer &&
-                  i?.salesOrderId === ele?.salesOrderId
+                  i?.salesOrderId === ele?.salesOrderId,
               );
               if (itemFindIdx !== -1) {
                 const prvOffer =
@@ -267,53 +289,53 @@ export const getDeliveryById = (id) => (dispatch) => {
                 value: item?.objDeliveryHeaderLandingDTO?.shipPointId,
                 label: item?.objDeliveryHeaderLandingDTO?.shipPointName,
               }
-            : "",
+            : '',
 
           soldToParty: item?.objDeliveryHeaderLandingDTO?.soldToPartnerId
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.soldToPartnerId,
                 label: item?.objDeliveryHeaderLandingDTO?.soldToPartnerName,
-                territoryId: item?.objDeliveryHeaderLandingDTO?.territoryId
+                territoryId: item?.objDeliveryHeaderLandingDTO?.territoryId,
               }
-            : "",
+            : '',
           shipToParty: item?.objDeliveryHeaderLandingDTO?.shipToPartnerId
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.shipToPartnerId,
                 label: item?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
               }
-            : "",
+            : '',
           deliveryType: item?.objDeliveryHeaderLandingDTO?.deliveryTypeId
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.deliveryTypeId,
                 label: item?.objDeliveryHeaderLandingDTO?.deliveryTypeName,
               }
-            : "",
+            : '',
           warehouse: item?.objDeliveryHeaderLandingDTO?.warehouseId
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.warehouseId,
                 label: item?.objDeliveryHeaderLandingDTO?.warehouseName,
               }
-            : "",
-          mode: { value: 1, label: item?.objShipmentRequsetDTO?.mode } || "",
+            : '',
+          mode: { value: 1, label: item?.objShipmentRequsetDTO?.mode } || '',
           carType:
-            { value: 2, label: item?.objShipmentRequsetDTO?.carType } || "",
+            { value: 2, label: item?.objShipmentRequsetDTO?.carType } || '',
           bagType:
-            { value: 3, label: item?.objShipmentRequsetDTO?.bagType } || "",
+            { value: 3, label: item?.objShipmentRequsetDTO?.bagType } || '',
           category:
-            { value: 4, label: item?.objShipmentRequsetDTO?.category } || "",
+            { value: 4, label: item?.objShipmentRequsetDTO?.category } || '',
           deliveryMode:
             { value: 5, label: item?.objShipmentRequsetDTO?.deliveryMode } ||
-            "",
+            '',
           deliveryDate: item?.objDeliveryHeaderLandingDTO?.deliveryDate
             ? _dateFormatter(item?.objDeliveryHeaderLandingDTO?.deliveryDate)
-            : "",
+            : '',
           shipmentType: item?.objDeliveryHeaderLandingDTO?.shipmentTypeId
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.shipmentTypeId,
                 label: item?.objDeliveryHeaderLandingDTO?.shipmentType,
                 extraRate: modifiedSalesOrderList?.[0]?.extraRate || 0,
               }
-            : "",
+            : '',
           itemLists: modifiedSalesOrderList,
         };
         return dispatch(slice.SetDataById(data));
@@ -338,7 +360,7 @@ export const getSBUDDLDelivery_Aciton = (accId, buId) => (dispatch) => {
 
 // action for getDistributionChannelDDL
 export const getDistributionChannelDDLAction = (accId, buId, sbuId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getDistributionChannelDDL(accId, buId, sbuId)
@@ -366,7 +388,7 @@ export const getSoldToPartner_Action = (
   buId,
   sbuId,
   shipPoint,
-  distributionChannel
+  distributionChannel,
 ) => (dispatch) => {
   dispatch(slice.SetSoldToPartnerDDL([]));
   return requestFromServer
@@ -384,15 +406,17 @@ export const getShipToPartner_Action = (
   accId,
   buId,
   orderId,
-  setFieldValue
+  setFieldValue,
 ) => (dispatch) => {
+  dispatch(slice.SetShipToPartner([]));
+  setFieldValue && setFieldValue('shipToParty', '');
   return requestFromServer
     .getShipToPartner(accId, buId, orderId)
     .then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
         dispatch(slice.SetShipToPartner(data));
-        setFieldValue && setFieldValue("shipToParty", data?.[0] || "");
+        setFieldValue && setFieldValue('shipToParty', data?.[0] || '');
       }
     });
 };

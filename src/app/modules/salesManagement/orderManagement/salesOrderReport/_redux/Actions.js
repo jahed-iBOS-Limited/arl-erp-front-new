@@ -1,8 +1,8 @@
-import * as requestFromServer from "./Api";
-import { salesOrderSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import * as requestFromServer from './Api';
+import { salesOrderSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 const { actions: slice } = salesOrderSlice;
 
 // action for getSBUDDL
@@ -24,7 +24,7 @@ export const getSalesOrgDDL_Action = (accId, buId, sbuId) => (dispatch) => {
   });
 };
 export const getTotalPendingQuantityAction = (accId, buId, values) => (
-  dispatch
+  dispatch,
 ) => {
   const { soldtoParty, pricingDate } = values;
   /* if 'Bongo Traders Ltd' BUI Select */
@@ -34,17 +34,17 @@ export const getTotalPendingQuantityAction = (accId, buId, values) => (
         accId,
         buId?.value,
         soldtoParty?.value,
-        pricingDate
+        pricingDate,
       )
       .then((res) => {
         const { data } = res;
-        dispatch(slice.SetTotalPendingQuantity(data || ""));
+        dispatch(slice.SetTotalPendingQuantity(data || ''));
       });
   }
 };
 // action for getDistributionChannelDDL
 export const getDistributionChannelDDLAction = (accId, buId, sbuId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getDistributionChannelDDL(accId, buId, sbuId)
@@ -57,7 +57,7 @@ export const getDistributionChannelDDLAction = (accId, buId, sbuId) => (
 };
 // action for getSalesOfficeDDL
 export const getSalesOfficeDDL_Action = (accId, buId, SalesOrgId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getSalesOfficeDDL(accId, buId, SalesOrgId)
@@ -107,7 +107,7 @@ export const getSoldToPartner_Action = (
   sbuId,
   salesOrg,
   shipPoint,
-  distributionChannel
+  distributionChannel,
 ) => (dispatch) => {
   return requestFromServer
     .getSoldToPartner(
@@ -116,7 +116,7 @@ export const getSoldToPartner_Action = (
       sbuId,
       salesOrg,
       shipPoint,
-      distributionChannel
+      distributionChannel,
     )
     .then((res) => {
       const { status, data } = res;
@@ -154,7 +154,7 @@ export const getBUalesOrgIncotermDDL_Action = () => (dispatch) => {
 };
 // action for getPaymentTermsListDDL
 export const getPaymentTermsListDDL_Action = (accId, buId, salesOrgId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getPaymentTermsListDDL(accId, buId, salesOrgId)
@@ -168,7 +168,7 @@ export const getPaymentTermsListDDL_Action = (accId, buId, salesOrgId) => (
 };
 // action for getShipToPartner
 export const getShipToPartner_Action = (accId, buId, soldToParty) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getShipToPartner(accId, buId, soldToParty)
@@ -185,7 +185,7 @@ export const getItemPlant_Action = (
   buId,
   disChaId,
 
-  salesOrgId
+  salesOrgId,
 ) => (dispatch) => {
   return requestFromServer
     .getItemPlant(accId, buId, disChaId, salesOrgId)
@@ -197,7 +197,7 @@ export const getItemPlant_Action = (
     });
 };
 export const getAllocateItemDDLAction = (accId, buiId, allotmentId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .GetAllocateItemDDL(accId, buiId, allotmentId)
@@ -210,7 +210,7 @@ export const getAllocateItemDDLAction = (accId, buiId, allotmentId) => (
 };
 // action for getSalesContactDDL
 export const getSalesContactDDL_Action = (accId, buId, soldToPartyId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getSalesContactDDL(accId, buId, soldToPartyId)
@@ -224,7 +224,7 @@ export const getSalesContactDDL_Action = (accId, buId, soldToPartyId) => (
 };
 // action for getSalesQuotationDDL
 export const getSalesQuotationDDL_Action = (accId, buId, soldToPartyId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getSalesQuotationDDL(accId, buId, soldToPartyId)
@@ -272,7 +272,7 @@ export const uoMitemPlantWarehouseDDL_action = (
   buId,
   plantId,
   itemId,
-  setFieldValue
+  setFieldValue,
 ) => (dispatch) => {
   return requestFromServer
     .uoMitemPlantWarehouseDDL(accountId, buId, plantId, itemId)
@@ -280,7 +280,7 @@ export const uoMitemPlantWarehouseDDL_action = (
       const { status, data } = res;
       if (status === 200 && data) {
         dispatch(slice.SetUoMitemPlantWarehouseDDL(data));
-        setFieldValue && setFieldValue("uom", data?.[0] || "");
+        setFieldValue && setFieldValue('uom', data?.[0] || '');
       }
     });
 };
@@ -306,7 +306,7 @@ export const getPriceStructureCheck_Acion = (partnerId, type) => (dispatch) => {
 };
 // action for getDiscountStructureCheck
 export const getDiscountStructureCheck_Action = (partnerId, type) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getPriceStructureCheck(partnerId, type)
@@ -322,14 +322,14 @@ export const getReferenceItemDetailsById_Action = (
   typeId,
   refId,
   itemId,
-  setFieldValue
+  setFieldValue,
 ) => (dispatch) => {
   return requestFromServer
     .getReferenceItemDetailsById(typeId, refId, itemId, setFieldValue)
     .then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
-        setFieldValue("uom", {
+        setFieldValue('uom', {
           label: res?.data[0]?.uom,
           value: res?.data[0]?.uomId,
         });
@@ -339,7 +339,7 @@ export const getReferenceItemDetailsById_Action = (
 };
 // action for getReferenceItemlistById
 export const getReferenceItemlistById_Action = (typeId, refId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getReferenceItemlistById(typeId, refId)
@@ -355,7 +355,7 @@ export const getReferenceItemlistById_Action = (typeId, refId) => (
 };
 // action for getReferenceWithItemListById
 export const getReferenceWithItemListById_Action = (typeId, refId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getReferenceWithItemListById(typeId, refId)
@@ -380,7 +380,7 @@ export const getPriceForInternalUse_Action = (
   sorgid,
   setDisabled,
   setFieldValue,
-  selectedBusinessUnit
+  selectedBusinessUnit,
 ) => (dispatch) => {
   selectedBusinessUnit?.value === 4 && setDisabled && setDisabled(true);
   return requestFromServer
@@ -391,7 +391,7 @@ export const getPriceForInternalUse_Action = (
       dtePricingDate,
       terr,
       channelId,
-      sorgid
+      sorgid,
     )
     .then((res) => {
       const { status, data } = res;
@@ -404,7 +404,7 @@ export const getPriceForInternalUse_Action = (
       setDisabled && setDisabled(false);
       selectedBusinessUnit?.value === 4 &&
         setFieldValue &&
-        setFieldValue("item", "");
+        setFieldValue('item', '');
     });
 };
 
@@ -415,11 +415,11 @@ export const saveSalesOrder = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.responseData(
           res?.data?.soldToPartnerId,
           res?.data?.soId,
-          res?.data?.salesOrderCode
+          res?.data?.salesOrderCode,
         );
         payload.cb();
         payload.setRowDto([]);
@@ -439,7 +439,7 @@ export const saveEditedSalesOrder = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -456,11 +456,19 @@ export const getSalesOrderGridData = (
   reportTypeId,
   pageNo,
   pageSize,
-  search
+  search,
 ) => (dispatch) => {
   // setLoading(true);
   return requestFromServer
-    .getGridData(accId, buId, shipPointId,reportTypeId, pageNo, pageSize, search)
+    .getGridData(
+      accId,
+      buId,
+      shipPointId,
+      reportTypeId,
+      pageNo,
+      pageSize,
+      search,
+    )
     .then((res) => {
       // setLoading(false);
       return dispatch(slice.SetGridData(res.data));
@@ -472,7 +480,7 @@ export const getSalesOrderGridData = (
 };
 // action for get getAvailableBalance data
 export const getAvailableBalance_Action = (partnerId, data, refType) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .getAvailableBalance(partnerId, data, refType)
@@ -489,7 +497,7 @@ export const getDataBySalesOrderId_Action = (
   accId,
   buId,
   salesOrderId,
-  setLoading
+  setLoading,
 ) => (dispatch) => {
   setLoading && setLoading(true);
   return requestFromServer
@@ -516,7 +524,7 @@ export const getDataBySalesOrderId_Action = (
                   value: item?.objHeader?.incotermId,
                   label: item?.objHeader?.incotermsName,
                 }
-              : "",
+              : '',
             paymentTerms: {
               value: item?.objHeader?.paymentTermId,
               label: item?.objHeader?.paymentTermsName,
@@ -530,25 +538,25 @@ export const getDataBySalesOrderId_Action = (
               label: item?.objHeader?.refferenceTypeName,
             },
             shipToPartnerContactNo:
-              item?.objHeader?.shipToPartnerContactNo || "",
+              item?.objHeader?.shipToPartnerContactNo || '',
             pricingDate: _dateFormatter(item?.objHeader?.pricingDate),
             dueShippingDate: _dateFormatter(item?.objHeader?.dueShippingDate),
-            quantityTop: "",
-            customerItemName: "",
-            shiptoPartnerAddress: item?.objHeader?.shiptoPartnerAddress || "",
+            quantityTop: '',
+            customerItemName: '',
+            shiptoPartnerAddress: item?.objHeader?.shiptoPartnerAddress || '',
             alotement: item?.objHeader?.allotmentId
               ? {
                   value: item?.objHeader?.allotmentId,
                   label: item?.objHeader?.allotmentIdName,
                 }
-              : "",
+              : '',
 
             productType: item?.objHeader?.productType
               ? {
                   value: item?.objHeader?.productType,
                   label: item?.objHeader?.productType,
                 }
-              : "",
+              : '',
           },
         };
         return dispatch(slice.SetDataById(data));
@@ -571,14 +579,14 @@ export const SetGridDataEmpty_Action = () => async (dispatch) => {
 export const getSalesOrderApproval_Aciton = (
   salesOrderId,
   approveBy,
-  cb
+  cb,
 ) => () => {
   return requestFromServer
     .getSalesOrderApproval(salesOrderId, approveBy)
     .then((res) => {
       cb();
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -622,7 +630,9 @@ export const getCreditLimitForInternalUser_action = (userId) => (dispatch) => {
       console.log(err);
     });
 };
-export const GetSalesConfigurationBalanceCheck_acion = (accId, buId) => (dispatch) => {
+export const GetSalesConfigurationBalanceCheck_acion = (accId, buId) => (
+  dispatch,
+) => {
   return requestFromServer
     .GetSalesConfigurationBalanceCheck(accId, buId)
     .then((res) => {

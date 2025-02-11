@@ -109,11 +109,12 @@ export default function ViewInvoice({ clickRowDto }) {
                     Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
                   </span>{' '}
                   <hr style={{ margin: '3px 0px' }} />
-                  <span>Phone No: N/A</span> <br />
+                  <span>Phone: 08000555777</span> <br />
+                  <span>Mobile No: 01332500859</span> <br />
                   <hr style={{ margin: '3px 0px' }} />
                   <span>Email ID: N/A</span> <br />
                   <hr style={{ margin: '3px 0px' }} />
-                  <span>BIN: N/A</span> <br />
+                  <span>BIN: 005848637-0203</span> <br />
                 </div>
               </td>
               <td colSpan="2" style={{ ...cellStyle, textAlign: 'center' }}>
@@ -208,7 +209,11 @@ export default function ViewInvoice({ clickRowDto }) {
                 IP/EXP No.: {singleChaShipmentBooking?.exp}
               </td>
               <td colSpan="3" style={cellStyle}>
-                Quantity: {singleChaShipmentBooking?.containerQty}
+                {singleChaShipmentBooking?.modeOfTransportName === 'Sea' && (
+                  <>
+                    Container quantity: {singleChaShipmentBooking?.containerQty}
+                  </>
+                )}
               </td>
             </tr>
             <tr>
@@ -272,7 +277,7 @@ export default function ViewInvoice({ clickRowDto }) {
                     <td
                       style={{
                         ...cellStyle,
-                        width: '15px',
+                        width: '30px',
                       }}
                     >
                       {index + 1}
