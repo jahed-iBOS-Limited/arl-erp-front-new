@@ -25,6 +25,7 @@ import {
 } from './modules/_helper/chattingAppRedux/Action';
 import { serviceWorkerPoppup } from './modules/_helper/serviceWorkerPoppup';
 import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
+import { clearLocalStorageAction } from './modules/_helper/reduxForLocalStorage/Actions';
 
 const DepartmentalBalancedScorecard = lazy(() =>
   import(
@@ -105,7 +106,8 @@ export function Routes() {
         if (window.location.origin === 'https://erp.peopledesk.io') {
           toast.error('Invalid User');
           dispatch(actions.LogOut());
-          window.location.href = 'https://arl.peopledesk.io';
+          dispatch(clearLocalStorageAction());
+          setTimeout(() => { window.location.reload(); }, 500); // For clear profileData from redux properly
         }
       }
     }
