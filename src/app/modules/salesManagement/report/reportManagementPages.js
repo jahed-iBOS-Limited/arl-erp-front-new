@@ -52,6 +52,7 @@ import AllEssentialReport from "./AllEssentialReport";
 import ShipToPartyTargetLanding from "./shipToPartyTarget/landing";
 import ShipToPartyTargetEntryForm from "./shipToPartyTarget/form/addEditForm";
 import SalesKPILanding from "./salesKPI";
+import ItemCategorySales from "./itemCategorySales";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -128,6 +129,10 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/salesdetails"
         component={SalesDetails}
+      />
+      <ContentRoute
+        path="/sales-management/report/itemcategorysales"
+        component={ItemCategorySales}
       />
 
       {/* <ContentRoute
