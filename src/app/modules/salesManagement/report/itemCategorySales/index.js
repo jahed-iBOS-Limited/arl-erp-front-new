@@ -83,6 +83,7 @@ export default function ItemCategorySales({ saveHandler }) {
                                                         options={[
                                                             { value: 1, label: "Details" },
                                                             { value: 2, label: "Top Sheet" },
+                                                            { value: 3, label: "Item Category Base" },
                                                         ]}
                                                         value={values?.viewType}
                                                         label="View Type"
@@ -121,7 +122,7 @@ export default function ItemCategorySales({ saveHandler }) {
                                                 <div className="col-lg-3">
                                                     <NewSelect
                                                         name="warehouse"
-                                                        options={warehouseDDL}
+                                                        options={[{ value: "0", label: "All" }, ...warehouseDDL]}
                                                         value={values?.warehouse}
                                                         label="Warehouse"
                                                         onChange={(valueOption) => {
