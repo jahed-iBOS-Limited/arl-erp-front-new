@@ -189,7 +189,8 @@ export default function _Form({
                     }}
                     disabled={
                       values?.conditionType?.value !== 2 ||
-                      values?.conditionTypeRef?.value !== 67
+                      // values?.conditionTypeRef?.value !== 67
+                      ![70, 71].includes(values?.conditionTypeRef?.value)
                     }
                   >
                     Update from Google Sheet
