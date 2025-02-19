@@ -85,6 +85,7 @@ export default function ViewG2GTruckBill({
                       <th>Delvery Date</th>
                       <th>Quantity (Bag)</th>
                       <th>Quantity (Ton)</th>
+                      <th>Transport Rate</th>
                       <th>Godown Unload Labour Rate</th>
                       <th>Total Amount</th>
                       <th>Attachment</th>
@@ -107,6 +108,7 @@ export default function ViewG2GTruckBill({
                           <td className="text-center">{item?.delveryDate}</td>
                           <td className="text-right">{item?.quantity}</td>
                           <td className="text-right">{item?.quantityTon}</td>
+                          <td className="text-right">{item?.transportRate}</td>
                           <td className="text-right">
                             {item?.godownUnloadLabouRate}
                           </td>
