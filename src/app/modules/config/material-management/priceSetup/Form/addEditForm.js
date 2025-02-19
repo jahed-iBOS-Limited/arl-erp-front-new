@@ -15,6 +15,7 @@ import { isUniq } from "../../../../_helper/uniqChecker";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   id: undefined,
@@ -40,6 +41,13 @@ export default function PriceSetupForm({
   const [DDL, setDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [, postData, loading] = useAxiosPost();
+
+  // sales information excel data get
+  const [
+    salesInformationExcelData,
+    getSalesInformationExcelData,
+    getSalesInformationExcelDataLoading,
+  ] = useAxiosGet();
 
   // get user data from store
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -232,7 +240,20 @@ export default function PriceSetupForm({
   };
   const [objProps, setObjprops] = useState({});
 
-  const loader = isDisabled || loading;
+  // handle get sales information data
+  function fetchGetSalesInfoExelData(obj) {
+    // destrcuture
+    const {
+      values: { conditionType, conditionTypeRef },
+    } = obj;
+
+    // get api action
+    getSalesInformationExcelData(
+      `/oms/SalesInformation/GetDataPreviewListForExcelInsert?conditionTypeId=${conditionType?.value}&conditionTypeName=${conditionType?.label}&conditionReffId=${conditionTypeRef?.value}&businessUnitId=${selectedBusinessUnit?.value}&actionBy=${profileData?.userId}&partId=1&partName=PriceEntry`
+    );
+  }
+
+  const loader = isDisabled || loading || getSalesInformationExcelDataLoading;
 
   return (
     <IForm
@@ -263,6 +284,8 @@ export default function PriceSetupForm({
         businessUnitSet={businessUnitSet}
         postData={postData}
         token={token}
+        fetchGetSalesInfoExelData={fetchGetSalesInfoExelData}
+        salesInformationExcelData={salesInformationExcelData}
       />
     </IForm>
   );
