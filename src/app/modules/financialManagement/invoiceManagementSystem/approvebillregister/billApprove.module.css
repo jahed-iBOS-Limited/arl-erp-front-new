@@ -1,0 +1,20 @@
+@keyframes scrollText {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.marqueeContainer {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marqueeText {
+  display: inline-block;
+  color: red;
+  font-weight: bold;
+  animation: scrollText 10s linear infinite;
+}

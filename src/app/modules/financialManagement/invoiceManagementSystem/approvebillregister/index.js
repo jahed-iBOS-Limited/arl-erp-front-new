@@ -28,6 +28,7 @@ import {
   getSbuDDL,
   rejectBillRegister_api,
 } from "./helper";
+import styles from "./billApprove.module.css";
 
 const initData = {
   sbu: "",
@@ -144,7 +145,7 @@ function ApproveapprovebillregLanding() {
           values
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -271,7 +272,7 @@ function ApproveapprovebillregLanding() {
         enableReinitialize={true}
         initialValues={{}}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
         innerRef={formikRef}
       >
         {({
@@ -425,7 +426,7 @@ function ApproveapprovebillregLanding() {
                       >
                         View
                       </button>
-                      {values?.status?.value === 1 && (
+                      {values?.status?.value === 1 && ![17, 22].includes(values?.billType?.value) && (
                         <button
                           onClick={() => {
                             dispatch(setApprovebillregLandingAction(values));
@@ -467,6 +468,17 @@ function ApproveapprovebillregLanding() {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
+
+                  {
+                    [17, 22].includes(values?.billType?.value) && (
+                      <div className={styles.marqueeContainer}>
+                        <p className={styles.marqueeText}>
+                          For G2G Lighter Bill and G2G Ghat Load Unload Bill, click on the Edit
+                          button and then click Save button to approve the Bill.
+                        </p>
+                      </div>
+                    )
+                  }
 
                   <GridData
                     rowDto={rowDto}
