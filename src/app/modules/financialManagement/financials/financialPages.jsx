@@ -1,65 +1,65 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { AdjustmentJournal } from "./adjustmentJournal";
-import AdjustmentJournalCreateForm from "./adjustmentJournal/Form/addEditForm";
-import { CashJournal } from "./cashJournal";
-import CashJournaForm from "./cashJournal/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { AdjustmentJournal } from './adjustmentJournal';
+import AdjustmentJournalCreateForm from './adjustmentJournal/Form/addEditForm';
+import { CashJournal } from './cashJournal';
+import CashJournaForm from './cashJournal/Form/addEditForm';
 
-import BankJournalCreateForm from "./bankJournal/Create/addForm";
-import BankJournalEditForm from "./bankJournal/EditForm/addForm";
-import BankJournalLanding from "./bankJournal/Table/index";
-import CashJournaEditForm from "./cashJournal/EditForm/addEditForm";
+import BankJournalCreateForm from './bankJournal/Create/addForm';
+import BankJournalEditForm from './bankJournal/EditForm/addForm';
+import BankJournalLanding from './bankJournal/Table/index';
+import CashJournaEditForm from './cashJournal/EditForm/addEditForm';
 
-import findIndex from "../../_helper/_findIndex";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import BankStateMentCorrectionLanding from "./BankStateMentCorrection/landing/tableHeader";
-import BusinessUnitForm from "./BusinessUnitTransaction/Form/addEditForm";
-import { BusinessUnitTransaction } from "./BusinessUnitTransaction/index";
-import ManualReconcileLanding from "./ManualReconcile/landing/tableHeader";
-import TdsVdsJvLanding from "./TDS_VDS_JV_create/landing";
-import AccountClosingCreateForm from "./accountingClosing/Form/addEditForm";
-import BankAdvice from "./bankAdvce/table/BankAdvice";
-import CreateBankLimit from "./bankLimit/form";
-import BankLimit from "./bankLimit/table/tableRow";
-import BankStatement from "./bankStatement/table/tableHeader";
-import { BudgetEntryCreate } from "./budgetEntry/Create/addEditForm";
-import { BudgetEntryLanding } from "./budgetEntry/Landing/addEditForm";
-import BulkBankReceive from "./bulkBankReceive/Form/addEditForm";
-import BulkJVLanding from "./bulkJV/table/tableHeader";
-import { CustomerBankReceive } from "./customerBankReceive";
-import IncentiveBillPaymentLanding from "./incentiveBillPayment";
-import PaymentAdviceForm from "./paymentAdvice/form/addEditForm";
-import ProductionCost from "./productionCosting";
-import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
-import TransferJournalToTax from "./transferJournalToTax";
-import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
-import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditForm";
-import FundTransfer from "./fundTransfer";
-import ContraCreate from "./fundTransfer/contra/create";
-import InterCompanyTransferRequestCreate from "./fundTransfer/interCompanyTransferRequest/create";
-import FundTransferApproval from "./fundTransfer/fundTransferApproval";
-import FundTransferCreate from "./fundTransfer/fundTransferCreate";
-import BankJournalCreateFormContra from "./fundTransfer/contra/createBankTransfer/addForm";
-import CashJournaFormContra from "./fundTransfer/contra/createCashTransfer/Form/addEditForm";
-import BankReceiptForJounal from "./fundTransfer/contra/createBankReceipt/addForm";
+import findIndex from '../../_helper/_findIndex';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import BankStateMentCorrectionLanding from './BankStateMentCorrection/landing/tableHeader';
+import BusinessUnitForm from './BusinessUnitTransaction/Form/addEditForm';
+import { BusinessUnitTransaction } from './BusinessUnitTransaction/index';
+import ManualReconcileLanding from './ManualReconcile/landing/tableHeader';
+import TdsVdsJvLanding from './TDS_VDS_JV_create/landing';
+import AccountClosingCreateForm from './accountingClosing/Form/addEditForm';
+import BankAdvice from './bankAdvce/table/BankAdvice';
+import CreateBankLimit from './bankLimit/form';
+import BankLimit from './bankLimit/table/tableRow';
+import BankStatement from './bankStatement/table/tableHeader';
+import { BudgetEntryCreate } from './budgetEntry/Create/addEditForm';
+import { BudgetEntryLanding } from './budgetEntry/Landing/addEditForm';
+import BulkBankReceive from './bulkBankReceive/Form/addEditForm';
+import BulkJVLanding from './bulkJV/table/tableHeader';
+import { CustomerBankReceive } from './customerBankReceive';
+import IncentiveBillPaymentLanding from './incentiveBillPayment';
+import PaymentAdviceForm from './paymentAdvice/form/addEditForm';
+import ProductionCost from './productionCosting';
+import ReconciliationJournal from './reconciliationJournal/table/tableHeader';
+import TransferJournalToTax from './transferJournalToTax';
+import BankJournalCreateFormCollection from './bankJournal/collectionCreate/addForm';
+import CashJournaFormForCollection from './cashJournal/collectionCreate/addEditForm';
+import FundTransfer from './fundTransfer';
+import ContraCreate from './fundTransfer/contra/create';
+import InterCompanyTransferRequestCreate from './fundTransfer/interCompanyTransferRequest/create';
+import FundTransferApproval from './fundTransfer/fundTransferApproval';
+import FundTransferCreate from './fundTransfer/fundTransferCreate';
+import BankJournalCreateFormContra from './fundTransfer/contra/createBankTransfer/addForm';
+import CashJournaFormContra from './fundTransfer/contra/createCashTransfer/Form/addEditForm';
+import BankReceiptForJounal from './fundTransfer/contra/createBankReceipt/addForm';
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual
+    shallowEqual,
   );
 
-  const cashJournal = userRole[findIndex(userRole, "Cash Journal")];
-  const bankJournal = userRole[findIndex(userRole, "Bank Journal")];
-  const adjustmentJournal = userRole[findIndex(userRole, "Adjustment Journal")];
+  const cashJournal = userRole[findIndex(userRole, 'Cash Journal')];
+  const bankJournal = userRole[findIndex(userRole, 'Bank Journal')];
+  const adjustmentJournal = userRole[findIndex(userRole, 'Adjustment Journal')];
   const busisnessTransaction =
-    userRole[findIndex(userRole, "Business Transaction")];
+    userRole[findIndex(userRole, 'Business Transaction')];
 
   const productionCostPermission =
-    userRole[findIndex(userRole, "Production Costing")];
+    userRole[findIndex(userRole, 'Production Costing')];
 
   return (
     <Switch>
@@ -75,10 +75,12 @@ export function FinalcialPages() {
         path="/financial-management/financials/bank/edit/:id"
         component={bankJournal?.isEdit ? BankJournalEditForm : NotPermittedPage}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/financials/bank/collection"
         component={
-          bankJournal?.isCreate ? BankJournalCreateFormCollection : NotPermittedPage
+          bankJournal?.isCreate
+            ? BankJournalCreateFormCollection
+            : NotPermittedPage
         }
       />
       <ContentRoute
@@ -97,7 +99,7 @@ export function FinalcialPages() {
         path="/financial-management/financials/adjustment/view/:id"
         component={
           adjustmentJournal?.isView
-            ? 
+            ?
             AdjustmentJournalView
             : NotPermittedPage
         }
@@ -129,7 +131,9 @@ export function FinalcialPages() {
       />
       <ContentRoute
         path="/financial-management/financials/cash/collection"
-        component={cashJournal?.isCreate ? CashJournaFormForCollection : NotPermittedPage}
+        component={
+          cashJournal?.isCreate ? CashJournaFormForCollection : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/financial-management/financials/cash/create"
@@ -175,7 +179,12 @@ export function FinalcialPages() {
         path="/financial-management/financials/bankadvice"
         component={BankAdvice}
       />
-       <ContentRoute
+
+      <ContentRoute
+        path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/edit/:intFundTransferRequestId"
+        component={InterCompanyTransferRequestCreate}
+      />
+      <ContentRoute
         path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/create"
         component={InterCompanyTransferRequestCreate}
       />
@@ -191,7 +200,7 @@ export function FinalcialPages() {
         path="/financial-management/financials/fundTransferapproval"
         component={FundTransferApproval}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/financials/fundTransfercreate/cashTrasfer"
         component={CashJournaFormContra}
       />
@@ -203,7 +212,7 @@ export function FinalcialPages() {
         path="/financial-management/financials/fundTransfercreate/bankTrasfer"
         component={BankJournalCreateFormContra}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/financials/fundTransfercreate"
         component={FundTransferCreate}
       />

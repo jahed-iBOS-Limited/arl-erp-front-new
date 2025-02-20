@@ -125,7 +125,7 @@ export default function HeaderForm({ loading, setLoading }) {
   // eslint-disable-next-line no-unused-vars
   const [pageNo, setPageNo] = React.useState(0);
   // eslint-disable-next-line no-unused-vars
-  const [pageSize, setPageSize] = React.useState(15);
+  const [pageSize, setPageSize] = React.useState(100);
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {

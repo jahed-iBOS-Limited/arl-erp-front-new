@@ -291,6 +291,22 @@ function ViewInfo({ clickRowDto }) {
                 : ''}
             </span>
           </div>
+          {/* LC No */}
+          <div className="info-item">
+            <span className="info-item-label">LC No:</span>
+            <span className="info-item-value">
+              {singleChaShipmentBooking?.lcNo}
+            </span>
+          </div>
+          {/* LC Date */}
+          <div className="info-item">
+            <span className="info-item-label">LC Date:</span>
+            <span className="info-item-value">
+              {singleChaShipmentBooking?.lcDate
+                ? _dateFormatter(singleChaShipmentBooking?.lcDate)
+                : ''}
+            </span>
+          </div>
         </div>
       ) : (
         <p>No data available</p>

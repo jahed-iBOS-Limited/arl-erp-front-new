@@ -27,7 +27,8 @@ import BulkDetails from "./bulkDetails";
 import { calculateTimeDifference } from "./helper";
 
 const initData = {
-  date: _todayDate(),
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
   businessUnit: "",
   shipPoint: "",
 };
@@ -60,9 +61,10 @@ function GateItemEntry() {
   }, [selectedBusinessUnit]);
 
   const landingData = (values) => {
-    let date = values?.date ? `&date=${values?.date}` : "";
+    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : "";
+    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : "";
     getRowData(
-      `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}${date}`
+      `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}${strFromDate}${strToDate}`
     );
   };
 
@@ -72,7 +74,7 @@ function GateItemEntry() {
       (data) => {
         initData.shipPoint = data[0];
         getRowData(
-          `/mes/MSIL/GateEntryItemLanding?businessUnitId=${initData?.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}&date=${initData?.date}`
+          `/mes/MSIL/GateEntryItemLanding?businessUnitId=${initData?.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}&fromDate=${initData?.fromDate}&toDate=${initData?.toDate}`
         );
       }
     );
@@ -172,11 +174,23 @@ function GateItemEntry() {
                   <div className="col-lg-2">
                     <InputField
                       type="date"
-                      name="date"
-                      label="Date"
-                      value={values?.date}
+                      name="fromDate"
+                      label="From Date"
+                      value={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue("fromDate", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      type="date"
+                      name="toDate"
+                      label="To Date"
+                      min={values?.fromDate}
+                      value={values?.toDate}
+                      onChange={(e) => {
+                        setFieldValue("toDate", e.target.value);
                       }}
                     />
                   </div>
@@ -188,7 +202,8 @@ function GateItemEntry() {
                       disabled={
                         !values?.businessUnit ||
                         !values?.shipPoint ||
-                        !values?.date
+                        !values?.fromDate ||
+                        !values?.toDate 
                       }
                       onClick={(e) => {
                         landingData(values);

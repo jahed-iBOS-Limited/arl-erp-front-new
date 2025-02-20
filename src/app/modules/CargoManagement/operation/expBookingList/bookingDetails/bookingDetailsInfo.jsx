@@ -564,10 +564,10 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                                         <td>{volumeItem?.volumeCBM}</td>
                                         {bookingData?.modeOfTransport ===
                                           'Air' && (
-                                          <td>
-                                            {volumeItem?.volumetricWeight}
-                                          </td>
-                                        )}
+                                            <td>
+                                              {volumeItem?.volumetricWeight}
+                                            </td>
+                                          )}
                                         <td>{volumeItem?.dimsLength}</td>
                                         <td>{volumeItem?.dimsWidth}</td>
                                         <td>{volumeItem?.dimsHeight}</td>
@@ -819,7 +819,6 @@ const CommonTransportPlanningView = ({
   transportPlanning,
   modeOfTransport,
 }) => {
-  console.log(modeOfTransport, 'modeOfTransport');
   return (
     <>
       <div className="box">

@@ -262,7 +262,7 @@ export default function TransferShipmentForm({
             ...singleData?.shipmentHeader,
             supplierId: values?.supplierName?.value || 0,
             supplierName: values?.supplierName?.label || 0,
-            vehicleId: +values?.Vehicle?.value || 0,
+            vehicleId: vehicleSingleData?.vehicleId,
             vehicleName: values?.Vehicle?.label || "",
             driverId: values?.driverId,
             driverName: values?.driverName,

@@ -1,23 +1,24 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
 import ICustomTable from "../../../_helper/_customTable";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import IForm from "../../../_helper/_form";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import IButton from "../../../_helper/iButton";
+import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import ShippingInfoDetails from "../storeInformationList/shippingNote";
+import IViewModal from "../../../_helper/_viewModal";
+import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../_helper/iButton";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import ShippingInfoDetails from "../storeInformationList/shippingNote";
 
 const initData = {
   type: { value: 1, label: "Loading In Progress" },
@@ -78,6 +79,40 @@ export default function PackingInformationList() {
   //   alert("Working...");
   // };
 
+  // api action
+  const [tlmDDL, getTLMDDL, getTLMDDLLoading] = useAxiosGet();
+  const [
+    packerDDL,
+    getPackerDDL,
+    getPackerDDLLoading,
+    setPackerDDL,
+  ] = useAxiosGet();
+  const [
+    forcelyPackerOutData,
+    getForcelyPackerOutData,
+    getForcelyPackerOutDataLoading,
+  ] = useAxiosGet();
+  const [, saveForcelyPackerOut, saveForcelyPackerOutLoading] = useAxiosPost();
+
+  // use effect
+  useEffect(() => {
+    // get packer list & update
+    getPackerDDL(
+      `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${accId}&BusinessUnitId=${buId}`,
+
+      (resData) => {
+        setPackerDDL(
+          resData?.map((item) => ({
+            ...item,
+            value: item?.workCenterId,
+            label: item?.workCenterName,
+          }))
+        );
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
     getRowData(
       `/oms/LoadingPoint/GetPackingSupervisorConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}` // `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
@@ -129,8 +164,17 @@ export default function PackingInformationList() {
     }
   };
 
-  const isLoading = loader || loading || rowLoading;
+  // loading
+  const isLoading =
+    loader ||
+    loading ||
+    rowLoading ||
+    getPackerDDLLoading ||
+    getTLMDDLLoading ||
+    getForcelyPackerOutDataLoading ||
+    saveForcelyPackerOutLoading;
 
+  // receive handler
   const receiveHandler = (values, item) => {
     onComplete(
       `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentId}&actionBy=${userId}&typeId=3`,
@@ -140,6 +184,29 @@ export default function PackingInformationList() {
       },
       true
     );
+  };
+
+  // forcefully packer out
+  const forcefullyPackerOutPopup = (item, values, cb) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: "If you forcefully out this, it can not be undone",
+      yesAlertFunc: async () => {
+        // destrcuture
+        const { packer, tlm } = values;
+
+        saveForcelyPackerOut(
+          `/oms/LoadingPoint/CompletePackerForcely?shipmentId=${item?.runningShipmentId}&actionBy=${userId}&tlm=${tlm?.value}&brustingQuantity=0&packerId=${packer?.value}`,
+          null,
+          cb,
+          true
+        );
+      },
+      noAlertFunc: () => {
+        "";
+      },
+    };
+    IConfirmModal(confirmObject);
   };
 
   return (
@@ -210,6 +277,7 @@ export default function PackingInformationList() {
                       // { value: 2, label: "Loading Completed" },
                       { value: 4, label: "Shift wise Packer Information" },
                       { value: 5, label: "Cash Base In Out Status" },
+                      { value: 6, label: "Forcely Packer Out" },
                     ]}
                     value={values?.type}
                     label="Type"
@@ -222,9 +290,9 @@ export default function PackingInformationList() {
                     placeholder="Type"
                   />
                 </div>
-                {[1, 2, 4, 5].includes(values?.type?.value) && (
+                {[1, 2, 4, 5, 6].includes(values?.type?.value) && (
                   <>
-                    {[1, 2, 4, 5].includes(values?.type?.value) && (
+                    {[1, 2, 4, 5, 6].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -332,6 +400,46 @@ export default function PackingInformationList() {
                         }}
                       />
                     )}
+
+                    {/* Forcely Packer Out */}
+                    {[6].includes(values?.type?.value) && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="packer"
+                            placeholder="Packer for Out"
+                            label="Packer"
+                            options={packerDDL || []}
+                            value={values?.packer}
+                            onChange={(valueOption) => {
+                              setFieldValue("packer", valueOption);
+                              setFieldValue("tlm", "");
+
+                              // get tlm ddl
+                              getTLMDDL(
+                                `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
+                                  valueOption?.value
+                                }&ShipPointId=${values?.shipPoint?.value || 0}`
+                              );
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="tlm"
+                            options={tlmDDL || []}
+                            value={values?.tlm}
+                            label="TLM for Out"
+                            onChange={(valueOption) => {
+                              setFieldValue("tlm", valueOption);
+                            }}
+                            placeholder="TLM"
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {/* Button */}
                     <IButton
                       onClick={() => {
                         if (
@@ -339,6 +447,19 @@ export default function PackingInformationList() {
                           values?.type?.value === 5
                         ) {
                           setShowReport(true);
+                        }
+                        // forcely packer out
+                        else if (values?.type?.value === 6) {
+                          // destrcuture
+                          const { shipPoint, packer, tlm } = values;
+
+                          // get forcely packer out data
+                          getForcelyPackerOutData(
+                            `/oms/LoadingPoint/GetDataForForcelyPackerOutReport?businessUnitId=${buId}&shipPointId=${
+                              shipPoint?.value
+                            }&PackerId=${packer?.value ||
+                              0}&TlmId=${tlm?.value || 0}`,
+                          );
                         } else {
                           // setShowReport(false);
                           getData(values);
@@ -600,6 +721,7 @@ export default function PackingInformationList() {
                 />
               </IViewModal>
 
+              {/* Table */}
               {(reportData?.objRow?.length > 0 ||
                 rowData?.data?.length > 0) && (
                 <ICustomTable
@@ -712,6 +834,71 @@ export default function PackingInformationList() {
                   </tr>
                 </ICustomTable>
               )}
+
+              {/* Forcely Packer Out Table */}
+              {forcelyPackerOutData?.length > 0 ? (
+                <>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          <th>SL</th>
+                          <th>Shipment Code</th>
+                          <th>Work Center</th>
+                          <th>Vehicle</th>
+                          <th>Driver Name</th>
+                          <th>Driver Contact</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {forcelyPackerOutData.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.shipmentCode}</td>
+                              <td>{item?.workCenterName}</td>
+                              <td>{item?.vehicleName}</td>
+                              <td>{item?.driverName}</td>
+                              <td>{item?.driverContact}</td>
+                              <td>
+                                <span
+                                  role="button"
+                                  onClick={() => {
+                                    forcefullyPackerOutPopup(
+                                      item,
+                                      values,
+                                      () => {}
+                                    );
+                                  }}
+                                >
+                                  <i
+                                    className="fa fa-times-circle fa-lg"
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : null}
+
+              {/* Modal */}
+
               <IViewModal show={open} onHide={() => setOpen(false)}>
                 <ShippingInfoDetails
                   obj={{

@@ -1112,6 +1112,7 @@ export default function SalesOrderForm({
           collectionDays={collectionDays}
           getCommissionRatesForEssential={getCommissionRatesForEssential}
           brokerDDL={brokerDDL}
+          objDiscount={singleData?.objDiscount}
         />
       </IForm>
     </>

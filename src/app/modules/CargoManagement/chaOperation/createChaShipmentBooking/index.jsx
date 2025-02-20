@@ -71,6 +71,8 @@ const initData = {
   etaDate: '',
   ataDate: '',
   cbmWeight: '',
+  lcDate: '',
+  lcNo: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -104,12 +106,8 @@ const validationSchema = Yup.object().shape({
 });
 function CreateChaShipmentBooking() {
   const formikRef = React.useRef(null);
-  const [
-    ,
-    SaveOrUpdateChaShipmentBooking,
-    saveOrUpdateChaShipmentLoading,
-    ,
-  ] = useAxiosPost();
+  const [, SaveOrUpdateChaShipmentBooking, saveOrUpdateChaShipmentLoading, ,] =
+    useAxiosPost();
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -198,6 +196,8 @@ function CreateChaShipmentBooking() {
       currency: values?.currency?.label || '',
       ...(values?.etaDate ? { eta: values?.expDate } : {}),
       ...(values?.ataDate ? { ata: values?.ataDate } : {}),
+      lcNo: values?.lcNo || '',
+      ...(values?.lcDate ? { lcDate: values?.lcDate } : {}),
       isActive: true,
       createdBy: profileData?.userId,
       updatedAt: new Date(),
@@ -216,21 +216,10 @@ function CreateChaShipmentBooking() {
     );
   };
 
-  const transportModeHandelar = (typeId, tradeTypeId) => {
-    // tradeTypeId  = 1 export
-    if (tradeTypeId === 1) {
+  const transportModeHandelar = (typeId) => {
+    if (typeId) {
       getAirServiceProviderDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${0}&participntTypeId=${typeId}`,
-        (res) => {
-          setAirServiceProviderDDL(res);
-        },
-      );
-    }
-
-    // tradeTypeId  = 2 import
-    if (tradeTypeId === 2) {
-      getAirServiceProviderDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${0}&participntTypeId=${typeId}`,
+        `${imarineBaseUrl}/domain/CHAShipment/GetCarrierDDL?carriarTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
         },
@@ -350,9 +339,9 @@ function CreateChaShipmentBooking() {
             csSalesPic: resData?.csSalesPic
               ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
               : '',
-            commodity: resData?.commodityId
+            commodity: resData?.commodityName
               ? {
-                  value: resData?.commodityId,
+                  value: resData?.commodityId || 0,
                   label: resData?.commodityName,
                 }
               : '',
@@ -400,6 +389,8 @@ function CreateChaShipmentBooking() {
             etaDate: resData?.eta ? _dateFormatter(resData?.eta) : '',
             ataDate: resData?.ata ? _dateFormatter(resData?.ata) : '',
             cbmWeight: resData?.cbmWeight || '',
+            lcDate: resData?.lcDate ? _dateFormatter(resData?.lcDate) : '',
+            lcNo: resData?.lcNo || '',
           };
 
           formikRef.current.setValues(valuesObj);
@@ -454,6 +445,7 @@ function CreateChaShipmentBooking() {
                           onChange={(e) => {
                             setFieldValue('impExpType', 1);
                           }}
+                          disabled={id}
                         />
                         Export
                       </label>
@@ -467,6 +459,7 @@ function CreateChaShipmentBooking() {
                           onChange={(e) => {
                             setFieldValue('impExpType', 2);
                           }}
+                          disabled={id}
                         />
                         Import
                       </label>
@@ -524,13 +517,14 @@ function CreateChaShipmentBooking() {
                         setFieldValue('transportMode', valueOption || '');
                         setFieldValue('carrier', '');
                         setFieldValue('containerQty', '');
-                        const typeId = valueOption?.label === 'Air' ? 6 : 5;
+                        setAirServiceProviderDDL([]);
                         if ([1, 2].includes(valueOption?.value)) {
-                          transportModeHandelar(typeId, values?.impExpType);
+                          transportModeHandelar(valueOption?.value);
                         }
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={id}
                     />
                   </div>
 
@@ -540,6 +534,7 @@ function CreateChaShipmentBooking() {
                       {/* Carrier */}
                       <div className="col-lg-3">
                         <NewSelect
+                          isCreatableSelect={true}
                           placeholder=" "
                           label={'Carrier'}
                           options={airServiceProviderDDLData || []}
@@ -846,11 +841,16 @@ function CreateChaShipmentBooking() {
                       name="commodity"
                       value={values?.commodity}
                       onChange={(valueOption) => {
-                        setFieldValue('commodity', valueOption);
+                        const modifyData = {
+                          value: 0,
+                          label: valueOption?.label || '',
+                        };
+                        setFieldValue('commodity', modifyData);
                       }}
                       placeholder="Commodity Name"
                       errors={errors}
                       touched={touched}
+                      isCreatableSelect={true}
                     />
                   </div>
                   {/* DEL */}
@@ -1162,6 +1162,32 @@ function CreateChaShipmentBooking() {
                       value={values?.cbmWeight}
                       onChange={(e) => {
                         setFieldValue('cbmWeight', e.target.value);
+                      }}
+                    />
+                  </div>
+
+                  {/* Lc Date */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="LC Date"
+                      type="date"
+                      name="lcDate"
+                      value={values?.lcDate}
+                      onChange={(e) => {
+                        setFieldValue('lcDate', e.target.value);
+                      }}
+                    />
+                  </div>
+
+                  {/* Lc No */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="LC No"
+                      type="text"
+                      name="lcNo"
+                      value={values?.lcNo}
+                      onChange={(e) => {
+                        setFieldValue('lcNo', e.target.value);
                       }}
                     />
                   </div>

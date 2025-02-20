@@ -4,7 +4,7 @@ import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
@@ -126,13 +126,13 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     };
     // all attributes to check
     const attributesToCheck = {
-      collectionRate: 'Collection Rate',
-      collectionQty: 'Collection Qty',
-      collectionAmount: 'Collection Amount',
-      paymentRate: 'Payment Rate',
-      paymentQty: 'Payment Qty',
-      paymentAmount: 'Payment Amount',
-      partyName: 'Party',
+      // collectionRate: 'Collection Rate',
+      // collectionQty: 'Collection Qty',
+      // collectionAmount: 'Collection Amount',
+      // paymentRate: 'Payment Rate',
+      // paymentQty: 'Payment Qty',
+      // paymentAmount: 'Payment Amount',
+      // partyName: 'Party',
     };
     if (!validateAttributes(payloadList, attributesToCheck)) return;
     // ----------end verify -------------
@@ -142,6 +142,24 @@ function ServiceAndCharge({ clickRowDto, CB }) {
       payloadList,
       CB,
     );
+  };
+
+  const commonRowHandler = ({ index, key, value }) => {
+    const prvShippingHeadOfCharges = [...shippingHeadOfCharges];
+    prvShippingHeadOfCharges[index][key] = value;
+
+    const collectionRate =
+      +prvShippingHeadOfCharges[index]?.collectionRate || 0;
+    const collectionQty = +prvShippingHeadOfCharges[index]?.collectionQty || 0;
+    const collectionAmount = collectionRate * collectionQty;
+    prvShippingHeadOfCharges[index].collectionAmount = collectionAmount;
+
+    const paymentRate = +prvShippingHeadOfCharges[index]?.paymentRate || 0;
+    const paymentQty = +prvShippingHeadOfCharges[index]?.paymentQty || 0;
+    const paymentAmount = paymentRate * paymentQty;
+    prvShippingHeadOfCharges[index].paymentAmount = paymentAmount;
+
+    setShippingHeadOfCharges(prvShippingHeadOfCharges);
   };
 
   return (
@@ -248,7 +266,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: '60px',
+                        width: '220px',
                       }}
                       className="payment-header"
                     >
@@ -258,7 +276,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                 </thead>
                 <tbody>
                   {shippingHeadOfCharges?.map((item, index) => {
-                    const isDisabled = !item?.checked || item?.serviceChargeId;
+                    const isDisabled = !item?.checked;
                     return (
                       <tr key={index}>
                         <td>
@@ -315,9 +333,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionRate}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionRate = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'collectionRate',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -331,9 +351,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.collectionQty}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionQty = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'collectionQty',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -341,20 +363,8 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                           />
                         </td>
                         {/* Collection Amount */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="collectionAmount"
-                            value={item?.collectionAmount}
-                            type="number"
-                            onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionAmount = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
+                        <td className="collection-border-right text-right">
+                          {item?.collectionAmount}
                         </td>
                         {/* Payment Rate */}
                         <td className="collection-border-right">
@@ -363,9 +373,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentRate}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentRate = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'paymentRate',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -379,9 +391,11 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             value={item?.paymentQty}
                             type="number"
                             onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentQty = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
+                              commonRowHandler({
+                                index,
+                                key: 'paymentQty',
+                                value: e.target.value,
+                              });
                             }}
                             min={0}
                             step="any"
@@ -389,20 +403,8 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                           />
                         </td>
                         {/* Payment Amount */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="paymentAmount"
-                            value={item?.paymentAmount}
-                            type="number"
-                            onChange={(e) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentAmount = e.target.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
+                        <td className="collection-border-right text-right">
+                          {item?.paymentAmount}
                         </td>
                         {/* Party */}
                         <td className="payment-border-right">

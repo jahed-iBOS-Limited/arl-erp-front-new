@@ -225,7 +225,7 @@ const ManpowerSalesTargetTable = () => {
                                 <td>{item?.regionName}</td>
                                 <td>{item?.areaName}</td>
                                 <td>{item?.territoryName}</td>
-                                <td>{item?.setupPkName}</td>
+                                <td>{item?.zoneName}</td>
                               </>
                             )}
                             <td>{getMonth(item?.targetMonthId)}</td>

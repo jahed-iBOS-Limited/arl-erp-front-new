@@ -102,6 +102,11 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     { shallowEqual }
   );
 
+  const objDiscountGrandTotal =
+  buId === 232 && id && singleData?.objDiscount?.length > 0
+    ? singleData?.objDiscount?.reduce((acc, item) => (acc += item?.numDiscountAmount), 0)
+    : 0;
+
   let {
     partnerBalance,
     undeliveryValues,
@@ -215,7 +220,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     if (rowDto.length) {
       for (let i = 0; i < rowDto.length; i++) {
         totalAmount += +rowDto[i].netValue;
-        totalQty += +rowDto[i].numRequestQuantity;
+        totalQty += +rowDto[i].numOrderQuantity;
       }
     }
     setTotal({ totalAmount, totalQty });
@@ -600,6 +605,40 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                         {undeliveryValues?.unlideliveredValues}
                       </p>
                     )}
+
+
+
+                    {/* If the bussiness unit is agro feed 232 & approved mode than show below content */}
+
+                    {
+                      buId===232 && id && singleData?.objDiscount?.length>0 ?
+                      
+                        
+                     
+                  
+                      <p className="my-2">
+                       {singleData?.objDiscount.map((item)=>(
+                         <>
+                         <strong>{item?.commissionTypeName}: </strong>  
+                         {" "}
+                         <span>{item?.numDiscountAmount}</span>
+                         {" "}
+                         </>
+                       ))}
+
+                        <strong>Grand Total: </strong>  
+                         {" "}
+                         <span>{objDiscountGrandTotal}</span>
+                         {" "}
+                      </p>
+                   
+                  
+                   
+                   
+                        
+                    :null
+                    }
+                    
                   </div>
                 </div>
                 <div className="row justify-content-end">

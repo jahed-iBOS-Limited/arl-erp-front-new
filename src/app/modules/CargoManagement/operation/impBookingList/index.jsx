@@ -95,6 +95,7 @@ function ImpBookingList() {
     PageSize = pageSize,
     modeOfTransportId = 1,
   ) => {
+    setShipBookingReqLanding([]);
     getShipBookingReqLanding(
       `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
         profileData?.userReferenceId
@@ -289,7 +290,7 @@ function ImpBookingList() {
                             minWidth: '120px',
                           }}
                         >
-                          Shipper Name
+                          Consignee Name
                         </th>
                         <th
                           style={{
@@ -470,19 +471,19 @@ function ImpBookingList() {
                                   {item?.bookingRequestCode}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperContact}
+                                  {item?.consigneeContact}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperName}
+                                  {item?.consigneeName}
                                 </td>
                                 <td className="text-left">
                                   {moment(item?.createdAt).format('DD-MM-YYYY')}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperEmail}
+                                  {item?.consigneeEmail}
                                 </td>
                                 <td className="text-left">
-                                  {item?.shipperCountry}
+                                  {item?.consigCountry}
                                 </td>
                                 <td className="text-left">
                                   {item?.portOfDischarge}

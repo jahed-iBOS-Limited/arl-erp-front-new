@@ -10,10 +10,11 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 
 const initData = {
-    businessUnit: "",
+    businessUnit: {value: 0, label: "All"},
     department: "",
     employee: "",
     status: { value: null, label: "All" },
+    asset:""
 
 };
 
@@ -27,7 +28,7 @@ export default function AssetCheckInOut() {
     const getReportData = (values) => {
         let strStatus = values?.status?.value === null ? "" : `&Status=${values?.status?.value}`;
         getGridData(
-            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}${strStatus}`
+            `/asset/Asset/GetAssetCheckInOutReport?BusinessUnitId=${values?.businessUnit?.value || 0}&DepartmentId=${values?.department?.value || 0}&EmployeeId=${values?.employee?.value || 0}&AssetId=${values?.asset?.value || 0}${strStatus}`
         );
     };
 
@@ -46,7 +47,7 @@ export default function AssetCheckInOut() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="businessUnit"
-                                        options={businessUnitList || []}
+                                        options={[{value: 0, label: "All"}, ...businessUnitList] || []}
                                         value={values?.businessUnit}
                                         label="BusinessUnit"
                                         onChange={(valueOption) => {
@@ -67,6 +68,7 @@ export default function AssetCheckInOut() {
                                         options={departmentList || []}
                                         value={values?.department}
                                         label="Department"
+                                        isDisabled={values?.businessUnit?.label === "All"}
                                         onChange={(valueOption) => setFieldValue("department", valueOption)}
                                     />
                                 </div>
@@ -96,6 +98,26 @@ export default function AssetCheckInOut() {
 
                                 </div>
                                 <div className="col-lg-3">
+                                    <label>Asset</label>
+                                    <SearchAsyncSelect
+                                        selectedValue={values?.asset}
+                                        handleChange={(valueOption) => {
+
+                                            setFieldValue("asset", valueOption);
+                                        }}
+                                        loadOptions={(v) => {
+                                            if (v?.length < 3) return [];
+                                            return axios.get(
+                                                `/asset/Asset/GetAllAssetList?accountId=${profileData?.accountId}&search=${v}`
+                                            ).then((res) => {
+                                                return res?.data;
+                                            });
+                                        }}
+                                    />
+
+
+                                </div>
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="status"
                                         options={[
@@ -110,7 +132,7 @@ export default function AssetCheckInOut() {
                                 </div>
                                 <div className="col-lg-3">
                                     <button
-                                        disabled={!values?.status?.label}
+                                        disabled={!values?.status?.label || (values?.businessUnit?.label === "All" && !values?.employee?.label)}
                                         type="button"
                                         className="btn btn-primary mt-4"
                                         onClick={() => getReportData(values)}
