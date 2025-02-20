@@ -1,6 +1,5 @@
-import { _todayDate } from "../../../_helper/_todayDate";
-import React from "react";
 import * as Yup from "yup";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 // advice type ddl
 export const adviceTypeDDL = [{ label: "SCF", value: 1 }];
@@ -33,94 +32,8 @@ export function fetchBankAsParterDDL(obj) {
   );
 }
 
-// table header
-export const scfAdviceTableHeader = (obj) => {
-  const { scfLandingData, setSCFLandingData } = obj;
-  return [
-    {
-      header: (
-        <div className="d-flex flex-row justify-content-around align-items-center">
-          <input
-            type="checkbox"
-            checked={
-              scfLandingData?.length > 0
-                ? scfLandingData?.every((item) => item?.isSelected)
-                : false
-            }
-            onChange={(e) => {
-              setSCFLandingData(
-                scfLandingData.map((item) => ({
-                  ...item,
-                  isSelected: e?.target?.checked,
-                }))
-              );
-            }}
-          />
-          <p>Select</p>
-        </div>
-      ),
-      render: (item, index) => {
-        return item?.isPaymentComplete === false ? (
-          <input
-            type="checkbox"
-            checked={item?.isSelected}
-            onChange={(e) => {
-              const data = [...scfLandingData];
-              data[index]["isSelected"] = e?.target?.checked;
-              setSCFLandingData(data);
-            }}
-          />
-        ) : (
-          undefined
-        );
-      },
-    },
-    { header: "SL", render: (_i, index) => index + 1 },
-    { header: "Business Partner", key: "strBusinessPartnerName" },
-    { header: "Business Partner Code", key: "strBusinessPartnerCode" },
-    { header: "Journal Code", key: "strAdjustmentJournalCode" },
-    {
-      header: "Payment Status",
-      key: "isPaymentComplete",
-      render: (item) => (item?.isPaymentComplete ? "Yes" : "No"),
-    },
-    { header: "Amount", key: "numAmount" },
-  ];
-};
 
-// table data
-export const scfAdviceTableData = [
-  {
-    numAmount: 200,
-    intBusinessPartnerId: 999,
-    strBusinessPartnerName: "ABC",
-    strBusinessPartnerCode: 789,
-    intAdjustmentJournalId: 456,
-    strAdjustmentJournalCode: 123,
-    isPaymentComplete: false,
-    strSellerTin: 12,
-  },
-  {
-    numAmount: 300,
-    intBusinessPartnerId: 999,
-    strBusinessPartnerName: "EFG",
-    strBusinessPartnerCode: 789,
-    intAdjustmentJournalId: 456,
-    strAdjustmentJournalCode: 123,
-    isPaymentComplete: true,
-    strSellerTin: 12,
-  },
-  {
-    numAmount: 400,
-    intBusinessPartnerId: 999,
-    strBusinessPartnerName: "HIG",
-    strBusinessPartnerCode: 789,
-    intAdjustmentJournalId: 456,
-    strAdjustmentJournalCode: 123,
-    isPaymentComplete: false,
-    strSellerTin: 12,
-  },
-];
+
 
 // validation
 export const validation = Yup.object().shape({
