@@ -171,7 +171,16 @@ const LoanRegisterLanding = () => {
   };
 
   const totalPrincipleAmount = useMemo(
-    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPrinciple, 0),
+    () =>
+      loanRegisterData?.data?.reduce(
+        (a, c) => a + (c?.numPrinciple - c?.numPaid >= 0 ? c?.numPrinciple - c?.numPaid : 0),
+        0,
+      ),
+    [loanRegisterData],
+  );
+  const totalDisbursedAmount = useMemo(
+    () =>
+      loanRegisterData?.data?.reduce((a, c) => a + (c?.numPrinciple < 0 ? 0 : c?.numPrinciple), 0),
     [loanRegisterData],
   );
   const totalInterestAmount = useMemo(
@@ -1050,16 +1059,23 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td className="text-right"></td>
-                              <td className="text-right"></td>
-                              <td colSpan={5}></td>
+                              {[136].includes(buId) && <td></td>} {/* Conditionally render if buId is 136 */}
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
+                              </td>
+                              <td className="text-right">
+                              <b> {_formatMoney(totalDisbursedAmount)}</b>
                               </td>
                               <td className="text-right"></td>
                               <td className="text-right"></td>
                               <td className="text-right"></td>
-                              <td className="text-right"></td>
+                              <td></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalInterestAmount)}</b>
                               </td>
@@ -1073,10 +1089,10 @@ const LoanRegisterLanding = () => {
                                 <b> {_formatMoney(totalPaidInterest)}</b>
                               </td>
                               <td className="text-right"></td>
-                              <td colSpan={3}></td>
-                              <td className="text-right">
-                                <b> {_formatMoney(totalBalance)}</b>
-                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                             </tr>
                           </tbody>
                         </table>
