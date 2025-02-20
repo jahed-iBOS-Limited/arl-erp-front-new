@@ -279,7 +279,7 @@ export default function FundTransferCreate({ viewType }) {
                                                                             const isContra = item?.strRequestType === "Contra";
                                                                             const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
                                                                             const isBankToBank = item?.strTransferBy === "Bank To Bank";
-                                                                            const isBankToCash = item?.strTransferBy === "Bank To Cash";
+                                                                            // const isBankToCash = item?.strTransferBy === "Bank To Cash";
                                                                             const isCashToBank = item?.strTransferBy === "Cash To Bank";
 
                                                                             // Helper function to generate selected form values

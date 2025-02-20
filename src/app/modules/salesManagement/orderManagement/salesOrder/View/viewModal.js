@@ -220,7 +220,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     if (rowDto.length) {
       for (let i = 0; i < rowDto.length; i++) {
         totalAmount += +rowDto[i].netValue;
-        totalQty += +rowDto[i].numRequestQuantity;
+        totalQty += +rowDto[i].numOrderQuantity;
       }
     }
     setTotal({ totalAmount, totalQty });
