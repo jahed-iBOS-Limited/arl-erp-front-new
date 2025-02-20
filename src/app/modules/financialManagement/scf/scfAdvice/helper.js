@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { _todayDate } from '../../../_helper/_todayDate';
 import React from 'react';
 import * as Yup from 'yup';
-=======
-import * as Yup from "yup";
-import { _todayDate } from "../../../_helper/_todayDate";
->>>>>>> 5cca2e8bf12ddb018c635ed307ea905adbe43975
 
 // advice type ddl
 export const adviceTypeDDL = [{ label: 'SCF', value: 1 }];
@@ -37,9 +32,6 @@ export function fetchBankAsParterDDL(obj) {
     `/fino/CommonFino/GetBankAsSupplierDDL?businessUnitId=${selectedBusinessUnit.value}`,
   );
 }
-
-
-
 
 // validation
 export const validation = Yup.object().shape({
