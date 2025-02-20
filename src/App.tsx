@@ -19,10 +19,8 @@ import { setIsExpiredTokenActions } from './app/modules/Auth/_redux/Auth_Actions
 import useServiceWorkerUpdate from './app/modules/_helper/useServiceWorkerUpdate';
 
 const origin = window.location.origin;
-const isDevelopmentOrDevHost = () =>
-  import.meta.env.MODE === 'development' ||
-  window.location?.hostname === 'deverp.ibos.io';
-console.log(import.meta.env.MODE);
+const isDevelopmentOrDevHost = () => true;
+
 export const imarineBaseUrl = isDevelopmentOrDevHost()
   ? 'https://devimarine.ibos.io'
   : 'https://imarine.ibos.io';
