@@ -50,6 +50,7 @@ export default function _Form({
   token,
   fetchGetSalesInfoExelData,
   salesInformationExcelData,
+  setSalesInformationExcelData
 }) {
   const dispatch = useDispatch();
 
@@ -122,6 +123,7 @@ export default function _Form({
                       setFieldValue("conditionType", valueOption);
                       // setQuery(valueOption?.label.split("/")[1]);
                       setQuery(valueOption?.value);
+                      setSalesInformationExcelData([])
                     }}
                   />
                   <p
@@ -152,6 +154,7 @@ export default function _Form({
                     onChange={(valueOption) => {
                       setFieldValue("appsItemRate", false);
                       setFieldValue("conditionTypeRef", valueOption);
+                      setSalesInformationExcelData([])
                     }}
                   />
                 </div>
@@ -226,6 +229,7 @@ export default function _Form({
                           "appsItemRate",
                           e.target.checked ? false : values.appsItemRate
                         );
+                        setSalesInformationExcelData([])
                       }}
                       checked={values?.isAllItem}
                     />
@@ -331,6 +335,7 @@ export default function _Form({
                 <IButton
                   onClick={() => {
                     addClickHandler(values, setFieldValue);
+                    setSalesInformationExcelData([])
                   }}
                   disabled={addDisableHandler(values)}
                 >
@@ -460,26 +465,32 @@ export default function _Form({
                     <thead>
                       <tr>
                         <th>SL</th>
+                        <th>Condition Type Id</th>
                         <th>Condition Type</th>
+                        <th>Condition Ref Id</th>
+                        <th>Item Id</th>
                         <th>Item Name</th>
-                        <th>Max Increase</th>
-                        <th>Min Decrease</th>
+                        <th>Price</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th>Price</th>
+                        <th>Max Increase</th>
+                        <th>Min Decrease</th>
                       </tr>
                     </thead>
                     <tbody>
                       {salesInformationExcelData.map((item, idx) => (
                         <tr key={idx}>
                           <td>{idx + 1}</td>
+                          <td className="text-right">{item?.conditionTypeId}</td>
                           <td>{item?.conditionTypeName}</td>
+                          <td className="text-right">{item?.conditionReffId}</td>
+                          <td className="text-right">{item?.itemId}</td>
                           <td>{item?.itemName}</td>
-                          <td>{item?.maximumIncrease}</td>
-                          <td>{item?.minimumDecrease}</td>
-                          <td>{_dateFormatter(item?.startDate)}</td>
-                          <td>{_dateFormatter(item?.startDate)}</td>
                           <td className="text-right">{item?.price}</td>
+                          <td>{_dateFormatter(item?.startDate)}</td>
+                          <td>{_dateFormatter(item?.endDate)}</td>
+                          <td className="text-right">{item?.maximumIncrease}</td>
+                          <td className="text-right">{item?.minimumDecrease}</td>
                         </tr>
                       ))}
                     </tbody>

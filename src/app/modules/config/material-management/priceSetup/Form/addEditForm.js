@@ -47,6 +47,7 @@ export default function PriceSetupForm({
     salesInformationExcelData,
     getSalesInformationExcelData,
     getSalesInformationExcelDataLoading,
+    setSalesInformationExcelData
   ] = useAxiosGet();
 
   // get user data from store
@@ -286,6 +287,7 @@ export default function PriceSetupForm({
         token={token}
         fetchGetSalesInfoExelData={fetchGetSalesInfoExelData}
         salesInformationExcelData={salesInformationExcelData}
+        setSalesInformationExcelData={setSalesInformationExcelData}
       />
     </IForm>
   );
