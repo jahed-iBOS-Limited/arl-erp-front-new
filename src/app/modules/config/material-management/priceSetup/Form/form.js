@@ -1,17 +1,18 @@
 import { Form, Formik } from "formik";
 import React from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import * as Yup from "yup";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import ICalendar from "../../../../_helper/_inputCalender";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import IButton from "../../../../_helper/iButton";
 import customStyles from "../../../../selectCustomStyle";
 import { getItemByChannelIdAciton } from "../_redux/Actions";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -47,6 +48,9 @@ export default function _Form({
   businessUnitSet,
   postData,
   token,
+  fetchGetSalesInfoExelData,
+  salesInformationExcelData,
+  setSalesInformationExcelData
 }) {
   const dispatch = useDispatch();
 
@@ -119,6 +123,7 @@ export default function _Form({
                       setFieldValue("conditionType", valueOption);
                       // setQuery(valueOption?.label.split("/")[1]);
                       setQuery(valueOption?.value);
+                      setSalesInformationExcelData([])
                     }}
                   />
                   <p
@@ -149,6 +154,7 @@ export default function _Form({
                     onChange={(valueOption) => {
                       setFieldValue("appsItemRate", false);
                       setFieldValue("conditionTypeRef", valueOption);
+                      setSalesInformationExcelData([])
                     }}
                   />
                 </div>
@@ -174,6 +180,17 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
+
+                {/* Sales Information Excel Data */}
+                {true && (
+                  <IButton
+                    className="btn-primary"
+                    onClick={() => fetchGetSalesInfoExelData({ values })}
+                    disabled={false}
+                  >
+                    View
+                  </IButton>
+                )}
                 {selectedBusinessUnit?.value === 144 && (
                   <IButton
                     className={"btn-success"}
@@ -212,6 +229,7 @@ export default function _Form({
                           "appsItemRate",
                           e.target.checked ? false : values.appsItemRate
                         );
+                        setSalesInformationExcelData([])
                       }}
                       checked={values?.isAllItem}
                     />
@@ -317,6 +335,7 @@ export default function _Form({
                 <IButton
                   onClick={() => {
                     addClickHandler(values, setFieldValue);
+                    setSalesInformationExcelData([])
                   }}
                   disabled={addDisableHandler(values)}
                 >
@@ -438,6 +457,48 @@ export default function _Form({
                   ""
                 )}
               </div>
+
+              {/* Sales Items Excel Data */}
+              {salesInformationExcelData?.length > 0 ? (
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Condition Type Id</th>
+                        <th>Condition Type</th>
+                        <th>Condition Ref Id</th>
+                        <th>Item Id</th>
+                        <th>Item Name</th>
+                        <th>Price</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Max Increase</th>
+                        <th>Min Decrease</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {salesInformationExcelData.map((item, idx) => (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td className="text-right">{item?.conditionTypeId}</td>
+                          <td>{item?.conditionTypeName}</td>
+                          <td className="text-right">{item?.conditionReffId}</td>
+                          <td className="text-right">{item?.itemId}</td>
+                          <td>{item?.itemName}</td>
+                          <td className="text-right">{item?.price}</td>
+                          <td>{_dateFormatter(item?.startDate)}</td>
+                          <td>{_dateFormatter(item?.endDate)}</td>
+                          <td className="text-right">{item?.maximumIncrease}</td>
+                          <td className="text-right">{item?.minimumDecrease}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <></>
+              )}
 
               <button
                 type="submit"

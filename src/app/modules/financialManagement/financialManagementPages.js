@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { FinalcialPages } from "./financials/financialPages";
 import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
@@ -8,10 +8,12 @@ import { FinConfigurationPages } from "./configuration/configurationPages";
 import { InvoiceManagementSystemPages } from "./invoiceManagementSystem/invoiceManagementSystemPages";
 import { ExpensePages } from "./expense/expensePages";
 import { ReportManagmentSystem } from "./report/report";
-import {Banking} from "./banking/banking"
-import {CostReportPages} from "./costReport/costReportPages"
-import { RegisterReportPages } from './report/register/RegisterReportPages';
+import { Banking } from "./banking/banking";
+import { CostReportPages } from "./costReport/costReportPages";
+import { RegisterReportPages } from "./report/register/RegisterReportPages";
 import ProjectAccountingPages from "./projectAccounting/projectAccountingPages";
+const SCFPages = lazy(() => import("./scf/scfPages.js"));
+
 export function financialManagementPages() {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
@@ -65,7 +67,8 @@ export function financialManagementPages() {
           path="/financial-management/projectAccounting"
           component={ProjectAccountingPages}
         />
-        
+
+        <ContentRoute path="/financial-management/scf" component={SCFPages} />
       </Switch>
     </Suspense>
   );
