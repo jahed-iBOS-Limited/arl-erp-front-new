@@ -4,7 +4,7 @@ import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';

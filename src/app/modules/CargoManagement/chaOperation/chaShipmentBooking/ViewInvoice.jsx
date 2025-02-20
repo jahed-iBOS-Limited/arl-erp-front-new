@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
