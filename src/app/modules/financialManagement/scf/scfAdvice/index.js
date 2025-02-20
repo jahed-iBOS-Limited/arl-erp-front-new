@@ -6,16 +6,14 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import {
   adviceTypeDDL,
   fetchBankAsParterDDL,
   fetchSCFLandingData,
   initData,
-  scfAdviceTableData,
-  scfAdviceTableHeader,
-  validation,
+  validation
 } from "./helper";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const SCFAdviceLanding = () => {
   // redux
@@ -191,7 +189,7 @@ const SCFAdviceLanding = () => {
               </div>
 
               <section>
-                {scfAdviceTableData?.length > 0 && (
+                {scfLandingData?.length > 0 && (
                   <GenericTable
                     data={scfLandingData}
                     columns={scfAdviceTableHeader({
@@ -256,3 +254,57 @@ const GenericTable = ({ data, columns, key = "index" }) => {
   );
 };
 
+// table header
+export const scfAdviceTableHeader = (obj) => {
+  const { scfLandingData, setSCFLandingData } = obj;
+  return [
+    {
+      header: (
+        <div className="d-flex flex-row justify-content-around align-items-center">
+          <input
+            type="checkbox"
+            checked={
+              scfLandingData?.length > 0
+                ? scfLandingData?.every((item) => item?.isSelected)
+                : false
+            }
+            onChange={(e) => {
+              setSCFLandingData(
+                scfLandingData.map((item) => ({
+                  ...item,
+                  isSelected: e?.target?.checked,
+                }))
+              );
+            }}
+          />
+          <p>Select</p>
+        </div>
+      ),
+      render: (item, index) => {
+        return item?.isPaymentComplete === false ? (
+          <input
+            type="checkbox"
+            checked={item?.isSelected}
+            onChange={(e) => {
+              const data = [...scfLandingData];
+              data[index]["isSelected"] = e?.target?.checked;
+              setSCFLandingData(data);
+            }}
+          />
+        ) : (
+          undefined
+        );
+      },
+    },
+    { header: "SL", render: (_i, index) => index + 1 },
+    { header: "Business Partner", key: "strBusinessPartnerName" },
+    { header: "Business Partner Code", key: "strBusinessPartnerCode" },
+    { header: "Journal Code", key: "strAdjustmentJournalCode" },
+    {
+      header: "Payment Status",
+      key: "isPaymentComplete",
+      render: (item) => (item?.isPaymentComplete ? "Yes" : "No"),
+    },
+    { header: "Amount", key: "numAmount" },
+  ];
+};
