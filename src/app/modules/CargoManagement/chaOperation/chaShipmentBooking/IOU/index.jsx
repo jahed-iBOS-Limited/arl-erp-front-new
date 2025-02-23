@@ -177,7 +177,10 @@ export default function IOU({ clickRowDto, CB }) {
     saveIOUInvoice(
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaIouInvoice`,
       payload,
-      CB,
+      () => {
+        commonGetShippingHeadOfCharges();
+        setIsEditModeOn(false);
+      },
     );
   };
 
@@ -474,6 +477,11 @@ export default function IOU({ clickRowDto, CB }) {
                 {shippingHeadOfCharges?.map((item, index) => {
                   const total = (+item?.rate || 0) * (+item?.quantity || 0);
                   const displayValue = total > 0 ? total : '';
+
+                  if (!isEditModeOn && total === 0) {
+                    return <></>;
+                  }
+
                   return (
                     <tr key={index}>
                       <td
