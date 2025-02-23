@@ -109,18 +109,17 @@ export const getTrackTrallerLoadingBillData = async (obj) => {
 
   // set previous data empty
   setTrackTrallerLBData([]);
-
+// /oms/SalesInformation/GetLoadingLaborBillInfo?
   // get data
   getTrackTrallerLBData(
-    `/tms/LabourBillInfo/GetDeliveryLoadBill?accountid=${
-      profileData?.accountId
-    }&businessunitid=${
+    `/oms/SalesInformation/GetLoadingLaborBillInfo?partId=2&businessUnitId=${
       selectedBusinessUnit?.value
-    }&labourSupplierId=${supplier?.value || 0}&shipPointId=${shippoint?.value ||
-      0}&fromdate=${fromDate}&todate=${toDate}`,
+    }&loadingLabourSupplierId=${supplier?.value || 0}&fromShipPointId=${shippoint?.value ||
+      0}&fromDate=${fromDate}&toDate=${toDate}`,
     (res) => {
       if (res?.length < 1) return toast.warn("No Data Found");
       if (res?.length > 0) {
+        console.log(res)
         const updatedData = res?.map((item) => {
           return {
             ...item,
@@ -170,10 +169,10 @@ export const handleTTLBSaveData = (obj, cb) => {
     ?.filter((item) => item?.checked)
     ?.map((item) => {
       return {
-        shipmentCode: item?.shipmentCode,
-        challanNo: item?.challanNo,
-        tripId: item?.tripId,
-        ammount: +item?.labourBillAmount,
+        shipmentCode: item?.StrShipmentCode,
+        challanNo: '',
+        tripId: item?.intshipmentid,
+        ammount: +item?.decGrandTotalBill,
         billAmount: +item?.approvedAmount,
       };
     });
@@ -185,7 +184,7 @@ export const handleTTLBSaveData = (obj, cb) => {
 
   const isBillAmountLessFromNetAmount = trackTrallerLBData
     ?.filter((item) => item?.checked)
-    ?.some((item) => item?.labourBillAmount < item?.approvedAmount);
+    ?.some((item) => item?.decGrandTotalBill < item?.approvedAmount);
 
   if (isBillAmountLessFromNetAmount) {
     return toast.warn("Bill Amount must be below from Net Amount");
