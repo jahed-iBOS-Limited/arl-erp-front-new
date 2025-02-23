@@ -284,12 +284,14 @@ const TrackTrallerLBCreatePage = () => {
                             />
                           </th>
                           <th style={{ width: "40px" }}>SL</th>
-                          <th style={{ width: "100px" }}>Shipment Code</th>
-                          <th style={{ width: "100px" }}>Challan No.</th>
-                          <th className="text-right">Labour Qty</th>
-                          <th className="text-right">Labour Rate</th>
-                          <th className="text-right">Net Amount</th>
-                          <th style={{ width: "215px" }}>Bill Amount</th>
+                          <th>Business Partner</th>
+                          <th>ShipmentCode</th>
+                          <th>Transaction Traller (Qty)</th>
+                          <th>Transaction Truck (Qty)</th>
+                          <th>Labour Amount (Traller)</th>
+                          <th>Labour Amount (Truck)</th>
+                          <th>Total Bill</th>
+                          <th>Bill Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -309,13 +311,13 @@ const TrackTrallerLBCreatePage = () => {
                             <td className="text-center align-middle">
                               {index + 1}
                             </td>
-                            <td>{item?.shipmentCode}</td>
-                            <td>{item?.challanNo}</td>
-                            <td>{item?.totalItemQty || 0}</td>
-                            <td>
-                              {item?.labourRate || item?.handlingCostRate || 0}
-                            </td>
-                            <td>{item?.labourBillAmount}</td>
+                            <td>{item?.StrBusinessPartnerName}</td>
+                            <td>{item?.StrShipmentCode}</td>
+                            <td>{item?.NumTransectionQuantityTraller || 0}</td>
+                            <td>{item?.NumTransectionQuantityTruck || 0}</td>
+                            <td>{item?.LoadingLabourAmountTraller || 0}</td>
+                            <td>{item?.LoadingLabourAmountTruck || 0}</td>
+                            <td>{item?.decGrandTotalBill || 0}</td>
                             <td style={{ width: "100px" }}>
                               <InputField
                                 value={item?.approvedAmount}
