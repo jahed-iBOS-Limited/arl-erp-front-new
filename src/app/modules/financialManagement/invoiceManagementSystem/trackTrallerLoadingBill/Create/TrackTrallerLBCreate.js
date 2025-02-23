@@ -24,6 +24,7 @@ import {
   trackTrallerLBIValidationSchema,
 } from "../helper";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 const TrackTrallerLBCreatePage = () => {
   // redux api
@@ -92,8 +93,35 @@ const TrackTrallerLBCreatePage = () => {
   const isLoading =
     getTrackTrallerLBDataLoading || saveTrackTrallerLBDataLoading;
 
+  // total count
+  const grandTotal = trackTrallerLBData?.reduce(
+    (acc, item) => {
+      return {
+        totalTransactionTraller: (acc.totalTransactionTraller +=
+          item?.NumTransectionQuantityTraller || 0),
+        totalTransactionTruck: (acc.totalTransactionTruck +=
+          item?.NumTransectionQuantityTruck || 0),
+        totalLabourTraller: (acc.totalLabourTraller +=
+          item?.LoadingLabourAmountTraller || 0),
+        totalLabourTruck: (acc.totalLabourTruck +=
+          item?.LoadingLabourAmountTruck || 0),
+        totalBillAmount: (acc.totalBillAmount += item?.decGrandTotalBill || 0),
+        totalApproveAmount: (acc.totalApproveAmount +=
+          item?.approvedAmount || 0),
+      };
+    },
+    {
+      totalTransactionTraller: 0,
+      totalTransactionTruck: 0,
+      totalLabourTraller: 0,
+      totalLabourTruck: 0,
+      totalBillAmount: 0,
+      totalApproveAmount: 0,
+    }
+  );
+
   return (
-    <IForm title="Track Traller Loading Bill" getProps={setObjprops}>
+    <IForm title="Truck Traller Loading Bill" getProps={setObjprops}>
       <Formik
         enableReinitialize={true}
         initialValues={trackTrallerLBInitData}
@@ -284,7 +312,7 @@ const TrackTrallerLBCreatePage = () => {
                             />
                           </th>
                           <th style={{ width: "40px" }}>SL</th>
-                          <th>Business Partner</th>
+                          <th>Complete Date</th>
                           <th>ShipmentCode</th>
                           <th>Transaction Traller (Qty)</th>
                           <th>Transaction Truck (Qty)</th>
@@ -311,13 +339,31 @@ const TrackTrallerLBCreatePage = () => {
                             <td className="text-center align-middle">
                               {index + 1}
                             </td>
-                            <td>{item?.StrBusinessPartnerName}</td>
+                            <td>{_dateFormatter(item?.DteCompleteDate)}</td>
                             <td>{item?.StrShipmentCode}</td>
-                            <td>{item?.NumTransectionQuantityTraller || 0}</td>
-                            <td>{item?.NumTransectionQuantityTruck || 0}</td>
-                            <td>{item?.LoadingLabourAmountTraller || 0}</td>
-                            <td>{item?.LoadingLabourAmountTruck || 0}</td>
-                            <td>{item?.decGrandTotalBill || 0}</td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                item?.NumTransectionQuantityTraller || 0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                item?.NumTransectionQuantityTruck || 0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                item?.LoadingLabourAmountTraller || 0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                item?.LoadingLabourAmountTruck || 0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.decGrandTotalBill || 0)}
+                            </td>
                             <td style={{ width: "100px" }}>
                               <InputField
                                 value={item?.approvedAmount}
@@ -333,6 +379,33 @@ const TrackTrallerLBCreatePage = () => {
                             </td>
                           </tr>
                         ))}
+                        {trackTrallerLBData.length > 0 ? (
+                          <tr>
+                            <td colSpan={4}>Total</td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(
+                                grandTotal?.totalTransactionTraller
+                              )}
+                            </td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(grandTotal?.totalTransactionTruck)}
+                            </td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(grandTotal?.totalLabourTraller)}
+                            </td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(grandTotal?.totalLabourTruck)}
+                            </td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(grandTotal?.totalBillAmount)}
+                            </td>
+                            <td className="text-right font-weight-bold">
+                              {_formatMoney(grandTotal?.totalApproveAmount)}
+                            </td>
+                          </tr>
+                        ) : (
+                          <></>
+                        )}
                       </tbody>
                     </table>
                   </div>

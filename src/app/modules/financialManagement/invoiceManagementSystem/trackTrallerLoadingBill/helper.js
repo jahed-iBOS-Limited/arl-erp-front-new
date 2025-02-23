@@ -123,7 +123,7 @@ export const getTrackTrallerLoadingBillData = async (obj) => {
         const updatedData = res?.map((item) => {
           return {
             ...item,
-            approvedAmount: item?.labourBillAmount || 0,
+            approvedAmount: item?.decGrandTotalBill || 0,
             checked: false,
           };
         });
