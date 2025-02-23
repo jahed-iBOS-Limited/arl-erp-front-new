@@ -110,7 +110,6 @@ export default function IOU({ clickRowDto, CB }) {
                     arryList.push(obj);
                   });
                 } else {
-                  console.log('first');
                   const obj = {
                     ...item,
                     headOfCharges: item?.label || '',
@@ -526,10 +525,6 @@ export default function IOU({ clickRowDto, CB }) {
                                     },
                                     ...hardCopy?.slice(index + 1),
                                   ];
-                                  console.log(
-                                    JSON.stringify(modifiedData, null, 2),
-                                    'modifiedData',
-                                  );
                                   setShippingHeadOfCharges(modifiedData);
                                 }}
                               >
