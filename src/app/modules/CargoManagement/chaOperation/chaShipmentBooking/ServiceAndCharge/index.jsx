@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -9,7 +8,6 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 
 const validationSchema = Yup.object().shape({});
@@ -29,7 +27,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
   ] = useAxiosGet();
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
 
-  const { profileData, selectedBusinessUnit } = useSelector(
+  const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
   );
@@ -209,12 +207,19 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     <th rowspan="2"></th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Description</th>
-
+                    <th
+                      rowspan="2"
+                      style={{
+                        minWidth: '150px',
+                      }}
+                    >
+                      Remarks
+                    </th>
+                    <th colspan="3" className="group-header payment-header">
+                      Payment
+                    </th>
                     <th colspan="3" className="group-header collection-header">
                       Collection
-                    </th>
-                    <th colspan="4" className="group-header payment-header">
-                      Payment
                     </th>
                   </tr>
                   <tr>
@@ -222,31 +227,6 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                       style={{
                         minWidth: '150px',
                       }}
-                      className="collection-header"
-                    >
-                      Rate
-                    </th>
-                    <th
-                      style={{
-                        minWidth: '150px',
-                      }}
-                      className="collection-header"
-                    >
-                      QTY
-                    </th>
-                    <th
-                      style={{
-                        width: '60px',
-                      }}
-                      className="collection-header"
-                    >
-                      Amount
-                    </th>
-
-                    <th
-                      style={{
-                        minWidth: '150px',
-                      }}
                       className="payment-header"
                     >
                       Rate
@@ -269,11 +249,27 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     </th>
                     <th
                       style={{
-                        width: '220px',
+                        minWidth: '150px',
                       }}
-                      className="payment-header"
+                      className="collection-header"
                     >
-                      Party
+                      Rate
+                    </th>
+                    <th
+                      style={{
+                        minWidth: '150px',
+                      }}
+                      className="collection-header"
+                    >
+                      QTY
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                      className="collection-header"
+                    >
+                      Amount
                     </th>
                   </tr>
                 </thead>
@@ -328,47 +324,24 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                         </td>
                         <td>{index + 1}</td>
                         <td>{item?.headOfCharges}</td>
+                        <td>
+                          <InputField
+                            label=""
+                            type="text"
+                            name="remarks"
+                            value={values?.remarks}
+                            onChange={(e) => {
+                              commonRowHandler({
+                                index,
+                                key: 'remarks',
+                                value: e.target.value,
+                              });
+                            }}
+                            placeholder="Remarks"
+                            disabled={isDisabled}
+                          />
+                        </td>
 
-                        {/* Collection Rate */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="collectionRate"
-                            value={item?.collectionRate}
-                            type="number"
-                            onChange={(e) => {
-                              commonRowHandler({
-                                index,
-                                key: 'collectionRate',
-                                value: e.target.value,
-                              });
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
-                        </td>
-                        {/* Collection QTY */}
-                        <td className="collection-border-right">
-                          <InputField
-                            name="collectionQty"
-                            value={item?.collectionQty}
-                            type="number"
-                            onChange={(e) => {
-                              commonRowHandler({
-                                index,
-                                key: 'collectionQty',
-                                value: e.target.value,
-                              });
-                            }}
-                            min={0}
-                            step="any"
-                            disabled={isDisabled}
-                          />
-                        </td>
-                        {/* Collection Amount */}
-                        <td className="collection-border-right text-right">
-                          {item?.collectionAmount}
-                        </td>
                         {/* Payment Rate */}
                         <td className="collection-border-right">
                           <InputField
@@ -409,8 +382,48 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                         <td className="collection-border-right text-right">
                           {item?.paymentAmount}
                         </td>
+                        {/* Collection Rate */}
+                        <td className="collection-border-right">
+                          <InputField
+                            name="collectionRate"
+                            value={item?.collectionRate}
+                            type="number"
+                            onChange={(e) => {
+                              commonRowHandler({
+                                index,
+                                key: 'collectionRate',
+                                value: e.target.value,
+                              });
+                            }}
+                            min={0}
+                            step="any"
+                            disabled={isDisabled}
+                          />
+                        </td>
+                        {/* Collection QTY */}
+                        <td className="collection-border-right">
+                          <InputField
+                            name="collectionQty"
+                            value={item?.collectionQty}
+                            type="number"
+                            onChange={(e) => {
+                              commonRowHandler({
+                                index,
+                                key: 'collectionQty',
+                                value: e.target.value,
+                              });
+                            }}
+                            min={0}
+                            step="any"
+                            disabled={isDisabled}
+                          />
+                        </td>
+                        {/* Collection Amount */}
+                        <td className="collection-border-right text-right">
+                          {item?.collectionAmount}
+                        </td>
                         {/* Party */}
-                        <td className="payment-border-right">
+                        {/* <td className="payment-border-right">
                           <SearchAsyncSelect
                             isDisabled={isDisabled}
                             selectedValue={
@@ -433,7 +446,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                               return axios.get(url).then((res) => res?.data);
                             }}
                           />
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
