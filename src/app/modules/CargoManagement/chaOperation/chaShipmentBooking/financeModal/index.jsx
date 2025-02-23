@@ -169,7 +169,6 @@ const FinanceModal = ({ clickRowDto, CB }) => {
             dteExpenseDate: new Date(),
             rowId: 0,
             expenseId: 0,
-
             businessTransactionId: 0,
             businessTransactionName: '',
             expenseLocation: '',
