@@ -101,6 +101,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
           createdBy: profileData?.userId || 0,
           createdAt: new Date(),
           serviceChargeDate: new Date(),
+          remarks: item?.remarks || '',
           // item?.serviceChargeId then updateBy
           ...(item?.serviceChargeId && {
             updatedAt: new Date(),
