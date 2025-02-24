@@ -91,6 +91,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         actionBy: profileData?.userId,
         businessPartnerId: clickRowDto?.customerId || 0,
         businessPartnerName: clickRowDto?.customerName || '',
+        isEmailSend: values?.isEmailSend || false,
         rowString: billingDataFilterData?.map((item) => {
           return {
             intBillingId: item?.bookingId || 0,
@@ -296,6 +297,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
                     <InvoiceCmp
                       values={values}
                       billingDataFilterData={billingDataFilterData}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                   {activeTab === 'billGenerate' && (
@@ -406,7 +408,7 @@ const BillCmp = ({
   );
 };
 
-const InvoiceCmp = ({ billingDataFilterData, values }) => {
+const InvoiceCmp = ({ billingDataFilterData, values, setFieldValue }) => {
   return (
     <>
       <div className="form-group row global-form">
@@ -419,6 +421,21 @@ const InvoiceCmp = ({ billingDataFilterData, values }) => {
             name="narration"
             type="text"
           />
+        </div>
+        <div className="col-lg-3">
+          <label>
+            <input
+              type="radio"
+              name="isEmailSend"
+              checked={values?.isEmailSend}
+              className="mr-1 pointer"
+              style={{ position: 'relative', top: '2px' }}
+              onChange={(e) => {
+                setFieldValue('isEmailSend ', e.target.checked);
+              }}
+            />
+            Is Email Send
+          </label>
         </div>
       </div>{' '}
       <div className="table-responsive">
