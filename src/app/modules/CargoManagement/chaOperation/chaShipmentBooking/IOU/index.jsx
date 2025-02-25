@@ -35,6 +35,7 @@ export default function IOU({ clickRowDto, CB }) {
     singleChaShipmentBookingLoading,
   ] = useAxiosGet();
   const [savedIOUData, getSavedIOUData, isLoading] = useAxiosGet();
+  const [isFirstTime, setIsFirstTime] = useState(true);
   const [, saveIOUInvoice, isSaving] = useAxiosPost();
   const [totalAmountObj, setTotalAmountObj] = useState({
     totalAmount: 0,
@@ -71,7 +72,6 @@ export default function IOU({ clickRowDto, CB }) {
     padding: '2px',
     textAlign: 'left',
   };
-
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
@@ -88,54 +88,65 @@ export default function IOU({ clickRowDto, CB }) {
         getSavedIOUData(
           `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
           (resSveData) => {
-            const storeShippingHeadOfCharges =
-              JSON.parse(resSveData?.chaIouInvoice || []) || [];
-            const arryList = [];
-            if (resShippingHeadOfCharges?.length > 0) {
-              resShippingHeadOfCharges.forEach((item) => {
-                // parse data to array
-                const parseData =
-                  storeShippingHeadOfCharges?.shippingHeadOfCharges || [];
-                const saveHeadOfChargeList =
-                  parseData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value,
-                  ) || [];
+            try {
+              const storeShippingHeadOfCharges =
+                resSveData?.chaIouInvoice &&
+                JSON.parse(resSveData?.chaIouInvoice || []);
 
-                if (saveHeadOfChargeList?.length > 0) {
-                  saveHeadOfChargeList.forEach((saveItem) => {
-                    const amount =
-                      (+saveItem?.quantity || 0) * (+saveItem?.rate || 0);
+              // parse data to array
+              const parseData =
+                storeShippingHeadOfCharges?.shippingHeadOfCharges || [];
+
+              const arryList = [];
+              if (resShippingHeadOfCharges?.length > 0) {
+                if (parseData?.length > 0) {
+                  setIsFirstTime(false);
+                }
+
+                resShippingHeadOfCharges.forEach((item) => {
+                  const saveHeadOfChargeList =
+                    parseData?.filter(
+                      (findItem) => findItem?.headOfChargeId === item?.value,
+                    ) || [];
+
+                  if (saveHeadOfChargeList?.length > 0) {
+                    saveHeadOfChargeList.forEach((saveItem) => {
+                      const amount =
+                        (+saveItem?.quantity || 0) * (+saveItem?.rate || 0);
+                      const obj = {
+                        ...item,
+                        ...saveItem,
+                        quantity: saveItem?.quantity || '',
+                        rate: saveItem?.rate || '',
+                        isDisableInput: amount > 0 ? true : false,
+                        advanceAmount:
+                          storeShippingHeadOfCharges?.advanceAmount || 0,
+                        grandTotal: storeShippingHeadOfCharges?.grandTotal || 0,
+                        totalAmount:
+                          storeShippingHeadOfCharges?.totalAmount || 0,
+                      };
+                      arryList.push(obj);
+                    });
+                  } else {
                     const obj = {
                       ...item,
-                      ...saveItem,
-                      quantity: saveItem?.quantity || '',
-                      rate: saveItem?.rate || '',
-                      isDisableInput: amount > 0 ? true : false,
-                      advanceAmount:
-                        storeShippingHeadOfCharges?.advanceAmount || 0,
-                      grandTotal: storeShippingHeadOfCharges?.grandTotal || 0,
-                      totalAmount: storeShippingHeadOfCharges?.totalAmount || 0,
+                      headOfCharges: item?.label || '',
+                      headOfChargeId: item?.value || 0,
+                      quantity: '',
+                      rate: '',
+                      amount: '',
+                      isDisableInput: false,
                     };
                     arryList.push(obj);
-                  });
-                } else {
-                  const obj = {
-                    ...item,
-                    headOfCharges: item?.label || '',
-                    headOfChargeId: item?.value || 0,
+                  }
+                });
 
-                    quantity: '',
-                    rate: '',
-                    amount: '',
-                    isDisableInput: false,
-                  };
-                  arryList.push(obj);
-                }
-              });
-
-              setShippingHeadOfCharges([...arryList]);
-              const arry = JSON.parse(JSON.stringify([...arryList])) || [];
-              setPrviousShippingHeadOfCharges(arry);
+                setShippingHeadOfCharges([...arryList]);
+                const arry = JSON.parse(JSON.stringify([...arryList])) || [];
+                setPrviousShippingHeadOfCharges(arry);
+              }
+            } catch (error) {
+              console.log(error, 'error');
             }
           },
         );
@@ -197,10 +208,6 @@ export default function IOU({ clickRowDto, CB }) {
         return a + total;
       }, 0) || 0;
 
-    console.log(
-      shippingHeadOfCharges?.[0],
-      'shippingHeadOfCharges?.[0]?.advanceAmount',
-    );
     const prvAdvanceAmount =
       +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
     const advanceAmount =
