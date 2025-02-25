@@ -422,16 +422,16 @@ const InvoiceCmp = ({ billingDataFilterData, values, setFieldValue }) => {
             type="text"
           />
         </div>
-        <div className="col-lg-3">
+        <div className="col-lg-3 mt-6">
           <label>
             <input
-              type="radio"
+              type="checkbox"
               name="isEmailSend"
               checked={values?.isEmailSend}
               className="mr-1 pointer"
               style={{ position: 'relative', top: '2px' }}
               onChange={(e) => {
-                setFieldValue('isEmailSend ', e.target.checked);
+                setFieldValue('isEmailSend', e.target.checked);
               }}
             />
             Is Email Send
