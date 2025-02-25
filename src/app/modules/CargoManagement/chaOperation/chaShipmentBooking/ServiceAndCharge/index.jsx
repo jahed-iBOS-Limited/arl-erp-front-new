@@ -330,7 +330,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             label=""
                             type="text"
                             name="remarks"
-                            value={values?.remarks}
+                            value={item?.remarks}
                             onChange={(e) => {
                               commonRowHandler({
                                 index,
