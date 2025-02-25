@@ -94,7 +94,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         isEmailSend: values?.isEmailSend || false,
         rowString: billingDataFilterData?.map((item) => {
           return {
-            intBillingId: item?.bookingId || 0,
+            intBillingId: item?.serviceChargeId || 0,
             intHeadOfChargeid: item?.headOfChargeId || 0,
             strHeadoffcharges: item?.headOfCharges || '',
             intCurrencyid: 0,
