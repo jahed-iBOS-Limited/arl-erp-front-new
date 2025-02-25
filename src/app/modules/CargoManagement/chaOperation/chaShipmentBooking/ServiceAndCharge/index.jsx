@@ -339,7 +339,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                               });
                             }}
                             placeholder="Remarks"
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.serviceChargeId}
                           />
                         </td>
 
@@ -358,7 +358,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             }}
                             min={0}
                             step="any"
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                           />
                         </td>
                         {/* Payment QTY */}
@@ -376,7 +376,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             }}
                             min={0}
                             step="any"
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                           />
                         </td>
                         {/* Payment Amount */}
@@ -398,7 +398,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             }}
                             min={0}
                             step="any"
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.billRegisterId}
                           />
                         </td>
                         {/* Collection QTY */}
@@ -416,7 +416,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                             }}
                             min={0}
                             step="any"
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.billRegisterId}
                           />
                         </td>
                         {/* Collection Amount */}
