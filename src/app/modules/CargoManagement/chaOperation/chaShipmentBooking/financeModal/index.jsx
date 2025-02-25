@@ -87,6 +87,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         unitId: selectedBusinessUnit?.value,
         bookingDate: new Date(),
         bookingNumber: clickRowDto?.chabookingCode,
+        bookingId: clickRowDto?.chabookingId,
         paymentTerms: values?.narration || '',
         actionBy: profileData?.userId,
         businessPartnerId: clickRowDto?.customerId || 0,
@@ -94,7 +95,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         isEmailSend: values?.isEmailSend || false,
         rowString: billingDataFilterData?.map((item) => {
           return {
-            intBillingId: item?.bookingId || 0,
+            intBillingId: item?.serviceChargeId || 0,
             intHeadOfChargeid: item?.headOfChargeId || 0,
             strHeadoffcharges: item?.headOfCharges || '',
             intCurrencyid: 0,
@@ -121,6 +122,8 @@ const FinanceModal = ({ clickRowDto, CB }) => {
     if (activeTab === 'billGenerate') {
       const paylaod = {
         objHeader: {
+          bookingNumber: clickRowDto?.chabookingCode,
+          bookingId: clickRowDto?.chabookingId,
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
           businessUnitName: selectedBusinessUnit?.label,
