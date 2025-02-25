@@ -177,12 +177,19 @@ export default function IOU({ clickRowDto, CB }) {
           amount: item?.quantity * item?.rate || 0,
         };
       });
+
+    const prvTotalAmount =
+      prviousShippingHeadOfCharges?.reduce((a, b) => {
+        const total = (+b?.rate || 0) * (+b?.quantity || 0);
+        return a + total;
+      }, 0) || 0;
+
     const payload = {
       iouInvoiceId: savedIOUData?.iouInvoiceId || 0,
       chaBookingId: clickRowDto?.chabookingId || 0,
       chaIouInvoice: JSON.stringify({
         shippingHeadOfCharges: modifyData,
-        advanceAmount: totalAmountObj?.advanceAmount || 0,
+        advanceAmount: prvTotalAmount || 0,
         totalAmount: totalAmountObj?.totalAmount || 0,
         grandTotal: totalAmountObj?.grandTotal || 0,
       }),
@@ -212,10 +219,9 @@ export default function IOU({ clickRowDto, CB }) {
 
     const prvAdvanceAmount =
       +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
-    const advanceAmount = isFirstTime
-      ? 0
-      : currentTotalAmount - prvTotalAmount + prvAdvanceAmount;
-    const grandTotal = currentTotalAmount - advanceAmount;
+    // const advanceAmount = isFirstTime ? 0 : currentTotalAmount - prvTotalAmount;
+    const advanceAmount = isFirstTime ? 0 : prvAdvanceAmount;
+    const grandTotal = currentTotalAmount;
     setTotalAmountObj({
       totalAmount: currentTotalAmount,
       advanceAmount,
