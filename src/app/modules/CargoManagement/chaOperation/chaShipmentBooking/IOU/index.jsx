@@ -101,6 +101,8 @@ export default function IOU({ clickRowDto, CB }) {
               if (resShippingHeadOfCharges?.length > 0) {
                 if (parseData?.length > 0) {
                   setIsFirstTime(false);
+                } else {
+                  setIsEditModeOn(true);
                 }
 
                 resShippingHeadOfCharges.forEach((item) => {
@@ -210,8 +212,9 @@ export default function IOU({ clickRowDto, CB }) {
 
     const prvAdvanceAmount =
       +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
-    const advanceAmount =
-      currentTotalAmount - prvTotalAmount + prvAdvanceAmount;
+    const advanceAmount = isFirstTime
+      ? 0
+      : currentTotalAmount - prvTotalAmount + prvAdvanceAmount;
     const grandTotal = currentTotalAmount - advanceAmount;
     setTotalAmountObj({
       totalAmount: currentTotalAmount,
