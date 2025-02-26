@@ -311,8 +311,8 @@ export default function _Form({
                           _dateFormatter(
                             new Date(
                               valueOption?.label,
-                              values?.targetMonth?.value - 1 ||
-                                new Date().getMonth(),
+                              values?.targetMonth?.value - 1,
+                              // || new Date().getMonth(),
                               1
                             )
                           )
@@ -322,8 +322,8 @@ export default function _Form({
                           _dateFormatter(
                             new Date(
                               valueOption?.label,
-                              values?.targetMonth?.value ||
-                                new Date().getMonth(),
+                              values?.targetMonth?.value,
+                              // || new Date().getMonth(),
                               0
                             )
                           )
