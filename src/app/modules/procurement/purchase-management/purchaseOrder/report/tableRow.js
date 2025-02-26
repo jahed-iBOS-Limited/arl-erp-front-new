@@ -300,12 +300,15 @@ export function PurchaseOrderViewTableRow({
                               {purchaseOrderReport?.objHeaderDTO?.shipToName}
                             </p>
                             <p>
-                             Client Bin No.{" "}
+                              Client Bin No.{" "}
                               {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{" "}
                             </p>
                             <p>
                               {" "}
-                              PR No.{" "}
+                              {purchaseOrderReport?.objHeaderDTO
+                                ?.referenceTypeId === 5
+                                ? "RFQ No."
+                                : "PR No."}{" "}
                               <span
                                 onClick={() => setShowPRModel(true)}
                                 className="text-primary font-weight-bold cursor-pointer"
