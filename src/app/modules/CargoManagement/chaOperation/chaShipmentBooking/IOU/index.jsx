@@ -213,6 +213,11 @@ export default function IOU({ clickRowDto, CB }) {
     const prvAdvanceAmount =
       +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
     // const advanceAmount = isFirstTime ? 0 : currentTotalAmount - prvTotalAmount;
+    // const prvTotalAmount =
+    // prviousShippingHeadOfCharges?.reduce((a, b) => {
+    //   const total = (+b?.rate || 0) * (+b?.quantity || 0);
+    //   return a + total;
+    // }, 0) || 0;
     const advanceAmount = isFirstTime ? 0 : prvAdvanceAmount;
     const grandTotal = currentTotalAmount - advanceAmount;
     setTotalAmountObj({
