@@ -210,18 +210,16 @@ export default function IOU({ clickRowDto, CB }) {
         const total = (+b?.rate || 0) * (+b?.quantity || 0);
         return a + total;
       }, 0) || 0;
-
-    const prvTotalAmount =
-      prviousShippingHeadOfCharges?.reduce((a, b) => {
-        const total = (+b?.rate || 0) * (+b?.quantity || 0);
-        return a + total;
-      }, 0) || 0;
-
     const prvAdvanceAmount =
       +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
     // const advanceAmount = isFirstTime ? 0 : currentTotalAmount - prvTotalAmount;
+    // const prvTotalAmount =
+    // prviousShippingHeadOfCharges?.reduce((a, b) => {
+    //   const total = (+b?.rate || 0) * (+b?.quantity || 0);
+    //   return a + total;
+    // }, 0) || 0;
     const advanceAmount = isFirstTime ? 0 : prvAdvanceAmount;
-    const grandTotal = currentTotalAmount;
+    const grandTotal = currentTotalAmount - advanceAmount;
     setTotalAmountObj({
       totalAmount: currentTotalAmount,
       advanceAmount,
@@ -637,7 +635,7 @@ export default function IOU({ clickRowDto, CB }) {
                 </tr>
                 <tr>
                   <td colSpan="5" style={totalStyle}>
-                    Total:
+                    Total (Payable):
                   </td>
                   <td style={cellStyle}>{totalAmountObj?.grandTotal}</td>
                 </tr>
@@ -649,7 +647,10 @@ export default function IOU({ clickRowDto, CB }) {
                       }}
                     >
                       {totalAmountObj?.grandTotal &&
-                        convertNumberToWords(totalAmountObj?.grandTotal || 0)}
+                        convertNumberToWords(
+                          totalAmountObj?.grandTotal || 0,
+                        )}{' '}
+                      Taka Only
                     </span>
                   </td>
                 </tr>
