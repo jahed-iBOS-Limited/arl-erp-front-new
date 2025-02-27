@@ -26,6 +26,7 @@ import HeaderForm from "./Table/form";
 import CustomerRefundCreateEditForm from "../customerRefund/addEditForm";
 import TruckToDampDeliveryBill from "../truckToDampDelivery/Form/addEditForm";
 import TrackTrallerLBCreate from "../../trackTrallerLoadingBill/Create";
+import SalesForceIncentiveCreate from "../salesForceIncentive/createEdit";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -83,6 +84,8 @@ function BillregisterCreate() {
         <CustomerRefundCreateEditForm />
       ) : billType === 34 ? (
         <TrackTrallerLBCreate />
+      ) : billType === 35 ? (
+        <SalesForceIncentiveCreate headerData={headerData}/>
       ) : (
         <HeaderForm />
       )}
