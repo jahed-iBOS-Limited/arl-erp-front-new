@@ -23,7 +23,7 @@ export default function PartnerBankInfo({ bankInfo }) {
             <label style={{ fontWeight: "bold" }}>
             Bank List
           </label>
-          <div>{bankInfo?.bankBranchName}</div>
+          <div>{bankInfo?.bankName}</div>
             </div>
         <div class="col">
            
