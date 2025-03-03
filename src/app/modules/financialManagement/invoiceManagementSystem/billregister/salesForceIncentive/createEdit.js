@@ -1,24 +1,24 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import IView from '../../../_helper/_helperIcons/_view';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import IForm from './../../../_helper/_form';
-import InputField from './../../../_helper/_inputField';
-import Loading from './../../../_helper/_loading';
-import NewSelect from './../../../_helper/_select';
-import AkijEssentialLandingDataTable from './AkijEssentialsSpecific/AkijEssentialLandingDataTable';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import IForm from "../../../../_helper/_form";
+import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
-  channel: '',
-  fromDate: '',
-  toDate: '',
-  salesOrganization: '',
+  channel: "",
+  fromDate: "",
+  toDate: "",
+  salesOrganization: "",
 };
 
-export default function SalesIncentiveForm() {
+export default function SalesForceIncentiveCreate({ headerData }) {
   const [objProps, setObjprops] = useState({});
   const [channelDDL, getChannelDDL, , setChannelDDL] = useAxiosGet();
   const [essentialLandingData, getEssentialLandingData] = useAxiosGet();
@@ -36,40 +36,50 @@ export default function SalesIncentiveForm() {
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
 
-  console.log({ channelDDL });
+  console.log({ headerData });
 
   const saveHandler = (values, cb) => {
     const newData = incentiveData?.filter((item) => item?.isSelected);
     if (!newData?.length) {
-      return toast.warn('Select at least one row');
+      return toast.warn("Select at least one row");
     }
 
-    const payload = newData?.map((item) => ({
+    const rowPayloadData = newData?.map((item) => ({
       businessId: buId,
-      region: item?.strRegoin,
-      area: item?.strArea,
-      territory: item?.strTeritory,
-      employeeId: item?.intEmployeeId,
-      employeeName: item?.strEmployeeName,
-      monthId: +values?.toDate?.split('-')[1],
-      yearId: +values?.toDate?.split('-')[0],
+      region: item?.strRegoin || "",
+      area: item?.strArea || "",
+      territory: item?.strTeritory || "",
+      employeeId: item?.intEmployeeId || 0,
+      employeeName: item?.strEmployeeName || "",
+      monthId: +values?.toDate?.split("-")[1],
+      yearId: +values?.toDate?.split("-")[0],
       salesAmount: item?.numSalesAmount,
       targetAmount: item?.numTargetAmount || 0,
-      achievement: item?.numAchievement,
-      incentiveAmount: item?.numIncentiveAmount,
-      regionId: item?.intRegionId,
-      areaId: item?.intAreaId,
-      territoryId: item?.intTerritoryId,
-      zoneId: item?.intZoneId,
-      channelId: item?.intChannelid,
-      salesQnt: item?.numSalesQnt,
-      targetQnt: item?.numTargetQuantity,
+      achievement: item?.numAchievement || 0,
+      incentiveAmount: item?.numIncentiveAmount || 0,
+      regionId: item?.intRegionId || 0,
+      areaId: item?.intAreaId || 0,
+      territoryId: item?.intTerritoryId || 0,
+      zoneId: item?.intZoneId || 0,
+      channelId: item?.intChannelid || 0,
+      salesQnt: item?.numSalesQnt || 0,
+      targetQnt: item?.numTargetQuantity || 0,
+      naration: values?.narration || "",
+      billRef: values?.billNo || 0,
+      billTypeId: +headerData?.billType?.value || 0,
     }));
+
+    const payload = {
+      headerObj: rowPayloadData,
+      imgObj: {
+        imageId: values?.attachment || "",
+      },
+    };
     incentiveSave(
       `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,
       payload,
       () => {},
-      true,
+      true
     );
   };
 
@@ -84,11 +94,11 @@ export default function SalesIncentiveForm() {
           };
         });
         setChannelDDL(ddl);
-      },
+      }
     );
 
     getSalesOrganizationList(
-      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -138,7 +148,7 @@ export default function SalesIncentiveForm() {
                       value={values?.salesOrganization}
                       label="Sales Organization"
                       onChange={(valueOption) => {
-                        setFieldValue('salesOrganization', valueOption);
+                        setFieldValue("salesOrganization", valueOption);
                         setIncentiveData([]);
                       }}
                       errors={errors}
@@ -153,7 +163,7 @@ export default function SalesIncentiveForm() {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue('channel', valueOption);
+                      setFieldValue("channel", valueOption);
                       setIncentiveData([]);
                     }}
                     errors={errors}
@@ -167,7 +177,7 @@ export default function SalesIncentiveForm() {
                     label="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue('fromDate', e.target.value);
+                      setFieldValue("fromDate", e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -181,7 +191,7 @@ export default function SalesIncentiveForm() {
                     type="date"
                     min={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue('toDate', e.target.value);
+                      setFieldValue("toDate", e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -194,7 +204,6 @@ export default function SalesIncentiveForm() {
                       !values?.toDate
                     }
                     onClick={() => {
-                      console.log('clicked', buId);
                       // const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
                       const api = `/oms/IncentiveConfig/GetIncenttiveViewByDesignation?intunitid=4&fromdate=${values?.fromDate}&todate=${values?.toDate}&intSalesOrganizationId=${values?.salesOrganization?.value}&intChannelId=${values?.channel?.value}&intRATId=0&intLevelid=0`;
 
@@ -205,22 +214,53 @@ export default function SalesIncentiveForm() {
                       }&ToDate=${values.toDate}`;
 
                       if (buId === 144) {
-                        console.log('scope');
-                        getEssentialLandingData(essentialRowDataApi, (data) =>
-                          console.log({ dataaa: data }),
-                        );
+                        // console.log("scope");
+                        getEssentialLandingData(essentialRowDataApi);
                       } else {
-                        getIncentiveData(api, (data) =>
-                          console.log({ api: data }),
-                        );
+                        getIncentiveData(api);
                       }
                     }}
-                    style={{ marginTop: '17px' }}
+                    style={{ marginTop: "17px" }}
                     className="btn btn-primary"
                     type="button"
                   >
                     Show
                   </button>
+                </div>
+              </div>
+
+              <div class="form-group global-form my-2 row">
+                <div className="col-lg-3 ">
+                  <label>Narration</label>
+                  <InputField
+                    value={values?.narration}
+                    name="narration"
+                    placeholder="Narration"
+                    type="text"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Bill No</label>
+                  <InputField
+                    value={values?.billNo}
+                    name="billNo"
+                    placeholder="Bill No"
+                    type="text"
+                  />
+                </div>
+                <div className="col-lg-3 mt-3">
+                  <AttachmentUploaderNew
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "black",
+                    }}
+                    CBAttachmentRes={(attachmentData) => {
+                      if (Array.isArray(attachmentData)) {
+                        // console.log({ attachment: attachmentData });
+                        setFieldValue("attachment", attachmentData?.[0]?.id);
+                      }
+                    }}
+                  />
                 </div>
               </div>
 
@@ -279,7 +319,7 @@ export default function SalesIncentiveForm() {
                                   checked={item?.isSelected}
                                   onChange={(e) => {
                                     const data = [...incentiveData];
-                                    data[index]['isSelected'] =
+                                    data[index]["isSelected"] =
                                       e.target.checked;
                                     setIncentiveData(data);
                                   }}
@@ -318,12 +358,12 @@ export default function SalesIncentiveForm() {
                               </td>
                               <td className="text-center">
                                 <InputField
-                                  value={item?.numIncentiveAmount || ''}
+                                  value={item?.numIncentiveAmount || ""}
                                   type="number"
                                   onChange={(e) => {
                                     if (+e.target.value < 0) return;
                                     const data = [...incentiveData];
-                                    data[index]['numIncentiveAmount'] = +e
+                                    data[index]["numIncentiveAmount"] = +e
                                       .target.value;
                                     setIncentiveData(data);
                                   }}
@@ -331,10 +371,10 @@ export default function SalesIncentiveForm() {
                                 {/* {item?.numIncentiveAmount} */}
                               </td>
                               <td className="text-center">
-                                {' '}
+                                {" "}
                                 <IView
                                   title="View"
-                                  clickHandler={() => alert('hello')}
+                                  clickHandler={() => alert("hello")}
                                 />
                               </td>
                             </tr>
@@ -347,20 +387,20 @@ export default function SalesIncentiveForm() {
 
               <button
                 type="submit"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => {
                   if (incentiveData?.length > 0) {
                     handleSubmit();
                   } else {
-                    toast.warn('No Data found');
+                    toast.warn("No Data found");
                   }
                 }}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -371,3 +411,67 @@ export default function SalesIncentiveForm() {
     </Formik>
   );
 }
+
+const AkijEssentialLandingDataTable = ({ rowData = [] }) => {
+  //   console.log({ rowData });
+  return (
+    <div>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Enroll</th>
+              <th>Field Force Name</th>
+              <th>Design.</th>
+              <th>Territory</th>
+              <th>Target Chinigura</th>
+              <th>Target Others</th>
+              <th>Total Target</th>
+              <th>Achv. Chinigira %</th>
+              <th>Achv. Other %</th>
+              <th>Total Achv.</th>
+              <th>Incentive Chinigura</th>
+              <th>Incentive Others</th>
+              <th>Payable Incentive</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rowData?.map((item, index) => (
+              <tr>
+                <td className="text-center">{index + 1}</td>
+                <td className="text-center">{item.intEmployeeIdSO}</td>
+                <td className="text-center">{item.strEmployeeNameTSO}</td>
+                <td className="text-center">{item.strDesignationName}</td>
+                <td className="text-center">{item.territoryid}</td>
+                <td className="text-center">{item.numTargetQntChiniguraTon}</td>
+                <td className="text-center">
+                  {item.numTargetQntWithoutChiniguraTon}
+                </td>
+                <td className="text-center">
+                  {item.numTargetQntChiniguraTon +
+                    item.numTargetQntWithoutChiniguraTon}
+                </td>
+                <td className="text-center">{item.numChiniguraAchievement}</td>
+                <td className="text-center">
+                  {item.numTargetQntWithoutChiniguraTon}
+                </td>
+                <td className="text-center">
+                  {item.numChiniguraAchievement +
+                    item.numTargetQntWithoutChiniguraTon}
+                </td>
+                <td className="text-center">
+                  {item.numChiniguraCommissionAmount}
+                </td>
+                <td className="text-center">
+                  {item.numwithoutChiniguraCommissionAmount}
+                </td>
+                <td className="text-center">{item.numTotalCommission}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};

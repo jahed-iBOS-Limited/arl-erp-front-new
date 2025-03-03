@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import * as Yup from 'yup';
@@ -12,14 +12,19 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
 const validationSchema = Yup.object().shape({});
 export default function IOU({ clickRowDto, CB }) {
-  const formikRef = React.useRef(null);
-  const [isEditModeOn, setIsEditModeOn] = React.useState(false);
+  const formikRef = useRef(null);
+  const [isEditModeOn, setIsEditModeOn] = useState(false);
   const [
     shippingHeadOfCharges,
     getShippingHeadOfCharges,
     shippingHeadOfChargesLoading,
     setShippingHeadOfCharges,
   ] = useAxiosGet();
+  const [
+    prviousShippingHeadOfCharges,
+    setPrviousShippingHeadOfCharges,
+  ] = useState([]);
+
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -30,7 +35,13 @@ export default function IOU({ clickRowDto, CB }) {
     singleChaShipmentBookingLoading,
   ] = useAxiosGet();
   const [savedIOUData, getSavedIOUData, isLoading] = useAxiosGet();
+  const [isFirstTime, setIsFirstTime] = useState(true);
   const [, saveIOUInvoice, isSaving] = useAxiosPost();
+  const [totalAmountObj, setTotalAmountObj] = useState({
+    totalAmount: 0,
+    advanceAmount: 0,
+    grandTotal: 0,
+  });
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -61,7 +72,6 @@ export default function IOU({ clickRowDto, CB }) {
     padding: '2px',
     textAlign: 'left',
   };
-
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
@@ -78,58 +88,73 @@ export default function IOU({ clickRowDto, CB }) {
         getSavedIOUData(
           `${imarineBaseUrl}/domain/CHAShipment/GetByIouInvoiceId?bookingId=${clickRowDto?.chabookingId}`,
           (resSveData) => {
-            const arryList = [];
-            if (resShippingHeadOfCharges?.length > 0) {
-              resShippingHeadOfCharges.forEach((item) => {
-                // parse data to array
-                const safeParseData = (data) => {
-                  try {
-                    const parsed = JSON.parse(data);
-                    return Array.isArray(parsed) ? parsed : [];
-                  } catch {
-                    return [];
-                  }
-                };
-                const parseData = safeParseData(
-                  resSveData?.chaIouInvoice || [],
-                );
+            try {
+              const storeShippingHeadOfCharges =
+                resSveData?.chaIouInvoice &&
+                JSON.parse(resSveData?.chaIouInvoice || []);
 
-                const saveHeadOfChargeList =
-                  parseData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value,
-                  ) || [];
+              // parse data to array
+              const parseData =
+                storeShippingHeadOfCharges?.shippingHeadOfCharges || [];
 
-                if (saveHeadOfChargeList?.length > 0) {
-                  saveHeadOfChargeList.forEach((saveItem) => {
+              const arryList = [];
+              if (resShippingHeadOfCharges?.length > 0) {
+                if (parseData?.length > 0) {
+                  setIsFirstTime(false);
+                } else {
+                  setIsEditModeOn(true);
+                }
+
+                resShippingHeadOfCharges.forEach((item) => {
+                  const saveHeadOfChargeList =
+                    parseData?.filter(
+                      (findItem) => findItem?.headOfChargeId === item?.value,
+                    ) || [];
+
+                  if (saveHeadOfChargeList?.length > 0) {
+                    saveHeadOfChargeList.forEach((saveItem) => {
+                      const amount =
+                        (+saveItem?.quantity || 0) * (+saveItem?.rate || 0);
+                      const obj = {
+                        ...item,
+                        ...saveItem,
+                        quantity: saveItem?.quantity || '',
+                        rate: saveItem?.rate || '',
+                        isDisableInput: amount > 0 ? true : false,
+                        advanceAmount:
+                          storeShippingHeadOfCharges?.advanceAmount || 0,
+                        grandTotal: storeShippingHeadOfCharges?.grandTotal || 0,
+                        totalAmount:
+                          storeShippingHeadOfCharges?.totalAmount || 0,
+                      };
+                      arryList.push(obj);
+                    });
+                  } else {
                     const obj = {
                       ...item,
-                      ...saveItem,
-                      quantity: saveItem?.quantity || '',
-                      rate: saveItem?.rate || '',
+                      headOfCharges: item?.label || '',
+                      headOfChargeId: item?.value || 0,
+                      quantity: '',
+                      rate: '',
+                      amount: '',
+                      isDisableInput: false,
                     };
                     arryList.push(obj);
-                  });
-                } else {
-                  console.log('first');
-                  const obj = {
-                    ...item,
-                    headOfCharges: item?.label || '',
-                    headOfChargeId: item?.value || 0,
-                  };
-                  arryList.push(obj);
-                }
-              });
-              setShippingHeadOfCharges([...arryList]);
+                  }
+                });
+
+                setShippingHeadOfCharges([...arryList]);
+                const arry = JSON.parse(JSON.stringify([...arryList])) || [];
+                setPrviousShippingHeadOfCharges(arry);
+              }
+            } catch (error) {
+              console.log(error, 'error');
             }
           },
         );
       },
     );
   };
-
-  if (singleChaShipmentBookingLoading) {
-    return <Loading />;
-  }
 
   const totalStyle = {
     fontWeight: 'bold',
@@ -152,23 +177,60 @@ export default function IOU({ clickRowDto, CB }) {
           amount: item?.quantity * item?.rate || 0,
         };
       });
+
+    const prvTotalAmount =
+      prviousShippingHeadOfCharges?.reduce((a, b) => {
+        const total = (+b?.rate || 0) * (+b?.quantity || 0);
+        return a + total;
+      }, 0) || 0;
+
     const payload = {
       iouInvoiceId: savedIOUData?.iouInvoiceId || 0,
       chaBookingId: clickRowDto?.chabookingId || 0,
-      chaIouInvoice: JSON.stringify(modifyData),
+      chaIouInvoice: JSON.stringify({
+        shippingHeadOfCharges: modifyData,
+        advanceAmount: prvTotalAmount || 0,
+        totalAmount: totalAmountObj?.totalAmount || 0,
+        grandTotal: totalAmountObj?.grandTotal || 0,
+      }),
     };
     saveIOUInvoice(
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaIouInvoice`,
       payload,
-      CB,
+      () => {
+        commonGetShippingHeadOfCharges();
+        setIsEditModeOn(false);
+      },
     );
   };
 
-  const totalAmount =
-    shippingHeadOfCharges?.reduce((a, b) => {
-      const total = (+b?.rate || 0) * (+b?.quantity || 0);
-      return a + total;
-    }, 0) || 0;
+  useEffect(() => {
+    const currentTotalAmount =
+      shippingHeadOfCharges?.reduce((a, b) => {
+        const total = (+b?.rate || 0) * (+b?.quantity || 0);
+        return a + total;
+      }, 0) || 0;
+    const prvAdvanceAmount =
+      +prviousShippingHeadOfCharges?.[0]?.advanceAmount || 0;
+    // const advanceAmount = isFirstTime ? 0 : currentTotalAmount - prvTotalAmount;
+    // const prvTotalAmount =
+    // prviousShippingHeadOfCharges?.reduce((a, b) => {
+    //   const total = (+b?.rate || 0) * (+b?.quantity || 0);
+    //   return a + total;
+    // }, 0) || 0;
+    const advanceAmount = isFirstTime ? 0 : prvAdvanceAmount;
+    const grandTotal = currentTotalAmount - advanceAmount;
+    setTotalAmountObj({
+      totalAmount: currentTotalAmount,
+      advanceAmount,
+      grandTotal,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shippingHeadOfCharges, prviousShippingHeadOfCharges]);
+
+  if (singleChaShipmentBookingLoading) {
+    return <Loading />;
+  }
   return (
     <Formik
       enableReinitialize={true}
@@ -429,6 +491,11 @@ export default function IOU({ clickRowDto, CB }) {
                 {shippingHeadOfCharges?.map((item, index) => {
                   const total = (+item?.rate || 0) * (+item?.quantity || 0);
                   const displayValue = total > 0 ? total : '';
+
+                  if (!isEditModeOn && total === 0) {
+                    return <></>;
+                  }
+
                   return (
                     <tr key={index}>
                       <td
@@ -460,6 +527,7 @@ export default function IOU({ clickRowDto, CB }) {
                               copyPrv[index].quantity = e.target.value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
+                            disabled={item?.isDisableInput}
                           />
                         ) : (
                           item?.quantity
@@ -483,6 +551,7 @@ export default function IOU({ clickRowDto, CB }) {
                               copyPrv[index].rate = e.target.value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
+                            disabled={item?.isDisableInput}
                           />
                         ) : (
                           item?.rate
@@ -526,10 +595,6 @@ export default function IOU({ clickRowDto, CB }) {
                                     },
                                     ...hardCopy?.slice(index + 1),
                                   ];
-                                  console.log(
-                                    JSON.stringify(modifiedData, null, 2),
-                                    'modifiedData',
-                                  );
                                   setShippingHeadOfCharges(modifiedData);
                                 }}
                               >
@@ -560,7 +625,19 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="5" style={totalStyle}>
                     Sub Total:
                   </td>
-                  <td style={cellStyle}>{totalAmount}</td>
+                  <td style={cellStyle}>{totalAmountObj?.totalAmount}</td>
+                </tr>
+                <tr>
+                  <td colSpan="5" style={totalStyle}>
+                    Advance:
+                  </td>
+                  <td style={cellStyle}>{totalAmountObj?.advanceAmount}</td>
+                </tr>
+                <tr>
+                  <td colSpan="5" style={totalStyle}>
+                    Total (Payable):
+                  </td>
+                  <td style={cellStyle}>{totalAmountObj?.grandTotal}</td>
                 </tr>
                 <tr>
                   <td colSpan="6" style={cellStyle}>
@@ -569,7 +646,11 @@ export default function IOU({ clickRowDto, CB }) {
                         textTransform: 'capitalize',
                       }}
                     >
-                      {totalAmount && convertNumberToWords(totalAmount || 0)}
+                      {totalAmountObj?.grandTotal &&
+                        convertNumberToWords(
+                          totalAmountObj?.grandTotal || 0,
+                        )}{' '}
+                      Taka Only
                     </span>
                   </td>
                 </tr>

@@ -349,7 +349,7 @@ const CommissionReportAndJV = () => {
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
                     {(sectionIds.includes(sectionId) ||
-                      departmentId === 299) && (
+                      departmentId === 299 || userId===548380) && (
                         <>
                           <button
                             className="btn btn-primary"
