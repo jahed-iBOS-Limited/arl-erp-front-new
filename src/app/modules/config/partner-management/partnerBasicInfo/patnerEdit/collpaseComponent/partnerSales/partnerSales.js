@@ -97,6 +97,8 @@ export default function PartnerSales() {
   const [filterAdvanceReceiveGL, setFilterAdvanceReceiveGL] = useState([]);
   const [operationalZones, getOperationalZones] = useAxiosGet();
   const [AGConcernDDL, getAGConcernDDL] = useAxiosGet();
+   // customer party 
+   const [partyStatusDDL,getPartyStatusDDL,getPartyStatusDDLLoading]=useAxiosGet()
 
   // get sbu ddl from store
   const sbuDDL = useSelector((state) => {
@@ -140,6 +142,7 @@ export default function PartnerSales() {
         )
       );
     }
+    getPartyStatusDDL(`/oms/DistributionChannel/GetCustomerStatusTypeDDL?BUnitId=${selectedBusinessUnit.value}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
   // get salesTerriory ddl from store
@@ -729,7 +732,7 @@ export default function PartnerSales() {
       </CardHeader>
       <CardBody>
         <div className="mt-0">
-          {isDisabled && <Loading />}
+          {(isDisabled  || getPartyStatusDDLLoading )&& <Loading />}
           <Form
             // product={initProduct}
             product={
@@ -789,6 +792,7 @@ export default function PartnerSales() {
             getOperationalZoneDDL={getOperationalZoneDDL}
             AGConcernDDL={AGConcernDDL}
             setRowDto={setRowDto}
+            partyStatusDDL={partyStatusDDL}
           />
         </div>
       </CardBody>
