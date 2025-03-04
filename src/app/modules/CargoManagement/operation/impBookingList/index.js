@@ -20,6 +20,7 @@ import ChargesModal from '../expBookingList/chargesModal';
 import CommonInvoice from '../expBookingList/commonInvoice';
 import CommonStatusUpdateModal from '../expBookingList/commonStatusUpdateModal';
 import ConfirmModal from '../expBookingList/confirmModal';
+import CreateBookingModal from '../expBookingList/createBookingModal';
 import DeliveryNoteModal from '../expBookingList/deliveryNoteModal';
 import DocumentModal from '../expBookingList/documentModal';
 import FreightCargoReceipt from '../expBookingList/freightCargoReceipt';
@@ -98,12 +99,10 @@ function ImpBookingList() {
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+      ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -132,7 +131,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId
+      item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -163,7 +162,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -212,6 +211,12 @@ function ImpBookingList() {
                     'MBL/MAWB Preparation'}
                 </button>
               );
+            }}
+            createHandler={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isOpenCreateModal: true,
+              });
             }}
           >
             <>
@@ -477,7 +482,7 @@ function ImpBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                  item?.airMasterBlCode ? (
+                                    item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -1062,9 +1067,8 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                  } Report`}
+                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1242,6 +1246,39 @@ function ImpBookingList() {
                     title="Booking Details"
                   >
                     <Details rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+              {/* create booking modal  */}
+              {isModalShowObj?.isOpenCreateModal && (
+                <>
+                  <IViewModal
+                    show={isModalShowObj?.isOpenCreateModal}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isOpenCreateModal: false,
+                      });
+                    }}
+                    title="Create Import Booking"
+                  >
+                    <CreateBookingModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isCreateBooking: false,
+                        });
+                        setRowClickData({});
+                      }}
+                      isExport={false}
+                    />
                   </IViewModal>
                 </>
               )}
