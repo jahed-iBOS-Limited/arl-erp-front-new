@@ -93,6 +93,13 @@ export default function IOU({ clickRowDto, CB }) {
                 resSveData?.chaIouInvoice &&
                 JSON.parse(resSveData?.chaIouInvoice || []);
 
+              if (formikRef.current) {
+                formikRef.current.setFieldValue(
+                  'cashReceivedBy',
+                  storeShippingHeadOfCharges?.cashReceivedBy || '',
+                );
+              }
+
               // parse data to array
               const parseData =
                 storeShippingHeadOfCharges?.shippingHeadOfCharges || [];
@@ -192,6 +199,7 @@ export default function IOU({ clickRowDto, CB }) {
         advanceAmount: prvTotalAmount || 0,
         totalAmount: totalAmountObj?.totalAmount || 0,
         grandTotal: totalAmountObj?.grandTotal || 0,
+        cashReceivedBy: values?.cashReceivedBy || '',
       }),
     };
     saveIOUInvoice(
@@ -389,7 +397,25 @@ export default function IOU({ clickRowDto, CB }) {
                 </tr>
                 <tr>
                   <td colSpan="3" style={cellStyle}>
-                    Cash Received By: {singleChaShipmentBooking?.customerName}
+                    Cash Received By:
+                    {/* {singleChaShipmentBooking?.customerName} */}
+                    {isEditModeOn ? (
+                      <InputField
+                        style={{
+                          display: 'inline-block',
+                        }}
+                        type="text"
+                        name="cashReceivedBy"
+                        value={values?.cashReceivedBy || ''}
+                        placeholder="Cash Received By"
+                        onChange={(e) => {
+                          console.log(e, 'e');
+                          setFieldValue('cashReceivedBy', e.target.value);
+                        }}
+                      />
+                    ) : (
+                      ` ${values?.cashReceivedBy || ''}`
+                    )}
                   </td>
                   <td colSpan="3" style={cellStyle}>
                     Date:{' '}
