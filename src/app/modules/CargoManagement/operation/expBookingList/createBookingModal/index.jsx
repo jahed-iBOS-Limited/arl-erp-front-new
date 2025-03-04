@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
 import React from "react";
+import { toast } from "react-toastify";
 import { imarineBaseUrl } from "../../../../../App";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -14,6 +15,12 @@ export default function CreateBookingModal({ CB, rowClickData, isExport }) {
         ? "http://localhost:3010"
         : "https://cargo.ibos.io/";
 
+    if (!value?.email) {
+      toast.error(
+        `Selected ${isExport ? "Shipper" : "Consignee "} has no email address`
+      );
+      return;
+    }
     // Encrypt the userIDEmail using base64 encoding
 
     const encryptedUserEmail = CryptoJS.enc.Base64.stringify(
