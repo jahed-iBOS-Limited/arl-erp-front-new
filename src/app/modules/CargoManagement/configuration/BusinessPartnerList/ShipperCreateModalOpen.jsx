@@ -173,7 +173,7 @@ export default function ShipperCreateModalOpen({
                                   saveHandler(item);
                                 }}
                               >
-                                Add
+                                Create
                               </button>
                             </td>
                           </tr>
