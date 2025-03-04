@@ -7,20 +7,21 @@ import ICustomCard from '../../../_helper/_customCard';
 import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({
   fromDate: Yup.date().required('From Date is required'),
   toDate: Yup.date().required('To Date is required'),
 });
 export default function CHAReport() {
-  const [data, getShippingExpenseIncomeReportData, isLoading] = useAxiosGet();
+  const [data, getACLedgerforPaymentReport, isLoading] = useAxiosGet();
 
   const saveHandler = (values) => {
     const startDate = moment(values?.fromDate).format('YYYY-MM-DD');
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
     const query = `fromDate=${startDate}&toDate=${endDate}`;
-    getShippingExpenseIncomeReportData(
-      `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeReport?${query}`,
+    getACLedgerforPaymentReport(
+      `${imarineBaseUrl}/domain/CHAShipment/GetACLedgerforPaymentReport?modeOfTransportId=1&${query}`,
     );
   };
   return (
@@ -44,6 +45,33 @@ export default function CHAReport() {
             <>
               <Form className="form form-label-right">
                 <div className="form-group row global-form">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="chaType"
+                      options={[
+                        {
+                          value: 0,
+                          label: 'All',
+                        },
+                        {
+                          value: 1,
+                          label: 'Export',
+                        },
+                        {
+                          value: 2,
+                          label: 'Import',
+                        },
+                      ]}
+                      value={values?.chaType || ''}
+                      label="CHA Type"
+                      onChange={(valueOption) => {
+                        setFieldValue('chaType', valueOption);
+                      }}
+                      placeholder="CHA Type"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-sm-3 ">
                     <InputField
                       value={values?.date}
