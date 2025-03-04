@@ -1260,7 +1260,7 @@ function ImpBookingList() {
                         isOpenCreateModal: false,
                       });
                     }}
-                    title="Create Export Booking"
+                    title="Create Import Booking"
                   >
                     <CreateBookingModal
                       rowClickData={rowClickData}
