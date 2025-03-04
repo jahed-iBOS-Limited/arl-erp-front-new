@@ -8,6 +8,7 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import Loading from '../../../_helper/_loading';
 import IView from '../../../_helper/_helperIcons/_view';
 import { Form, Formik } from 'formik';
+import ShipperCreateModalOpen from './ShipperCreateModalOpen';
 const initialValues = {
   tradeType: 1,
 };
@@ -18,6 +19,10 @@ export default function BusinessPartnerList() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [
+    isShipperCreateModalOpen,
+    setIsShipperCreateModalOpen,
+  ] = React.useState(false);
   const [
     participntLanding,
     getParticipntLanding,
@@ -70,16 +75,28 @@ export default function BusinessPartnerList() {
               title="Consignee’s/Buyer Assign"
               renderProps={() => {
                 return (
-                  <button
-                    onClick={() => {
-                      setIsModalOpen(true);
-                    }}
-                    className="ml-2 btn btn-primary"
-                    title="Assignee"
-                    // startIcon={<i class="fa fa-user-plus" aria-hidden="true"></i>}
-                  >
-                    <i class="fa fa-user-plus" aria-hidden="true"></i>
-                  </button>
+                  <>
+                    <button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                      }}
+                      className="ml-2 btn btn-primary"
+                      title="Assignee"
+                    >
+                      <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setIsShipperCreateModalOpen(true);
+                      }}
+                      className="ml-2 btn btn-primary"
+                      title="Assignee"
+                    >
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>{' '}
+                      Shipper Create
+                    </button>
+                  </>
                 );
               }}
             >
@@ -212,6 +229,15 @@ export default function BusinessPartnerList() {
                   clickRowData={{
                     ...clickRowData,
                     tradeType: values?.tradeType,
+                  }}
+                />
+              )}
+
+              {isShipperCreateModalOpen && (
+                <ShipperCreateModalOpen
+                  isModalOpen={isShipperCreateModalOpen}
+                  setIsModalOpen={() => {
+                    setIsShipperCreateModalOpen(false);
                   }}
                 />
               )}
