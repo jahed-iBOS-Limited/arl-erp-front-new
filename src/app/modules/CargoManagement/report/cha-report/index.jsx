@@ -153,7 +153,9 @@ export default function CHAReport() {
                   <th>Job No. / Job No.</th>
                   <th>Name of the Customer</th>
                   <th>LC / Sales Contract No.</th>
-                  <th>Amount</th>
+                  <th>IOU Amount</th>
+                  <th>Collection Amount</th>
+                  <th>Payment Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -175,6 +177,8 @@ export default function CHAReport() {
                         <td>{item?.customerName}</td>
                         <td>{item?.chabookingCode}</td>
                         <td>{totalAmount}</td>
+                        <td>{item?.collectionAmount}</td>
+                        <td>{item?.paymentAmount}</td>
                       </tr>
                     );
                   })}
