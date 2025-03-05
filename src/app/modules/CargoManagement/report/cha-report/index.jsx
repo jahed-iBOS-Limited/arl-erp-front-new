@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import moment from 'moment';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
@@ -9,31 +9,70 @@ import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import NewSelect from '../../../_helper/_select';
 
+const initialValues = {
+  fromDate: moment()
+    .startOf('month')
+    .format('YYYY-MM-DD'),
+  toDate: moment()
+    .endOf('month')
+    .format('YYYY-MM-DD'),
+  chaType: {
+    value: 0,
+    label: 'All',
+  },
+};
 const validationSchema = Yup.object().shape({
   fromDate: Yup.date().required('From Date is required'),
   toDate: Yup.date().required('To Date is required'),
+  chaType: Yup.object().shape({
+    value: Yup.string().required('CHA Type is required'),
+    label: Yup.string().required('CHA Type is required'),
+  }),
 });
 export default function CHAReport() {
   const [data, getACLedgerforPaymentReport, isLoading] = useAxiosGet();
 
   const saveHandler = (values) => {
+    commonGetApi(values);
+  };
+
+  const commonGetApi = (values) => {
     const startDate = moment(values?.fromDate).format('YYYY-MM-DD');
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
     const query = `fromDate=${startDate}&toDate=${endDate}`;
     getACLedgerforPaymentReport(
-      `${imarineBaseUrl}/domain/CHAShipment/GetACLedgerforPaymentReport?modeOfTransportId=1&${query}`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetACLedgerforPaymentReport?modeOfTransportId=${values?.chaType?.value}&${query}&pageNo=1&pageSize=10000`,
     );
   };
+
+  useEffect(() => {
+    commonGetApi(initialValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // api response data
+  // {
+  //   "chabookingId": 4,
+  //   "chabookingCode": "EXPCHA022025000029",
+  //   "accountId": 1,
+  //   "businessUnitId": 225,
+  //   "modeOfTransportId": 1,
+  //   "customerId": 106081,
+  //   "customerName": "Demo GSA",
+  //   "shipperId": 0,
+  //   "shipperName": "",
+  //   "fclLclid": 2,
+  //   "fclLclname": "LCL",
+  //   "chaIouInvoice": "{\"shippingHeadOfCharges\":[{\"headOfChargeId\":35,\"headOfCharges\":\"Customs Duty\",\"quantity\":\"10\",\"rate\":\"10\",\"amount\":100},{\"headOfChargeId\":36,\"headOfCharges\":\"Freight Forwarder NOC Fee\",\"quantity\":\"20\",\"rate\":\"10\",\"amount\":200},{\"headOfChargeId\":37,\"headOfCharges\":\"Shipping Charge\",\"quantity\":\"500\",\"rate\":\"1\",\"amount\":500}],\"advanceAmount\":300,\"totalAmount\":800,\"grandTotal\":800}",
+  //   "serverDateTime": "2025-02-25T13:12:49.473"
+  // }
   return (
     <>
       {isLoading && <Loading />}
       <ICustomCard title="CHA Report">
         <Formik
           enableReinitialize={true}
-          initialValues={{
-            fromDate: '',
-            toDate: '',
-          }}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
@@ -74,7 +113,7 @@ export default function CHAReport() {
                   </div>
                   <div className="col-sm-3 ">
                     <InputField
-                      value={values?.date}
+                      value={values?.fromDate}
                       label={'From Date'}
                       name="fromDate"
                       type="date"
@@ -85,7 +124,7 @@ export default function CHAReport() {
                   </div>
                   <div className="col-sm-3 ">
                     <InputField
-                      value={values?.date}
+                      value={values?.toDate}
                       label={'To Date'}
                       name="toDate"
                       type="date"
@@ -109,56 +148,36 @@ export default function CHAReport() {
               <thead>
                 <tr>
                   <th>SL</th>
-                  <th
-                    style={{
-                      minWidth: '150px',
-                    }}
-                  >
-                    Booking Request Id
-                  </th>
-                  <th
-                    style={{
-                      minWidth: '100px',
-                    }}
-                  >
-                    Charge Amount
-                  </th>
-                  <th
-                    style={{
-                      minWidth: '100px',
-                    }}
-                  >
-                    Actual Expense
-                  </th>
-                  <th
-                    style={{
-                      minWidth: '100px',
-                    }}
-                  >
-                    Gross Profit/Loss
-                  </th>
+                  <th>Indentor</th>
+                  <th>Payment Received Date</th>
+                  <th>Job No. / Job No.</th>
+                  <th>Name of the Customer</th>
+                  <th>LC / Sales Contract No.</th>
+                  <th>Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {data?.length > 0 &&
-                  data?.map((item, i) => (
-                    <tr key={i + 1}>
-                      <td className="text-center">{i + 1}</td>
-                      <td className="text-left">{item?.bookingRequestId}</td>
-                      <td className="text-right">{item?.chargeAmount}</td>
-                      <td className="text-right">{item?.actualExpense}</td>
-                      <td
-                        className="text-right"
-                        style={{
-                          ...(item?.chargeAmount - item?.actualExpense < 0 && {
-                            color: 'red',
-                          }),
-                        }}
-                      >
-                        {item?.chargeAmount - item?.actualExpense}
-                      </td>
-                    </tr>
-                  ))}
+                  data?.map((item, i) => {
+                    const chaIouInvoice = item?.chaIouInvoice
+                      ? JSON.parse(item?.chaIouInvoice)
+                      : {};
+                    const totalAmount = chaIouInvoice?.totalAmount || 0;
+
+                    return (
+                      <tr key={i + 1}>
+                        <td className="text-center">{i + 1}</td>
+                        <td>{item?.customerName}</td>
+                        <td>
+                          {moment(item?.serverDateTime).format('YYYY-MM-DD')}
+                        </td>
+                        <td>{item?.chabookingCode}</td>
+                        <td>{item?.customerName}</td>
+                        <td>{item?.chabookingCode}</td>
+                        <td>{totalAmount}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
