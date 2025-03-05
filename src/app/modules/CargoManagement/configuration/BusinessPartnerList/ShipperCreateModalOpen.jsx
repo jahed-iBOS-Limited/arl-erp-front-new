@@ -1,7 +1,6 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import Loading from '../../../_helper/_loading';
