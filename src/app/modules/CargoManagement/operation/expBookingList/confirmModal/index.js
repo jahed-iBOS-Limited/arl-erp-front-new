@@ -119,27 +119,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                    value: data?.consigneeId || 0,
-                    label: data?.consigneeName || '',
-                  }
+                  value: data?.consigneeId || 0,
+                  label: data?.consigneeName || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                    value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || '',
-                  }
+                  value: data?.consigCountryId || 0,
+                  label: data?.consigCountry || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigState
                 ? {
-                    value: 0,
-                    label: data?.consigState || '',
-                  }
+                  value: 0,
+                  label: data?.consigState || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -167,36 +167,36 @@ function ConfirmModal({ rowClickData, CB }) {
               'bankAddress',
               data?.notifyBankAddr
                 ? {
-                    value: 0,
-                    label: data?.notifyBankAddr || '',
-                  }
+                  value: 0,
+                  label: data?.notifyBankAddr || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
               data?.notifyParty
                 ? {
-                    value: 0,
-                    label: data?.notifyParty || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'buyerBank',
               data?.buyerBank
                 ? {
-                    value: 0,
-                    label: data?.buyerBank || '',
-                  }
+                  value: 0,
+                  label: data?.buyerBank || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty2',
               data?.notifyParty2
                 ? {
-                    value: 0,
-                    label: data?.notifyParty2 || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty2 || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -207,18 +207,18 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value: data?.freightAgentReferenceId || 0,
-                    label: data?.freightAgentReference || '',
-                  }
+                  value: data?.freightAgentReferenceId || 0,
+                  label: data?.freightAgentReference || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'freightAgentReference2',
               data?.freightAgentReference2
                 ? {
-                    value: data?.freightAgentReferenceId2 || 0,
-                    label: data?.freightAgentReference2 || '',
-                  }
+                  value: data?.freightAgentReferenceId2 || 0,
+                  label: data?.freightAgentReference2 || '',
+                }
                 : '',
             );
             //shippingMark
@@ -411,13 +411,11 @@ function ConfirmModal({ rowClickData, CB }) {
       );
     }
   };
-
   const loadEmp = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
-          profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -470,8 +468,7 @@ function ConfirmModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {console.log(values, 'values')}
-            {console.log(errors, 'errors')}
+
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -636,13 +633,14 @@ function ConfirmModal({ rowClickData, CB }) {
                     disabled
                   />
                 </div>
+
                 {tradeTypeId === 2 && (
                   <>
                     {/* hblNo */}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.hblNo || ''}
-                        label="HBL No"
+                        label={rowClickData?.modeOfTransportId === 4 ? "Consignment Number" : "HBL No"}
                         name="hblNo"
                         type="text"
                         onChange={(e) => {
