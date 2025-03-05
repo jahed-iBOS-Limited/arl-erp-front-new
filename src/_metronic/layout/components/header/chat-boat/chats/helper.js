@@ -1,11 +1,11 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getAllChatUsers = async (setter, setLoading) => {
   setLoading(true);
   try {
     const res = await Axios.get(
-      `${process.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/users`
+      `${process.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/users`,
     );
     setter(res?.data);
     setLoading(false);
@@ -19,12 +19,12 @@ export const getSingleUserMessageList = async (
   fromId,
   toId,
   setter,
-  setMsgLoading
+  setMsgLoading,
 ) => {
   setMsgLoading(true);
   try {
     const res = await Axios.get(
-      `${process.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/allmessages/${fromId}/${toId}`
+      `${process.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/allmessages/${fromId}/${toId}`,
     );
     setter(res?.data);
     setMsgLoading(false);
@@ -39,7 +39,7 @@ export const sendMessage = async (payload, chatList, setChatList) => {
   try {
     const res = await Axios.post(
       `${process.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/message`,
-      payload
+      payload,
     );
     if (res.status === 200) {
       let msg = {
@@ -51,27 +51,27 @@ export const sendMessage = async (payload, chatList, setChatList) => {
       setChatList([...chatList, msg]);
     }
   } catch (error) {
-    toast.error("Failed to send message");
+    toast.error('Failed to send message');
   }
 };
 
 export const getChatResponse = async (payload, cb) => {
   const apiUrl =
-    process.env.NODE_ENV === "development"
-      ? `https://deverpchat.ibos.io/erp/manual_qna`
-      : `https://erpchat.ibos.io/erp/manual_qna`;
+    process.env.NODE_ENV === 'development'
+      ? `https://devocr.ibos.io/text_to_sql`
+      : `https://ocr.ibos.io/text_to_sql`;
 
   try {
     const res = await Axios.post(apiUrl, payload);
     cb({
       isResponse: true,
-      resData: res?.data?.response,
+      resData: res?.data?.response || 'Sorry, data not found',
     });
   } catch (error) {
     cb({
       isResponse: false,
-      resData: "Sorry, data not found",
+      resData: 'Sorry, data not found',
     });
-    toast.info("Sorry, data not found");
+    toast.info('Sorry, data not found');
   }
 };

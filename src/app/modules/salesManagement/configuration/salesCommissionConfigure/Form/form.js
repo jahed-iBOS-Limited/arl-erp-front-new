@@ -23,6 +23,7 @@ export default function _Form({
   commissionTypes,
   desginationList,
   akijAgroFeedCommissionTypeList,
+  customerTypeDDL
 }) {
   const history = useHistory();
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -123,7 +124,7 @@ export default function _Form({
                         46,
                       ].includes(values?.commissionType?.value),
                       territory: false,
-                      allElement: false,
+                      allElement: true,
                       channelDisable : [46].includes(values?.commissionType?.value),
                       regionDisable : [46].includes(values?.commissionType?.value),
                       areaDisable : [46].includes(values?.commissionType?.value),
@@ -150,6 +151,19 @@ export default function _Form({
                       },
                     }}
                   />
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="customerStatusType"
+                      options={customerTypeDDL||[]}
+                      value={values?.customerStatusType}
+                      label="Customer Status Type"
+                      onChange={(e) => {
+                        setFieldValue("customerStatusType", e);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 

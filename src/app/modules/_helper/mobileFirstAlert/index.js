@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./style.scss";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { createERPUserInfoAcion } from "../_redux/Actions";
+import React, { useEffect, useState } from 'react';
+import './style.scss';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { createERPUserInfoAcion } from '../_redux/Actions';
 
 function MobileFirstAlert() {
   const [isShowAlert, setIsShowAlert] = useState(false);
@@ -28,11 +28,10 @@ function MobileFirstAlert() {
   ].includes(profileData?.workPlaceId);
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
   const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
-    userAgent
+    userAgent,
   );
   useEffect(() => {
-
-    if (!isMobileUser && process.env.NODE_ENV !== "development") {
+    if (!isMobileUser && process.env.NODE_ENV !== 'development') {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
@@ -77,27 +76,26 @@ function MobileFirstAlert() {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
-  const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
-  const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
-  const isEmpSuplier =
-    [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
+  // const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
+  // const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
+  // const isEmpSuplier =
+  //   [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
- 
-    const leftTime = timeLeft > 0;
-    if (
-      !isMobileUser &&
-      leftTime &&
-      !isShowBUIMatch &&
-      isMatchWorkPlaceMatch &&
-      !isMatchEmployeeId &&
-      !isEmpSuplier
-    ) {
-      setIsShowAlert(true);
-    }
-  });
+  // useEffect(() => {
+  //   const leftTime = timeLeft > 0;
+  //   if (
+  //     !isMobileUser &&
+  //     leftTime &&
+  //     !isShowBUIMatch &&
+  //     isMatchWorkPlaceMatch &&
+  //     !isMatchEmployeeId &&
+  //     !isEmpSuplier
+  //   ) {
+  //     setIsShowAlert(true);
+  //   }
+  // });
 
   return (
     <>
@@ -110,15 +108,17 @@ function MobileFirstAlert() {
             {isMatchWorkPlaceMatch && (
               <div className="countdown">Time left: {formatTime(timeLeft)}</div>
             )}
-
-            {(!isMatchWorkPlaceMatch ||
+            <div className="close-icon" onClick={handleClose}>
+              &times;
+            </div>
+            {/* {(!isMatchWorkPlaceMatch ||
               isShowBUIMatch ||
               isEmpSuplier ||
               isMatchEmployeeId) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
               </div>
-            )}
+            )} */}
           </div>
         </div>
       ) : null}

@@ -333,6 +333,8 @@ const CommissionReportAndJV = () => {
 
   // department ids for creating journal vouchers
   const sectionIds = [1973];
+  // user for specical jv button permission
+  const jvButtonPermissionUserId=[548380,562439,521619]
 
   return (
     <>
@@ -349,7 +351,7 @@ const CommissionReportAndJV = () => {
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
                     {(sectionIds.includes(sectionId) ||
-                      departmentId === 299 || userId===548380) && (
+                      departmentId === 299 || jvButtonPermissionUserId.includes(userId)) && (
                         <>
                           <button
                             className="btn btn-primary"
