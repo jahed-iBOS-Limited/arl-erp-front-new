@@ -30,7 +30,11 @@ const validationSchema = Yup.object().shape({
   }),
 });
 export default function CHAReport() {
-  const [data, getACLedgerforPaymentReport, isLoading] = useAxiosGet();
+  const [
+    acLedgerforPaymentReport,
+    getACLedgerforPaymentReport,
+    isLoading,
+  ] = useAxiosGet();
 
   const saveHandler = (values) => {
     commonGetApi(values);
@@ -50,22 +54,6 @@ export default function CHAReport() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // api response data
-  // {
-  //   "chabookingId": 4,
-  //   "chabookingCode": "EXPCHA022025000029",
-  //   "accountId": 1,
-  //   "businessUnitId": 225,
-  //   "modeOfTransportId": 1,
-  //   "customerId": 106081,
-  //   "customerName": "Demo GSA",
-  //   "shipperId": 0,
-  //   "shipperName": "",
-  //   "fclLclid": 2,
-  //   "fclLclname": "LCL",
-  //   "chaIouInvoice": "{\"shippingHeadOfCharges\":[{\"headOfChargeId\":35,\"headOfCharges\":\"Customs Duty\",\"quantity\":\"10\",\"rate\":\"10\",\"amount\":100},{\"headOfChargeId\":36,\"headOfCharges\":\"Freight Forwarder NOC Fee\",\"quantity\":\"20\",\"rate\":\"10\",\"amount\":200},{\"headOfChargeId\":37,\"headOfCharges\":\"Shipping Charge\",\"quantity\":\"500\",\"rate\":\"1\",\"amount\":500}],\"advanceAmount\":300,\"totalAmount\":800,\"grandTotal\":800}",
-  //   "serverDateTime": "2025-02-25T13:12:49.473"
-  // }
   return (
     <>
       {isLoading && <Loading />}
@@ -159,8 +147,8 @@ export default function CHAReport() {
                 </tr>
               </thead>
               <tbody>
-                {data?.length > 0 &&
-                  data?.map((item, i) => {
+                {acLedgerforPaymentReport?.data?.length > 0 &&
+                  acLedgerforPaymentReport?.data?.map((item, i) => {
                     const chaIouInvoice = item?.chaIouInvoice
                       ? JSON.parse(item?.chaIouInvoice)
                       : {};
@@ -169,13 +157,13 @@ export default function CHAReport() {
                     return (
                       <tr key={i + 1}>
                         <td className="text-center">{i + 1}</td>
-                        <td>{item?.customerName}</td>
+                        <td>{chaIouInvoice?.cashReceivedBy}</td>
                         <td>
                           {moment(item?.serverDateTime).format('YYYY-MM-DD')}
                         </td>
                         <td>{item?.chabookingCode}</td>
                         <td>{item?.customerName}</td>
-                        <td>{item?.chabookingCode}</td>
+                        <td>{item?.lcNo}</td>
                         <td>{totalAmount}</td>
                         <td>{item?.collectionAmount}</td>
                         <td>{item?.paymentAmount}</td>
