@@ -521,11 +521,7 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <Form className="form form-label-right">
-            <h1>
-              {
-                JSON.stringify(errors)
-              }
-            </h1>
+
             <div className="d-flex justify-content-between align-items-center">
               {/* Save button add */}
               {shipBookingRequestGetById?.modeOfTransportId === 3 ? (

@@ -16,13 +16,17 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  wareHouse: Yup.object()
-    .shape({
-      value: Yup.string().required('Warehouse is required'),
-      label: Yup.string().required('Warehouse is required'),
-    })
-    .nullable()
-    .typeError('Warehouse is required'),
+  wareHouse: Yup.string().when('transportPlanningType', {
+    is: (val) => [1, 2, 3].includes(val?.value),
+    then: Yup.object()
+      .shape({
+        value: Yup.string().required('Warehouse is required'),
+        label: Yup.string().required('Warehouse is required'),
+      })
+      .nullable()
+      .typeError('Warehouse is required'),
+  }),
+
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
     label: Yup.string().required('Consignee’s Name is required'),
