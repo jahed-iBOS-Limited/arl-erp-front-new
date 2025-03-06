@@ -40,7 +40,7 @@ export default function CreateBookingModal({ CB, rowClickData, isExport }) {
   React.useEffect(() => {
     if (isExport) {
       getOptions(
-        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=1`
+        `${imarineBaseUrl}/domain/ShippingService/GetRegistrationPartnerDDL?typeId=1`
       );
     }
     if (!isExport) {
