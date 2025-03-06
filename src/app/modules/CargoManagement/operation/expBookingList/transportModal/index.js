@@ -34,6 +34,10 @@ const validationSchema = Yup.object().shape({
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Vessel Name is required'),
   }),
+  subidhaAccessNumber: Yup.string().when('transportPlanning', {
+    is: (val) => [4].includes(val?.value),
+    then: Yup.string().required('Subidha Access Number is required'),
+  }),
   voyagaNo: Yup.string().when('transportPlanning', {
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Voyage Number is required'),
@@ -212,7 +216,7 @@ function TransportModal({ rowClickData, CB }) {
 
     //==== Sea data set ===
     if (['Sea', "Land"].includes(modeOfTransportName)) {
-      //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate
+      //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate ,subidhaAccessDate,subidhaAccessNumber
       formikRef.current.setFieldValue(
         `rows[0].noOfContainer`,
         transportPlanning?.noOfContainer || '',
@@ -220,6 +224,10 @@ function TransportModal({ rowClickData, CB }) {
       formikRef.current.setFieldValue(
         `rows[0].vesselName`,
         transportPlanning?.vesselName || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].subidhaAccessNumber`,
+        transportPlanning?.subidhaAccessNumber || '',
       );
       formikRef.current.setFieldValue(
         `rows[0].voyagaNo`,
@@ -241,6 +249,12 @@ function TransportModal({ rowClickData, CB }) {
         `rows[0].cutOffDate`,
         transportPlanning?.cutOffDate
           ? moment(transportPlanning?.cutOffDate).format('YYYY-MM-DD')
+          : '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].subidhaAccessDate`,
+        transportPlanning?.subidhaAccessDate
+          ? moment(transportPlanning?.subidhaAccessDate).format('YYYY-MM-DD')
           : '',
       );
       formikRef.current.setFieldValue(
@@ -410,6 +424,7 @@ function TransportModal({ rowClickData, CB }) {
       airLineOrShippingLine: row?.airLineOrShippingLine?.label || '',
       airLineOrShippingLineId: row?.airLineOrShippingLine?.value || 0,
       vesselName: row?.vesselName || '',
+      subidhaAccessNumber: row?.subidhaAccessNumber || '',
       voyagaNo: row?.voyagaNo || '',
       ...(row?.arrivalDateTime && {
         arrivalDateTime: moment(row?.arrivalDateTime).format('YYYY-MM-DD'),
@@ -419,6 +434,9 @@ function TransportModal({ rowClickData, CB }) {
       }),
       ...(row?.cutOffDate && {
         cutOffDate: moment(row?.cutOffDate).format('YYYY-MM-DD'),
+      }),
+      ...(row?.subidhaAccessDate && {
+        subidhaAccessDate: moment(row?.subidhaAccessDate).format('YYYY-MM-DD'),
       }),
       ...(row?.estimatedTimeOfDepart && {
         estimatedTimeOfDepart: moment(row?.estimatedTimeOfDepart).format(
@@ -502,12 +520,14 @@ function TransportModal({ rowClickData, CB }) {
               airLineOrShippingLine: '',
               iatanumber: '',
               vesselName: '',
+              subidhaAccessNumber: '',
               voyagaNo: '',
               departureDateTime: '',
               arrivalDateTime: '',
               transportMode: '',
               berthDate: '',
               cutOffDate: '',
+              subidhaAccessDate: '',
               estimatedTimeOfDepart: '',
               containerDesc: [],
               airTransportRow: [],
@@ -832,27 +852,56 @@ function TransportModal({ rowClickData, CB }) {
                                   )}
                               </div>
                               {/* Vessel name */}
-                              <div className="col-lg-3">
-                                <InputField
-                                  value={values?.rows?.[index]?.vesselName || ''}
-                                  label="Vessel Name"
-                                  name={`rows[${index}].vesselName`}
-                                  type="text"
-                                  onChange={(e) =>
-                                    setFieldValue(
-                                      `rows[${index}].vesselName`,
-                                      e.target.value,
-                                    )
-                                  }
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.vesselName &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.vesselName}
-                                    </div>
-                                  )}
-                              </div>
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.vesselName || ''}
+                                      label="Vessel Name"
+                                      name={`rows[${index}].vesselName`}
+                                      type="text"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].vesselName`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.vesselName &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.vesselName}
+                                        </div>
+                                      )}
+                                  </div>
+                                )}
+                              {/*  Subidha Access Number*/}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 4 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.subidhaAccessNumber || ''}
+                                      label="Subidha Access Number"
+                                      name={`rows[${index}].subidhaAccessNumber`}
+                                      type="text"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].subidhaAccessNumber`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.subidhaAccessNumber &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.subidhaAccessNumber}
+                                        </div>
+                                      )}
+                                  </div>
+                                )}
+
                               {/* Voyage Number */}
                               {
                                 values?.rows?.[0]?.transportPlanning?.value === 2 && (
@@ -931,27 +980,58 @@ function TransportModal({ rowClickData, CB }) {
                               }
 
                               {/* CutOffDate */}
-                              <div className="col-lg-3">
-                                <InputField
-                                  value={values?.rows?.[index]?.cutOffDate || ''}
-                                  label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "Subidha Access Date" : "Estimated Cut Off Date"}
-                                  name={`rows[${index}].cutOffDate`}
-                                  type="date"
-                                  onChange={(e) =>
-                                    setFieldValue(
-                                      `rows[${index}].cutOffDate`,
-                                      e.target.value,
-                                    )
-                                  }
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.cutOffDate &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.cutOffDate}
-                                    </div>
-                                  )}
-                              </div>
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.cutOffDate || ''}
+                                      label={"Estimated Cut Off Date"}
+                                      name={`rows[${index}].cutOffDate`}
+                                      type="date"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].cutOffDate`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.cutOffDate &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.cutOffDate}
+                                        </div>
+                                      )}
+                                  </div>
+                                )
+                              }
+                              {/* Subidha Access Date */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 4 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.subidhaAccessDate || ''}
+                                      label={"Subidha Access Date"}
+                                      name={`rows[${index}].subidhaAccessDate`}
+                                      type="date"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].subidhaAccessDate`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.subidhaAccessDate &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.subidhaAccessDate}
+                                        </div>
+                                      )}
+                                  </div>
+                                )
+                              }
+
                             </>
                           )}
 
