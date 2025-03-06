@@ -179,7 +179,7 @@ function TransportModal({ rowClickData, CB }) {
       transportPlanning?.airTransportRow?.map((item) => ({
         ...item,
         planRowId: item?.planRowId || 0,
-        // todo : truckType
+        truckType: item?.truckType || '',
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -457,7 +457,7 @@ function TransportModal({ rowClickData, CB }) {
       airTransportRow: row?.airTransportRow?.map((item) => ({
         planRowId: item?.planRowId || 0,
         transportId: transportId,
-        // todo: truckType
+        truckType: item?.truckType || '',
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -1659,7 +1659,7 @@ function TransportModal({ rowClickData, CB }) {
                               containerDesc.push({
                                 truckType:
                                   formikRef.current?.values?.rows?.[index]
-                                    ?.truckType || '',
+                                    ?.truckType?.label || '',
                                 fromPort:
                                   formikRef.current?.values?.rows?.[index]
                                     ?.fromPort?.label || '',
