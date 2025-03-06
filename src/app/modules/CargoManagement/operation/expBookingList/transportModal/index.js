@@ -21,15 +21,22 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required('No of Pallets is required'),
   }),
-  airLineOrShippingLine: Yup.string().required('Air Line is required'),
+  airLineOrShippingLine: Yup.string().required('This field is required'),
   carton: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('Carton is required'),
   }),
-  gsa: Yup.string().required('GSA is required'),
+  gsa: Yup.string().when('transportPlanning', {
+    is: (val) => [1, 2, 3].includes(val?.value),
+    then: Yup.string().required('GSA is required'),
+  }),
   vesselName: Yup.string().when('transportPlanning', {
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Vessel Name is required'),
+  }),
+  subidhaAccessNumber: Yup.string().when('transportPlanning', {
+    is: (val) => [4].includes(val?.value),
+    then: Yup.string().required('Subidha Access Number is required'),
   }),
   voyagaNo: Yup.string().when('transportPlanning', {
     is: (val) => [2].includes(val?.value),
@@ -40,6 +47,17 @@ const validationSchema = Yup.object().shape({
     then: Yup.string().required('Arrival Date & Time is required'),
   }),
 });
+const truckTypeDDL = [
+  {
+    value: 1,
+    label: 'Overseas',
+
+  },
+  {
+    value: 2,
+    label: 'Local',
+  }
+]
 function TransportModal({ rowClickData, CB }) {
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const { profileData } = useSelector(
@@ -105,9 +123,9 @@ function TransportModal({ rowClickData, CB }) {
     GetAirServiceProviderDDLFunc(shipperOrshipperId, typeId);
     const modeOfTransportObj = modeOfTransportId
       ? {
-          value: modeOfTransportId,
-          label: modeOfTransportName,
-        }
+        value: modeOfTransportId,
+        label: modeOfTransportName,
+      }
       : '';
     formikRef.current.setFieldValue(
       `rows[0].transportId`,
@@ -129,18 +147,18 @@ function TransportModal({ rowClickData, CB }) {
       `rows[0].airLineOrShippingLine`,
       transportPlanning?.airLineOrShippingLine
         ? {
-            value: transportPlanning?.airLineOrShippingLineId || 0,
-            label: transportPlanning?.airLineOrShippingLine,
-          }
+          value: transportPlanning?.airLineOrShippingLineId || 0,
+          label: transportPlanning?.airLineOrShippingLine,
+        }
         : '',
     );
     formikRef.current.setFieldValue(
       `rows[0].gsa`,
       transportPlanning?.gsaId
         ? {
-            value: transportPlanning?.gsaId || 0,
-            label: transportPlanning?.gsaName,
-          }
+          value: transportPlanning?.gsaId || 0,
+          label: transportPlanning?.gsaName,
+        }
         : '',
     );
 
@@ -165,6 +183,7 @@ function TransportModal({ rowClickData, CB }) {
       transportPlanning?.airTransportRow?.map((item) => ({
         ...item,
         planRowId: item?.planRowId || 0,
+        truckType: item?.truckType || '',
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -196,8 +215,8 @@ function TransportModal({ rowClickData, CB }) {
     }
 
     //==== Sea data set ===
-    if (modeOfTransportName === 'Sea') {
-      //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate
+    if (['Sea', "Land"].includes(modeOfTransportName)) {
+      //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate ,subidhaAccessDate,subidhaAccessNumber
       formikRef.current.setFieldValue(
         `rows[0].noOfContainer`,
         transportPlanning?.noOfContainer || '',
@@ -205,6 +224,10 @@ function TransportModal({ rowClickData, CB }) {
       formikRef.current.setFieldValue(
         `rows[0].vesselName`,
         transportPlanning?.vesselName || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].subidhaAccessNumber`,
+        transportPlanning?.subidhaAccessNumber || '',
       );
       formikRef.current.setFieldValue(
         `rows[0].voyagaNo`,
@@ -229,6 +252,12 @@ function TransportModal({ rowClickData, CB }) {
           : '',
       );
       formikRef.current.setFieldValue(
+        `rows[0].subidhaAccessDate`,
+        transportPlanning?.subidhaAccessDate
+          ? moment(transportPlanning?.subidhaAccessDate).format('YYYY-MM-DD')
+          : '',
+      );
+      formikRef.current.setFieldValue(
         `rows[0].containerDesc`,
         transportPlanning?.containerDesc?.map((item) => ({
           ...item,
@@ -249,6 +278,7 @@ function TransportModal({ rowClickData, CB }) {
 
       const getUniqueOptions = (key) => {
         try {
+
           const values = new Set();
           data.rowsData.forEach((row) => {
             if (row.dimensionRow && row.dimensionRow.length > 0) {
@@ -323,6 +353,13 @@ function TransportModal({ rowClickData, CB }) {
                 modeOfTransport: 'Sea',
               });
             }
+            if (data?.modeOfTransportId === 4) {
+              defaultDataSet(data, {
+                ...transportPlanningSea,
+                modeOfTransportId: 4,
+                modeOfTransport: 'Land',
+              });
+            }
           }
         },
       );
@@ -387,6 +424,7 @@ function TransportModal({ rowClickData, CB }) {
       airLineOrShippingLine: row?.airLineOrShippingLine?.label || '',
       airLineOrShippingLineId: row?.airLineOrShippingLine?.value || 0,
       vesselName: row?.vesselName || '',
+      subidhaAccessNumber: row?.subidhaAccessNumber || '',
       voyagaNo: row?.voyagaNo || '',
       ...(row?.arrivalDateTime && {
         arrivalDateTime: moment(row?.arrivalDateTime).format('YYYY-MM-DD'),
@@ -396,6 +434,9 @@ function TransportModal({ rowClickData, CB }) {
       }),
       ...(row?.cutOffDate && {
         cutOffDate: moment(row?.cutOffDate).format('YYYY-MM-DD'),
+      }),
+      ...(row?.subidhaAccessDate && {
+        subidhaAccessDate: moment(row?.subidhaAccessDate).format('YYYY-MM-DD'),
       }),
       ...(row?.estimatedTimeOfDepart && {
         estimatedTimeOfDepart: moment(row?.estimatedTimeOfDepart).format(
@@ -434,6 +475,7 @@ function TransportModal({ rowClickData, CB }) {
       airTransportRow: row?.airTransportRow?.map((item) => ({
         planRowId: item?.planRowId || 0,
         transportId: transportId,
+        truckType: item?.truckType || '',
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -478,15 +520,18 @@ function TransportModal({ rowClickData, CB }) {
               airLineOrShippingLine: '',
               iatanumber: '',
               vesselName: '',
+              subidhaAccessNumber: '',
               voyagaNo: '',
               departureDateTime: '',
               arrivalDateTime: '',
               transportMode: '',
               berthDate: '',
               cutOffDate: '',
+              subidhaAccessDate: '',
               estimatedTimeOfDepart: '',
               containerDesc: [],
               airTransportRow: [],
+              truckType: '',
               fromPort: '',
               toPort: '',
               flightDate: '',
@@ -511,6 +556,7 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <Form className="form form-label-right">
+
             <div className="d-flex justify-content-between align-items-center">
               {/* Save button add */}
               {shipBookingRequestGetById?.modeOfTransportId === 3 ? (
@@ -598,6 +644,10 @@ function TransportModal({ rowClickData, CB }) {
                                 value: 3,
                                 label: 'Sea-Air',
                               },
+                              {
+                                value: 4,
+                                label: 'Land',
+                              },
                             ]}
                             value={values?.rows?.[index].transportPlanning}
                             label="Transport Planning Type"
@@ -644,10 +694,9 @@ function TransportModal({ rowClickData, CB }) {
                             options={airServiceProviderDDLData || []}
                             value={values?.rows?.[index].airLineOrShippingLine}
                             label={
-                              values?.rows?.[index]?.transportPlanning
-                                ?.value === 1
-                                ? 'Air Line'
-                                : 'Shipping Line' || ''
+                              values?.rows?.[index]?.transportPlanning?.value === 1 ? 'Air Line' :
+                                values?.rows?.[index]?.transportPlanning?.value === 4 ? "Transporter" :
+                                  'Shipping Line' || ''
                             }
                             onChange={(valueOption) => {
                               setFieldValue(
@@ -656,10 +705,9 @@ function TransportModal({ rowClickData, CB }) {
                               );
                             }}
                             placeholder={
-                              values?.rows?.[index]?.transportPlanning
-                                ?.value === 1
-                                ? 'Air Line'
-                                : 'Shipping Line' || ''
+                              values?.rows?.[index]?.transportPlanning?.value === 1 ? 'Air Line' :
+                                values?.rows?.[index]?.transportPlanning?.value === 4 ? 'Transporter'
+                                  : 'Shipping Line' || ''
                             }
                             errors={errors}
                             touched={touched}
@@ -673,27 +721,33 @@ function TransportModal({ rowClickData, CB }) {
                             )}
                         </div>
                         {/* GSA */}
-                        <div className="col-lg-3">
-                          <NewSelect
-                            options={gsaDDL || []}
-                            label="GSA"
-                            name={`rows[${index}].gsa`}
-                            onChange={(valueOption) => {
-                              setFieldValue(`rows[${index}].gsa`, valueOption);
-                            }}
-                            placeholder="GSA"
-                            errors={errors}
-                            value={values?.rows?.[index]?.gsa || ''}
-                            touched={touched}
-                          />
-                          {errors?.rows &&
-                            errors?.rows?.[index]?.gsa &&
-                            touched.rows && (
-                              <div className="text-danger">
-                                {errors?.rows?.[index]?.gsa}
-                              </div>
-                            )}
-                        </div>
+                        {
+                          [1, 2, 3].includes(
+                            values?.rows?.[0]?.transportPlanning?.value,
+                          ) && (
+                            <div className="col-lg-3">
+                              <NewSelect
+                                options={gsaDDL || []}
+                                label="GSA"
+                                name={`rows[${index}].gsa`}
+                                onChange={(valueOption) => {
+                                  setFieldValue(`rows[${index}].gsa`, valueOption);
+                                }}
+                                placeholder="GSA"
+                                errors={errors}
+                                value={values?.rows?.[index]?.gsa || ''}
+                                touched={touched}
+                              />
+                              {errors?.rows &&
+                                errors?.rows?.[index]?.gsa &&
+                                touched.rows && (
+                                  <div className="text-danger">
+                                    {errors?.rows?.[index]?.gsa}
+                                  </div>
+                                )}
+                            </div>
+                          )
+                        }
 
                         {/* for AIR */}
                         {values?.rows?.[0]?.transportPlanning?.value === 1 && (
@@ -767,149 +821,219 @@ function TransportModal({ rowClickData, CB }) {
                           </>
                         )}
 
-                        {/* for SEA */}
-                        {[2].includes(
+                        {/* for SEA and land */}
+                        {[2, 4].includes(
                           values?.rows?.[0]?.transportPlanning?.value,
                         ) && (
-                          <>
-                            {/* no Of Container */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={
-                                  values?.rows?.[index]?.noOfContainer || ''
-                                }
-                                label="No of Container"
-                                name={`rows[${index}].noOfContainer`}
-                                type="number"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].noOfContainer`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.noOfContainer &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.noOfContainer}
+                            <>
+                              {/* no Of Container */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={
+                                    values?.rows?.[index]?.noOfContainer || ''
+                                  }
+                                  // label="No of Container"
+                                  label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "No of Truck" : "No of Container"}
+                                  name={`rows[${index}].noOfContainer`}
+                                  type="number"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].noOfContainer`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors?.rows &&
+                                  errors?.rows?.[index]?.noOfContainer &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors?.rows?.[index]?.noOfContainer}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* Vessel name */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.vesselName || ''}
+                                      label="Vessel Name"
+                                      name={`rows[${index}].vesselName`}
+                                      type="text"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].vesselName`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.vesselName &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.vesselName}
+                                        </div>
+                                      )}
                                   </div>
                                 )}
-                            </div>
-                            {/* Vessel name */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={values?.rows?.[index]?.vesselName || ''}
-                                label="Vessel Name"
-                                name={`rows[${index}].vesselName`}
-                                type="text"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].vesselName`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.vesselName &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.vesselName}
+                              {/*  Subidha Access Number*/}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 4 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.subidhaAccessNumber || ''}
+                                      label="Subidha Access Number"
+                                      name={`rows[${index}].subidhaAccessNumber`}
+                                      type="text"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].subidhaAccessNumber`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.subidhaAccessNumber &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.subidhaAccessNumber}
+                                        </div>
+                                      )}
                                   </div>
                                 )}
-                            </div>
-                            {/* Voyage Number */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={values?.rows?.[index]?.voyagaNo || ''}
-                                label="Voyage Number"
-                                name={`rows[${index}].voyagaNo`}
-                                type="text"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].voyagaNo`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.voyagaNo &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.voyagaNo}
+
+                              {/* Voyage Number */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.voyagaNo || ''}
+                                      label="Voyage Number"
+                                      name={`rows[${index}].voyagaNo`}
+                                      type="text"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].voyagaNo`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.voyagaNo &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.voyagaNo}
+                                        </div>
+                                      )}
+                                  </div>)
+                              }
+
+                              {/* Arrival Date & Time */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={
+                                    values?.rows?.[index]?.arrivalDateTime || ''
+                                  }
+                                  label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "Estimated Arrival Date At Land Port" : "Estimated Arrival Date & Time"}
+                                  name={`rows[${index}].arrivalDateTime`}
+                                  type="date"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].arrivalDateTime`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors?.rows &&
+                                  errors?.rows?.[index]?.arrivalDateTime &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors?.rows?.[index]?.arrivalDateTime}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* BerthDate  */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.berthDate || ''}
+                                      label="Estimated Berth Date"
+                                      name={`rows[${index}].berthDate`}
+                                      type="date"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].berthDate`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.berthDate &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.berthDate}
+                                        </div>
+                                      )}
                                   </div>
-                                )}
-                            </div>
-                            {/* Arrival Date & Time */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={
-                                  values?.rows?.[index]?.arrivalDateTime || ''
-                                }
-                                label="Estimated Arrival Date & Time"
-                                name={`rows[${index}].arrivalDateTime`}
-                                type="date"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].arrivalDateTime`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.arrivalDateTime &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.arrivalDateTime}
+                                )
+                              }
+
+                              {/* CutOffDate */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.cutOffDate || ''}
+                                      label={"Estimated Cut Off Date"}
+                                      name={`rows[${index}].cutOffDate`}
+                                      type="date"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].cutOffDate`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.cutOffDate &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.cutOffDate}
+                                        </div>
+                                      )}
                                   </div>
-                                )}
-                            </div>
-                            {/* BerthDate  */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={values?.rows?.[index]?.berthDate || ''}
-                                label="Estimated Berth Date"
-                                name={`rows[${index}].berthDate`}
-                                type="date"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].berthDate`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.berthDate &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.berthDate}
+                                )
+                              }
+                              {/* Subidha Access Date */}
+                              {
+                                values?.rows?.[0]?.transportPlanning?.value === 4 && (
+                                  <div className="col-lg-3">
+                                    <InputField
+                                      value={values?.rows?.[index]?.subidhaAccessDate || ''}
+                                      label={"Subidha Access Date"}
+                                      name={`rows[${index}].subidhaAccessDate`}
+                                      type="date"
+                                      onChange={(e) =>
+                                        setFieldValue(
+                                          `rows[${index}].subidhaAccessDate`,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                    {errors?.rows &&
+                                      errors?.rows?.[index]?.subidhaAccessDate &&
+                                      touched.rows && (
+                                        <div className="text-danger">
+                                          {errors?.rows?.[index]?.subidhaAccessDate}
+                                        </div>
+                                      )}
                                   </div>
-                                )}
-                            </div>
-                            {/* CutOffDate */}
-                            <div className="col-lg-3">
-                              <InputField
-                                value={values?.rows?.[index]?.cutOffDate || ''}
-                                label="Estimated Cut Off Date"
-                                name={`rows[${index}].cutOffDate`}
-                                type="date"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].cutOffDate`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                              {errors?.rows &&
-                                errors?.rows?.[index]?.cutOffDate &&
-                                touched.rows && (
-                                  <div className="text-danger">
-                                    {errors?.rows?.[index]?.cutOffDate}
-                                  </div>
-                                )}
-                            </div>
-                          </>
-                        )}
+                                )
+                              }
+
+                            </>
+                          )}
 
                         {/* EstimatedTimeOfDepart */}
                         <div className="col-lg-3">
@@ -917,8 +1041,7 @@ function TransportModal({ rowClickData, CB }) {
                             value={
                               values?.rows?.[index]?.estimatedTimeOfDepart || ''
                             }
-                            label="Estimated Time Of Depart"
-                            name={`rows[${index}].estimatedTimeOfDepart`}
+                            label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "Date of Depart" : "Estimated Time Of Depart"}
                             type="date"
                             onChange={(e) =>
                               setFieldValue(
@@ -983,153 +1106,160 @@ function TransportModal({ rowClickData, CB }) {
                         {[1].includes(
                           values?.rows?.[0]?.transportPlanning?.value,
                         ) && (
-                          <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.rate || ''}
-                              label="Rate"
-                              name={`rows[${index}].rate`}
-                              type="number"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].rate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows?.[index]?.rate && touched.rows && (
-                              <div className="text-danger">
-                                {errors?.rows?.[index]?.rate}
-                              </div>
-                            )}
-                          </div>
-                        )}
+                            <div className="col-lg-3">
+                              <InputField
+                                value={values?.rows?.[index]?.rate || ''}
+                                label="Rate"
+                                name={`rows[${index}].rate`}
+                                type="number"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].rate`,
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                              {errors?.rows?.[index]?.rate && touched.rows && (
+                                <div className="text-danger">
+                                  {errors?.rows?.[index]?.rate}
+                                </div>
+                              )}
+                            </div>
+                          )}
                       </div>
 
-                      {/* container details  for sea */}
-                      {[2].includes(
+                      {/* container details  for sea and land */}
+                      {[2, 4].includes(
                         values?.rows[0]?.transportPlanning?.value,
                       ) && (
-                        <div className="form-group row global-form">
-                          {/* PO Number */}
-                          <div className="col-lg-2">
-                            <NewSelect
-                              name={`rows[${index}].poNumber`}
-                              options={poNumberDDL || []}
-                              value={values?.rows?.[index]?.poNumber}
-                              label="PO Number"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].poNumber`,
-                                  valueOption,
-                                );
-                                setFieldValue(`rows[${index}].style`, '');
-                                setFieldValue(`rows[${index}].color`, '');
-                                setFieldValue(
-                                  `rows[${index}].quantity`,
-                                  valueOption?.numberOfPackage || '',
-                                );
-                                setFieldValue(
-                                  `rows[${index}].cbm`,
-                                  valueOption?.perUnitCbm || '',
-                                );
-                                setFieldValue(
-                                  `rows[${index}].kgs`,
-                                  valueOption?.perUnitGrossWeight || '',
-                                );
-                              }}
-                              placeholder="Select"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                          {/* Style */}
-                          <div className="col-lg-2">
-                            <NewSelect
-                              name={`rows[${index}].style`}
-                              options={
-                                styleDDL?.filter(
-                                  (i) =>
-                                    i?.bookingRequestRowId ===
-                                    values?.rows?.[index]?.poNumber
-                                      ?.bookingRequestRowId,
-                                ) || []
-                              }
-                              value={values?.rows?.[index]?.style}
-                              label="Style"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].style`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="Select"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                          {/* Color */}
-                          <div className="col-lg-2">
-                            <NewSelect
-                              name={`rows[${index}].color`}
-                              options={
-                                colorDDL?.filter(
-                                  (i) =>
-                                    i?.bookingRequestRowId ===
-                                    values?.rows?.[index]?.poNumber
-                                      ?.bookingRequestRowId,
-                                ) || []
-                              }
-                              value={values?.rows?.[index]?.color || ''}
-                              label="Color"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].color`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="Select"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
+                          <div className="form-group row global-form">
+                            {/* PO Number */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].poNumber`}
+                                options={poNumberDDL || []}
+                                value={values?.rows?.[index]?.poNumber}
+                                label="PO Number"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].poNumber`,
+                                    valueOption,
+                                  );
+                                  setFieldValue(`rows[${index}].style`, '');
+                                  setFieldValue(`rows[${index}].color`, '');
+                                  setFieldValue(
+                                    `rows[${index}].quantity`,
+                                    valueOption?.numberOfPackage || '',
+                                  );
+                                  setFieldValue(
+                                    `rows[${index}].cbm`,
+                                    valueOption?.perUnitCbm || '',
+                                  );
+                                  setFieldValue(
+                                    `rows[${index}].kgs`,
+                                    valueOption?.perUnitGrossWeight || '',
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
 
-                          {/* Container No */}
-                          <div className="col-lg-2">
-                            <InputField
-                              value={
-                                values?.rows?.[index]?.containerNumber || ''
-                              }
-                              label="Container No"
-                              name={`rows[${index}].containerNumber`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].containerNumber`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
 
-                          {/* Seal No */}
-                          <div className="col-lg-2">
-                            <InputField
-                              value={values?.rows?.[index]?.sealNumber || ''}
-                              label="Seal No"
-                              name={`rows[${index}].sealNumber`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].sealNumber`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
+                              />
+                            </div>
+                            {/* Style */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].style`}
+                                options={
+                                  styleDDL?.filter(
+                                    (i) =>
+                                      i?.bookingRequestRowId ===
+                                      values?.rows?.[index]?.poNumber
+                                        ?.bookingRequestRowId,
+                                  ) || []
+                                }
+                                value={values?.rows?.[index]?.style}
+                                label="Style"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].style`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
 
-                          {/* Size */}
-                          <div className="col-lg-2">
-                            {/* <InputField
+                              />
+                            </div>
+                            {/* Color */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].color`}
+                                options={
+                                  colorDDL?.filter(
+                                    (i) =>
+                                      i?.bookingRequestRowId ===
+                                      values?.rows?.[index]?.poNumber
+                                        ?.bookingRequestRowId,
+                                  ) || []
+                                }
+                                value={values?.rows?.[index]?.color || ''}
+                                label="Color"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].color`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
+
+                              />
+                            </div>
+
+                            {/* Container No */}
+                            <div className="col-lg-2">
+                              <InputField
+                                value={
+                                  values?.rows?.[index]?.containerNumber || ''
+                                }
+                                label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "Truck No" : "Container No"}
+                                name={`rows[${index}].containerNumber`}
+                                type="text"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].containerNumber`,
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                            </div>
+
+                            {/* Seal No */}
+                            {
+                              values?.rows?.[0]?.transportPlanning?.value === 2 && <div className="col-lg-2">
+                                <InputField
+                                  value={values?.rows?.[index]?.sealNumber || ''}
+                                  label="Seal No"
+                                  name={`rows[${index}].sealNumber`}
+                                  type="text"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].sealNumber`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                              </div>
+                            }
+
+
+                            {/* Size */}
+                            <div className="col-lg-2">
+                              {/* <InputField
                             value={values?.rows?.[index]?.size || ''}
                             label="Container Size"
                             name={`rows[${index}].size`}
@@ -1141,256 +1271,312 @@ function TransportModal({ rowClickData, CB }) {
                               )
                             }
                           /> */}
-                            <NewSelect
-                              name={`rows[${index}].size`}
-                              options={[
-                                { value: '20', label: '20” FR OGG' },
-                                { value: '40', label: '40” FR OGG' },
-                                { value: '40H', label: '40H FR OGH' },
-                                { value: '20', label: '20” FR IGG' },
-                                { value: '40', label: '40” FR IGG' },
-                                { value: '40H', label: '40H FR IGG' },
-                                { value: '20', label: '20” OT' },
-                                { value: '40', label: '40” OT' },
-                                { value: '40H', label: '40H OT' },
-                              ]}
-                              value={values?.rows?.[index]?.size}
-                              label="Container Size"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].size`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="Select"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <InputField
-                              value={values?.rows?.[index]?.rate || ''}
-                              label="Rate"
-                              name={`rows[${index}].rate`}
-                              type="number"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].rate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
+                              <NewSelect
+                                name={`rows[${index}].size`}
+                                options={[
+                                  { value: '20', label: '20” FR OGG' },
+                                  { value: '40', label: '40” FR OGG' },
+                                  { value: '40H', label: '40H FR OGH' },
+                                  { value: '20', label: '20” FR IGG' },
+                                  { value: '40', label: '40” FR IGG' },
+                                  { value: '40H', label: '40H FR IGG' },
+                                  { value: '20', label: '20” OT' },
+                                  { value: '40', label: '40” OT' },
+                                  { value: '40H', label: '40H OT' },
+                                ]}
+                                value={values?.rows?.[index]?.size}
+                                label={values?.rows?.[index]?.transportPlanning?.value === 4 ? "Truck Size" : "Container Size"}
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].size`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            {/* Rate */}
+                            {
+                              values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                <div className="col-lg-2">
+                                  <InputField
+                                    value={values?.rows?.[index]?.rate || ''}
+                                    label="Rate"
+                                    name={`rows[${index}].rate`}
+                                    type="number"
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `rows[${index}].rate`,
+                                        e.target.value,
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )
+                            }
 
-                          {/* CBM */}
-                          <div className="col-lg-2">
-                            <InputField
-                              value={values?.rows?.[index]?.cbm || ''}
-                              label="CBM"
-                              name={`rows[${index}].cbm`}
-                              type="number"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].cbm`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
 
-                          {/* KGS */}
-                          <div className="col-lg-2">
-                            <InputField
-                              value={values?.rows?.[index]?.kgs || ''}
-                              label={
-                                [3].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
-                                )
-                                  ? 'Chargeable Weight'
-                                  : 'KGS'
-                              }
-                              name={`rows[${index}].kgs`}
-                              type="number"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].kgs`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
-                          {/* rate */}
-                          <div className="col-lg-2">
-                            <InputField
-                              value={values?.rows?.[index]?.quantity || ''}
-                              label="Cartoon Quantity"
-                              name={`rows[${index}].quantity`}
-                              type="number"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].quantity`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                          </div>
-                          <div className="col-lg-2 pt-4">
-                            <button
-                              onClick={() => {
-                                if (
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.poNumber ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.style ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.color ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.containerNumber ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.sealNumber ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.size ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.rate ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.quantity ||
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.cbm ||
-                                  !formikRef.current?.values?.rows?.[index]?.kgs
-                                ) {
-                                  toast.error('Please fill all fields');
-                                  return;
+                            {/* CBM */}
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.rows?.[index]?.cbm || ''}
+                                label="CBM"
+                                name={`rows[${index}].cbm`}
+                                type="number"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].cbm`,
+                                    e.target.value,
+                                  )
                                 }
-                                const containerDesc =
-                                  formikRef.current?.values?.rows?.[index]
-                                    ?.containerDesc || [];
-                                containerDesc.push({
-                                  poNumber:
+                              />
+                            </div>
+
+                            {/* KGS */}
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.rows?.[index]?.kgs || ''}
+                                label={
+                                  [3].includes(
+                                    values?.rows[0]?.transportPlanning?.value,
+                                  )
+                                    ? 'Chargeable Weight'
+                                    : 'KGS'
+                                }
+                                name={`rows[${index}].kgs`}
+                                type="number"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].kgs`,
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                            </div>
+                            {/* Quantity */}
+                            {
+                              values?.rows?.[0]?.transportPlanning?.value === 2 && (
+                                <div className="col-lg-2">
+                                  <InputField
+                                    value={values?.rows?.[index]?.quantity || ''}
+                                    label="Cartoon Quantity"
+                                    name={`rows[${index}].quantity`}
+                                    type="number"
+                                    onChange={(e) =>
+                                      setFieldValue(
+                                        `rows[${index}].quantity`,
+                                        e.target.value,
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )
+                            }
+                            <div className="col-lg-2 pt-4">
+                              <button
+                                onClick={() => {
+                                  if (values?.transportPlanningMode?.value === 4) {
+                                    if (
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.poNumber ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.style ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.color ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.containerNumber ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.size ||
+
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.cbm ||
+                                      !formikRef.current?.values?.rows?.[index]?.kgs
+                                    ) {
+                                      toast.error('Please fill all fields');
+                                      return;
+                                    }
+                                  }
+                                  if (values?.transportPlanningMode?.value === 2) {
+                                    if (
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.poNumber ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.style ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.color ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.containerNumber ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.sealNumber ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.size ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.rate ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.quantity ||
+                                      !formikRef.current?.values?.rows?.[index]
+                                        ?.cbm ||
+                                      !formikRef.current?.values?.rows?.[index]?.kgs
+                                    ) {
+                                      toast.error('Please fill all fields');
+                                      return;
+                                    }
+                                  }
+                                  const containerDesc =
                                     formikRef.current?.values?.rows?.[index]
-                                      ?.poNumber?.label,
-                                  style:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.style?.label,
-                                  color:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.color?.label,
-                                  containerNumber:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.containerNumber,
-                                  sealNumber:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.sealNumber,
-                                  size:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.size?.label,
-                                  quantity:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.quantity,
-                                  rate:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.rate,
-                                  cbm:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.cbm,
-                                  kgs:
-                                    formikRef.current?.values?.rows?.[index]
-                                      ?.kgs,
-                                });
-                                setFieldValue(
-                                  `rows[${index}].containerDesc`,
-                                  containerDesc,
-                                );
-                                setFieldValue(`rows[${index}].poNumber`, '');
-                                setFieldValue(`rows[${index}].style`, '');
-                                setFieldValue(`rows[${index}].color`, '');
-                                setFieldValue(
-                                  `rows[${index}].containerNumber`,
-                                  '',
-                                );
-                                setFieldValue(`rows[${index}].sealNumber`, '');
-                                setFieldValue(`rows[${index}].size`, '');
-                                setFieldValue(`rows[${index}].rate`, '');
-                                setFieldValue(`rows[${index}].quantity`, '');
-                                setFieldValue(`rows[${index}].cbm`, '');
-                                setFieldValue(`rows[${index}].kgs`, '');
-                              }}
-                              className="btn btn-primary"
-                              type="button"
-                            >
-                              Add
-                            </button>
+                                      ?.containerDesc || [];
+                                  containerDesc.push({
+                                    poNumber:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.poNumber?.label,
+                                    style:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.style?.label,
+                                    color:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.color?.label,
+                                    containerNumber:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.containerNumber,
+                                    sealNumber:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.sealNumber,
+                                    size:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.size?.label,
+                                    quantity:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.quantity,
+                                    rate:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.rate,
+                                    cbm:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.cbm,
+                                    kgs:
+                                      formikRef.current?.values?.rows?.[index]
+                                        ?.kgs,
+                                  });
+                                  setFieldValue(
+                                    `rows[${index}].containerDesc`,
+                                    containerDesc,
+                                  );
+                                  setFieldValue(`rows[${index}].poNumber`, '');
+                                  setFieldValue(`rows[${index}].style`, '');
+                                  setFieldValue(`rows[${index}].color`, '');
+                                  setFieldValue(
+                                    `rows[${index}].containerNumber`,
+                                    '',
+                                  );
+                                  setFieldValue(`rows[${index}].sealNumber`, '');
+                                  setFieldValue(`rows[${index}].size`, '');
+                                  setFieldValue(`rows[${index}].rate`, '');
+                                  setFieldValue(`rows[${index}].quantity`, '');
+                                  setFieldValue(`rows[${index}].cbm`, '');
+                                  setFieldValue(`rows[${index}].kgs`, '');
+                                }}
+                                className="btn btn-primary"
+                                type="button"
+                              >
+                                Add
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                       {/* containerDesc table */}
                       <div className="pt-4">
                         {formikRef.current?.values?.rows?.[index]?.containerDesc
                           ?.length > 0 && (
-                          <table
-                            table
-                            className="table table-bordered global-table"
-                          >
-                            <thead>
-                              <tr>
-                                <th>PO Number</th>
-                                <th>Style</th>
-                                <th>Color</th>
-                                <th>Container No</th>
-                                <th>Seal No</th>
-                                <th>Size</th>
-                                <th>Rate</th>
-                                <th>Quantity</th>
-                                <th>CBM</th>
-                                <th>KGS</th>
-                                <th
-                                  style={{
-                                    width: '70px',
-                                  }}
-                                >
-                                  Action
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {formikRef.current?.values?.rows[
-                                index
-                              ]?.containerDesc?.map((item, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <td>{item?.poNumber}</td>
-                                    <td>{item?.style}</td>
-                                    <td>{item?.color}</td>
-                                    <td>{item?.containerNumber}</td>
-                                    <td>{item?.sealNumber}</td>
-                                    <td>{item?.size}</td>
-                                    <td>{item?.rate}</td>
-                                    <td>{item?.quantity}</td>
-                                    <td>{item?.cbm}</td>
-                                    <td>{item?.kgs}</td>
-                                    <td>
-                                      <IconButton
-                                        onClick={() => {
-                                          const containerDesc =
-                                            formikRef.current?.values?.rows[0]
-                                              ?.containerDesc || [];
-                                          containerDesc.splice(index, 1);
-                                          setFieldValue(
-                                            `rows[${0}].containerDesc`,
-                                            containerDesc,
-                                          );
-                                        }}
-                                        color="error"
-                                        size="small"
-                                      >
-                                        <IDelete />
-                                      </IconButton>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        )}
+                            <table
+                              table
+                              className="table table-bordered global-table"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>PO Number</th>
+                                  <th>Style</th>
+                                  <th>Color</th>
+                                  <th>
+                                    {values?.rows?.[index]?.transportPlanning
+                                      ?.value === 4
+                                      ? 'Truck No'
+                                      : 'Container No'
+                                    }
+                                  </th>
+                                  {
+                                    values?.rows?.[index]?.transportPlanning
+                                      ?.value === 2 && (
+                                      <th>Seal No</th>
+                                    )
+                                  }
+                                  <th>Size</th>
+                                  {values?.rows?.[index]?.transportPlanning
+                                    ?.value === 2 && <th>Rate</th>}
+                                  {
+                                    values?.rows?.[index]?.transportPlanning
+                                      ?.value === 2 && <th>Quantity</th>
+                                  }
+                                  <th>CBM</th>
+                                  <th>KGS</th>
+                                  <th
+                                    style={{
+                                      width: '70px',
+                                    }}
+                                  >
+                                    Action
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {formikRef.current?.values?.rows[
+                                  index
+                                ]?.containerDesc?.map((item, index) => {
+                                  return (
+                                    <tr key={index}>
+                                      <td>{item?.poNumber}</td>
+                                      <td>{item?.style}</td>
+                                      <td>{item?.color}</td>
+                                      <td>{item?.containerNumber}</td>
+                                      {values?.rows?.[index]?.transportPlanning
+                                        ?.value === 2 && <td>{item?.sealNumber}</td>
+                                      }
+                                      <td>{item?.size}</td>
+                                      {
+                                        values?.rows?.[index]?.transportPlanning
+                                          ?.value === 2 && <td>{item?.rate}</td>
+                                      }
+                                      {
+                                        values?.rows?.[index]?.transportPlanning
+                                          ?.value === 2 && <td>{item?.quantity}</td>
+                                      }
+                                      <td>{item?.cbm}</td>
+                                      <td>{item?.kgs}</td>
+                                      <td>
+                                        <IconButton
+                                          onClick={() => {
+                                            const containerDesc =
+                                              formikRef.current?.values?.rows[0]
+                                                ?.containerDesc || [];
+                                            containerDesc.splice(index, 1);
+                                            setFieldValue(
+                                              `rows[${0}].containerDesc`,
+                                              containerDesc,
+                                            );
+                                          }}
+                                          color="error"
+                                          size="small"
+                                        >
+                                          <IDelete />
+                                        </IconButton>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          )}
                       </div>
                       {/* Flight Schedule */}
                       <div className="form-group row global-form">
@@ -1403,6 +1589,28 @@ function TransportModal({ rowClickData, CB }) {
                               : 'Flight Schedule'}
                           </p>
                         </div>
+                        {/* truck type ddl */}
+                        {
+                          values?.rows[0]?.transportPlanning?.value === 4 && (
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name={`rows[${index}].truckType`}
+                                options={truckTypeDDL || []}
+                                value={values?.rows?.[index]?.truckType}
+                                label="Truck Type"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].truckType`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder="Truck Type"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          )
+                        }
                         {/* From date */}
                         <div className="col-lg-3">
                           {[2].includes(
@@ -1478,13 +1686,7 @@ function TransportModal({ rowClickData, CB }) {
                         {/* for sea 2 , for air 1 */}
                         <div className="col-lg-3">
                           <InputField
-                            label={
-                              [2].includes(
-                                values?.rows[0]?.transportPlanning?.value,
-                              )
-                                ? 'Vessel Name'
-                                : 'Flight Number'
-                            }
+                            label={values?.rows[0]?.transportPlanning?.value === 2 ? 'Vessel Name' : values?.rows[0]?.transportPlanning?.value === 4 ? "Truck No" : 'Flight Number'}
                             type="text"
                             name="flightNumber"
                             value={values?.rows?.[index]?.flightNumber || ''}
@@ -1514,35 +1716,30 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="col-lg-2 pt-4">
                           <button
                             onClick={() => {
-                              if (
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.fromPort ||
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.toPort ||
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.flightDate
-                              ) {
+                              if (!formikRef.current?.values?.rows?.[index]?.fromPort || !formikRef.current?.values?.rows?.[index]?.toPort || !formikRef.current?.values?.rows?.[index]?.flightDate) {
                                 toast.error('Please fill all fields');
                                 return;
                               }
-                              if (
-                                [2].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
-                                )
-                              ) {
-                              } else {
-                                if (
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.flightNumber
-                                ) {
-                                  toast.error('Flight Number is required');
+                              else {
+                                if (!formikRef.current?.values?.rows?.[index]?.flightNumber) {
+                                  toast.error(values?.rows[0]?.transportPlanning?.value === 4 ? 'Please fill Truck No' : 'Please fill Flight Number');
                                   return;
+                                }
+                                if (values?.rows[0]?.transportPlanning?.value === 4) {
+                                  if (!formikRef.current?.values?.rows?.[index]?.truckType
+                                  ) {
+                                    toast.error('Please fill Truck Type');
+                                    return;
+                                  }
                                 }
                               }
                               const containerDesc =
                                 formikRef.current?.values?.rows?.[index]
                                   ?.airTransportRow || [];
                               containerDesc.push({
+                                truckType:
+                                  formikRef.current?.values?.rows?.[index]
+                                    ?.truckType?.label || '',
                                 fromPort:
                                   formikRef.current?.values?.rows?.[index]
                                     ?.fromPort?.label || '',
@@ -1563,6 +1760,7 @@ function TransportModal({ rowClickData, CB }) {
                                 `rows[${index}].airTransportRow`,
                                 containerDesc,
                               );
+                              setFieldValue(`rows[${index}].truckType`, '');
                               setFieldValue(`rows[${index}].fromPort`, '');
                               setFieldValue(`rows[${index}].toPort`, '');
                               setFieldValue(`rows[${index}].flightDate`, '');
@@ -1579,61 +1777,60 @@ function TransportModal({ rowClickData, CB }) {
                       <div className="pt-4">
                         {formikRef.current?.values?.rows?.[index]
                           ?.airTransportRow?.length > 0 && (
-                          <table
-                            table
-                            className="table table-bordered global-table"
-                          >
-                            <thead>
-                              <tr>
-                                <th>SL</th>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Date</th>
-                                {[2].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
-                                ) ? (
-                                  <th>Vessel Name</th>
-                                ) : (
-                                  <th>Flight Number</th>
-                                )}
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {formikRef.current?.values?.rows[
-                                index
-                              ]?.airTransportRow?.map((item, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{item?.fromPort}</td>
-                                    <td>{item?.toPort}</td>
-                                    <td>{item?.flightDate}</td>
-                                    <td>{item?.flightNumber}</td>
-                                    <td>
-                                      <IconButton
-                                        onClick={() => {
-                                          const containerDesc =
-                                            formikRef.current?.values?.rows[0]
-                                              ?.airTransportRow || [];
-                                          containerDesc.splice(0, 1);
-                                          setFieldValue(
-                                            `rows[${0}].airTransportRow`,
-                                            containerDesc,
-                                          );
-                                        }}
-                                        color="error"
-                                        size="small"
-                                      >
-                                        <IDelete />
-                                      </IconButton>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        )}
+                            <table
+                              table
+                              className="table table-bordered global-table"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>SL</th>
+                                  {values?.rows[0]?.transportPlanning?.value === 4 && <th>Truck Type</th>}
+                                  <th>From</th>
+                                  <th>To</th>
+                                  <th>Date</th>
+                                  <th>
+                                    {values?.rows[0]?.transportPlanning?.value === 2 ? 'Vessel Name' : values?.rows[0]?.transportPlanning?.value === 4 ? "Truck No" : 'Flight Number'}
+                                  </th>
+
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {formikRef.current?.values?.rows[
+                                  index
+                                ]?.airTransportRow?.map((item, index) => {
+                                  return (
+                                    <tr key={index}>
+                                      <td>{index + 1}</td>
+                                      {values?.rows[0]?.transportPlanning?.value === 4 && <td>{item?.truckType?.label}</td>}
+                                      <td>{item?.fromPort}</td>
+                                      <td>{item?.toPort}</td>
+                                      <td>{item?.flightDate}</td>
+                                      <td>{item?.flightNumber}</td>
+                                      <td>
+                                        <IconButton
+                                          onClick={() => {
+                                            const containerDesc =
+                                              formikRef.current?.values?.rows[0]
+                                                ?.airTransportRow || [];
+                                            containerDesc.splice(0, 1);
+                                            setFieldValue(
+                                              `rows[${0}].airTransportRow`,
+                                              containerDesc,
+                                            );
+                                          }}
+                                          color="error"
+                                          size="small"
+                                        >
+                                          <IDelete />
+                                        </IconButton>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          )}
                       </div>
                     </div>
                   ))}
