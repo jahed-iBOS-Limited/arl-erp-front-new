@@ -211,7 +211,7 @@ function TransportModal({ rowClickData, CB }) {
     }
 
     //==== Sea data set ===
-    if (modeOfTransportName === 'Sea') {
+    if (['Sea', "Land"].includes(modeOfTransportName)) {
       //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate
       formikRef.current.setFieldValue(
         `rows[0].noOfContainer`,
@@ -264,6 +264,7 @@ function TransportModal({ rowClickData, CB }) {
 
       const getUniqueOptions = (key) => {
         try {
+
           const values = new Set();
           data.rowsData.forEach((row) => {
             if (row.dimensionRow && row.dimensionRow.length > 0) {
@@ -1297,7 +1298,6 @@ function TransportModal({ rowClickData, CB }) {
                               <button
                                 onClick={() => {
                                   if (values?.transportPlanningMode?.value === 4) {
-                                    console.log('values?.rows?.[index]', values?.rows?.[index]);
                                     if (
                                       !formikRef.current?.values?.rows?.[index]
                                         ?.poNumber ||
@@ -1309,10 +1309,7 @@ function TransportModal({ rowClickData, CB }) {
                                         ?.containerNumber ||
                                       !formikRef.current?.values?.rows?.[index]
                                         ?.size ||
-                                      !formikRef.current?.values?.rows?.[index]
-                                        ?.rate ||
-                                      !formikRef.current?.values?.rows?.[index]
-                                        ?.quantity ||
+
                                       !formikRef.current?.values?.rows?.[index]
                                         ?.cbm ||
                                       !formikRef.current?.values?.rows?.[index]?.kgs
@@ -1428,10 +1425,19 @@ function TransportModal({ rowClickData, CB }) {
                                       : 'Container No'
                                     }
                                   </th>
-                                  <th>Seal No</th>
+                                  {
+                                    values?.rows?.[index]?.transportPlanning
+                                      ?.value === 2 && (
+                                      <th>Seal No</th>
+                                    )
+                                  }
                                   <th>Size</th>
-                                  <th>Rate</th>
-                                  <th>Quantity</th>
+                                  {values?.rows?.[index]?.transportPlanning
+                                    ?.value === 2 && <th>Rate</th>}
+                                  {
+                                    values?.rows?.[index]?.transportPlanning
+                                      ?.value === 2 && <th>Quantity</th>
+                                  }
                                   <th>CBM</th>
                                   <th>KGS</th>
                                   <th
@@ -1453,10 +1459,18 @@ function TransportModal({ rowClickData, CB }) {
                                       <td>{item?.style}</td>
                                       <td>{item?.color}</td>
                                       <td>{item?.containerNumber}</td>
-                                      <td>{item?.sealNumber}</td>
+                                      {values?.rows?.[index]?.transportPlanning
+                                        ?.value === 2 && <td>{item?.sealNumber}</td>
+                                      }
                                       <td>{item?.size}</td>
-                                      <td>{item?.rate}</td>
-                                      <td>{item?.quantity}</td>
+                                      {
+                                        values?.rows?.[index]?.transportPlanning
+                                          ?.value === 2 && <td>{item?.rate}</td>
+                                      }
+                                      {
+                                        values?.rows?.[index]?.transportPlanning
+                                          ?.value === 2 && <td>{item?.quantity}</td>
+                                      }
                                       <td>{item?.cbm}</td>
                                       <td>{item?.kgs}</td>
                                       <td>
