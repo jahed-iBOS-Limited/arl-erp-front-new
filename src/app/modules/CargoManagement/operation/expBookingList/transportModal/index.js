@@ -43,6 +43,17 @@ const validationSchema = Yup.object().shape({
     then: Yup.string().required('Arrival Date & Time is required'),
   }),
 });
+const truckTypeDDL = [
+  {
+    value: 1,
+    label: 'Overseas',
+
+  },
+  {
+    value: 2,
+    label: 'Local',
+  }
+]
 function TransportModal({ rowClickData, CB }) {
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const { profileData } = useSelector(
@@ -168,6 +179,7 @@ function TransportModal({ rowClickData, CB }) {
       transportPlanning?.airTransportRow?.map((item) => ({
         ...item,
         planRowId: item?.planRowId || 0,
+        // todo : truckType
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -444,6 +456,7 @@ function TransportModal({ rowClickData, CB }) {
       airTransportRow: row?.airTransportRow?.map((item) => ({
         planRowId: item?.planRowId || 0,
         transportId: transportId,
+        // todo: truckType
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
@@ -497,6 +510,7 @@ function TransportModal({ rowClickData, CB }) {
               estimatedTimeOfDepart: '',
               containerDesc: [],
               airTransportRow: [],
+              truckType: '',
               fromPort: '',
               toPort: '',
               flightDate: '',
@@ -1481,6 +1495,28 @@ function TransportModal({ rowClickData, CB }) {
                               : 'Flight Schedule'}
                           </p>
                         </div>
+                        {/* truck type ddl */}
+                        {
+                          values?.rows[0]?.transportPlanning?.value === 4 && (
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name={`rows[${index}].truckType`}
+                                options={truckTypeDDL || []}
+                                value={values?.rows?.[index]?.truckType}
+                                label="Truck Type"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].truckType`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder="Truck Type"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          )
+                        }
                         {/* From date */}
                         <div className="col-lg-3">
                           {[2].includes(
@@ -1586,35 +1622,30 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="col-lg-2 pt-4">
                           <button
                             onClick={() => {
-                              if (
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.fromPort ||
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.toPort ||
-                                !formikRef.current?.values?.rows?.[index]
-                                  ?.flightDate
-                              ) {
+                              if (!formikRef.current?.values?.rows?.[index]?.fromPort || !formikRef.current?.values?.rows?.[index]?.toPort || !formikRef.current?.values?.rows?.[index]?.flightDate) {
                                 toast.error('Please fill all fields');
                                 return;
                               }
-                              if (
-                                [2].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
-                                )
-                              ) {
-                              } else {
-                                if (
-                                  !formikRef.current?.values?.rows?.[index]
-                                    ?.flightNumber
-                                ) {
+                              else {
+                                if (!formikRef.current?.values?.rows?.[index]?.flightNumber) {
                                   toast.error(values?.rows[0]?.transportPlanning?.value === 4 ? 'Please fill Truck No' : 'Please fill Flight Number');
                                   return;
+                                }
+                                if (values?.rows[0]?.transportPlanning?.value === 4) {
+                                  if (!formikRef.current?.values?.rows?.[index]?.truckType
+                                  ) {
+                                    toast.error('Please fill Truck Type');
+                                    return;
+                                  }
                                 }
                               }
                               const containerDesc =
                                 formikRef.current?.values?.rows?.[index]
                                   ?.airTransportRow || [];
                               containerDesc.push({
+                                truckType:
+                                  formikRef.current?.values?.rows?.[index]
+                                    ?.truckType || '',
                                 fromPort:
                                   formikRef.current?.values?.rows?.[index]
                                     ?.fromPort?.label || '',
@@ -1635,6 +1666,7 @@ function TransportModal({ rowClickData, CB }) {
                                 `rows[${index}].airTransportRow`,
                                 containerDesc,
                               );
+                              setFieldValue(`rows[${index}].truckType`, '');
                               setFieldValue(`rows[${index}].fromPort`, '');
                               setFieldValue(`rows[${index}].toPort`, '');
                               setFieldValue(`rows[${index}].flightDate`, '');
@@ -1658,6 +1690,7 @@ function TransportModal({ rowClickData, CB }) {
                               <thead>
                                 <tr>
                                   <th>SL</th>
+                                  {values?.rows[0]?.transportPlanning?.value === 4 && <th>Truck Type</th>}
                                   <th>From</th>
                                   <th>To</th>
                                   <th>Date</th>
@@ -1675,6 +1708,7 @@ function TransportModal({ rowClickData, CB }) {
                                   return (
                                     <tr key={index}>
                                       <td>{index + 1}</td>
+                                      {values?.rows[0]?.transportPlanning?.value === 4 && <td>{item?.truckType?.label}</td>}
                                       <td>{item?.fromPort}</td>
                                       <td>{item?.toPort}</td>
                                       <td>{item?.flightDate}</td>
