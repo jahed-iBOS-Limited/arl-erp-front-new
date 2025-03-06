@@ -1,9 +1,9 @@
-import CryptoJS from 'crypto-js';
-import React from 'react';
-import { toast } from 'react-toastify';
-import { imarineBaseUrl } from '../../../../../App';
-import NewSelect from '../../../../_helper/_select';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import CryptoJS from "crypto-js";
+import React from "react";
+import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../../App";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function CreateBookingModal({ CB, rowClickData, isExport }) {
   const [option, getOptions] = useAxiosGet();
@@ -11,60 +11,57 @@ export default function CreateBookingModal({ CB, rowClickData, isExport }) {
   // Go to Create Booking
   const handleGoToCreate = (item) => {
     const targetUrl =
-      process.env.NODE_ENV !== 'production'
-        ? 'http://localhost:3010'
-        : 'https://cargo.ibos.io/';
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3010"
+        : "https://cargo.ibos.io/";
 
     if (!value?.email) {
       toast.error(
-        `Selected ${isExport ? 'Shipper' : 'Consignee '} has no email address`,
+        `Selected ${isExport ? "Shipper" : "Consignee "} has no email address`
       );
       return;
     }
     // Encrypt the userIDEmail using base64 encoding
 
     const encryptedUserEmail = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(value?.email),
+      CryptoJS.enc.Utf8.parse(value?.email)
     );
 
     let url;
     if (isExport) {
-      url = 'export-from-erp/1';
+      url = "export-from-erp/1";
     } else {
-      url = 'import-from-erp/2';
+      url = "import-from-erp/2";
     }
-    window.open(`${targetUrl}/${url}?email=${encryptedUserEmail}`, '_blank');
+    window.open(`${targetUrl}/${url}?email=${encryptedUserEmail}`, "_blank");
   };
 
   // Get ALL DDL
   React.useEffect(() => {
-    getOptions(
-      `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=1`,
-    );
-    // if (isExport) {
-    //   getOptions(
-    //     `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=1`
-    //   );
-    // }
-    // if (!isExport) {
-    //   getOptions(
-    //     `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=2`
-    //   );
-    // }
+    if (isExport) {
+      getOptions(
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=1`
+      );
+    }
+    if (!isExport) {
+      getOptions(
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=2`
+      );
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>
       <NewSelect
-        label={isExport ? 'Shipper' : 'Consignee'}
+        label={isExport ? "Shipper" : "Consignee"}
         options={option || []}
         value={value}
         onChange={(valueOption) => {
-          setValue(valueOption || '');
+          setValue(valueOption || "");
         }}
-        name={isExport ? 'shipper' : 'consignee'}
-        placeholder={`Select ${isExport ? 'Shipper' : 'Consignee'}`}
+        name={isExport ? "shipper" : "consignee"}
+        placeholder={`Select ${isExport ? "Shipper" : "Consignee"}`}
       />
       <button
         onClick={() => handleGoToCreate(value)}
