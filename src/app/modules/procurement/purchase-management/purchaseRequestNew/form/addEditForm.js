@@ -129,6 +129,8 @@ export default function PurchaseRequestCreateForm({
                objHeader: {
                   purchaseRequestId: +prId,
                   purchaseRequestCode: values?.code,
+                  businessUnitId:location?.item?.businessUnitId,
+                  actionBy: profileData?.userId,
                },
                objRow,
             };
