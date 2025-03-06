@@ -236,6 +236,10 @@ function ImpBookingList() {
                         value: 2,
                         label: 'Sea',
                       },
+                      {
+                        value: 4,
+                        label: 'Land',
+                      },
                     ]}
                     value={values?.modeOfTransport || ''}
                     label="Booking Type"
@@ -325,7 +329,11 @@ function ImpBookingList() {
                         >
                           Delivery Port
                         </th>
-                        <th style={{ minWidth: '50px' }}>HBL No.</th>
+                        <th style={{ minWidth: '50px' }}>
+                          {
+                            values?.modeOfTransport?.value === 4 ? "Consignment Number" : " HBL No."
+                          }
+                        </th>
                         <th style={{ minWidth: '80px' }}> Master BL No</th>
                         {/* <th
                            style={{
@@ -733,6 +741,7 @@ function ImpBookingList() {
                       rowClickData={{
                         ...rowClickData,
                         tradeTypeId: 2,
+
                       }}
                       CB={() => {
                         commonLandingApi(

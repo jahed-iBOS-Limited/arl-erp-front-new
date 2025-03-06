@@ -305,20 +305,47 @@ export default function HeaderForm({selectedBusinessUnit, estimatePDAPOPage}) {
                 View
               </button> */}
               <button
-                disabled={
-                  !values?.warehouse ||
-                  !values?.plant ||
-                  !values?.purchaseOrg ||
-                  !values?.sbu ||
-                  !values?.refType ||
-                  !values?.orderType ||
-                  // super user can create po for all business unit
-                  !(profileData?.superUser ||
-                  (process.env.NODE_ENV !== "development" && 
-                  (selectedBusinessUnit?.value !== 184 &&
-                    values?.orderType?.label === "Standard PO" &&
-                    values?.purchaseOrg?.label === "Local Procurement")))
-                }
+                 disabled={(() => {
+                  const isSuperUser = profileData?.superUser;
+                  const hasRequiredFields =
+                    values?.warehouse &&
+                    values?.plant &&
+                    values?.purchaseOrg &&
+                    values?.sbu &&
+                    values?.refType &&
+                    values?.orderType;
+                
+                  const isNonDevelopment = process.env.NODE_ENV !== "development";
+                  const isNotBusinessUnitiBOS = selectedBusinessUnit?.value !== 184;
+                  const isStandardPO = values?.orderType?.label === "Standard PO";
+                  const isLocalProcurement = values?.purchaseOrg?.label === "Local Procurement";
+                  const isServicePO = values?.orderType?.label === "Service PO";
+                  const isWithoutReference = values?.refType?.label === "Without Reference";
+                
+                  const shouldApplyBusinessUnitLogic =
+                    isNonDevelopment &&
+                    isNotBusinessUnitiBOS &&
+                    isStandardPO &&
+                    isLocalProcurement;
+                
+                  let disabled = false;
+                
+                  // Super user er ক্ষেত্রে: jodi required fields na thake, tahole disabled
+                  if (isSuperUser && !hasRequiredFields) {
+                    disabled = true;
+                  }
+                  // Non-super user er ক্ষেত্রে: jodi Service PO hoy ebong Without Reference na hoy, tahole disabled
+                  else if (!isSuperUser && isServicePO && !isWithoutReference) {
+                    disabled = true;
+                  }
+                  // Non-super user er ক্ষেত্রে: jodi required fields na thake athoba Business Unit logic apply hoy, tahole disabled
+                  else if (!isSuperUser && (!hasRequiredFields || shouldApplyBusinessUnitLogic)) {
+                    disabled = true;
+                  }
+                
+                  return disabled;
+                  
+                })()}
                 type="button"
                 className="btn btn-primary ml-3"
                 onClick={() => {

@@ -43,7 +43,7 @@ export function Header() {
         {...layoutProps.headerAttributes}
       >
         {/*begin::Container*/}
-        {window?.location?.origin !== 'https://erp.ibos.io' && (
+        {!["https://erp.peopledesk.io", "https://erp.ibos.io"].includes(window?.location?.origin) && (
           <b
             style={{ marginLeft: '23px' }}
             className="mt-3 danger development-env"

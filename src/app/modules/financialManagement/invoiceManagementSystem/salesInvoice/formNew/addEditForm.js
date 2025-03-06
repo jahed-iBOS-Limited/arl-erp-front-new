@@ -66,7 +66,7 @@ const SalesInvoiceForm = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -188,6 +188,7 @@ const SalesInvoiceForm = () => {
           strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
           strPaymentTerms: values?.paymentTerms?.label,
           remarks: values?.remarks || "",
+          actionBy: userId,
         });
       }
     }
