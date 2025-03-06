@@ -295,7 +295,6 @@ export default function AssigneeModal({
     return updatedData;
   };
 
-  console.log('addedItem', addedItem);
   return (
     <div>
       <IViewModal
