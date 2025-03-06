@@ -121,11 +121,11 @@ export default function LoanRegisterViewForm({
   },[initData])
 
   useEffect(() => {
-    if (formikRef.current) {
-      const { openingDate, termDays } = formikRef.current.values;
+    if (initData?.openingDate && initData?.termDays) {
+      const { openingDate, termDays } = initData;
       onSetMaturityDate(openingDate, termDays)
     }
-  }, [formikRef.current?.values?.openingDate, formikRef.current?.values?.termDays]);
+  }, [initData]);
 
   const onSetMaturityDate = (openingDate, termDays) => {
     setMaturityDate("");
