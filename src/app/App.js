@@ -37,6 +37,42 @@ export const APIUrl =
   process.env.NODE_ENV === 'development' ? 'https://deverp.ibos.io' : origin;
 Axios.defaults.baseURL = APIUrl;
 
+const handleError = async (error, store) => {
+  const url = error?.config?.url;
+  if (withEncryptedAPI?.some((element) => url?.includes(element))) {
+    let decryptedData = await makeDecryption(error?.response?.data);
+    let newError = { response: { data: decryptedData } };
+
+    const resMessage =
+      newError?.message ||
+      newError?.Message ||
+      newError?.response?.data?.message ||
+      newError?.response?.data?.Message;
+    if (
+      resMessage ===
+      'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
+    ) {
+      store.dispatch(setIsExpiredTokenActions(true));
+      return Promise.reject(error);
+    }
+    return Promise.reject(newError);
+  } else {
+    const resMessage =
+      error?.message ||
+      error?.Message ||
+      error?.response?.data?.message ||
+      error?.response?.data?.Message;
+    if (
+      resMessage ===
+      'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
+    ) {
+      store.dispatch(setIsExpiredTokenActions(true));
+      return Promise.reject(error);
+    }
+    return Promise.reject(error);
+  }
+};
+
 const App = ({ store, persistor, basename }) => {
   // Request Interceptor
   Axios.interceptors.request.use(
@@ -74,42 +110,7 @@ const App = ({ store, persistor, basename }) => {
       // If the URL is not in withEncryptedAPI, no encryption is required
       return config;
     },
-    async (error) => {
-      console.log('Request Error:', error);
-      const url = error?.config?.url;
-      if (withEncryptedAPI?.some((element) => url?.includes(element))) {
-        let decryptedData = await makeDecryption(error?.response?.data);
-        let newError = { response: { data: decryptedData } };
-
-        const resMessage =
-          newError?.message ||
-          newError?.Message ||
-          newError?.response?.data?.message ||
-          newError?.response?.data?.Message;
-        if (
-          resMessage ===
-          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
-        ) {
-          store.dispatch(setIsExpiredTokenActions(true));
-          return Promise.reject(error);
-        }
-        return Promise.reject(newError);
-      } else {
-        const resMessage =
-          error?.message ||
-          error?.Message ||
-          error?.response?.data?.message ||
-          error?.response?.data?.Message;
-        if (
-          resMessage ===
-          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
-        ) {
-          store.dispatch(setIsExpiredTokenActions(true));
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-    },
+    async (error) => handleError(error, store),
   );
 
   // Response Interceptor
@@ -129,43 +130,9 @@ const App = ({ store, persistor, basename }) => {
       // If the URL is not in withEncryptedAPI, no decryption is required
       return response;
     },
-    async (error) => {
-      console.log('error response', JSON.stringify(error, null, 2));
-      const url = error?.config?.url;
-      if (withEncryptedAPI?.some((element) => url?.includes(element))) {
-        let decryptedData = await makeDecryption(error?.response?.data);
-        let newError = { response: { data: decryptedData } };
-
-        const resMessage =
-          newError?.message ||
-          newError?.Message ||
-          newError?.response?.data?.message ||
-          newError?.response?.data?.Message;
-        if (
-          resMessage ===
-          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
-        ) {
-          store.dispatch(setIsExpiredTokenActions(true));
-          return Promise.reject(error);
-        }
-        return Promise.reject(newError);
-      } else {
-        const resMessage =
-          error?.message ||
-          error?.Message ||
-          error?.response?.data?.message ||
-          error?.response?.data?.Message;
-        if (
-          resMessage ===
-          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
-        ) {
-          store.dispatch(setIsExpiredTokenActions(true));
-          return Promise.reject(error);
-        }
-        return Promise.reject(error);
-      }
-    },
+    async (error) => handleError(error, store),
   );
+
   return (
     /* Provide Redux store */
     <Provider store={store}>
