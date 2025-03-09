@@ -132,7 +132,6 @@ export const getPartner = async (accId, BuId, setter) => {
 };
 
 
-
 export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
