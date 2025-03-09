@@ -54,7 +54,6 @@ const TransportManagementPages = lazy(() =>
 const AssetManagementPages = lazy(() =>
   import('./modules/assetManagement/AssetManagementPages'),
 );
-const ChatPages = lazy(() => import('./modules/chats/chatsPages'));
 const PerformanceMgtPages = lazy(() =>
   import('./modules/performanceManagement/performanceMgtPages'),
 );
@@ -155,8 +154,6 @@ const BasePage = () => {
       <MobileFirstAlert />
       <Switch>
         {<Redirect exact from="/" to="/self-service/self-dashboard" />}
-        {/* <Route path="/dashboard" component={DashboardPage} /> */}
-        <Route path="/chat" component={ChatPages} />
         <Route
           path="/safety-compliance"
           component={SafetyComplianceMainPages}
