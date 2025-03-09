@@ -1,6 +1,6 @@
-import React from "react";
-import avatar from "./avatar.png";
-import ChatAppLoading from "./loading";
+import React from 'react';
+import avatar from './avatar.png';
+import ChatAppLoading from './loading';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 const MessageBox = ({
   chatList,
@@ -10,7 +10,7 @@ const MessageBox = ({
   setText,
   chatRequestHandelar,
 }) => {
-  console.log("chatList", chatList);
+  console.log('chatList', chatList);
 
   return (
     <section className="message-box">
@@ -34,21 +34,24 @@ const MessageBox = ({
                   <li
                     className={
                       chat?.to
-                        ? "checklist-message-body-me"
-                        : "checklist-message-body-other"
+                        ? 'checklist-message-body-me'
+                        : 'checklist-message-body-other'
                     }
                   >
                     <div className="checklist-msg-inner-body">
                       {chat?.to && (
                         <img
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ width: '25px', height: '25px' }}
                           className="mr-2"
                           src={avatar}
                           alt="avatar"
                         />
                       )}
                       {/* <p dangerouslySetInnerHTML={{ __html: chat?.text }} /> */}
-                      <MarkdownPreview source={chat?.text} linkTarget="_blank"/>
+                      <MarkdownPreview
+                        source={chat?.text}
+                        linkTarget="_blank"
+                      />
                     </div>
                   </li>
                 ))}
@@ -78,7 +81,7 @@ const MessageBox = ({
                   onClick={() => {
                     chatRequestHandelar();
                   }}
-                  style={{ border: "none", background: "transparent" }}
+                  style={{ border: 'none', background: 'transparent' }}
                   type="button"
                 >
                   <i className="fas fa-paper-plane"></i>
