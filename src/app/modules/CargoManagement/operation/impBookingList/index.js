@@ -397,7 +397,7 @@ function ImpBookingList() {
                             minWidth: '95px',
                           }}
                         >
-                          Air Pre Alert
+                          Pre Alert
                         </th>
                         {values?.modeOfTransport?.value === 4 ? (
                           <></>
@@ -660,7 +660,7 @@ function ImpBookingList() {
                                         });
                                       }}
                                     >
-                                      Air Pre Alert
+                                      Pre Alert
                                     </button>
                                   </span>
                                 </td>
@@ -1359,7 +1359,7 @@ function ImpBookingList() {
                         isAirPreAlert: false,
                       });
                     }}
-                    title="Air Pre Alert"
+                    title="Pre Alert"
                   >
                     <AirPreAlert rowClickData={rowClickData} />
                   </IViewModal>
