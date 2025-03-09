@@ -35,7 +35,8 @@ export default function SCFRegisterRepayCreate({
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
   const location = useLocation();
-  console.log(location.state, "location.state");
+
+
   const saveHandler = async (values, cb) => {
     if (
       location?.state?.principal &&

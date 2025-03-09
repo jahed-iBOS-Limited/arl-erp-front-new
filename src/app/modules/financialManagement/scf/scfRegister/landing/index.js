@@ -27,15 +27,13 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import PdfRender from "../../../banking/fundManagement/loanRegister/components/PdfRender";
 import {
   createLoanRegister,
   getAttachments,
-  getBankDDLAll,
-  getBusinessUnitDDL,
   getLoanRegisterLanding,
 } from "../helper";
 import AttachmentUploadForm from "../others/attachmentUpload";
+import PdfRenderGenertor from "../others/PdfRender";
 
 const initData = {
   bank: { label: "ALL", value: 0 },
@@ -56,33 +54,39 @@ const SCFRegisterLandingPage = () => {
   const {
     profileData,
     selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state.authData, shallowEqual);
+
+  // api action
+  const [bankDDL, getBankDDL, getBankDDLLoading] = useAxiosGet();
+  const [
+    businessUnitDDL,
+    getBusinessUnitDDL,
+    getBusinessUnitDDLLoading,
+  ] = useAxiosGet();
+  const [scfInfoData, getSCFInfoData, getSCFInfoDataLoading] = useAxiosGet();
+  const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
 
   // state
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
-  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
-  const [bankDDL, setBankDDL] = useState([]);
+  // state modal
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [showScfInfoModal, setShowSCFInfoModal] = useState(false);
+  const [showSCFPrintModal, setShowSCFPrintModal] = useState(false);
+
+  // others
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(200);
-  const [open, setOpen] = useState(false);
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
-  const [show, setShow] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
   const [, setIsPrinting] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  // Sorting state for each column
+
+  // sorting state for each column
   const [openDateOrder, setOpenDateOrder] = useState("asc"); // 'asc' or 'desc'
   const [maturityDateOrder, setMaturityDateOrder] = useState("asc"); // 'asc' or 'desc'
   // State to hold the sorted data
   const [sortedData, setSortedData] = useState([]);
-
-  // api action
-  const [historyData, getHistory, loadingHistory] = useAxiosGet();
-  const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
 
   useEffect(() => {
     if (loanRegisterData?.data) {
@@ -91,17 +95,19 @@ const SCFRegisterLandingPage = () => {
   }, [loanRegisterData]);
 
   useEffect(() => {
-    getBankDDLAll(setBankDDL, setLoading);
-    getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
+    getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
+    getBusinessUnitDDL(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (singleItem?.intBankLetterTemplateId === 1) {
-      setShowModal(true);
+      setShowSCFPrintModal(true);
     } else if (singleItem?.intBankLetterTemplateId) {
       handleInvoicePrint();
-      setShowModal(false);
+      setShowSCFPrintModal(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleItem]);
@@ -150,7 +156,7 @@ const SCFRegisterLandingPage = () => {
 
   // save
   const saveHandler = async (values, cb) => {
-    setLoading(true);
+    // setLoading(true);
   };
 
   //set position handler
@@ -483,14 +489,21 @@ const SCFRegisterLandingPage = () => {
     [loanRegisterData]
   );
 
+  // is loan register not empty
+  const isLoanRegisterNotEmpty = loanRegisterData?.data?.length > 0;
+
+  // is loading
+  const isLoading =
+    getBankDDLLoading || getBusinessUnitDDLLoading || getSCFInfoDataLoading;
+
   return (
     <>
-      {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
+      {(loading || closeLoanRegisterLoader || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => {});
+          saveHandler(values, () => {});
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -499,27 +512,26 @@ const SCFRegisterLandingPage = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"SCF Register"}>
                 <CardHeaderToolbar>
-                  {loanRegisterData?.data?.length ? (
+                  {isLoanRegisterNotEmpty ? (
                     <button
                       className="btn btn-primary ml-2"
                       type="button"
                       onClick={(e) => generateExcel(values)}
                       style={{ padding: "6px 5px" }}
-                      disabled={loanRegisterData?.data?.length === 0}
+                      disabled={!isLoanRegisterNotEmpty}
                     >
                       Export Excel
                     </button>
-                  ) : null}
+                  ) : (
+                    <></>
+                  )}
                   <button
                     className="btn btn-primary ml-2"
-                    type="submit"
-                    disabled={false}
+                    type="button"
                     onClick={() => {
                       history.push({
                         pathname: `/financial-management/scf/scfregister/create`,
-                        state: {
-                          ...values,
-                        },
+                        state: values,
                       });
                     }}
                   >
@@ -527,6 +539,7 @@ const SCFRegisterLandingPage = () => {
                   </button>
                 </CardHeaderToolbar>
               </CardHeader>
+
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="form-group row global-form align-items-end">
@@ -539,17 +552,11 @@ const SCFRegisterLandingPage = () => {
                             []
                           }
                           value={values?.businessUnit}
-                          label="BusinessUnit"
+                          label="Business Unit"
                           onChange={(valueOption) => {
-                            if (valueOption) {
-                              setFieldValue("businessUnit", valueOption);
-                              setLoanRegisterData([]);
-                            } else {
-                              setLoanRegisterData([]);
-                              setFieldValue("businessUnit", "");
-                            }
+                            setFieldValue("businessUnit", valueOption);
+                            setLoanRegisterData([]);
                           }}
-                          placeholder="BusinessUnit"
                           errors={errors}
                           touched={touched}
                         />
@@ -566,10 +573,9 @@ const SCFRegisterLandingPage = () => {
                         errors={errors}
                         touched={touched}
                         label="Bank"
-                        placeholder="Bank"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <NewSelect
                         name="status"
                         options={[
@@ -579,41 +585,31 @@ const SCFRegisterLandingPage = () => {
                         ]}
                         value={values?.status}
                         onChange={(valueOption) => {
-                          if (valueOption) {
-                            setFieldValue("status", valueOption);
-                          } else {
-                            setFieldValue("status", "");
-                          }
+                          setFieldValue("status", valueOption);
                         }}
                         errors={errors}
                         touched={touched}
                         label="Status"
-                        placeholder="Status"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <NewSelect
                         name="applicationType"
                         options={[
-                          { value: 0, label: "ALL" },
+                          { value: 0, label: "All" },
                           { value: 1, label: "Pending" },
                           { value: 2, label: "Approved" },
                         ]}
                         value={values?.applicationType}
                         onChange={(valueOption) => {
-                          if (valueOption) {
-                            setFieldValue("applicationType", valueOption);
-                          } else {
-                            setFieldValue("applicationType", "");
-                          }
+                          setFieldValue("applicationType", valueOption);
                         }}
                         errors={errors}
                         touched={touched}
                         label="Application Type"
-                        placeholder="Application Type"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <NewSelect
                         name="dateFilter"
                         options={[
@@ -622,43 +618,34 @@ const SCFRegisterLandingPage = () => {
                         ]}
                         value={values?.dateFilter}
                         onChange={(valueOption) => {
-                          if (valueOption) {
-                            setFieldValue("dateFilter", valueOption);
-                          } else {
-                            setFieldValue("dateFilter", "");
-                          }
+                          setFieldValue("dateFilter", valueOption);
                         }}
                         errors={errors}
                         touched={touched}
                         label="Date Filter"
-                        placeholder="Date Filter"
                       />
                     </div>
-                    <div className="col-lg-2">
-                      <label>From Date</label>
-                      <div className="d-flex">
-                        <InputField
-                          value={values?.fromDate}
-                          name="fromDate"
-                          placeholder="From date"
-                          type="date"
-                          disabled={!values?.dateFilter?.value}
-                          style={{ width: "100%" }}
-                        />
-                      </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.fromDate}
+                        name="fromDate"
+                        label="From Date"
+                        placeholder="From date"
+                        type="date"
+                        disabled={!values?.dateFilter?.value}
+                        style={{ width: "100%" }}
+                      />
                     </div>
-                    <div className="col-lg-2">
-                      <label>To Date</label>
-                      <div className="d-flex">
-                        <InputField
-                          value={values?.toDate}
-                          name="toDate"
-                          placeholder="To date"
-                          type="date"
-                          disabled={!values?.dateFilter?.value}
-                          style={{ width: "100%" }}
-                        />
-                      </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toDate}
+                        name="toDate"
+                        placeholder="To date"
+                        type="date"
+                        label="To Date"
+                        disabled={!values?.dateFilter?.value}
+                        style={{ width: "100%" }}
+                      />
                     </div>
                     <div className="col-lg-1">
                       <button
@@ -694,10 +681,9 @@ const SCFRegisterLandingPage = () => {
                           className="btn btn-primary mr-2"
                           type="button"
                           onClick={(e) => {
-                            history.push({
-                              pathname: `/financial-management/scf/scfregister/autojournalllog`,
-                              state: {},
-                            });
+                            history.push(
+                              "/financial-management/scf/scfregister/autojournalllog"
+                            );
                           }}
                         >
                           Log
@@ -705,14 +691,13 @@ const SCFRegisterLandingPage = () => {
                       </div>
                     )}
                   </div>
-                  <div></div>
+
                   <div className="row">
                     <div className="col-12 common-scrollable-table four-column-sticky">
                       <div
                         className="scroll-table _table overflow-auto"
                         style={{ height: "700px" }}
                       >
-                        {/* <div className="table-responsive"> */}
                         <table
                           id="table-to-xlsx"
                           className="table table-striped table-bordered global-table table-header-sticky"
@@ -775,7 +760,7 @@ const SCFRegisterLandingPage = () => {
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th>Disbursement Voucher No</th>
-                    
+
                               <th style={{ minWidth: "200px" }}>Action</th>
                             </tr>
                           </thead>
@@ -797,10 +782,10 @@ const SCFRegisterLandingPage = () => {
                                   <span className="facility-icon">
                                     <InfoCircle
                                       clickHandler={() => {
-                                        getHistory(
+                                        getSCFInfoData(
                                           `/fino/FundManagement/GetLoanRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`
                                         );
-                                        setShow(true);
+                                        setShowSCFInfoModal(true);
                                       }}
                                       classes="text-primary"
                                     />
@@ -857,10 +842,9 @@ const SCFRegisterLandingPage = () => {
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.brCode}</td>
-                              
+
                                 <td className="text-center">
                                   <div className="d-flex justify-content-around">
-                                  
                                     <span>
                                       <ICon
                                         title="Attach or View your documents"
@@ -873,7 +857,7 @@ const SCFRegisterLandingPage = () => {
                                             setAttachments,
                                             setLoading,
                                             () => {
-                                              setOpen(true);
+                                              setShowAttachmentModal(true);
                                             }
                                           );
                                         }}
@@ -983,7 +967,7 @@ const SCFRegisterLandingPage = () => {
                                       <ICon
                                         title={"Print"}
                                         onClick={() => {
-                                          setShowModal(true);
+                                          setShowSCFPrintModal(true);
                                           handlePrintClick({ item });
                                         }}
                                       >
@@ -1048,24 +1032,17 @@ const SCFRegisterLandingPage = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              {[136].includes(buId) && <td></td>}{" "}
-                              {/* Conditionally render if buId is 136 */}
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                              {[136].includes(buId) && <td></td>}
+                              <td colSpan={6}></td>
+
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalDisbursedAmount)}</b>
                               </td>
-                              <td className="text-right"></td>
-                              <td className="text-right"></td>
-                              <td className="text-right"></td>
-                              <td></td>
+                              <td colSpan={4}></td>
+
                               <td className="text-right">
                                 <b> {_formatMoney(totalInterestAmount)}</b>
                               </td>
@@ -1078,19 +1055,15 @@ const SCFRegisterLandingPage = () => {
                               <td className="text-right">
                                 <b> {_formatMoney(totalPaidInterest)}</b>
                               </td>
-                              <td className="text-right"></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                              <td colSpan={5}></td>
                             </tr>
                           </tbody>
                         </table>
-                        {/* </div> */}
                       </div>
                     </div>
                   </div>
                 </Form>
+
                 {loanRegisterData?.data?.length > 0 && (
                   <PaginationTable
                     count={loanRegisterData?.totalCount}
@@ -1107,31 +1080,37 @@ const SCFRegisterLandingPage = () => {
               </CardBody>
             </Card>
 
-            <IViewModal show={open} onHide={() => setOpen(false)}>
+            <IViewModal
+              show={showAttachmentModal}
+              onHide={() => setShowAttachmentModal(false)}
+            >
               <AttachmentUploadForm
                 typeId={2}
-                setShow={setOpen}
+                setShow={setShowAttachmentModal}
                 fdrNo={fdrNo}
                 attachments={attachments}
               />
             </IViewModal>
 
-            {show && !loadingHistory && (
-              <IViewModal show={show} onHide={() => setShow(false)}>
+            {showScfInfoModal && !getSCFInfoDataLoading && (
+              <IViewModal
+                show={showScfInfoModal}
+                onHide={() => setShowSCFInfoModal(false)}
+              >
                 <div
                   style={{
                     textAlign: "center",
                     margin: "20px 0",
                   }}
                 >
-                  <h3>Created By: {historyData?.createdBy}</h3>
+                  <h3>Created By: {scfInfoData?.createdBy}</h3>
                   <h4>
                     Confirmation Date:{" "}
-                    {historyData?.confirmedAt
-                      ? moment(historyData?.confirmedAt)?.format("ll")
+                    {scfInfoData?.confirmedAt
+                      ? moment(scfInfoData?.confirmedAt)?.format("ll")
                       : ""}
                   </h4>
-                  {historyData?.history?.length > 0 && (
+                  {scfInfoData?.history?.length > 0 && (
                     <table className="table table-bordered">
                       <thead>
                         <tr>
@@ -1144,7 +1123,7 @@ const SCFRegisterLandingPage = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {historyData?.history?.map((item, index) => (
+                        {scfInfoData?.history?.map((item, index) => (
                           <tr key={index}>
                             <td>{item?.loanAccountId}</td>
                             <td>
@@ -1170,9 +1149,9 @@ const SCFRegisterLandingPage = () => {
 
       <IViewModal
         title={"Print Template"}
-        show={showModal}
+        loanInfoModal={showSCFPrintModal}
         onHide={() => {
-          setShowModal(false);
+          setShowSCFPrintModal(false);
         }}
       >
         <>
@@ -1189,7 +1168,7 @@ const SCFRegisterLandingPage = () => {
               className="btn btn-primary"
               onClick={() => {
                 handleInvoicePrint();
-                setShowModal(false);
+                setShowSCFPrintModal(false);
               }}
             >
               Print
@@ -1199,7 +1178,7 @@ const SCFRegisterLandingPage = () => {
           <div>
             <div style={{ margin: "-13px 0 51px 0" }}>
               {/* {singleItem && ( */}
-              <PdfRender printRef={printRef} singleItem={singleItem} />
+              <PdfRenderGenertor printRef={printRef} singleItem={singleItem} />
               {/* )} */}
             </div>
           </div>

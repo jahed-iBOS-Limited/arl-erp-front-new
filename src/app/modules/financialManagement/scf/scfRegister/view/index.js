@@ -32,27 +32,7 @@ export default function SCFRegisterViewPage({
     return state?.authData;
   }, shallowEqual);
 
-  //   const singleData = useSelector((state) => {
-  //     return state.costControllingUnit?.singleData;
-  //   }, shallowEqual);
-
-  const saveHandler = async (values, cb) => {
-    // console.log(values);
-    // createLoanRegister(
-    //   profileData?.accountId,
-    //   selectedBusinessUnit?.value,
-    //   values?.loanAccNo,
-    //   values?.bank?.value,
-    //   values?.account?.value,
-    //   values?.facility?.value,
-    //   values?.openingDate,
-    //   +values?.termDays,
-    //   +values?.principle,
-    //   +values?.interestRate,
-    //   profileData?.userId,
-    //   cb
-    // );
-  };
+  const saveHandler = async (values, cb) => {};
   useEffect(() => {
     getLoanRegisterById(+id, setSingleData, setDisabled);
   }, [id]);

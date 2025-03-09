@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 import { formatDate } from './utils';
 const marginBottom = '9px';
 const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {

@@ -268,11 +268,6 @@ export const createLoanRegister = async (
 ) => {
   setDisabled(true);
   try {
-    // previous
-    // const res = await Axios.post(
-    //   `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
-    //     ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
-    // );
     const requestBody = {
       accountId: accId,
       businessUnitId: buId,

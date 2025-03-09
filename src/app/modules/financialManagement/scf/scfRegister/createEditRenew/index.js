@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { createLoanRegister, loadRegisterEdit } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import SCFRegisterViewPage from "../view";
-import IForm from "../../../../_helper/_form";
 import SCFRegisterViewForm from "../view/form";
 
 const initData = {
@@ -26,9 +25,8 @@ const initData = {
 };
 
 export default function SCFRegisterCreateEditRenewPage({
-  history,
   match: {
-    params: { id, editId, renewId },
+    params: { editId, renewId },
   },
 }) {
   const [objProps, setObjprops] = useState({});
@@ -144,7 +142,6 @@ export default function SCFRegisterCreateEditRenewPage({
         loanRemarks: values?.remarks || "",
       };
       loadRegisterEdit({ editPayload, setDisabled, cb });
-      return;
     }
 
     createLoanRegister(

@@ -14,6 +14,7 @@ const disbursementPurposeDDL = [
   { value: 4, label: "Working Capital" },
   { value: 5, label: "Sanctioned Working Capital" },
 ];
+
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
     .shape({
@@ -202,7 +203,6 @@ export default function SCFRegisterViewForm({
                     touched={touched}
                     isDisabled={isEdit || renewId}
                     label="Bank"
-                    placeholder="Bank"
                   />
                 </div>
                 <div className="col-lg-4">
@@ -215,9 +215,7 @@ export default function SCFRegisterViewForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    // isDisabled={isEdit || renewId}
                     label="Bank Account"
-                    placeholder="Bank Account"
                   />
                 </div>
                 <div className="col-lg-4">
@@ -235,7 +233,6 @@ export default function SCFRegisterViewForm({
                     touched={touched}
                     isDisabled={renewId || location?.state?.isLoanApproved}
                     label="Facility"
-                    placeholder="Facility"
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -320,7 +317,6 @@ export default function SCFRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    // disabled={isEdit}
                     disabled={renewId || location?.state?.isLoanApproved}
                   />
                 </div>
@@ -340,7 +336,6 @@ export default function SCFRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                  // disabled={isEdit}
                   />
                 </div>
 
@@ -357,7 +352,6 @@ export default function SCFRegisterViewForm({
                       touched={touched}
                       label="Disbursement Purpose"
                       placeholder="Disbursement Purpose"
-                      // isDisabled={location?.state?.isLoanApproved}
                     />
                   </div>
                 )}

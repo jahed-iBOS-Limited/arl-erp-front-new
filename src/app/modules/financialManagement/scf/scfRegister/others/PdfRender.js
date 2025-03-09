@@ -9,7 +9,8 @@ import G2GPdf from "./G2GPdf";
 import SanctionedWorkingCapitalPdf from "./SanctionedWorkingCapitalPdf";
 const EBLBankId = 17;
 const NRBCBankId = 61;
-const PdfRender = ({ singleItem, printRef }) => {
+
+const PdfRenderGenertor = ({ singleItem, printRef }) => {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -79,4 +80,4 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
   );
 };
 
-export default PdfRender;
+export default PdfRenderGenertor;
