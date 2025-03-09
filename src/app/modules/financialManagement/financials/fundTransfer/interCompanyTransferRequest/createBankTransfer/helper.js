@@ -2,19 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
-export const changeChequeBookSave = async (id, chequeNo, cb) => {
-  try {
-    const res = await Axios.put(
-      `/fino/BankJournal/UpdateChekNoById?Id=${id}&CheckNo=${chequeNo}`
-    );
-    if (res.status === 200 && res?.data) {
-      cb();
-      toast.success(res?.data?.message, { toastId: "sfasfsf" });
-    }
-  } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "sfasfsfErr" });
-  }
-};
 
 export const genarateChequeNo = async (
   accId,

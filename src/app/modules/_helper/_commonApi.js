@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const getImageuploadStatus = (accountId) => {
   return axios.get(`/fino/Image/getImageuploadStatus?accountId=${accountId}`);
@@ -26,4 +27,19 @@ export const getBankAc = async (accId, BuId, setter) => {
       setter(res?.data);
     }
   } catch (error) {}
+};
+
+
+export const changeChequeBookSave = async (id, chequeNo, cb) => {
+  try {
+    const res = await axios.put(
+      `/fino/BankJournal/UpdateChekNoById?Id=${id}&CheckNo=${chequeNo}`
+    );
+    if (res.status === 200 && res?.data) {
+      cb();
+      toast.success(res?.data?.message, { toastId: "sfasfsf" });
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message, { toastId: "sfasfsfErr" });
+  }
 };
