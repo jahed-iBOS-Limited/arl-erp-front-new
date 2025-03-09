@@ -112,17 +112,6 @@ export const getDisbursementCenterName = async (accId, BuId, SbuId, setter) => {
   } catch (error) {}
 };
 
-export const GetBusTransDDLForExp_api = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDLForExpense?AccountId=${accId}&BusinessUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const singleDataById = async (advId, setter, setDisabled) => {
   try {
     setDisabled && setDisabled(true);
