@@ -118,3 +118,15 @@ export const chequeGeneretor = async (
     // setter([]);
   }
 };
+
+
+export const getPartner = async (accId, BuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${BuId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

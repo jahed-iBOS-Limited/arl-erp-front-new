@@ -8,7 +8,6 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import { useEffect } from "react";
 import {
-  // getPartner,
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
   // getPartnerDetailsDDL,
