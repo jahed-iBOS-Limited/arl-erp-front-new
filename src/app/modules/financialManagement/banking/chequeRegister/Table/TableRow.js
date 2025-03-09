@@ -15,7 +15,6 @@ import {
   getSbuDDL,
   getAccDDL,
   // checkTwoFactorApproval,
-  chequeGeneretor,
 } from "../helper";
 
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -29,6 +28,7 @@ import ChequePrintModal from "../chequePrintModal/chequePrintModal";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { useHistory } from "react-router-dom";
 import { SetBankingChequeRegisterAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { chequeGeneretor } from "../../../../_helper/_commonApi";
 // const html2pdf = require("html2pdf.js");
 
 export function TableRow() {
