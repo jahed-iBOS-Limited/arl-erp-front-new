@@ -39,7 +39,7 @@ const ChatBoatWrapper = ({ timeRemainingCB }) => {
     getChatResponse(
       {
         // question: text,
-        query: text,
+        question: text,
       },
       (obj) => {
         setChatList([...modfyData, { text: obj?.resData, to: false }]);
