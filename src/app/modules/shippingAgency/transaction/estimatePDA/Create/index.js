@@ -18,7 +18,6 @@ import IViewModal from "../../../../_helper/_viewModal";
 import {
   attachment_action,
   createUpdateEstimatePDA,
-  getBankAc,
   getBuUnitDDL,
   getEstimatePDAById,
   getExpenseParticularsList,
@@ -28,6 +27,7 @@ import {
 } from "../helper";
 import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
+import { getBankAc } from "../../../../_helper/_commonApi";
 const initData = {
   sbu: "",
   vesselName: "",

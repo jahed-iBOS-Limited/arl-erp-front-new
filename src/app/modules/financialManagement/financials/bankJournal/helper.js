@@ -2,16 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 
-export const getBankAc = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 export const changeChequeBookSave = async (id, chequeNo, cb) => {
   try {

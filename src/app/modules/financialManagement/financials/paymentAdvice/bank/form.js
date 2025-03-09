@@ -8,7 +8,6 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import { useEffect } from "react";
 import {
-  getBankAc,
   // getPartner,
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
@@ -21,6 +20,7 @@ import {
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
 import { getInstrumentType } from "../helper";
+import { getBankAc } from "../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

@@ -15,3 +15,15 @@ export const getSBU = async (accId, BuId, setter) => {
     }
   } catch (error) {}
 };
+
+
+export const getBankAc = async (accId, BuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

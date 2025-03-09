@@ -7,9 +7,9 @@ import IInput from "../../../../../_helper/_inputField";
 import { useEffect } from "react";
 import { getBankBranchDDL, getBankDDL } from "../../helper";
 import { useHistory } from "react-router-dom";
-import { getBankAc } from "../../../../financials/bankJournal/helper";
 import InputField from "../../../../../_helper/_inputField";
 import { toast } from "react-toastify";
+import { getBankAc } from "../../../../../_helper/_commonApi";
 
 const fdrRegister = Yup.object().shape({
   bank: Yup.object()
