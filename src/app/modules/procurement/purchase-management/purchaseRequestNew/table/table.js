@@ -190,7 +190,7 @@ const PurchaseRequestTable = () => {
       title: "Are you sure?",
       message: `Do you want to Inactive this purchase request`,
       yesAlertFunc: () => {
-        postPurchaseReqCancelAction(Pred).then(() =>
+        postPurchaseReqCancelAction(Pred, profileData?.userId).then(() =>
           getLandingPageDataFunc(pageNo, pageSize)
         );
       },
