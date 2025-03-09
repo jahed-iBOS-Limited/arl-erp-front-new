@@ -2,29 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 
-
-export const genarateChequeNo = async (
-  accId,
-  buId,
-  bankId,
-  branchId,
-  bankAccId,
-  bankAccNo,
-  instrumentId
-) => {
-  try {
-    const res = await Axios.get(
-      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`
-    );
-    if (res.status === 200 && res?.data) {
-      return res?.data;
-    }
-  } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
-    return [];
-  }
-};
-
 export const setGenarateChequeNo = async (
   accId,
   buId,

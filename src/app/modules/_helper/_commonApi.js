@@ -43,3 +43,26 @@ export const changeChequeBookSave = async (id, chequeNo, cb) => {
     toast.warn(error?.response?.data?.message, { toastId: "sfasfsfErr" });
   }
 };
+
+
+export const genarateChequeNo = async (
+  accId,
+  buId,
+  bankId,
+  branchId,
+  bankAccId,
+  bankAccNo,
+  instrumentId
+) => {
+  try {
+    const res = await axios.get(
+      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`
+    );
+    if (res.status === 200 && res?.data) {
+      return res?.data;
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
+    return [];
+  }
+};
