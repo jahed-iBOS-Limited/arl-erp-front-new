@@ -46,18 +46,6 @@ export const getBusinessPartnerDDL_Api = async (accId, buId, setter) => {
   }
 };
 
-export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDetailsDDL?accountId=${accId}&businessUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
 
 //getProfitCenterDDL_Api
 export const getProfitCenterDDL_Api = async (accId, buId, setter) => {

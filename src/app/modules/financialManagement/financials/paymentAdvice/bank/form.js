@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import {
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
-  // getPartnerDetailsDDL,
   getTransaction,
   getSendToGLBank,
   // getOthersPartner,
