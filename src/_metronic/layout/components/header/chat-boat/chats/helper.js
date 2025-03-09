@@ -58,8 +58,8 @@ export const sendMessage = async (payload, chatList, setChatList) => {
 export const getChatResponse = async (payload, cb) => {
   const apiUrl =
     process.env.NODE_ENV === 'development'
-      ? `https://devocr.ibos.io/ask`
-      : `https://ocr.ibos.io/ask`;
+      ? `https://devtexttosql.ibos.io/ask`
+      : `https://texttosql.ibos.io/ask`;
 
   try {
     const res = await Axios.post(apiUrl, payload);
