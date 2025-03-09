@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import SalesInvoiceModel from "../../createSales/viewModal";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import IView from './../../../../_helper/_helperIcons/_view';
+import SalesInvoiceModel from '../../createSales/viewModal';
 import {
   createSalesInvoiceIbosPrint_api,
   AutoTaxCompleteApi,
-} from "./../helper";
-import PaginationSearch from "../../../../_helper/_search";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+} from './../helper';
+import PaginationSearch from '../../../../_helper/_search';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 import {
   getSalesInvoiceById,
   GetTaxSalesInvoicePrintStatus_api,
-} from "../../createSales/helper";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { debounce } from "lodash";
+} from '../../createSales/helper';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { debounce } from 'lodash';
 
 const printBtnClick = debounce(
   ({
@@ -33,7 +33,7 @@ const printBtnClick = debounce(
     setLoading(false);
     if (printedObj) {
       const modifyFilterRowDto = rowDto?.data?.filter(
-        (itm) => itm?.deliveryId !== tableData?.deliveryId
+        (itm) => itm?.deliveryId !== tableData?.deliveryId,
       );
       const payload = {
         accountId: profileData?.accountId,
@@ -44,7 +44,7 @@ const printBtnClick = debounce(
         taxBranchAddress: values?.branch?.name,
         deliveryNo: tableData?.deliveryId,
         deliveryAddress: tableData?.partnerName,
-        vehicleNo: tableData?.vehicleNo || "",
+        vehicleNo: tableData?.vehicleNo || '',
         deliveryDate: _todayDate(),
         actionBy: profileData?.userId,
       };
@@ -54,11 +54,11 @@ const printBtnClick = debounce(
         setModelShow,
         modifyFilterRowDto,
         setRowDto,
-        setLoading
+        setLoading,
       );
     }
   },
-  1500
+  1500,
 );
 const GridData = ({
   rowDto,
@@ -70,10 +70,10 @@ const GridData = ({
   commonGridFunc,
 }) => {
   const [modelShow, setModelShow] = useState(false);
-  const [taxSalesInvoiceById, setTaxSalesInvoiceById] = useState("");
+  const [taxSalesInvoiceById, setTaxSalesInvoiceById] = useState('');
   const [loading, setLoading] = useState(false);
   const [salesInvoicePrintStatus, setSalesInvoicePrintStatus] = useState(false);
-  const [salesTableRowDto, setSalesTableRowDto] = useState("");
+  const [salesTableRowDto, setSalesTableRowDto] = useState('');
   return (
     <>
       <div className="row cash_journal">
@@ -91,39 +91,39 @@ const GridData = ({
               >
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    {values?.status === "printed" ? (
+                    <th style={{ width: '30px' }}>SL</th>
+                    {values?.status === 'printed' ? (
                       <>
-                        {" "}
-                        <th style={{ width: "35px" }}> Reference No</th>
+                        {' '}
+                        <th style={{ width: '35px' }}> Reference No</th>
                       </>
                     ) : (
                       <></>
                     )}
-                    {values?.status === "printed" ? (
-                      <th style={{ width: "90px" }}>Invoice</th>
+                    {values?.status === 'printed' ? (
+                      <th style={{ width: '90px' }}>Invoice</th>
                     ) : (
-                      <th style={{ width: "35px" }}>Delivery No</th>
+                      <th style={{ width: '35px' }}>Delivery No</th>
                     )}
-                    <th style={{ width: "100px" }}>Transfer Date</th>
-                    {values?.status === "printed" ? (
-                      <th style={{ width: "120px" }}>Transfer To</th>
+                    <th style={{ width: '100px' }}>Transfer Date</th>
+                    {values?.status === 'printed' ? (
+                      <th style={{ width: '120px' }}>Transfer To</th>
                     ) : (
-                      <th style={{ width: "130px" }}>Vehicle No</th>
+                      <th style={{ width: '130px' }}>Vehicle No</th>
                     )}
-                    {values?.status === "unprinted" && (
-                      <th style={{ width: "200px" }}>Delivery Address</th>
+                    {values?.status === 'unprinted' && (
+                      <th style={{ width: '200px' }}>Delivery Address</th>
                     )}
 
-                    <th style={{ width: "100px" }}>Quantity</th>
-                    <th style={{ width: "100px" }}>Value</th>
-                    <th style={{ width: "50px" }}>Action </th>
+                    <th style={{ width: '100px' }}>Quantity</th>
+                    <th style={{ width: '100px' }}>Value</th>
+                    <th style={{ width: '50px' }}>Action </th>
                   </tr>
                 </thead>
                 <tbody>
                   {rowDto?.data?.map((tableData, index) => {
                     const duplicatedeliveryNumber = rowDto?.data?.filter(
-                      (i) => i?.deliveryNumber === tableData?.deliveryNumber
+                      (i) => i?.deliveryNumber === tableData?.deliveryNumber,
                     );
 
                     return (
@@ -131,11 +131,11 @@ const GridData = ({
                         key={index}
                         style={{
                           background:
-                            duplicatedeliveryNumber.length > 1 ? "red" : "",
+                            duplicatedeliveryNumber.length > 1 ? 'red' : '',
                         }}
                       >
                         <td> {tableData?.sl} </td>
-                        {values?.status === "printed" ? (
+                        {values?.status === 'printed' ? (
                           <>
                             <td> {tableData?.deliveryNumber}</td>
                           </>
@@ -143,20 +143,20 @@ const GridData = ({
                           <></>
                         )}
                         <td>
-                          {" "}
-                          {tableData?.invoice || tableData?.deliveryCode}{" "}
+                          {' '}
+                          {tableData?.invoice || tableData?.deliveryCode}{' '}
                         </td>
                         <td className="text-center">
-                          {values?.status === "printed"
+                          {values?.status === 'printed'
                             ? _dateFormatter(tableData?.transferDate)
                             : _dateFormatter(tableData?.deliveryDate)}
                         </td>
                         <td>
-                          {values?.status === "printed"
+                          {values?.status === 'printed'
                             ? tableData?.transferTo
                             : tableData?.vehicleNo}
                         </td>
-                        {values?.status === "unprinted" && (
+                        {values?.status === 'unprinted' && (
                           <td>{tableData?.partnerName}</td>
                         )}
 
@@ -166,7 +166,7 @@ const GridData = ({
                               tableData?.quantity ||
                               tableData?.deliveryQuantity ||
                               0
-                            ).toFixed(3)
+                            ).toFixed(3),
                           )}
                         </td>
                         <td className="text-right">
@@ -174,7 +174,7 @@ const GridData = ({
                         </td>
                         <td>
                           <div className="d-flex justify-content-around">
-                            {values?.status === "printed" ? (
+                            {values?.status === 'printed' ? (
                               <>
                                 <IView
                                   clickHandler={() => {
@@ -182,11 +182,11 @@ const GridData = ({
                                     getSalesInvoiceById(
                                       tableData?.salesId,
                                       setTaxSalesInvoiceById,
-                                      setLoading
+                                      setLoading,
                                     );
                                     GetTaxSalesInvoicePrintStatus_api(
                                       tableData.salesId,
-                                      setSalesInvoicePrintStatus
+                                      setSalesInvoicePrintStatus,
                                     );
                                     setModelShow(true);
                                   }}
@@ -206,10 +206,10 @@ const GridData = ({
                                       const printedObj = rowDto?.data?.filter(
                                         (itm) =>
                                           itm?.deliveryId ===
-                                          tableData?.deliveryId
+                                          tableData?.deliveryId,
                                       );
                                       let confirmObject = {
-                                        title: "Are you sure?",
+                                        title: 'Are you sure?',
                                         message: `Do you want to remove of ${printedObj[0]?.deliveryCode}?`,
                                         yesAlertFunc: () => {
                                           setLoading(true);
@@ -234,8 +234,8 @@ const GridData = ({
                                 >
                                   Printed
                                 </button>
-                                {[521215, 523988, 3959, 3958].includes(
-                                  profileData?.userId
+                                {[521215, 523988, 3959, 3958, 265725].includes(
+                                  profileData?.userId,
                                 ) && (
                                   <button
                                     type="button"
@@ -247,7 +247,7 @@ const GridData = ({
                                         setLoading,
                                         () => {
                                           commonGridFunc(null, values);
-                                        }
+                                        },
                                       );
                                     }}
                                   >

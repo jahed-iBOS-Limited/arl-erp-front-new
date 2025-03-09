@@ -10,25 +10,25 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import NewSelect from '../../../../_helper/_select';
 import TextArea from '../../../../_helper/TextArea';
-
 const validationSchema = Yup.object().shape({
-  // paymentParty: Yup.object().shape({
-  //   value: Yup.string().required('Party is required'),
-  //   label: Yup.string().required('Party is required'),
-  // }),
+  narration: Yup.string(),
+  paymentParty: Yup.mixed().when('activeTab', {
+    is: 'billGenerate',
+    then: Yup.mixed().required('Payment Party is required'),
+    otherwise: Yup.mixed(),
+  }),
 });
 
 const FinanceModal = ({ clickRowDto, CB }) => {
-  const [paymentPartyListDDL, setPaymentPartyListDDL] = useState([]);
-
+  const [activeTab, setActiveTab] = useState('invoice');
+  const [paymentPartyListDDL, getPaymentPartyListDDL, ,] = useAxiosGet();
   const [
     chaServiceChargeData,
     getChaServiceChargeData,
     chaServiceChargeLoading,
-    setShippingHeadOfCharges,
   ] = useAxiosGet();
   const formikRef = React.useRef(null);
-  const [activeTab, setActiveTab] = useState('invoice');
+
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -62,10 +62,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
 
     if (type === 'billGenerate') {
       const filterByPaymentParty = dataList?.filter(
-        (item) =>
-          item?.partyId === values?.paymentParty?.value &&
-          (+item?.paymentAmount || 0) > 0 &&
-          !item?.billRegisterCode,
+        (item) => (+item?.paymentAmount || 0) > 0 && !item?.billRegisterCode,
       );
       const newData = filterByPaymentParty?.map((item) => {
         return {
@@ -79,71 +76,130 @@ const FinanceModal = ({ clickRowDto, CB }) => {
     }
   };
 
-  //   [
-  //     {
-  //         "serviceChargeId": 1,
-  //         "bookingId": 1,
-  //         "headOfChargeId": 35,
-  //         "headOfCharges": "Customs Duty (bfusnugnsfbgysdf)",
-  //         "collectionRate": 10.000000,
-  //         "collectionQty": 20,
-  //         "collectionAmount": 200.000000,
-  //         "paymentRate": 30.000000,
-  //         "paymentQty": 40,
-  //         "paymentAmount": 1200.000000,
-  //         "serviceChargeDate": "2025-02-06T11:10:40.057",
-  //         "partyId": 106248,
-  //         "partyName": "Jaman Interiors and Exteriors Ltd.",
-  //         "isActive": true,
-  //         "createdBy": 521235,
-  //         "createdAt": "2025-02-06T10:10:20.657",
-  //         "updatedAt": "2025-02-06T11:10:38.927",
-  //         "updatedBy": 521235,
-  //         "billRegisterId": null,
-  //         "billRegisterCode": null,
-  //         "adjustmentJournalId": null,
-  //         "invoiceId": null,
-  //         "invoiceCode": null
-  //     }
-  // ]
   const saveHandler = (values) => {
     if (billingDataFilterData?.length === 0)
       return toast.warning('No data found to save');
 
-    if (!clickRowDto?.customerId) return toast.warning('Customer not found');
-    const payload = {
-      accountId: profileData?.accountId,
-      unitId: selectedBusinessUnit?.value,
-      bookingDate: new Date(),
-      bookingNumber: clickRowDto?.chabookingCode,
-      paymentTerms: values?.narration || '',
-      actionBy: profileData?.userId,
-      businessPartnerId: clickRowDto?.customerId || 0,
-      businessPartnerName: clickRowDto?.customerName || '',
-      rowString: billingDataFilterData?.map((item) => {
-        return {
-          intBillingId: item?.bookingId || 0,
-          intHeadOfChargeid: item?.headOfChargeId || 0,
-          strHeadoffcharges: item?.headOfCharges || '',
-          intCurrencyid: 0,
-          strCurrency: '',
-          numrate: item?.rate || 0,
-          numconverstionrate: 0,
-          strUom: '',
-          numamount: item?.amount || 0,
-          numvatAmount: 0,
-        };
-      }),
-    };
+    if (activeTab === 'invoice') {
+      if (!clickRowDto?.customerId) return toast.warning('Customer not found');
+      const payload = {
+        accountId: profileData?.accountId,
+        unitId: selectedBusinessUnit?.value,
+        bookingDate: new Date(),
+        bookingNumber: clickRowDto?.chabookingCode,
+        bookingId: clickRowDto?.chabookingId,
+        paymentTerms: values?.narration || '',
+        actionBy: profileData?.userId,
+        businessPartnerId: clickRowDto?.customerId || 0,
+        businessPartnerName: clickRowDto?.customerName || '',
+        isEmailSend: values?.isEmailSend || false,
+        rowString: billingDataFilterData?.map((item) => {
+          return {
+            intBillingId: item?.serviceChargeId || 0,
+            intHeadOfChargeid: item?.headOfChargeId || 0,
+            strHeadoffcharges: item?.headOfCharges || '',
+            intCurrencyid: 0,
+            strCurrency: '',
+            numrate: item?.rate || 0,
+            numconverstionrate: 0,
+            strUom: '',
+            numamount: item?.amount || 0,
+            numvatAmount: 0,
+          };
+        }),
+      };
+      saveLogisticBillRegister(
+        `${imarineBaseUrl}/domain/CHAShipment/ChaShipmentBookingInvoice`,
+        payload,
+        (data) => {
+          CB();
+        },
+        true,
+      );
+    }
 
-    saveLogisticBillRegister(
-      `${imarineBaseUrl}/domain/CHAShipment/ChaShipmentBookingInvoice`,
-      payload,
-      (data) => {
-        CB();
-      },
-      true,
-    );
+    // Bill Generate
+    if (activeTab === 'billGenerate') {
+      const paylaod = {
+        objHeader: {
+          bookingNumber: clickRowDto?.chabookingCode,
+          bookingId: clickRowDto?.chabookingId,
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          businessUnitName: selectedBusinessUnit?.label,
+          expenseForId: values?.paymentParty?.value || 0,
+          expenseForName: values?.paymentParty?.label || '',
+          dteFromDate: new Date(),
+          dteToDate: new Date(),
+          numTotalAmount: billingDataFilterData?.reduce(
+            (acc, curr) => acc + (+curr?.amount || 0),
+            0,
+          ),
+          comments: values?.narration || '',
+          actionBy: profileData?.userId,
+
+          sbuid: 0,
+          sbuname: '',
+          countryId: 0,
+          plantId: 0,
+          countryName: '',
+          currencyId: 0,
+          currencyName: '',
+          internalAccountId: 0,
+          projectId: 0,
+          projectName: '',
+          costCenterId: 0,
+          costCenterName: '',
+          instrumentId: 0,
+          instrumentName: '',
+          disbursementCenterId: 0,
+          disbursementCenterName: '',
+          vehicleId: '',
+          numTotalApprovedAmount: 0,
+          paymentCompleteBy: 0,
+          adjustmentAmount: 0,
+          pendingAmount: 0,
+          expenseGroup: '',
+        },
+        objRow: billingDataFilterData?.map((item) => {
+          return {
+            numQuantity: +item?.qty || 0,
+            numRate: +item?.rate || 0,
+            numAmount: +item?.amount || 0,
+            headOfChargeId: item?.headOfChargeId || 0,
+            headOfCharge: item?.headOfCharges || '',
+            headOfChargeTypeId: 2,
+            headOfChargeTypeName: 'ChaChargeHead',
+            dteExpenseDate: new Date(),
+            rowId: 0,
+            expenseId: 0,
+            businessTransactionId: 0,
+            businessTransactionName: '',
+            expenseLocation: '',
+            comments: values?.narration || '',
+            attachmentLink: '',
+            driverId: 0,
+            costCenterId: 0,
+            costCenterName: '',
+            profitCenterId: 0,
+            profitCenterName: '',
+            costElementId: 0,
+            costElementName: '',
+            subGlaccountHeadId: 0,
+            strSubGlaccountHead: '',
+          };
+        }),
+      };
+
+      saveLogisticBillRegister(
+        `${imarineBaseUrl}/domain/CHAShipment/CreateChaExpenceRegister`,
+        paylaod,
+        (data) => {
+          CB();
+        },
+        true,
+      );
+    }
   };
 
   const handleChange = (event, newValue, values) => {
@@ -160,29 +216,19 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         `${imarineBaseUrl}/domain/CHAShipment/GetChaServiceChargeData?ChabookingId=${clickRowDto?.chabookingId}`,
         (resData) => {
           commonGetByIdHandler(resData, 'invoice');
-
-          const billingDataList = resData
-            ?.filter((i) => i.partyId)
-            ?.map((item) => {
-              return {
-                ...item,
-                value: item?.partyId,
-                label: item?.partyName,
-                partyId: item?.partyId,
-              };
-            });
-          const unique = [
-            ...new Map(
-              billingDataList.map((item) => [item['partyId'], item]),
-            ).values(),
-          ];
-          setPaymentPartyListDDL(unique || []);
         },
       );
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowDto]);
+
+  useEffect(() => {
+    getPaymentPartyListDDL(
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaEmployeeDDL`,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const invoiceTypeHandeler = (values) => {
     commonGetByIdHandler(chaServiceChargeData, activeTab, values);
@@ -199,6 +245,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
           initialValues={{
             narration: '',
             paymentParty: '',
+            activeTab: activeTab,
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -238,6 +285,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
                   value={activeTab}
                   onChange={(event, newValue) => {
                     handleChange(event, newValue, values);
+                    setFieldValue('activeTab', newValue);
                   }}
                   variant="scrollable"
                   indicatorColor="primary"
@@ -252,6 +300,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
                     <InvoiceCmp
                       values={values}
                       billingDataFilterData={billingDataFilterData}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                   {activeTab === 'billGenerate' && (
@@ -330,18 +379,17 @@ const BillCmp = ({
             </tr>
           </thead>
           <tbody>
-            {values?.paymentParty?.value &&
-              billingDataFilterData?.map((row, index) => (
-                <tr key={index}>
-                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
-                  <td className="align-middle">
-                    <label>{row?.headOfCharges}</label>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>{row?.rate}</td>
-                  <td style={{ textAlign: 'right' }}>{row?.qty}</td>
-                  <td style={{ textAlign: 'right' }}>{row?.amount}</td>
-                </tr>
-              ))}
+            {billingDataFilterData?.map((row, index) => (
+              <tr key={index}>
+                <td style={{ textAlign: 'right' }}> {index + 1} </td>
+                <td className="align-middle">
+                  <label>{row?.headOfCharges}</label>
+                </td>
+                <td style={{ textAlign: 'right' }}>{row?.rate}</td>
+                <td style={{ textAlign: 'right' }}>{row?.qty}</td>
+                <td style={{ textAlign: 'right' }}>{row?.amount}</td>
+              </tr>
+            ))}
             <tr>
               <td colSpan="4" style={{ textAlign: 'right' }}>
                 <b>Total</b>
@@ -363,7 +411,7 @@ const BillCmp = ({
   );
 };
 
-const InvoiceCmp = ({ billingDataFilterData, values }) => {
+const InvoiceCmp = ({ billingDataFilterData, values, setFieldValue }) => {
   return (
     <>
       <div className="form-group row global-form">
@@ -376,6 +424,21 @@ const InvoiceCmp = ({ billingDataFilterData, values }) => {
             name="narration"
             type="text"
           />
+        </div>
+        <div className="col-lg-3 mt-6">
+          <label>
+            <input
+              type="checkbox"
+              name="isEmailSend"
+              checked={values?.isEmailSend}
+              className="mr-1 pointer"
+              style={{ position: 'relative', top: '2px' }}
+              onChange={(e) => {
+                setFieldValue('isEmailSend', e.target.checked);
+              }}
+            />
+            Is Email Send
+          </label>
         </div>
       </div>{' '}
       <div className="table-responsive">
