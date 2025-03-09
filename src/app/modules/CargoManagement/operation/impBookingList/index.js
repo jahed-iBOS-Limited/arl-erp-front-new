@@ -99,10 +99,12 @@ function ImpBookingList() {
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-      ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -131,7 +133,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-      item?.freightAgentReferenceId
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -162,7 +164,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -330,11 +332,16 @@ function ImpBookingList() {
                           Delivery Port
                         </th>
                         <th style={{ minWidth: '50px' }}>
-                          {
-                            values?.modeOfTransport?.value === 4 ? "Consignment Number" : " HBL No."
-                          }
+                          {values?.modeOfTransport?.value === 4
+                            ? 'Consignment Number'
+                            : ' HBL No.'}
                         </th>
-                        <th style={{ minWidth: '80px' }}> Master BL No</th>
+                        {values?.modeOfTransport?.value === 4 ? (
+                          <></>
+                        ) : (
+                          <th style={{ minWidth: '80px' }}> Master BL No</th>
+                        )}
+
                         {/* <th
                            style={{
                              minWidth: '120px',
@@ -384,14 +391,18 @@ function ImpBookingList() {
                         >
                           Shipment Planning
                         </th>
+                        {values?.modeOfTransport?.value === 4 ? (
+                          <></>
+                        ) : (
+                          <th
+                            style={{
+                              minWidth: '60px',
+                            }}
+                          >
+                            BL
+                          </th>
+                        )}
 
-                        <th
-                          style={{
-                            minWidth: '60px',
-                          }}
-                        >
-                          BL
-                        </th>
                         <th
                           style={{
                             minWidth: '146px',
@@ -437,11 +448,20 @@ function ImpBookingList() {
                             isCompletedMasterBl = true;
                           }
 
+                          // 4 =  Land
+                          if (
+                            item?.modeOfTransportId === 4 &&
+                            item?.isLandmasterBlGenarate
+                          ) {
+                            isCompletedMasterBl = true;
+                          }
+
                           return (
                             <>
                               <tr key={i + 1}>
                                 <td>
-                                  {isCompletedMasterBl ? (
+                                  {isCompletedMasterBl ||
+                                  values?.modeOfTransport?.value === 4 ? (
                                     <></>
                                   ) : (
                                     <>
@@ -488,21 +508,25 @@ function ImpBookingList() {
                                   {item?.portOfDischarge}
                                 </td>
                                 <td className="text-left">{item?.hblnumber}</td>
-                                <td className="text-left">
-                                  {item?.seaMasterBlCode &&
+                                {values?.modeOfTransport?.value === 4 ? (
+                                  <></>
+                                ) : (
+                                  <td className="text-left">
+                                    {item?.seaMasterBlCode &&
                                     item?.airMasterBlCode ? (
-                                    <>
-                                      {item?.seaMasterBlCode}{' '}
-                                      {item?.airMasterBlCode
-                                        ? ', ' + item?.airMasterBlCode
-                                        : ''}
-                                    </>
-                                  ) : (
-                                    item?.seaMasterBlCode ||
-                                    item?.airMasterBlCode ||
-                                    ''
-                                  )}
-                                </td>
+                                      <>
+                                        {item?.seaMasterBlCode}{' '}
+                                        {item?.airMasterBlCode
+                                          ? ', ' + item?.airMasterBlCode
+                                          : ''}
+                                      </>
+                                    ) : (
+                                      item?.seaMasterBlCode ||
+                                      item?.airMasterBlCode ||
+                                      ''
+                                    )}
+                                  </td>
+                                )}
                                 <td>
                                   <span>{statusReturn(item)}</span>
                                 </td>
@@ -611,30 +635,33 @@ function ImpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-
-                                <td>
-                                  <span>
-                                    <button
-                                      // disabled={item?.isBl}
-                                      className={
-                                        item?.isBl
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isBlModal: true,
-                                        });
-                                      }}
-                                    >
-                                      {item?.modeOfTransport === 'Air'
-                                        ? 'MAWB '
-                                        : 'MBL'}
-                                    </button>
-                                  </span>
-                                </td>
+                                {values?.modeOfTransport?.value === 4 ? (
+                                  <></>
+                                ) : (
+                                  <td>
+                                    <span>
+                                      <button
+                                        // disabled={item?.isBl}
+                                        className={
+                                          item?.isBl
+                                            ? 'btn btn-sm btn-success px-1 py-1'
+                                            : 'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isBlModal: true,
+                                          });
+                                        }}
+                                      >
+                                        {item?.modeOfTransport === 'Air'
+                                          ? 'MAWB '
+                                          : 'MBL'}
+                                      </button>
+                                    </span>
+                                  </td>
+                                )}
                                 <td>
                                   <span>
                                     <button
@@ -741,7 +768,6 @@ function ImpBookingList() {
                       rowClickData={{
                         ...rowClickData,
                         tradeTypeId: 2,
-
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -1076,8 +1102,9 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                    } Report`}
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
