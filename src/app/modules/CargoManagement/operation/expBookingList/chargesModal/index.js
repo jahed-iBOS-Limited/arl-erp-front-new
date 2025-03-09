@@ -52,6 +52,10 @@ function ChargesModal({ rowClickData, CB }) {
       masterBlId = rowClickData?.seamasterBlId;
       masterBlCode = rowClickData?.seaMasterBlCode;
     }
+    if (modeOfTransportId === 4) {
+      masterBlId = rowClickData?.landmasterBlId;
+      masterBlCode = rowClickData?.landmasterBlCode;
+    }
     if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
@@ -126,7 +130,7 @@ function ChargesModal({ rowClickData, CB }) {
                       billRegisterId: saveItem?.billRegisterId || 0,
                       billRegisterCode: saveItem?.billRegisterCode || '',
                       masterBlId: masterBlId,
-                      masterBlCode: masterBlCode,
+                      masterBlCode: masterBlCode || '',
                       modeOfTransportId: modeOfTransportId,
                       advancedBillRegisterId:
                         saveItem?.advancedBillRegisterId || 0,
@@ -167,7 +171,7 @@ function ChargesModal({ rowClickData, CB }) {
                     headOfCharges: item?.label || '',
                     headOfChargeId: item?.value || 0,
                     masterBlId: masterBlId,
-                    masterBlCode: masterBlCode,
+                    masterBlCode: masterBlCode || '',
                     modeOfTransportId: modeOfTransportId,
                   };
                   arryList.push(obj);
@@ -183,7 +187,7 @@ function ChargesModal({ rowClickData, CB }) {
   useEffect(() => {
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
-      : 2;
+      : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
 
     commonGetShippingHeadOfCharges(modeOfTransportId);
