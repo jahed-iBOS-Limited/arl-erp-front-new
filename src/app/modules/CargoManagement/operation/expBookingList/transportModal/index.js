@@ -15,6 +15,8 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 import './style.css';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -88,6 +90,7 @@ function TransportModal({ rowClickData, CB }) {
     ,
     setAirServiceProviderDDL,
   ] = useAxiosGet();
+  const [truckSize, getTruckSize] = useAxiosGet();
   const [
     airPortShortCodeDDL,
     getAirPortShortCodeDDL,
@@ -379,6 +382,7 @@ function TransportModal({ rowClickData, CB }) {
         setAirPortShortCodeDDL(getShortCode);
       },
     );
+    getTruckSize(`${imarineBaseUrl}/domain/ShippingService/GetTruckSize`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GetAirServiceProviderDDLFunc = (
@@ -402,12 +406,12 @@ function TransportModal({ rowClickData, CB }) {
     if (tradeTypeId === 2) {
       // modeOfTransportId 1=Air, 2=Sea, 3=Sea-Air, 4=Land
       if (modeOfTransportId === 4) {
-        getAirServiceProviderDDL(
-          `${imarineBaseUrl}/domain/ShippingService/GetTruckSize`,
-          (res) => {
-            setAirServiceProviderDDL(res);
-          },
-        );
+        // getAirServiceProviderDDL(
+        //   `${imarineBaseUrl}/domain/ShippingService/GetTruckSize`,
+        //   (res) => {
+        //     setAirServiceProviderDDL(res);
+        //   },
+        // );
       } else {
         getAirServiceProviderDDL(
           `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=${typeId}`,
@@ -698,47 +702,77 @@ function TransportModal({ rowClickData, CB }) {
                               </div>
                             )}
                         </div>
-                        {/* Air Line */}
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name={`rows[${index}].airLineOrShippingLine`}
-                            options={airServiceProviderDDLData || []}
-                            value={values?.rows?.[index].airLineOrShippingLine}
-                            label={
-                              values?.rows?.[index]?.transportPlanning
-                                ?.value === 1
-                                ? 'Air Line'
-                                : values?.rows?.[index]?.transportPlanning
-                                    ?.value === 4
-                                ? 'Transporter'
-                                : 'Shipping Line' || ''
-                            }
-                            onChange={(valueOption) => {
-                              setFieldValue(
-                                `rows[${index}].airLineOrShippingLine`,
-                                valueOption,
-                              );
-                            }}
-                            placeholder={
-                              values?.rows?.[index]?.transportPlanning
-                                ?.value === 1
-                                ? 'Air Line'
-                                : values?.rows?.[index]?.transportPlanning
-                                    ?.value === 4
-                                ? 'Transporter'
-                                : 'Shipping Line' || ''
-                            }
-                            errors={errors}
-                            touched={touched}
-                          />
-                          {errors?.rows &&
-                            errors?.rows?.[index]?.airLineOrShippingLine &&
-                            touched.rows && (
-                              <div className="text-danger">
-                                {errors?.rows?.[index]?.airLineOrShippingLine}
-                              </div>
-                            )}
-                        </div>
+
+                        {values?.rows?.[0]?.transportPlanning?.value === 4 ? (
+                          <>
+                            <div className="col-lg-3">
+                              <label>Transporter </label>
+                              <SearchAsyncSelect
+                                selectedValue={
+                                  values?.rows?.[index].airLineOrShippingLine
+                                }
+                                handleChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].airLineOrShippingLine`,
+                                    valueOption,
+                                  );
+                                }}
+                                loadOptions={(v) => {
+                                  let url = '';
+                                  url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=0`;
+                                  if (v?.length < 2) return [];
+                                  return axios
+                                    .get(url)
+                                    .then((res) => res?.data);
+                                }}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {/* Air Line */}
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name={`rows[${index}].airLineOrShippingLine`}
+                                options={airServiceProviderDDLData || []}
+                                value={
+                                  values?.rows?.[index].airLineOrShippingLine
+                                }
+                                label={
+                                  values?.rows?.[index]?.transportPlanning
+                                    ?.value === 1
+                                    ? 'Air Line'
+                                    : 'Shipping Line' || ''
+                                }
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].airLineOrShippingLine`,
+                                    valueOption,
+                                  );
+                                }}
+                                placeholder={
+                                  values?.rows?.[index]?.transportPlanning
+                                    ?.value === 1
+                                    ? 'Air Line'
+                                    : 'Shipping Line' || ''
+                                }
+                                errors={errors}
+                                touched={touched}
+                              />
+                              {errors?.rows &&
+                                errors?.rows?.[index]?.airLineOrShippingLine &&
+                                touched.rows && (
+                                  <div className="text-danger">
+                                    {
+                                      errors?.rows?.[index]
+                                        ?.airLineOrShippingLine
+                                    }
+                                  </div>
+                                )}
+                            </div>
+                          </>
+                        )}
+
                         {/* GSA */}
                         {[1, 2, 3].includes(
                           values?.rows?.[0]?.transportPlanning?.value,
@@ -1318,17 +1352,22 @@ function TransportModal({ rowClickData, CB }) {
                           /> */}
                             <NewSelect
                               name={`rows[${index}].size`}
-                              options={[
-                                { value: '20', label: '20” FR OGG' },
-                                { value: '40', label: '40” FR OGG' },
-                                { value: '40H', label: '40H FR OGH' },
-                                { value: '20', label: '20” FR IGG' },
-                                { value: '40', label: '40” FR IGG' },
-                                { value: '40H', label: '40H FR IGG' },
-                                { value: '20', label: '20” OT' },
-                                { value: '40', label: '40” OT' },
-                                { value: '40H', label: '40H OT' },
-                              ]}
+                              options={
+                                values?.rows?.[0]?.transportPlanning?.value ===
+                                4
+                                  ? truckSize
+                                  : [
+                                      { value: '20', label: '20” FR OGG' },
+                                      { value: '40', label: '40” FR OGG' },
+                                      { value: '40H', label: '40H FR OGH' },
+                                      { value: '20', label: '20” FR IGG' },
+                                      { value: '40', label: '40” FR IGG' },
+                                      { value: '40H', label: '40H FR IGG' },
+                                      { value: '20', label: '20” OT' },
+                                      { value: '40', label: '40” OT' },
+                                      { value: '40H', label: '40H OT' },
+                                    ]
+                              }
                               value={values?.rows?.[index]?.size}
                               label={
                                 values?.rows?.[index]?.transportPlanning
