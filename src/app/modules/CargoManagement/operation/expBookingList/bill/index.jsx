@@ -53,7 +53,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
   useEffect(() => {
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
-      : 2;
+      : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetByIdHandler(modeOfTransportId, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,6 +70,9 @@ const BillGenerate = ({ rowClickData, CB }) => {
       masterBlId = rowClickData?.seamasterBlId;
       // masterBlCode = rowClickData?.seaMasterBlCode;
     }
+    if (modeOfTransportId === 4) {
+      masterBlId = rowClickData?.landmasterBlId;
+    }
     if (!masterBlId) return toast.warning('Master BL Id not found');
 
     if (bookingRequestId) {
@@ -77,7 +80,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
         `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}`,
         (resData) => {
           const billingDataList = resData
-            ?.filter((i) => i.paymentPartyId)
+            ?.filter((i) => i?.paymentPartyId)
             ?.map((item) => {
               return {
                 paymentPartyId: item?.paymentPartyId,
@@ -181,7 +184,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentActualAmount
+            item?.paymentActualAmount &&
+            !item?.billRegisterCode
           );
         })
         .map((item) => {

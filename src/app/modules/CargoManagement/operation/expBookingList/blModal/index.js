@@ -37,7 +37,7 @@ function BLModal({ rowClickData, CB }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
-      : 2;
+      : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetDocumentsByMasterBL(modeOfTransportId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,6 +50,9 @@ function BLModal({ rowClickData, CB }) {
     }
     if (modeOfTransportId === 2) {
       masterBlId = rowClickData?.seamasterBlId;
+    }
+    if (modeOfTransportId === 4) {
+      masterBlId = rowClickData?.landmasterBlId;
     }
     if (!masterBlId) return toast.warning('Master BL not found');
     getDocumentsByMasterBL(
