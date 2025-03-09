@@ -403,6 +403,7 @@
 
 .wmde-markdown {
   overflow-y: scroll !important;
+  width: 100% !important;
 }
 
 .wmde-markdown h1 {
