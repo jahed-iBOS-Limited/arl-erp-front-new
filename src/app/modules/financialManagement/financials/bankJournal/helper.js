@@ -3,16 +3,6 @@ import { toast } from "react-toastify";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 
 
-export const getTransaction = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 export const getInstrumentType = async (setter) => {
   try {
     const res = await Axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);

@@ -143,3 +143,15 @@ export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
     }
   } catch (error) {}
 };
+
+
+export const getBusinessTransactionDDL = async (accId, BuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

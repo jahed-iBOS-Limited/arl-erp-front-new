@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import {
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
-  getTransaction,
   getSendToGLBank,
   // getOthersPartner,
   getNextBankCheque,
@@ -18,7 +17,7 @@ import {
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
 import { getInstrumentType } from "../helper";
-import { getBankAc } from "../../../../_helper/_commonApi";
+import { getBankAc, getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -116,7 +115,7 @@ export default function _Form({
         setPartner
       );
       getInstrumentType(setInstrumentType);
-      getTransaction(
+      getBusinessTransactionDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
         setTransaction
