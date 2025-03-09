@@ -378,17 +378,3 @@ export const getBusinessTransactionByPartnerDDL = async (accountId, businessUnit
     console.log(error.message);
   }
 };
-
-
-export const getBusinessTransactionDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};

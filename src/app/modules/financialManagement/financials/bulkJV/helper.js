@@ -43,13 +43,4 @@ export const saveBulkJV = async (
   }
 };
 
-export const getBuTransactionDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+

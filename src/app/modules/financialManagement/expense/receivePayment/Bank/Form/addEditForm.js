@@ -16,6 +16,7 @@ import {
   createBankPayment_Api,
   getPaymentOrReceiveById_api,
 } from "../../helper";
+import { getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
 
 const initData = {
   id: undefined,
@@ -70,7 +71,7 @@ export default function RecivePaymentBankForm({
       selectedBusinessUnit.value,
       SetProfitCenterDDL
     );
-    getBusinessTransactionDDL_api(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit.value,
       setBusinessTransactionDDL
