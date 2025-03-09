@@ -65,7 +65,8 @@ export const getChatResponse = async (payload, cb) => {
     const res = await Axios.post(apiUrl, payload);
     cb({
       isResponse: true,
-      resData: res?.data?.response || 'Sorry, data not found',
+      resData:
+        res?.data?.response || res?.data?.result || 'Sorry, data not found',
     });
   } catch (error) {
     cb({
