@@ -33,6 +33,7 @@ import ReceiveModal from '../expBookingList/receiveModal';
 import SeaAirMasterBL from '../expBookingList/SeaAirMasterBl';
 import '../expBookingList/style.css';
 import TransportModal from '../expBookingList/transportModal';
+import AirPreAlert from '../expBookingList/airPreAlart';
 const validationSchema = Yup.object().shape({});
 function ImpBookingList() {
   const { profileData } = useSelector(
@@ -391,6 +392,13 @@ function ImpBookingList() {
                         >
                           Shipment Planning
                         </th>
+                        <th
+                          style={{
+                            minWidth: '95px',
+                          }}
+                        >
+                          Air Pre Alert
+                        </th>
                         {values?.modeOfTransport?.value === 4 ? (
                           <></>
                         ) : (
@@ -632,6 +640,27 @@ function ImpBookingList() {
                                       }}
                                     >
                                       Shipment Planning
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isPlaning}
+                                      className={
+                                        item?.isPlaning
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isAirPreAlert: true,
+                                        });
+                                      }}
+                                    >
+                                      Air Pre Alert
                                     </button>
                                   </span>
                                 </td>
@@ -1315,6 +1344,24 @@ function ImpBookingList() {
                       }}
                       isExport={false}
                     />
+                  </IViewModal>
+                </>
+              )}
+              {/* AirPreAlert */}
+              {isModalShowObj?.isAirPreAlert && (
+                <>
+                  {' '}
+                  <IViewModal
+                    show={isModalShowObj?.isAirPreAlert}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isAirPreAlert: false,
+                      });
+                    }}
+                    title="Air Pre Alert"
+                  >
+                    <AirPreAlert rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}
