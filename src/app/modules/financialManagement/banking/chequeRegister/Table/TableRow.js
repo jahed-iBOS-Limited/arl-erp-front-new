@@ -14,7 +14,6 @@ import {
   getBankJournal,
   getSbuDDL,
   getAccDDL,
-  // setGenarateChequeNo,
   // checkTwoFactorApproval,
   chequeGeneretor,
 } from "../helper";

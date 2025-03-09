@@ -13,7 +13,6 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import ChequeModal from "../ChequeModal/chequeModal";
 import ChequePrintModal from "../chequePrintModal/chequePrintModal";
 // import IConfirmModal from "./../../../../_helper/_confirmModal";
-// import { setGenarateChequeNo } from "./../helper";
 import { toast } from "react-toastify";
 import IViewModal from "../../../../_helper/_viewModal";
 import { BankJournalViewTableRow } from "../report/tableRow";
