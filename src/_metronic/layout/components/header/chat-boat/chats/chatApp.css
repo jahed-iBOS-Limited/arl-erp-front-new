@@ -402,8 +402,11 @@
 }
 
 .wmde-markdown {
-  overflow-y: scroll !important;
   width: 100% !important;
+}
+
+.wmde-markdown>table {
+  overflow-y: scroll !important;
 }
 
 .wmde-markdown h1 {
