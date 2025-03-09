@@ -120,7 +120,7 @@ function TransportModal({ rowClickData, CB }) {
       tradeTypeId === 1 ? objData?.shipperId : objData?.consigneeId;
 
     //====== common data set===
-    GetAirServiceProviderDDLFunc(shipperOrshipperId, typeId);
+    GetAirServiceProviderDDLFunc(shipperOrshipperId, typeId, modeOfTransportId);
     const modeOfTransportObj = modeOfTransportId
       ? {
         value: modeOfTransportId,
@@ -383,7 +383,7 @@ function TransportModal({ rowClickData, CB }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const GetAirServiceProviderDDLFunc = (shipperOrshipperId, typeId) => {
+  const GetAirServiceProviderDDLFunc = (shipperOrshipperId, typeId, modeOfTransportId) => {
     // tradeTypeId  = 1 export
     if (tradeTypeId === 1) {
       getAirServiceProviderDDL(
@@ -398,16 +398,27 @@ function TransportModal({ rowClickData, CB }) {
     }
     // tradeTypeId  = 2 import
     if (tradeTypeId === 2) {
-      getAirServiceProviderDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=${typeId}`,
-        (res) => {
-          setAirServiceProviderDDL(res);
-        },
-      );
-      setGSADDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=7`,
-      );
+      // modeOfTransportId 1=Air, 2=Sea, 3=Sea-Air, 4=Land
+      if (modeOfTransportId == 4) {
+        getAirServiceProviderDDL(
+          `${imarineBaseUrl}/domain/ShippingService/GetTruckSize`,
+          (res) => {
+            setAirServiceProviderDDL(res);
+          },
+        );
+      } else {
+        getAirServiceProviderDDL(
+          `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=${typeId}`,
+          (res) => {
+            setAirServiceProviderDDL(res);
+          },
+        );
+        setGSADDL(
+          `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=7`,
+        );
+      }
     }
+
   };
   const saveHandler = (values, cb) => {
     const row = values?.rows[0];
