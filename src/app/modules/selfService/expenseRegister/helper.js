@@ -31,19 +31,8 @@ export const getBankAccountNumberDDL_Api = async (accId, BuId, setter) => {
       }
    } catch (error) {}
 };
-//
-// sbu api
-export const getSBU = async (accId, BuId, setter) => {
-   try {
-      const res = await Axios.get(
-         `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${BuId}&Status=true`
-      );
-      if (res.status === 200 && res?.data) {
-         setter(res?.data);
-      }
-   } catch (error) {}
-};
-//
+
+
 // country api
 export const getCountry = async setter => {
    try {

@@ -29,17 +29,6 @@ export const validationSchema = Yup.object().shape({
     .required("Plant is required"),
 });
 
-//SBU API
-export const getSBU = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${BuId}&Status=true`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 ///EMP API will show both id and name here
 export const getEMP = async (accId, BuId, setter) => {
