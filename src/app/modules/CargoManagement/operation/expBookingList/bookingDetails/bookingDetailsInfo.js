@@ -585,10 +585,10 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                                         <td>{volumeItem?.volumeCBM}</td>
                                         {bookingData?.modeOfTransport ===
                                           'Air' && (
-                                            <td>
-                                              {volumeItem?.volumetricWeight}
-                                            </td>
-                                          )}
+                                          <td>
+                                            {volumeItem?.volumetricWeight}
+                                          </td>
+                                        )}
                                         <td>{volumeItem?.dimsLength}</td>
                                         <td>{volumeItem?.dimsWidth}</td>
                                         <td>{volumeItem?.dimsHeight}</td>
@@ -850,44 +850,27 @@ const CommonTransportPlanningView = ({
         <p>
           <strong>
             {modeOfTransport === 'Sea' && 'No of Container:'}
-            {
-              modeOfTransport === "Air" && "No of Pallet:"
-            }
-            {
-              modeOfTransport === "Land" && "No of Truck:"
-            }
+            {modeOfTransport === 'Air' && 'No of Pallet:'}
+            {modeOfTransport === 'Land' && 'No of Truck:'}
           </strong>{' '}
-
-          {
-            modeOfTransport === "Land" && transportPlanning?.noOfContainer
-          }
-          {
-            modeOfTransport === "Sea" && transportPlanning?.noOfContainer
-          }
-          {
-            modeOfTransport === "Air" && transportPlanning?.noOfPallets
-          }
+          {modeOfTransport === 'Land' && transportPlanning?.noOfContainer}
+          {modeOfTransport === 'Sea' && transportPlanning?.noOfContainer}
+          {modeOfTransport === 'Air' && transportPlanning?.noOfPallets}
         </p>
 
         <p>
           <strong>
             {modeOfTransport === 'Sea' && 'Shipping Line:'}
-            {
-              modeOfTransport === "Air" && "Air Line:"
-            }
-            {
-              modeOfTransport === "Land" && "Transporter:"
-            }
+            {modeOfTransport === 'Air' && 'Air Line:'}
+            {modeOfTransport === 'Land' && 'Transporter:'}
           </strong>{' '}
           {transportPlanning?.airLineOrShippingLine}
         </p>
-        {
-          ['Sea', 'Air'].includes(modeOfTransport) && (
-            <p>
-              <strong>GSA:</strong> {transportPlanning?.gsaName}
-            </p>
-          )
-        }
+        {['Sea', 'Air'].includes(modeOfTransport) && (
+          <p>
+            <strong>GSA:</strong> {transportPlanning?.gsaName}
+          </p>
+        )}
 
         {modeOfTransport === 'Sea' && (
           <>
@@ -922,12 +905,12 @@ const CommonTransportPlanningView = ({
                 )}
             </p>
           </>
-        )
-        }
+        )}
         {modeOfTransport === 'Land' && (
           <>
             <p>
-              <strong>Subidha Access Number:</strong> {transportPlanning?.subidhaAccessNumber}
+              <strong>Subidha Access Number:</strong>{' '}
+              {transportPlanning?.subidhaAccessNumber}
             </p>
             <p>
               <strong>Estimated Arrival Date At Land Port:</strong>{' '}
@@ -940,7 +923,9 @@ const CommonTransportPlanningView = ({
             <p>
               <strong>Subidha Access Date:</strong>{' '}
               {transportPlanning?.subidhaAccessDate &&
-                moment(transportPlanning?.subidhaAccessDate).format('DD MMM YYYY')}
+                moment(transportPlanning?.subidhaAccessDate).format(
+                  'DD MMM YYYY',
+                )}
             </p>
             <p>
               <strong>Date of Depart</strong>{' '}
@@ -950,26 +935,24 @@ const CommonTransportPlanningView = ({
                 )}
             </p>
           </>
-        )
-        }
-        {modeOfTransport === 'Air' &&
-          (
-            <>
-              <p>
-                <strong>IATA Number:</strong> {transportPlanning?.iatanumber}
-              </p>
-              <p>
-                <strong>Carton:</strong> {transportPlanning?.carton}
-              </p>
-              <p>
-                <strong>Estimated Time Of Depart:</strong>{' '}
-                {transportPlanning?.estimatedTimeOfDepart &&
-                  moment(transportPlanning?.estimatedTimeOfDepart).format(
-                    'DD MMM YYYY',
-                  )}
-              </p>
-            </>
-          )}
+        )}
+        {modeOfTransport === 'Air' && (
+          <>
+            <p>
+              <strong>IATA Number:</strong> {transportPlanning?.iatanumber}
+            </p>
+            <p>
+              <strong>Carton:</strong> {transportPlanning?.carton}
+            </p>
+            <p>
+              <strong>Estimated Time Of Depart:</strong>{' '}
+              {transportPlanning?.estimatedTimeOfDepart &&
+                moment(transportPlanning?.estimatedTimeOfDepart).format(
+                  'DD MMM YYYY',
+                )}
+            </p>
+          </>
+        )}
         <p>
           <strong>S.B No:</strong> {transportPlanning?.strSbNo}
         </p>
@@ -999,31 +982,15 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
                   <th>Container No</th>
                 ) : (
                   <th>Truck No</th>
-                )
-
-                }
-                {
-                  modeOfTransport === "Sea" && (
-                    <th>Seal No</th>
-                  )
-                }
-                {
-                  modeOfTransport === "Sea" ? (
-                    <th>Container Size</th>
-                  ) : (
-                    <th>Truck Size</th>
-                  )
-                }
-                {
-                  modeOfTransport === "Sea" && (
-                    <th>Rate</th>
-                  )
-                }
-                {
-                  modeOfTransport === "Sea" && (
-                    <th>Cartoon Quantity</th>
-                  )
-                }
+                )}
+                {modeOfTransport === 'Sea' && <th>Seal No</th>}
+                {modeOfTransport === 'Sea' ? (
+                  <th>Container Size</th>
+                ) : (
+                  <th>Truck Size</th>
+                )}
+                {modeOfTransport === 'Sea' && <th>Rate</th>}
+                {modeOfTransport === 'Sea' && <th>Cartoon Quantity</th>}
 
                 <th>CBM</th>
                 <th>KGS</th>
@@ -1037,22 +1004,10 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
                   <td>{item?.style}</td>
                   <td>{item?.color}</td>
                   <td>{item?.containerNumber}</td>
-                  {
-                    modeOfTransport === "Sea" && (
-                      <td>{item?.sealNumber}</td>
-                    )
-                  }
+                  {modeOfTransport === 'Sea' && <td>{item?.sealNumber}</td>}
                   <td>{item?.size}</td>
-                  {
-                    modeOfTransport === "Sea" && (
-                      <td>{item?.rate}</td>
-                    )
-                  }
-                  {
-                    modeOfTransport === "Sea" && (
-                      <td>{item?.quantity}</td>
-                    )
-                  }
+                  {modeOfTransport === 'Sea' && <td>{item?.rate}</td>}
+                  {modeOfTransport === 'Sea' && <td>{item?.quantity}</td>}
                   <td>{item?.cbm}</td>
                   <td>{item?.kgs}</td>
                 </tr>
@@ -1062,7 +1017,7 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
         </div>
       )}
 
-      <h5>Shipping Schedule ({modeOfTransport})</h5>
+      <h5>Schedule ({modeOfTransport})</h5>
 
       <div className="mt-4">
         <div className="table-responsive">
@@ -1070,23 +1025,14 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
             <thead>
               <tr>
                 <th>SL</th>
-                {
-                  modeOfTransport === "Land" && (
-                    <th>Truck Type</th>
-                  )
-                }
+                {modeOfTransport === 'Land' && <th>Truck Type</th>}
                 <th>From </th>
                 <th>To</th>
                 <th>
                   {modeOfTransport === 'Sea' && 'Vessel Name'}
 
-                  {
-                    modeOfTransport === "Land" && "Truck Number"
-                  }
-                  {
-                    modeOfTransport === "Air" && "Flight Number"
-                  }
-
+                  {modeOfTransport === 'Land' && 'Truck Number'}
+                  {modeOfTransport === 'Air' && 'Flight Number'}
                 </th>
                 <th>Date</th>
               </tr>
@@ -1095,15 +1041,7 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
               {transportPlanning?.airTransportRow?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  {
-                    modeOfTransport === "Land" && (
-                      <td>
-                        {
-                          item?.truckType
-                        }
-                      </td>
-                    )
-                  }
+                  {modeOfTransport === 'Land' && <td>{item?.truckType}</td>}
                   <td>{item?.fromPort}</td>
                   <td>{item?.toPort}</td>
                   <td>{item?.flightNumber}</td>
