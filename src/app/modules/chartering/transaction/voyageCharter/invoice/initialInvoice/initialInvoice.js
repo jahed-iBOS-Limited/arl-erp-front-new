@@ -5,7 +5,6 @@ import { ToWords } from "to-words";
 import { getOwnerBankInfoDetailsByStakeHolderId } from "../../../../helper";
 // import akijShippingLogo from "../../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
 import { shallowEqual, useSelector } from "react-redux";
-import { getLetterHead } from "../../../../../financialManagement/report/bankLetter/helper";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
 import {
   _formatMoneyWithDoller,
@@ -14,6 +13,7 @@ import {
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import { BankInfoComponent } from "../BankInfoComponent";
 import "../style.css";
+import { commonGetLetterHead } from "../../../../../_helper/letterHead/commonGetLetterHead";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -162,7 +162,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
         ref={printRef}
         className="p-4 voyageChartererInvoice"
         style={{
-          backgroundImage: `url(${getLetterHead({
+          backgroundImage: `url(${commonGetLetterHead({
                           buId: selectedBusinessUnit?.value,
                         })})`,
           backgroundRepeat: "no-repeat",

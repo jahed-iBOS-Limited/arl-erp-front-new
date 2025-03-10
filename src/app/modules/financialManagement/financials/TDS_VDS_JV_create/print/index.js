@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
-import { getLetterHead } from "../../../report/bankLetter/helper";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
 import Print from "./print";
 import "./style.scss";
+import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
 
 export default function PrintView({ selectedRow,currentSelectedAccNo }) {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -35,7 +35,7 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
           <div
             className="invoice-header"
             style={{
-              backgroundImage: `url(${getLetterHead({
+              backgroundImage: `url(${commonGetLetterHead({
                 buId: selectedBusinessUnit?.value,
               })})`,
               backgroundRepeat: "no-repeat",
@@ -50,7 +50,7 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
           <div
             className="invoice-footer"
             style={{
-              backgroundImage: `url(${getLetterHead({
+              backgroundImage: `url(${commonGetLetterHead({
                 buId: selectedBusinessUnit?.value,
               })})`,
               backgroundRepeat: "no-repeat",

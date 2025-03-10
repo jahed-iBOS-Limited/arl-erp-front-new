@@ -14,7 +14,6 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { getLetterHead } from './helper';
 import AccountCloseFour from './printDocuments/templates/AccountClose/four';
 import AccountCloseOne from './printDocuments/templates/AccountClose/one';
 import AccountCloseThree from './printDocuments/templates/AccountClose/three';
@@ -28,6 +27,7 @@ import FdrTwo from './printDocuments/templates/Fdr/fdrTwo';
 import SignatoryChangeOne from './printDocuments/templates/SignatoryChange/one';
 import SignatoryChangeTwo from './printDocuments/templates/SignatoryChange/two';
 import './style.css';
+import { commonGetLetterHead } from '../../../_helper/letterHead/commonGetLetterHead';
 
 const initData = {
   businessUnit: '',
@@ -607,7 +607,7 @@ export default function BankLetter() {
                     <div
                       className="invoice-header"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: singleRowItem?.intBusinessUnitId,
                         })})`,
                         backgroundRepeat: 'no-repeat',
@@ -622,7 +622,7 @@ export default function BankLetter() {
                     <div
                       className="invoice-footer"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: singleRowItem?.intBusinessUnitId,
                         })})`,
                         backgroundRepeat: 'no-repeat',
@@ -768,7 +768,7 @@ export default function BankLetter() {
                           <div
                             className="invoice-header"
                             style={{
-                              backgroundImage: `url(${getLetterHead({
+                              backgroundImage: `url(${commonGetLetterHead({
                                 buId: singleRowItem?.intBusinessUnitId,
                               })})`,
                               backgroundRepeat: 'no-repeat',
@@ -854,7 +854,7 @@ export default function BankLetter() {
                           <div
                             className="ifoot"
                             style={{
-                              backgroundImage: `url(${getLetterHead({
+                              backgroundImage: `url(${commonGetLetterHead({
                                 buId: singleRowItem?.intBusinessUnitId,
                               })})`,
                               backgroundRepeat: 'no-repeat',
