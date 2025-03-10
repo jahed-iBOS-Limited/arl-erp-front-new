@@ -333,11 +333,13 @@ export default function HeaderForm({selectedBusinessUnit, estimatePDAPOPage}) {
                   // Super user er ক্ষেত্রে: jodi required fields na thake, tahole disabled
                   if (isSuperUser && !hasRequiredFields) {
                     disabled = true;
-                  }
-                  // Non-super user er ক্ষেত্রে: jodi Service PO hoy ebong Without Reference na hoy, tahole disabled
-                  else if (!isSuperUser && isServicePO && !isWithoutReference) {
+                  }else if (!isSuperUser && isStandardPO) {
                     disabled = true;
                   }
+                  // Non-super user er ক্ষেত্রে: jodi Service PO hoy ebong Without Reference na hoy, tahole disabled
+                  // else if (!isSuperUser && isServicePO && !isWithoutReference) {
+                  //   disabled = true;
+                  // }
                   // Non-super user er ক্ষেত্রে: jodi required fields na thake athoba Business Unit logic apply hoy, tahole disabled
                   else if (!isSuperUser && (!hasRequiredFields || shouldApplyBusinessUnitLogic)) {
                     disabled = true;
