@@ -10,29 +10,6 @@ import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import { batayonTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/batayounTraders';
-import { bluePillLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bluePill';
-import { bongoTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bongoTraders';
-import { buildingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/building';
-import { cementLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement';
-import { commoditiesLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/commodities';
-import { dailyTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/dailyTrading';
-import { directTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/directTrading';
-import { essentialLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/essential';
-import { eurasiaTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading';
-import { exoticaTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders';
-import { ispatLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/ispat';
-import { lineAsiaTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading';
-import { magnumLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/magnum';
-import { MTSLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/mts';
-import { nobayonTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders';
-import { oneTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/oneTrading';
-import { optimaTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/optimaTraders';
-import { polyFibreLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/polyFibre';
-import { readymixLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/readymix';
-import { resourceTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/resourceTraders';
-import { tradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders';
-import { tradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading';
 import { PortAndMotherVessel } from '../../common/components';
 import GodownsWiseDeliveryReport from './GodownWiseDeliveryReport';
 import GhatWiseDeliveryReport from './ghatWiseDeliveryReport';
@@ -191,54 +168,7 @@ function G2GSalesInvoice() {
     },
     content: () => printRef.current,
   });
-  const letterhead =
-    buUnId === 175
-      ? readymixLetterhead
-      : buUnId === 94
-      ? MTSLetterhead
-      : buUnId === 144
-      ? essentialLetterhead
-      : buUnId === 4
-      ? cementLetterhead
-      : buUnId === 186
-      ? bluePillLetterhead
-      : buUnId === 8
-      ? polyFibreLetterhead
-      : buUnId === 224
-      ? ispatLetterhead
-      : buUnId === 220
-      ? buildingLetterhead
-      : buUnId === 171
-      ? magnumLetterhead
-      : buUnId === 221
-      ? commoditiesLetterhead
-      : buUnId === 216
-      ? tradersLetterhead
-      : buUnId === 213
-      ? tradingLetterhead
-      : buUnId === 181
-      ? oneTradingLetterhead
-      : buUnId === 212
-      ? batayonTradersLetterhead
-      : buUnId === 178
-      ? bongoTradersLetterhead
-      : buUnId === 182
-      ? dailyTradingLetterhead
-      : buUnId === 180
-      ? directTradingLetterhead
-      : buUnId === 183
-      ? eurasiaTradingLetterhead
-      : buUnId === 218
-      ? exoticaTradersLetterhead
-      : buUnId === 209
-      ? lineAsiaTradingLetterhead
-      : buUnId === 211
-      ? nobayonTradersLetterhead
-      : buUnId === 214
-      ? optimaTradersLetterhead
-      : buUnId === 210
-      ? resourceTradersLetterhead
-      : '';
+  
   const isDisableFunction = (values) => {
     const commonConditions =
       !values?.fromDate || !values?.toDate || !values?.motherVessel;
@@ -516,7 +446,7 @@ function G2GSalesInvoice() {
                         values={values}
                         setFieldValue={setFieldValue}
                         userPrintBtnClick={userPrintBtnClick}
-                        letterhead={letterhead}
+                        buUnId={buUnId}
                         updateInvoiceAttachentHandler={
                           updateInvoiceAttachentHandler
                         }

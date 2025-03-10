@@ -3,7 +3,7 @@ import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import './cementStyle.css';
-import { cementLetterhead } from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement';
+import { commonGetLetterHead } from '../../../../_helper/letterHead/commonGetLetterHead';
 
 const SalesQuotationForCement = ({
   printRef,
@@ -12,6 +12,7 @@ const SalesQuotationForCement = ({
 }) => {
   const {
     profileData: { employeeFullName, designationName, contact, emailAddress },
+    selectedBusinessUnit
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getCementTypes = (type) => {
@@ -38,7 +39,7 @@ const SalesQuotationForCement = ({
       <div
         className="invoice-header"
         style={{
-          backgroundImage: `url(${cementLetterhead})`,
+          backgroundImage: `url(${commonGetLetterHead({buId:selectedBusinessUnit?.value})})`,
           backgroundRepeat: 'no-repeat',
           height: '150px',
           backgroundPosition: 'left 10px',
@@ -54,7 +55,7 @@ const SalesQuotationForCement = ({
       <div
         className="invoice-footer"
         style={{
-          backgroundImage: `url(${cementLetterhead})`,
+          backgroundImage: `url(${commonGetLetterHead({buId:selectedBusinessUnit?.value})})`,
           backgroundRepeat: 'no-repeat',
           height: '100px',
           backgroundPosition: 'left bottom',

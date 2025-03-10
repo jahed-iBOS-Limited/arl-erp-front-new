@@ -9,9 +9,9 @@ import {
   uploadPDF,
 } from "../../../shippingOperation/deadWeightPreStowagePlanning/deadWeightPreStowagePlanningChild/helper";
 import { marineBaseUrlPythonAPI } from "../../../../App";
-import { getLetterHead } from "../../../financialManagement/report/bankLetter/helper";
 import { shallowEqual, useSelector } from "react-redux";
 import { generateFileUrl } from "./helper";
+import { commonGetLetterHead } from "../../../_helper/letterHead/commonGetLetterHead";
 
 const SendMailModal = ({ singleItem }) => {
   const { selectedBusinessUnit } = useSelector(
@@ -79,7 +79,7 @@ const SendMailModal = ({ singleItem }) => {
       >
         <div
           style={{
-            backgroundImage: `url(${getLetterHead({
+            backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value || 0,
             })})`,
             backgroundRepeat: "no-repeat",
@@ -132,7 +132,7 @@ const SendMailModal = ({ singleItem }) => {
         </div>
         <div
           style={{
-            backgroundImage: `url(${getLetterHead({
+            backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value || 0,
             })})`,
             backgroundRepeat: "no-repeat",

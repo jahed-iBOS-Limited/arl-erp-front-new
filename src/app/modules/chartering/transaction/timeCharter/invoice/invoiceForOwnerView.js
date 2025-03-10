@@ -15,11 +15,11 @@ import {
 // import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
 import { useLocation } from "react-router-dom";
 import * as XLSX from "xlsx";
-import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import { ExportPDF } from "../../../_chartinghelper/exportPdf";
 import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
+import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -176,7 +176,7 @@ export default function InvoiceForOwnerView({
           <div
             className="invoice-header"
             style={{
-              backgroundImage: `url(${getLetterHead({
+              backgroundImage: `url(${commonGetLetterHead({
                 buId: buId,
               })})`,
               backgroundRepeat: "no-repeat",
@@ -192,7 +192,7 @@ export default function InvoiceForOwnerView({
           <div
             className="invoice-footer"
             style={{
-              backgroundImage: `url(${getLetterHead({
+              backgroundImage: `url(${commonGetLetterHead({
                 buId: buId,
               })})`,
               backgroundRepeat: "no-repeat",
