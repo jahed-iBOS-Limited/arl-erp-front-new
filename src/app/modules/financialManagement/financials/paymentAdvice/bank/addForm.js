@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   saveBankJournal,
-  // genarateChequeNo
 } from "../../../financials/bankJournal/helper";
 import { createPaymentVoucher } from "../helper";
 import Loading from "./../../../../_helper/_loading";

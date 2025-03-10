@@ -18,7 +18,6 @@ import { _todayDate } from "./../../../../_helper/_todayDate";
 import { IInput } from "./../../../../_helper/_input";
 import { getBankJournalGridDatabyCode } from "./../_redux/Actions";
 import GridData from "./grid";
-import { getSBU } from "./../helper";
 import {
   ModalProgressBar,
   Card,
@@ -29,6 +28,7 @@ import {
 import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import findIndex from "../../../../_helper/_findIndex";
+import { getSBU } from "../../../../_helper/_commonApi";
 
 // Validation schema
 const validationSchema = Yup.object().shape({

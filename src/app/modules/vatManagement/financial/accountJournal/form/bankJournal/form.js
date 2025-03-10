@@ -10,10 +10,11 @@ import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../../_helper/_formikError";
 import { IInput } from "../../../../../_helper/_input";
 import { _todayDate } from "../../../../../_helper/_todayDate";
-import { generateAdviceNo, getBankAc, getInstrumentType, getNextBankCheque, getPartnerTypeDDL, getSendToGLBank } from "../../helper";
+import { generateAdviceNo, getInstrumentType, getNextBankCheque, getPartnerTypeDDL, getSendToGLBank } from "../../helper";
 import DebitCredit from "./DebitCredit";
 import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
 import TransferTable from "./TransferTable";
+import { getBankAc } from "../../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 // const ReceivevalidationSchema = Yup.object().shape({

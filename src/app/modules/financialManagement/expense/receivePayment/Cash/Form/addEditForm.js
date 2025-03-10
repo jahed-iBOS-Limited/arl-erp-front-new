@@ -8,7 +8,6 @@ import {
   recivePayment_SBU_Api,
   recivePayment_CashGL_Api,
   profitCenterDDL_Api,
-  getBusinessTransactionDDL_api,
   createCashPayment_Api,
   createCashReceive_Api,
   getPaymentOrReceiveById_api,
@@ -16,6 +15,7 @@ import {
 } from "../../helper";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import Loading from "./../../../../../_helper/_loading";
+import { getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
 
 const initData = {
   id: undefined,
@@ -71,7 +71,7 @@ export default function RecivePaymentCashForm({
       selectedBusinessUnit.value,
       SetProfitCenterDDL
     );
-    getBusinessTransactionDDL_api(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit.value,
       setBusinessTransactionDDL
