@@ -9,12 +9,12 @@ import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import {
   getInstrumentTypeDDL,
-  getTransactionDDL,
   createBankCashPayment,
 } from "../helper";
 import { toast } from "react-toastify";
 import { getGridData } from "../helper";
 import { getPurchaseClearPagination_api } from "./../helper";
+import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   type: "cash",
@@ -66,7 +66,7 @@ export default function PaymentModal({
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getTransactionDDL(
+      getBusinessTransactionDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setTransactionDDL

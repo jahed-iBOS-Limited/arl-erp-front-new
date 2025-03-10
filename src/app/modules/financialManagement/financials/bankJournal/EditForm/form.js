@@ -14,7 +14,6 @@ import DebitCredit from '../Create/DebitCredit';
 import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
 import {
-  getBankAc,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
   getInstrumentType,
@@ -26,6 +25,7 @@ import {
 } from '../helper';
 import { confirmAlert } from 'react-confirm-alert';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getBankAc } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

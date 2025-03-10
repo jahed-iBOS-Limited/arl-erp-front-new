@@ -5,7 +5,7 @@ import NewSelect from "./../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
 import { useSelector, shallowEqual } from "react-redux";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { getBuTransactionDDL, saveBulkJV } from "../helper";
+import { saveBulkJV } from "../helper";
 import {
   Card,
   CardHeader,
@@ -16,6 +16,7 @@ import {
 import * as Yup from "yup";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -47,7 +48,7 @@ const BulkJVLanding = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    getBuTransactionDDL(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setBuTransactionDDL

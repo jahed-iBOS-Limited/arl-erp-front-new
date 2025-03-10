@@ -23,7 +23,6 @@ import {
   getCostCenter,
   getDisbursementCenter,
   getPaymentType,
-  getTransaction,
   getVehicleDDL,
 } from "../helper";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
@@ -33,6 +32,7 @@ import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
+import { getBusTransDDLForExpense } from "../../../../_helper/_commonApi";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -98,7 +98,7 @@ export default function _Form({
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getTransaction(
+      getBusTransDDLForExpense(
         profileData.accountId,
         selectedBusinessUnit.value,
         setTransaction

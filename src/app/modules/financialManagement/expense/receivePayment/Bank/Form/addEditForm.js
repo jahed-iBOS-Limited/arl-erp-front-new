@@ -7,7 +7,6 @@ import IForm from "../../../../../_helper/_form";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import Loading from "./../../../../../_helper/_loading";
 import {
-  getBusinessTransactionDDL_api,
   profitCenterDDL_Api,
   recivePayment_SBU_Api,
   getBankAccountDDL_api,
@@ -16,6 +15,7 @@ import {
   createBankPayment_Api,
   getPaymentOrReceiveById_api,
 } from "../../helper";
+import { getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
 
 const initData = {
   id: undefined,
@@ -70,7 +70,7 @@ export default function RecivePaymentBankForm({
       selectedBusinessUnit.value,
       SetProfitCenterDDL
     );
-    getBusinessTransactionDDL_api(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit.value,
       setBusinessTransactionDDL

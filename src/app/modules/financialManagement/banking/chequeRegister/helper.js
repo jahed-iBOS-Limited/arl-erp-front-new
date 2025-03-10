@@ -48,30 +48,6 @@ export const getBankJournal = async (
   } catch (error) {}
 };
 
-export const setGenarateChequeNo = async (
-  accId,
-  buId,
-  bankId,
-  branchId,
-  bankAccId,
-  bankAccNo,
-  instrumentId,
-  setter,
-  setChequeModal
-) => {
-  try {
-    const res = await Axios.get(
-      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data?.currentChequeNo);
-      res?.data?.currentChequeNo ? setChequeModal(true) : setChequeModal(false);
-    }
-  } catch (error) {
-    // toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
-    setter([]);
-  }
-};
 
 export const bankJournalPrintCount = async (data) => {
   try {
@@ -117,27 +93,4 @@ export const checkTwoFactorApproval = async (
   }
 };
 
-export const chequeGeneretor = async (
-  accountId,
-  businessUnitId,
-  bankId,
-  branchId,
-  bankAccountId,
-  bankAccountNo,
-  instrumentId,
-  bankJournalId,
-  cb
-) => {
-  try {
-    const res = await Axios.get(
-      `fino/BankJournal/ChequeGeneretor?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}&BankAccountNo=${bankAccountNo}&instrumentId=${instrumentId}&BankJournalId=${bankJournalId}`
-    );
-    if (res.status === 200 && res?.data) {
-      cb(res?.data);
-      // res?.data?.currentChequeNo ? setChequeModal(true) : setChequeModal(false);
-    }
-  } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
-    // setter([]);
-  }
-};
+

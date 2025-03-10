@@ -13,16 +13,16 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import ChequeModal from "../ChequeModal/chequeModal";
 import ChequePrintModal from "../chequePrintModal/chequePrintModal";
 // import IConfirmModal from "./../../../../_helper/_confirmModal";
-// import { setGenarateChequeNo } from "./../helper";
 import { toast } from "react-toastify";
 import IViewModal from "../../../../_helper/_viewModal";
 import { BankJournalViewTableRow } from "../report/tableRow";
-import { checkTwoFactorApproval, chequeGeneretor } from "../helper";
+import { checkTwoFactorApproval } from "../helper";
 import { Modal } from "react-bootstrap";
 import { dynamicSerial } from "../../utils";
 import IHistory from "../../../../_helper/_helperIcons/_history";
 import HistoryModal from "../bankJournalHistory";
 import findIndex from "../../../../_helper/_findIndex";
+import { chequeGeneretor } from "../../../../_helper/_commonApi";
 // import { set } from "object-path";
 
 const GridData = ({

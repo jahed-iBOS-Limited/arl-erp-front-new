@@ -8,9 +8,9 @@ import {
   getOrgDDLAction,
   saveAccountingConfigAction,
   getPartnerTypeDDLFromAccoutingConfig,
-  getBusinessTransDDLAction,
 } from "../helper";
 import { toast } from "react-toastify";
+import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 let initData = {
   partnerType: "",
@@ -40,7 +40,7 @@ export function AccountingConfigForm({
 
   useEffect(() => {
     getPartnerTypeDDLFromAccoutingConfig(setPartnerTypeDDL);
-    getBusinessTransDDLAction(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setBusinessTransDDL

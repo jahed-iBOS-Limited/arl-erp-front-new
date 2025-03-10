@@ -8,12 +8,8 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import { useEffect } from "react";
 import {
-  getBankAc,
-  // getPartner,
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
-  // getPartnerDetailsDDL,
-  getTransaction,
   getSendToGLBank,
   // getOthersPartner,
   getNextBankCheque,
@@ -21,6 +17,7 @@ import {
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
 import { getInstrumentType } from "../helper";
+import { getBankAc, getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -118,7 +115,7 @@ export default function _Form({
         setPartner
       );
       getInstrumentType(setInstrumentType);
-      getTransaction(
+      getBusinessTransactionDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
         setTransaction

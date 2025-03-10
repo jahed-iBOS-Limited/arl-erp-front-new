@@ -10,10 +10,10 @@ import {
   createRouteCostComponent,
   getRouteCostComponent,
   editRouteCostComponent,
-  getBusinessTransactionDDL,
   getGeneralLedgerDDL_api,
 } from "../helper";
 import Loading from "../../../../_helper/_loading";
+import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   transportRouteCostComponent: "",
