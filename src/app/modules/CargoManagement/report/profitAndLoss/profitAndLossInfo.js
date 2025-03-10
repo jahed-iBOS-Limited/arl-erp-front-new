@@ -74,7 +74,7 @@ function ProfitAndLossInfo({ values, reportData }) {
       <div className="row">
         <div className="col-lg-12">
           <div className="text-center">
-            <h4>Profit & Loss</h4>
+            <h4>Transaction Summary</h4>
             <p>
               <b>Akij Logistics Limited</b>{' '}
             </p>

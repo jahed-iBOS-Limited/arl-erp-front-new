@@ -1669,6 +1669,10 @@ function TransportModal({ rowClickData, CB }) {
                               values?.rows[0]?.transportPlanning?.value,
                             )
                               ? 'Shipping Schedule'
+                              : [4].includes(
+                                  values?.rows[0]?.transportPlanning?.value,
+                                )
+                              ? 'Transport Schedule'
                               : 'Flight Schedule'}
                           </p>
                         </div>
@@ -1694,7 +1698,7 @@ function TransportModal({ rowClickData, CB }) {
                         )}
                         {/* From date */}
                         <div className="col-lg-3">
-                          {[2].includes(
+                          {[2, 4].includes(
                             values?.rows[0]?.transportPlanning?.value,
                           ) ? (
                             <InputField
@@ -1732,7 +1736,7 @@ function TransportModal({ rowClickData, CB }) {
                           )}
                         </div>
                         <div className="col-lg-3">
-                          {[2].includes(
+                          {[2, 4].includes(
                             values?.rows[0]?.transportPlanning?.value,
                           ) ? (
                             <InputField
@@ -1906,7 +1910,7 @@ function TransportModal({ rowClickData, CB }) {
                                     : 'Flight Number'}
                                 </th>
 
-                                <th>Action</th>
+                                <th style={{ width: '30px' }}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
