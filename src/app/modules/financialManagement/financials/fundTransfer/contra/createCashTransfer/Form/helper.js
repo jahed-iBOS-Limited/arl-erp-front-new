@@ -46,18 +46,6 @@ export const getBusinessPartnerDDL_Api = async (accId, buId, setter) => {
   }
 };
 
-export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDetailsDDL?accountId=${accId}&businessUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
 
 //getProfitCenterDDL_Api
 export const getProfitCenterDDL_Api = async (accId, buId, setter) => {
@@ -390,30 +378,6 @@ export const getBusinessTransactionByPartnerDDL = async (accountId, businessUnit
       setter(res?.data);
     }
   } catch (error) {
-  }
-};
-
-export const getTransaction = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getBusinessTransactionDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
   }
 };
 

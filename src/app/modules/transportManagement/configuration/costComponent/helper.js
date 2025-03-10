@@ -1,17 +1,7 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
 
-//Get Business Transaction type DDL
-export const getBusinessTransactionDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
+
 //Get Tax Branch DDL (not nessecary)
 export const getTaxBranchDDL = async (accid, buid, setter) => {
   try {

@@ -18,8 +18,8 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { setSalesCollectionInitDataAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import CollectionModal from './collection';
-import { getSBU } from './helper';
 import PrintInvoiceModal from './printInvoice';
+import { getSBU } from '../../../_helper/_commonApi';
 
 export default function SalesCollectionLanding() {
   const initData = useSelector((state) => {

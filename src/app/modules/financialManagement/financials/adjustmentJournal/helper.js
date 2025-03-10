@@ -1,16 +1,6 @@
 import axios from "axios";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const getTransactionAction = async (accId, BuId, setter) => {
-  try {
-    const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
 
 export const getAdjustmentJournalById = async (
   id,
