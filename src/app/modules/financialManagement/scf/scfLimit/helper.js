@@ -24,8 +24,7 @@ export const scfLimitLandingTableHeader = [
 // init data
 export const createInitData = {
   supplier: "",
-  bankName: "",
-  accountNo: "",
+  bankAccountNo: "",
   limit: "",
   updatedDate: "",
   tenorDays: "",

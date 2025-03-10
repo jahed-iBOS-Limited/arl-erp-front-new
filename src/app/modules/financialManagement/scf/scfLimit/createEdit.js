@@ -1,34 +1,40 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-
-const initData = {
-  item: "",
-  remarks: "",
-  amount: "",
-  date: "",
-};
+import { shallowEqual, useSelector } from "react-redux";
+import { createInitData } from "./helper";
 
 export default function SCFLimitCreateEditPage() {
   // hooks
   const { state: landingState } = useLocation();
   const { id } = useParams();
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   // state
   const [objProps, setObjprops] = useState({});
 
   // api action
   const [
-    bankNameDDL,
-    getBankNameDDL,
-    getBankNameDDLLoading,
-    setBankNameDDL,
+    bankAccountNoDDL,
+    getBankAccountNoDDL,
+    getBankAccountNoDDLLoading,
   ] = useAxiosGet();
+
+  // initial use effect
+  useEffect(() => {
+    getBankAccountNoDDL(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // submit handler
   const saveHandler = (values, cb) => {
@@ -36,7 +42,7 @@ export default function SCFLimitCreateEditPage() {
   };
 
   // is loading
-  const isLoading = getBankNameDDLLoading;
+  const isLoading = getBankAccountNoDDLLoading;
 
   // clg
   console.log({ landingState, id });
@@ -44,11 +50,11 @@ export default function SCFLimitCreateEditPage() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={createInitData}
       //   validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(initData);
+          resetForm(createInitData);
         });
       }}
     >
@@ -63,10 +69,7 @@ export default function SCFLimitCreateEditPage() {
       }) => (
         <>
           {isLoading && <Loading />}
-          <IForm
-            title={`Create SCF Limit`}
-            getProps={setObjprops}
-          >
+          <IForm title={`Create SCF Limit`} getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -82,26 +85,15 @@ export default function SCFLimitCreateEditPage() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="bankName"
-                    options={bankNameDDL || []}
-                    value={values?.bankName}
-                    label="Bank Name"
+                    name="bankAccountNo"
+                    options={bankAccountNoDDL || []}
+                    value={values?.bankAccountNo}
+                    label="Bank Account No"
                     onChange={(valueOption) => {
-                      setFieldValue("bankName", valueOption);
+                      setFieldValue("bankAccountNo", valueOption);
                     }}
                     errors={errors}
                     touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.accountNo}
-                    label="Account No"
-                    name="accountNo"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("accountNo", e.target.value);
-                    }}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -194,7 +186,7 @@ export default function SCFLimitCreateEditPage() {
                 type="reset"
                 style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
-                onSubmit={() => resetForm(initData)}
+                onSubmit={() => resetForm(createInitData)}
               ></button>
             </Form>
           </IForm>
