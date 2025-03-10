@@ -11,7 +11,6 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import {
   approveStatusDDL,
   fetchSubmittedTenderData,
@@ -25,6 +24,7 @@ import "../print/style.css";
 import BADCMOPTable from "./badcMopTable";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
+import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
 
 // const initData = {};
 
@@ -249,7 +249,7 @@ export default function TenderSubmissionLanding() {
                     <div
                       className="invoice-header"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: buUnId,
                         })})`,
                         backgroundRepeat: "no-repeat",
@@ -315,7 +315,7 @@ export default function TenderSubmissionLanding() {
                     <div
                       className="ifoot"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: buUnId,
                         })})`,
                         backgroundRepeat: "no-repeat",
@@ -345,7 +345,7 @@ export default function TenderSubmissionLanding() {
     <div
       className="invoice-header"
       style={{
-        backgroundImage: `url(${getLetterHead({
+        backgroundImage: `url(${commonGetLetterHead({
           buId: buUnId,
         })})`,
         backgroundRepeat: "no-repeat",
@@ -360,7 +360,7 @@ export default function TenderSubmissionLanding() {
     <div
       className="invoice-footer"
       style={{
-        backgroundImage: `url(${getLetterHead({
+        backgroundImage: `url(${commonGetLetterHead({
           buId: buUnId,
         })})`,
         backgroundRepeat: "no-repeat",

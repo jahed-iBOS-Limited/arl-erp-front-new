@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
-import { getLetterHead } from "../../../../../financialManagement/report/bankLetter/helper";
 import PrayerForIssuanceOfLC from "./prayerForIssuanceOfLC";
 import "./style.scss";
 import RequestForOriginalDocuments from "./requestForOriginalDocuments";
 import RequestForIssuance from "./requestForIssuance";
 import { UpdateLcApi } from "../../helper";
 import Loading from "../../../../../_helper/_loading";
+import { commonGetLetterHead } from "../../../../../_helper/letterHead/commonGetLetterHead";
 
 const PrayerForIssuance = ({ obj }) => {
   const [disabled, setDisabled] = React.useState(false);
@@ -62,7 +62,7 @@ const PrayerForIssuance = ({ obj }) => {
         <div
           className="invoice-header"
           style={{
-            backgroundImage: `url(${getLetterHead({
+            backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value,
             })})`,
             backgroundRepeat: "no-repeat",
@@ -78,7 +78,7 @@ const PrayerForIssuance = ({ obj }) => {
         <div
           className="invoice-footer"
           style={{
-            backgroundImage: `url(${getLetterHead({
+            backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value,
             })})`,
             backgroundRepeat: "no-repeat",

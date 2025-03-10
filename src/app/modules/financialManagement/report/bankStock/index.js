@@ -5,12 +5,12 @@ import { useReactToPrint } from 'react-to-print';
 import InputField from '../../../_helper/_inputField';
 import NewSelect from '../../../_helper/_select';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import { getLetterHead } from '../bankLetter/helper';
 import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
 import { getLastDateOfMonth } from './helper';
 import PrintView from './printView';
 import './style.scss';
+import { commonGetLetterHead } from '../../../_helper/letterHead/commonGetLetterHead';
 const initData = {};
 export default function BankStock() {
   const { businessUnitList } = useSelector((state) => {
@@ -124,7 +124,7 @@ export default function BankStock() {
                     <div
                       className="invoice-header"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: values?.businessUnit?.value,
                         })})`,
                         backgroundRepeat: 'no-repeat',
@@ -139,7 +139,7 @@ export default function BankStock() {
                     <div
                       className="invoice-footer"
                       style={{
-                        backgroundImage: `url(${getLetterHead({
+                        backgroundImage: `url(${commonGetLetterHead({
                           buId: values?.businessUnit?.value,
                         })})`,
                         backgroundRepeat: 'no-repeat',
