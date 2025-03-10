@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
@@ -9,13 +10,30 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { savePurchaseRequest } from "../purchaseRequestNew/helper";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   supplierName: "",
   supplierContactNo: "",
   supplierEmail: "",
+  purchaseOrganization: "",
+};
+
+const IConfirmModal = props => {
+  const { title, message, noAlertFunc } = props;
+  return confirmAlert({
+    title: title,
+    message: message,
+    buttons: [
+      {
+        label: 'Ok',
+        onClick: () => noAlertFunc(),
+      },
+    ],
+  });
 };
 
 export default function BreakDownModal({
@@ -26,14 +44,19 @@ export default function BreakDownModal({
 }) {
   const [objProps, setObjprops] = useState({});
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
+  const [, setDisabled] = useState(false);
   const [
     warehouseListDDL,
     getWarehouseListDDL,
     warehouseListDDLloader,
   ] = useAxiosGet();
+  const [purchaseOrganizationList, getPurchaseOrganizationList] = useAxiosGet()
   const [rowData, setRowData] = useState([]);
+  const [sbuList, setSbuList] = useState([]);
 
   const [, saveRowData] = useAxiosPost();
+
+
   const [
     ,
     getDetailsData,
@@ -41,25 +64,33 @@ export default function BreakDownModal({
     ,
   ] = useAxiosGet();
 
-  const { profileData } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
+    const data = getSbuDDL(profileData?.accountId, selectedBusinessUnit?.value);
+  }, [selectedBusinessUnit]);
+
+  useEffect(() => {
+    getPurchaseOrganizationList(`procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
     getPlantListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
     );
-    if (singleRowData?.mrpfromProductionScheduleRowId) {
-      getDetailsData(
-        `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
-        (data) => {
-          setRowData(data);
-        }
-      );
-    }
+    // if (singleRowData?.mrpfromProductionScheduleRowId) {
+    //   getDetailsData(
+    //     `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
+    //     (data) => {
+    //       setRowData(data);
+    //     }
+    //   );
+    // }
   }, []);
   const addHandler = (values, setFieldValue) => {
+    if (rowData?.length > 0) {
+      return toast.warn("You can not add more then 1 row"); // if you remove this line, this will be a problem for purchase request. So, please discuss with your team before removing this line.
+    }
     const closingBlance = Math.abs(
       singleRowData?.firstMonthQty - singleRowData?.availableStock
     );
@@ -78,6 +109,10 @@ export default function BreakDownModal({
     }
     if (!values?.quantity) {
       toast.warn("Breakdown Quantity is Required");
+      return;
+    }
+    if (!values?.purchaseOrganization) {
+      toast.warn("Purchase Organization is Required");
       return;
     }
 
@@ -107,12 +142,16 @@ export default function BreakDownModal({
       requestQuantity: +values?.quantity,
       plantId: values?.plant?.value,
       plantName: values?.plant?.label,
+      purchaseOrganizationId: values?.purchaseOrganization?.value,
+      purchaseOrganizationName: values?.purchaseOrganization?.label,
       warehouseId: values?.warehouse?.value,
       warehouseName: values?.warehouse?.label,
+      warehouseAddress: values?.warehouse?.address || "",
       actionBy: profileData?.userId,
       narration: values?.narration || "",
       mrpfromProductionScheduleRowId: singleRowData?.mrpfromProductionScheduleRowId || 0,
       mrpfromProductionScheduleHeaderId: singleRowData?.mrpfromProductionScheduleHeaderId || 0,
+
     };
     const totalClosingBalance =
       rowData?.reduce((acc, itm) => acc + itm?.requestQuantity, 0) +
@@ -132,6 +171,8 @@ export default function BreakDownModal({
   };
 
   const saveHandler = (values, cb) => {
+
+
     if (rowData?.length < 1) {
       toast.warn("Please add atleast 1 row");
       return;
@@ -144,6 +185,50 @@ export default function BreakDownModal({
         callBack()
         setShowBreakdownModal(false);
         setSingleRowData({});
+
+        let createPurchaseRequestRow = rowData?.map(item => ({
+          itemId: singleRowData?.itemId,
+          uoMid: singleRowData?.uoMid,
+          uoMname: singleRowData?.uomName,
+          numRequestQuantity: +item?.requestQuantity,
+          dteRequiredDate: item?.purchaseRequestDate,
+          billOfMaterialId: 0,
+          remarks: 'For production',
+
+        }));
+
+        let payload = {
+          createPurchaseRequestHeader: {
+
+            accountId: profileData?.accountId,
+            accountName: profileData?.accountName,
+            actionBy: profileData?.userId,
+            businessUnitId: selectedBusinessUnit?.value,
+            businessUnitName: selectedBusinessUnit?.label,
+            costControlingUnitId: 0,
+            costControlingUnitName: "",
+            deliveryAddress: rowData[0]?.warehouseAddress || "",
+            plantId: rowData[0]?.plantId,
+            plantName: rowData[0]?.plantName,
+            purchaseOrganizationId: rowData[0]?.purchaseOrganizationId || 0,
+            purchaseOrganizationName: rowData[0]?.purchaseOrganizationName || "",
+            purchaseRequestCode: "",
+            purchaseRequestTypeId: 2,
+            purchaseRequestTypeName: "Standard PR",
+            reffNo: "",
+            requestDate: _todayDate(),
+            requiredDate: rowData[0]?.purchaseRequestDate,
+            sbuid: profileData?.sbuId,
+            sbuname: profileData?.sbuName,
+            strPurpose: "Raw material requirement",
+            supplyingWarehouseId: 0,
+            supplyingWarehouseName: "",
+            warehouseId: rowData[0]?.warehouseId,
+            warehouseName: rowData[0]?.warehouseName,
+          },
+          createPurchaseRequestRow,
+        };
+        savePurchaseRequest(payload, cb, setDisabled, IConfirmModal);
       },
       true
     );
@@ -213,6 +298,21 @@ export default function BreakDownModal({
                       setFieldValue("warehouse", v);
                     }}
                     placeholder="Warehouse"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={false}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="purchaseOrganization"
+                    options={purchaseOrganizationList || []}
+                    value={values?.purchaseOrganization}
+                    label="Purchase Organization"
+                    onChange={(v) => {
+                      setFieldValue("purchaseOrganization", v);
+                    }}
+                    placeholder="Purchase Organization"
                     errors={errors}
                     touched={touched}
                     isDisabled={false}
