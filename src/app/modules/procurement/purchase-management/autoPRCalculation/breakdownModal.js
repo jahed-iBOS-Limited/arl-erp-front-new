@@ -1,39 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getSBU } from "../../../_helper/_commonApi";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { savePurchaseRequest } from "../purchaseRequestNew/helper";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { createPurchaseRequest } from "./helper";
 
 const initData = {
   supplierName: "",
   supplierContactNo: "",
   supplierEmail: "",
   purchaseOrganization: "",
-};
-
-const IConfirmModal = props => {
-  const { title, message, noAlertFunc } = props;
-  return confirmAlert({
-    title: title,
-    message: message,
-    buttons: [
-      {
-        label: 'Ok',
-        onClick: () => noAlertFunc(),
-      },
-    ],
-  });
 };
 
 export default function BreakDownModal({
@@ -57,19 +42,19 @@ export default function BreakDownModal({
   const [, saveRowData] = useAxiosPost();
 
 
-  const [
-    ,
-    getDetailsData,
-    loader,
-    ,
-  ] = useAxiosGet();
+  // const [
+  //   ,
+  //   getDetailsData,
+  //   loader,
+  //   ,
+  // ] = useAxiosGet();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
-    const data = getSbuDDL(profileData?.accountId, selectedBusinessUnit?.value);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
   }, [selectedBusinessUnit]);
 
   useEffect(() => {
@@ -186,49 +171,18 @@ export default function BreakDownModal({
         setShowBreakdownModal(false);
         setSingleRowData({});
 
-        let createPurchaseRequestRow = rowData?.map(item => ({
-          itemId: singleRowData?.itemId,
-          uoMid: singleRowData?.uoMid,
-          uoMname: singleRowData?.uomName,
-          numRequestQuantity: +item?.requestQuantity,
-          dteRequiredDate: item?.purchaseRequestDate,
-          billOfMaterialId: 0,
-          remarks: 'For production',
+        createPurchaseRequest(
+          {
+            rowData,
+            singleRowData,
+            profileData,
+            selectedBusinessUnit,
+            sbuList,
+            cb: () => { },
+            setDisabled
+          }
+        )
 
-        }));
-
-        let payload = {
-          createPurchaseRequestHeader: {
-
-            accountId: profileData?.accountId,
-            accountName: profileData?.accountName,
-            actionBy: profileData?.userId,
-            businessUnitId: selectedBusinessUnit?.value,
-            businessUnitName: selectedBusinessUnit?.label,
-            costControlingUnitId: 0,
-            costControlingUnitName: "",
-            deliveryAddress: rowData[0]?.warehouseAddress || "",
-            plantId: rowData[0]?.plantId,
-            plantName: rowData[0]?.plantName,
-            purchaseOrganizationId: rowData[0]?.purchaseOrganizationId || 0,
-            purchaseOrganizationName: rowData[0]?.purchaseOrganizationName || "",
-            purchaseRequestCode: "",
-            purchaseRequestTypeId: 2,
-            purchaseRequestTypeName: "Standard PR",
-            reffNo: "",
-            requestDate: _todayDate(),
-            requiredDate: rowData[0]?.purchaseRequestDate,
-            sbuid: profileData?.sbuId,
-            sbuname: profileData?.sbuName,
-            strPurpose: "Raw material requirement",
-            supplyingWarehouseId: 0,
-            supplyingWarehouseName: "",
-            warehouseId: rowData[0]?.warehouseId,
-            warehouseName: rowData[0]?.warehouseName,
-          },
-          createPurchaseRequestRow,
-        };
-        savePurchaseRequest(payload, cb, setDisabled, IConfirmModal);
       },
       true
     );
@@ -255,7 +209,7 @@ export default function BreakDownModal({
         touched,
       }) => (
         <>
-          {(plantListDDLloader || warehouseListDDLloader || loader) && (
+          {(plantListDDLloader || warehouseListDDLloader) && (
             <Loading />
           )}
           <IForm
