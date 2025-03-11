@@ -369,7 +369,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             setGridData([]);
                             if (values?.reportType?.value === 1) {
                               getGridData(
-                                `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${values?.itemName?.value}&wareHouseId=${values.wh?.value}&businessUnitId=${buId}&fromDate=${values.fromDate}&toDate=${values.toDate}`
+                                `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${values?.itemName?.value || 0}&wareHouseId=${values.wh?.value}&businessUnitId=${buId}&fromDate=${values.fromDate}&toDate=${values.toDate}`
                               );
                             } else if (values?.reportType?.value === 2) {
                               getGridData(

@@ -14,6 +14,10 @@ import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { getMonth } from "../../../salesManagement/report/salesanalytics/utils";
 import useAxiosGet from "../purchaseOrder/customHooks/useAxiosGet";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toast } from "react-toastify";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
+
 
 const initData = {
     businessUnit: "",
@@ -32,8 +36,9 @@ export default function CateringBill() {
 
     const [gridData, getGridData, loading, setGridData] = useAxiosGet();
     const [, onSubmitHandler, saveLoading] = useAxiosPost();
-    const [, setSingleData, singleDataLoading] = useAxiosGet();
+    const [, getSingleData, singleDataLoading] = useAxiosGet();
     const [, onCreatePO, createPOLoading] = useAxiosPost();
+    const [, onInventoryReceive, inventoryReceiveLoading] = useAxiosPost();
 
 
     const saveHandler = (values, cb) => { };
@@ -78,7 +83,7 @@ export default function CateringBill() {
                 touched,
             }) => (
                 <>
-                    {(loading || saveLoading || singleDataLoading || createPOLoading) && <Loading />}
+                    {(loading || saveLoading || singleDataLoading || createPOLoading || inventoryReceiveLoading) && <Loading />}
                     <IForm
                         title="Catering Bill"
                         isHiddenReset
@@ -145,7 +150,20 @@ export default function CateringBill() {
                                         </button>
                                     </div>
                                 </div>
+
                                 {(true || gridData?.length > 0) && (<div className="text-right my-2">
+                                    {gridData?.length > 0 && (
+                                        <span className="mr-2">
+                                            <ReactHtmlTableToExcel
+                                                id='test-table-xls-button'
+                                                className='download-table-xls-button btn btn-primary ml-2'
+                                                table='table-to-xlsx'
+                                                filename='Catering Bill Report'
+                                                sheet='Sheet-1'
+                                                buttonText='Export Excel'
+                                            />
+                                        </span>
+                                    )}
                                     <AttachmentUploaderNew
                                         CBAttachmentRes={(attachmentData) => {
                                             if (Array.isArray(attachmentData)) {
@@ -175,7 +193,7 @@ export default function CateringBill() {
                                 </div>)}
                                 {gridData?.length > 0 && (
                                     <div className="table-responsive">
-                                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                                        <table id="table-to-xlsx" className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                                             <thead>
                                                 <tr>
                                                     <th><input type="checkbox" checked={gridData?.every((item) => item?.isChecked)} onChange={(e) => {
@@ -192,7 +210,7 @@ export default function CateringBill() {
                                                     <th>Meal Amount</th>
                                                     <th>Purchase Order No</th>
                                                     <th>Inventory Transaction Code</th>
-                                                    <th>Action</th>
+                                                    <th style={{ minWidth: "70px" }}>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -236,154 +254,258 @@ export default function CateringBill() {
                                                         <td>{item?.purchaseOrderNo}</td>
                                                         <td>{item?.inventoryTransactionCode}</td>
                                                         <td className="text-center">
-                                                            <div className="">
-                                                                {!item?.purchaseOrderNo && (<span
-                                                                    className=""
-                                                                    onClick={() => {
-                                                                        setSingleData(`/procurement/CateringBill/GetAutoPurchaseOrderForMealById?MealConsumeCountId=${item?.mealConsumeCountId}`, (data) => {
-                                                                            IConfirmModal({
-                                                                                message: "Are you sure you want to create PO?",
-                                                                                title: "Create PO",
-                                                                                yesAlertFunc: () => {
-                                                                                    const apiUrl = `/procurement/PurchaseOrder/CreateStanderdAssetServicePurchaseOrder`;
+                                                            <div className="d-flex justify-content-between">
+                                                                {!item?.purchaseOrderNo && (
+                                                                    <span
+                                                                        className=""
+                                                                        onClick={() => {
+                                                                            if (!item?.attatchmentId) {
+                                                                                return toast.warn("Please attach a file first");
+                                                                            }
+                                                                            getSingleData(`/procurement/CateringBill/GetAutoPurchaseOrderForMealById?MealConsumeCountId=${item?.mealConsumeCountId}`, (data) => {
+                                                                                IConfirmModal({
+                                                                                    message: "Are you sure you want to create PO?",
+                                                                                    title: "Create PO",
+                                                                                    yesAlertFunc: () => {
+                                                                                        const apiUrl = `/procurement/PurchaseOrder/CreateStanderdAssetServicePurchaseOrder`;
 
 
-                                                                                    const today = new Date();
-                                                                                    const fourteenDaysLater = new Date(today);
-                                                                                    fourteenDaysLater.setDate(today.getDate() + 14);
+                                                                                        const today = new Date();
+                                                                                        const fourteenDaysLater = new Date(today);
+                                                                                        fourteenDaysLater.setDate(today.getDate() + 14);
 
-                                                                                    // Format the date as 'YYYY-MM-DD'
-                                                                                    const year = fourteenDaysLater.getFullYear();
-                                                                                    const month = String(fourteenDaysLater.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-                                                                                    const day = String(fourteenDaysLater.getDate()).padStart(2, '0');
-                                                                                    const poValidityDate = `${year}-${month}-${day}`;
+                                                                                        // Format the date as 'YYYY-MM-DD'
+                                                                                        const year = fourteenDaysLater.getFullYear();
+                                                                                        const month = String(fourteenDaysLater.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                                                                                        const day = String(fourteenDaysLater.getDate()).padStart(2, '0');
+                                                                                        const poValidityDate = `${year}-${month}-${day}`;
 
-                                                                                    const payload = {
-                                                                                        "objHeaderDTO": {
-                                                                                            "accountId": data?.accountId,
-                                                                                            "businessUnitId": data?.businessUnitId,
-                                                                                            "sbuId": data?.sbuid,
-                                                                                            "plantId": data?.plantId,
-                                                                                            "priceStructureId": 0,
-                                                                                            "plantName": data?.plantName,
-                                                                                            "warehouseId": data?.warehouseId,
-                                                                                            "warehouseName": data?.warehouseName,
-                                                                                            "supplyingWarehouseId": data?.warehouseId,
-                                                                                            "supplyingWarehouseName": data?.warehouseName,
-                                                                                            "purchaseOrganizationId": data?.purchaseOrganizationId,
-                                                                                            "businessPartnerId": data?.supplierId,
-                                                                                            "purchaseOrderDate": _todayDate(),
-                                                                                            "purchaseOrderTypeId": data?.orderType,
-                                                                                            "incotermsId": data?.incoterms,
-                                                                                            "currencyId": data?.currencyId,
-                                                                                            "supplierReference": "",
-                                                                                            "referenceDate": _todayDate(),
-                                                                                            "referenceTypeId": data?.referenceType,
-                                                                                            returnDate: _todayDate(),
-                                                                                            "paymentTerms": 2,
-                                                                                            "creditPercent": 0,
-                                                                                            "cashOrAdvancePercent": 0,
-                                                                                            "otherTerms": "",
-                                                                                            "poValidityDate": poValidityDate,
-                                                                                            "lastShipmentDate": _todayDate(),
-                                                                                            "paymentDaysAfterDelivery": 14,
-                                                                                            "deliveryAddress": data?.deliveryAddress,
-                                                                                            "actionBy": profileData?.userId,
-                                                                                            "grossDiscount": 0,
-                                                                                            "freight": 0,
-                                                                                            "commission": 0,
-                                                                                            "othersCharge": 0,
-                                                                                            "transferBusinessUnitId": 0,
-                                                                                            "transferCostElementId": 0,
-                                                                                            "transferCostCenterId": 0,
-                                                                                            "profitCenterId": data?.profitCenterId,
+                                                                                        const payload = {
+                                                                                            objHeaderDTO: {
+                                                                                                accountId: data?.accountId,
+                                                                                                businessUnitId: data?.businessUnitId,
+                                                                                                sbuId: data?.sbuid,
+                                                                                                plantId: data?.plantId,
+                                                                                                priceStructureId: 0,
+                                                                                                plantName: data?.plantName,
+                                                                                                warehouseId: data?.warehouseId,
+                                                                                                warehouseName: data?.warehouseName,
+                                                                                                supplyingWarehouseId: data?.warehouseId,
+                                                                                                supplyingWarehouseName: data?.warehouseName,
+                                                                                                purchaseOrganizationId: data?.purchaseOrganizationId,
+                                                                                                businessPartnerId: data?.supplierId,
+                                                                                                purchaseOrderDate: _todayDate(),
+                                                                                                purchaseOrderTypeId: data?.orderType,
+                                                                                                incotermsId: data?.incoterms,
+                                                                                                currencyId: data?.currencyId,
+                                                                                                supplierReference: "",
+                                                                                                referenceDate: _todayDate(),
+                                                                                                referenceTypeId: data?.referenceType,
+                                                                                                returnDate: _todayDate(),
+                                                                                                paymentTerms: 2,
+                                                                                                creditPercent: 0,
+                                                                                                cashOrAdvancePercent: 0,
+                                                                                                otherTerms: "",
+                                                                                                poValidityDate: poValidityDate,
+                                                                                                lastShipmentDate: _todayDate(),
+                                                                                                paymentDaysAfterDelivery: 14,
+                                                                                                deliveryAddress: data?.deliveryAddress,
+                                                                                                actionBy: profileData?.userId,
+                                                                                                grossDiscount: 0,
+                                                                                                freight: 0,
+                                                                                                commission: 0,
+                                                                                                othersCharge: 0,
+                                                                                                transferBusinessUnitId: 0,
+                                                                                                transferCostElementId: 0,
+                                                                                                transferCostCenterId: 0,
+                                                                                                profitCenterId: data?.profitCenterId,
 
-                                                                                        },
-                                                                                        "objRowListDTO": [
-                                                                                            {
-                                                                                                "referenceId": 0,
-                                                                                                "referenceCode": "",
-                                                                                                "referenceQty": 0,
-                                                                                                "itemId": data?.itemId,
-                                                                                                "itemName": data?.itemName,
-                                                                                                "uoMid": data?.baseUom,
-                                                                                                "uoMname": data?.baseUomname,
-                                                                                                "controllingUnitId": data?.controllingUnitId,
-                                                                                                "bomId": 0,
-                                                                                                "controllingUnitName": data?.controllingUnitName,
-                                                                                                "costCenterId": data?.costCenterId,
-                                                                                                "costCenterName": data?.costCenterName,
-                                                                                                "costElementId": data?.costElementId,
-                                                                                                "costElementName": data?.costElementName,
-                                                                                                "purchaseDescription": "",
-                                                                                                "orderQty": 1,
-                                                                                                "basePrice": data?.numMealAmount,
-                                                                                                "finalPrice": data?.numMealAmount,
-                                                                                                "totalValue": data?.numMealAmount,
-                                                                                                "actionBy": profileData?.userId,
-                                                                                                "lastActionDateTime": _todayDate(),
-                                                                                                "vatPercentage": 0,
-                                                                                                "vatAmount": 0,
-                                                                                                "baseVatAmount": 0,
-                                                                                                "discount": 0,
-                                                                                                "profitCenterId": data?.profitCenterId,
-                                                                                            }
-                                                                                        ],
-                                                                                        "objImageListDTO": []
-                                                                                    };
-                                                                                    onCreatePO(apiUrl, payload, (res) => {
-                                                                                        const payload = [{
-                                                                                            mealConsumeCountId: data?.mealConsumeCountId,
-                                                                                            purchaseOrderId: res?.autoId,
-                                                                                            purchaseOrderNo: res?.code,
-                                                                                        }]
-                                                                                        onUpdateHandler(values, payload, setFieldValue);
-                                                                                    }, true);
+                                                                                            },
+                                                                                            objRowListDTO: [
+                                                                                                {
+                                                                                                    referenceId: 0,
+                                                                                                    referenceCode: "",
+                                                                                                    referenceQty: 0,
+                                                                                                    itemId: data?.itemId,
+                                                                                                    itemName: data?.itemName,
+                                                                                                    uoMid: data?.baseUom,
+                                                                                                    uoMname: data?.baseUomname,
+                                                                                                    controllingUnitId: data?.controllingUnitId,
+                                                                                                    bomId: 0,
+                                                                                                    controllingUnitName: data?.controllingUnitName,
+                                                                                                    costCenterId: data?.costCenterId,
+                                                                                                    costCenterName: data?.costCenterName,
+                                                                                                    costElementId: data?.costElementId,
+                                                                                                    costElementName: data?.costElementName,
+                                                                                                    purchaseDescription: "",
+                                                                                                    orderQty: 1,
+                                                                                                    basePrice: data?.numMealAmount,
+                                                                                                    finalPrice: data?.numMealAmount,
+                                                                                                    totalValue: data?.numMealAmount,
+                                                                                                    actionBy: profileData?.userId,
+                                                                                                    lastActionDateTime: _todayDate(),
+                                                                                                    vatPercentage: 0,
+                                                                                                    vatAmount: 0,
+                                                                                                    baseVatAmount: 0,
+                                                                                                    discount: 0,
+                                                                                                    profitCenterId: data?.profitCenterId,
+                                                                                                }
+                                                                                            ],
+                                                                                            objImageListDTO: [
+                                                                                                {
+                                                                                                    imageId: item?.attatchmentId || "",
+                                                                                                }
+                                                                                            ],
+                                                                                        };
+                                                                                        onCreatePO(apiUrl, payload, (res) => {
+                                                                                            const payload = [{
+                                                                                                mealConsumeCountId: data?.mealConsumeCountId,
+                                                                                                purchaseOrderId: res?.autoId,
+                                                                                                purchaseOrderNo: res?.code,
+                                                                                            }]
+                                                                                            onUpdateHandler(values, payload, setFieldValue);
+                                                                                        }, true);
 
-                                                                                },
-                                                                                noAlertFunc: () => { },
+                                                                                    },
+                                                                                    noAlertFunc: () => { },
+                                                                                });
+
                                                                             });
 
-                                                                        });
-
-                                                                    }}
-                                                                >
-                                                                    <IAdd title={"Create PO"} />
-                                                                </span>)}
-                                                                {item?.attatchmentId && (<span onClick={() => {
-                                                                    dispatch(
-                                                                        getDownlloadFileView_Action(
-                                                                            item?.attatchmentId,
-                                                                        )
-                                                                    );
-                                                                }}>
-                                                                    <IView styles={{ fontSize: "16px" }} />
-
-                                                                </span>)}
-                                                                {/* <span
-                                                                    className="px-5"
-                                                                    onClick={() => {
-                                                                        // Example: Log the item to the console
-                                                                        console.log("History clicked for:", item);
-                                                                        // Navigate to a history page, etc.
-                                                                    }}
-                                                                >
-                                                                    <OverlayTrigger
-                                                                        overlay={
-                                                                            <Tooltip id="cs-icon">History</Tooltip>
-                                                                        }
+                                                                        }}
                                                                     >
-                                                                        <i
-                                                                            style={{ fontSize: "16px" }}
-                                                                            className="fa fa-history cursor-pointer"
-                                                                            aria-hidden="true"
-                                                                        ></i>
-                                                                    </OverlayTrigger>
-                                                                </span> */}
+                                                                        <IAdd title={"Create PO"} />
+                                                                    </span>)}
+                                                                {item?.attatchmentId && (
+                                                                    <span onClick={() => {
+                                                                        dispatch(
+                                                                            getDownlloadFileView_Action(
+                                                                                item?.attatchmentId,
+                                                                            )
+                                                                        );
+                                                                    }}>
+                                                                        <IView styles={{ fontSize: "16px" }} />
+
+                                                                    </span>)}
+                                                                {item?.purchaseOrderNo && (
+                                                                    <span
+                                                                        className=""
+                                                                        onClick={() => {
+                                                                            if (!item?.attatchmentId) {
+                                                                                return toast.warn("Please attach a file first");
+                                                                            }
+                                                                            getSingleData(`/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${item?.purchaseOrderId}&OrderTypeId=5`, (data) => {
+                                                                                console.log(data, "data");
+                                                                                const payload = {
+                                                                                    images: [
+                                                                                        {
+                                                                                            imageId: item?.attatchmentId || "",
+                                                                                        }
+                                                                                    ],
+                                                                                    objHeader: {
+                                                                                        serviceCode: "",
+                                                                                        transactionDate: _todayDate(),
+                                                                                        referenceId: data[0]?.objHeaderDTO?.purchaseOrderId || 0,
+                                                                                        referenceCode: data[0]?.objHeaderDTO?.purchaseOrderNo || "",
+                                                                                        accountId: profileData?.accountId,
+                                                                                        accountName: profileData?.accountName,
+                                                                                        businessUnitId: data[0]?.objHeaderDTO?.businessUnitId || 0,
+                                                                                        businessUnitName: item?.controllingUnitName || "",
+                                                                                        sbuid: item?.sbuid || 0,
+                                                                                        sbuname: item?.controllingUnitName || "",
+                                                                                        plantId: item?.plantId || 0,
+                                                                                        plantName: item?.plantName || "",
+                                                                                        warehouseId: data[0]?.objHeaderDTO?.warehouseId || 0,
+                                                                                        warehouseName: data[0]?.objHeaderDTO?.warehouseName || "",
+                                                                                        businessPartnerId: item?.supplierId || 0,
+                                                                                        businessPartnerName: item?.supplierName || "",
+                                                                                        strComments: "Auto SRR",
+                                                                                        intActionBy: profileData?.userId,
+                                                                                        // strDocumentId: item?.attatchmentId || "",
+                                                                                        costCenterId: item?.costCenterId || 0,
+                                                                                        costCenterCode: "",
+                                                                                        costCenterName: item?.costCenterName || "",
+                                                                                        projectId: 0,
+                                                                                        projectCode: "",
+                                                                                        projectName: "",
+                                                                                        receivedById: 0,
+                                                                                        receivedBy: "",
+                                                                                        gateEntryNo: "",
+                                                                                        challan: "123",
+                                                                                        challanDateTime: _todayDate(),
+                                                                                        vatChallan: "",
+                                                                                        vatAmount: 0,
+                                                                                        grossDiscount: 0,
+                                                                                        freight: 0,
+                                                                                        commission: 0,
+                                                                                        shipmentId: 0,
+                                                                                        othersCharge: 0,
+
+                                                                                    },
+                                                                                    objRow: [
+                                                                                        {
+                                                                                            itemId: data[0]?.objRowListDTO?.[0]?.itemId,
+                                                                                            itemName: data[0]?.objRowListDTO?.[0]?.itemName,
+                                                                                            uoMid: data[0]?.objRowListDTO?.[0]?.uomId,
+                                                                                            uoMname: data[0]?.objRowListDTO?.[0]?.uomName,
+                                                                                            transactionQuantity: data[0]?.objRowListDTO?.[0]?.orderQty,
+                                                                                            poQuantity: data[0]?.objRowListDTO?.[0]?.orderQty,
+                                                                                            previousQuantity: data[0]?.objRowListDTO?.[0]?.orderQty,
+                                                                                            transactionValue: data[0]?.objRowListDTO?.[0]?.totalValue,
+                                                                                            vatAmount: data[0]?.objRowListDTO?.[0]?.numVatAmount,
+                                                                                            discount: data[0]?.objRowListDTO?.[0]?.numDiscount,
+                                                                                            referenceId: data[0]?.objRowListDTO?.[0]?.referenceId,
+                                                                                            profitCenterId: item?.profitCenterId,
+                                                                                            profitCenterName: item?.profitCenterName,
+                                                                                            costRevenueName: item?.costElementName,
+                                                                                            costRevenueId: item?.costElementId,
+                                                                                            elementName: item?.costElementName,
+                                                                                            elementId: item?.costElementId
+
+                                                                                        }
+                                                                                    ]
+                                                                                }
+
+                                                                                onInventoryReceive("/wms/ServiceTransection/CreateServiceTransecionForReceive", payload, (res) => {
+                                                                                    const updatePayload = [{
+                                                                                        mealConsumeCountId: item?.mealConsumeCountId || 0,
+                                                                                        inventoryTransactionId: item?.key,
+                                                                                        inventoryTransactionCode: item?.code,
+
+                                                                                    }]
+
+                                                                                    onUpdateHandler(values, updatePayload, setFieldValue);
+                                                                                }
+                                                                                );
+
+                                                                            });
+                                                                        }}
+                                                                    >
+                                                                        <OverlayTrigger
+                                                                            overlay={
+                                                                                <Tooltip id="cs-icon">Inventory Receive</Tooltip>
+                                                                            }
+                                                                        >
+                                                                            <i
+                                                                                style={{ fontSize: "16px" }}
+                                                                                class="fa fa-briefcase cursor-pointer"
+                                                                                aria-hidden="true"
+                                                                            ></i>
+                                                                        </OverlayTrigger>
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>
+
                                                 ))}
+
+                                                <tr>
+                                                    <td colSpan="5" className="text-right text-bold">Total</td>
+                                                    <td className="text-center text-bold">{gridData?.reduce((a, b) => a + (+b?.mealCount || 0), 0)}</td>
+                                                    <td className="text-center text-bold">{gridData?.reduce((a, b) => a + (+b?.mealAmount || 0), 0)}</td>
+                                                    <td colSpan="3"></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
