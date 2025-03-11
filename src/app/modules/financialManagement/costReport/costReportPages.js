@@ -11,6 +11,7 @@ import { CashRegisterReport } from "../report/cashRegisterReport/Form/addEditFor
 import { FinencialRatiosAnalysis } from "../report/finencialRatiosAnalysis/Form/addEditForm";
 import BudgetVsSalesVarient from "../../internalControl/budgetVSSalesVarient";
 import PlanningReport from "../report/planningReport";
+import COCReportLandingPage from "../report/cocReport";
 
 export function CostReportPages() {
   return (
@@ -46,7 +47,7 @@ export function CostReportPages() {
         path="/financial-management/cost-report/profitCenterReport"
         component={ProfitCenterReport}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/cost-report/PlanningReport"
         component={PlanningReport}
       />
@@ -61,6 +62,11 @@ export function CostReportPages() {
       <ContentRoute
         path="/financial-management/cost-report/BudgetVSSalesVariance"
         component={BudgetVsSalesVarient}
+      />
+
+      <ContentRoute
+        path="/financial-management/cost-report/cocreport"
+        component={COCReportLandingPage}
       />
     </Switch>
   );

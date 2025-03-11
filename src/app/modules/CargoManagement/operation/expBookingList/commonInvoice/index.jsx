@@ -572,10 +572,26 @@ const CommonInvoice = ({ rowClickData }) => {
                     <br />
                     <span>ETD</span>
                     <br />
-                    <span>Master Number</span>
-                    <br />
-                    <span>House Number</span>
-                    <br />
+                    {bookingData?.modeOfTransportId !== 4 && (
+                      <>
+                        {' '}
+                        <span>Master Number</span>
+                        <br />
+                      </>
+                    )}
+
+                    {bookingData?.modeOfTransportId === 4 ? (
+                      <>
+                        <span>Consignment Number</span>
+                        <br />
+                      </>
+                    ) : (
+                      <>
+                        {' '}
+                        <span>House Number</span>
+                        <br />
+                      </>
+                    )}
                     <span>ATA</span>
                   </div>
                   <div
@@ -603,23 +619,28 @@ const CommonInvoice = ({ rowClickData }) => {
                         : 'N/A'}
                     </span>
                     <br />
-                    <span>
-                      {' '}
-                      {bookingData?.seaMasterBlCode &&
-                      bookingData?.airMasterBlCode ? (
-                        <>
-                          {bookingData?.seaMasterBlCode}{' '}
-                          {bookingData?.airMasterBlCode
-                            ? ', ' + bookingData?.airMasterBlCode
-                            : ''}
-                        </>
-                      ) : (
-                        bookingData?.seaMasterBlCode ||
-                        bookingData?.airMasterBlCode ||
-                        ''
-                      )}
-                    </span>
-                    <br />
+                    {bookingData?.modeOfTransportId !== 4 && (
+                      <>
+                        <span>
+                          {' '}
+                          {bookingData?.seaMasterBlCode &&
+                          bookingData?.airMasterBlCode ? (
+                            <>
+                              {bookingData?.seaMasterBlCode}{' '}
+                              {bookingData?.airMasterBlCode
+                                ? ', ' + bookingData?.airMasterBlCode
+                                : ''}
+                            </>
+                          ) : (
+                            bookingData?.seaMasterBlCode ||
+                            bookingData?.airMasterBlCode ||
+                            ''
+                          )}
+                        </span>
+                        <br />
+                      </>
+                    )}
+
                     <span>{bookingData?.hblnumber || 'N/A'}</span>
                     <br />
                     <span>
@@ -647,10 +668,24 @@ const CommonInvoice = ({ rowClickData }) => {
                     <br />
                     <span>Flight</span>
                     <br />
-                    <span>Master Date</span>
-                    <br />
-                    <span>House Date</span>
-                    <br />
+                    {bookingData?.modeOfTransportId !== 4 && (
+                      <>
+                        <span>Master Date</span>
+                        <br />
+                      </>
+                    )}
+
+                    {bookingData?.modeOfTransportId === 4 ? (
+                      <>
+                        <span>Consignment Date</span>
+                        <br />
+                      </>
+                    ) : (
+                      <>
+                        <span>House Date</span>
+                        <br />
+                      </>
+                    )}
                     <span>Volume</span>
                     <br />
                     <span>Chrg. Wt</span>
@@ -674,31 +709,36 @@ const CommonInvoice = ({ rowClickData }) => {
                     <br />
                     <span></span>
                     <br />
-                    <span>
-                      {bookingData?.seaMasterBlCode &&
-                      bookingData?.airMasterBlCode ? (
-                        <>
-                          {bookingData?.seaMasterBlDate &&
-                            moment(bookingData?.seaMasterBlDate).format(
-                              'YYYY-MM-DD',
-                            )}
-                          {', '}
-                          {bookingData?.airMasterBlDate &&
-                            moment(bookingData?.airMasterBlDate).format(
-                              'YYYY-MM-DD',
-                            )}{' '}
-                        </>
-                      ) : bookingData?.seaMasterBlDate ||
-                        bookingData?.airMasterBlDate ? (
-                        moment(
-                          bookingData?.seaMasterBlDate ||
-                            bookingData?.airMasterBlDate,
-                        ).format('YYYY-MM-DD')
-                      ) : (
-                        ''
-                      )}
-                    </span>
-                    <br />
+                    {bookingData?.modeOfTransportId !== 4 && (
+                      <>
+                        <span>
+                          {bookingData?.seaMasterBlCode &&
+                          bookingData?.airMasterBlCode ? (
+                            <>
+                              {bookingData?.seaMasterBlDate &&
+                                moment(bookingData?.seaMasterBlDate).format(
+                                  'YYYY-MM-DD',
+                                )}
+                              {', '}
+                              {bookingData?.airMasterBlDate &&
+                                moment(bookingData?.airMasterBlDate).format(
+                                  'YYYY-MM-DD',
+                                )}{' '}
+                            </>
+                          ) : bookingData?.seaMasterBlDate ||
+                            bookingData?.airMasterBlDate ? (
+                            moment(
+                              bookingData?.seaMasterBlDate ||
+                                bookingData?.airMasterBlDate,
+                            ).format('YYYY-MM-DD')
+                          ) : (
+                            ''
+                          )}
+                        </span>
+                        <br />
+                      </>
+                    )}
+
                     <span>
                       {bookingData?.hbldate
                         ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
