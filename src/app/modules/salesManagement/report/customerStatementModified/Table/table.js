@@ -133,7 +133,7 @@ export default function CustomerStatementModifiedReportTable() {
     const reports = [
       { value: 1, label: 'Details' },
       { value: 2, label: 'Top Sheet' },
-      { value: 4, label: 'Moth Basis Sales' },
+      { value: 4, label: 'Month Basis Sales' },
     ];
     if ([94, 178].includes(buId)) {
       return [...reports, { value: 3, label: 'G2G Sales Details' }];
