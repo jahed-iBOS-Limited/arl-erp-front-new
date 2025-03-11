@@ -1,6 +1,8 @@
 import { Form, Formik } from "formik";
 import React from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import IForm from "../../../_helper/_form";
 import IAdd from "../../../_helper/_helperIcons/_add";
@@ -14,9 +16,7 @@ import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { getMonth } from "../../../salesManagement/report/salesanalytics/utils";
 import useAxiosGet from "../purchaseOrder/customHooks/useAxiosGet";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { generateExcel } from "./helper";
 
 
 const initData = {
@@ -151,19 +151,20 @@ export default function CateringBill() {
                                     </div>
                                 </div>
 
-                                {(true || gridData?.length > 0) && (<div className="text-right my-2">
-                                    {gridData?.length > 0 && (
-                                        <span className="mr-2">
-                                            <ReactHtmlTableToExcel
-                                                id='test-table-xls-button'
-                                                className='download-table-xls-button btn btn-primary ml-2'
-                                                table='table-to-xlsx'
-                                                filename='Catering Bill Report'
-                                                sheet='Sheet-1'
-                                                buttonText='Export Excel'
-                                            />
-                                        </span>
-                                    )}
+                                {(gridData?.length > 0) && (<div className="text-right my-2">
+                                    <span className="mr-2">
+                                        <button
+                                            type="button"
+                                            disabled={!gridData?.length}
+                                            onClick={() => {
+                                                generateExcel(gridData);
+                                            }}
+                                            className="btn btn-primary"
+                                        >
+                                            Excel Export
+                                        </button>
+                                    </span>
+
                                     <AttachmentUploaderNew
                                         CBAttachmentRes={(attachmentData) => {
                                             if (Array.isArray(attachmentData)) {
@@ -193,7 +194,7 @@ export default function CateringBill() {
                                 </div>)}
                                 {gridData?.length > 0 && (
                                     <div className="table-responsive">
-                                        <table id="table-to-xlsx" className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                                             <thead>
                                                 <tr>
                                                     <th><input type="checkbox" checked={gridData?.every((item) => item?.isChecked)} onChange={(e) => {
@@ -510,6 +511,43 @@ export default function CateringBill() {
                                         </table>
                                     </div>
                                 )}
+
+                                <div>
+                                    <table id="excel-table" style={{ display: "none" }}>
+                                        <thead>
+                                            <tr>
+                                                <th>SL</th>
+                                                <th>Month</th>
+                                                <th>Business Unit</th>
+                                                <th>Supplier</th>
+                                                <th>Meal Count</th>
+                                                <th>Meal Amount</th>
+                                                <th>Purchase Order No</th>
+                                                <th>Inventory Transaction Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {gridData?.map((item, index) => (
+                                                <tr key={item.mealConsumeCountId}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{getMonth(item?.monthId)}</td>
+                                                    <td>{item?.controllingUnitName}</td>
+                                                    <td>{item?.supplierName}</td>
+                                                    <td>{item?.mealCount}</td>
+                                                    <td>{item?.mealAmount}</td>
+                                                    <td>{item?.purchaseOrderNo}</td>
+                                                    <td>{item?.inventoryTransactionCode}</td>
+                                                </tr>
+                                            ))}
+                                            <tr>
+                                                <td colSpan="4" className="text-right text-bold">Total</td>
+                                                <td className="text-center text-bold">{gridData?.reduce((a, b) => a + (+b?.mealCount || 0), 0)}</td>
+                                                <td className="text-center text-bold">{gridData?.reduce((a, b) => a + (+b?.mealAmount || 0), 0)}</td>
+                                                <td colSpan="2"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
                             </>
