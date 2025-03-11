@@ -739,25 +739,27 @@ function ExpBookingList() {
                                 )}
 
                                 <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isReceived}
-                                      className={
-                                        item?.isReceived
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isReceive: true,
-                                        });
-                                      }}
-                                    >
-                                      Receive
-                                    </button>
-                                  </span>
+                                  {!item?.isAirOperation && (
+                                    <span>
+                                      <button
+                                        disabled={item?.isReceived}
+                                        className={
+                                          item?.isReceived
+                                            ? 'btn btn-sm btn-success px-1 py-1'
+                                            : 'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isReceive: true,
+                                          });
+                                        }}
+                                      >
+                                        Receive
+                                      </button>
+                                    </span>
+                                  )}
                                 </td>
                                 {['Sea', 'Sea-Air'].includes(
                                   values?.modeOfTransport?.label,
@@ -792,27 +794,29 @@ function ExpBookingList() {
                                   </td>
                                 )}
                                 <td>
-                                  <span>
-                                    <button
-                                      disabled={
-                                        item?.isPlaning || !item?.isConfirm
-                                      }
-                                      className={
-                                        item?.isPlaning
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isPlaning: true,
-                                        });
-                                      }}
-                                    >
-                                      Shipment Planning
-                                    </button>
-                                  </span>
+                                  {!item?.isAirOperation && (
+                                    <span>
+                                      <button
+                                        disabled={
+                                          item?.isPlaning || !item?.isConfirm
+                                        }
+                                        className={
+                                          item?.isPlaning
+                                            ? 'btn btn-sm btn-success px-1 py-1'
+                                            : 'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isPlaning: true,
+                                          });
+                                        }}
+                                      >
+                                        Shipment Planning
+                                      </button>
+                                    </span>
+                                  )}
                                 </td>
                                 <td>
                                   <span>
