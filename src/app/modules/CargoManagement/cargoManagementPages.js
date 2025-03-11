@@ -1,17 +1,17 @@
-import React, { Suspense } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import ChaOperationPages from "./chaOperation/chaOperationPage";
-import DeliveryAgentPages from "./configuration/configurationPages";
-import OperationPages from "./operation/operationPages";
-import ReportPages from "./report/reportPages";
+import React, { Suspense } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import NotPermittedPage from '../_helper/notPermitted/NotPermittedPage';
+import ChaOperationPages from './chaOperation/chaOperationPage';
+import DeliveryAgentPages from './configuration/configurationPages';
+import OperationPages from './ffOperation/operationPages';
+import ReportPages from './report/reportPages';
 
 export function CargoManagementPages() {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   if (selectedBusinessUnit?.value === 225) {
     return (
@@ -40,9 +40,8 @@ export function CargoManagementPages() {
           />
         </Switch>
       </Suspense>
-    )
-  }
-  else {
+    );
+  } else {
     return (
       <Suspense fallback={<LayoutSplashScreen />}>
         <Switch>
@@ -69,7 +68,7 @@ export function CargoManagementPages() {
           />
         </Switch>
       </Suspense>
-    )
+    );
   }
 }
 export default CargoManagementPages;
