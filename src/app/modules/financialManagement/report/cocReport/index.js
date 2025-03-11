@@ -17,8 +17,8 @@ export default function COCReportLandingPage() {
   );
 
   // state
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
+  const [pageNo, setPageNo] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
 
   // api
   const [
@@ -43,22 +43,27 @@ export default function COCReportLandingPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function fetchCOCReportData({ values, getCocReportData }) {
+  // fetch coc report data
+  function fetchCOCReportData({
+    values,
+    getCocReportData,
+    pageNo,
+    pageSize,
+    cb,
+  }) {
     const { employee, activityName, fromDate, toDate } = values;
 
     getCocReportData(
-      `/costmgmt/ServiceLevelAgreementCOC/GetCOCReport?partName=COCReport&businessUnitId=${selectedBusinessUnit?.value}&activityId=${activityName?.value}&employeeId=${employee?.value}&fromDate=${fromDate}&toDate=${toDate}`
+      `/costmgmt/ServiceLevelAgreementCOC/GetCOCReport?partName=COCReport&businessUnitId=${
+        selectedBusinessUnit?.value
+      }&activityId=${activityName?.value || 0}&employeeId=${employee?.value ||
+        0}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   }
 
   // submit handler
   const saveHandler = (values, cb) => {
-    fetchCOCReportData({ values, getCocReportData, cb });
-  };
-
-  // set position
-  const setPositionHandler = (pageNo, pageSize, values) => {
-    fetchCOCReportData({ values, getCocReportData, pageNo, pageSize });
+    fetchCOCReportData({ values, getCocReportData, pageNo, pageSize, cb });
   };
 
   // is loading
@@ -171,13 +176,13 @@ export default function COCReportLandingPage() {
                       {cocReportData.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{item?.code}</td>
-                          <td>{item?.itemName}</td>
-                          <td>{item?.uoM}</td>
-                          <td>{item?.stockQty}</td>
-                          <td>{item?.stockCoverDay}</td>
-                          <td>{item?.avgUseDay}</td>
-                          <td>{item?.lastIssueDays}</td>
+                          <td>{item?.activityName}</td>
+                          <td>{item?.employeeId}</td>
+                          <td>{item?.employeeName}</td>
+                          <td>{item?.designation}</td>
+                          <td>{item?.sectionName}</td>
+                          <td>{item?.businessUnitName}</td>
+                          <td>{item?.referenceNo}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -190,10 +195,15 @@ export default function COCReportLandingPage() {
               {cocReportData?.length > 0 && (
                 <PaginationTable
                   count={
-                    cocReportData?.length > 0 && cocReportData[0]?.totalRows
+                    cocReportData?.length > 0 && cocReportData[0].totalCount
                   }
                   setPositionHandler={(pageNo, pageSize, values) =>
-                    setPositionHandler(pageNo, pageSize, values)
+                    fetchCOCReportData({
+                      values,
+                      getCocReportData,
+                      pageNo,
+                      pageSize,
+                    })
                   }
                   paginationState={{
                     pageNo,
@@ -201,7 +211,6 @@ export default function COCReportLandingPage() {
                     pageSize,
                     setPageSize,
                   }}
-                  rowsPerPageOptions={[10, 20, 50, 100, 500]}
                   values={values}
                 />
               )}
