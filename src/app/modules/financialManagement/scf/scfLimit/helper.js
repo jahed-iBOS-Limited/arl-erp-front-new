@@ -20,19 +20,40 @@ export const scfLimitLandingTableHeader = [
   "Actions",
 ];
 
+// fetch scf limit data
+export const fetchSCFLimitData = ({
+  pageSize,
+  pageNo,
+  selectedBusinessUnit,
+  getScfLimitLandingData,
+}) => {
+  getScfLimitLandingData(
+    `/fino/PaymentRequest/ScfLimitLanding?businessUnit=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+  );
+};
+
 //===Create Page===//
 // init data
 export const createInitData = {
   supplier: "",
   bankAccountNo: "",
+  disbursementType: "",
   limit: "",
-  updatedDate: "",
   tenorDays: "",
   transactionRef: "",
   limitExpiryDate: "",
   interestRate: "",
   remarks: "",
 };
+
+// disbursement type ddl
+export const disbursementTypeDDL = [
+  {
+    value: "Individual",
+    label: "Individual",
+  },
+  { value: "Consolidated", label: "Consolidated" },
+];
 
 // validation
 export const createValidationSchema = Yup.object().shape({

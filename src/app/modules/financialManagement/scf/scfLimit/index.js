@@ -6,34 +6,46 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { landingInitData, scfLimitLandingTableHeader } from "./helper";
+import {
+  fetchSCFLimitData,
+  landingInitData,
+  scfLimitLandingTableHeader,
+} from "./helper";
+import { shallowEqual, useSelector } from "react-redux";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 export default function SCFLimitLandingPage() {
   // hooks
   const history = useHistory();
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   // state
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(0);
+  const [pageNo, setPageNo] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
 
   // api action
   const [
     scfLimitLandingData,
     getScfLimitLandingData,
     getScfLimitLandingDataLoading,
-    setScfLimitLandingData,
   ] = useAxiosGet();
 
   // use effect
   useEffect(() => {
-    setScfLimitLandingData([{ id: 1 }]);
+    fetchSCFLimitData({
+      pageSize,
+      pageNo,
+      selectedBusinessUnit,
+      getScfLimitLandingData,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // submit handler
   const saveHandler = (values, cb) => {};
-
-  // pagination handler
-  const setPositionHandler = () => {};
 
   // is loading
   const isLoading = getScfLimitLandingDataLoading;
@@ -83,7 +95,7 @@ export default function SCFLimitLandingPage() {
           >
             <Form>
               {/* SCF Limit Landing Table */}
-              {scfLimitLandingData?.length > 0 ? (
+              {scfLimitLandingData?.data?.length > 0 ? (
                 <div className="table-responsive my-2">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
@@ -94,19 +106,19 @@ export default function SCFLimitLandingPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {scfLimitLandingData?.map((item, index) => (
+                      {scfLimitLandingData?.data?.map((item, index) => (
                         <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
-                          <td>{index + 1}</td>
+                          <td>{item?.sl}</td>
+                          <td>{item?.businessPartnerName}</td>
+                          <td>{item?.bankName}</td>
+                          <td>{item?.accountNumber}</td>
+                          <td>{item?.limit}</td>
+                          <td>{_dateFormatter(item?.updatedAt)}</td>
+                          <td>{item?.tenorDays}</td>
+                          <td>{item?.sanctionReference}</td>
+                          <td>{_dateFormatter(item?.limitExpiryDate)}</td>
+                          <td>{item?.interestRate}</td>
+                          <td>{item?.remarks}</td>
                           <td>
                             <IEdit
                               onClick={(e) =>
@@ -127,11 +139,19 @@ export default function SCFLimitLandingPage() {
               )}
 
               {/* SCF Landing Pagination Table */}
-              {scfLimitLandingData?.length > 0 ? (
+              {scfLimitLandingData?.data?.length > 0 ? (
                 <PaginationTable
-                  count={0}
-                  setPositionHandler={setPositionHandler}
+                  count={scfLimitLandingData?.totalCount || 0}
+                  setPositionHandler={(pageNo, pageSize) => {
+                    fetchSCFLimitData({
+                      pageSize,
+                      pageNo,
+                      selectedBusinessUnit,
+                      getScfLimitLandingData,
+                    });
+                  }}
                   paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                  values={values}
                 />
               ) : (
                 <></>

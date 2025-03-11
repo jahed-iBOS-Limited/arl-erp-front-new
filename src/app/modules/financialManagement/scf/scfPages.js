@@ -2,10 +2,16 @@ import React, { lazy, Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
 import SCFRegisterCreateEditRenewPage from "./scfRegister/createEditRenew/index.js";
-import SCFRegisterLandingPage from "./scfRegister/landing/index.js";
-import SCFRegisterAutoJournalLog from "./scfRegister/autoJournalLog/index.js";
-import SCFRegisterRepayCreate from "./scfRegister/repay/index.js";
-import SCFRegisterViewPage from "./scfRegister/view/index.js";
+const SCFRegisterLandingPage = lazy(() =>
+  import("./scfRegister/landing/index.js")
+);
+const SCFRegisterAutoJournalLog = lazy(() =>
+  import("./scfRegister/autoJournalLog/index.js")
+);
+const SCFRegisterRepayCreate = lazy(() =>
+  import("./scfRegister/repay/index.js")
+);
+const SCFRegisterViewPage = lazy(() => import("./scfRegister/view/index.js"));
 const SCFLimitCreateEditPage = lazy(() => import("./scfLimit/createEdit.js"));
 const SCFLimitLandingPage = lazy(() => import("./scfLimit/index.js"));
 const SCFAdviceLanding = lazy(() => import("./scfAdvice/index.js"));
