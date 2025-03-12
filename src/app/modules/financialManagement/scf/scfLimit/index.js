@@ -112,12 +112,12 @@ export default function SCFLimitLandingPage() {
                           <td>{item?.businessPartnerName}</td>
                           <td>{item?.bankName}</td>
                           <td>{item?.accountNumber}</td>
-                          <td>{item?.limit}</td>
-                          <td>{_dateFormatter(item?.updatedAt)}</td>
+                          <td className="text-right">{item?.limit}</td>
+                          <td className="text-right">{item?.utilizeAmount}</td>
                           <td>{item?.tenorDays}</td>
                           <td>{item?.sanctionReference}</td>
                           <td>{_dateFormatter(item?.limitExpiryDate)}</td>
-                          <td>{item?.interestRate}</td>
+                          <td className="text-right">{item?.interestRate}</td>
                           <td>{item?.remarks}</td>
                           <td>
                             <IEdit
