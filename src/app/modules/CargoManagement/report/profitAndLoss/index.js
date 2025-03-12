@@ -222,7 +222,7 @@ function ProfitAndLoss() {
   return (
     <>
       <ICustomCard
-        title="Profit And Loss"
+        title="Transaction Summary"
         renderProps={() => {
           return (
             <>

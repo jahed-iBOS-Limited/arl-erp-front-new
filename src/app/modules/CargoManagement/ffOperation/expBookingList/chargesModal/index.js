@@ -14,7 +14,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 const validationSchema = Yup.object().shape({});
-function ChargesModal({ rowClickData, CB }) {
+function ChargesModal({ rowClickData, CB, isAirOperation }) {
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
@@ -63,7 +63,8 @@ function ChargesModal({ rowClickData, CB }) {
       (resShippingHeadOfCharges) => {
         // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${isAirOperation ||
+            false}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
@@ -265,6 +266,7 @@ function ChargesModal({ rowClickData, CB }) {
           billRegisterCode: item?.billRegisterCode || '',
           advancedBillRegisterId: item?.advancedBillRegisterId || 0,
           advancedBillRegisterCode: item?.advancedBillRegisterCode || '',
+          isAirOperation: isAirOperation || false,
         };
       });
     if (payloadList.length === 0) {
