@@ -1015,6 +1015,7 @@ function AirOpsBookingList() {
                         });
                         setRowClickData({});
                       }}
+                      isAirOperation={true}
                     />
                   </IViewModal>
                 </>
