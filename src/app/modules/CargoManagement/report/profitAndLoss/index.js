@@ -258,6 +258,18 @@ function ProfitAndLoss() {
                           value: 2,
                           label: 'Sea',
                         },
+                        {
+                          value: 3,
+                          label: 'Sea-Air',
+                        },
+                        {
+                          value: 4,
+                          label: 'Land',
+                        },
+                        {
+                          value: 5,
+                          label: 'Air Shipment',
+                        },
                       ]}
                       value={values?.modeOfTransport || ''}
                       label="Booking Type"
