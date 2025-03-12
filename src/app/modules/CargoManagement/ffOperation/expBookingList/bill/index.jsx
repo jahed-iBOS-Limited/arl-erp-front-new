@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const BillGenerate = ({ rowClickData, CB }) => {
+const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
@@ -77,10 +77,16 @@ const BillGenerate = ({ rowClickData, CB }) => {
 
     if (bookingRequestId) {
       getMasterBLWiseBilling(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}&isAirOperation=${isAirOperation ||
+          false}`,
         (resData) => {
           const billingDataList = resData
-            ?.filter((i) => i?.paymentPartyId)
+            ?.filter(
+              (i) =>
+                i?.paymentPartyId &&
+                !i?.billRegisterCode &&
+                (i?.isAirOperation || false) === (isAirOperation || false),
+            )
             ?.map((item) => {
               return {
                 paymentPartyId: item?.paymentPartyId,
@@ -185,7 +191,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
             item?.paymentActualAmount &&
-            !item?.billRegisterCode
+            !item?.billRegisterCode &&
+            (item?.isAirOperation || false) === (isAirOperation || false)
           );
         })
         .map((item) => {

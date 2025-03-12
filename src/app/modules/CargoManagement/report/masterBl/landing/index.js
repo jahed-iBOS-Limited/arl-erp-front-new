@@ -12,8 +12,8 @@ import { _todayDate } from '../../../../_helper/_todayDate';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { imarineBaseUrl } from '../../../../../App';
 import IViewModal from '../../../../_helper/_viewModal';
-import MasterHBLModal from '../../../operation/expBookingList/masterHBLModal';
-import MasterHBAWModal from '../../../operation/expBookingList/masterHAWBModal';
+import MasterHBLModal from '../../../ffOperation/expBookingList/masterHBLModal';
+import MasterHBAWModal from '../../../ffOperation/expBookingList/masterHAWBModal';
 // import { getBusinessPartnerDDL, getLandingPaginationData } from '../helper';
 
 const initData = {
