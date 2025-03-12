@@ -977,7 +977,10 @@ function AirOpsBookingList() {
                       });
                     }}
                   >
-                    <CommonInvoice rowClickData={rowClickData} />
+                    <CommonInvoice
+                      rowClickData={rowClickData}
+                      isAirOperation={true}
+                    />
                   </IViewModal>
                 </>
               )}
