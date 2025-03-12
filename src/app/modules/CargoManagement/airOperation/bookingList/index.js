@@ -344,6 +344,13 @@ function AirOpsBookingList() {
                         </th>
                         <th
                           style={{
+                            minWidth: '66px',
+                          }}
+                        >
+                          Receive
+                        </th>
+                        <th
+                          style={{
                             minWidth: '140px',
                           }}
                         >
@@ -524,11 +531,37 @@ function AirOpsBookingList() {
                                   </span>
                                 </td>
                                 <td>
+                                  {item?.isAirOperation && (
+                                    <>
+                                      {' '}
+                                      <span>
+                                        <button
+                                          disabled={item?.isConfirm}
+                                          className={
+                                            item?.isConfirm
+                                              ? 'btn btn-sm btn-success px-1 py-1'
+                                              : 'btn btn-sm btn-warning px-1 py-1'
+                                          }
+                                          onClick={() => {
+                                            setRowClickData(item);
+                                            setIsModalShowObj({
+                                              ...isModalShowObj,
+                                              isConfirm: true,
+                                            });
+                                          }}
+                                        >
+                                          Confirm
+                                        </button>
+                                      </span>
+                                    </>
+                                  )}
+                                </td>
+                                <td>
                                   <span>
                                     <button
-                                      disabled={item?.isConfirm}
+                                      disabled={item?.isReceived}
                                       className={
-                                        item?.isConfirm
+                                        item?.isReceived
                                           ? 'btn btn-sm btn-success px-1 py-1'
                                           : 'btn btn-sm btn-warning px-1 py-1'
                                       }
@@ -536,11 +569,11 @@ function AirOpsBookingList() {
                                         setRowClickData(item);
                                         setIsModalShowObj({
                                           ...isModalShowObj,
-                                          isConfirm: true,
+                                          isReceive: true,
                                         });
                                       }}
                                     >
-                                      Confirm
+                                      Receive
                                     </button>
                                   </span>
                                 </td>
