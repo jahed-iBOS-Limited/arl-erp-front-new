@@ -1,13 +1,13 @@
-import React from "react";
-import * as Yup from "yup";
-import { Form, Formik } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import Loading from "../../../../_helper//_loading";
-import { imarineBaseUrl } from "../../../../../App";
-import { commonBookingRequestStatusUpdate } from "../helper";
+import React from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import Loading from '../../../../_helper/_loading';
+import { imarineBaseUrl } from '../../../../../App';
+import { commonBookingRequestStatusUpdate } from '../helper';
 const validationSchema = Yup.object().shape({
-  date: Yup.date().required("Date is required"),
+  date: Yup.date().required('Date is required'),
 });
 function CommonStatusUpdateModal({ CB, rowClickData }) {
   const [
@@ -29,7 +29,7 @@ function CommonStatusUpdateModal({ CB, rowClickData }) {
       payload,
       () => {
         CB();
-      }
+      },
     );
   };
   return (
@@ -38,7 +38,7 @@ function CommonStatusUpdateModal({ CB, rowClickData }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          date: "",
+          date: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -68,7 +68,7 @@ function CommonStatusUpdateModal({ CB, rowClickData }) {
                     label={`${rowClickData?.title} Date`}
                     name="date"
                     type="datetime-local"
-                    onChange={(e) => setFieldValue("date", e.target.value)}
+                    onChange={(e) => setFieldValue('date', e.target.value)}
                   />
                 </div>
               </div>

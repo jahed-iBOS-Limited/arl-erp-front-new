@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const CommonInvoice = ({ rowClickData }) => {
+const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -73,7 +73,12 @@ const CommonInvoice = ({ rowClickData }) => {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           const billingDataList = resData?.billingData
-            ?.filter((i) => i.collectionPartyId)
+            ?.filter((i) => {
+              return (
+                i.collectionPartyId &&
+                (i?.isAirOperation || false) === (isAirOperation || false)
+              );
+            })
             ?.map((item) => {
               return {
                 ...item,
@@ -155,7 +160,8 @@ const CommonInvoice = ({ rowClickData }) => {
       return (
         item?.collectionPartyId === valueOption?.value &&
         item?.collectionActualAmount &&
-        !item?.invoiceId
+        !item?.invoiceId &&
+        (item?.isAirOperation || false) === (isAirOperation || false)
       );
     });
     if (filterData?.length === 0) {
@@ -164,7 +170,8 @@ const CommonInvoice = ({ rowClickData }) => {
           return (
             item?.collectionPartyId === valueOption?.value &&
             item?.collectionActualAmount &&
-            item?.invoiceId
+            item?.invoiceId &&
+            (item?.isAirOperation || false) === (isAirOperation || false)
           );
         },
       );
