@@ -83,11 +83,17 @@ function AirOpsBookingList() {
     const superAdmin = CryptoJS.enc.Base64.stringify(
       CryptoJS.enc.Utf8.parse('superAdmin'),
     );
-
-    window.open(
-      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isImportMode=true`,
-      '_blank',
-    );
+    if (item?.modeOfTransportId === 5) {
+      window.open(
+        `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isAirOpsMode=true`,
+        '_blank',
+      );
+    } else {
+      window.open(
+        `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
+        '_blank',
+      );
+    }
   };
 
   useEffect(() => {
@@ -103,7 +109,7 @@ function AirOpsBookingList() {
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+      `${imarineBaseUrl}/domain/ShippingService/GetAirOperationBookingRequestLanding?userId=${
         profileData?.userReferenceId
       }&userTypeId=${0}&refrenceId=${
         profileData?.userReferenceId
