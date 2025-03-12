@@ -12,7 +12,7 @@ import {
   fetchBankAsParterDDL,
   fetchSCFLandingData,
   initData,
-  validation
+  validation,
 } from "./helper";
 
 const SCFAdviceLanding = () => {
@@ -57,12 +57,13 @@ const SCFAdviceLanding = () => {
         bankAccountId: values?.bankAccount?.bankAccountId,
         voucherId: upItem?.intAdjustmentJournalId,
         voucherCode: upItem?.strAdjustmentJournalCode,
+        billRegisterId: upItem?.intBillRegisterId,
+        billRegisterCode: upItem?.strBillRegisterCode,
         businessPartnerId: upItem?.intBusinessPartnerId,
         businessPartnerName: upItem?.strBusinessPartnerName,
         seller_Tin: upItem?.strSellerTin,
         net_Payable_Amount: upItem?.numAmount,
       }));
-    console.log(payload);
 
     // save scf
     saveSCFAdvice(`/fino/Disburse/SendPaymenEblScf`, payload, cb, true);
