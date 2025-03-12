@@ -718,7 +718,7 @@ function AirOpsBookingList() {
                     <ConfirmModal
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -733,6 +733,7 @@ function AirOpsBookingList() {
                         });
                         setRowClickData({});
                       }}
+                      isManualHBLNoInput={true}
                     />
                   </IViewModal>
                 </>
@@ -787,7 +788,7 @@ function AirOpsBookingList() {
                     <TransportModal
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -840,7 +841,7 @@ function AirOpsBookingList() {
                     <ChargesModal
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -962,7 +963,7 @@ function AirOpsBookingList() {
                     <BillGenerate
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -1133,7 +1134,7 @@ function AirOpsBookingList() {
                       selectedRow={selectedRow}
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                       CB={() => {
                         commonLandingApi(
@@ -1183,7 +1184,7 @@ function AirOpsBookingList() {
                       }}
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                     />
                   </IViewModal>
@@ -1219,7 +1220,7 @@ function AirOpsBookingList() {
                       }}
                       rowClickData={{
                         ...rowClickData,
-                        tradeTypeId: 2,
+                        tradeTypeId: 1,
                       }}
                     />
                   </IViewModal>

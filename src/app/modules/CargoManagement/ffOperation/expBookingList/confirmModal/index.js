@@ -43,7 +43,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required('Delivery Agent is required'),
   }),
 });
-function ConfirmModal({ rowClickData, CB }) {
+function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -255,9 +255,6 @@ function ConfirmModal({ rowClickData, CB }) {
   }, [bookingRequestId]);
 
   useEffect(() => {
-    // setTransportModeDDL(
-    //   `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
-    // );
     setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
@@ -586,7 +583,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
 
-                {tradeTypeId === 2 && (
+                {(tradeTypeId === 2 || isManualHBLNoInput) && (
                   <>
                     {/* hblNo */}
                     <div className="col-lg-3">
