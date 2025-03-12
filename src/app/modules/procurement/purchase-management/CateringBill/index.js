@@ -470,8 +470,8 @@ export default function CateringBill() {
                                                                                 onInventoryReceive("/wms/ServiceTransection/CreateServiceTransecionForReceive", payload, (res) => {
                                                                                     const updatePayload = [{
                                                                                         mealConsumeCountId: item?.mealConsumeCountId || 0,
-                                                                                        inventoryTransactionId: item?.key,
-                                                                                        inventoryTransactionCode: item?.code,
+                                                                                        inventoryTransactionId: res?.key,
+                                                                                        inventoryTransactionCode: res?.code,
 
                                                                                     }]
 
