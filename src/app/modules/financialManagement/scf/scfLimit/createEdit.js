@@ -10,11 +10,13 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { createInitData, disbursementTypeDDL } from "./helper";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { useHistory } from "react-router-dom";
 
 export default function SCFLimitCreateEditPage() {
   // hooks
   const { state: landingState } = useLocation();
   const { id } = useParams();
+  const history = useHistory();
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
@@ -22,7 +24,7 @@ export default function SCFLimitCreateEditPage() {
 
   // state
   const [objProps, setObjprops] = useState({});
-  const [editInitData, setEditInitdata] = useState({});
+  const [editInitData, setEditInitData] = useState({});
 
   // api action
   const [
@@ -48,7 +50,7 @@ export default function SCFLimitCreateEditPage() {
 
   useEffect(() => {
     if (id) {
-      setEditInitdata({
+      setEditInitData({
         id: landingState?.id,
         supplier: {
           value: landingState?.businessPartnerId,
@@ -97,6 +99,7 @@ export default function SCFLimitCreateEditPage() {
       businessPartnerId: supplier?.value || 0,
       bankAsPartnerId: bankAccountNo?.bankAsPartnerId || 0,
       bankId: bankAccountNo?.bankId || 0,
+      bankAccountId: bankAccountNo?.bankAccountId || 0,
       accountNumber: bankAccountNo?.bankAccountNo || 0,
       limit: limit || 0,
       utilizeAmount: 0,
@@ -126,7 +129,8 @@ export default function SCFLimitCreateEditPage() {
       //   validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(id ? editInitData : createInitData);
+          resetForm();
+          history.push("/financial-management/scf/scflimit");
         });
       }}
     >
@@ -294,7 +298,10 @@ export default function SCFLimitCreateEditPage() {
                 type="reset"
                 style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
-                onSubmit={() => resetForm(id ? editInitData : createInitData)}
+                onSubmit={() => {
+                  resetForm();
+                  history.push("/financial-management/scf/scflimit");
+                }}
               ></button>
             </Form>
           </IForm>
