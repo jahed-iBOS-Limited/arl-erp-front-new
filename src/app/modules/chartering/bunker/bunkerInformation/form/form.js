@@ -1,17 +1,17 @@
-import React from "react";
-import { Formik } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik } from 'formik';
+import { useHistory } from 'react-router';
 import {
   getPreBORInformationByVoyageId,
   validationSchema,
   getItemRateByVoyageId,
   GetItemInfoFromPurchase,
-} from "../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getVoyageDDLNew } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+} from '../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getVoyageDDLNew } from '../../../helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import ICustomTable from '../../../_chartinghelper/_customTable';
 
 export default function Form({
   initData,
@@ -34,9 +34,9 @@ export default function Form({
   const [voyageNoDDL, setVoyageNoDDL] = React.useState([]);
 
   const headers = [
-    { name: "SL" },
-    { name: "Item Name" },
-    { name: "Item Quantity" },
+    { name: 'SL' },
+    { name: 'Item Name' },
+    { name: 'Item Quantity' },
   ];
 
   const setData = (
@@ -49,55 +49,55 @@ export default function Form({
     valueFieldOne,
     valueFieldTwo,
     rateFieldOne,
-    rateFieldTwo
+    rateFieldTwo,
   ) => {
-    if ((values?.voyageNo?.hireTypeName || hireType) === "Own Ship") {
+    if ((values?.voyageNo?.hireTypeName || hireType) === 'Own Ship') {
       if (targetValue > value) {
         setFieldValue(qtyFieldOne, targetValue - value);
-        setFieldValue(qtyFieldTwo, "");
+        setFieldValue(qtyFieldTwo, '');
         setFieldValue(
           valueFieldTwo,
-          (targetValue - value) * values[rateFieldTwo]
+          (targetValue - value) * values[rateFieldTwo],
         );
-        setFieldValue(valueFieldOne, "");
+        setFieldValue(valueFieldOne, '');
       } else if (targetValue < value) {
         setFieldValue(qtyFieldTwo, value - targetValue);
-        setFieldValue(qtyFieldOne, "");
+        setFieldValue(qtyFieldOne, '');
         setFieldValue(
           valueFieldOne,
-          (value - targetValue) * values[rateFieldOne]
+          (value - targetValue) * values[rateFieldOne],
         );
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(valueFieldTwo, '');
       } else {
-        setFieldValue(qtyFieldOne, "");
-        setFieldValue(qtyFieldTwo, "");
-        setFieldValue(valueFieldOne, "");
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(qtyFieldOne, '');
+        setFieldValue(qtyFieldTwo, '');
+        setFieldValue(valueFieldOne, '');
+        setFieldValue(valueFieldTwo, '');
       }
     } else if (
-      (values?.voyageNo?.hireTypeName || hireType) === "Charterer Ship"
+      (values?.voyageNo?.hireTypeName || hireType) === 'Charterer Ship'
     ) {
       if (targetValue > value) {
         setFieldValue(qtyFieldTwo, targetValue - value); // targetValue = bor value = bod
-        setFieldValue(qtyFieldOne, "");
+        setFieldValue(qtyFieldOne, '');
         setFieldValue(
           valueFieldOne,
-          (targetValue - value) * values[rateFieldTwo]
+          (targetValue - value) * values[rateFieldTwo],
         );
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(valueFieldTwo, '');
       } else if (targetValue < value) {
         setFieldValue(qtyFieldOne, value - targetValue);
-        setFieldValue(qtyFieldTwo, "");
+        setFieldValue(qtyFieldTwo, '');
         setFieldValue(
           valueFieldTwo,
-          (value - targetValue) * values[rateFieldOne]
+          (value - targetValue) * values[rateFieldOne],
         );
-        setFieldValue(valueFieldOne, "");
+        setFieldValue(valueFieldOne, '');
       } else {
-        setFieldValue(qtyFieldOne, "");
-        setFieldValue(qtyFieldTwo, "");
-        setFieldValue(valueFieldOne, "");
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(qtyFieldOne, '');
+        setFieldValue(qtyFieldTwo, '');
+        setFieldValue(valueFieldOne, '');
+        setFieldValue(valueFieldTwo, '');
       }
     }
   };
@@ -105,9 +105,8 @@ export default function Form({
   // BOD editablec intruction from sahil vai
   // && values?.voyageNo?.label !== "1") and values?.hireTypeId === 1  || rmove this condition
   const BODDisableHandler = (values) => {
-    console.log("valuess", values)
-    const result =
-      ( viewType || !values?.voyageNo);
+    console.log('valuess', values);
+    const result = viewType || !values?.voyageNo;
 
     return result;
   };
@@ -122,16 +121,6 @@ export default function Form({
           saveHandler(values, () => {
             resetForm(initData);
           });
-          // values?.isComplete
-          //   ? bunkerPurchase(values, (show) => {
-          //       saveHandler(values, (message) => {
-          //         show === "showMessage" && toast.success(message);
-          //         resetForm(initData);
-          //       });
-          //     })
-          //   : saveHandler(values, () => {
-          //       resetForm(initData);
-          //     });
         }}
       >
         {({
@@ -154,24 +143,24 @@ export default function Form({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -184,7 +173,7 @@ export default function Form({
                 <div className="row">
                   <div className="col-lg-4">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -192,8 +181,8 @@ export default function Form({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         if (valueOption) {
                           getVoyageDDLNew({
@@ -217,7 +206,7 @@ export default function Form({
                   </div>
                   <div className="col-lg-2">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -225,31 +214,31 @@ export default function Form({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         setFieldValue(
-                          "voyageType",
-                          valueOption?.voyageTypeName
+                          'voyageType',
+                          valueOption?.voyageTypeName,
                         );
                         // setFieldValue("hireType", valueOption?.hireTypeName);
 
-                        if (valueOption && valueOption?.label !== "1") {
+                        if (valueOption && valueOption?.label !== '1') {
                           getPreBORInformationByVoyageId(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.vesselName?.value,
                             valueOption?.value,
                             setFieldValue,
-                            setLoading
+                            setLoading,
                           );
                           if (
-                            valueOption?.voyageTypeName === "Voyage Charter"
+                            valueOption?.voyageTypeName === 'Voyage Charter'
                           ) {
                             GetItemInfoFromPurchase(
                               selectedBusinessUnit?.value,
                               values?.vesselName?.value,
                               valueOption?.value,
                               setPurchaseList,
-                              setLoading
+                              setLoading,
                             );
                           } else {
                             getItemRateByVoyageId(
@@ -259,7 +248,7 @@ export default function Form({
                               valueOption?.value,
                               setLoading,
                               setItemRates,
-                              setFieldValue
+                              setFieldValue,
                             );
                           }
                         }
@@ -281,7 +270,7 @@ export default function Form({
                   <div className="col-lg-2">
                     <label>Voyage Type</label>
                     <FormikInput
-                      value={values?.voyageType || ""}
+                      value={values?.voyageType || ''}
                       name="voyageType"
                       placeholder="Voyage Type"
                       type="text"
@@ -293,7 +282,7 @@ export default function Form({
                   <div className="col-lg-2">
                     <label>Ship Type</label>
                     <FormikInput
-                      value={values?.hireType || ""}
+                      value={values?.hireType || ''}
                       name="hireType"
                       placeholder="Ship Type"
                       type="text"
@@ -310,19 +299,19 @@ export default function Form({
                       value={values?.isComplete}
                       checked={values?.isComplete}
                       onChange={(e) => {
-                        setFieldValue("isComplete", e.target.checked);
+                        setFieldValue('isComplete', e.target.checked);
                       }}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                     <label htmlFor="isComplete" className="pl-1">
                       Is Complete
                     </label>
                   </div>
-                  {/*  
-                  
-                  _____ BOD ___________ 
-                  
-                  
+                  {/*
+
+                  _____ BOD ___________
+
+
                   */}
                   <div className="col-lg-12 mt-3">
                     <h6>BOD</h6>
@@ -365,14 +354,14 @@ export default function Form({
                       disabled={BODDisableHandler(values)}
                     />
                   </div>
-                  {/* 
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  {/*
+
+
+
+
+
+
+
                   */}
                   <div className="col-lg-12 mt-3">
                     <h6>BOR</h6>
@@ -385,23 +374,23 @@ export default function Form({
                       placeholder="LSMGO QTY"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("borLsmgoQty", e?.target?.value);
+                        setFieldValue('borLsmgoQty', e?.target?.value);
                         setData(
                           values,
                           e?.target?.value,
                           values?.bodLsmgoQty,
                           setFieldValue,
-                          "bunkerPurchaseLsmgoQty",
-                          "bunkerSaleLsmgoQty",
-                          "bunkerSaleLsmgoValue",
-                          "bunkerPurchaseLsmgoValue",
-                          "bunkerSaleLsmgoRate",
-                          "bunkerPurchaseLsmgoRate"
+                          'bunkerPurchaseLsmgoQty',
+                          'bunkerSaleLsmgoQty',
+                          'bunkerSaleLsmgoValue',
+                          'bunkerPurchaseLsmgoValue',
+                          'bunkerSaleLsmgoRate',
+                          'bunkerPurchaseLsmgoRate',
                         );
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -412,23 +401,23 @@ export default function Form({
                       placeholder="LSFO-1 QTY"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("borLsfo1Qty", e?.target?.value);
+                        setFieldValue('borLsfo1Qty', e?.target?.value);
                         setData(
                           values,
                           e?.target?.value,
                           values?.bodLsfo1Qty,
                           setFieldValue,
-                          "bunkerPurchaseLsfo1Qty",
-                          "bunkerSaleLsfo1Qty",
-                          "bunkerSaleLsfo1Value",
-                          "bunkerPurchaseLsfo1Value",
-                          "bunkerSaleLsfo1Rate",
-                          "bunkerPurchaseLsfo1Rate"
+                          'bunkerPurchaseLsfo1Qty',
+                          'bunkerSaleLsfo1Qty',
+                          'bunkerSaleLsfo1Value',
+                          'bunkerPurchaseLsfo1Value',
+                          'bunkerSaleLsfo1Rate',
+                          'bunkerPurchaseLsfo1Rate',
                         );
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -439,24 +428,24 @@ export default function Form({
                       placeholder="LSFO-2 QTY"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("borLsfo2Qty", e.target.value);
+                        setFieldValue('borLsfo2Qty', e.target.value);
 
                         setData(
                           values,
                           e?.target?.value,
                           values?.bodLsfo2Qty,
                           setFieldValue,
-                          "bunkerPurchaseLsfo2Qty",
-                          "bunkerSaleLsfo2Qty",
-                          "bunkerSaleLsfo2Value",
-                          "bunkerPurchaseLsfo2Value",
-                          "bunkerSaleLsfo2Rate",
-                          "bunkerPurchaseLsfo2Rate"
+                          'bunkerPurchaseLsfo2Qty',
+                          'bunkerSaleLsfo2Qty',
+                          'bunkerSaleLsfo2Value',
+                          'bunkerPurchaseLsfo2Value',
+                          'bunkerSaleLsfo2Rate',
+                          'bunkerPurchaseLsfo2Rate',
                         );
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-12 mt-3">
@@ -471,7 +460,7 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -483,7 +472,7 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -495,13 +484,13 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
                   {((values?.voyageNo?.voyageTypeName || values?.voyageType) ===
-                    "Voyage Charter" ||
-                    viewType === "view") && (
+                    'Voyage Charter' ||
+                    viewType === 'view') && (
                     <>
                       <div className="col-lg-6"> </div>
                       <div className="col-lg-6">
@@ -513,21 +502,21 @@ export default function Form({
                               <td>{item?.itemQty}</td>
                             </tr>
                           ))}
-                        </ICustomTable>{" "}
+                        </ICustomTable>{' '}
                       </div>
                     </>
                   )}
 
                   {/*
-                  
-                  
-                  
-                  
-                  
+
+
+
+
+
                   */}
 
-                  {(values?.voyageNo?.voyageTypeName === "Time Charter" ||
-                    values?.voyageType === "Time Charter") && (
+                  {(values?.voyageNo?.voyageTypeName === 'Time Charter' ||
+                    values?.voyageType === 'Time Charter') && (
                     <>
                       <div className="col-lg-12 mt-3">
                         <h6>Bunker Sale</h6>
@@ -540,11 +529,11 @@ export default function Form({
                           placeholder="LSMGO QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("bunkerSaleLsmgoQty", e.target.value);
+                            setFieldValue('bunkerSaleLsmgoQty', e.target.value);
                             setFieldValue(
-                              "bunkerSaleLsmgoValue",
+                              'bunkerSaleLsmgoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsmgoRate) || 1)
+                                (Number(values?.bunkerSaleLsmgoRate) || 1),
                             );
                           }}
                           errors={errors}
@@ -561,13 +550,13 @@ export default function Form({
                           type="number"
                           onChange={(e) => {
                             setFieldValue(
-                              "bunkerSaleLsmgoRate",
-                              e.target.value
+                              'bunkerSaleLsmgoRate',
+                              e.target.value,
                             );
                             setFieldValue(
-                              "bunkerSaleLsmgoValue",
+                              'bunkerSaleLsmgoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsmgoQty) || 1)
+                                (Number(values?.bunkerSaleLsmgoQty) || 1),
                             );
                           }}
                           errors={errors}
@@ -595,11 +584,11 @@ export default function Form({
                           placeholder="LSFO-1 QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("bunkerSaleLsfo1Qty", e.target.value);
+                            setFieldValue('bunkerSaleLsfo1Qty', e.target.value);
                             setFieldValue(
-                              "bunkerSaleLsfoValue",
+                              'bunkerSaleLsfoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsfoRate) || 1)
+                                (Number(values?.bunkerSaleLsfoRate) || 1),
                             );
                           }}
                           errors={errors}
@@ -616,13 +605,13 @@ export default function Form({
                           type="number"
                           onChange={(e) => {
                             setFieldValue(
-                              "bunkerSaleLsfo1Rate",
-                              e.target.value
+                              'bunkerSaleLsfo1Rate',
+                              e.target.value,
                             );
                             setFieldValue(
-                              "bunkerSaleLsfoValue",
+                              'bunkerSaleLsfoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsfoQty) || 1)
+                                (Number(values?.bunkerSaleLsfoQty) || 1),
                             );
                           }}
                           errors={errors}
@@ -650,11 +639,11 @@ export default function Form({
                           placeholder="LSFO-2 QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("bunkerSaleLsfo2Qty", e.target.value);
+                            setFieldValue('bunkerSaleLsfo2Qty', e.target.value);
                             setFieldValue(
-                              "bunkerSaleLsfoValue",
+                              'bunkerSaleLsfoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsfoRate) || 1)
+                                (Number(values?.bunkerSaleLsfoRate) || 1),
                             );
                           }}
                           errors={errors}
@@ -671,13 +660,13 @@ export default function Form({
                           type="number"
                           onChange={(e) => {
                             setFieldValue(
-                              "bunkerSaleLsfo2Rate",
-                              e.target.value
+                              'bunkerSaleLsfo2Rate',
+                              e.target.value,
                             );
                             setFieldValue(
-                              "bunkerSaleLsfoValue",
+                              'bunkerSaleLsfoValue',
                               Number(e.target.value) *
-                                (Number(values?.bunkerSaleLsfoQty) || 1)
+                                (Number(values?.bunkerSaleLsfoQty) || 1),
                             );
                           }}
                           errors={errors}
@@ -696,8 +685,8 @@ export default function Form({
                           touched={touched}
                           disabled={true}
                         />
-                      </div>{" "}
-                      {viewType !== "view" && (
+                      </div>{' '}
+                      {viewType !== 'view' && (
                         <>
                           <div className="col-lg-12 d-flex mt-3">
                             <h6>Bunker Purchase</h6>
@@ -711,14 +700,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsmgoQty",
-                                  e.target.value
+                                  'bunkerPurchaseLsmgoQty',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsmgoValue",
+                                  'bunkerPurchaseLsmgoValue',
                                   Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsmgoRate) ||
-                                      1)
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -735,14 +724,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsmgoRate",
-                                  e.target.value
+                                  'bunkerPurchaseLsmgoRate',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsmgoValue",
+                                  'bunkerPurchaseLsmgoValue',
                                   Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsmgoQty) ||
-                                      1)
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -771,14 +760,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo1Qty",
-                                  e.target.value
+                                  'bunkerPurchaseLsfo1Qty',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo1Value",
+                                  'bunkerPurchaseLsfo1Value',
                                   Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo1Rate) ||
-                                      1)
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -795,13 +784,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo1Rate",
-                                  e.target.value
+                                  'bunkerPurchaseLsfo1Rate',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsfoValue",
+                                  'bunkerPurchaseLsfoValue',
                                   Number(e.target.value) *
-                                    (Number(values?.bunkerPurchaseLsfoQty) || 1)
+                                    (Number(values?.bunkerPurchaseLsfoQty) ||
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -830,14 +820,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo2Qty",
-                                  e.target.value
+                                  'bunkerPurchaseLsfo2Qty',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo2Value",
+                                  'bunkerPurchaseLsfo2Value',
                                   Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo2Rate) ||
-                                      1)
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -854,14 +844,14 @@ export default function Form({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo2Rate",
-                                  e.target.value
+                                  'bunkerPurchaseLsfo2Rate',
+                                  e.target.value,
                                 );
                                 setFieldValue(
-                                  "bunkerPurchaseLsfo2Value",
+                                  'bunkerPurchaseLsfo2Value',
                                   Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo2Qty) ||
-                                      1)
+                                      1),
                                 );
                               }}
                               errors={errors}
@@ -890,7 +880,7 @@ export default function Form({
                                   bunkerPurchase(values);
                                 }}
                                 disabled={
-                                  viewType === "view" ||
+                                  viewType === 'view' ||
                                   returnID ||
                                   (values?.bunkerPurchaseLsfo2Qty < 1 &&
                                     values?.bunkerPurchaseLsfo1Qty < 1 &&
@@ -905,23 +895,23 @@ export default function Form({
                       )}
                     </>
                   )}
-                  {/* 
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  {/*
+
+
+
+
+
+
+
+
+
                   */}
                   <div className="col-lg-12 mt-3">
                     <div className="d-flex">
                       <h6>Consumption</h6>
                       {(values?.voyageNo?.voyageTypeName ||
-                        values?.voyageType) === "Voyage Charter" &&
-                        viewType !== "view" && (
+                        values?.voyageType) === 'Voyage Charter' &&
+                        viewType !== 'view' && (
                           <button
                             className="btn btn-primary ml-2 px-3 py-2"
                             type="button"
@@ -929,7 +919,7 @@ export default function Form({
                               getConsumption(values, setFieldValue);
                             }}
                             disabled={
-                              viewType === "view" ||
+                              viewType === 'view' ||
                               (values?.borLsmgoQty < 1 &&
                                 values?.borLsfo1Qty < 1 &&
                                 values?.borLsfo2Qty < 1)

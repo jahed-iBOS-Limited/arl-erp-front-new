@@ -43,7 +43,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required('Delivery Agent is required'),
   }),
 });
-function ConfirmModal({ rowClickData, CB }) {
+function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -255,9 +255,6 @@ function ConfirmModal({ rowClickData, CB }) {
   }, [bookingRequestId]);
 
   useEffect(() => {
-    // setTransportModeDDL(
-    //   `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
-    // );
     setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
@@ -400,9 +397,8 @@ function ConfirmModal({ rowClickData, CB }) {
       tradeTypeId: tradeTypeId,
       hblNo: values?.hblNo || '',
       modeOfTransportId: rowClickData?.modeOfTransportId || 0,
+      isAirOperation: values?.isAirOperation || false,
     };
-    // console.log(payload)
-    // return
 
     if (payload) {
       SaveBookingConfirm(
@@ -445,7 +441,6 @@ function ConfirmModal({ rowClickData, CB }) {
           confTransportMode: '',
           wareHouse: '',
           hblNo: '',
-
           // Consignee Information
           consigneeName: '',
           consigneeCountry: '',
@@ -463,6 +458,7 @@ function ConfirmModal({ rowClickData, CB }) {
           freightAgentReference: '',
           freightAgentReference2: '',
           shippingMark: '',
+          isAirOperation: false,
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -477,25 +473,33 @@ function ConfirmModal({ rowClickData, CB }) {
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end my-1">
+                <div className="d-flex justify-content-end align-items-center my-1">
+                  {shipBookingRequestGetById?.modeOfTransportId === 1 &&
+                    shipBookingRequestGetById?.tradeTypeId && (
+                      <>
+                        <div className="mr-2 d-flex justify-content-end align-items-center">
+                          <input
+                            type="checkbox"
+                            id="isAirOperation"
+                            name="isAirOperation"
+                            value={values?.isAirOperation}
+                            checked={values?.isAirOperation}
+                            onChange={(e) => {
+                              setFieldValue('isAirOperation', e.target.checked);
+                            }}
+                          />
+                          <label htmlFor="isAirOperation" className="pl-1">
+                            Is Air Operation
+                          </label>
+                        </div>
+                      </>
+                    )}
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </div>
               </div>
               <div className="form-group row global-form mt-0">
-                {/*  Booking Amount*/}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.bookingAmount}
-                    label="Booking Amount"
-                    name="bookingAmount"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue('bookingAmount', e.target.value)
-                    }
-                  />
-                </div> */}
                 {/* Departure Date & Time */}
                 <div className="col-lg-3">
                   <InputField
@@ -520,51 +524,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
-                {/* Flight Number */}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.flightNumber}
-                    label={
-                      values?.transportPlanningType === 'Sea'
-                        ? 'SI Number'
-                        : 'MAWB Number'
-                    }
-                    name="flightNumber"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('flightNumber', e.target.value)
-                    }
-                  />
-                </div> */}
-                {/* Transit Information */}
-                {/* {values?.transportPlanningType !== 'Sea' && (
-                  <>
-                    {' '}
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="transitInformation"
-                        options={[
-                          {
-                            value: 1,
-                            label: 'Direct Flight',
-                          },
-                          {
-                            value: 2,
-                            label: 'No Transits',
-                          },
-                        ]}
-                        value={values?.transitInformation}
-                        label="Transit Information"
-                        onChange={(valueOption) => {
-                          setFieldValue('transitInformation', valueOption);
-                        }}
-                        placeholder="Transit Information"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  </>
-                )} */}
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
                   <label>Freight Forwarder Representative</label>
@@ -591,21 +550,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     loadOptions={loadEmp}
                   />
                 </div>
-                {/* Transport Mode */}
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="confTransportMode"
-                    options={transportModeDDL}
-                    value={values?.confTransportMode}
-                    label="Transport Mode"
-                    onChange={(valueOption) => {
-                      setFieldValue('confTransportMode', valueOption);
-                    }}
-                    placeholder="Transport Mode"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
                 {/* warehouse */}
                 <div className="col-lg-3">
                   <NewSelect
@@ -639,7 +583,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
 
-                {tradeTypeId === 2 && (
+                {(tradeTypeId === 2 || isManualHBLNoInput) && (
                   <>
                     {/* hblNo */}
                     <div className="col-lg-3">
@@ -690,8 +634,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Country"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeCountry', valueOption);
-                      // setFieldValue("consigneeDivisionAndState", "");
-                      // getConsigneeDivisionAndStateApi(valueOption?.value);
                     }}
                     placeholder="Country"
                     errors={errors}
@@ -900,18 +842,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     isCreatableSelect={true}
                   />
                 </div>
-                {/* Negotiation Party input */}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.negotiationParty}
-                    label="Negotiation Party"
-                    name="negotiationParty"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('negotiationParty', e.target.value)
-                    }
-                  />
-                </div> */}
                 {/* Delivery Agent ddl  */}
                 <div className="col-lg-3">
                   <NewSelect
