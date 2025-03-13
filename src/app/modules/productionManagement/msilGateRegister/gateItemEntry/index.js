@@ -82,9 +82,12 @@ function GateItemEntry() {
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    let date = values?.date ? `&date=${values?.date}` : "";
+
+    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : "";
+    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : "";
+
     getRowData(
-      `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}${date}`
+      `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}${strFromDate}${strToDate}`
     );
   };
 
