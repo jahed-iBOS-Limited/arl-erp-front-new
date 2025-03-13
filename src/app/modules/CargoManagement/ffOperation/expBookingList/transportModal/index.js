@@ -111,7 +111,9 @@ function TransportModal({ rowClickData, CB }) {
 
     const modeOfTransportName = transportPlanning?.modeOfTransport;
     const modeOfTransportId = transportPlanning?.modeOfTransportId;
-    const typeId = modeOfTransportName === 'Air' ? 6 : 5;
+    const typeId = ['Air-Shipment', 'Air'].includes(modeOfTransportName)
+      ? 6
+      : 5;
 
     const totalNumberOfPackages = data?.rowsData?.reduce(
       (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
@@ -324,7 +326,7 @@ function TransportModal({ rowClickData, CB }) {
 
             const transportPlanningAir =
               data?.transportPlanning?.find((i) => {
-                return i?.transportPlanningModeId === 1;
+                return [1, 5].includes(i?.transportPlanningModeId);
               }) || {};
 
             const transportPlanningSea =
@@ -340,7 +342,7 @@ function TransportModal({ rowClickData, CB }) {
                 modeOfTransport: 'Air',
               });
             }
-            if (data?.modeOfTransportId === 1) {
+            if ([1, 5].includes(data?.modeOfTransportId)) {
               defaultDataSet(data, {
                 ...transportPlanningAir,
                 modeOfTransportId: 1,
@@ -586,7 +588,7 @@ function TransportModal({ rowClickData, CB }) {
                       onChange={(e) => {
                         const transportPlanningAir =
                           bookingData?.transportPlanning?.find((i) => {
-                            return i?.transportPlanningModeId === 1;
+                            return [1, 5].includes(i?.transportPlanningModeId);
                           }) || {};
 
                         resetForm();

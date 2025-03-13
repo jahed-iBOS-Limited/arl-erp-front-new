@@ -197,7 +197,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
       : totalGrossWeightKG;
   const transportPlanningAir =
     bookingData?.transportPlanning?.find((i) => {
-      return i?.transportPlanningModeId === 1;
+      return [1, 5].includes(i?.transportPlanningModeId);
     }) || '';
 
   const transportPlanningSea =
