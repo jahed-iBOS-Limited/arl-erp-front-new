@@ -175,3 +175,16 @@ export const getInstrumentType = async (setter) => {
     }
   } catch (error) {}
 };
+
+
+
+export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

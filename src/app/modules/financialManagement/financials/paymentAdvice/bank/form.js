@@ -10,13 +10,12 @@ import { useEffect } from "react";
 import {
   getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
-  getSendToGLBank,
   // getOthersPartner,
   getNextBankCheque,
   generateAdviceNo,
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
-import { getBankAc, getBusinessTransactionDDL, getInstrumentType } from "../../../../_helper/_commonApi";
+import { getBankAc, getBusinessTransactionDDL, getInstrumentType, getSendToGLBank } from "../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
