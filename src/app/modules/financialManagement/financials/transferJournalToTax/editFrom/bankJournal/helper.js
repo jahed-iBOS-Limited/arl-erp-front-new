@@ -342,22 +342,3 @@ export const getCostCenterDDL = async (UnitId,AccountId,setter) => {
     }
   };
 
-  export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
-    try {
-      const res = await axios.get(
-        `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`
-      );
-      if (res.status === 200 && res?.data) {
-        setter(res?.data);
-      }
-    } catch (error) {}
-  };
-
-  export const getInstrumentType = async (setter) => {
-    try {
-      const res = await axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-      if (res.status === 200 && res?.data) {
-        setter(res?.data);
-      }
-    } catch (error) {}
-  };

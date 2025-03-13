@@ -20,13 +20,11 @@ import {
   generateAdviceNo,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getNextBankCheque,
   getPartnerTypeDDL,
   getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
-  getSendToGLBank,
 } from './helper';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import { _todayDate } from '../../../../../_helper/_todayDate';
@@ -49,7 +47,7 @@ import DebitCredit from './DebitCredit';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import Loading from '../../../../../_helper/_loading';
 import { approveHandeler } from '../../fundTransferApproval/helper';
-import { getBankAc } from '../../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../../_helper/_commonApi';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive

@@ -16,16 +16,14 @@ import TransferTable from '../Create/TransferTable';
 import {
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getPartnerTypeDDL,
   getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
-  getSendToGLBank,
 } from '../helper';
 import { confirmAlert } from 'react-confirm-alert';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getBankAc } from '../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

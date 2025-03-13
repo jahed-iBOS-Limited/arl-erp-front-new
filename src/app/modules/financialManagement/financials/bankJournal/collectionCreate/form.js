@@ -20,13 +20,11 @@ import {
   generateAdviceNo,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getNextBankCheque,
   getPartnerTypeDDL,
   getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
-  getSendToGLBank,
 } from '../helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
@@ -34,7 +32,7 @@ import TransferTable from './TransferTable';
 import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { confirmAlert } from 'react-confirm-alert';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getBankAc } from '../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

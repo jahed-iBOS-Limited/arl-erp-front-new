@@ -131,26 +131,6 @@ export const getBankAc = async (accId, BuId, setter) => {
   } catch (error) {}
 };
 
-export const getInstrumentType = async (setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 //create expense register
 export const CreateExpenceRegister = async (data, cb, setDisabled) => {
   setDisabled(true);
