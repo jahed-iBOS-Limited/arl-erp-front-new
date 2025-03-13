@@ -20,7 +20,6 @@ import {
   generateAdviceNo,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getNextBankCheque,
   getPartnerTypeDDL,
   getProfitCenterDDL,
@@ -49,7 +48,7 @@ import DebitCredit from './DebitCredit';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import Loading from '../../../../../_helper/_loading';
 import { approveHandeler } from '../../fundTransferApproval/helper';
-import { getBankAc } from '../../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType } from '../../../../../_helper/_commonApi';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
