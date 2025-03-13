@@ -166,3 +166,12 @@ export const getBusTransDDLForExpense = async (accId, BuId, setter) => {
     }
   } catch (error) {}
 };
+
+export const getInstrumentType = async (setter) => {
+  try {
+    const res = await axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

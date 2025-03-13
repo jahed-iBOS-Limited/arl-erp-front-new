@@ -3,15 +3,6 @@ import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 
-export const getInstrumentType = async (setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
   try {
     const res = await Axios.get(

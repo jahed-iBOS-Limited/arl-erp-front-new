@@ -160,15 +160,6 @@ export const getSBUList = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getInstrumentType = async (setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data?.filter((item) => item.label.toLowerCase() !== "cash"));
-    }
-  } catch (error) {}
-};
-
 export const billTypeList = async (setter) => {
   try {
     const res = await Axios.get(`/fino/FinanceCommonDDL/GetBillTypeDDL`);

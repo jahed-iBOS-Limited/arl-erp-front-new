@@ -16,8 +16,7 @@ import {
   generateAdviceNo,
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
-import { getInstrumentType } from "../helper";
-import { getBankAc, getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
+import { getBankAc, getBusinessTransactionDDL, getInstrumentType } from "../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -114,7 +113,11 @@ export default function _Form({
         selectedBusinessUnit.value,
         setPartner
       );
-      getInstrumentType(setInstrumentType);
+      getInstrumentType((res) => {
+        setInstrumentType(
+          res?.filter((item) => item.label.toLowerCase() !== "cash")
+        );
+      });
       getBusinessTransactionDDL(
         profileData.accountId,
         selectedBusinessUnit.value,

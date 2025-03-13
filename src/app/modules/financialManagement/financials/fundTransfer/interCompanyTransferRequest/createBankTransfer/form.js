@@ -20,7 +20,6 @@ import {
   generateAdviceNo,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getNextBankCheque,
   getPartnerTypeDDL,
   getProfitCenterDDL,
@@ -46,7 +45,7 @@ import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actio
 import TransferTable from './TransferTable';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import DebitCredit from './DebitCredit';
-import { getBankAc } from '../../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType } from '../../../../../_helper/_commonApi';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
