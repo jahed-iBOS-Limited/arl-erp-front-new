@@ -36,7 +36,6 @@ export default function SalesForceIncentiveCreate({ headerData }) {
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
 
-  console.log({ headerData });
 
   const saveHandler = (values, cb) => {
     const newData = incentiveData?.filter((item) => item?.isSelected);
@@ -49,7 +48,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       region: item?.strRegoin || "",
       area: item?.strArea || "",
       territory: item?.strTeritory || "",
-      employeeId: item?.intEmployeeId || 0,
+      employeeId: item?.intEmployeeBasicInfoId || 0,
       employeeName: item?.strEmployeeName || "",
       monthId: +values?.toDate?.split("-")[1],
       yearId: +values?.toDate?.split("-")[0],
@@ -78,7 +77,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
     incentiveSave(
       `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,
       payload,
-      () => {},
+      cb,
       true
     );
   };
@@ -389,13 +388,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                 type="submit"
                 style={{ display: "none" }}
                 ref={objProps?.btnRef}
-                onSubmit={() => {
-                  if (incentiveData?.length > 0) {
-                    handleSubmit();
-                  } else {
-                    toast.warn("No Data found");
-                  }
-                }}
+                onSubmit={() => handleSubmit()}
               ></button>
 
               <button
