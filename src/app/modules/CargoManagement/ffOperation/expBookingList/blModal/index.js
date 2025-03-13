@@ -45,7 +45,7 @@ function BLModal({ rowClickData, CB }) {
 
   const commonGetDocumentsByMasterBL = (modeOfTransportId) => {
     let masterBlId = 0;
-    if (modeOfTransportId === 1) {
+    if ([1, 5].includes(modeOfTransportId)) {
       masterBlId = rowClickData?.airmasterBlId;
     }
     if (modeOfTransportId === 2) {

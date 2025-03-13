@@ -1279,7 +1279,10 @@ function AirOpsBookingList() {
                     }}
                     title="Booking Details"
                   >
-                    <Details rowClickData={rowClickData} />
+                    <Details
+                      rowClickData={rowClickData}
+                      isAirOperation={true}
+                    />
                   </IViewModal>
                 </>
               )}
