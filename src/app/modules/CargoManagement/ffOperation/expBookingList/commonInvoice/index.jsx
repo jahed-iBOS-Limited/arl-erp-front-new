@@ -70,7 +70,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${isAirOperation ||
+          false}`,
         (resData) => {
           const billingDataList = resData?.billingData
             ?.filter((i) => {
@@ -196,7 +197,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
       : totalGrossWeightKG;
   const transportPlanningAir =
     bookingData?.transportPlanning?.find((i) => {
-      return i?.transportPlanningModeId === 1;
+      return [1, 5].includes(i?.transportPlanningModeId);
     }) || '';
 
   const transportPlanningSea =

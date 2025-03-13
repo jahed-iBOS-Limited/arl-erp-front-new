@@ -62,7 +62,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
   const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {
     let masterBlId = 0;
     // let masterBlCode = '';
-    if (modeOfTransportId === 1) {
+    if ([1, 5].includes(modeOfTransportId)) {
       masterBlId = rowClickData?.airmasterBlId;
       // masterBlCode = rowClickData?.airMasterBlCode;
     }

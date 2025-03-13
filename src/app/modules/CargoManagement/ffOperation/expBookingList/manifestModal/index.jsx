@@ -55,7 +55,7 @@ export default function ManifestModal({ rowClickData }) {
 
   const transportPlanningAir =
     bookingData?.transportPlanning?.find((i) => {
-      return i?.transportPlanningModeId === 1;
+      return [1, 5].includes(i?.transportPlanningModeId);
     }) || '';
   return (
     <div>
