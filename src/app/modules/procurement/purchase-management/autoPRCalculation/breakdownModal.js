@@ -61,7 +61,7 @@ export default function BreakDownModal({
     getPurchaseOrganizationList(`procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
     getPlantListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
-      }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
+      }&AccId=${profileData?.accountId}&BusinessUnitId=${singleRowData?.businessUnitId}&OrgUnitTypeId=7`
     );
     // if (singleRowData?.mrpfromProductionScheduleRowId) {
     //   getDetailsData(
