@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
 import { Formik } from "formik";
-import { Form } from "react-bootstrap";
+import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import { getItemGridData } from "../../../../_helper/_commonApi";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getItemGridData, approvalApi } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import PaginationSearch from './../../../../_helper/_search'
 import IViewModal from "../../../../_helper/_viewModal";
 import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
+import PaginationSearch from './../../../../_helper/_search';
+import { approvalApi } from "./helper";
 
 let initData = {
 
 }
 
 
-const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityChange,selectedPlant }) => {
+const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityChange, selectedPlant }) => {
   // const history = useHistory();
 
   const [loader, setLoader] = useState(false);
@@ -266,8 +266,8 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                       <span className="pl-2">{item?.strCode}</span>
                     </td>
                     <td>
-                        <span className="pl-2">{item.whName}</span>
-                      </td>
+                      <span className="pl-2">{item.whName}</span>
+                    </td>
                     <td className="text-center">
                       {_dateFormatter(item?.transectionDate)}
                     </td>
