@@ -14,7 +14,7 @@ export const getSBU = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -26,7 +26,7 @@ export const getBankAc = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -128,7 +128,7 @@ export const getPartner = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -140,7 +140,7 @@ export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -152,7 +152,7 @@ export const getBusinessTransactionDDL = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -164,7 +164,7 @@ export const getBusTransDDLForExpense = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getInstrumentType = async (setter) => {
@@ -173,7 +173,7 @@ export const getInstrumentType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -186,5 +186,21 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
+};
+export const approvalApi = async (
+  parameter,
+  poayload,
+  activityName,
+  onChangeForActivity,
+  setBillSubmitBtn
+) => {
+  try {
+    await axios.put(`/procurement/Approval/CommonApproved?AcountId=${parameter?.accid}&BusinessUnitId=${parameter?.buId}&UserId=${parameter?.userId}&ActivityId=${parameter?.activityId}`, poayload);
+    toast.success("Approved successfully");
+    setBillSubmitBtn(true)
+    onChangeForActivity();
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Approval Failed");
+  }
 };
