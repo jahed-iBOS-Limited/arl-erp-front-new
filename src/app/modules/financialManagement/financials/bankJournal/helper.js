@@ -2,29 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 
-// Get landing
-export const getBankJournalGrid = async (
-  accId,
-  BuId,
-  sbuId,
-  journalType,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/fino/BankJournal/GetBankJournalLandingPasignation?AccountId=${accId}&BusinessUnitId=${BuId}&SbuId=${sbuId}&AccountingJournalTypeId=${journalType}&IsPosted=false&IsActive=true&viewOrder=desc&PageNo=1&PageSize=100`
-    );
-    if (res.status === 200 && res?.data?.data) {
-      const data = res?.data?.data;
-      const newData = data.map((itm) => ({
-        ...itm,
-        itemCheck: false,
-      }));
-      setter(newData);
-    }
-  } catch (error) {}
-};
-
 export const saveBankJournal = async (
   data,
   cb,
