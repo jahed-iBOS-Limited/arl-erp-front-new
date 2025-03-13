@@ -188,26 +188,3 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
     }
   } catch (error) {}
 };
-
-
-export const getBankJournalGrid = async (
-  accId,
-  BuId,
-  sbuId,
-  journalType,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/fino/BankJournal/GetBankJournalLandingPasignation?AccountId=${accId}&BusinessUnitId=${BuId}&SbuId=${sbuId}&AccountingJournalTypeId=${journalType}&IsPosted=false&IsActive=true&viewOrder=desc&PageNo=1&PageSize=100`
-    );
-    if (res.status === 200 && res?.data?.data) {
-      const data = res?.data?.data;
-      const newData = data.map((itm) => ({
-        ...itm,
-        itemCheck: false,
-      }));
-      setter(newData);
-    }
-  } catch (error) {}
-};
