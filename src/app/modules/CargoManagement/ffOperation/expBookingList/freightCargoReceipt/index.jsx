@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../../App";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../../App';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 const FreightCargoReceipt = ({ rowClickData }) => {
   const componentRef = useRef();
   const formikRef = React.useRef(null);
@@ -16,11 +16,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const [transportPlanningData, setTransportPlanningData] = React.useState("");
+  const [transportPlanningData, setTransportPlanningData] = React.useState('');
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Customs-RTGS",
+    documentTitle: 'Customs-RTGS',
     pageStyle: `
           @media print {
             body {
@@ -47,7 +47,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       null,
       () => {
         commonGetByIdHandler();
-      }
+      },
     );
   };
   const commonGetByIdHandler = () => {
@@ -55,28 +55,28 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       (resData) => {
         const modeOfTransportId = [2, 3].includes(
-          rowClickData?.modeOfTransportId
+          rowClickData?.modeOfTransportId,
         )
           ? 2
           : 1;
-        formikRef.current.setFieldValue("billingType", modeOfTransportId);
+        formikRef.current.setFieldValue('billingType', modeOfTransportId);
 
         const transportPlanningAir =
           resData?.transportPlanning?.find((i) => {
-            return i?.transportPlanningModeId === 1;
-          }) || "";
+            return [1, 5].includes(i?.transportPlanningModeId);
+          }) || '';
 
         const transportPlanningSea =
           resData?.transportPlanning?.find((i) => {
             return i?.transportPlanningModeId === 2;
-          }) || "";
+          }) || '';
 
-        if (modeOfTransportId === 1) {
+        if ([1, 5].includes(modeOfTransportId)) {
           setTransportPlanningData(transportPlanningAir);
         } else {
           setTransportPlanningData(transportPlanningSea);
         }
-      }
+      },
     );
   };
   const bookingData = shipBookingRequestGetById || {};
@@ -111,12 +111,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-    0
+    0,
   );
 
   const totalVolumetricWeight = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
-    0
+    0,
   );
   const totalChargeableWeight =
     totalVolumetricWeight > totalGrossWeightKG
@@ -134,9 +134,9 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        narration: "",
-        paymentParty: "",
-        billingType: "",
+        narration: '',
+        paymentParty: '',
+        billingType: '',
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -205,7 +205,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <div>
                 {!bookingData?.fcrnumber && (
                   <>
-                    {" "}
+                    {' '}
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -239,7 +239,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
           <div
             style={{
               fontSize: 11,
-              display: "grid",
+              display: 'grid',
               gap: 10,
             }}
             ref={componentRef}
@@ -247,7 +247,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             <div>
               <span>To :</span> <br />
               <span
-                style={{ fontSize: 14, fontWeight: 600, textAlign: "center" }}
+                style={{ fontSize: 14, fontWeight: 600, textAlign: 'center' }}
               >
                 {bookingData?.consigneeName}
               </span>
@@ -260,38 +260,38 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             </div>
             <div
               style={{
-                justifyContent: "center",
-                display: "flex",
+                justifyContent: 'center',
+                display: 'flex',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   fontSize: 14,
                   fontWeight: 600,
                 }}
               >
                 TO WHOM IT MAY CONCERN
-              </span>{" "}
+              </span>{' '}
               <br />
             </div>
             <div>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   fontSize: 14,
                   fontWeight: 600,
                 }}
               >
                 SHIPMENT REF. :
-              </span>{" "}
+              </span>{' '}
               <br />
             </div>
 
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
                 // border: "1px solid #000000",
               }}
             >
@@ -299,8 +299,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>SHIPPER NAME</span>
@@ -310,8 +310,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>POL </span>
@@ -321,8 +321,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>POD</span>
@@ -332,8 +332,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>INCOTERMS</span>
@@ -341,13 +341,13 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>TRANSPORT CARRIER</span>
                   <span style={{ padding: 2 }}>
-                    : {transportPlanningData?.airLineOrShippingLine ?? ""}
+                    : {transportPlanningData?.airLineOrShippingLine ?? ''}
                   </span>
                 </div>
                 {/* <div
@@ -375,8 +375,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>MBL/MAWB NUM</span>
@@ -385,22 +385,22 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     {bookingData?.seaMasterBlCode &&
                     bookingData?.airMasterBlCode ? (
                       <>
-                        {bookingData?.seaMasterBlCode}{" "}
+                        {bookingData?.seaMasterBlCode}{' '}
                         {bookingData?.airMasterBlCode
-                          ? ", " + bookingData?.airMasterBlCode
-                          : ""}
+                          ? ', ' + bookingData?.airMasterBlCode
+                          : ''}
                       </>
                     ) : (
                       bookingData?.seaMasterBlCode ||
                       bookingData?.airMasterBlCode ||
-                      ""
+                      ''
                     )}
                   </span>
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>HBL/HAWB NUM</span>
@@ -408,13 +408,13 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>PALLET/CONTAINER NO.</span>
                   <span style={{ padding: 2 }}>
-                    : {transportPlanningData?.noOfPallets} /{" "}
+                    : {transportPlanningData?.noOfPallets} /{' '}
                     {transportPlanningData?.noOfContainer}
                   </span>
                 </div>
@@ -423,52 +423,52 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <div>
                 <div
                   style={{
-                    display: "grid",
+                    display: 'grid',
                     gap: 10,
                     paddingBottom: 10,
                   }}
                 >
                   <div
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 3fr ",
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
                     }}
                   >
                     <span style={{ padding: 2 }}>L/C NO </span>
                     <span style={{ padding: 2 }}>
                       :
                       {bookingData?.objPurchase?.map((item, index) => {
-                        return `${item?.lcnumber || ""}${
+                        return `${item?.lcnumber || ''}${
                           index < bookingData?.objPurchase?.length - 1
-                            ? ","
-                            : ""
+                            ? ','
+                            : ''
                         }`;
                       })}
                     </span>
                   </div>
                   <div
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 3fr ",
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
                     }}
                   >
                     <span style={{ padding: 2 }}>L/C DATE </span>
                     <span style={{ padding: 2 }}>
-                      :{" "}
+                      :{' '}
                       {bookingData?.objPurchase?.map((item, index) => {
                         return `${item?.lcdate &&
-                          `${moment(item?.lcdate).format("DD MMM YYYY")}`}${
+                          `${moment(item?.lcdate).format('DD MMM YYYY')}`}${
                           index < bookingData?.objPurchase?.length - 1
-                            ? ","
-                            : ""
+                            ? ','
+                            : ''
                         }`;
                       })}
                     </span>
                   </div>
                   <div
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 3fr ",
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
                     }}
                   >
                     <span style={{ padding: 2 }}>MODE</span>
@@ -479,19 +479,19 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
                   <span style={{ padding: 2 }}>
-                    {" "}
-                    :{" "}
+                    {' '}
+                    :{' '}
                     {bookingData?.transportPlanning
                       ?.flatMap((item) =>
-                        item?.airTransportRow?.map((row) => row?.flightNumber)
+                        item?.airTransportRow?.map((row) => row?.flightNumber),
                       )
-                      .join(", ")}
+                      .join(', ')}
                   </span>
                 </div>
                 {/* <div
@@ -505,8 +505,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             </div> */}
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
@@ -520,51 +520,51 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                       <>
                         {moment(bookingData?.seaMasterBlDate).isValid() &&
                           moment(bookingData?.seaMasterBlDate).format(
-                            "DD MMM YYYY"
-                          )}{" "}
+                            'DD MMM YYYY',
+                          )}{' '}
                         {bookingData?.airMasterBlDate
-                          ? ", " +
+                          ? ', ' +
                               moment(bookingData?.airMasterBlDate).isValid() &&
                             moment(bookingData?.airMasterBlDate).format(
-                              "DD MMM YYYY"
+                              'DD MMM YYYY',
                             )
-                          : ""}
+                          : ''}
                       </>
                     ) : (
                       (moment(bookingData?.seaMasterBlDate).isValid() &&
                         moment(bookingData?.seaMasterBlDate).format(
-                          "DD MMM YYYY"
+                          'DD MMM YYYY',
                         )) ||
                       (moment(bookingData?.airMasterBlDate).isValid() &&
                         moment(bookingData?.airMasterBlDate).format(
-                          "DD MMM YYYY"
+                          'DD MMM YYYY',
                         ))
                     )}
                   </span>
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
                   <span style={{ padding: 2 }}>
-                    :{" "}
+                    :{' '}
                     {bookingData?.hbldate
-                      ? moment(bookingData?.hbldate).format("DD MMM YYYY")
-                      : ""}
+                      ? moment(bookingData?.hbldate).format('DD MMM YYYY')
+                      : ''}
                   </span>
                 </div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 3fr ",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
                   }}
                 >
                   <span style={{ padding: 2 }}>SEAL NUMBER</span>
                   <span style={{ padding: 2 }}>
-                    : {bookingData?.fcrnumber || "N/A"}
+                    : {bookingData?.fcrnumber || 'N/A'}
                   </span>
                 </div>
               </div>
@@ -581,7 +581,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             >
               <span>
                 {values?.billingType === 2
-                  ? "Ocean Freight is "
+                  ? 'Ocean Freight is '
                   : `Air Freight is `}
                 {/* if mode "sea = 2" than rate and size show */}
                 {rowClickData?.modeOfTransportId === 2 && (
@@ -592,20 +592,20 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                   </>
                 )}
                 {/* if mode "air = 1" than rate show */}
-                {rowClickData?.modeOfTransportId === 1 && (
+                {[1, 5].includes(rowClickData?.modeOfTransportId) && (
                   <>{hblChargeableRate}</>
                 )}
                 {/* if mode "sea-air = 3" than rate show*/}
                 {rowClickData?.modeOfTransportId === 3 && (
                   <>{seaAirChargeableRate}</>
                 )}
-              </span>{" "}
+              </span>{' '}
               <br />
               <span>
-                {rowClickData?.modeOfTransportId === 2 && "Total Container: "}
+                {rowClickData?.modeOfTransportId === 2 && 'Total Container: '}
                 {[1, 3].includes(rowClickData?.modeOfTransportId) &&
-                  "Total Chargeable Weight:"}
-                {/*modeOfTransportId 2 = sea  */}{" "}
+                  'Total Chargeable Weight:'}
+                {/*modeOfTransportId 2 = sea  */}{' '}
                 {rowClickData?.modeOfTransportId === 2 && (
                   <>
                     {sumOfRate?.map((item, index) => {
@@ -613,62 +613,62 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     })}
                   </>
                 )}
-                {/* modeOfTransportId 1 = Air */}
-                {rowClickData?.modeOfTransportId === 1 && (
+                {/* modeOfTransportId 1 = Air and 5=Air-ops */}
+                {[1, 3].includes(rowClickData?.modeOfTransportId) && (
                   <>{totalChargeableWeight}</>
                 )}
                 {/* modeOfTransportId= 3 = sea-air */}
                 {rowClickData?.modeOfTransportId === 3 && <>{totalKGS}</>}
-              </span>{" "}
+              </span>{' '}
               <br />
               <span>
-                So, Total{" "}
-                {values?.billingType === 2 ? "Ocean Freight" : `Air Freight`} is
-                USD {/*modeOfTransportId 2 = sea  */}{" "}
+                So, Total{' '}
+                {values?.billingType === 2 ? 'Ocean Freight' : `Air Freight`} is
+                USD {/*modeOfTransportId 2 = sea  */}{' '}
                 {rowClickData?.modeOfTransportId === 2 && (
                   <>
-                    {" "}
+                    {' '}
                     {sumOfRate?.reduce((acc, item) => {
                       return acc + item?.total;
                     }, 0) || 0}
                   </>
                 )}
-                {/* modeOfTransportId 1 = Air */}
-                {rowClickData?.modeOfTransportId === 1 && (
+                {/* modeOfTransportId 1 = Air and 5=air-ops */}
+                {[1, 3].includes(rowClickData?.modeOfTransportId) && (
                   <>{totalChargeableWeight * hblChargeableRate || 0}</>
                 )}
                 {/* modeOfTransportId= 3 = sea-air */}
                 {<>{totalKGS * seaAirChargeableRate || 0}</>}
-              </span>{" "}
+              </span>{' '}
               <br />
               <span>
-                Goods Description:{" "}
+                Goods Description:{' '}
                 {bookingData?.rowsData?.map((item, index) => {
                   return `${item?.descriptionOfGoods}${
-                    index < bookingData?.rowsData?.length - 1 ? "," : ""
+                    index < bookingData?.rowsData?.length - 1 ? ',' : ''
                   }`;
                 })}
-              </span>{" "}
+              </span>{' '}
               <br />
             </div>
             <span style={{ paddingLeft: 10 }}>Thanks and Best Regards,</span>
             <span>Sincerely Yours</span>
-            <div style={{ paddingTop: "5rem" }}>
+            <div style={{ paddingTop: '5rem' }}>
               <span>For : Akij Logistics Limited</span> <br />
               <span>As Agents</span> <br />
             </div>
-            <div style={{ paddingTop: "5rem" }}>
+            <div style={{ paddingTop: '5rem' }}>
               <div
                 style={{
-                  borderTop: "1px solid #000000",
-                  backgroundColor: "#000000",
+                  borderTop: '1px solid #000000',
+                  backgroundColor: '#000000',
                 }}
               />
               <div
                 style={{
-                  display: "grid",
-                  justifyContent: "center",
-                  textAlign: "center",
+                  display: 'grid',
+                  justifyContent: 'center',
+                  textAlign: 'center',
                 }}
               >
                 <span>Akij Logistics Limited</span>

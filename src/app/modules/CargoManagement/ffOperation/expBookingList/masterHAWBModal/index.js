@@ -267,7 +267,7 @@ const MasterHBAWModal = ({
           const firstIndex = hbawRestData[0];
           const transportPlanningAir =
             firstIndex?.transportPlanning?.find((i) => {
-              return i?.transportPlanningModeId === 1;
+              return [1, 5].includes(i?.transportPlanningModeId);
             }) || '';
           //
           const iatacode = [];
@@ -276,7 +276,7 @@ const MasterHBAWModal = ({
           hbawRestData?.forEach((item, index) => {
             const transportPlanningAir =
               item?.transportPlanning?.find((i) => {
-                return i?.transportPlanningModeId === 1;
+                return [1, 5].includes(i?.transportPlanningModeId);
               }) || '';
 
             if (transportPlanningAir?.iatanumber) {
