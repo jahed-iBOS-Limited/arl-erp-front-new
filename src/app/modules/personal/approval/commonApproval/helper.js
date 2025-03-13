@@ -10,7 +10,7 @@ export const getActivityDDL = async (mId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getModuleNameDDL = async (accId, buId, setter) => {
@@ -29,7 +29,7 @@ export const getModuleNameDDL = async (accId, buId, setter) => {
         })
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getGridData = async (
@@ -55,30 +55,6 @@ export const getGridData = async (
   }
 };
 
-// export const approvalApi = async (
-//   ActivityId,
-//   poId,
-//   buId,
-//   userId,
-//   gridData,
-//   setter
-// ) => {
-//   try {
-//     const res = await Axios.put(
-//       `/procurement/Approval/DynamicApproval?ActivityId=${ActivityId}&PoId=${poId}&BusinessUnitId=${buId}&UserId=${userId}`
-//     );
-//     alert("done")
-//     if (res.status === 200) {
-//       let approveData = gridData.filter((data) => data.transectionId !== poId);
-//       setter(approveData);
-//       toast.success("Approved successfully");
-//       //cb()
-//     }
-//   } catch (error) {
-
-//   }
-// };
-
 export const approvalApi = async (
   poayload,
   activityName,
@@ -88,7 +64,7 @@ export const approvalApi = async (
     await Axios.put(`/procurement/Approval/DynamicApproval`, poayload);
     toast.success("Approved successfully");
     onChangeForActivity();
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -99,7 +75,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const BOMApprovalLanding = async (
@@ -167,7 +143,7 @@ export const getBomTotalCost = async (
   try {
     const res = await Axios.get(
       `/mes/BOM/ItemCostWithOverhead?businessUnitId=${buId}&itemId=${itemId}&bomId=${bomId ||
-        0}&getdate=${_todayDate()}`
+      0}&getdate=${_todayDate()}`
     );
     setLoading(false);
     setter(res?.data);
