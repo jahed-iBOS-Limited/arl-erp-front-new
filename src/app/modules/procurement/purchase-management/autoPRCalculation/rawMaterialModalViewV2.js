@@ -147,7 +147,7 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                     <th>Open PR</th>
                     <th>Dead Stock</th>
                     <th>Available Stock</th>
-                    <th>Closing Balance</th>
+                    <th>Schedule Quantity</th>
                     <th>PR Code</th>
                   </tr>
                 </thead>
