@@ -20,6 +20,7 @@ import {
 } from './rawMaterialModals/helper';
 import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
 import RawMaterialAutoPRNewModalView from './rawMaterialModalView';
+import RawMaterialAutoPRNewModalViewVersionTwo from './rawMaterialModalViewV2';
 
 const initData = {
   businessUnit: '',
@@ -287,7 +288,12 @@ export default function RawMaterialAutoPRNew() {
                 setSingleRowData(null);
               }}
             >
-              <RawMaterialAutoPRNewModalView
+              {/* Donn't Delete this file  */}
+              {/* <RawMaterialAutoPRNewModalView
+                singleRowDataFromParent={singleRowData}
+                values={values}
+              /> */}
+               <RawMaterialAutoPRNewModalViewVersionTwo
                 singleRowDataFromParent={singleRowData}
                 values={values}
               />
