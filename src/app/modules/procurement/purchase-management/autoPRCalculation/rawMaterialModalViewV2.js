@@ -15,6 +15,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import { toast } from 'react-toastify';
 import { confirmAlert } from 'react-confirm-alert';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export default function RawMaterialAutoPRNewModalViewVersionTwo({
   singleRowDataFromParent,
@@ -41,7 +42,7 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
 
   const getData = () => {
     getAutoRawMaterialData(
-      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLanding?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`,
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLandingNewReq?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`,
     );
   };
 
@@ -67,6 +68,7 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                   title: `Purchase Request`,
                   message: `Are you sure you want to create Purchase Request?`,
                   yesAlertFunc: () => {
+                    
                     const payload = {
                       "createPurchaseRequestHeader": {
                         "purchaseRequestCode": "",
@@ -75,24 +77,24 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                         "purchaseRequestTypeName": "Standard PR",
                         "accountId": 1,
                         "accountName": "Akij Resource Limited",
-                        "businessUnitId": 4,
-                        "businessUnitName": "Akij Cement Company Ltd.",
-                        "sbuid": 58,
-                        "sbuname": "Akij Cement Company Ltd.",
-                        "purchaseOrganizationId": 11,
-                        "purchaseOrganizationName": "Local Procurement",
-                        "plantId": 79,
-                        "plantName": "ACCL Narayanganj",
-                        "warehouseId": 142,
-                        "warehouseName": "ACCL Factory",
-                        "deliveryAddress": "Akij Cement . Nobigong, Kodomrosul, Narayangonj",
-                        "supplyingWarehouseId": 0,
-                        "supplyingWarehouseName": "",
-                        "requestDate": "2025-03-14",
+                        "businessUnitId": postiveClosingBalanceList[0]?.businessUnitId || 0,
+                        "businessUnitName": postiveClosingBalanceList[0]?.businessUnitName || "",
+                        "sbuid": postiveClosingBalanceList[0]?.sbuId || 0,
+                        "sbuname": postiveClosingBalanceList[0]?.sbuName || "",
+                        "purchaseOrganizationId": postiveClosingBalanceList[0]?.intPurchaseOrganizationId || 0,
+                        "purchaseOrganizationName": postiveClosingBalanceList[0]?.strPurchaseOrganizationName || "",
+                        "plantId": postiveClosingBalanceList[0]?.plantId || 0,
+                        "plantName": postiveClosingBalanceList[0]?.plantName || "",
+                        "warehouseId": postiveClosingBalanceList[0]?.warehouseId || 0,
+                        "warehouseName": postiveClosingBalanceList[0]?.warehouseName || "",
+                        "deliveryAddress": postiveClosingBalanceList[0]?.deliveryAddress || "",
+                        "supplyingWarehouseId": postiveClosingBalanceList[0]?.warehouseId || 0,
+                        "supplyingWarehouseName": postiveClosingBalanceList[0]?.warehouseName || "",
+                        "requestDate": _todayDate(),
                         "actionBy": profileData?.userId,
                         "costControlingUnitId": 0,
                         "costControlingUnitName": "",
-                        "requiredDate": "2025-03-14",
+                        "requiredDate": _todayDate(),
                         "strPurpose": "Requirment for Production"
                       },
                       "createPurchaseRequestRow": postiveClosingBalanceList?.map(item => {
@@ -101,7 +103,7 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                           "uoMid": item?.uoMid,
                           "uoMname": item?.uomName,
                           "numRequestQuantity": item?.closingBlance,
-                          "dteRequiredDate": "2025-03-14",
+                          "dteRequiredDate": _todayDate(),
                           "billOfMaterialId": 0,
                           "remarks": "Requirment for Production"
                         }
