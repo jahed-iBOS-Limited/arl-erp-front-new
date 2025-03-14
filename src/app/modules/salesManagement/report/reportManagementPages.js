@@ -53,6 +53,7 @@ import ShipToPartyTargetLanding from "./shipToPartyTarget/landing";
 import ShipToPartyTargetEntryForm from "./shipToPartyTarget/form/addEditForm";
 import SalesKPILanding from "./salesKPI";
 import ItemCategorySales from "./itemCategorySales";
+import DailySalesSetupBase from "./dailySalesSetupBase";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -282,6 +283,11 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/setupbaseachivement"
         component={OperationalSetUpBaseAchievement}
+      />
+
+      <ContentRoute
+        path="/sales-management/report/dailysalessetupbase"
+        component={DailySalesSetupBase}
       />
 
       <ContentRoute
