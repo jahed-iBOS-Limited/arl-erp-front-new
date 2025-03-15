@@ -29,6 +29,7 @@ import AutoPRCalculation from "./autoPRCalculation";
 import AutoPOCalculation from "./AutoPOCalculation";
 import CreateCs from "./erpComparativeStatement/cs/create";
 import RFQCreateForAutoProcess from "./AutoPOCalculation/rfqCreateForAutoProcess";
+import CateringBill from "./CateringBill";
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -221,6 +222,11 @@ export function PurchasePages() {
       <ContentRoute
         from="/mngProcurement/purchase-management/AutoPOCalculation"
         component={AutoPOCalculation}
+      />
+
+      <ContentRoute
+        from="/mngProcurement/purchase-management/CateringBill"
+        component={CateringBill}
       />
 
       <ContentRoute

@@ -8,10 +8,10 @@ import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import printIcon from "../../../_helper/images/print-icon.png";
-import { getLetterHead } from "../../../financialManagement/report/bankLetter/helper";
 import "./style.css";
 import nesarulSignatureIbos from "../images/nesarul-ibos-signature.png";
 import ibosSeal from "../images/ibos-seal.png";
+import { commonGetLetterHead } from "../../../_helper/letterHead/commonGetLetterHead";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   const printRef = useRef();
@@ -79,7 +79,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
             <div
               className="invoice-header"
               style={{
-                backgroundImage: `url(${getLetterHead({
+                backgroundImage: `url(${commonGetLetterHead({
                   buId: selectedBusinessUnit?.value,
                 })})`,
                 backgroundRepeat: "no-repeat",
@@ -408,7 +408,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
             <div
               className="ifoot"
               style={{
-                backgroundImage: `url(${getLetterHead({
+                backgroundImage: `url(${commonGetLetterHead({
                   buId: selectedBusinessUnit?.value,
                 })})`,
                 backgroundRepeat: "no-repeat",

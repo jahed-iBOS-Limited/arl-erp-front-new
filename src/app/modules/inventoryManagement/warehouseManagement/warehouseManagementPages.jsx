@@ -60,6 +60,7 @@ import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
 import LogisticEquipment from "./logisticEquipment";
 import LogisticEquipmentEntry from "./logisticEquipment/entry";
 import ItemWiseSerialDetails from "../reports/itemwiseserialdetails/ItemWiseSerialDetails";
+import ItemConversionLanding from "./ItemConversion";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -470,6 +471,10 @@ export function WarehouseManagementPages() {
       <ContentRoute
         from="/inventory-management/warehouse-management/ItemwiseserialDetails"
         component={ItemWiseSerialDetails}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/Itemconversion"
+        component={ItemConversionLanding}
       />
     </Switch>
   );

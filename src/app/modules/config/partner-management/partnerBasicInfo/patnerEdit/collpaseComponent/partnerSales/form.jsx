@@ -124,6 +124,7 @@ export default function _Form({
   getOperationalZoneDDL,
   AGConcernDDL,
   setRowDto,
+  partyStatusDDL,
 }) {
   const [mortageTypeDDL, setMortageTypeDDL] = useState([]);
   const [bankNameDDL, setBankNameDDL] = useState([]);
@@ -425,24 +426,7 @@ export default function _Form({
                     <div className="col-lg-3 mb-2">
                       <NewSelect
                         name="partyStatusType"
-                        options={[
-                          {
-                            value: 'ChannelPartner',
-                            label: 'Channel Partner',
-                          },
-                          {
-                            value: 'ChannelAssociate',
-                            label: 'Channel Associate',
-                          },
-                          {
-                            value: 'Business Associate',
-                            label: 'Business Associate',
-                          },
-                          {
-                            value: 'BusinessPartner',
-                            label: 'Business Partner',
-                          },
-                        ]}
+                        options={partyStatusDDL || []}
                         value={values?.partyStatusType}
                         label="Party Status Type"
                         onChange={(valueOption) => {

@@ -21,7 +21,7 @@ function MobileFirstAlert() {
       userAgent,
     );
   useEffect(() => {
-    if (!isMobileUser && import.meta.env.MODE !== 'development') {
+    if (!isMobileUser && process.env.NODE_ENV !== 'development') {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
@@ -68,24 +68,24 @@ function MobileFirstAlert() {
     const secs = seconds % 60;
     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
   };
-  const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
-  const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
-  const isEmpSuplier =
-    [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
+  // const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
+  // const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
+  // const isEmpSuplier =
+  //   [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    const leftTime = timeLeft > 0;
-    if (
-      !isMobileUser &&
-      leftTime &&
-      !isShowBUIMatch &&
-      isMatchWorkPlaceMatch &&
-      !isMatchEmployeeId &&
-      !isEmpSuplier
-    ) {
-      setIsShowAlert(true);
-    }
-  });
+  // useEffect(() => {
+  //   const leftTime = timeLeft > 0;
+  //   if (
+  //     !isMobileUser &&
+  //     leftTime &&
+  //     !isShowBUIMatch &&
+  //     isMatchWorkPlaceMatch &&
+  //     !isMatchEmployeeId &&
+  //     !isEmpSuplier
+  //   ) {
+  //     setIsShowAlert(true);
+  //   }
+  // });
 
   return (
     <>
@@ -98,15 +98,17 @@ function MobileFirstAlert() {
             {isMatchWorkPlaceMatch && (
               <div className="countdown">Time left: {formatTime(timeLeft)}</div>
             )}
-
-            {(!isMatchWorkPlaceMatch ||
+            <div className="close-icon" onClick={handleClose}>
+              &times;
+            </div>
+            {/* {(!isMatchWorkPlaceMatch ||
               isShowBUIMatch ||
               isEmpSuplier ||
               isMatchEmployeeId) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
               </div>
-            )}
+            )} */}
           </div>
         </div>
       ) : null}

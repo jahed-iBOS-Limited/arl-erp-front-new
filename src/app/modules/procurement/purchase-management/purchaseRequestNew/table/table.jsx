@@ -71,7 +71,6 @@ const PurchaseRequestTable = () => {
   // loading
   const [loading, setLoading] = useState(false);
 
-
   // redux data
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -190,7 +189,7 @@ const PurchaseRequestTable = () => {
       title: "Are you sure?",
       message: `Do you want to Inactive this purchase request`,
       yesAlertFunc: () => {
-        postPurchaseReqCancelAction(Pred).then(() =>
+        postPurchaseReqCancelAction(Pred, profileData?.userId).then(() =>
           getLandingPageDataFunc(pageNo, pageSize)
         );
       },
@@ -215,6 +214,36 @@ const PurchaseRequestTable = () => {
     };
     IConfirmModal(confirmObject);
   };
+
+  // po complete button permission by user id
+  const poCompleteBtnPermission = new Set([
+    509697,
+    520986,
+    56177,
+    56399,
+    382959,
+    509829,
+    521207,
+    521210,
+    521234,
+    521746,
+    522103,
+    522213,
+    522246,
+    522261,
+    522265,
+    522841,
+    522846,
+    522932,
+    522952,
+    523433,
+    528017,
+    550981,
+    560964,
+    561496])
+
+    const userHasPermission=poCompleteBtnPermission.has(profileData?.userId)
+
   return (
     <ICustomCard title="Purchase Request">
       <>
@@ -469,8 +498,7 @@ const PurchaseRequestTable = () => {
                                   </span>
                                   {!item?.isClosed &&
                                     item?.isApproved &&
-                                    (profileData?.userId === 509697 ||
-                                      profileData?.userId === 520986) && (
+                                    userHasPermission && (
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">

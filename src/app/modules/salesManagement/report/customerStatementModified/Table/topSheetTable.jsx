@@ -63,6 +63,12 @@ const TopSheetTable = ({ rowData, excelRef }) => {
             </td>
             <td>
               {_fixedPoint(
+                rowData.reduce((acc, cur) => (acc += cur.numQuantityTon), 0),
+                true
+              )}
+            </td>
+            <td>
+              {_fixedPoint(
                 rowData.reduce((acc, cur) => {
                   return acc + cur.numAmount;
                 }, 0),

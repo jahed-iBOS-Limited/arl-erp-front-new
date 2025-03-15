@@ -16,6 +16,8 @@ const initData = {
   itemTypeName: "",
   itemMasterName: "",
   uomName: "",
+  stdPurchaseRate: "",
+  stdSalesRate: "",
 };
 
 export default function MasterItemExpend() {
@@ -50,6 +52,8 @@ export default function MasterItemExpend() {
             businessUnitId: item?.businessUnitId,
             businessUnitName: item?.businessUnitName,
             isSerialMaintain: item?.isSerialMaintain,
+            stdPurchaseRate: item?.stdPurchaseRate || 0,
+            stdSalesRate: item?.stdSalesRate || 0,
           };
         });
       const payload = {
@@ -97,6 +101,8 @@ export default function MasterItemExpend() {
         createdBy: userId,
         isNewBusinessUnitAdded: true,
         isSerialMaintain: values?.isSerialMaintain,
+        stdPurchaseRate: +values?.stdPurchaseRate || 0,
+        stdSalesRate: +values?.stdSalesRate || 0,
       };
 
       // Update rowData while keeping other fields intact
@@ -245,10 +251,46 @@ export default function MasterItemExpend() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption);
+                      setFieldValue("stdPurchaseRate", "");
+                      setFieldValue("stdSalesRate", "");
                     }}
                     // isDisabled={id}
                   />
                 </div>
+
+                {values?.businessUnit?.value === 239 && (
+                  <>
+                  <div className="col-lg-3">
+                    <InputField
+                      name="stdPurchaseRate"
+                      value={values?.stdPurchaseRate}
+                      label="Standard Purchase Rate"
+                      type="number"
+                      placeholder="Standard Purchase Rate"
+                      onChange={(e) => {
+                        if(e.target.value < 0) return
+                        setFieldValue("stdPurchaseRate", e.target.value);
+                      }}
+                    />    
+                  </div>
+
+                  <div className="col-lg-3">
+                    <InputField
+                      name="stdSalesRate"
+                      value={values?.stdSalesRate}
+                      label="Standard Sales Rate"
+                      type="number"
+                      placeholder="Standard Sales Rate"
+                      onChange={(e) => {
+                        if(e.target.value < 0) return
+                        setFieldValue("stdSalesRate", e.target.value);
+                      }}
+                    />
+                  </div>
+                  </>
+                )}
+
+                      
 
                 {(values?.businessUnit?.value === 138 ||
                   values?.businessUnit?.value === 186) && (
@@ -275,9 +317,11 @@ export default function MasterItemExpend() {
                       addRow(values, () => {
                         setFieldValue("businessUnit", "");
                         setFieldValue("isSerialMaintain", false);
+                        setFieldValue("stdPurchaseRate", "");
+                        setFieldValue("stdSalesRate", "");
                       });
                     }}
-                    disabled={!values?.businessUnit}
+                    disabled={!values?.businessUnit || (values?.businessUnit?.value === 239 && (!values?.stdPurchaseRate || !values?.stdSalesRate || values?.stdPurchaseRate < 1 || values?.stdSalesRate < 1))}
                   >
                     + Add
                   </button>
@@ -299,6 +343,8 @@ export default function MasterItemExpend() {
                         <th>Item Type</th>
                         <th>Category Name</th>
                         <th>Sub Category Name</th>
+                        <th>Standard Purchase Rate</th>
+                        <th>Standard Sales Rate</th>
                       </tr>
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
@@ -316,6 +362,12 @@ export default function MasterItemExpend() {
                         </td>
                         <td className="text-left">
                           {itemMasterSubCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                            {item?.stdPurchaseRate || ""}
+                        </td>
+                        <td className="text-left">
+                            {item?.stdSalesRate || ""}
                         </td>
                       </tr>
                     ))}

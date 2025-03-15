@@ -22,7 +22,6 @@ import {
   getPaymentType,
   getProfitCenterDDL,
   getProjectName,
-  getTransaction,
   getVehicleDDL,
 } from '../helper';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
@@ -30,6 +29,7 @@ import IView from './../../../../_helper/_helperIcons/_view';
 import InputField from './../../../../_helper/_inputField';
 import NewSelect from './../../../../_helper/_select';
 import { YearDDL } from './../../../../_helper/_yearDDL';
+import { getBusTransDDLForExpense } from '../../../../_helper/_commonApi';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   paymentType: Yup.object().shape({
@@ -96,7 +96,7 @@ export default function _Form({
         setCostElementDDL,
       );
       getProfitCenterDDL(selectedBusinessUnit.value, setProfitCenterDDL);
-      getTransaction(
+      getBusTransDDLForExpense(
         profileData.accountId,
         selectedBusinessUnit.value,
         setTransaction,

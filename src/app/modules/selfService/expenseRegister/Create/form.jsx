@@ -12,7 +12,6 @@ import { useEffect } from 'react';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import moment from 'moment';
 import {
-  getTransaction,
   getPaymentType,
   getCategory,
   getProjectName,
@@ -109,7 +108,7 @@ export default function _Form({
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getTransaction(
+      getBusTransDDLForExpense(
         profileData.accountId,
         selectedBusinessUnit.value,
         setTransaction,

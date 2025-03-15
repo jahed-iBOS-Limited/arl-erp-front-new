@@ -43,6 +43,9 @@ export default function SalesCommissionConfigureEntryForm() {
   const akijAgroFeedCommissionTypeList = [42, 43, 44, 45, 46, 47];
 
   const [desginationList, getDesignationList] = useAxiosGet();
+  // customer party
+  const [customerTypeDDL, getCustomerTypeDDL, getCustomerTypeDDLLoading] =
+    useAxiosGet();
 
   useEffect(() => {
     getDesignationList(
@@ -56,6 +59,9 @@ export default function SalesCommissionConfigureEntryForm() {
       (resData) => {
         setCommissionTypes(resData?.data);
       },
+    );
+    getCustomerTypeDDL(
+      `/oms/DistributionChannel/GetCustomerStatusTypeDDL?BUnitId=${buId}`,
     );
   }, [buId]);
 
@@ -119,7 +125,7 @@ export default function SalesCommissionConfigureEntryForm() {
         ...akijAgroFeedCommissionTypeList,
       ].includes(commissionTypeId)
     ) {
-      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40, 46].includes(
+      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40, 46, 43].includes(
         commissionTypeId,
       );
       const commissionRate = commonRate || 0;
@@ -145,10 +151,12 @@ export default function SalesCommissionConfigureEntryForm() {
         offerQntTo: +values?.toQuantity,
         achievementFrom: +values?.fromAchievement,
         achievementTo: +values?.toAchievement,
-        itemGroupId: values?.itemGroup?.value || 0,
+        itemGroupId:
+          values?.itemGroup?.value || values?.customerStatusType?.value || 0,
         designationId: values?.designation?.value || 0,
         customerId: values?.businessPartner?.value || 0,
         customerName: values?.businessPartner?.label || '',
+        customerPartyStatusLabel: values?.customerStatusType?.label || '',
       };
       setRowData([...rowData, newRow]);
       cb && cb();
@@ -239,7 +247,8 @@ export default function SalesCommissionConfigureEntryForm() {
     );
   };
 
-  const isLoading = loading || loader || saveLoader;
+  const isLoading =
+    loading || loader || saveLoader || getCustomerTypeDDLLoading;
 
   return (
     <>
@@ -256,6 +265,7 @@ export default function SalesCommissionConfigureEntryForm() {
         commissionTypes={commissionTypes}
         desginationList={desginationList}
         akijAgroFeedCommissionTypeList={akijAgroFeedCommissionTypeList}
+        customerTypeDDL={customerTypeDDL}
       />
     </>
   );

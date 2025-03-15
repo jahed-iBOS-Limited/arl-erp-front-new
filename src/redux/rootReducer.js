@@ -68,7 +68,6 @@ import { purchaseOrgSlice } from './../app/modules/procurement/configuration/pur
 
 import { pendingOrderSlice } from '../app/modules/salesManagement/report/pendingOrder/_redux/Slice';
 import { vehicleUnitSlice } from '../app/modules/transportManagement/configuration/vehicle/_redux/Slice';
-import { chatAppSlice } from '../app/modules/chats/chats/_redux/Slice';
 import { partnerLedgerSlice } from '../app/modules/procurement/reports/partnerLedger/_redux/Slice';
 import { corporatePerformanceChartSlice } from './../app/modules/performanceManagement/corporateKpi/PerformanceChart/_redux/Slice';
 import { corporatePmsAchievementSlice } from './../app/modules/performanceManagement/corporateKpi/achievement/_redux/Slice';
@@ -143,7 +142,6 @@ export const rootReducer = combineReducers({
   adInternalExp: adInternalExp.reducer,
   invTransa: invTransactionSlice.reducer,
   localStorage: localStorageSlice.reducer,
-  chatApp: chatAppSlice.reducer,
   chattingApp: chattingAppSlice?.reducer,
 });
 

@@ -141,7 +141,7 @@ function CreateChaShipmentBooking() {
       mawblNo: '',
       impExpId: values?.impExpType,
       impExp: values?.impExpType === 1 ? 'Export' : 'Import',
-      carrierId: values?.carrier?.value || 0,
+      carrierId: 0,
       carrierName: values?.carrier?.label || '',
       customerId: values?.customer?.value || 0,
       customerName: values?.customer?.label || '',
@@ -266,19 +266,19 @@ function CreateChaShipmentBooking() {
               : '',
             carrier: resData?.carrierName
               ? {
-                  value: resData?.carrierId,
+                  value: resData?.carrierId || 0,
                   label: resData?.carrierName,
                 }
               : '',
             customer: resData?.customerId
               ? {
-                  value: resData?.customerId,
+                  value: resData?.customerId || 0,
                   label: resData?.customerName,
                 }
               : '',
             ffw: resData?.ffw
               ? {
-                  value: resData?.ffw,
+                  value: resData?.ffw || 0,
                   label: resData?.ffw,
                 }
               : '',
@@ -302,7 +302,7 @@ function CreateChaShipmentBooking() {
               : '',
             consignee: resData?.consignee
               ? {
-                  value: resData?.consigneeId,
+                  value: resData?.consigneeId || 0,
                   label: resData?.consignee,
                 }
               : '',
@@ -320,7 +320,7 @@ function CreateChaShipmentBooking() {
               : '',
             thirdPartyPay: resData?.thirdPartyName
               ? {
-                  value: resData?.thirdPartyId,
+                  value: resData?.thirdPartyId || 0,
                   label: resData?.thirdPartyName,
                 }
               : '',
@@ -337,7 +337,10 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             csSalesPic: resData?.csSalesPic
-              ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
+              ? {
+                  value: resData?.cssalesPicId || 0,
+                  label: resData?.csSalesPic,
+                }
               : '',
             commodity: resData?.commodityName
               ? {

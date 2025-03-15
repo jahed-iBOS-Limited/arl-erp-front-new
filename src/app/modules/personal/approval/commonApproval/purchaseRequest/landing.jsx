@@ -13,7 +13,7 @@ import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
 import PaginationSearch from './../../../../_helper/_search';
-import { approvalApi } from './helper';
+import { approvalApi } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -149,14 +149,14 @@ const PurchaseRequestApprovalGrid = ({
         approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
 
 
-   //reject handler
-   const rejectSubmitlHandler = () => {
+  //reject handler
+  const rejectSubmitlHandler = () => {
     let confirmObject = {
       title: 'Are you sure?',
       message: `Do you want to reject the selected PR?`,
@@ -170,13 +170,13 @@ const PurchaseRequestApprovalGrid = ({
             actionBy: profileData?.userId,
           };
         });
-        rejectPuchase(`/procurement/PurchaseRequest/RejectPurchaseRequest`, payload, (data)=>{
+        rejectPuchase(`/procurement/PurchaseRequest/RejectPurchaseRequest`, payload, (data) => {
           setBillSubmitBtn(true);
           cb();
         }, true);
         // setBillSubmitBtn(true);
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
 
@@ -268,90 +268,89 @@ const PurchaseRequestApprovalGrid = ({
               </div>
             </Form>
             {rowDto?.data?.length ? (
-             <div className="table-responsive">
-               <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: '20px' }}>
-                      <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
-                        }}
-                      />
-                    </th>
-                    <th>SL</th>
-                    <th>Reff Code</th>
-                    <th>Warehouse Name</th>
-                    <th>Transaction Date</th>
-                    {/* <th>Due Date</th> */}
-                    <th>Quantity</th>
-                    <th>Description</th>
-                    <th className="text-right pr-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.data?.map((item, i) => (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
                     <tr>
-                      <td>
+                      <th style={{ width: '20px' }}>
                         <input
-                          id="isSelect"
                           type="checkbox"
-                          value={item?.isSelect}
-                          checked={item?.isSelect}
-                          onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
                           }}
                         />
-                      </td>
-                      <td className="text-center">{item?.sl}</td>
-                      <td>
-                        <span className="pl-2">{item.strCode}</span>
-                      </td>
-                      <td>
-                        <span className="pl-2">{item.whName}</span>
-                      </td>
-                      <td className="text-center">
-                        {_dateFormatter(item.transectionDate)}
-                      </td>
-                      {/* <td className="text-center">
+                      </th>
+                      <th>SL</th>
+                      <th>Reff Code</th>
+                      <th>Warehouse Name</th>
+                      <th>Transaction Date</th>
+                      {/* <th>Due Date</th> */}
+                      <th>Quantity</th>
+                      <th>Description</th>
+                      <th className="text-right pr-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, i) => (
+                      <tr>
+                        <td>
+                          <input
+                            id="isSelect"
+                            type="checkbox"
+                            value={item?.isSelect}
+                            checked={item?.isSelect}
+                            onChange={(e) => {
+                              itemSlectedHandler(e.target.checked, i);
+                            }}
+                          />
+                        </td>
+                        <td className="text-center">{item?.sl}</td>
+                        <td>
+                          <span className="pl-2">{item.strCode}</span>
+                        </td>
+                        <td>
+                          <span className="pl-2">{item.whName}</span>
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item.transectionDate)}
+                        </td>
+                        {/* <td className="text-center">
                     {_dateFormatter(item.dueDate)}
                   </td>             */}
-                      <td className="text-center">{item.quantity}</td>
-                      <td className="text-center">{item.strNarration}</td>
-                      <td className="text-center">
-                        <span
-                          onClick={(e) => {
-                            // history.push(
-                            //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
-                            // );
-                            // dispatch(setPRApprovalId(item?.transectionId));
-                            setCurrentRowData(item);
-                            setIsShowModal(true);
-                          }}
-                        >
-                          <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
+                        <td className="text-center">{item.quantity}</td>
+                        <td className="text-center">{item.strNarration}</td>
+                        <td className="text-center">
+                          <span
+                            onClick={(e) => {
+                              // history.push(
+                              //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
+                              // );
+                              // dispatch(setPRApprovalId(item?.transectionId));
+                              setCurrentRowData(item);
+                              setIsShowModal(true);
+                            }}
                           >
-                            <span style={{ cursor: 'pointer' }}>
-                              <i
-                                className={`fas fa-eye ${
-                                  LastPrApprovalId === item?.transectionId
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
+                            >
+                              <span style={{ cursor: 'pointer' }}>
+                                <i
+                                  className={`fas fa-eye ${LastPrApprovalId === item?.transectionId
                                     ? 'text-primary'
                                     : ''
-                                }`}
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-             </div>
+                                    }`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               ''
             )}
@@ -364,7 +363,7 @@ const PurchaseRequestApprovalGrid = ({
             )}
 
             <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-              <ItemReqViewTableRow prId={currentRowData?.transectionId}/>
+              <ItemReqViewTableRow prId={currentRowData?.transectionId} />
             </IViewModal>
           </>
         )}

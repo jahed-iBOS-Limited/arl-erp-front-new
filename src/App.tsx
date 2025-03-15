@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import { LayoutSplashScreen, MaterialThemeProvider } from './_metronic/layout';
 import { Routes } from './app/Routes';
-
 import {
   makeDecryption,
   makeEncryption,
@@ -181,19 +180,11 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
   }
   console.log(updateAvailable, 'updateAvailable');
   return (
-    /* Provide Redux store */
     <Provider store={store}>
-      {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
       <PersistGate persistor={persistor} loading={<LayoutSplashScreen />}>
-        {/* Add    high level `Suspense` in case if was not handled inside the React tree. */}
         <React.Suspense fallback={<LayoutSplashScreen />}>
-          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
           <BrowserRouter basename={basename}>
-            {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
             <MaterialThemeProvider>
-              {/* Provide `react-intl` context synchronized with Redux state.  */}
-
-              {/* Render routes with provided `Layout`. */}
               <ToastContainer position="bottom-right" />
               <Routes />
             </MaterialThemeProvider>
@@ -203,4 +194,5 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
     </Provider>
   );
 };
+
 export default App;

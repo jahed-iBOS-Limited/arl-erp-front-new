@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./chatApp.css";
-import MessageBox from "./messageBox";
-import { getChatResponse } from "./helper";
-import { TimeRemaining } from "./timeRemaining";
+import React, { useEffect, useRef, useState } from 'react';
+import './chatApp.css';
+import MessageBox from './messageBox';
+import { getChatResponse } from './helper';
+import { TimeRemaining } from './timeRemaining';
 
 const ChatBoatWrapper = ({ timeRemainingCB }) => {
-  let [text, setText] = useState("");
+  let [text, setText] = useState('');
   // user chatList/ message list
   const [chatList, setChatList] = useState([]);
   const [msgLoading, setMsgLoading] = useState(false);
@@ -38,20 +38,21 @@ const ChatBoatWrapper = ({ timeRemainingCB }) => {
     setMsgLoading(true);
     getChatResponse(
       {
+        // question: text,
         question: text,
       },
       (obj) => {
         setChatList([...modfyData, { text: obj?.resData, to: false }]);
-        setText("");
+        setText('');
         setMsgLoading(false);
-      }
+      },
     );
   };
 
   return (
     <div
       style={{
-        position: "relative",
+        position: 'relative',
       }}
     >
       <TimeRemaining timeRemainingCB={timeRemainingCB} />

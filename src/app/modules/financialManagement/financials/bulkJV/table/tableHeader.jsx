@@ -5,7 +5,7 @@ import NewSelect from './../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import { useSelector, shallowEqual } from 'react-redux';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { getBuTransactionDDL, saveBulkJV } from '../helper';
+import { saveBulkJV } from '../helper';
 import {
   Card,
   CardHeader,
@@ -47,7 +47,7 @@ const BulkJVLanding = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    getBuTransactionDDL(
+    getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setBuTransactionDDL,

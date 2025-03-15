@@ -46,32 +46,8 @@ export const getPartnerTypeDDL = async (setter) => {
     console.log(error);
   }
 };
-export const getBankAc = async (accId, BuId, setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
-export const getInstrumentType = async (setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
-export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 // GetJournalTypeDDL
 export const getJournalTypeDDL = async (setter) => {
   try {

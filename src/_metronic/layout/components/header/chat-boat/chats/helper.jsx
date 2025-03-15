@@ -59,15 +59,16 @@ export const sendMessage = async (payload, chatList, setChatList) => {
 
 export const getChatResponse = async (payload, cb) => {
   const apiUrl =
-    import.meta.env.MODE === 'development'
-      ? `https://deverpchat.ibos.io/erp/manual_qna`
-      : `https://erpchat.ibos.io/erp/manual_qna`;
+    (import.meta.env.MODE === 'development') === 'development'
+      ? `https://devtexttosql.ibos.io/ask`
+      : `https://texttosql.ibos.io/ask`;
 
   try {
     const res = await Axios.post(apiUrl, payload);
     cb({
       isResponse: true,
-      resData: res?.data?.response,
+      resData:
+        res?.data?.response || res?.data?.result || 'Sorry, data not found',
     });
   } catch (error) {
     cb({

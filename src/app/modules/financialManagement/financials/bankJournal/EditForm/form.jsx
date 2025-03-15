@@ -14,18 +14,16 @@ import DebitCredit from '../Create/DebitCredit';
 import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
 import {
-  getBankAc,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getInstrumentType,
   getPartnerTypeDDL,
   getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
-  getSendToGLBank,
 } from '../helper';
 import { confirmAlert } from 'react-confirm-alert';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

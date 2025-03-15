@@ -79,20 +79,18 @@ export default function LoanRegisterViewForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{
-
-    if(initData?.bank?.value){
-      
+  useEffect(() => {
+    if (initData?.bank?.value) {
       const fetchBankAccountDDL = () => {
         getBankAccountDDLByBankId(
           profileData?.accountId,
           selectedBusinessUnit?.value,
           initData?.bank?.value,
           setAccountDDL,
-          setLoading
+          setLoading,
         );
       };
-    
+
       const fetchFacilityDDL = () => {
         getFacilityDLL(
           selectedBusinessUnit?.value,
@@ -100,35 +98,30 @@ export default function LoanRegisterViewForm({
           (resData) => {
             setFacilityDDL(resData);
             if (!renewId && !isEdit && formikRef.current) {
-              const facilityFind = resData?.find(
-                (item) => item?.value === 2
-              );
-              formikRef.current.setFieldValue("facility", facilityFind || "");
+              const facilityFind = resData?.find((item) => item?.value === 2);
+              formikRef.current.setFieldValue('facility', facilityFind || '');
               formikRef.current.setFieldValue(
-                "termDays",
-                facilityFind?.tenorDays || 0
+                'termDays',
+                facilityFind?.tenorDays || 0,
               );
             }
           },
-          setLoading
+          setLoading,
         );
       };
-    
+
       fetchBankAccountDDL();
       fetchFacilityDDL();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[initData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initData]);
 
   useEffect(() => {
-    if (formikRef.current) {
-      const { openingDate, termDays } = formikRef.current.values;
+    if (initData?.openingDate && initData?.termDays) {
+      const { openingDate, termDays } = initData;
       onSetMaturityDate(openingDate, termDays);
     }
-  }, [
-    formikRef.current?.values?.openingDate,
-    formikRef.current?.values?.termDays,
-  ]);
+  }, [initData]);
 
   const onSetMaturityDate = (openingDate, termDays) => {
     setMaturityDate('');

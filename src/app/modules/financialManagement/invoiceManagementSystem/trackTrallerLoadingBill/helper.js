@@ -1,24 +1,24 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../_helper/_currentTime";
-import { _todayDate } from "../../../_helper/_todayDate";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+} from '../../../_helper/_currentTime';
+import { _todayDate } from '../../../_helper/_todayDate';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // track traller lb create init // !OK
 export const trackTrallerLBInitData = {
-  supplier: "",
-  billNo: "",
-  shippoint: "",
+  supplier: '',
+  billNo: '',
+  shippoint: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
-  warehouse: "",
+  narration: '',
+  billAmount: '',
+  warehouse: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
   fromTime: _todaysStartTime(),
@@ -29,10 +29,10 @@ export const trackTrallerLBInitData = {
 export const trackTrallerLBIValidationSchema = Yup.object().shape({
   supplier: Yup.object()
     .nullable()
-    .required("Supplier is required"),
-  billNo: Yup.string().required("Bill no is required"),
-  billDate: Yup.date().required("Bill date is required"),
-  paymentDueDate: Yup.date().required("Payment date is required"),
+    .required('Supplier is required'),
+  billNo: Yup.string().required('Bill no is required'),
+  billDate: Yup.date().required('Bill date is required'),
+  paymentDueDate: Yup.date().required('Payment date is required'),
 });
 
 // get supplier ddl data // !OK
@@ -47,13 +47,13 @@ export const getSupplierDDL = (obj) => {
     .get(
       `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${value}&AccountId=${
         profileData?.accountId
-      }&UnitId=${selectedBusinessUnit?.value}&SBUId=${0}`
+      }&UnitId=${selectedBusinessUnit?.value}&SBUId=${0}`,
     )
     .then((res) => {
       return res?.data;
     })
     .catch((e) => {
-      toast.warn("Supplier not found");
+      toast.warn('Supplier not found');
     });
 };
 
@@ -92,7 +92,6 @@ export const validateDateRange = (_fromDate, _toDate) => {
 export const getTrackTrallerLoadingBillData = async (obj) => {
   // destrcuture parameter
   const {
-    profileData,
     selectedBusinessUnit,
     values,
     getTrackTrallerLBData,
@@ -105,33 +104,33 @@ export const getTrackTrallerLoadingBillData = async (obj) => {
   const isMoreThanOneMonth = validateDateRange(fromDate, toDate);
 
   if (isMoreThanOneMonth)
-    return toast.warn("From & To date must be within 1 month");
+    return toast.warn('From & To date must be within 1 month');
 
   // set previous data empty
   setTrackTrallerLBData([]);
-
+  // /oms/SalesInformation/GetLoadingLaborBillInfo?
   // get data
   getTrackTrallerLBData(
-    `/tms/LabourBillInfo/GetDeliveryLoadBill?accountid=${
-      profileData?.accountId
-    }&businessunitid=${
+    `/oms/SalesInformation/GetLoadingLaborBillInfo?partId=2&businessUnitId=${
       selectedBusinessUnit?.value
-    }&labourSupplierId=${supplier?.value || 0}&shipPointId=${shippoint?.value ||
-      0}&fromdate=${fromDate}&todate=${toDate}`,
+    }&loadingLabourSupplierId=${supplier?.value ||
+      0}&fromShipPointId=${shippoint?.value ||
+      0}&fromDate=${fromDate}&toDate=${toDate}`,
     (res) => {
-      if (res?.length < 1) return toast.warn("No Data Found");
+      if (res?.length < 1) return toast.warn('No Data Found');
       if (res?.length > 0) {
+        console.log(res);
         const updatedData = res?.map((item) => {
           return {
             ...item,
-            approvedAmount: item?.labourBillAmount || 0,
+            approvedAmount: item?.decGrandTotalBill || 0,
             checked: false,
           };
         });
 
         setTrackTrallerLBData(updatedData);
       }
-    }
+    },
   );
 };
 
@@ -145,8 +144,8 @@ export const totalApproveAmount = (data, filtered = false) => {
   return numberWithCommas(
     data?.reduce(
       (acc, item) => acc + (item.checked ? +item.approvedAmount : 0),
-      0
-    )
+      0,
+    ),
   );
 };
 
@@ -170,28 +169,28 @@ export const handleTTLBSaveData = (obj, cb) => {
     ?.filter((item) => item?.checked)
     ?.map((item) => {
       return {
-        shipmentCode: item?.shipmentCode,
-        challanNo: item?.challanNo,
-        tripId: item?.tripId,
-        ammount: +item?.labourBillAmount,
+        shipmentCode: item?.StrShipmentCode,
+        challanNo: '',
+        tripId: item?.intshipmentid,
+        ammount: +item?.decGrandTotalBill,
         billAmount: +item?.approvedAmount,
       };
     });
 
   // validations
   if (attachmentList?.length < 1) {
-    return toast.warn("Please add an attachment");
+    return toast.warn('Please add an attachment');
   }
 
   const isBillAmountLessFromNetAmount = trackTrallerLBData
     ?.filter((item) => item?.checked)
-    ?.some((item) => item?.labourBillAmount < item?.approvedAmount);
+    ?.some((item) => item?.decGrandTotalBill < item?.approvedAmount);
 
   if (isBillAmountLessFromNetAmount) {
-    return toast.warn("Bill Amount must be below from Net Amount");
+    return toast.warn('Bill Amount must be below from Net Amount');
   }
   if (updatedTTLoadingBillData?.length < 1) {
-    return toast.warning("Please select at least one row");
+    return toast.warning('Please select at least one row');
   }
 
   // updated image list
@@ -235,6 +234,6 @@ export const handleTTLBSaveData = (obj, cb) => {
     () => {
       cb();
     },
-    true
+    true,
   );
 };

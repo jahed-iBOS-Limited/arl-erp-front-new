@@ -18,6 +18,7 @@ export default function ViewInvoice({ clickRowDto }) {
     singleChaShipmentBooking,
     getSingleChaShipmentBooking,
     singleChaShipmentBookingLoading,
+    setSingleChaShipmentBooking,
   ] = useAxiosGet();
 
   const componentRef = useRef();
@@ -54,6 +55,15 @@ export default function ViewInvoice({ clickRowDto }) {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
         `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
+        (resData) => {
+          const modifyData = resData?.chaServiceCharges?.filter((item) => {
+            return item?.collectionAmount;
+          });
+          setSingleChaShipmentBooking({
+            ...resData,
+            chaServiceCharges: modifyData,
+          });
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -287,6 +297,7 @@ export default function ViewInvoice({ clickRowDto }) {
                       style={{
                         ...cellStyle,
                         width: '150px',
+                        textAlign: 'right',
                       }}
                     >
                       {item?.collectionQty}
@@ -295,6 +306,7 @@ export default function ViewInvoice({ clickRowDto }) {
                       style={{
                         ...cellStyle,
                         width: '150px',
+                        textAlign: 'right',
                       }}
                     >
                       {item?.collectionRate}
@@ -303,6 +315,7 @@ export default function ViewInvoice({ clickRowDto }) {
                       style={{
                         ...cellStyle,
                         width: '150px',
+                        textAlign: 'right',
                       }}
                     >
                       {collectionAmount}
@@ -357,6 +370,9 @@ export default function ViewInvoice({ clickRowDto }) {
             </tr>
           </tbody>
         </table>
+        <span>
+          <b>Note: </b>This is system-generated. A signature is not mandatory.
+        </span>
       </div>
     </div>
   );

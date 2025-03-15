@@ -95,18 +95,6 @@ export const getCashGlDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getTransactionDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      // `/tms/RouteStandardCost/GetBusinessTransactionDDL?BusinessUnitId=${buId}`
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const createBankCashPayment = async (payload, cb, setRowDto) => {
   try {
     const res = await Axios.post(

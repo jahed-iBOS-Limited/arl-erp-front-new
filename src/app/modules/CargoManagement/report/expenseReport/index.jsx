@@ -52,7 +52,7 @@ export default function ExpenseReport() {
                 <div className="form-group row global-form">
                   <div className="col-sm-3 ">
                     <InputField
-                      value={values?.date}
+                      value={values?.fromDate}
                       label={'From Date'}
                       name="fromDate"
                       type="date"
@@ -63,7 +63,7 @@ export default function ExpenseReport() {
                   </div>
                   <div className="col-sm-3 ">
                     <InputField
-                      value={values?.date}
+                      value={values?.toDate}
                       label={'To Date'}
                       name="toDate"
                       type="date"

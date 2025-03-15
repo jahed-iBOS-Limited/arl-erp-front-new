@@ -3,6 +3,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getSBU } from "../../../_helper/_commonApi";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import IDelete from "../../../_helper/_helperIcons/_delete";
@@ -11,11 +12,13 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { createPurchaseRequest } from "./helper";
 
 const initData = {
   supplierName: "",
   supplierContactNo: "",
   supplierEmail: "",
+  purchaseOrganization: "",
 };
 
 export default function BreakDownModal({
@@ -26,40 +29,53 @@ export default function BreakDownModal({
 }) {
   const [objProps, setObjprops] = useState({});
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
+  const [, setDisabled] = useState(false);
   const [
     warehouseListDDL,
     getWarehouseListDDL,
     warehouseListDDLloader,
   ] = useAxiosGet();
+  const [purchaseOrganizationList, getPurchaseOrganizationList] = useAxiosGet()
   const [rowData, setRowData] = useState([]);
+  const [sbuList, setSbuList] = useState([]);
 
   const [, saveRowData] = useAxiosPost();
-  const [
-    ,
-    getDetailsData,
-    loader,
-    ,
-  ] = useAxiosGet();
 
-  const { profileData } = useSelector((state) => {
+
+  // const [
+  //   ,
+  //   getDetailsData,
+  //   loader,
+  //   ,
+  // ] = useAxiosGet();
+
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+  }, [selectedBusinessUnit]);
+
+  useEffect(() => {
+    getPurchaseOrganizationList(`procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
     getPlantListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
-      }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
+      }&AccId=${profileData?.accountId}&BusinessUnitId=${singleRowData?.businessUnitId}&OrgUnitTypeId=7`
     );
-    if (singleRowData?.mrpfromProductionScheduleRowId) {
-      getDetailsData(
-        `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
-        (data) => {
-          setRowData(data);
-        }
-      );
-    }
+    // if (singleRowData?.mrpfromProductionScheduleRowId) {
+    //   getDetailsData(
+    //     `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
+    //     (data) => {
+    //       setRowData(data);
+    //     }
+    //   );
+    // }
   }, []);
   const addHandler = (values, setFieldValue) => {
+    if (rowData?.length > 0) {
+      return toast.warn("You can not add more then 1 row"); // if you remove this line, this will be a problem for purchase request. So, please discuss with your team before removing this line.
+    }
     const closingBlance = Math.abs(
       singleRowData?.firstMonthQty - singleRowData?.availableStock
     );
@@ -78,6 +94,10 @@ export default function BreakDownModal({
     }
     if (!values?.quantity) {
       toast.warn("Breakdown Quantity is Required");
+      return;
+    }
+    if (!values?.purchaseOrganization) {
+      toast.warn("Purchase Organization is Required");
       return;
     }
 
@@ -107,12 +127,16 @@ export default function BreakDownModal({
       requestQuantity: +values?.quantity,
       plantId: values?.plant?.value,
       plantName: values?.plant?.label,
+      purchaseOrganizationId: values?.purchaseOrganization?.value,
+      purchaseOrganizationName: values?.purchaseOrganization?.label,
       warehouseId: values?.warehouse?.value,
       warehouseName: values?.warehouse?.label,
+      warehouseAddress: values?.warehouse?.address || "",
       actionBy: profileData?.userId,
       narration: values?.narration || "",
       mrpfromProductionScheduleRowId: singleRowData?.mrpfromProductionScheduleRowId || 0,
       mrpfromProductionScheduleHeaderId: singleRowData?.mrpfromProductionScheduleHeaderId || 0,
+
     };
     const totalClosingBalance =
       rowData?.reduce((acc, itm) => acc + itm?.requestQuantity, 0) +
@@ -132,6 +156,8 @@ export default function BreakDownModal({
   };
 
   const saveHandler = (values, cb) => {
+
+
     if (rowData?.length < 1) {
       toast.warn("Please add atleast 1 row");
       return;
@@ -144,6 +170,19 @@ export default function BreakDownModal({
         callBack()
         setShowBreakdownModal(false);
         setSingleRowData({});
+
+        createPurchaseRequest(
+          {
+            rowData,
+            singleRowData,
+            profileData,
+            selectedBusinessUnit,
+            sbuList,
+            cb: () => { },
+            setDisabled
+          }
+        )
+
       },
       true
     );
@@ -170,7 +209,7 @@ export default function BreakDownModal({
         touched,
       }) => (
         <>
-          {(plantListDDLloader || warehouseListDDLloader || loader) && (
+          {(plantListDDLloader || warehouseListDDLloader) && (
             <Loading />
           )}
           <IForm
@@ -213,6 +252,21 @@ export default function BreakDownModal({
                       setFieldValue("warehouse", v);
                     }}
                     placeholder="Warehouse"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={false}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="purchaseOrganization"
+                    options={purchaseOrganizationList || []}
+                    value={values?.purchaseOrganization}
+                    label="Purchase Organization"
+                    onChange={(v) => {
+                      setFieldValue("purchaseOrganization", v);
+                    }}
+                    placeholder="Purchase Organization"
                     errors={errors}
                     touched={touched}
                     isDisabled={false}

@@ -6,6 +6,7 @@ import InputField from '../../../_helper/_inputField';
 import { empAttachment_action } from './helper';
 import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { commonGetLetterHead } from '../../../_helper/letterHead/commonGetLetterHead';
 const GodownsEntryReport = ({
   printRef,
   gridData,
@@ -13,7 +14,7 @@ const GodownsEntryReport = ({
   values,
   setFieldValue,
   userPrintBtnClick,
-  letterhead,
+  buUnId,
   updateInvoiceAttachentHandler,
 }) => {
   const [open, setOpen] = useState(false);
@@ -91,7 +92,7 @@ const GodownsEntryReport = ({
         <div
           className="invoice-header"
           style={{
-            backgroundImage: `url(${letterhead})`,
+            backgroundImage: `url(${commonGetLetterHead({ buId: buUnId })})`,
             backgroundRepeat: 'no-repeat',
             height: '150px',
             backgroundPosition: 'left 10px',
@@ -104,7 +105,7 @@ const GodownsEntryReport = ({
         <div
           className="invoice-footer"
           style={{
-            backgroundImage: `url(${letterhead})`,
+            backgroundImage: `url(${commonGetLetterHead({ buId: buUnId })})`,
             backgroundRepeat: 'no-repeat',
             height: '100px',
             backgroundPosition: 'left bottom',

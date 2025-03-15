@@ -11,10 +11,11 @@ import FormikError from "../../../../../../_helper/_formikError";
 import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
 import { IInput } from "../../../../../../_helper/_input";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import { getBankAc, getCostCenterDDL, getCostElementDDL, getInstrumentType, getPartnerTypeDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../helper";
+import { getCostCenterDDL, getCostElementDDL, getPartnerTypeDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../helper";
 import DebitCredit from "../Form/DebitCredit";
 import ReceiveAndPaymentsTable from "../Form/ReceiveAndPaymentsTable";
 import TransferTable from "../Form/TransferTable";
+import { getBankAc, getInstrumentType, getSendToGLBank } from "../../../../../../_helper/_commonApi";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

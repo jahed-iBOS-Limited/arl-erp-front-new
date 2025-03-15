@@ -23,14 +23,13 @@ import {
   getCostCenter,
   getDisbursementCenter,
   getPaymentType,
-  getTransaction,
   getVehicleDDL,
 } from '../helper';
-import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
-import IView from './../../../../_helper/_helperIcons/_view';
-import InputField from './../../../../_helper/_inputField';
-import NewSelect from './../../../../_helper/_select';
-import { YearDDL } from './../../../../_helper/_yearDDL';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { YearDDL } from '../../../../_helper/_yearDDL';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { toast } from 'react-toastify';
 // Validation schema for bank transfer
@@ -108,11 +107,6 @@ export default function _Form({
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getTransaction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        setTransaction,
-      );
       getCategory(
         profileData.accountId,
         selectedBusinessUnit.value,

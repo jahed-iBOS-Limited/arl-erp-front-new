@@ -171,7 +171,23 @@ const LoanRegisterLanding = () => {
   };
 
   const totalPrincipleAmount = useMemo(
-    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPrinciple, 0),
+    () =>
+      loanRegisterData?.data?.reduce(
+        (a, c) =>
+          a +
+          (c?.numPrinciple - c?.numPaid >= 0
+            ? c?.numPrinciple - c?.numPaid
+            : 0),
+        0,
+      ),
+    [loanRegisterData],
+  );
+  const totalDisbursedAmount = useMemo(
+    () =>
+      loanRegisterData?.data?.reduce(
+        (a, c) => a + (c?.numPrinciple < 0 ? 0 : c?.numPrinciple),
+        0,
+      ),
     [loanRegisterData],
   );
   const totalInterestAmount = useMemo(
@@ -190,14 +206,14 @@ const LoanRegisterLanding = () => {
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.interestAmount, 0),
     [loanRegisterData],
   );
-  const totalBalance = useMemo(
-    () =>
-      loanRegisterData?.data?.reduce(
-        (a, c) => a + (c?.numPrinciple - c?.numPaid),
-        0,
-      ),
-    [loanRegisterData],
-  );
+  // const totalBalance = useMemo(
+  //   () =>
+  //     loanRegisterData?.data?.reduce(
+  //       (a, c) => a + (c?.numPrinciple - c?.numPaid),
+  //       0,
+  //     ),
+  //   [loanRegisterData],
+  // );
   const handleInvoicePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
@@ -906,8 +922,8 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() => {
                                         if (
-                                          item?.numPrinciple - item?.numPaid <
-                                          1
+                                          item?.numPrinciple - item?.numPaid <=
+                                          0
                                         ) {
                                           toast.warn('You have already repaid');
                                           return;
@@ -962,7 +978,35 @@ const LoanRegisterLanding = () => {
                                           marginRight: '4px',
                                           cursor: 'pointer',
                                         }}
-                                        onClick={() => confirm(item, values)}
+                                        onClick={() => {
+                                          if (
+                                            item?.numPrinciple === 0 &&
+                                            item?.intTenureDays > 0
+                                          ) {
+                                            toast.warn(
+                                              'Principal should be greater than 0',
+                                            );
+                                            return;
+                                          } else if (
+                                            item?.numPrinciple > 0 &&
+                                            item?.intTenureDays === 0
+                                          ) {
+                                            toast.warn(
+                                              'Tenure Days should be greater than 0',
+                                            );
+                                            return;
+                                          } else if (
+                                            item?.numPrinciple === 0 &&
+                                            item?.intTenureDays === 0
+                                          ) {
+                                            toast.warn(
+                                              'Principal & Tenure Days should be greater than 0',
+                                            );
+                                            return;
+                                          } else {
+                                            confirm(item, values);
+                                          }
+                                        }}
                                       >
                                         Confirm
                                       </span>
@@ -979,18 +1023,18 @@ const LoanRegisterLanding = () => {
                                         <i class="fas fa-print"></i>
                                       </ICon>
                                     </span>
-                                    {!item?.isLoanApproved ? (
-                                      <span
-                                        onClick={() =>
-                                          history.push({
-                                            pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
-                                            state: item,
-                                          })
-                                        }
-                                      >
-                                        <IEdit />
-                                      </span>
-                                    ) : null}
+
+                                    <span
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
+                                          state: item,
+                                        })
+                                      }
+                                    >
+                                      <IEdit />
+                                    </span>
+
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
@@ -1037,16 +1081,24 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td className="text-right"></td>
-                              <td className="text-right"></td>
-                              <td colSpan={5}></td>
+                              {[136].includes(buId) && <td></td>}{' '}
+                              {/* Conditionally render if buId is 136 */}
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
+                              </td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalDisbursedAmount)}</b>
                               </td>
                               <td className="text-right"></td>
                               <td className="text-right"></td>
                               <td className="text-right"></td>
-                              <td className="text-right"></td>
+                              <td></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalInterestAmount)}</b>
                               </td>
@@ -1060,10 +1112,10 @@ const LoanRegisterLanding = () => {
                                 <b> {_formatMoney(totalPaidInterest)}</b>
                               </td>
                               <td className="text-right"></td>
-                              <td colSpan={3}></td>
-                              <td className="text-right">
-                                <b> {_formatMoney(totalBalance)}</b>
-                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                             </tr>
                           </tbody>
                         </table>

@@ -302,7 +302,10 @@ export function PurchaseOrderViewTableRow({
                             </p>
                             <p>
                               {' '}
-                              PR No.{' '}
+                              {purchaseOrderReport?.objHeaderDTO
+                                ?.referenceTypeId === 5
+                                ? 'RFQ No.'
+                                : 'PR No.'}{' '}
                               <span
                                 onClick={() => setShowPRModel(true)}
                                 className="text-primary font-weight-bold cursor-pointer"

@@ -24,14 +24,7 @@ export const getPartnerTypeDDLFromAccoutingConfig = async (setter) => {
     setter([]);
   }
 };
-export const getBusinessTransDDLAction = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(`/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${buId}`);
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
+
 export const saveAccountingConfigAction = async (
   data,
   setDisabled,

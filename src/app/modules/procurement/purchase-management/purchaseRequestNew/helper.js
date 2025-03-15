@@ -443,10 +443,10 @@ export const sendEmailPostApi = async (dataObj, cb) => {
    }
 };
 
-export const postPurchaseReqCancelAction = async POId => {
+export const postPurchaseReqCancelAction = async (POId, userId) => {
    try {
       const res = await Axios.put(
-         `/procurement/PurchaseRequest/CancelPurchaseRequest?RequestId=${POId}`
+         `/procurement/PurchaseRequest/CancelPurchaseRequest?RequestId=${POId}&ActionBy=${userId}`
       );
       if (res.status === 200) {
          toast.success(res?.data?.message || 'Cancel Successfully');
