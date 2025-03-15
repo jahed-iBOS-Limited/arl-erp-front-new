@@ -5,7 +5,12 @@ import { imarineBaseUrl } from '../../../../../App';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
-export default function CreateBookingModal({ CB, rowClickData, isExport }) {
+export default function CreateBookingModal({
+  CB,
+  rowClickData,
+  isExport,
+  isAirOps,
+}) {
   const [option, getOptions] = useAxiosGet();
   const [value, setValue] = React.useState(null);
   // Go to Create Booking
@@ -28,7 +33,9 @@ export default function CreateBookingModal({ CB, rowClickData, isExport }) {
     );
 
     let url;
-    if (isExport) {
+    if (isExport && isAirOps) {
+      url = 'air-ops-from-erp/3';
+    } else if (isExport) {
       url = 'export-from-erp/1';
     } else {
       url = 'import-from-erp/2';
