@@ -1314,7 +1314,8 @@ function AirOpsBookingList() {
                         });
                         setRowClickData({});
                       }}
-                      isExport={false}
+                      isExport={true}
+                      isAirOps={true}
                     />
                   </IViewModal>
                 </>
