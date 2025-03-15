@@ -815,9 +815,16 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 >
                   <td colSpan="2"> Total Amount</td>
                   <td>
-                    {' '}
-                    {billingDataFilterData?.[0]?.currency}{' '}
-                    {getCalculatedDummyAmount()}
+                    <span>
+                      {' '}
+                      {billingDataFilterData?.[0]?.currency}{' '}
+                      {getCalculatedDummyAmount()}
+                      <br />
+                      {/* {(billingDataFilterData?.[0]?.currency === 'BDT' &&
+                        'USD') ||
+                        (billingDataFilterData?.[0]?.currency === 'USD' &&
+                          'BDT')} {' '} {getExchangeAmount()} */}
+                    </span>
                   </td>
                   {/* <td> {getCalculatedActualAmount()}</td> */}
                 </tr>
