@@ -53,7 +53,9 @@ const WeightScale = () => {
       let port = await serial.requestPort({});
       dispatch(setSerialPortAction(port));
       return port;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, 'error in getting port');
+    }
   };
 
   const connectHandler = async () => {
@@ -102,7 +104,9 @@ const WeightScale = () => {
       await port.open(
         isOldMachine(info) ? oldMachineOptions : newMachineOptions,
       );
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, 'error in opening port');
+    }
     while (port && port.readable) {
       reader = port?.readable?.getReader();
       try {
@@ -164,6 +168,7 @@ const WeightScale = () => {
           }
         }
       } catch (error) {
+        console.log(error, 'error in reading');
         closePort();
       } finally {
         if (reader) {
@@ -176,6 +181,7 @@ const WeightScale = () => {
 
   const enterHandler = () => {
     console.log('Enter handler calling');
+    console.log(connectedPort, 'connectedPort');
     weightValue = '';
     if (connectedPort?.writable == null) {
       console.warn(`unable to find writable port`);
@@ -214,7 +220,9 @@ const WeightScale = () => {
         }
         dispatch(setSerialPortAction(null));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, 'error in closing port');
+    }
   };
 
   useEffect(() => {
