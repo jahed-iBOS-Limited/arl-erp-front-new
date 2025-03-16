@@ -3,14 +3,7 @@ import { toast } from "react-toastify";
 
 
 
-export const getPartnerTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(
-      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
+
 // getProfitCenter List
 export const getProfitCenterDDL = async (buId, setter) => {
   try {

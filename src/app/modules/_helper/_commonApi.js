@@ -670,3 +670,11 @@ export const getOthersPartner = async (accId, buId, setter) => {
     }
   } catch (error) { }
 };
+export const getPartnerTypeDDL = async (setter) => {
+  try {
+    const res = await axios.get(
+      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
