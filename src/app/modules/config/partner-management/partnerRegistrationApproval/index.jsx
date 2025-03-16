@@ -270,6 +270,7 @@ export default function PartnerRegApproval() {
                                   history.push({
                                     pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
                                     state: {
+                                      ...item,
                                       partnerSalesType:
                                         item?.strPartnerTypeName,
                                       email: item?.strEmailAddress,
@@ -282,6 +283,7 @@ export default function PartnerRegApproval() {
                                       businessPartnerTypeId:
                                         item?.intPartnerTypeId,
                                       buIdCustomer: item?.intBusinessUnitId,
+                                      strPartnerName:item?.strPartnerName,
                                       isSupplier:
                                         item?.strPartnerTypeName === 'Supplier'
                                           ? true
