@@ -109,9 +109,12 @@ const WeightScale = () => {
     }
     while (port && port.readable) {
       reader = port?.readable?.getReader();
+      console.log('reader', reader);
       try {
         while (true) {
           const { value, done } = await reader.read();
+          console.log(value, 'value');
+          console.log(done, 'done');
           if (done) {
             reader.releaseLock();
             break;
