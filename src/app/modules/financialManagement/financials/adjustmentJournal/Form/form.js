@@ -3,27 +3,26 @@ import axios from "axios";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import customStyles from "../../../../selectCustomStyle";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { getCostCenterDDL, getProfitCenterDDL } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import placeholderImg from "../../../../_helper/images/placeholderImg.png";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import customStyles from "../../../../selectCustomStyle";
 import {
-  getCostCenterDDL,
-  getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from "../../bankJournal/helper";
 import { getCostElementByCostCenterDDL } from "../helper";
 import "./adjustmentJournalStyles.css";
-import { confirmAlert } from "react-confirm-alert";
 export default function _Form({
   initData,
   btnRef,
@@ -56,12 +55,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`
       )
       .then((res) => {
@@ -168,7 +164,7 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="Partner Type"
                       />
-                            
+
                       <FormikError
                         errors={errors}
                         name="partnerType"
@@ -234,7 +230,7 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="General Ledger"
                       />
-                            
+
                       <FormikError
                         errors={errors}
                         name="gl"
@@ -635,102 +631,102 @@ export default function _Form({
                         {rowDto.length > 0 ? (
                           <div className="table-responsive">
                             <table className="table table-striped table-bordered mt-1 bj-table">
-                            <thead>
-                              <tr>
-                                <th>SL</th>
-                                <th>General Ledger</th>
-                                <th>Transaction</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
-                                <th>Element</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto.map((itm, idx) => {
-                                let str = `${itm?.amount}`;
-                                let amount = str.replace(/-/g, "");
-                                return (
-                                  <tr key={itm?.transactionId}>
-                                    <td>{idx + 1}</td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.gl?.label}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.transaction?.label}
-                                      </div>
-                                    </td>
-                                    {itm?.debitCredit === "Debit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={amount}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                              <thead>
+                                <tr>
+                                  <th>SL</th>
+                                  <th>General Ledger</th>
+                                  <th>Transaction</th>
+                                  <th>Debit</th>
+                                  <th>Credit</th>
+                                  <th>Element</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto.map((itm, idx) => {
+                                  let str = `${itm?.amount}`;
+                                  let amount = str.replace(/-/g, "");
+                                  return (
+                                    <tr key={itm?.transactionId}>
+                                      <td>{idx + 1}</td>
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.gl?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    {itm?.debitCredit === "Credit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={amount}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.transaction?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    <td
-                                      style={{
-                                        width: "100px",
-                                        fontSize: "9px",
-                                      }}
-                                    >
-                                      <div className="text-left pl-2">
-                                        {/* {itm?.headerNarration} */}
-                                        {itm?.costRevenueName || ""}
-                                        {itm?.elementName
-                                          ? `, ${itm?.elementName || ""}`
-                                          : ""}
-                                      </div>
-                                    </td>
-                                    <td className="text-center">
-                                      <IDelete remover={remover} id={idx} />
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
+                                      {itm?.debitCredit === "Debit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={amount}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      {itm?.debitCredit === "Credit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={amount}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      <td
+                                        style={{
+                                          width: "100px",
+                                          fontSize: "9px",
+                                        }}
+                                      >
+                                        <div className="text-left pl-2">
+                                          {/* {itm?.headerNarration} */}
+                                          {itm?.costRevenueName || ""}
+                                          {itm?.elementName
+                                            ? `, ${itm?.elementName || ""}`
+                                            : ""}
+                                        </div>
+                                      </td>
+                                      <td className="text-center">
+                                        <IDelete remover={remover} id={idx} />
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
                           </div>
                         ) : (
                           ""

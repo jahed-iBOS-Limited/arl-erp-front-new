@@ -1,14 +1,14 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { singleDataById } from "../../../../_helper/_commonApi";
+import IForm from "../../../../_helper/_form";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { singleDataById } from "../helper";
 import { saveEditedBankJournal } from "../_redux/Actions";
 import Loading from "./../../../../_helper/_loading";
+import Form from "./form";
 
 const initData = {
   bankAcc: "",
@@ -200,23 +200,23 @@ export default function BankJournalEditForm({
           costRevenueName: isRevenue
             ? values?.revenueCenter?.label
             : isCostCenter
-            ? values?.costCenter?.label
-            : "",
+              ? values?.costCenter?.label
+              : "",
           costRevenueId: isRevenue
             ? values?.revenueCenter?.value
             : isCostCenter
-            ? values?.costCenter?.value
-            : 0,
+              ? values?.costCenter?.value
+              : 0,
           elementName: isRevenue
             ? values?.revenueElement?.label
             : isCostCenter
-            ? values?.costElement?.label
-            : "",
+              ? values?.costElement?.label
+              : "",
           elementId: isRevenue
             ? values?.revenueElement?.value
             : isCostCenter
-            ? values?.costElement?.value
-            : 0,
+              ? values?.costElement?.value
+              : 0,
           ProfitCenterId: values?.profitCenter?.value,
         },
         objRowList: type === 6 ? transferRow : objRow,
@@ -291,12 +291,12 @@ export default function BankJournalEditForm({
       title={
         location?.state?.selectedJournal?.value === 4
           ? `Create Bank Receipt(${singleData?.objHeader?.bankJournalCode ||
-              ""})`
+          ""})`
           : location?.state?.selectedJournal?.value === 5
-          ? `Create Bank Payments(${singleData?.objHeader?.bankJournalCode ||
-              ""})`
-          : `Create Bank Transfer(${singleData?.objHeader?.bankJournalCode ||
-              ""})`
+            ? `Create Bank Payments(${singleData?.objHeader?.bankJournalCode ||
+            ""})`
+            : `Create Bank Transfer(${singleData?.objHeader?.bankJournalCode ||
+            ""})`
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

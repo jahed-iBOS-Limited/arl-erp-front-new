@@ -21,6 +21,7 @@ import {
 import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
 import RawMaterialAutoPRNewModalView from './rawMaterialModalView';
 import RawMaterialAutoPRNewModalViewVersionTwo from './rawMaterialModalViewV2';
+import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 
 const initData = {
   businessUnit: '',
@@ -29,11 +30,12 @@ const initData = {
 };
 
 export default function RawMaterialAutoPRNew() {
-  const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
+  const { selectedBusinessUnit, businessUnitList,profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [singleRowData, setSingleRowData] = useState();
+  const [plantDDL, setPlantDDL] = useState([]);
   const [, , saveLoader] = useAxiosPost();
   const [showModal, setShowModal] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -124,12 +126,27 @@ export default function RawMaterialAutoPRNew() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         setFieldValue('businessUnit', valueOption || '');
+                        setFieldValue('plant', '');
+                        getPlantDDL(profileData?.userId,profileData?.accountId,valueOption?.value,setPlantDDL)
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-
+                  <div className="col-lg-3">
+                      <NewSelect
+                        name="plant"
+                        options={plantDDL}
+                        value={values?.plant}
+                        label="Select Plant"
+                        onChange={(valueOption) => {
+                          setFieldValue("plant", valueOption);
+                        }}
+                        placeholder="Select Plant"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}

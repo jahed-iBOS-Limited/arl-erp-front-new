@@ -1,22 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import IForm from "../../../../_helper/_form";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  saveBankJournal,
-} from "../../../financials/bankJournal/helper";
+
+import { getPartnerTypeDDL } from "../../../../_helper/_commonApi";
 import { createPaymentVoucher } from "../helper";
 import Loading from "./../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
-import {
-  getPartnerTypeDDL,
-} from "../../../financials/bankJournal/helper";
-import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import Form from "./form";
 
 
 export default function BankJournalCreateForm({ journalType, setBankModelShow, gridData, values, getLanding }) {
@@ -46,7 +41,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
     narration: `${gridData?.strBillNo} ${gridData?.strPayee}`,
     transactionDate: _todayDate(),
     customerSupplierStatus: "customer",
-    paymentType:values?.type
+    paymentType: values?.type
   };
 
 
@@ -91,7 +86,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
     if (values && profileData.accountId && selectedBusinessUnit) {
 
 
-      if((values?.billType?.value === 1 || values?.billType?.value === 2 || values?.billType?.value === 5) && !value?.partner) return toast.warn("Partner is required")
+      if ((values?.billType?.value === 1 || values?.billType?.value === 2 || values?.billType?.value === 5) && !value?.partner) return toast.warn("Partner is required")
 
       let payload = [
         {
@@ -119,10 +114,10 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
           actionById: profileData?.userId,
           actionByName: profileData?.userName,
           numAmount: rowDto[0]?.amount,
-          businessTransactionId : rowDto[0]?.transaction?.value,
+          businessTransactionId: rowDto[0]?.transaction?.value,
           businessTransactionName: rowDto[0]?.transaction?.businessTransactionName,
-          businessTransactionGLId : rowDto[0]?.transaction?.generalLedgerId,
-          businessTransactionGLName : rowDto[0]?.transaction?.generalLedgerName,
+          businessTransactionGLId: rowDto[0]?.transaction?.generalLedgerId,
+          businessTransactionGLName: rowDto[0]?.transaction?.generalLedgerName,
         }
       ]
 

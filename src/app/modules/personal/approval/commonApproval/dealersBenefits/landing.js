@@ -2,7 +2,7 @@ import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
-import { approvalApi } from '../../../../_helper/_commonApi';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 import IView from '../../../../_helper/_helperIcons/_view';
 import Loading from '../../../../_helper/_loading';
@@ -10,7 +10,6 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import PaginationSearch from './../../../../_helper/_search';
-import { getDealerBenefitsGridData } from './helper';
 import DelearsBenefotsViewModal from './viewModal';
 
 let initData = {};
@@ -39,7 +38,7 @@ const DealersBenefits = ({
   }, [activityChange]);
 
   let cb = () => {
-    getDealerBenefitsGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -55,7 +54,7 @@ const DealersBenefits = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getDealerBenefitsGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -170,7 +169,7 @@ const DealersBenefits = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getDealerBenefitsGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,

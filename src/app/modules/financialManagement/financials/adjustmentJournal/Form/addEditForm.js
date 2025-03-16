@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getPartnerTypeDDL } from "../../../../_helper/_commonApi";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IForm from "../../../../_helper/_form";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   saveAdjustmentJournal,
   saveEditedAdjustmentJournal,
 } from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
 import { getAdjustmentJournalById } from "../helper";
-import { getPartnerTypeDDL } from "../../bankJournal/helper";
+import Loading from "./../../../../_helper/_loading";
+import Form from "./form";
 
 const initData = {
   id: undefined,
@@ -28,7 +28,7 @@ const initData = {
   revenueCenter: "",
   costCenter: "",
   costElement: "",
-  attachment:"",
+  attachment: "",
 };
 
 export default function AdjustmentJournalCreateForm() {
@@ -72,8 +72,8 @@ export default function AdjustmentJournalCreateForm() {
     });
   };
   const saveHandler = async (values, cb) => {
-    if(!values?.headerNarration) return toast.warn("Narration is required")
-    if(!rowDto?.length) return toast.warn("Please add at least one transaction")
+    if (!values?.headerNarration) return toast.warn("Narration is required")
+    if (!rowDto?.length) return toast.warn("Please add at least one transaction")
     const { accountId, userId: actionBy } = profileData;
     const { value: businessunitid } = selectedBusinessUnit;
 
@@ -82,20 +82,20 @@ export default function AdjustmentJournalCreateForm() {
       amount: item?.debitCredit === "Credit" ? item?.amount : +item?.amount,
     }));
 
-  /*  if (values?.profitCenter && !values?.costRevenue) {
-      return toast.warn("Please Select Cost Revenue ");
-    } else {
-      if (values?.costRevenue === "revenue") {
-        if (!(values?.revenueCenter && values?.revenueElement)) {
-          return toast.warn("Please add Revenue center and Revenue element");
-        }
-      } else if (values?.costRevenue === "cost") {
-        if (!(values?.costCenter && values?.costElement)) {
-          return toast.warn("Please add Cost center and Cost element");
+    /*  if (values?.profitCenter && !values?.costRevenue) {
+        return toast.warn("Please Select Cost Revenue ");
+      } else {
+        if (values?.costRevenue === "revenue") {
+          if (!(values?.revenueCenter && values?.revenueElement)) {
+            return toast.warn("Please add Revenue center and Revenue element");
+          }
+        } else if (values?.costRevenue === "cost") {
+          if (!(values?.costCenter && values?.costElement)) {
+            return toast.warn("Please add Cost center and Cost element");
+          }
         }
       }
-    }
-*/
+  */
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       // let debit = newData
       //   .filter((itm) => itm.debitCredit === "Debit")
@@ -280,7 +280,7 @@ export default function AdjustmentJournalCreateForm() {
                 ? values?.revenueElement?.value
                 : values?.costElement?.value || 0,
             ProfitCenterId: values?.profitCenter?.value,
-            attachment:values?.attachment?.[0]?.id
+            attachment: values?.attachment?.[0]?.id
           },
           objRowList: objRow,
         };
@@ -337,7 +337,7 @@ export default function AdjustmentJournalCreateForm() {
       title={
         id
           ? `Create Adjustment Journal(${singleData?.adjustmentJournalCode ||
-              ""})`
+          ""})`
           : "Create Adjustment Journal"
       }
       getProps={setObjprops}

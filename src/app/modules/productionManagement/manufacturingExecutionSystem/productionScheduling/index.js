@@ -11,6 +11,7 @@ import { generateMonthlyData, months } from './helper';
 import MonthTable from './monthTable';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import InputField from '../../../_helper/_inputField';
+import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 
 const initData = {
   businessUnit: '',
@@ -31,6 +32,8 @@ export default function ProductionScheduling() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
   const [singleData, setSingleData] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [plantDDL, setPlantDDL] = useState([]);
+  
 
   console.log('tableData', tableData);
 
@@ -128,11 +131,28 @@ export default function ProductionScheduling() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue('businessUnit', valueOption);
+                      setFieldValue('plant', '');
                       setFieldValue('strManagementUomName', valueOption?.strManagementUomName || "");
+                      getPlantDDL(profileData?.userId,profileData?.accountId,valueOption?.value,setPlantDDL)
                       setTableData([]);
                     }}
                   />
                 </div>
+                <div className="col-lg-3">
+                      <NewSelect
+                        name="plant"
+                        options={plantDDL}
+                        value={values?.plant}
+                        label="Select Plant"
+                        onChange={(valueOption) => {
+                          setFieldValue("plant", valueOption);
+                          setTableData([]);
+                        }}
+                        placeholder="Select Plant"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="year"
