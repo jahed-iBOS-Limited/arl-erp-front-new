@@ -16,8 +16,9 @@ import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
 // import { IInput } from '../../../../_helper/_input';
 // import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 // import { _todayDate } from '../../../../_helper/_todayDate';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import {
-  generateAdviceNo,
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
   getNextBankCheque,
@@ -26,28 +27,26 @@ import {
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from './helper';
-import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
-import { _todayDate } from '../../../../../_helper/_todayDate';
 // import DebitCredit from './DebitCredit';
 // import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 // import TransferTable from './TransferTable';
 // import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { confirmAlert } from 'react-confirm-alert';
-import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';
-import customStyles from '../../../../../selectCustomStyle';
-import FormikError from '../../../../../_helper/_formikError';
-import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
-import { IInput } from '../../../../../_helper/_input';
 import { Input } from '../../../../../../../_metronic/_partials/controls';
-import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
-import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
-import TransferTable from './TransferTable';
-import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
-import DebitCredit from './DebitCredit';
-import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import { generateAdviceNo, getBankAc, getInstrumentType, getSendToGLBank } from '../../../../../_helper/_commonApi';
+import FormikError from '../../../../../_helper/_formikError';
+import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import customStyles from '../../../../../selectCustomStyle';
 import { approveHandeler } from '../../fundTransferApproval/helper';
-import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../../_helper/_commonApi';
+import DebitCredit from './DebitCredit';
+import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
+import TransferTable from './TransferTable';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -152,7 +151,7 @@ export default function _Form({
         setSendToGLBank,
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -209,7 +208,7 @@ export default function _Form({
       );
     }
 
-    if(true){
+    if (true) {
       getGlList(`/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -240,7 +239,7 @@ export default function _Form({
               : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
+          let bankPaymentValues = { ...values } //If you want to resetFrom write code after this line.
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -263,7 +262,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      actionName:"Bank Receipt"
+                      actionName: "Bank Receipt"
                     });
 
 
@@ -480,7 +479,7 @@ export default function _Form({
                                 isSearchable={true}
                                 styles={customStyles}
                                 placeholder="Partner Bank Account"
-                                // isDisabled={jorunalType === 5}
+                              // isDisabled={jorunalType === 5}
                               />
                             </div>
                           )}

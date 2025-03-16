@@ -280,3 +280,14 @@ export const saveBankJournal = async (
     setDisabled(false);
   }
 };
+export const generateAdviceNo = async (UnitId, setFieldValue) => {
+  try {
+    const res = await axios.post(
+      `/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`
+    );
+    setFieldValue("instrumentNo", res?.data?.code);
+  } catch (error) {
+    // toast.warn(error?.response?.data?.message);
+    // setDisabled(false);
+  }
+};

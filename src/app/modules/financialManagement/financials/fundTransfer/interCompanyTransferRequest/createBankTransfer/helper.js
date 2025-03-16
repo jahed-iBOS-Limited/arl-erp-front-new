@@ -4,17 +4,6 @@ import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 
 // https://localhost:44346/fino/BankBranch/GenerateAdviceNo?UnitId=2
-export const generateAdviceNo = async (UnitId, setFieldValue) => {
-  try {
-    const res = await Axios.post(
-      `/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`
-    );
-    setFieldValue("instrumentNo", res?.data?.code);
-  } catch (error) {
-    // toast.warn(error?.response?.data?.message);
-    // setDisabled(false);
-  }
-};
 
 export const singleDataById = async (id, type, setter) => {
   try {
