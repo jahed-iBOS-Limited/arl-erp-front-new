@@ -495,7 +495,7 @@ const LoanRegisterLanding = () => {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => {});
+          saveHandler(values, (code) => { });
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -832,8 +832,8 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {item?.numPrinciple - item?.numPaid >= 0
                                     ? _formatMoney(
-                                        item?.numPrinciple - item?.numPaid,
-                                      )
+                                      item?.numPrinciple - item?.numPaid,
+                                    )
                                     : 0}
                                 </td>
                                 <td className="text-right">
@@ -970,7 +970,11 @@ const LoanRegisterLanding = () => {
                                     >
                                       Renew
                                     </span>
-                                    {!item?.isLoanApproved ? (
+                                    {(!item?.isLoanApproved && (                                            // Loan must not be approved
+                                      ((item?.numPrinciple || 0) - (item?.numPaid || 0) <= 250000000) ||    // All users see if balance is <= 25 crore
+                                      (((item?.numPrinciple || 0) - (item?.numPaid || 0) > 250000000) &&    // Only specific users see if balance is > 25 crore
+                                        ([1455, 509697].includes(profileData?.userId)))                 // Check user ID (specific users)
+                                    )) ? (
                                       <span
                                         className="text-primary "
                                         style={{
@@ -1055,7 +1059,7 @@ const LoanRegisterLanding = () => {
                                                   values?.businessUnit?.value >=
                                                     0
                                                     ? values?.businessUnit
-                                                        ?.value
+                                                      ?.value
                                                     : buId,
                                                   values?.bank?.value,
                                                   values?.status?.value,
