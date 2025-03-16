@@ -9,7 +9,19 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import { generateAdviceNo, getBankAc, getCostCenterDDL, getInstrumentType, getNextBankCheque, getPartnerTypeDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
+import {
+  generateAdviceNo,
+  getBankAc,
+  getCostCenterDDL,
+  getCostElementByCostCenterDDL,
+  getInstrumentType,
+  getNextBankCheque,
+  getPartnerTypeDDL,
+  getProfitCenterDDL,
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+  getSendToGLBank,
+} from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
@@ -20,9 +32,7 @@ import placeholderImg from '../../../../_helper/images/placeholderImg.png';
 import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import customStyles from '../../../../selectCustomStyle';
-import {
-  getCostElementByCostCenterDDL,
-} from '../helper';
+
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
@@ -148,9 +158,12 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -171,10 +184,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                ...item,
-                value: item?.bankId,
-                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-              }))
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -203,8 +216,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-              ? PaymentvalidationSchema
-              : TransfervalidationSchema
+            ? PaymentvalidationSchema
+            : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
@@ -385,10 +398,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                        ...item,
-                                        value: item?.bankId,
-                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                      }))
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
