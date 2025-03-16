@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { toast } from "react-toastify";
 
 
 // getProfitCenter List
@@ -19,58 +18,10 @@ import { toast } from "react-toastify";
 // /fino/JournalPosting/CancelJournal?JournalCode=CN-APFIL-JUL21-2&JournalTypeId=6&UnitId=8&ActionById=32897&TypeId=2
 
 
-export const getBusinessTransactionByPartnerDDL = async (
-  accountId,
-  businessUnitId,
-  partnerTypeId,
-  partnerId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}&partnerId=${partnerId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
+
 
 // https://localhost:5001/fino/CommonFino/CheckTwoFactorApproval?OtpType=1&intUnitId=164&strTransectionType=kfjdskfj&intTransectionId=2&strCode=djfksjk&intActionById=11621&strOTP=kfjsklfjsd&CancelType=1
-export const checkTwoFactorApproval = async (
-  otpType,
-  unitId,
-  transectionType,
-  transectionId,
-  journalCode,
-  journalTypeId,
-  actionById,
-  strOTP,
-  cancelType,
-  setDisabledModalButton,
-  cb
-) => {
-  try {
-    setDisabledModalButton(true);
-    const res = await Axios.get(
-      `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`
-    );
-    // setFieldValue("instrumentNo",res?.data?.code)
-    if (res?.data?.status === 1) {
-      toast.success(res?.data?.message);
-      cb(res?.data?.status);
-    } else {
-      toast.error(res?.data?.message);
-      cb();
-    }
-    setDisabledModalButton(false);
-    // toast.success("Submitted successfully");
-  } catch (error) {
-    setDisabledModalButton(false);
-    toast.warn(error?.response?.data?.message || "Please try again");
-    // setDisabled(false);
-  }
-};
+
 
 export const getCostElementByCostCenterDDL = async (
   unitId,

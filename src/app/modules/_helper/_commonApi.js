@@ -763,3 +763,53 @@ export const cancelJournal = async (
     // setDisabled(false);
   }
 };
+export const getBusinessTransactionByPartnerDDL = async (
+  accountId,
+  businessUnitId,
+  partnerTypeId,
+  partnerId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}&partnerId=${partnerId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const checkTwoFactorApproval = async (
+  otpType,
+  unitId,
+  transectionType,
+  transectionId,
+  journalCode,
+  journalTypeId,
+  actionById,
+  strOTP,
+  cancelType,
+  setDisabledModalButton,
+  cb
+) => {
+  try {
+    setDisabledModalButton(true);
+    const res = await axios.get(
+      `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`
+    );
+    // setFieldValue("instrumentNo",res?.data?.code)
+    if (res?.data?.status === 1) {
+      toast.success(res?.data?.message);
+      cb(res?.data?.status);
+    } else {
+      toast.error(res?.data?.message);
+      cb();
+    }
+    setDisabledModalButton(false);
+    // toast.success("Submitted successfully");
+  } catch (error) {
+    setDisabledModalButton(false);
+    toast.warn(error?.response?.data?.message || "Please try again");
+    // setDisabled(false);
+  }
+};
