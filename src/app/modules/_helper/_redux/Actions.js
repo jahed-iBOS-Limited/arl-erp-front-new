@@ -235,12 +235,12 @@ export const getUomDDLItemId_Action = (accId, buId, itemId, setFieldValue) => (
   });
 };
 // getDownlloadFileView_Action
-export const getDownlloadFileView_Action = (id, closeModal, cb, setLoading) => (
+export const getDownlloadFileView_Action = (id, closeModal, cb, setLoading, apiUrl) => (
   dispatch
 ) => {
   setLoading && setLoading(true);
   requestFromServer
-    .getDownlloadFileView(id)
+    .getDownlloadFileView(id, apiUrl)
     .then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
