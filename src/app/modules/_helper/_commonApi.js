@@ -707,3 +707,122 @@ export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+export const getRevenueElementListDDL = async (businessUnitId, setter) => {
+  try {
+    const res = await axios.get(
+      `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
+export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
+  try {
+    const res = await axios.get(
+      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
+export const getNextBankCheque = async (
+  accId,
+  buId,
+  bankId,
+  branchId,
+  bankAccountId,
+  setter,
+  key
+) => {
+  try {
+    const res = await axios.get(
+      `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(key, res?.data?.currentChequeNo);
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message);
+  }
+};
+export const cancelJournal = async (
+  journalCode,
+  journalTypeId,
+  unitId,
+  actionById,
+  typeId,
+  cb
+) => {
+  try {
+    await axios.post(
+      `/fino/JournalPosting/CancelJournal?JournalCode=${journalCode}&JournalTypeId=${journalTypeId}&UnitId=${unitId}&ActionById=${actionById}&TypeId=${typeId}`
+    );
+    // setFieldValue("instrumentNo",res?.data?.code)
+    cb();
+    toast.success("Submitted successfully");
+  } catch (error) {
+    // toast.warn(error?.response?.data?.message);
+    // setDisabled(false);
+  }
+};
+export const getBusinessTransactionByPartnerDDL = async (
+  accountId,
+  businessUnitId,
+  partnerTypeId,
+  partnerId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}&partnerId=${partnerId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const checkTwoFactorApproval = async (
+  otpType,
+  unitId,
+  transectionType,
+  transectionId,
+  journalCode,
+  journalTypeId,
+  actionById,
+  strOTP,
+  cancelType,
+  setDisabledModalButton,
+  cb
+) => {
+  try {
+    setDisabledModalButton(true);
+    const res = await axios.get(
+      `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`
+    );
+    // setFieldValue("instrumentNo",res?.data?.code)
+    if (res?.data?.status === 1) {
+      toast.success(res?.data?.message);
+      cb(res?.data?.status);
+    } else {
+      toast.error(res?.data?.message);
+      cb();
+    }
+    setDisabledModalButton(false);
+    // toast.success("Submitted successfully");
+  } catch (error) {
+    setDisabledModalButton(false);
+    toast.warn(error?.response?.data?.message || "Please try again");
+    // setDisabled(false);
+  }
+};
+export const getCostElementByCostCenterDDL = async (
+  unitId,
+  accountId,
+  costCenterId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};

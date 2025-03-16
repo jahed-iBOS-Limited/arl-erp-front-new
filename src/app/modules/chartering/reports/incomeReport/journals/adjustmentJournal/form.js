@@ -11,17 +11,14 @@ import { getCostElementByCostCenterDDL } from "../../../../../financialManagemen
 // import "./adjustmentJournalStyles.css";
 import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import { getCostCenterDDL, getProfitCenterDDL } from "../../../../../_helper/_commonApi";
+import { getCostCenterDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../../_helper/_commonApi";
 import ICustomCard from "../../../../../_helper/_customCard";
 import FormikError from "../../../../../_helper/_formikError";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
-import {
-  getRevenueCenterListDDL,
-  getRevenueElementListDDL,
-} from "../../../../../financialManagement/financials/bankJournal/helper";
+
 
 export default function _Form({
   buId,

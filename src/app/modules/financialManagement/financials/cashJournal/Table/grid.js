@@ -1,23 +1,23 @@
 import React, { useCallback, useState } from "react";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { withRouter } from "react-router-dom";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import IApproval from "./../../../../_helper/_helperIcons/_approval";
 import { _formatMoney } from "./../../../../_helper/_formatMoney";
+import IApproval from "./../../../../_helper/_helperIcons/_approval";
+import IDelete from "./../../../../_helper/_helperIcons/_delete";
 import Loading from "./../../../../_helper/_loading";
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import { toast } from "react-toastify";
-import IViewModal from "../../../../_helper/_viewModal";
-import { InvTransViewTableRow } from "../report/tableRow";
 import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { checkTwoFactorApproval } from "../../bankJournal/helper";
-import { dynamicSerial } from "../../utils";
-import IHistory from "../../../../_helper/_helperIcons/_history";
-import HistoryModal from "../cashJournalHistory";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { checkTwoFactorApproval } from "../../../../_helper/_commonApi";
 import findIndex from "../../../../_helper/_findIndex";
+import IHistory from "../../../../_helper/_helperIcons/_history";
+import IViewModal from "../../../../_helper/_viewModal";
+import { dynamicSerial } from "../../utils";
+import HistoryModal from "../cashJournalHistory";
+import { InvTransViewTableRow } from "../report/tableRow";
 
 const GridData = ({
   history,
@@ -68,203 +68,203 @@ const GridData = ({
   const userPermission = userRole[findIndex(userRole, "Cash Journal")];
 
   const canCreate = userPermission?.isCreate;
-  const canEdit=userPermission?.isEdit
+  const canEdit = userPermission?.isEdit
 
   return (
     <>
       {/* Table Start */}
-      <div className="row cash_journal" 
+      <div className="row cash_journal"
         style={{
-        overflowX: "auto",
+          overflowX: "auto",
         }}>
         <div className="col-lg-12 pr-0 pl-0">
-        <div className="table-responsive">
-        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-            <thead>
-              <tr>
-                {type === "notComplated" ? (
-                  <th style={{ width: "23px" }}>
-                    <input
-                      type="checkbox"
-                      id="parent"
-                      onChange={(event) => {
-                        allGridCheck(event.target.checked);
-                      }}
-                    />
-                  </th>
-                ) : null}
-                <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
-                <th style={{ width: "80px", textAlign: "center" }}>
-                  Journal Date
-                </th>
-                <th style={{ width: "120px" }}>Journal Code</th>
-                <th style={{ width: "80px", textAlign: "center" }}>
-                  Complete Date
-                </th>
-                <th style={{ width: "200px" }}>
-                  {journalTypeValue === 1
-                    ? "Receive From"
-                    : journalTypeValue === 2
-                      ? "Pay To"
-                      : "Transfer To"}
-                </th>
-                <th style={{ width: "100px" }}>Amount</th>
-                <th>Narration</th>
-                <th style={{ width: "125px" }}>Actions</th>
-              </tr>
-            </thead>
-            {loading && <Loading />}
-            <tbody>
-              {rowDto?.map((item, index) => (
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+              <thead>
                 <tr>
                   {type === "notComplated" ? (
-                    <td>
+                    <th style={{ width: "23px" }}>
                       <input
-                        id="itemCheck"
                         type="checkbox"
-                        className=""
-                        value={item.itemCheck}
-                        checked={item.itemCheck}
-                        name={item.itemCheck}
-                        onChange={(e) => {
-                          //setFieldValue("itemCheck", e.target.checked);
-                          itemSlectedHandler(e.target.checked, index);
+                        id="parent"
+                        onChange={(event) => {
+                          allGridCheck(event.target.checked);
                         }}
                       />
-                    </td>
+                    </th>
                   ) : null}
-
-                  <td className="text-center positionSticky"> {dynamicSerial(pageNo, pageSize, index)}</td>
-                  <td>
-                    <div className="pl-2  text-center">
-                      {_dateFormatter(item?.journalDate)}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item?.code}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2 text-center">
-                      {type === "notComplated"
-                        ? "N/A"
-                        : _dateFormatter(item?.completeDate)}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item?.receiveFrom}</div>
-                  </td>
-                  <td className="text-right">
-                    <div className="pr-2">
-                      {_formatMoney(Math.abs(item?.amount))}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item?.narration}</div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-center">
-                      <span className="view ml-2">
-                        <IHistory
-                          clickHandler={() => {
-                            setHistoryItem(item);
-                            setIsHistoryModal(true);
+                  <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
+                  <th style={{ width: "80px", textAlign: "center" }}>
+                    Journal Date
+                  </th>
+                  <th style={{ width: "120px" }}>Journal Code</th>
+                  <th style={{ width: "80px", textAlign: "center" }}>
+                    Complete Date
+                  </th>
+                  <th style={{ width: "200px" }}>
+                    {journalTypeValue === 1
+                      ? "Receive From"
+                      : journalTypeValue === 2
+                        ? "Pay To"
+                        : "Transfer To"}
+                  </th>
+                  <th style={{ width: "100px" }}>Amount</th>
+                  <th>Narration</th>
+                  <th style={{ width: "125px" }}>Actions</th>
+                </tr>
+              </thead>
+              {loading && <Loading />}
+              <tbody>
+                {rowDto?.map((item, index) => (
+                  <tr>
+                    {type === "notComplated" ? (
+                      <td>
+                        <input
+                          id="itemCheck"
+                          type="checkbox"
+                          className=""
+                          value={item.itemCheck}
+                          checked={item.itemCheck}
+                          name={item.itemCheck}
+                          onChange={(e) => {
+                            //setFieldValue("itemCheck", e.target.checked);
+                            itemSlectedHandler(e.target.checked, index);
                           }}
                         />
-                      </span>
+                      </td>
+                    ) : null}
 
-                      <span className="view ml-2">
-                        <IView
-                          clickHandler={() => {
-                            setCurrentRowData({ ...values, ...item });
-                            setIsShowModal(true);
-                          }}
-                        />
-                      </span>
-                      {type === "notComplated" ? (
-                        <>
-                          {canEdit && (
-                            <span
-                            className="edit ml-2"
-                            onClick={() =>
-                              history.push({
-                                pathname: `${window.location.pathname}/edit/${item.journalId}`,
-                                state: { ...values, ...item, accountingJournalTypeId: journalTypeValue },
-                              })
-                            }
-                          >
-                            <IEdit />
-                          </span>
-                          )}
-                          {(canCreate && item?.isApproved && item?.isManual) && (
-                            <span
-                            className="approval ml-2"
-                            onClick={() => {
-                              if (
-                                completeDate < _dateFormatter(item?.journalDate)
-                              )
-                                return toast.warn(
-                                  "Complete date should be greater than or equal to journal date"
-                                );
-                              singleApprovalndler(index, completeDate, journalTypeValue);
+                    <td className="text-center positionSticky"> {dynamicSerial(pageNo, pageSize, index)}</td>
+                    <td>
+                      <div className="pl-2  text-center">
+                        {_dateFormatter(item?.journalDate)}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.code}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2 text-center">
+                        {type === "notComplated"
+                          ? "N/A"
+                          : _dateFormatter(item?.completeDate)}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.receiveFrom}</div>
+                    </td>
+                    <td className="text-right">
+                      <div className="pr-2">
+                        {_formatMoney(Math.abs(item?.amount))}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.narration}</div>
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center">
+                        <span className="view ml-2">
+                          <IHistory
+                            clickHandler={() => {
+                              setHistoryItem(item);
+                              setIsHistoryModal(true);
                             }}
-                          >
-                            <IApproval />
-                          </span>
-                          )}
-                          {canCreate && (<span
-                            className="delete ml-2"
-                            onClick={() => remover(index, journalTypeValue)}
-                          >
-                            <IDelete />
-                          </span>)}
-                        </>
-                      ) : null}
-                      {type === "complated" && (
-                        <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"Reverse"}</Tooltip>}
-                        >
-                          <span
-                            className={`iconActive ml-2`}
-                            onClick={() => {
-                              setReverseModalShowState({
-                                isShow: true,
-                                data: { ...item, accountingJournalTypeId: journalTypeValue },
-                                index,
-                                otp: "",
-                              });
+                          />
+                        </span>
+
+                        <span className="view ml-2">
+                          <IView
+                            clickHandler={() => {
+                              setCurrentRowData({ ...values, ...item });
+                              setIsShowModal(true);
                             }}
+                          />
+                        </span>
+                        {type === "notComplated" ? (
+                          <>
+                            {canEdit && (
+                              <span
+                                className="edit ml-2"
+                                onClick={() =>
+                                  history.push({
+                                    pathname: `${window.location.pathname}/edit/${item.journalId}`,
+                                    state: { ...values, ...item, accountingJournalTypeId: journalTypeValue },
+                                  })
+                                }
+                              >
+                                <IEdit />
+                              </span>
+                            )}
+                            {(canCreate && item?.isApproved && item?.isManual) && (
+                              <span
+                                className="approval ml-2"
+                                onClick={() => {
+                                  if (
+                                    completeDate < _dateFormatter(item?.journalDate)
+                                  )
+                                    return toast.warn(
+                                      "Complete date should be greater than or equal to journal date"
+                                    );
+                                  singleApprovalndler(index, completeDate, journalTypeValue);
+                                }}
+                              >
+                                <IApproval />
+                              </span>
+                            )}
+                            {canCreate && (<span
+                              className="delete ml-2"
+                              onClick={() => remover(index, journalTypeValue)}
+                            >
+                              <IDelete />
+                            </span>)}
+                          </>
+                        ) : null}
+                        {type === "complated" && (
+                          <OverlayTrigger
+                            overlay={<Tooltip id="cs-icon">{"Reverse"}</Tooltip>}
                           >
-                            <i
-                              className={`fa pointer fa fa-history`}
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {rowDto.length > 0 && (
-                <tr>
-                  {type === "notComplated" && <td></td>}
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <b className="pl-2">Total</b>
-                  </td>
-                  <td className="text-right">
-                    <div className="pr-2">{(totalAmount || 0).toFixed(2)}</div>
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-      </div>
+                            <span
+                              className={`iconActive ml-2`}
+                              onClick={() => {
+                                setReverseModalShowState({
+                                  isShow: true,
+                                  data: { ...item, accountingJournalTypeId: journalTypeValue },
+                                  index,
+                                  otp: "",
+                                });
+                              }}
+                            >
+                              <i
+                                className={`fa pointer fa fa-history`}
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {rowDto.length > 0 && (
+                  <tr>
+                    {type === "notComplated" && <td></td>}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <b className="pl-2">Total</b>
+                    </td>
+                    <td className="text-right">
+                      <div className="pr-2">{(totalAmount || 0).toFixed(2)}</div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
             <InvTransViewTableRow
