@@ -743,3 +743,23 @@ export const getNextBankCheque = async (
     toast.warn(error?.response?.data?.message);
   }
 };
+export const cancelJournal = async (
+  journalCode,
+  journalTypeId,
+  unitId,
+  actionById,
+  typeId,
+  cb
+) => {
+  try {
+    await axios.post(
+      `/fino/JournalPosting/CancelJournal?JournalCode=${journalCode}&JournalTypeId=${journalTypeId}&UnitId=${unitId}&ActionById=${actionById}&TypeId=${typeId}`
+    );
+    // setFieldValue("instrumentNo",res?.data?.code)
+    cb();
+    toast.success("Submitted successfully");
+  } catch (error) {
+    // toast.warn(error?.response?.data?.message);
+    // setDisabled(false);
+  }
+};

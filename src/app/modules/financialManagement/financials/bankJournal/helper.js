@@ -17,26 +17,7 @@ import { toast } from "react-toastify";
 
 
 // /fino/JournalPosting/CancelJournal?JournalCode=CN-APFIL-JUL21-2&JournalTypeId=6&UnitId=8&ActionById=32897&TypeId=2
-export const cancelJournal = async (
-  journalCode,
-  journalTypeId,
-  unitId,
-  actionById,
-  typeId,
-  cb
-) => {
-  try {
-    await Axios.post(
-      `/fino/JournalPosting/CancelJournal?JournalCode=${journalCode}&JournalTypeId=${journalTypeId}&UnitId=${unitId}&ActionById=${actionById}&TypeId=${typeId}`
-    );
-    // setFieldValue("instrumentNo",res?.data?.code)
-    cb();
-    toast.success("Submitted successfully");
-  } catch (error) {
-    // toast.warn(error?.response?.data?.message);
-    // setDisabled(false);
-  }
-};
+
 
 export const getBusinessTransactionByPartnerDDL = async (
   accountId,
