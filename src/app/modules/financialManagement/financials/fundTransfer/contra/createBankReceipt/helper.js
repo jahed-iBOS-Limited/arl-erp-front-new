@@ -1,20 +1,8 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
 
-
-
-
-// getProfitCenter List
-
 // getCostElementDDL
-export const getCostElementDDL = async (UnitId, AccountId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/PurchaseOrder/CostElement?AccountId=${AccountId}&UnitId=${UnitId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
+
 // getCostCenterDDL
 export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
   try {
