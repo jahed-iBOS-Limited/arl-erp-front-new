@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Form from "./form";
-import {
-  saveBankJournal,
-} from "./helper";
+import { saveBankJournal } from "../../../../../_helper/_commonApi";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
+import Form from "./form";
 import "./style.css";
-import { useHistory } from "react-router";
 
 
 
