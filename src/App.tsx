@@ -34,7 +34,7 @@ export const eProcurementBaseURL = isDevelopmentOrDevHost()
 
 export const APIUrl = isDevelopmentOrDevHost()
   ? 'https://deverp.ibos.io'
-  : origin;
+  : 'https://erp.ibos.io';
 
 Axios.defaults.baseURL = APIUrl;
 
