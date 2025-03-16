@@ -635,3 +635,38 @@ export const singleDataById = async (id, type, setter) => {
     }
   } catch (error) { }
 };
+export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/partner/BusinessPartnerSales/GetBusinessPartnerSales?AccountId=${accId}&BusniessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+
+export const getBusinessPartnerPurchaseDDLAction = async (
+  accId,
+  buId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const getOthersPartner = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerOthersDdl?accountId=${accId}&businessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};

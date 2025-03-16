@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import * as Yup from "yup";
 import { Input } from "../../../../../../_metronic/_partials/controls";
-import { generateAdviceNo, getBankAc, getBusinessTransactionDDL, getInstrumentType, getSendToGLBank } from "../../../../_helper/_commonApi";
+import { generateAdviceNo, getBankAc, getBusinessPartnerSalesDDLAction, getBusinessTransactionDDL, getInstrumentType, getSendToGLBank } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
 import customStyles from "../../../../selectCustomStyle";
 import {
-  getBusinessPartnerSalesDDLAction,
   // getBusinessPartnerPurchaseDDLAction,
   // getOthersPartner,
   getNextBankCheque,
