@@ -3,43 +3,6 @@ import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 
-export const saveBankJournal = async (
-  data,
-  cb,
-  setRowDto,
-  setDisabled,
-  IConfirmModal
-) => {
-  setDisabled(true);
-  try {
-    const res = await Axios.post(
-      `/fino/BankJournal/CreateBankJournalNew`,
-      data
-    );
-
-    if (res?.data?.statuscode === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
-      cb && cb(res?.data?.code);
-      setRowDto([]);
-      setDisabled(false);
-      const obj = {
-        title: "Bank Journal Code",
-        message: res?.data?.code,
-        noAlertFunc: () => {},
-      };
-      IConfirmModal(obj);
-    }
-    if (res?.data?.statuscode === 400) {
-      toast.warning(res?.data?.message || "Something went wrong");
-      cb && cb(res?.data?.code);
-      setRowDto([]);
-      setDisabled(false);
-    }
-  } catch (error) {
-    toast.warn(error?.response?.data?.message);
-    setDisabled(false);
-  }
-};
 // https://localhost:44346/fino/BankBranch/GenerateAdviceNo?UnitId=2
 export const generateAdviceNo = async (UnitId, setFieldValue) => {
   try {
@@ -129,11 +92,11 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                  value: item?.objHeader?.businessPartnerId || 0,
-                  label: item?.objHeader?.businessPartnerName || "",
-                  businessPartnerCode:
-                    item?.objHeader?.businessPartnerCode || "",
-                }
+                value: item?.objHeader?.businessPartnerId || 0,
+                label: item?.objHeader?.businessPartnerName || "",
+                businessPartnerCode:
+                  item?.objHeader?.businessPartnerCode || "",
+              }
               : "",
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
@@ -242,11 +205,11 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                  value: item?.objHeader?.businessPartnerId || 0,
-                  label: item?.objHeader?.businessPartnerName || "",
-                  businessPartnerCode:
-                    item?.objHeader?.businessPartnerCode || "",
-                }
+                value: item?.objHeader?.businessPartnerId || 0,
+                label: item?.objHeader?.businessPartnerName || "",
+                businessPartnerCode:
+                  item?.objHeader?.businessPartnerCode || "",
+              }
               : "",
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
@@ -357,19 +320,19 @@ export const singleDataById = async (id, type, setter) => {
             sendToGLBank:
               item?.objHeader?.transferTo === "Cash"
                 ? {
-                    value: item?.objRow?.[0]?.generalLedgerId,
-                    label: item?.objRow?.[0]?.generalLedgerName,
-                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                  }
+                  value: item?.objRow?.[0]?.generalLedgerId,
+                  label: item?.objRow?.[0]?.generalLedgerName,
+                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                }
                 : {
-                    value: item?.objRow?.[0]?.bankAccountId,
-                    // label: item?.objRow?.[0]?.bankAccNo,
-                    label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
-                    bankAccNo: item?.objRow?.[0]?.bankAccNo,
-                    generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
-                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                    generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
-                  },
+                  value: item?.objRow?.[0]?.bankAccountId,
+                  // label: item?.objRow?.[0]?.bankAccNo,
+                  label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
+                  bankAccNo: item?.objRow?.[0]?.bankAccNo,
+                  generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
+                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                  generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
+                },
             transaction: "",
             // amount is for bank receive and bank payment row
             amount: "",
@@ -393,7 +356,7 @@ export const singleDataById = async (id, type, setter) => {
         setter(data);
       }
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // getBusinessPartnerSalesDDL
@@ -405,7 +368,7 @@ export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // getBusinessPartnerSalesDDL
@@ -421,7 +384,7 @@ export const getBusinessPartnerPurchaseDDLAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOthersPartner = async (accId, buId, setter) => {
@@ -432,7 +395,7 @@ export const getOthersPartner = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPartnerTypeDDL = async (setter) => {
@@ -441,7 +404,7 @@ export const getPartnerTypeDDL = async (setter) => {
       "/fino/AccountingConfig/GetAccTransectionTypeDDL"
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 // getProfitCenter List
 export const getProfitCenterDDL = async (buId, setter) => {
@@ -455,7 +418,7 @@ export const getProfitCenterDDL = async (buId, setter) => {
       label: item?.profitCenterName,
     }));
     setter(modifiedData);
-  } catch (error) {}
+  } catch (error) { }
 };
 // getCostElementDDL
 export const getCostElementDDL = async (UnitId, AccountId, setter) => {
@@ -464,7 +427,7 @@ export const getCostElementDDL = async (UnitId, AccountId, setter) => {
       `/procurement/PurchaseOrder/CostElement?AccountId=${AccountId}&UnitId=${UnitId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 // getCostCenterDDL
 export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
@@ -473,7 +436,7 @@ export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
       `/procurement/PurchaseOrder/CostCenter?AccountId=${AccountId}&UnitId=${UnitId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 // getRevenueElementListDDL
 export const getRevenueElementListDDL = async (businessUnitId, setter) => {
@@ -482,7 +445,7 @@ export const getRevenueElementListDDL = async (businessUnitId, setter) => {
       `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 // getRevenueCenterListDDL
 export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
@@ -491,7 +454,7 @@ export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
       `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // getNextBankCheque
@@ -552,7 +515,7 @@ export const getBusinessTransactionByPartnerDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // https://localhost:5001/fino/CommonFino/CheckTwoFactorApproval?OtpType=1&intUnitId=164&strTransectionType=kfjdskfj&intTransectionId=2&strCode=djfksjk&intActionById=11621&strOTP=kfjsklfjsd&CancelType=1
@@ -602,5 +565,5 @@ export const getCostElementByCostCenterDDL = async (
       `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };

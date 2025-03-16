@@ -1,4 +1,4 @@
-import axios from "axios";
+import { default as axios } from "axios";
 import { toast } from "react-toastify";
 
 export const getImageuploadStatus = (accountId) => {
@@ -241,5 +241,42 @@ export const getItemGridData = async (
   } catch (error) {
     setter([])
     setLoading(false);
+  }
+};
+export const saveBankJournal = async (
+  data,
+  cb,
+  setRowDto,
+  setDisabled,
+  IConfirmModal
+) => {
+  setDisabled(true);
+  try {
+    const res = await axios.post(
+      `/fino/BankJournal/CreateBankJournalNew`,
+      data
+    );
+
+    if (res?.data?.statuscode === 200) {
+      toast.success(res?.data?.message || "Submitted successfully");
+      cb && cb(res?.data?.code);
+      setRowDto([]);
+      setDisabled(false);
+      const obj = {
+        title: "Bank Journal Code",
+        message: res?.data?.code,
+        noAlertFunc: () => { },
+      };
+      IConfirmModal(obj);
+    }
+    if (res?.data?.statuscode === 400) {
+      toast.warning(res?.data?.message || "Something went wrong");
+      cb && cb(res?.data?.code);
+      setRowDto([]);
+      setDisabled(false);
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message);
+    setDisabled(false);
   }
 };

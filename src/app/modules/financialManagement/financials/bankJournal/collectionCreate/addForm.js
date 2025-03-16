@@ -1,21 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  saveBankJournal,
-} from "../helper";
+import { saveBankJournal } from "../../../../_helper/_commonApi";
+import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
-import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import axios from "axios";
+import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import Form from "./form";
+import "./style.css";
 
 // const initData = {
 
@@ -64,67 +61,67 @@ export default function BankJournalCreateFormCollection() {
 
   const dispatch = useDispatch();
 
-// Define vdsAction function outside of collectionSave
-const onVdsAction = () => {
-  const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${location?.state?.customerDetails?.value}&numVDSAmount=${location?.state?.numVDSAmount || 0}`;
+  // Define vdsAction function outside of collectionSave
+  const onVdsAction = () => {
+    const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${location?.state?.customerDetails?.value}&numVDSAmount=${location?.state?.numVDSAmount || 0}`;
 
-  return axios.post(apiUrl)
-    .then(() => {
-      toast.success('VDS created successfully');
-    })
-    .catch(() => {
-      toast.warn('VDS creation failed. You have to create again');
-    });
-};
-
-const collectionSave = (journalCode) => {
-  const handleCollection = () => {
-    const payload = location?.state?.collectionRow?.map((item) => ({
-      intServiceSalesInvoiceRowId: item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
-      intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
-      intServiceSalesScheduleId: item?.invocieRow?.[0]?.intServiceSalesScheduleId,
-      dteScheduleCreateDateTime: item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
-      dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
-      strReceiveAbleJournalCode: journalCode,
-      numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
-      numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
-      numCollectionAmount: item?.invocieRow?.[0]?.alreadyCollectedAmount +
-        item?.invocieRow?.[0]?.numCollectionAmount,
-      numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
-      numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
-      isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount ? false : true,
-      numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
-    }));
-
-    onCollectionHandler(
-      `/oms/ServiceSales/MultipleInvoiceCollection`,
-      payload,
-      () => {
-        const obj = {
-          title: "Bank Journal Code",
-          message: journalCode,
-          yesAlertFunc: () => {
-            history.goBack();
-          },
-          noAlertFunc: () => {
-            history.goBack();
-          },
-        };
-        IConfirmModal(obj);
-      },
-      true
-    );
+    return axios.post(apiUrl)
+      .then(() => {
+        toast.success('VDS created successfully');
+      })
+      .catch(() => {
+        toast.warn('VDS creation failed. You have to create again');
+      });
   };
 
-  // Check if numVDSAmount exists in location.state
-  if (location?.state?.numVDSAmount) {
-    onVdsAction().finally(() => {
+  const collectionSave = (journalCode) => {
+    const handleCollection = () => {
+      const payload = location?.state?.collectionRow?.map((item) => ({
+        intServiceSalesInvoiceRowId: item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
+        intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
+        intServiceSalesScheduleId: item?.invocieRow?.[0]?.intServiceSalesScheduleId,
+        dteScheduleCreateDateTime: item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
+        dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
+        strReceiveAbleJournalCode: journalCode,
+        numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
+        numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
+        numCollectionAmount: item?.invocieRow?.[0]?.alreadyCollectedAmount +
+          item?.invocieRow?.[0]?.numCollectionAmount,
+        numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
+        numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
+        isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount ? false : true,
+        numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
+      }));
+
+      onCollectionHandler(
+        `/oms/ServiceSales/MultipleInvoiceCollection`,
+        payload,
+        () => {
+          const obj = {
+            title: "Bank Journal Code",
+            message: journalCode,
+            yesAlertFunc: () => {
+              history.goBack();
+            },
+            noAlertFunc: () => {
+              history.goBack();
+            },
+          };
+          IConfirmModal(obj);
+        },
+        true
+      );
+    };
+
+    // Check if numVDSAmount exists in location.state
+    if (location?.state?.numVDSAmount) {
+      onVdsAction().finally(() => {
+        handleCollection();
+      });
+    } else {
       handleCollection();
-    });
-  } else {
-    handleCollection();
-  }
-};
+    }
+  };
 
   const saveHandler = async (values, cb) => {
     if (
@@ -328,28 +325,28 @@ const collectionSave = (journalCode) => {
             controlType: isRevenue
               ? "revenue"
               : isCostCenter
-              ? "cost"
-              : "" || "",
+                ? "cost"
+                : "" || "",
             costRevenueName: isRevenue
               ? values?.revenueCenter?.label
               : isCostCenter
-              ? values?.costCenter?.label
-              : "",
+                ? values?.costCenter?.label
+                : "",
             costRevenueId: isRevenue
               ? values?.revenueCenter?.value
               : isCostCenter
-              ? values?.costCenter?.value
-              : 0,
+                ? values?.costCenter?.value
+                : 0,
             elementName: isRevenue
               ? values?.revenueElement?.label
               : isCostCenter
-              ? values?.costElement?.label
-              : "",
+                ? values?.costElement?.label
+                : "",
             elementId: isRevenue
               ? values?.revenueElement?.value
               : isCostCenter
-              ? values?.costElement?.value
-              : 0,
+                ? values?.costElement?.value
+                : 0,
             ProfitCenterId: values?.profitCenter?.value,
             attachment: attachmentFile || "",
           },
@@ -433,8 +430,8 @@ const collectionSave = (journalCode) => {
         location?.state?.selectedJournal?.value === 4
           ? "Create Bank Receipt"
           : location?.state?.selectedJournal?.value === 5
-          ? "Create Bank Payments"
-          : "Create Bank Transfer"
+            ? "Create Bank Payments"
+            : "Create Bank Transfer"
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
