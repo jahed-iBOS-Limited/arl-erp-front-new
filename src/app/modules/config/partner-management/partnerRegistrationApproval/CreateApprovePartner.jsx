@@ -118,7 +118,7 @@ export default function CreateApprovePartner() {
       enableReinitialize={true}
       initialValues={{ sbu: '', supplyOrg: '' }}
       // validationSchema={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,
@@ -184,8 +184,7 @@ export default function CreateApprovePartner() {
                           (res) => {
                             if (res?.statuscode === 200) {
                               createApproval(
-                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${
-                                  profileData?.employeeId
+                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
@@ -229,8 +228,7 @@ export default function CreateApprovePartner() {
                           (res) => {
                             if (res?.statuscode === 200) {
                               createApproval(
-                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${
-                                  profileData?.employeeId
+                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
@@ -259,6 +257,42 @@ export default function CreateApprovePartner() {
                 loadCreatePartner ||
                 loadCreateApproval) && <Loading />}
               <>
+                <div className="global-form">
+                  <h5 className=''>Partner Details</h5>
+                  <hr/>
+                  <div className="d-flex justify-content-between">
+                    <div className="">
+                      <p><strong>Business Partner Name:</strong> {location.state?.strPartnerName || 'N/A'}</p>
+                      <p><strong>Partner Type:</strong> {location.state?.strPartnerTypeName || 'N/A'}</p>
+                      <p><strong>Company Name:</strong> {location.state?.strCompanyName || 'N/A'}</p>
+                      <p><strong>Email:</strong> {location.state?.strEmailAddress || 'N/A'}</p>
+                      <p><strong>Mobile Number:</strong> {location.state?.strMobileNumber || 'N/A'}</p>
+                      <p><strong>NID Number:</strong> {location.state?.strNidNumber || 'N/A'}</p>
+                    </div>
+                    <div className="">
+                      <p><strong>Office Address:</strong> {location.state?.strOfficeAddress || 'N/A'}</p>
+                      <p><strong>Business Unit:</strong> {location.state?.strBusinessUnitName || 'N/A'}</p>
+                      <p><strong>Nature of Business:</strong> {location.state?.strNatureOfBusinessName || 'N/A'}</p>
+                      <p><strong>Ownership Type:</strong> {location.state?.strOwnershipTypeName || 'N/A'}</p>
+                      <p><strong>BIN Number:</strong> {location.state?.strBinNumber || 'N/A'}</p>
+                      <p><strong>Division:</strong> {location.state?.strDivisionName || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="global-form">
+                  <h5 className=''>Bank Details</h5>
+                  <hr/>
+                  <div className="d-flex justify-content-between">
+                    <p><strong>Bank Name:</strong> {location.state?.strBankName || 'N/A'}</p>
+                    <p><strong>Account Name:</strong> {location.state?.strAccountName || 'N/A'}</p>
+                    <p><strong>Account Number:</strong> {location.state?.strAccountNumber || 'N/A'}</p>
+                    <p><strong>Bank Branch:</strong> {location.state?.strBankBranchName || 'N/A'}</p>
+                    <p><strong>Routing Number:</strong> {location.state?.strRoutingNumber || 'N/A'}</p>
+                    <p><strong>Swift Code:</strong> {location.state?.strSwiftCode || 'N/A'}</p>
+                    <p><strong>Address:</strong> {location.state?.strAddress || 'N/A'}</p>
+                    <p><strong>District:</strong> {location.state?.strDistrictName || 'N/A'}</p>
+                  </div>
+                </div>
                 {state?.isSupplier && (
                   <div className="row global-form">
                     <div className="col-lg-3">
@@ -302,9 +336,9 @@ export default function CreateApprovePartner() {
                         className="text-danger"
                       >
                         {errors &&
-                        errors.businessTransaction &&
-                        touched &&
-                        touched.businessTransaction
+                          errors.businessTransaction &&
+                          touched &&
+                          touched.businessTransaction
                           ? errors.businessTransaction.value
                           : ''}
                       </p>
@@ -345,7 +379,7 @@ export default function CreateApprovePartner() {
                                 padding: '0 6px',
                               }),
                             }}
-                            // isMulti
+                          // isMulti
                           />
                         )}
                       />
@@ -359,9 +393,9 @@ export default function CreateApprovePartner() {
                         className="text-danger"
                       >
                         {errors &&
-                        errors.businessTransaction &&
-                        touched &&
-                        touched.businessTransaction
+                          errors.businessTransaction &&
+                          touched &&
+                          touched.businessTransaction
                           ? errors.businessTransaction.value
                           : ''}
                       </p>
