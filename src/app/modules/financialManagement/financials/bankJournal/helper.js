@@ -14,26 +14,7 @@ import { toast } from "react-toastify";
 
 
 // getNextBankCheque
-export const getNextBankCheque = async (
-  accId,
-  buId,
-  bankId,
-  branchId,
-  bankAccountId,
-  setter,
-  key
-) => {
-  try {
-    const res = await Axios.get(
-      `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(key, res?.data?.currentChequeNo);
-    }
-  } catch (error) {
-    toast.warn(error?.response?.data?.message);
-  }
-};
+
 
 // /fino/JournalPosting/CancelJournal?JournalCode=CN-APFIL-JUL21-2&JournalTypeId=6&UnitId=8&ActionById=32897&TypeId=2
 export const cancelJournal = async (

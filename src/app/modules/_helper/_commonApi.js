@@ -723,3 +723,23 @@ export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+export const getNextBankCheque = async (
+  accId,
+  buId,
+  bankId,
+  branchId,
+  bankAccountId,
+  setter,
+  key
+) => {
+  try {
+    const res = await axios.get(
+      `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(key, res?.data?.currentChequeNo);
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message);
+  }
+};
