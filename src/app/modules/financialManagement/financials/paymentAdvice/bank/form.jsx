@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import * as Yup from "yup";
 import { Input } from "../../../../../../_metronic/_partials/controls";
-import { useEffect } from "react";
-import {
-  getBusinessPartnerSalesDDLAction,
-  // getBusinessPartnerPurchaseDDLAction,
-  // getOthersPartner,
-  getNextBankCheque,
-  generateAdviceNo,
-} from "../../../financials/bankJournal/helper";
+import { generateAdviceNo, getBankAc, getBusinessPartnerSalesDDLAction, getBusinessTransactionDDL, getInstrumentType, getNextBankCheque, getSendToGLBank } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
-import { getBankAc, getBusinessTransactionDDL, getInstrumentType, getSendToGLBank } from "../../../../_helper/_commonApi";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { IInput } from "../../../../_helper/_input";
+import customStyles from "../../../../selectCustomStyle";
+
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -142,8 +135,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentvalidationSchema
+              : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {

@@ -4,15 +4,14 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Form from "./form";
-import {
-  saveBankJournal,
-} from "./helper";
+
+import { useHistory } from "react-router";
+import { saveBankJournal } from "../../../../../_helper/_commonApi";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
 import "./style.css";
-import { useHistory } from "react-router";
 
 
 
@@ -37,10 +36,10 @@ export default function BankJournalCreateFormContra() {
   const { profileData, selectedBusinessUnit } = storeData;
 
   // Handle `selectedBusinessUnit` value separately
-const adjustedSelectedBusinessUnit = {
-  ...selectedBusinessUnit,
-  value: selectedJournalTypeId === 5 ? intRequestToUnitId : selectedBusinessUnit?.value,
-};
+  const adjustedSelectedBusinessUnit = {
+    ...selectedBusinessUnit,
+    value: selectedJournalTypeId === 5 ? intRequestToUnitId : selectedBusinessUnit?.value,
+  };
 
   // const { bankJournalCreate } = useSelector(
   //   (state) => state?.localStorage || {},
@@ -297,7 +296,7 @@ const adjustedSelectedBusinessUnit = {
     ).length;
 
     if (selectedJournalTypeId === 5) {
-      if(rowDto?.length >= 1){
+      if (rowDto?.length >= 1) {
         return toast.warn("Cann't add multiple")
       }
 

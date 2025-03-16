@@ -3,11 +3,11 @@ import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getPartnerTypeDDL } from "../../../../../_helper/_commonApi";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { saveAdjustmentJournal } from "../../../../../financialManagement/financials/adjustmentJournal/_redux/Actions";
-import { getPartnerTypeDDL } from "../../../../../financialManagement/financials/bankJournal/helper";
 import Form from "./form";
 
 const initData = {

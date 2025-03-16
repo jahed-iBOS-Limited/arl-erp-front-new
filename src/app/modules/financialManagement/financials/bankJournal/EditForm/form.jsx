@@ -2,28 +2,23 @@ import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import customStyles from '../../../../selectCustomStyle';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { getBankAc, getCostCenterDDL, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';
 import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
 import {
-  getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getPartnerTypeDDL,
-  getProfitCenterDDL,
-  getRevenueCenterListDDL,
-  getRevenueElementListDDL,
 } from '../helper';
-import { confirmAlert } from 'react-confirm-alert';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -182,12 +177,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -204,10 +196,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                  ...item,
-                  value: item?.bankId,
-                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                }))
+                ...item,
+                value: item?.bankId,
+                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+              }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -225,8 +217,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentvalidationSchema
+              : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           return confirmAlert({
@@ -273,7 +265,7 @@ export default function _Form({
                           setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-6 pl pr-1 mb-2">
@@ -287,7 +279,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         placeholder="Bank Ac"
-                        // isDisabled={isEdit}
+                      // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -339,7 +331,7 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="Partner Type"
                           />
-                                
+
                           <FormikError
                             errors={errors}
                             name="partnerType"
@@ -381,10 +373,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                          ...item,
-                                          value: item?.bankId,
-                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                        }))
+                                        ...item,
+                                        value: item?.bankId,
+                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                      }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
@@ -439,7 +431,7 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="General Ledger"
                           />
-                                
+
                           <FormikError
                             errors={errors}
                             name="gl"
@@ -456,7 +448,7 @@ export default function _Form({
                           value={values.receiveFrom}
                           label="Receive From"
                           name="receiveFrom"
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                     ) : jorunalType === 5 ? (
@@ -465,7 +457,7 @@ export default function _Form({
                           value={values.paidTo}
                           label="Paid to"
                           name="paidTo"
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                     ) : (
@@ -770,7 +762,7 @@ export default function _Form({
                         options={instrumentType || []}
                         styles={customStyles}
                         placeholder="Instrument Type"
-                        // isDisabled={isEdit}
+                      // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -784,7 +776,7 @@ export default function _Form({
                         value={values.instrumentNo}
                         label="Instrument No"
                         name="instrumentNo"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
 
@@ -794,7 +786,7 @@ export default function _Form({
                         label="Instrument Date"
                         name="instrumentDate"
                         type="date"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
 

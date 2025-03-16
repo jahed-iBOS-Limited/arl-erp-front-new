@@ -1,15 +1,15 @@
-import moment from 'moment';
 import { Form, Formik } from 'formik';
+import moment from 'moment';
+import * as Yup from 'yup';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { imarineBaseUrl } from '../../../../../../App';
 import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
 import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import * as Yup from 'yup';
-import NewSelect from '../../../../_helper/_select';
 import logisticsLogo from './logisticsLogo.png';
 import './style.css';
 const validationSchema = Yup.object().shape({
@@ -66,8 +66,9 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${isAirOperation ||
-          false}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${
+          isAirOperation || false
+        }`,
         (resData) => {
           const billingDataList = resData?.billingData
             ?.filter((i) => {
@@ -219,6 +220,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
       rate: rate,
     };
   });
+  // find type of lc
+  const lcType = bookingData?.objPurchase?.find((i) => i?.infoType === 'lc');
 
   return (
     <Formik
@@ -701,13 +704,12 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>Rate</span>
                   </div>
                   <div style={{ padding: 2 }}>
-                    <span>{bookingData?.lcNo ?? 'N/A'} </span>
+                    <span>{lcType?.lcnumber ?? 'N/A'} </span>
                     <br />
                     <span>
-                      {bookingData?.lcDate
-                        ? moment(bookingData?.lcDate).format(
-                            'DD MMM YYYY HH:mm A',
-                          )
+                      {lcType?.lcdate
+                        ? moment(lcType?.lcdate).isValid() &&
+                          moment(lcType?.lcdate).format('DD MMM YYYY')
                         : 'N/A'}
                     </span>
                     <br />

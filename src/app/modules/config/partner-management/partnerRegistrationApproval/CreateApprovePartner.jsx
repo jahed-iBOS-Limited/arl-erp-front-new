@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import CommonTable from '../../../_helper/commonTable';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import customStyles from '../../../selectCustomStyle';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function CreateApprovePartner() {
   const [annualData, getAnnualTurn, loadAnnualData] = useAxiosGet();
@@ -26,6 +28,7 @@ export default function CreateApprovePartner() {
     loadMajorCustomerData,
   ] = useAxiosGet();
   const [ownershipData, getOwnershipData, loadOwnershipData] = useAxiosGet();
+  const dispatch = useDispatch();
 
   const annualheadersData = ['SL', 'Year', 'Amount'];
   const mainheadersData = ['SL', 'Name'];
@@ -118,7 +121,7 @@ export default function CreateApprovePartner() {
       enableReinitialize={true}
       initialValues={{ sbu: '', supplyOrg: '' }}
       // validationSchema={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,
@@ -184,8 +187,7 @@ export default function CreateApprovePartner() {
                           (res) => {
                             if (res?.statuscode === 200) {
                               createApproval(
-                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${
-                                  profileData?.employeeId
+                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
@@ -229,8 +231,7 @@ export default function CreateApprovePartner() {
                           (res) => {
                             if (res?.statuscode === 200) {
                               createApproval(
-                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${
-                                  profileData?.employeeId
+                                `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
@@ -259,6 +260,164 @@ export default function CreateApprovePartner() {
                 loadCreatePartner ||
                 loadCreateApproval) && <Loading />}
               <>
+                <div className="global-form">
+                  <h5 className=''>Attachments</h5>
+                  <hr />
+                  <div className="d-flex justify-content-center">
+                    {location.state?.intNidBackFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intNidBackFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intNidBackFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intNidFrontFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intNidFrontFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intNidFrontFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intTradeLicenseFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intTradeLicenseFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intTradeLicenseFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intImportRegistrationFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intImportRegistrationFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intTradeLicenseFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                  </div>
+                </div>
+                <div className="global-form">
+                  <h5 className=''>Partner Details</h5>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <div className="">
+                      <p><strong>Business Partner Name:</strong> {location.state?.strPartnerName || 'N/A'}</p>
+                      <p><strong>Partner Type:</strong> {location.state?.strPartnerTypeName || 'N/A'}</p>
+                      <p><strong>Company Name:</strong> {location.state?.strCompanyName || 'N/A'}</p>
+                      <p><strong>Email:</strong> {location.state?.strEmailAddress || 'N/A'}</p>
+                      <p><strong>Mobile Number:</strong> {location.state?.strMobileNumber || 'N/A'}</p>
+                      <p><strong>NID Number:</strong> {location.state?.strNidNumber || 'N/A'}</p>
+                    </div>
+                    <div className="">
+                      <p><strong>Office Address:</strong> {location.state?.strOfficeAddress || 'N/A'}</p>
+                      <p><strong>Business Unit:</strong> {location.state?.strBusinessUnitName || 'N/A'}</p>
+                      <p><strong>Nature of Business:</strong> {location.state?.strNatureOfBusinessName || 'N/A'}</p>
+                      <p><strong>Ownership Type:</strong> {location.state?.strOwnershipTypeName || 'N/A'}</p>
+                      <p><strong>BIN Number:</strong> {location.state?.strBinNumber || 'N/A'}</p>
+                      <p><strong>Division:</strong> {location.state?.strDivisionName || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="global-form">
+                  <h5 className=''>Bank Details</h5>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <p><strong>Bank Name:</strong> {location.state?.strBankName || 'N/A'}</p>
+                    <p><strong>Account Name:</strong> {location.state?.strAccountName || 'N/A'}</p>
+                    <p><strong>Account Number:</strong> {location.state?.strAccountNumber || 'N/A'}</p>
+                    <p><strong>Bank Branch:</strong> {location.state?.strBankBranchName || 'N/A'}</p>
+                    <p><strong>Routing Number:</strong> {location.state?.strRoutingNumber || 'N/A'}</p>
+                    <p><strong>Swift Code:</strong> {location.state?.strSwiftCode || 'N/A'}</p>
+                    <p><strong>Address:</strong> {location.state?.strAddress || 'N/A'}</p>
+                    <p><strong>District:</strong> {location.state?.strDistrictName || 'N/A'}</p>
+                  </div>
+                </div>
                 {state?.isSupplier && (
                   <div className="row global-form">
                     <div className="col-lg-3">
@@ -302,9 +461,9 @@ export default function CreateApprovePartner() {
                         className="text-danger"
                       >
                         {errors &&
-                        errors.businessTransaction &&
-                        touched &&
-                        touched.businessTransaction
+                          errors.businessTransaction &&
+                          touched &&
+                          touched.businessTransaction
                           ? errors.businessTransaction.value
                           : ''}
                       </p>
@@ -345,7 +504,7 @@ export default function CreateApprovePartner() {
                                 padding: '0 6px',
                               }),
                             }}
-                            // isMulti
+                          // isMulti
                           />
                         )}
                       />
@@ -359,9 +518,9 @@ export default function CreateApprovePartner() {
                         className="text-danger"
                       >
                         {errors &&
-                        errors.businessTransaction &&
-                        touched &&
-                        touched.businessTransaction
+                          errors.businessTransaction &&
+                          touched &&
+                          touched.businessTransaction
                           ? errors.businessTransaction.value
                           : ''}
                       </p>

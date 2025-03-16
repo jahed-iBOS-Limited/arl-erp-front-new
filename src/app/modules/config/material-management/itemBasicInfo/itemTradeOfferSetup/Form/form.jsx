@@ -93,7 +93,8 @@ export default function _Form({
         return toast.warn(
           `Please Input required  maximum  qty "${values?.numMinQuantity}"`
         );
-      if (rowDto?.length > 0) return toast.warn("Maximum one item allowed");
+      if (rowDto?.length > 0 && selectedBusinessUnit.value !== 144)
+        return toast.warn("Maximum one item allowed");
 
       // const duplicateCheck = rowDto.some(
       //   (itm) => itm?.intOfferItemId === values?.offerItem?.value

@@ -139,8 +139,12 @@ export function getPMSFrequencyDDL() {
   return axios.get(`/pms/CommonDDL/PMSFrequencyDDL`);
 }
 // Api for getDownlloadFileView
-export function getDownlloadFileView(id) {
-  return axios.get(`${APIUrl}/domain/Document/DownlloadFile?id=${id}`);
+export function getDownlloadFileView(id, apiUrl) {
+  let requestUrl = apiUrl
+    ? apiUrl
+    : `${APIUrl}/domain/Document/DownlloadFile?id=${id}`;
+
+  return axios.get(requestUrl);
 }
 // Api for getDownlloadFileView
 export function getGenerateExcelDataFormat(data) {

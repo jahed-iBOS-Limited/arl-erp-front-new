@@ -13,8 +13,8 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   // recvQuantity: Yup.number().required("Receive Quantity is required"),
   wareHouse: Yup.object().shape({
-    value: Yup.string().required('CNF is required'),
-    label: Yup.string().required('CNF is required'),
+    value: Yup.string().required('CFS is required'),
+    label: Yup.string().required('CFS is required'),
   }),
   receivedDate: Yup.date().required('Received Date is required'),
 });
@@ -52,9 +52,9 @@ function ReceiveModal({ rowClickData, CB }) {
               'wareHouse',
               bookingData?.warehouseId
                 ? {
-                    value: bookingData?.warehouseId,
-                    label: bookingData?.warehouseName,
-                  }
+                  value: bookingData?.warehouseId,
+                  label: bookingData?.warehouseName,
+                }
                 : '',
             );
           }
@@ -130,7 +130,7 @@ function ReceiveModal({ rowClickData, CB }) {
                     name="wareHouse"
                     options={[...warehouseDDL]}
                     value={values?.wareHouse}
-                    label="CNF"
+                    label="CFS"
                     onChange={(valueOption) => {
                       if (valueOption) {
                         setFieldValue('wareHouse', valueOption);

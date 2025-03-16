@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import TextArea from "antd/lib/input/TextArea";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useSelector } from "react-redux";
 import Select from "react-select";
-import customStyles from "./../../../../selectCustomStyle";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../_helper/_commonApi";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import DebitCredit from "../Form/DebitCredit";
+import ReceiveAndPaymentsTable from "../Form/ReceiveAndPaymentsTable";
+import TransferTable from "../Form/TransferTable";
+import FormikError from "./../../../../_helper/_formikError";
 import { IInput } from "./../../../../_helper/_input";
-import { useSelector, shallowEqual } from "react-redux";
+import customStyles from "./../../../../selectCustomStyle";
 import {
   generalLedgerTypeId_Api,
   getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./../helper";
-import FormikError from "./../../../../_helper/_formikError";
-import { toast } from "react-toastify";
-import DebitCredit from "../Form/DebitCredit";
-import ReceiveAndPaymentsTable from "../Form/ReceiveAndPaymentsTable";
-import TransferTable from "../Form/TransferTable";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import TextArea from "antd/lib/input/TextArea";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../bankJournal/helper";
-import { confirmAlert } from "react-confirm-alert";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
@@ -133,9 +133,9 @@ export default function _Form({
           setGeneralLedgerDDL
         );
       }
-      getCostCenterDDL( selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
-      getRevenueElementListDDL(selectedBusinessUnit.value,setRevenueElementDDL)
-      getRevenueCenterListDDL(selectedBusinessUnit.value,setRevenueCenterDDL)
+      getCostCenterDDL(selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
+      getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL)
+      getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
@@ -160,12 +160,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`
       )
       .then((res) => {
@@ -185,8 +182,8 @@ export default function _Form({
           headerData?.accountingJournalTypeId === 1
             ? receiptsJournal
             : headerData?.accountingJournalTypeId === 2
-            ? paymentsJournal
-            : transferJournal
+              ? paymentsJournal
+              : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           return confirmAlert({
@@ -202,12 +199,12 @@ export default function _Form({
                 },
               },
               {
-                label : "No",
-                onClick : () => ""
+                label: "No",
+                onClick: () => ""
               }
             ],
           });
-          
+
         }}
       >
         {({
@@ -240,30 +237,30 @@ export default function _Form({
                     {/* col-lg-6 */}
                     {(headerData?.accountingJournalTypeId === 1 ||
                       headerData?.accountingJournalTypeId === 2) && (
-                      <div className="col-lg-6 pl pr-1 mb-2">
-                        <label>Select Cash GL</label>
-                        <Select
-                          label="Select Cash GL"
-                          options={generalLedgerDDL || []}
-                          value={values.cashGLPlus}
-                          name="cashGLPlus"
-                          setFieldValue={setFieldValue}
-                          errors={errors}
-                          touched={touched}
-                          isSearchable={true}
-                          styles={customStyles}
-                          placeholder="Select Cash GL"
-                          onChange={(valueOption) => {
-                            setFieldValue("cashGLPlus", valueOption);
-                          }}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="cashGLPlus"
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-6 pl pr-1 mb-2">
+                          <label>Select Cash GL</label>
+                          <Select
+                            label="Select Cash GL"
+                            options={generalLedgerDDL || []}
+                            value={values.cashGLPlus}
+                            name="cashGLPlus"
+                            setFieldValue={setFieldValue}
+                            errors={errors}
+                            touched={touched}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Select Cash GL"
+                            onChange={(valueOption) => {
+                              setFieldValue("cashGLPlus", valueOption);
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="cashGLPlus"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
                     {headerData?.accountingJournalTypeId === 3 ? (
                       <>
@@ -507,91 +504,91 @@ export default function _Form({
                       />
                     </div>
                     {/* it will be changed if user select bank receipt from previous page */}
-                    {headerData?.accountingJournalTypeId === 1 ?(
+                    {headerData?.accountingJournalTypeId === 1 ? (
                       <>
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Revenue Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueCenter", valueOption);
-                              }}
-                              value={values?.revenueCenter}
-                              options={revenueCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueCenter"
-                              touched={touched}
-                            />
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Revenue Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueCenter", valueOption);
+                            }}
+                            value={values?.revenueCenter}
+                            options={revenueCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Revenue Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueElement", valueOption);
-                              }}
-                              value={values?.revenueElement}
-                              options={revenueElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueElement"
-                              touched={touched}
-                            />
+                          <label>Revenue Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueElement", valueOption);
+                            }}
+                            value={values?.revenueElement}
+                            options={revenueElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
-                    ):(
+                    ) : (
                       <>
-                      
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Cost Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                if(valueOption){
-                                  setFieldValue("costCenter", valueOption);
-                                  getCostElementDDL( selectedBusinessUnit.value, profileData.accountId, valueOption?.value, setCostElementDDL);   
-                                  setFieldValue("costElement", "");
-                                }else{
-                                  setCostElementDDL([])
-                                  setFieldValue("costCenter", "");
-                                  setFieldValue("costElement", "");
-                                }
-                              }}
-                              value={values?.costCenter}
-                              options={costCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costCenter"
-                              touched={touched}
-                            />
+
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Cost Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              if (valueOption) {
+                                setFieldValue("costCenter", valueOption);
+                                getCostElementDDL(selectedBusinessUnit.value, profileData.accountId, valueOption?.value, setCostElementDDL);
+                                setFieldValue("costElement", "");
+                              } else {
+                                setCostElementDDL([])
+                                setFieldValue("costCenter", "");
+                                setFieldValue("costElement", "");
+                              }
+                            }}
+                            value={values?.costCenter}
+                            options={costCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Cost Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costElement", valueOption);
-                              }}
-                              value={values?.costElement}
-                              options={costElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costElement"
-                              touched={touched}
-                            />
+                          <label>Cost Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("costElement", valueOption);
+                            }}
+                            value={values?.costElement}
+                            options={costElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
                     )}

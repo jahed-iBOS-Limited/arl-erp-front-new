@@ -1,35 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import TextArea from "antd/lib/input/TextArea";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import Select from "react-select";
-import { useSelector, shallowEqual } from "react-redux";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import DebitCredit from "./DebitCredit";
 import {
   generalLedgerTypeId_Api,
   getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./helper";
-import DebitCredit from "./DebitCredit";
 import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
 import TransferTable from "./TransferTable";
-import axios from "axios";
-import TextArea from "antd/lib/input/TextArea";
 // import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../bankJournal/helper";
-import { useDispatch } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
-import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
-import customStyles from "../../../../../../selectCustomStyle";
+import { useDispatch } from "react-redux";
+import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../../../_helper/_commonApi";
 import FormikError from "../../../../../../_helper/_formikError";
 import { IInput } from "../../../../../../_helper/_input";
-import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
-import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
-import placeholderImg from "../../../../../../_helper/images/placeholderImg.png";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../createBankTransfer/helper";
-import { approveHandeler } from "../../../fundTransferApproval/helper";
-import useAxiosPost from "../../../../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
+import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
+import useAxiosPost from "../../../../../../_helper/customHooks/useAxiosPost";
+import placeholderImg from "../../../../../../_helper/images/placeholderImg.png";
+import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
+import customStyles from "../../../../../../selectCustomStyle";
+import { approveHandeler } from "../../../fundTransferApproval/helper";
 
 
 
@@ -187,7 +187,7 @@ export default function _Form({
 
   return (
     <>
-    {updateJounalLoader && <Loading/>}
+      {updateJounalLoader && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -199,7 +199,7 @@ export default function _Form({
               : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
+          let bankPaymentValues = { ...values } //If you want to resetFrom write code after this line.
 
           return confirmAlert({
             title: "Are you sure?",
@@ -220,7 +220,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      actionName:"Cash Transfer"
+                      actionName: "Cash Transfer"
                     });
                     resetForm(initData);
                     setRowDto([]);

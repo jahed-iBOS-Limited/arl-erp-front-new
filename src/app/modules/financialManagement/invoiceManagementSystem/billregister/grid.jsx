@@ -36,6 +36,7 @@ import ViewSalesCommission from './salesCommission/view/viewSalesCommission';
 import ViewStevedoreBill from './stevedoreBill/view/table';
 import ViewSurveyorBill from './surveyorBill/view/table';
 import ViewTransportBill from './transportBill/view/viewBillRegister';
+import SalesForceIncetiveDetailsModal from './salesForceIncentive/detailsModal';
 const GridData = ({
   rowDto,
   values,
@@ -350,6 +351,10 @@ const GridData = ({
             {gridItem?.billType === 33 && (
               <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
+
+            {gridItem?.billType===35 && 
+            <SalesForceIncetiveDetailsModal gridItem={gridItem}/>            
+            }
           </IViewModal>
 
           <IViewModal
