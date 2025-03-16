@@ -239,6 +239,7 @@ export const getItemGridData = async (
       setLoading(false);
     }
   } catch (error) {
+    setter([])
     setLoading(false);
   }
 };
