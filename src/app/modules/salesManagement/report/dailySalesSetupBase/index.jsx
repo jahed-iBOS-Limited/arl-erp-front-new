@@ -74,7 +74,7 @@ export default function DailySalesSetupBase() {
                                     <NewSelect
                                         name="reportType"
                                         options={[
-                                            { value: 1, label: "Details" },]}
+                                            { value: 1, label: "Details" }, { value: 2, label: "Cumulative Sales" }, { value: 3, label: "Date Basis Target vs  Sales" }]}
                                         value={values?.reportType}
                                         label="Report Type"
                                         onChange={(valueOption) => {
