@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import CommonTable from '../../../_helper/commonTable';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import customStyles from '../../../selectCustomStyle';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function CreateApprovePartner() {
   const [annualData, getAnnualTurn, loadAnnualData] = useAxiosGet();
@@ -26,6 +28,7 @@ export default function CreateApprovePartner() {
     loadMajorCustomerData,
   ] = useAxiosGet();
   const [ownershipData, getOwnershipData, loadOwnershipData] = useAxiosGet();
+  const dispatch = useDispatch();
 
   const annualheadersData = ['SL', 'Year', 'Amount'];
   const mainheadersData = ['SL', 'Name'];
@@ -258,8 +261,130 @@ export default function CreateApprovePartner() {
                 loadCreateApproval) && <Loading />}
               <>
                 <div className="global-form">
+                  <h5 className=''>Attachments</h5>
+                  <hr />
+                  <div className="d-flex justify-content-center">
+                    {location.state?.intNidBackFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intNidBackFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intNidBackFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intNidFrontFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intNidFrontFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intNidFrontFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intTradeLicenseFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intTradeLicenseFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intTradeLicenseFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                    {location.state?.intImportRegistrationFileId ? (<p><OverlayTrigger
+                      overlay={
+                        <Tooltip id="cs-icon">
+                          View Attachment
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              location.state?.intImportRegistrationFileId,
+                              null,
+                              null,
+                              null,
+                              `https://arl.peopledesk.io/api/Document/DownloadFile?id=${location.state?.intTradeLicenseFileId}`
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger></p>) : null}
+                  </div>
+                </div>
+                <div className="global-form">
                   <h5 className=''>Partner Details</h5>
-                  <hr/>
+                  <hr />
                   <div className="d-flex justify-content-between">
                     <div className="">
                       <p><strong>Business Partner Name:</strong> {location.state?.strPartnerName || 'N/A'}</p>
@@ -281,7 +406,7 @@ export default function CreateApprovePartner() {
                 </div>
                 <div className="global-form">
                   <h5 className=''>Bank Details</h5>
-                  <hr/>
+                  <hr />
                   <div className="d-flex justify-content-between">
                     <p><strong>Bank Name:</strong> {location.state?.strBankName || 'N/A'}</p>
                     <p><strong>Account Name:</strong> {location.state?.strAccountName || 'N/A'}</p>
