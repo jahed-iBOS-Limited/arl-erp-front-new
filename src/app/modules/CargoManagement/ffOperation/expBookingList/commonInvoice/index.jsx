@@ -340,10 +340,14 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 border: '1px solid #000000',
               }}
             >
-              {' '}
-              {billingDataFilterData?.[0]?.collectionPartyType} INVOICE :{' '}
+              {bookingData?.modeOfTransportId === 4 ? (
+                'Freight Invoice: '
+              ) : (
+                <>
+                  {billingDataFilterData?.[0]?.collectionPartyType} INVOICE :{' '}
+                </>
+              )}
               {invoiceNo || 'N/A'}
-              {/* INVOICE : {bookingData?.invoiceNumber || "N/A"} */}
             </p>
             <div
               style={{
@@ -811,9 +815,16 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 >
                   <td colSpan="2"> Total Amount</td>
                   <td>
-                    {' '}
-                    {billingDataFilterData?.[0]?.currency}{' '}
-                    {getCalculatedDummyAmount()}
+                    <span>
+                      {' '}
+                      {billingDataFilterData?.[0]?.currency}{' '}
+                      {getCalculatedDummyAmount()}
+                      <br />
+                      {/* {(billingDataFilterData?.[0]?.currency === 'BDT' &&
+                        'USD') ||
+                        (billingDataFilterData?.[0]?.currency === 'USD' &&
+                          'BDT')} {' '} {getExchangeAmount()} */}
+                    </span>
                   </td>
                   {/* <td> {getCalculatedActualAmount()}</td> */}
                 </tr>
