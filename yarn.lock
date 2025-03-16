@@ -16505,10 +16505,10 @@ web-namespaces@^1.0.0:
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-1.1.4.tgz#bc98a3de60dadd7faefc403d1076d529f5e030ec"
   integrity sha512-wYxSGajtmoP4WxfejAPIr4l0fVh+jeMXZb08wNc0tMg6xsfZXj3cECqIK0G7ZAqUq0PP8WlMDtaOGVBTAWztNw==
 
-web-serial-polyfill@^1.0.14:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/web-serial-polyfill/-/web-serial-polyfill-1.0.15.tgz#0c0b4cd5f32b8c07243d2ffeea484892f46986b1"
-  integrity sha512-usZN7kGRkEWr8DzRWxW+og55L1fHo4hNIwxCSCfWKpM+i0L+2AwzupMvkDFxnJNqUFOhLaD3PlgAOJxUOUrAoA==
+web-serial-polyfill@1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/web-serial-polyfill/-/web-serial-polyfill-1.0.14.tgz#fd58e1bc42469dd8a62f7ef37250e21f94ca8d07"
+  integrity sha512-DCgs3SNtmB/liKcNyFnp/kdwShOITwmv+UXQOLffQkNKQMHohK1b9pIz70Eo9Bf+0bKM41hf4uQaN3WH7snKTQ==
 
 webidl-conversions@^3.0.0, webidl-conversions@^3.0.1:
   version "3.0.1"

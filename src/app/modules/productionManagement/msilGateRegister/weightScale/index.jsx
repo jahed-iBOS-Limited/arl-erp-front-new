@@ -50,7 +50,11 @@ const WeightScale = () => {
   const getSelectedPort = async () => {
     try {
       const serial = usePolyfill ? polyfill : navigator.serial;
+      console.log(serial, 'serial');
+      console.log(navigator.serial, 'navigator.serial');
+      console.log(polyfill, 'polyfill');
       let port = await serial.requestPort({});
+      console.log(port, 'port');
       dispatch(setSerialPortAction(port));
       return port;
     } catch (error) {
@@ -109,12 +113,9 @@ const WeightScale = () => {
     }
     while (port && port.readable) {
       reader = port?.readable?.getReader();
-      console.log('reader', reader);
       try {
         while (true) {
           const { value, done } = await reader.read();
-          console.log(value, 'value');
-          console.log(done, 'done');
           if (done) {
             reader.releaseLock();
             break;
@@ -183,7 +184,6 @@ const WeightScale = () => {
   };
 
   const enterHandler = () => {
-    console.log('Enter handler calling');
     console.log(connectedPort, 'connectedPort');
     weightValue = '';
     if (connectedPort?.writable == null) {
@@ -239,8 +239,6 @@ const WeightScale = () => {
       return null;
     }
   }, [connectedPort]);
-
-  console.log('connectedPortInfo', connectedPortInfo);
 
   const portTitleHandler = () => {
     let isOldMachineValue = isOldMachine(connectedPortInfo);
