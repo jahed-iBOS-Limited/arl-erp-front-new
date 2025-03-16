@@ -3,36 +3,32 @@ import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { confirmAlert } from 'react-confirm-alert';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import customStyles from '../../../../selectCustomStyle';
-import { attachmentUpload } from '../../../../_helper/attachmentUpload';
-import placeholderImg from '../../../../_helper/images/placeholderImg.png';
-import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { generateAdviceNo, getBankAc, getCostCenterDDL, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import placeholderImg from '../../../../_helper/images/placeholderImg.png';
+import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import customStyles from '../../../../selectCustomStyle';
 import {
-  generateAdviceNo,
-  getCostCenterDDL,
   getCostElementByCostCenterDDL,
   getNextBankCheque,
-  getPartnerTypeDDL,
-  getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from '../helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
-import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
-import { confirmAlert } from 'react-confirm-alert';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getBankAc, getInstrumentType, getSendToGLBank } from '../../../../_helper/_commonApi';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -157,12 +153,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -183,10 +176,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                  ...item,
-                  value: item?.bankId,
-                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                }))
+                ...item,
+                value: item?.bankId,
+                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+              }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -226,8 +219,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentvalidationSchema
+              : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
@@ -409,10 +402,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                          ...item,
-                                          value: item?.bankId,
-                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                        }))
+                                        ...item,
+                                        value: item?.bankId,
+                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                      }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },

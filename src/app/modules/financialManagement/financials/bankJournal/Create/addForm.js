@@ -1,19 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  saveBankJournal,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import IForm from "../../../../_helper/_form";
+import Form from "./form";
+
 import { confirmAlert } from "react-confirm-alert";
+import { saveBankJournal } from "../../../../_helper/_commonApi";
 import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css"
+import Loading from "./../../../../_helper/_loading";
+import "./style.css";
 
 // const initData = {
 
@@ -62,20 +60,20 @@ export default function BankJournalCreateForm() {
   const dispatch = useDispatch();
 
   const saveHandler = async (values, cb) => {
-    if(location?.state?.selectedJournal?.value === 5 && !params?.id && !attachmentFile){
+    if (location?.state?.selectedJournal?.value === 5 && !params?.id && !attachmentFile) {
       return toast.warn("Attachment Required")
     }
     if (values?.profitCenter?.value) {
       if (location?.state?.selectedJournal?.value === 4) {
-          if (!values?.revenueCenter || !values?.revenueElement) {
-            return toast.warn("Please add Revenue center or Revenue element");
-          }
+        if (!values?.revenueCenter || !values?.revenueElement) {
+          return toast.warn("Please add Revenue center or Revenue element");
+        }
       } else {
-          if (!values?.costCenter || !values?.costElement) {
-            return toast.warn("Please add Cost center or Cost element");
-          }
+        if (!values?.costCenter || !values?.costElement) {
+          return toast.warn("Please add Cost center or Cost element");
+        }
       }
-    } 
+    }
     /* 
      // previous code 
      if (location?.state?.selectedJournal?.value === 4) {
@@ -91,7 +89,7 @@ export default function BankJournalCreateForm() {
         }
       }
     } */
-    
+
     // dispatch values for localStorageSlice
     dispatch(setBankJournalCreateAction(values));
     // setDisabled(true);
@@ -149,7 +147,7 @@ export default function BankJournalCreateForm() {
           subGLName: item?.transaction?.label,
           subGLTypeId: item?.partnerType?.reffPrtTypeId,
           subGLTypeName: item?.partnerType?.label,
-          controlType : type === 4 ? "Revenue" : type === 5 ? "Cost" : "",
+          controlType: type === 4 ? "Revenue" : type === 5 ? "Cost" : "",
           profitCenterId: item?.profitCenter?.value || 0,
           costRevenueName: item?.revenueCenter?.label || item?.costCenter?.label || "",
           costRevenueId: item?.revenueCenter?.value || item?.costCenter?.value || 0,
@@ -201,8 +199,8 @@ export default function BankJournalCreateForm() {
             subGLTypeName: "Bank Account", // "Bank Account"
           },
         ];
-        const isRevenue = (type === 4 && values?.revenueCenter && values?.revenueElement) 
-        const isCostCenter = (type !== 4 && values?.costCenter && values?.costElement) 
+        const isRevenue = (type === 4 && values?.revenueCenter && values?.revenueElement)
+        const isCostCenter = (type !== 4 && values?.costCenter && values?.costElement)
         const payload = {
           objHeader: {
             bankJournalId: 0,
@@ -251,11 +249,11 @@ export default function BankJournalCreateForm() {
             actionBy: +profileData?.userId,
             // Last Added
             chequeNo: values?.instrumentNo || "",
-            controlType: isRevenue ? "revenue": isCostCenter ? "cost" : "" || "",
-            costRevenueName: isRevenue ? values?.revenueCenter?.label : isCostCenter ? values?.costCenter?.label : "" ,
-            costRevenueId: isRevenue ? values?.revenueCenter?.value : isCostCenter  ? values?.costCenter?.value : 0,
-            elementName: isRevenue ? values?.revenueElement?.label : isCostCenter  ? values?.costElement?.label : "",
-            elementId: isRevenue ? values?.revenueElement?.value : isCostCenter  ? values?.costElement?.value :0,
+            controlType: isRevenue ? "revenue" : isCostCenter ? "cost" : "" || "",
+            costRevenueName: isRevenue ? values?.revenueCenter?.label : isCostCenter ? values?.costCenter?.label : "",
+            costRevenueId: isRevenue ? values?.revenueCenter?.value : isCostCenter ? values?.costCenter?.value : 0,
+            elementName: isRevenue ? values?.revenueElement?.label : isCostCenter ? values?.costElement?.label : "",
+            elementId: isRevenue ? values?.revenueElement?.value : isCostCenter ? values?.costElement?.value : 0,
             ProfitCenterId: values?.profitCenter?.value,
             attachment: attachmentFile || "",
           },
@@ -314,7 +312,7 @@ export default function BankJournalCreateForm() {
     setRowDto(data);
   };
 
-  console.log("rowDto",rowDto)
+  console.log("rowDto", rowDto)
 
 
   return (
@@ -323,8 +321,8 @@ export default function BankJournalCreateForm() {
         location?.state?.selectedJournal?.value === 4
           ? "Create Bank Receipt"
           : location?.state?.selectedJournal?.value === 5
-          ? "Create Bank Payments"
-          : "Create Bank Transfer"
+            ? "Create Bank Payments"
+            : "Create Bank Transfer"
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -345,7 +343,7 @@ export default function BankJournalCreateForm() {
         setInstrumentNoByResponse={setInstrumentNoByResponse}
         rowDtoHandler={rowDtoHandler}
         attachmentFile={attachmentFile}
-        setAttachmentFile = {setAttachmentFile}
+        setAttachmentFile={setAttachmentFile}
         isEdit={params?.id || false}
       />
     </IForm>
