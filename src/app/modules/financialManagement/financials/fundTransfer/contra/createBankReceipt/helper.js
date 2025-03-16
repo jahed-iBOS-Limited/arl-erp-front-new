@@ -1,21 +1,6 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
 
-// getCostElementDDL
-
-// getCostCenterDDL
-
-// getRevenueElementListDDL
-
-// getRevenueCenterListDDL
-export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
 
 // getNextBankCheque
 export const getNextBankCheque = async (

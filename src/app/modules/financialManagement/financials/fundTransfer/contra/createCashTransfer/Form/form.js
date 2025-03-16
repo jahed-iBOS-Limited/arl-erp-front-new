@@ -19,7 +19,7 @@ import TransferTable from "./TransferTable";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
-import { getCostCenterDDL, getRevenueElementListDDL } from "../../../../../../_helper/_commonApi";
+import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../../../_helper/_commonApi";
 import FormikError from "../../../../../../_helper/_formikError";
 import { IInput } from "../../../../../../_helper/_input";
 import Loading from "../../../../../../_helper/_loading";
@@ -30,7 +30,6 @@ import placeholderImg from "../../../../../../_helper/images/placeholderImg.png"
 import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
 import customStyles from "../../../../../../selectCustomStyle";
 import { approveHandeler } from "../../../fundTransferApproval/helper";
-import { getRevenueCenterListDDL } from "../../createBankTransfer/helper";
 
 
 

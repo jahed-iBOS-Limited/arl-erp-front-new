@@ -715,3 +715,11 @@ export const getRevenueElementListDDL = async (businessUnitId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
+  try {
+    const res = await axios.get(
+      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
