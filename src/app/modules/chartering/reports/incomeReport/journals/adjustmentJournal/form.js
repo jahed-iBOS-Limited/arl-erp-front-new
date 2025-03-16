@@ -17,12 +17,12 @@ import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import {
   getCostCenterDDL,
-  getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from "../../../../../financialManagement/financials/bankJournal/helper";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
+import { getProfitCenterDDL } from "../../../../../_helper/_commonApi";
 
 export default function _Form({
   buId,
@@ -53,8 +53,7 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`
       )
       .then((res) => {
@@ -102,27 +101,27 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // onSubmit={(values, { setSubmitting, resetForm }) => {
-        //   return confirmAlert({
-        //     title: "Are you sure?",
-        //     message: "",
-        //     buttons: [
-        //       {
-        //         label: "Yes",
-        //         onClick: () => {
-        //           saveHandler(values, () => {
-        //             resetForm(initData);
-        //             setRowDto([]);
-        //           });
-        //         },
-        //       },
-        //       {
-        //         label: "No",
-        //         onClick: () => "",
-        //       },
-        //     ],
-        //   });
-        // }}
+      // onSubmit={(values, { setSubmitting, resetForm }) => {
+      //   return confirmAlert({
+      //     title: "Are you sure?",
+      //     message: "",
+      //     buttons: [
+      //       {
+      //         label: "Yes",
+      //         onClick: () => {
+      //           saveHandler(values, () => {
+      //             resetForm(initData);
+      //             setRowDto([]);
+      //           });
+      //         },
+      //       },
+      //       {
+      //         label: "No",
+      //         onClick: () => "",
+      //       },
+      //     ],
+      //   });
+      // }}
       >
         {({ resetForm, values, errors, touched, setFieldValue }) => (
           <ICustomCard
@@ -554,105 +553,105 @@ export default function _Form({
                     <div className="col-lg-12 pr-0">
                       <div>
                         {rowDto.length > 0 ? (
-                         <div className="table-responsive">
-                           <table className="table table-striped table-bordered mt-1 bj-table">
-                            <thead>
-                              <tr>
-                                <th>SL</th>
-                                <th>General Ledger</th>
-                                <th>Transaction</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
-                                <th>Element</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto.map((itm, idx) => {
-                                let str = `${itm?.amount}`;
-                                let amount = str.replace(/-/g, "");
-                                return (
-                                  <tr key={itm?.transactionId}>
-                                    <td>{idx + 1}</td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.gl?.label}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.transaction?.label}
-                                      </div>
-                                    </td>
-                                    {itm?.debitCredit === "Debit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={amount}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-1 bj-table">
+                              <thead>
+                                <tr>
+                                  <th>SL</th>
+                                  <th>General Ledger</th>
+                                  <th>Transaction</th>
+                                  <th>Debit</th>
+                                  <th>Credit</th>
+                                  <th>Element</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto.map((itm, idx) => {
+                                  let str = `${itm?.amount}`;
+                                  let amount = str.replace(/-/g, "");
+                                  return (
+                                    <tr key={itm?.transactionId}>
+                                      <td>{idx + 1}</td>
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.gl?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    {itm?.debitCredit === "Credit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={amount}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.transaction?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    <td
-                                      style={{
-                                        width: "100px",
-                                        fontSize: "9px",
-                                      }}
-                                    >
-                                      <div className="text-left pl-2">
-                                        {/* {itm?.headerNarration} */}
-                                        {itm?.costRevenueName || ""}
-                                        {itm?.elementName
-                                          ? `, ${itm?.elementName || ""}`
-                                          : ""}
-                                      </div>
-                                    </td>
-                                    <td className="text-center">
-                                      <IDelete remover={remover} id={idx} />
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                         </div>
+                                      {itm?.debitCredit === "Debit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={amount}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      {itm?.debitCredit === "Credit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={amount}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      <td
+                                        style={{
+                                          width: "100px",
+                                          fontSize: "9px",
+                                        }}
+                                      >
+                                        <div className="text-left pl-2">
+                                          {/* {itm?.headerNarration} */}
+                                          {itm?.costRevenueName || ""}
+                                          {itm?.elementName
+                                            ? `, ${itm?.elementName || ""}`
+                                            : ""}
+                                        </div>
+                                      </td>
+                                      <td className="text-center">
+                                        <IDelete remover={remover} id={idx} />
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
                         ) : (
                           ""
                         )}

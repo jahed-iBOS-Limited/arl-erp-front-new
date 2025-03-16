@@ -22,7 +22,6 @@ import {
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
   getNextBankCheque,
-  getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from './helper';
@@ -32,7 +31,7 @@ import {
 // import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { confirmAlert } from 'react-confirm-alert';
 import { Input } from '../../../../../../../_metronic/_partials/controls';
-import { generateAdviceNo, getBankAc, getInstrumentType, getPartnerTypeDDL, getSendToGLBank } from '../../../../../_helper/_commonApi';
+import { generateAdviceNo, getBankAc, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getSendToGLBank } from '../../../../../_helper/_commonApi';
 import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';

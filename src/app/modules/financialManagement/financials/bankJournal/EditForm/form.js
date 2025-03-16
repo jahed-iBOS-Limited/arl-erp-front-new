@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import { getBankAc, getInstrumentType, getPartnerTypeDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
+import { getBankAc, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
@@ -19,7 +19,6 @@ import TransferTable from '../Create/TransferTable';
 import {
   getCostCenterDDL,
   getCostElementByCostCenterDDL,
-  getProfitCenterDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from '../helper';

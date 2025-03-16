@@ -678,3 +678,16 @@ export const getPartnerTypeDDL = async (setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+export const getProfitCenterDDL = async (buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`
+    );
+    const modifiedData = res?.data?.map((item) => ({
+      ...item,
+      value: item?.profitCenterId,
+      label: item?.profitCenterName,
+    }));
+    setter(modifiedData);
+  } catch (error) { }
+};
