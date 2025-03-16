@@ -9,7 +9,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import { generateAdviceNo, getBankAc, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
+import { generateAdviceNo, getBankAc, getCostCenterDDL, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getSendToGLBank } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
@@ -21,7 +21,6 @@ import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalSto
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import customStyles from '../../../../selectCustomStyle';
 import {
-  getCostCenterDDL,
   getCostElementByCostCenterDDL,
   getNextBankCheque,
   getRevenueCenterListDDL,

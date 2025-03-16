@@ -1,36 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import TextArea from "antd/lib/input/TextArea";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import { useSelector, shallowEqual } from "react-redux";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { getCostCenterDDL } from "../../../../_helper/_commonApi";
+import FormikError from "../../../../_helper/_formikError";
+import { IInput } from "../../../../_helper/_input";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import customStyles from "../../../../selectCustomStyle";
+import {
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+} from "../../bankJournal/helper";
 import {
   generalLedgerTypeId_Api,
   getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "../helper";
-import FormikError from "../../../../_helper/_formikError";
 import placeholderImg from "./../../../../_helper/images/placeholderImg.png";
 import DebitCredit from "./DebitCredit";
 import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
 import TransferTable from "./TransferTable";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import TextArea from "antd/lib/input/TextArea";
-import {
-  getCostCenterDDL,
-  getRevenueCenterListDDL,
-  getRevenueElementListDDL,
-} from "../../bankJournal/helper";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { confirmAlert } from "react-confirm-alert";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
@@ -167,12 +166,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`
       )
       .then((res) => {
@@ -196,18 +192,18 @@ export default function _Form({
             label: "Customer",
             reffPrtTypeId: 2,
           },
-          gl:initData?.transaction?.glData?.length === 1 ? initData?.transaction?.glData[0] : "",
+          gl: initData?.transaction?.glData?.length === 1 ? initData?.transaction?.glData[0] : "",
           receiveFrom: headerData?.accountingJournalTypeId === 1 ? initData?.transaction?.label : "",
-          paidTo : headerData?.accountingJournalTypeId === 2 ? initData?.transaction?.label : "",
-          transaction : initData?.transaction,
+          paidTo: headerData?.accountingJournalTypeId === 2 ? initData?.transaction?.label : "",
+          transaction: initData?.transaction,
           transactionDate: _todayDate(),
         }}
         validationSchema={
           headerData?.accountingJournalTypeId === 1
             ? receiptsJournal
             : headerData?.accountingJournalTypeId === 2
-            ? paymentsJournal
-            : transferJournal
+              ? paymentsJournal
+              : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           return confirmAlert({
@@ -262,30 +258,30 @@ export default function _Form({
                     {/* col-lg-6 */}
                     {(headerData?.accountingJournalTypeId === 1 ||
                       headerData?.accountingJournalTypeId === 2) && (
-                      <div className="col-lg-6 pl pr-1 mb-2">
-                        <label>Select Cash GL</label>
-                        <Select
-                          label="Select Cash GL"
-                          options={generalLedgerDDL || []}
-                          value={values.cashGLPlus}
-                          name="cashGLPlus"
-                          setFieldValue={setFieldValue}
-                          errors={errors}
-                          touched={touched}
-                          isSearchable={true}
-                          styles={customStyles}
-                          placeholder="Select Cash GL"
-                          onChange={(valueOption) => {
-                            setFieldValue("cashGLPlus", valueOption);
-                          }}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="cashGLPlus"
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-6 pl pr-1 mb-2">
+                          <label>Select Cash GL</label>
+                          <Select
+                            label="Select Cash GL"
+                            options={generalLedgerDDL || []}
+                            value={values.cashGLPlus}
+                            name="cashGLPlus"
+                            setFieldValue={setFieldValue}
+                            errors={errors}
+                            touched={touched}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Select Cash GL"
+                            onChange={(valueOption) => {
+                              setFieldValue("cashGLPlus", valueOption);
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="cashGLPlus"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
                     {/* col-lg-6 */}
                     {headerData?.accountingJournalTypeId === 3 ? (

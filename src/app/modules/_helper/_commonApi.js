@@ -699,3 +699,11 @@ export const getCostElementDDL = async (UnitId, AccountId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
+  try {
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/CostCenter?AccountId=${AccountId}&UnitId=${UnitId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
