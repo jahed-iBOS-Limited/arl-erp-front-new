@@ -813,3 +813,16 @@ export const checkTwoFactorApproval = async (
     // setDisabled(false);
   }
 };
+export const getCostElementByCostCenterDDL = async (
+  unitId,
+  accountId,
+  costCenterId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
