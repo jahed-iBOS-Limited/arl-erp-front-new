@@ -7,7 +7,7 @@ import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { getCostCenterDDL, getProfitCenterDDL } from "../../../../_helper/_commonApi";
+import { getCostCenterDDL, getProfitCenterDDL, getRevenueElementListDDL } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
@@ -19,7 +19,6 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import customStyles from "../../../../selectCustomStyle";
 import {
   getRevenueCenterListDDL,
-  getRevenueElementListDDL,
 } from "../../bankJournal/helper";
 import { getCostElementByCostCenterDDL } from "../helper";
 import "./adjustmentJournalStyles.css";

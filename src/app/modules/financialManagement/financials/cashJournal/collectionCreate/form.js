@@ -8,7 +8,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getCostCenterDDL } from "../../../../_helper/_commonApi";
+import { getCostCenterDDL, getRevenueElementListDDL } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import { IInput } from "../../../../_helper/_input";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
@@ -18,7 +18,6 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import customStyles from "../../../../selectCustomStyle";
 import {
   getRevenueCenterListDDL,
-  getRevenueElementListDDL,
 } from "../../bankJournal/helper";
 import {
   generalLedgerTypeId_Api,

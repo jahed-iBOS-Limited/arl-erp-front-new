@@ -12,14 +12,7 @@ import { toast } from "react-toastify";
 // getCostCenterDDL
 
 // getRevenueElementListDDL
-export const getRevenueElementListDDL = async (businessUnitId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
+
 // getRevenueCenterListDDL
 export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
   try {
