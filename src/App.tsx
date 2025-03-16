@@ -17,7 +17,7 @@ import { withEncryptedAPI } from './app/modules/_helper/withEncryptedAPI';
 import { setIsExpiredTokenActions } from './app/modules/Auth/_redux/Auth_Actions';
 import useServiceWorkerUpdate from './app/modules/_helper/useServiceWorkerUpdate';
 
-const origin = window.location.origin;
+// const origin = window.location.origin;
 const isDevelopmentOrDevHost = () => false;
 
 export const imarineBaseUrl = isDevelopmentOrDevHost()
