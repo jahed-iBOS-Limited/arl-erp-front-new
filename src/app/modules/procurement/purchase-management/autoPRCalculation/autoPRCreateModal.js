@@ -61,7 +61,7 @@ export default function AutoPRCreateModal({
   const getData = (values) => {
     setAutoRawMaterialData([]);
     getAutoRawMaterialData(
-      `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true`,
+      `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true&plantId=${values?.plant?.value || 0}`,
     );
   };
 
@@ -70,6 +70,7 @@ export default function AutoPRCreateModal({
       enableReinitialize={true}
       initialValues={{
         businessUnit: parentValues?.businessUnit || '',
+        plant: parentValues?.plant || '',
         fromDate: _todayDate(),
         toDate: parentValues?.toDate || _todayDate(),
       }}
@@ -114,6 +115,7 @@ export default function AutoPRCreateModal({
                         businessUnitId: values?.businessUnit?.value,
                         businessUnitName: values?.businessUnit?.label,
                         accountId: profileData?.accountId,
+                        intPlantId: values?.plant?.value,
                         row: autoRawMaterialData.map((item) => {
                           const avaiableBlance = (
                             (+item?.stockQty || 0) +
@@ -277,7 +279,7 @@ export default function AutoPRCreateModal({
                             <th>UOM</th>
                             <th>Total QTY</th>
                             <th>Warehouse Stock</th>
-                            <th>Floating Stock</th>
+                            {/* <th>Floating Stock</th> */}
                             <th>In Transit</th>
                             <th>Open PR</th>
                             <th>Dead Stock</th>
@@ -321,7 +323,7 @@ export default function AutoPRCreateModal({
                                   >
                                     {item?.stockQty?.toFixed(2) || 0}
                                   </td>
-                                  <td
+                                  {/* <td
                                     className="text-right text-primary cursor-pointer"
                                     onClick={() => {
                                       if (!item?.floatingStock) return;
@@ -332,7 +334,7 @@ export default function AutoPRCreateModal({
                                     }}
                                   >
                                     {item?.floatingStock || 0}
-                                  </td>
+                                  </td> */}
 
                                   <td
                                     className="text-right text-primary cursor-pointer"
