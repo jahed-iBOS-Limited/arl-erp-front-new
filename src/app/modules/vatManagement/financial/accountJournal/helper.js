@@ -58,16 +58,6 @@ export const getJournalTypeDDL = async (setter) => {
   }
 };
 
-//GetSBUListDDL
-export const cashJournalSbuApi = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(`/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const saveAccountingJournal = async ({
     payload,
     cb,
