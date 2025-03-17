@@ -7,18 +7,21 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { getBusTransDDLForExpense } from "../../../../_helper/_commonApi";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 import customStyles from "../../../../selectCustomStyle";
 import {
-  expenseAttachment_action,
   getCategory,
   getCostCenter,
   getDisbursementCenter,
@@ -30,9 +33,6 @@ import IView from "./../../../../_helper/_helperIcons/_view";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { getBusTransDDLForExpense } from "../../../../_helper/_commonApi";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -165,14 +165,14 @@ export default function _Form({
   };
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    if([184].includes(selectedBusinessUnit?.value)){
+  useEffect(() => {
+    if ([184].includes(selectedBusinessUnit?.value)) {
       getProfitcenterDDL(
         `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value}&employeeId=${[184].includes(selectedBusinessUnit?.value) ? profileData?.employeeId : 0}`,
       );
-     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -183,20 +183,20 @@ export default function _Form({
           isEdit
             ? initData
             : {
-                ...initData,
-                // profitCenter: profitcenterDDL.length > 1 && "",
-                vehicle: {
-                  value: vehicleDDL[0]?.value,
-                  label: vehicleDDL[0]?.label,
-                },
-                disbursmentCenter:
-                  disbustmentCenter?.length > 0
-                    ? {
-                        value: disbustmentCenter[0]?.value,
-                        label: disbustmentCenter[0]?.label,
-                      }
-                    : "",
-              }
+              ...initData,
+              // profitCenter: profitcenterDDL.length > 1 && "",
+              vehicle: {
+                value: vehicleDDL[0]?.value,
+                label: vehicleDDL[0]?.label,
+              },
+              disbursmentCenter:
+                disbustmentCenter?.length > 0
+                  ? {
+                    value: disbustmentCenter[0]?.value,
+                    label: disbustmentCenter[0]?.label,
+                  }
+                  : "",
+            }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
@@ -447,11 +447,11 @@ export default function _Form({
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <div className={"row bank-journal-custom bj-right"}  style={{
-                      marginLeft: "0px",
-                      marginRight: "0px",
-                      marginTop: "5px",
-                    }}>
+                  <div className={"row bank-journal-custom bj-right"} style={{
+                    marginLeft: "0px",
+                    marginRight: "0px",
+                    marginTop: "5px",
+                  }}>
                     <div className="col-lg-3">
                       <label>Expense Date</label>
                       <InputField
@@ -479,7 +479,7 @@ export default function _Form({
                               valueOption?.value,
                               setCostElementDDL
                             );
-                            if(![184].includes(selectedBusinessUnit?.value)){
+                            if (![184].includes(selectedBusinessUnit?.value)) {
                               setFieldValue("profitCenter", "");
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
@@ -490,7 +490,7 @@ export default function _Form({
                                   }
                                 }
                               );
-                             }
+                            }
                             setLoading(false);
                           }
                         }}
@@ -509,9 +509,9 @@ export default function _Form({
                           setFieldValue("costElement", valueOption);
                           setFieldValue("accountHead", "");
                           setBugetHeadWiseBalance([])
-                          if(valueOption){
-                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res)=>{
-                              const modiFyData = res?.map((item)=>({...item, value: item?.intAccountHeadId , label: item?.strAccountHeadName}))
+                          if (valueOption) {
+                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res) => {
+                              const modiFyData = res?.map((item) => ({ ...item, value: item?.intAccountHeadId, label: item?.strAccountHeadName }))
 
                               setBugetHeadWiseBalance(modiFyData)
                             })
@@ -527,8 +527,8 @@ export default function _Form({
                       />
                     </div>
                     {(bugetHeadWiseBalance?.length > 0) && (
-                          <>
-                          <div className="col-lg-3">
+                      <>
+                        <div className="col-lg-3">
                           <NewSelect
                             name="accountHead"
                             options={bugetHeadWiseBalance || []}
@@ -536,7 +536,7 @@ export default function _Form({
                             label="Account Head"
                             onChange={(valueOption) => {
                               setFieldValue("accountHead", valueOption || "");
-                              if(valueOption){
+                              if (valueOption) {
                                 getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
                               }
 
@@ -545,8 +545,8 @@ export default function _Form({
                             touched={touched}
                           />
                         </div>
-                        </>
-                        )}
+                      </>
+                    )}
                     <div className="col-lg-3">
                       <label>Profit Center</label>
                       <Select
@@ -636,16 +636,16 @@ export default function _Form({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.userNmae
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.userNmae
                               : !values?.expenseDate ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.costCenter ||
-                                !values?.costElement ||
-                                !values?.profitCenter ||
-                                (bugetHeadWiseBalance?.length > 0 && !values?.accountHead)
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.costCenter ||
+                              !values?.costElement ||
+                              !values?.profitCenter ||
+                              (bugetHeadWiseBalance?.length > 0 && !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -726,109 +726,109 @@ export default function _Form({
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
                     <div className="col-lg-12 pr-0">
-                    <div className="table-responsive">
-                    <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto.length < 1 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th>Expense Date</th>
-                            <th>Cost Center</th>
-                            <th>Cost Element</th>
-                            <th>Account Head</th>
-                            <th>Profit Center</th>
-                            <th>Expense Place</th>
-                            <th>Expense Amount</th>
-                            <th>Expense Description</th>
-                            <th>Driver Name</th>
-                            <th>Attachments</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => {
-                            const isFuelLogCash =
-                              item?.comments2 === "Fuel Log Cash";
-                            return (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(item?.expenseDate)}
-                                  </div>
-                                </td>
-                                <td>{item?.costCenter?.label}</td>
-                                <td>{item?.costElement?.label}</td>
-                                <td>{item?.accountHead?.label}</td>
-                                <td>{item?.profitCenter?.label}</td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.location}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right pr-2">
-                                    <InputField
-                                      value={item?.expenseAmount}
-                                      name="expenseAmount"
-                                      placeholder="Expense Amount"
-                                      type="number"
-                                      onChange={(e) => {
-                                        // Line Manager && Supervisor check
-                                        if (
-                                          location?.state?.isApproval &&
-                                          e.target.value >
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead className={rowDto.length < 1 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th>Expense Date</th>
+                              <th>Cost Center</th>
+                              <th>Cost Element</th>
+                              <th>Account Head</th>
+                              <th>Profit Center</th>
+                              <th>Expense Place</th>
+                              <th>Expense Amount</th>
+                              <th>Expense Description</th>
+                              <th>Driver Name</th>
+                              <th>Attachments</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => {
+                              const isFuelLogCash =
+                                item?.comments2 === "Fuel Log Cash";
+                              return (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(item?.expenseDate)}
+                                    </div>
+                                  </td>
+                                  <td>{item?.costCenter?.label}</td>
+                                  <td>{item?.costElement?.label}</td>
+                                  <td>{item?.accountHead?.label}</td>
+                                  <td>{item?.profitCenter?.label}</td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.location}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      <InputField
+                                        value={item?.expenseAmount}
+                                        name="expenseAmount"
+                                        placeholder="Expense Amount"
+                                        type="number"
+                                        onChange={(e) => {
+                                          // Line Manager && Supervisor check
+                                          if (
+                                            location?.state?.isApproval &&
+                                            e.target.value >
                                             item?.prvExpenseAmount
-                                        ) {
-                                          return false;
-                                        }
+                                          ) {
+                                            return false;
+                                          }
 
-                                        const copy = [...rowDto];
-                                        copy[index].expenseAmount =
-                                          e.target.value;
-                                        setRowDto(copy);
-                                      }}
-                                      min={0}
-                                      step="any"
-                                      disabled={isFuelLogCash}
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.comments2}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.driverName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center pl-2">
-                                    {item?.attachmentLink && (
-                                      <IView
-                                        clickHandler={() => {
-                                          dispatch(
-                                            getDownlloadFileView_Action(
-                                              item?.attachmentLink
-                                            )
-                                          );
+                                          const copy = [...rowDto];
+                                          copy[index].expenseAmount =
+                                            e.target.value;
+                                          setRowDto(copy);
                                         }}
+                                        min={0}
+                                        step="any"
+                                        disabled={isFuelLogCash}
                                       />
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.comments2}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.driverName}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center pl-2">
+                                      {item?.attachmentLink && (
+                                        <IView
+                                          clickHandler={() => {
+                                            dispatch(
+                                              getDownlloadFileView_Action(
+                                                item?.attachmentLink
+                                              )
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td className="text-center">
+                                    {!isFuelLogCash && (
+                                      <IDelete remover={remover} id={index} />
                                     )}
-                                  </div>
-                                </td>
-                                <td className="text-center">
-                                  {!isFuelLogCash && (
-                                    <IDelete remover={remover} id={index} />
-                                  )}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -867,7 +867,7 @@ export default function _Form({
                 onClose={() => setOpen(false)}
                 onSave={() => {
                   setOpen(false);
-                  expenseAttachment_action(fileObjects).then((data) => {
+                  empAttachment_action(fileObjects).then((data) => {
                     setUploadImage(data);
                   });
                 }}
