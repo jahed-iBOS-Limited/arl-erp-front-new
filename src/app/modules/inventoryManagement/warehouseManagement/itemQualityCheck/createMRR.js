@@ -32,6 +32,7 @@ import {
   initData,
   validationSchemaForMRR
 } from './helper';
+import { uploadAttachment } from '../mrrCancel/helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
   // eslint-disable-next-line no-unused-vars
@@ -422,7 +423,7 @@ export default function CreateMRR() {
                 setDisabled(false);
                 return toast.warn('Attachment required');
               } else {
-                empAttachment_action(
+                uploadAttachment(
                   compressedFile?.map((item) => ({ file: item })),
                 )
                   .then((res) => {
@@ -450,7 +451,7 @@ export default function CreateMRR() {
               }
             } else {
               if (compressedFile.length > 0) {
-                empAttachment_action(
+                uploadAttachment(
                   compressedFile?.map((item) => ({ file: item })),
                 )
                   .then((res) => {

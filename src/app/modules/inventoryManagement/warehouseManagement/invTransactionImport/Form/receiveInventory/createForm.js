@@ -25,7 +25,7 @@ import {
   saveInventoryTransactionOrder,
 } from "../../_redux/Actions";
 import { invTransactionSlice } from "../../_redux/Slice";
-import { getForeignPurchaseDDL } from "../../helper";
+import { getForeignPurchaseDDL, uploadAttachment } from "../../helper";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
 import { getSupplierDDL, initData, validationSchema } from "./helper";
@@ -380,7 +380,7 @@ export default function ReceiveInvCreateForm({
                 setDisabled(false);
                 return toast.warn("Attachment required");
               } else {
-                empAttachment_action(
+                uploadAttachment(
                   compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
@@ -408,7 +408,7 @@ export default function ReceiveInvCreateForm({
               }
             } else {
               if (compressedFile.length > 0) {
-                empAttachment_action(
+                uploadAttachment(
                   compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
