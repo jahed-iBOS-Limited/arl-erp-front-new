@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   build: {
     outDir: 'build',
+    assetsDir: 'static',
   },
   plugins: [
     react(),
