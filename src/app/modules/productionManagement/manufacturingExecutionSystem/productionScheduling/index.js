@@ -44,6 +44,7 @@ export default function ProductionScheduling() {
       (data) =>
         setBuDDL(
           data.map((item) => ({
+            ...item,
             value: item?.organizationUnitReffId,
             label: item?.organizationUnitReffName,
           })),
