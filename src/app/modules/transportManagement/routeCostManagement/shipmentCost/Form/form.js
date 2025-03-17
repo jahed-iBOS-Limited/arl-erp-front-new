@@ -13,6 +13,7 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { GetSupplierFuelStationDDL_api, getComponentDDL } from "../helper";
 import IView from "./../../../../_helper/_helperIcons/_view";
@@ -20,8 +21,7 @@ import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Action
 import {
   GetSupplierListDDL_api,
   GetVehicleFuelTypeDDL_api,
-  getBusinessUnitDDL_api,
-  multipleAttachment_action,
+  getBusinessUnitDDL_api
 } from "./../helper";
 import ChalanInfo from "./ChalanInfo";
 import AttachmentGrid from "./attachmentGrid";
@@ -245,7 +245,7 @@ export default function _Form({
                 setRowDto([]);
               });
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           };
           IConfirmModal(confirmObject);
         }}
@@ -972,28 +972,28 @@ export default function _Form({
                     </div>
                     {(values?.purchaseType === "Cash" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Cash</label>
-                        <InputField
-                          value={values?.cash}
-                          name="cash"
-                          placeholder="Cash"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Cash</label>
+                          <InputField
+                            value={values?.cash}
+                            name="cash"
+                            placeholder="Cash"
+                            type="text"
+                          />
+                        </div>
+                      )}
                     {(values?.purchaseType === "Credit" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Credit</label>
-                        <InputField
-                          value={values?.credit}
-                          name="credit"
-                          placeholder="Credit"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Credit</label>
+                          <InputField
+                            value={values?.credit}
+                            name="credit"
+                            placeholder="Credit"
+                            type="text"
+                          />
+                        </div>
+                      )}
                     <div className="col-lg-3">
                       <label>Fuel Memo No</label>
                       <InputField
@@ -1022,7 +1022,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === "Both" &&
                             values?.fuelAmount !=
-                              +values?.credit + +values?.cash
+                            +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               "Credit and cash should be equal to amount"
@@ -1293,7 +1293,7 @@ export default function _Form({
                   }}
                   onSave={() => {
                     setOpen({});
-                    multipleAttachment_action(fileObjects)
+                    empAttachment_action(fileObjects)
                       .then((data) => {
                         setUploadImage(open?.type === "fuelCost" && data?.[0]);
                         setUploadImageTwo(

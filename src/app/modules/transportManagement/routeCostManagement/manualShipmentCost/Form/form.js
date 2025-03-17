@@ -11,6 +11,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { GetSupplierFuelStationDDL_api, getComponentDDL } from "../helper";
 import IView from "./../../../../_helper/_helperIcons/_view";
@@ -19,8 +20,7 @@ import { compressfile } from "./../../../../_helper/compressfile";
 import {
   GetSupplierListDDL_api,
   GetVehicleFuelTypeDDL_api,
-  getBusinessUnitDDL_api,
-  multipleAttachment_action,
+  getBusinessUnitDDL_api
 } from "./../helper";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -125,19 +125,19 @@ export default function _Form({
   const [costElementDDL, getCostElementDDL] = useAxiosGet();
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
-});
-const handleResize = () => {
-  setWindowSize({
-      width: window.innerWidth,
   });
-};
-
-useEffect(() => {
-  window.addEventListener('resize', handleResize);
-  return () => {
-      window.removeEventListener('resize', handleResize);
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+    });
   };
-}, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
 
@@ -242,7 +242,7 @@ useEffect(() => {
 
   const fileUploadFunc = async () => {
     const compressedFile = await compressfile([fileObjects[0].file]);
-    multipleAttachment_action(compressedFile)
+    empAttachment_action(compressedFile)
       .then((data) => {
         setUploadImage(open?.type === "fuelCost" && data?.[0]);
         setFileObjects([]);
@@ -269,7 +269,7 @@ useEffect(() => {
                 setAdvanceAmount(0);
               });
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           });
           // saveHandler(values, () => {
           //   resetForm(initData);
@@ -327,7 +327,7 @@ useEffect(() => {
           >
             <>
               <Form className="form form-label-right position-relative">
-                <p style={windowSize?.width>1000 ? { position: "absolute", top: "-46px", left: "45%" } : {marginTop:"10px",textAlign:"center"}}>
+                <p style={windowSize?.width > 1000 ? { position: "absolute", top: "-46px", left: "45%" } : { marginTop: "10px", textAlign: "center" }}>
                   <b>Pay to Driver: </b>
                   {netPayable || 0}
                 </p>
@@ -1005,28 +1005,28 @@ useEffect(() => {
                     </div>
                     {(values?.purchaseType === "Cash" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Cash</label>
-                        <InputField
-                          value={values?.cash}
-                          name="cash"
-                          placeholder="Cash"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Cash</label>
+                          <InputField
+                            value={values?.cash}
+                            name="cash"
+                            placeholder="Cash"
+                            type="text"
+                          />
+                        </div>
+                      )}
                     {(values?.purchaseType === "Credit" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Credit</label>
-                        <InputField
-                          value={values?.credit}
-                          name="credit"
-                          placeholder="Credit"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Credit</label>
+                          <InputField
+                            value={values?.credit}
+                            name="credit"
+                            placeholder="Credit"
+                            type="text"
+                          />
+                        </div>
+                      )}
 
                     <div className="col-lg-2 pl pr-1 mb-1">
                       <button
@@ -1046,7 +1046,7 @@ useEffect(() => {
                           if (
                             values?.purchaseType === "Both" &&
                             +values?.fuelAmount !=
-                              +values?.credit + +values?.cash
+                            +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               "Credit and cash should be equal to amount"

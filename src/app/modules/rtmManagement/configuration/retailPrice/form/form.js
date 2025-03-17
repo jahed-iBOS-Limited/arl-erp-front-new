@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { getItemDDL, retailPriceAttachment_action } from "../helper";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import InputField from "../../../../_helper/_inputField";
+import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { getItemDDL } from "../helper";
+import IDelete from "./../../../../_helper/_helperIcons/_delete";
 import IView from "./../../../../_helper/_helperIcons/_view";
 import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import NewSelect from "./../../../../_helper/_select";
 
 function _Form({
   initData,
@@ -390,7 +391,7 @@ function _Form({
               }}
               onClose={() => setOpen(false)}
               onSave={() => {
-                retailPriceAttachment_action(fileObjects).then((data) => {
+                empAttachment_action(fileObjects).then((data) => {
                   setUploadImage(data);
                   if (rowAttachBtnIndx === 0 || rowAttachBtnIndx) {
                     rowLableAttachmentUpdate(data);

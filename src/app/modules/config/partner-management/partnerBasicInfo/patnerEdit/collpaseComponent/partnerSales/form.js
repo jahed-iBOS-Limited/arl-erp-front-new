@@ -12,14 +12,14 @@ import IDelete from "../../../../../../_helper/_helperIcons/_delete";
 import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../../../_helper/_select";
 import { _todayDate } from "../../../../../../_helper/_todayDate";
+import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
 import InputField from "./../../../../../../_helper/_inputField";
+import { getSalesTerrioryDDLAction } from "./_redux/Actions";
 import {
-  attachmentUpload,
   getBankNameDDL_api,
   getBranchNameDDL_api,
   getBusinessPartnerBasicinfoAction,
 } from "./helper";
-import { getSalesTerrioryDDLAction } from "./_redux/Actions";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -168,7 +168,7 @@ export default function _Form({
     try {
       const res = await Axios.get(`/fino/FinanceCommonDDL/GetMortageTypeDDL`);
       setMortageTypeDDL(res.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const ReceivebleGLDDLConditionFunc = (salesOrgId, setFieldValue) => {
@@ -426,7 +426,7 @@ export default function _Form({
                     <div className="col-lg-3 mb-2">
                       <NewSelect
                         name="partyStatusType"
-                        options={partyStatusDDL||[]}
+                        options={partyStatusDDL || []}
                         value={values?.partyStatusType}
                         label="Party Status Type"
                         onChange={(valueOption) => {
@@ -793,14 +793,14 @@ export default function _Form({
                                 </td>
                                 <td>
                                   <input
-                                  style={{width:"30px"}}
-                                   value={itm?.distanceKm || ""}
-                                   type="number"
-                                   onChange={(e)=>{
-                                     const modifiedData = [...rowDto];
-                                     modifiedData[idx]["distanceKm"] = +e.target.value;
-                                     setRowDto(modifiedData)
-                                   }}
+                                    style={{ width: "30px" }}
+                                    value={itm?.distanceKm || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      const modifiedData = [...rowDto];
+                                      modifiedData[idx]["distanceKm"] = +e.target.value;
+                                      setRowDto(modifiedData)
+                                    }}
                                   />
                                 </td>
                                 <td>
@@ -926,9 +926,9 @@ export default function _Form({
                                           return prevState.map((item, index) =>
                                             index === idx
                                               ? {
-                                                  ...item,
-                                                  isCodeShowInChallan: !itm?.isCodeShowInChallan,
-                                                }
+                                                ...item,
+                                                isCodeShowInChallan: !itm?.isCodeShowInChallan,
+                                              }
                                               : item
                                           );
                                         });
@@ -1213,7 +1213,7 @@ export default function _Form({
                               setFieldValue("numberOfDays", "");
                               setCreditRowDto([]);
                             }}
-                            // disabled={values.daysLimitBtnDisabled}
+                          // disabled={values.daysLimitBtnDisabled}
                           />
                           Days Limit
                         </label>
@@ -1262,306 +1262,306 @@ export default function _Form({
                   </div>
                   {(values.limitType === "dayesLimit" ||
                     values.limitType === "both") && (
-                    <div className="row global-form">
-                      <div className="col-lg-3">
-                        <label>Number Of Days</label>
-                        <InputField
-                          value={values?.numberOfDays}
-                          name="numberOfDays"
-                          placeholder="Number Of Days"
-                          type="number"
-                          min={0}
-                          onChange={(e) => {
-                            setFieldValue("numberOfDays", e.target.value);
-                            const currentValues = {
-                              ...values,
-                              numberOfDays: +e.target.value,
-                            };
-                            numberOfDaysChangeHandler(currentValues);
+                      <div className="row global-form">
+                        <div className="col-lg-3">
+                          <label>Number Of Days</label>
+                          <InputField
+                            value={values?.numberOfDays}
+                            name="numberOfDays"
+                            placeholder="Number Of Days"
+                            type="number"
+                            min={0}
+                            onChange={(e) => {
+                              setFieldValue("numberOfDays", e.target.value);
+                              const currentValues = {
+                                ...values,
+                                numberOfDays: +e.target.value,
+                              };
+                              numberOfDaysChangeHandler(currentValues);
 
-                            if (e?.target?.value > 0) {
-                              const toDate = new Date();
-                              toDate.setDate(
-                                toDate.getDate() + +e?.target?.value - 1
-                              );
-                              setFieldValue("creditValidFrom", _todayDate());
+                              if (e?.target?.value > 0) {
+                                const toDate = new Date();
+                                toDate.setDate(
+                                  toDate.getDate() + +e?.target?.value - 1
+                                );
+                                setFieldValue("creditValidFrom", _todayDate());
+                                setFieldValue(
+                                  "creditValidTo",
+                                  _dateFormatter(toDate)
+                                );
+                              } else {
+                                setFieldValue("creditValidFrom", "");
+                                setFieldValue("creditValidTo", "");
+                              }
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Credit Limit</label>
+                          <InputField
+                            value={values?.daysCreditLimitAmount}
+                            name="daysCreditLimitAmount"
+                            placeholder="Credit Limit"
+                            min="0"
+                            type="number"
+                            onChange={(e) => {
                               setFieldValue(
-                                "creditValidTo",
-                                _dateFormatter(toDate)
+                                "daysCreditLimitAmount",
+                                e.target.value
                               );
-                            } else {
-                              setFieldValue("creditValidFrom", "");
-                              setFieldValue("creditValidTo", "");
-                            }
-                          }}
-                        />
+                              const curentVaues = {
+                                ...values,
+                                daysCreditLimitAmount: +e.target.value,
+                              };
+                              numberOfDaysChangeHandler(curentVaues);
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className="col-lg-3">
-                        <label>Credit Limit</label>
-                        <InputField
-                          value={values?.daysCreditLimitAmount}
-                          name="daysCreditLimitAmount"
-                          placeholder="Credit Limit"
-                          min="0"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "daysCreditLimitAmount",
-                              e.target.value
-                            );
-                            const curentVaues = {
-                              ...values,
-                              daysCreditLimitAmount: +e.target.value,
-                            };
-                            numberOfDaysChangeHandler(curentVaues);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
+                    )}
                 </div>
 
                 {(values.limitType === "creditLimit" ||
                   values.limitType === "both") && (
-                  <div className="col-lg-12 p-0">
-                    <h6
-                      style={{
-                        textAlign: "center",
-                        fontSize: "10.5px",
-                        fontWeight: "600",
-                        margin: "5px 0 3px 0",
-                      }}
-                    >
-                      Set Credit Limit(Optional)
-                    </h6>
-                    <div className="row global-form mt-0">
-                      <div className="col-12">
-                        <h6>
-                          In word (credit limit):{" "}
-                          {toWords.convert(values?.creditLimitAmount || 0)}
-                        </h6>
-                      </div>
-                      <div className="col-lg-3">
-                        <label>Credit Limit</label>
-                        <InputField
-                          value={values?.creditLimitAmount}
-                          name="creditLimitAmount"
-                          placeholder="Credit Limit"
-                          min="0"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("creditLimitAmount", e.target.value);
-                          }}
-                        />
-                      </div>
-
-                      <div className="col-lg-3">
-                        <label>Valid From Date</label>
-                        <InputField
-                          value={values?.creditValidFrom}
-                          name="creditValidFrom"
-                          placeholder="Valid From Date"
-                          type="date"
-                          onChange={(e) => {
-                            setFieldValue("creditValidFrom", e.target.value);
-                          }}
-                        />
-                      </div>
-
-                      <div className="col-lg-3">
-                        <label>Valid To Date</label>
-                        <InputField
-                          value={values?.creditValidTo}
-                          name="creditValidTo"
-                          placeholder="Valid To Date"
-                          type="date"
-                          onChange={(e) => {
-                            setFieldValue("creditValidTo", e.target.value);
-                          }}
-                        />
-                      </div>
-
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="limitStatus"
-                          options={[
-                            {
-                              value: "Short Time",
-                              label: "Short Time",
-                            },
-                            {
-                              value: "Life Time",
-                              label: "Life Time",
-                            },
-                          ]}
-                          value={values?.limitStatus}
-                          label="Limit Status"
-                          onChange={(valueOption) => {
-                            setFieldValue("limitStatus", valueOption);
-                          }}
-                          placeholder="Limit Status"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                      <div className="col mt-0 d-flex align-items-center justify-content-end">
-                        <span
-                          style={{
-                            cursor: "pointer",
-                            border: "1px solid",
-                          }}
-                          className="mr-4"
-                          onClick={() => setOpen(true)}
-                        >
-                          <i
-                            style={{
-                              color: "#1F2937",
-                              fontSize: "20px",
+                    <div className="col-lg-12 p-0">
+                      <h6
+                        style={{
+                          textAlign: "center",
+                          fontSize: "10.5px",
+                          fontWeight: "600",
+                          margin: "5px 0 3px 0",
+                        }}
+                      >
+                        Set Credit Limit(Optional)
+                      </h6>
+                      <div className="row global-form mt-0">
+                        <div className="col-12">
+                          <h6>
+                            In word (credit limit):{" "}
+                            {toWords.convert(values?.creditLimitAmount || 0)}
+                          </h6>
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Credit Limit</label>
+                          <InputField
+                            value={values?.creditLimitAmount}
+                            name="creditLimitAmount"
+                            placeholder="Credit Limit"
+                            min="0"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue("creditLimitAmount", e.target.value);
                             }}
-                            class="fa fa-upload"
-                            aria-hidden="true"
-                          ></i>
-                        </span>
+                          />
+                        </div>
 
-                        <button
-                          style={{ padding: "5px" }}
-                          onClick={() => {
-                            let obj = {
-                              creditLimit: +values?.creditLimitAmount,
-                              fromDate: values?.creditValidFrom,
-                              toDate: values?.creditValidTo,
-                              configId: 0,
-                              strLimitStatus: values?.limitStatus?.value,
-                              isDayLimit: false,
-                              limitDays: 0,
-                            };
+                        <div className="col-lg-3">
+                          <label>Valid From Date</label>
+                          <InputField
+                            value={values?.creditValidFrom}
+                            name="creditValidFrom"
+                            placeholder="Valid From Date"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("creditValidFrom", e.target.value);
+                            }}
+                          />
+                        </div>
 
-                            if (fileObjects?.length > 0) {
-                              // attachmentLink add
-                              attachmentUpload(fileObjects).then((data) => {
-                                obj["uploadFile"] = data[0]?.id || "";
-                                setFileObjects([]);
-                              });
+                        <div className="col-lg-3">
+                          <label>Valid To Date</label>
+                          <InputField
+                            value={values?.creditValidTo}
+                            name="creditValidTo"
+                            placeholder="Valid To Date"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("creditValidTo", e.target.value);
+                            }}
+                          />
+                        </div>
+
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="limitStatus"
+                            options={[
+                              {
+                                value: "Short Time",
+                                label: "Short Time",
+                              },
+                              {
+                                value: "Life Time",
+                                label: "Life Time",
+                              },
+                            ]}
+                            value={values?.limitStatus}
+                            label="Limit Status"
+                            onChange={(valueOption) => {
+                              setFieldValue("limitStatus", valueOption);
+                            }}
+                            placeholder="Limit Status"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col mt-0 d-flex align-items-center justify-content-end">
+                          <span
+                            style={{
+                              cursor: "pointer",
+                              border: "1px solid",
+                            }}
+                            className="mr-4"
+                            onClick={() => setOpen(true)}
+                          >
+                            <i
+                              style={{
+                                color: "#1F2937",
+                                fontSize: "20px",
+                              }}
+                              class="fa fa-upload"
+                              aria-hidden="true"
+                            ></i>
+                          </span>
+
+                          <button
+                            style={{ padding: "5px" }}
+                            onClick={() => {
+                              let obj = {
+                                creditLimit: +values?.creditLimitAmount,
+                                fromDate: values?.creditValidFrom,
+                                toDate: values?.creditValidTo,
+                                configId: 0,
+                                strLimitStatus: values?.limitStatus?.value,
+                                isDayLimit: false,
+                                limitDays: 0,
+                              };
+
+                              if (fileObjects?.length > 0) {
+                                // attachmentLink add
+                                attachmentUpload(fileObjects).then((data) => {
+                                  obj["uploadFile"] = data[0]?.id || "";
+                                  setFileObjects([]);
+                                });
+                              }
+                              creditLimitSetter(obj);
+                            }}
+                            className="btn btn-primary mb-1 mt-1"
+                            disabled={
+                              +values?.creditLimitAmount < 0 ||
+                              !values?.creditLimitAmount ||
+                              !values?.creditValidFrom ||
+                              !values?.creditValidTo ||
+                              !values?.limitStatus?.value ||
+                              fileObjects?.length === 0
                             }
-                            creditLimitSetter(obj);
-                          }}
-                          className="btn btn-primary mb-1 mt-1"
-                          disabled={
-                            +values?.creditLimitAmount < 0 ||
-                            !values?.creditLimitAmount ||
-                            !values?.creditValidFrom ||
-                            !values?.creditValidTo ||
-                            !values?.limitStatus?.value ||
-                            fileObjects?.length === 0
-                          }
-                          type="button"
-                        >
-                          Add
-                        </button>
+                            type="button"
+                          >
+                            Add
+                          </button>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* credit limit table */}
-                    <div className="row">
-                      <div className="col-lg-12">
-                        {creditRowDto?.length > 0 ? (
-                          <div className="table-responsive">
-                            <table className="table table-striped table-bordered global-table mt-0">
-                              <thead>
-                                <tr>
-                                  <th>SL</th>
-                                  <th style={{ width: "120px" }}>
-                                    Credit Limit
-                                  </th>
-                                  <th>Valid From</th>
-                                  <th>Valid To</th>
-                                  <th>Limit Status</th>
-                                  <th>Attachments</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {creditRowDto?.map((itm, idx) => {
-                                  return (
-                                    itm?.isDayLimit === false && (
-                                      <tr key={idx}>
-                                        <td className="text-center">
-                                          {idx + 1}
-                                        </td>
-                                        <td style={{ width: "60px" }}>
-                                          <InputField
-                                            value={itm?.creditLimit}
-                                            name="names"
-                                            placeholder="Name"
-                                            type="number"
-                                            disabled={true} // Last Chnage Assign By | Iftakhar Alam
-                                            onChange={(e) =>
-                                              setCreditLimitAmount(
-                                                idx,
-                                                e.target.value
-                                              )
-                                            }
-                                            min="0"
-                                          />
-                                        </td>
-                                        <td>
-                                          <div>
-                                            <div className="text-right pr-2">
-                                              {_dateFormatter(itm?.fromDate)}
+                      {/* credit limit table */}
+                      <div className="row">
+                        <div className="col-lg-12">
+                          {creditRowDto?.length > 0 ? (
+                            <div className="table-responsive">
+                              <table className="table table-striped table-bordered global-table mt-0">
+                                <thead>
+                                  <tr>
+                                    <th>SL</th>
+                                    <th style={{ width: "120px" }}>
+                                      Credit Limit
+                                    </th>
+                                    <th>Valid From</th>
+                                    <th>Valid To</th>
+                                    <th>Limit Status</th>
+                                    <th>Attachments</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {creditRowDto?.map((itm, idx) => {
+                                    return (
+                                      itm?.isDayLimit === false && (
+                                        <tr key={idx}>
+                                          <td className="text-center">
+                                            {idx + 1}
+                                          </td>
+                                          <td style={{ width: "60px" }}>
+                                            <InputField
+                                              value={itm?.creditLimit}
+                                              name="names"
+                                              placeholder="Name"
+                                              type="number"
+                                              disabled={true} // Last Chnage Assign By | Iftakhar Alam
+                                              onChange={(e) =>
+                                                setCreditLimitAmount(
+                                                  idx,
+                                                  e.target.value
+                                                )
+                                              }
+                                              min="0"
+                                            />
+                                          </td>
+                                          <td>
+                                            <div>
+                                              <div className="text-right pr-2">
+                                                {_dateFormatter(itm?.fromDate)}
+                                              </div>
                                             </div>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div>
-                                            <div className="text-right pr-2">
-                                              {_dateFormatter(itm?.toDate)}
+                                          </td>
+                                          <td>
+                                            <div>
+                                              <div className="text-right pr-2">
+                                                {_dateFormatter(itm?.toDate)}
+                                              </div>
                                             </div>
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div>{itm?.strLimitStatus}</div>
-                                        </td>
-                                        <td>
-                                          <div>
-                                            <div className="text-center pointer">
-                                              {itm?.uploadFile ? (
-                                                <span
-                                                  onClick={() => {
-                                                    dispatch(
-                                                      getDownlloadFileView_Action(
-                                                        itm?.uploadFile
-                                                      )
-                                                    );
-                                                  }}
-                                                >
-                                                  <i class="fas fa-eye"></i>
-                                                </span>
-                                              ) : (
-                                                "-"
-                                              )}
+                                          </td>
+                                          <td>
+                                            <div>{itm?.strLimitStatus}</div>
+                                          </td>
+                                          <td>
+                                            <div>
+                                              <div className="text-center pointer">
+                                                {itm?.uploadFile ? (
+                                                  <span
+                                                    onClick={() => {
+                                                      dispatch(
+                                                        getDownlloadFileView_Action(
+                                                          itm?.uploadFile
+                                                        )
+                                                      );
+                                                    }}
+                                                  >
+                                                    <i class="fas fa-eye"></i>
+                                                  </span>
+                                                ) : (
+                                                  "-"
+                                                )}
+                                              </div>
                                             </div>
-                                          </div>
-                                        </td>
-                                        <td className="text-center">
-                                          <IDelete
-                                            remover={creditRemover}
-                                            id={idx}
-                                          />
-                                        </td>
-                                      </tr>
-                                    )
-                                  );
-                                })}
-                              </tbody>
-                            </table>
-                          </div>
-                        ) : (
-                          ""
-                        )}
+                                          </td>
+                                          <td className="text-center">
+                                            <IDelete
+                                              remover={creditRemover}
+                                              id={idx}
+                                            />
+                                          </td>
+                                        </tr>
+                                      )
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               {/* Credit Limit Attachment */}

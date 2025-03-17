@@ -1,22 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import {
-  saveAssetReceive,
-  getPoNumberDDL,
-  attachment_action,
-  getSingleDataForEdit,
-  saveCreateServiceEdit,
-} from "../helper/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { serviceReceiveAttachment_action } from "../../serviceReceive/helper/Actions";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import {
+  getPoNumberDDL,
+  getSingleDataForEdit,
+  saveAssetReceive,
+  saveCreateServiceEdit
+} from "../helper/Actions";
+import Form from "./form";
 
 
 let initData = {
@@ -27,16 +26,16 @@ let initData = {
   comment: "",
   attachment: "",
   file: "",
-  challanNO:"",
-  challanDate:"",
-  vatChallan:"",
-  vatAmmount:"",
-  getEntry:"",
-  freight:"",
-  grossDiscount:"",
-  commission:"",
-  prodCost:"",
-  foreignPurchase:"",
+  challanNO: "",
+  challanDate: "",
+  vatChallan: "",
+  vatAmmount: "",
+  getEntry: "",
+  freight: "",
+  grossDiscount: "",
+  commission: "",
+  prodCost: "",
+  foreignPurchase: "",
   othersCharge: ""
 };
 
@@ -97,7 +96,7 @@ export default function AssetsReceiveForm({
   //   getRowDtoData(poId, setRowDto);
   // };
 
-  let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue , 0)
+  let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0)
 
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl) => {
@@ -150,13 +149,13 @@ export default function AssetsReceiveForm({
         },
       ],
     });
-    
+
   };
 
   const saveHandler = async (values, cb) => {
 
 
-    if(totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
+    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -191,7 +190,7 @@ export default function AssetsReceiveForm({
         };
 
         if (values?.file) {
-          attachment_action(attachment).then((data) => {
+          empAttachment_action(attachment).then((data) => {
             const modifyPlyload = {
               objHeader: {
                 ...payload?.objHeader,
@@ -217,10 +216,10 @@ export default function AssetsReceiveForm({
               transactionQuantity: data.quantity,
               poQuantity: data?.poQuantity,
               previousQuantity: data?.receiveQuantity,
-              locationId: data?.location?.value ,
+              locationId: data?.location?.value,
               locationName: data?.location?.label,
               transactionValue: data?.quantity * data?.baseBalue,
-              vatAmount: data?.vatValue ||0,
+              vatAmount: data?.vatValue || 0,
               discount: data?.discount || 0,
               referenceId: data?.referenceId || 0
             };
@@ -289,13 +288,13 @@ export default function AssetsReceiveForm({
           //   saveAssetReceive(payload, cb, setRowDto, setDisabled);
           // }
 
-          if(fileObjects.length < 1) return toast.warn("Attachment is required");
+          if (fileObjects.length < 1) return toast.warn("Attachment is required");
 
           if (fileObjects.length > 0) {
-            serviceReceiveAttachment_action(fileObjects).then((data) => {
+            empAttachment_action(fileObjects).then((data) => {
               const modifyPlyload = {
                 objHeader: {
-                  ...payload?.objHeader             
+                  ...payload?.objHeader
                 },
                 images: data?.map(data => {
                   return {
@@ -304,7 +303,7 @@ export default function AssetsReceiveForm({
                 }),
                 objRow: payload.objRow,
               };
-              saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled ,IConfirmModal,dispatch).then(
+              saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then(
                 (data) => {
                   setFileObjects([]);
                 }
@@ -315,10 +314,10 @@ export default function AssetsReceiveForm({
               objHeader: {
                 ...payload?.objHeader
               },
-              images:[],
+              images: [],
               objRow: payload.objRow,
             };
-            saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled , IConfirmModal,dispatch).then(
+            saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then(
               (data) => {
                 setFileObjects([]);
               }
@@ -338,8 +337,8 @@ export default function AssetsReceiveForm({
   const [objProps, setObjprops] = useState({});
 
 
-   // remove single data from rowDto
-   const remover = (payload) => {
+  // remove single data from rowDto
+  const remover = (payload) => {
     const filterArr = rowDto?.filter((itm, index) => index !== payload);
     setRowDto([...filterArr]);
   };
@@ -374,8 +373,8 @@ export default function AssetsReceiveForm({
           totalVat={totalVat}
           netTotalValue={netTotalValue}
           remover={remover}
-          plantId ={state?.plant?.value}
-          profileData={ profileData}
+          plantId={state?.plant?.value}
+          profileData={profileData}
           selectedBusinessUnit={selectedBusinessUnit}
         />
       </div>

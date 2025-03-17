@@ -149,7 +149,7 @@ export const getSupplierDDL = async (accId, buId, sbuId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const initData = {
   refType: "",
@@ -189,17 +189,6 @@ export const validationSchemaForMRR = Yup.object().shape({
   // })
 });
 
-export const uploadAttachment = (attachment) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  return axios.post("/domain/Document/UploadFile", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-};
 
 export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
   try {
@@ -207,5 +196,5 @@ export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
       `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };

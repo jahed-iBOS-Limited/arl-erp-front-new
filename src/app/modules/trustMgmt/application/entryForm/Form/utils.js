@@ -1,4 +1,3 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -86,13 +85,13 @@ export const setFormikData = (data, setValues, setAttachmentFile) => {
     applicationDate: _dateFormatter(dteApplicationDate) || "",
     nationalId: strNationalID || "",
     registrationNo: strRegistrationNo || "",
-    routing: strRoutingNo ? {value : strRoutingNo, label: strRoutingNo} : "",
+    routing: strRoutingNo ? { value: strRoutingNo, label: strRoutingNo } : "",
     hospitals:
       intOrganizationID && strOrganizationName
         ? { value: intOrganizationID, label: strOrganizationName }
         : "",
-      branchAddress:
-      strBankBranchAddress 
+    branchAddress:
+      strBankBranchAddress
         ? { value: strBankBranchAddress, label: strBankBranchAddress }
         : "",
     donationPurpose:
@@ -156,7 +155,7 @@ export const cbForAppId = (
   if (data?.[0]?.intBankID) {
     branchAddressAction(data?.[0]?.intBankID);
   }
-  if(data?.[0]?.intBankID && data?.[0]?.strBankBranchAddress){
+  if (data?.[0]?.intBankID && data?.[0]?.strBankBranchAddress) {
     branchAction(data?.[0]?.intBankID, data?.[0]?.strBankBranchAddress);
   }
 };
@@ -179,27 +178,8 @@ export const cbForRegistrationId = (
   if (data?.[0]?.intBankID) {
     branchAddressAction(data?.[0]?.intBankID);
   }
-  if(data?.[0]?.intBankID && data?.[0]?.strBankBranchAddress){
+  if (data?.[0]?.intBankID && data?.[0]?.strBankBranchAddress) {
     branchAction(data?.[0]?.intBankID, data?.[0]?.strBankBranchAddress);
   }
 };
 
-export const attachment_action = async (attachment, setLoading) => {
-  setLoading && setLoading(true);
-  let formData = new FormData();
-  formData.append("files", attachment[0]);
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setLoading && setLoading(false);
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    setLoading && setLoading(false);
-    toast.error("File Size is too large or inValid File!");
-    return error;
-  }
-};

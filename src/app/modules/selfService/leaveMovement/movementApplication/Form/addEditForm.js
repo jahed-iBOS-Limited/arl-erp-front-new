@@ -1,17 +1,17 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  leaveMovementAttachment_action,
-  saveLeaveMovementAction,
-  saveMovementAction,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import {
+  saveLeaveMovementAction,
+  saveMovementAction
+} from "../helper";
+import Form from "./form";
 
 const initData = {
   id: undefined,
@@ -76,7 +76,7 @@ export function MovementAddForm({
 
           if (fileObjects.length > 0) {
             //  Attachment file add
-            leaveMovementAttachment_action(fileObjects).then((data) => {
+            empAttachment_action(fileObjects).then((data) => {
               const modifyPlyload = {
                 ...payload,
                 documentFile: data[0]?.id || null,
@@ -133,8 +133,8 @@ export function MovementAddForm({
           isEdit={id || false}
           setFileObjects={setFileObjects}
           fileObjects={fileObjects}
-          // employeeValue={employeeValue}
-          // setEmployeeValue={setEmployeeValue}
+        // employeeValue={employeeValue}
+        // setEmployeeValue={setEmployeeValue}
         />
       </div>
     </IForm>
