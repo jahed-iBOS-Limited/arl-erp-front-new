@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
-import { Formik, Form } from "formik";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
 import {
   Card,
   CardBody,
@@ -11,11 +10,12 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
 import placeholderImg from "../../../_helper/images/placeholderImg.png";
-import "./style.css"
-import { attachment_action } from "./helper";
+import "./style.css";
 
 const validationSchema = Yup.object().shape({
   warehouse: Yup.object().shape({
@@ -46,7 +46,7 @@ export default function _Form({
   const backHandler = () => {
     history.goBack();
   };
-  
+
   const [validation] = useState(validationSchema);
 
   const onButtonAttachmentClick = () => {
@@ -171,63 +171,63 @@ export default function _Form({
                           </div>
                           <div className="col-lg-3 mt-3">
                             <label>Attachment Upload</label>
-                      <div
-                        className={
-                          attachmentFile
-                            ? "image-upload-box with-img"
-                            : "image-upload-box"
-                        }
-                        onClick={onButtonAttachmentClick}
-                        style={{
-                          cursor: "pointer",
-                          position: "relative",
-                          height: "35px",
-                        }}
-                      >
-                        <input
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              attachment_action(e.target.files)
-                                .then((data) => {
-                                  setAttachmentFile(data?.[0]?.id);
-                                })
-                                .catch((error) => {
-                                  setAttachmentFile("");
-                                });
-                            }
-                          }}
-                          type="file"
-                          ref={inputAttachFile}
-                          id="file"
-                          style={{ display: "none" }}
-                        />
-                        <div>
-                          {!attachmentFile && (
-                            <img
-                              style={{ maxWidth: "65px" }}
-                              src={placeholderImg}
-                              className="img-fluid"
-                              alt="Upload or drag documents"
-                            />
-                          )}
-                        </div>
-                        {attachmentFile && (
-                          <div className="d-flex align-items-center">
-                            <p
+                            <div
+                              className={
+                                attachmentFile
+                                  ? "image-upload-box with-img"
+                                  : "image-upload-box"
+                              }
+                              onClick={onButtonAttachmentClick}
                               style={{
-                                fontSize: "12px",
-                                fontWeight: "500",
-                                color: "#0072E5",
                                 cursor: "pointer",
-                                margin: "0px",
+                                position: "relative",
+                                height: "35px",
                               }}
                             >
-                              {attachmentFile}
-                            </p>
+                              <input
+                                onChange={(e) => {
+                                  if (e.target.files?.[0]) {
+                                    empAttachment_action(e.target.files)
+                                      .then((data) => {
+                                        setAttachmentFile(data?.[0]?.id);
+                                      })
+                                      .catch((error) => {
+                                        setAttachmentFile("");
+                                      });
+                                  }
+                                }}
+                                type="file"
+                                ref={inputAttachFile}
+                                id="file"
+                                style={{ display: "none" }}
+                              />
+                              <div>
+                                {!attachmentFile && (
+                                  <img
+                                    style={{ maxWidth: "65px" }}
+                                    src={placeholderImg}
+                                    className="img-fluid"
+                                    alt="Upload or drag documents"
+                                  />
+                                )}
+                              </div>
+                              {attachmentFile && (
+                                <div className="d-flex align-items-center">
+                                  <p
+                                    style={{
+                                      fontSize: "12px",
+                                      fontWeight: "500",
+                                      color: "#0072E5",
+                                      cursor: "pointer",
+                                      margin: "0px",
+                                    }}
+                                  >
+                                    {attachmentFile}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        )}
-                      </div>
-                    </div>
                         </>
                       </div>
                     </div>
