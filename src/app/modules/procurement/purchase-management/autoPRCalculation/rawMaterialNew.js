@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import IForm from '../../../_helper/_form';
@@ -56,12 +56,19 @@ export default function RawMaterialAutoPRNew() {
     setMrpfromProductionScheduleLanding,
   ] = useAxiosGet();
 
+  useEffect(() => {
+    if (selectedBusinessUnit) {
+      getPlantDDL(profileData?.userId,profileData?.accountId,selectedBusinessUnit?.value,setPlantDDL)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBusinessUnit]);
+
   const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
     setMrpfromProductionScheduleLanding([]);
     getMrpfromProductionScheduleLanding(
-      `/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&plantId=${values?.plant?.value || 0}`,
     );
   };
 
