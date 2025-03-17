@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import Loading from "./../../../../../../_helper/_loading";
 import Form from "./form";
 import {
-  getNationalityDDL,
+  createEmployeePersonalInformation,
+  employeePersonalInformation_api,
   getBloodGroupDDL,
   getEmpIdentificationTypeDDL,
-  religionDDL_api,
-  getMeritalStatusDDL_api,
-  createEmployeePersonalInformation,
   getEmpPersonalInfoById_api,
-  employeePersonalInformation_api,
+  getMeritalStatusDDL_api,
+  getNationalityDDL,
+  religionDDL_api,
 } from "./helper";
-import { empAttachment_action } from "../../../helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { useLocation } from "react-router-dom";
-import Loading from "./../../../../../../_helper/_loading";
 const initData = {
   employeeNickName: "",
   nationality: "",

@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, initData } from "./helper";
-import InputField from "../../../../../_helper/_inputField";
-import RowDtoTable from "./rowDtoTable";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLAction,
-  getTransactionTypeDDLAction,
-  getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionForRemoveInventory,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
-  getItemforRemoveInv,
-} from "../../_redux/Actions";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import { toast } from "react-toastify";
-import { empAttachment_action } from "../../helper";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import {
+  getBusinessPartnerDDLAction,
+  getItemforRemoveInv,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLAction,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForRemoveInventory,
+} from "../../_redux/Actions";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({

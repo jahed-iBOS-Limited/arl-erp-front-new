@@ -1,29 +1,29 @@
+import axios from 'axios'
+import { Form, Formik } from 'formik'
+import { DropzoneDialogBase } from 'material-ui-dropzone'
 import React, { useEffect, useState } from 'react'
-import { Formik, Form } from 'formik'
-import { validationSchema, initData } from './helper'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { ISelect } from '../../../../../_helper/_inputDropDown'
 import InputField from '../../../../../_helper/_inputField'
-import RowDtoTable from './rowDtoTable'
-import { shallowEqual, useSelector, useDispatch } from 'react-redux'
+import Loading from '../../../../../_helper/_loading'
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload'
 import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLAction,
-  getTransactionTypeDDLAction,
   getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionForAdjustInv,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
   getItemforReftypeAction,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLAction,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForAdjustInv,
 } from '../../_redux/Actions'
+import { invTransactionSlice } from '../../_redux/Slice'
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect'
 import FormikError from './../../../../../_helper/_formikError'
-import { ISelect } from '../../../../../_helper/_inputDropDown'
-import { toast } from 'react-toastify'
-import axios from 'axios'
-import { empAttachment_action } from '../../helper'
-import { DropzoneDialogBase } from 'material-ui-dropzone'
-import { invTransactionSlice } from '../../_redux/Slice'
-import Loading from '../../../../../_helper/_loading'
+import { initData, validationSchema } from './helper'
+import RowDtoTable from './rowDtoTable'
 const { actions: slice } = invTransactionSlice
 
 export default function CreateForm({
@@ -132,7 +132,7 @@ export default function CreateForm({
   const addRowDtoData = (values) => {
     let data = rowDto?.find((data) => data?.itemName === values?.item?.label)
     if (data) {
-     toast.warning('Item Already added')
+      toast.warning('Item Already added')
     } else {
       setRowDto([
         ...rowDto,
@@ -201,7 +201,7 @@ export default function CreateForm({
               strBinNo: data?.location?.binNumber || ""
             }
           })
-          // .filter((data) => data.numTransactionQuantity > 0)
+        // .filter((data) => data.numTransactionQuantity > 0)
         const payload = {
           objHeader: {
             transactionGroupId: landingData?.transGrup?.value,
@@ -412,7 +412,7 @@ export default function CreateForm({
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 3) return []
-                      return axios.get(                      
+                      return axios.get(
                         `/wms/InventoryTransaction/GetItemForAdjustInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
                       ).then((res) => {
                         const updateList = res?.data.map(item => ({
@@ -430,13 +430,13 @@ export default function CreateForm({
 
                 <div className="col-lg-3">
                   <button
-                    style={{marginTop: "23px"}}
+                    style={{ marginTop: "23px" }}
                     type="button"
                     className="btn btn-primary mt-7 mb-3"
-                    onClick={() =>{
+                    onClick={() => {
                       addRowDtoData(values)
                       setFieldValue('item', "")
-                    } }
+                    }}
                     disabled={values.item === ''}
                   >
                     Add

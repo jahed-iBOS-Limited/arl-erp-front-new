@@ -4,6 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
 import DetailsView from "../../../salesManagement/orderManagement/salesOrder/Form/detailsView";
 import {
@@ -11,19 +12,18 @@ import {
   GetPendingQuantityDetails,
   getUnBilledAmountDetails,
 } from "../../../salesManagement/orderManagement/salesOrder/helper";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
 import NewSelect from "./../../../_helper/_select";
 import SalesOrderRowTable from "./rowDtoTable";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../../financialManagement/invoiceManagementSystem/billregister/helper";
 
 const initData = {
   orderReferenceType: "",
@@ -826,8 +826,8 @@ export default function SalesOrderCreateEdit() {
                                 "pricingDate",
                                 data?.Data?.HeaderData?.PricingDate
                                   ? dateFormatterForInput(
-                                      data?.Data?.HeaderData?.PricingDate
-                                    )
+                                    data?.Data?.HeaderData?.PricingDate
+                                  )
                                   : ""
                               ),
                               setFieldValue(
@@ -1034,15 +1034,14 @@ export default function SalesOrderCreateEdit() {
               />
 
               <IViewModal
-                title={`${
-                  tableType === "order"
+                title={`${tableType === "order"
                     ? "Pending Order Details"
                     : tableType === "delivery"
-                    ? "Pending Delivery Details"
-                    : tableType === "unBilled"
-                    ? "UnBilled Amount Details"
-                    : ""
-                }`}
+                      ? "Pending Delivery Details"
+                      : tableType === "unBilled"
+                        ? "UnBilled Amount Details"
+                        : ""
+                  }`}
                 show={show}
                 onHide={() => setShow(false)}
               >

@@ -5,8 +5,8 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import IViewModal from "../../../../_helper/_viewModal";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { empAttachment_action } from "../helper";
 import AttachmentListTable from "./attachmentListTable";
 
 export default function PartialChallanTable({ obj }) {
@@ -39,7 +39,7 @@ export default function PartialChallanTable({ obj }) {
                   type="checkbox"
                   value={selectedAll()}
                   checked={selectedAll()}
-                  onChange={() => {}}
+                  onChange={() => { }}
                 />
               </th>
               <th>SL</th>
@@ -72,7 +72,7 @@ export default function PartialChallanTable({ obj }) {
                         type="checkbox"
                         value={item?.isSelected}
                         checked={item?.isSelected}
-                        onChange={() => {}}
+                        onChange={() => { }}
                       />
                     </td>
                     <td rowSpan={item?.rowData?.length}> {index + 1}</td>

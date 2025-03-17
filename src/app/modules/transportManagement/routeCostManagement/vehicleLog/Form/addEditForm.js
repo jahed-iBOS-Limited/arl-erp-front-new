@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { _currentTime } from "../../../../_helper/_currentTime";
 import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import {
+  EditVehicleLogBook,
   getFuelTypeDDL,
-  getSupplierDDL,
-  saveVehicleLogBook,
-  empAttachment_action,
   getMailageInformation,
   getSingleData,
-  EditVehicleLogBook,
+  getSupplierDDL,
+  saveVehicleLogBook,
 } from "../helper";
-import { useLocation } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "./../../../../_helper/_todayDate";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import { toast } from "react-toastify";
+import Form from "./form";
 
 const initData = {
   travelDate: _todayDate(),
@@ -236,8 +236,8 @@ export default function VehicleLogBookForm({
         values?.purchaseType === "cash"
           ? 1
           : values?.purchaseType === "credit"
-          ? 2
-          : 3,
+            ? 2
+            : 3,
       rate: Number(values?.rate),
       amount: Number(values?.totalAmount),
       paymentMethod: values?.purchaseType,

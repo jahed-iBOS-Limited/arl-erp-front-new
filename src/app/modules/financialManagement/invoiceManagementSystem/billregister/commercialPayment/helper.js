@@ -4,24 +4,6 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
 import IWarningModal from '../../../../_helper/_warningModal';
 
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file?.file);
-  });
-  try {
-    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success('Upload  successfully');
-    return data;
-  } catch (error) {
-    toast.error('Document not upload');
-  }
-};
 
 // get supplier DDL
 export const GetSupplier_api = async (setDisabled, accId, buId, setter) => {
@@ -189,10 +171,8 @@ export const CommercialCostingForTypeTwo = async (
     const res = await axios.post(
       `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(
         new Date(),
-      )}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${
-        totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0
-      }&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${
-        totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0
+      )}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0
+      }&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0
       }`,
       payload,
     );
@@ -226,24 +206,6 @@ const modifyPayload = (filterData, imageId) => {
   };
 };
 
-export const attachmentUpload = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file);
-  });
-  try {
-    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success('Upload  successfully');
-    return data;
-  } catch (error) {
-    toast.error('Document not upload');
-  }
-};
 
 export const getCommercialCostingServiceBreakdown = async (
   referenceId,
@@ -325,7 +287,7 @@ export const createCommercialBreakdownForBill = async (
       let confirmObject = {
         title: 'Bill Code',
         message: res?.data?.invoiceCode,
-        okAlertFunc: async () => {},
+        okAlertFunc: async () => { },
       };
       IWarningModal(confirmObject);
     }

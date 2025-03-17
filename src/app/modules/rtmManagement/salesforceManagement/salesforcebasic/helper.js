@@ -14,7 +14,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
       }));
       setter(data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBusinessUnitDDL = async (setter) => {
@@ -24,7 +24,7 @@ export const getBusinessUnitDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSBUDDL = async (accId, buId, setter) => {
@@ -36,7 +36,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWorkplaceDDL_api = async (accId, buId, setter) => {
@@ -53,7 +53,7 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
       }));
       setter(modfid);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getDepartmentDDL = async (setter) => {
@@ -63,7 +63,7 @@ export const getDepartmentDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getHRPositionDDL = async (setter) => {
@@ -73,7 +73,7 @@ export const getHRPositionDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getDesignationDDL = async (setter) => {
@@ -83,7 +83,7 @@ export const getDesignationDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getEmployeeGradeDDL = async (setter) => {
@@ -93,17 +93,17 @@ export const getEmployeeGradeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const getEmpTypeDDL = async (accId, buId,setter) => {
+export const getEmpTypeDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(`/hcm/HCMDDL/GetEmploymentTypeWithAccountBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=${buId}`);
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getEmpStatusDDL = async (setter) => {
@@ -113,7 +113,7 @@ export const getEmpStatusDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getLineManagerDDL = async (accId, setter) => {
   try {
@@ -124,7 +124,7 @@ export const getLineManagerDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //create EmployeeBasicInformation
@@ -196,24 +196,6 @@ export const employeeBasicInformation_landing_top_api = async (
   }
 };
 
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
 
 export const getImageFile_api = async (id) => {
   try {
@@ -222,7 +204,7 @@ export const getImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //sales force info
@@ -269,5 +251,5 @@ export const getEmpGroupDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };

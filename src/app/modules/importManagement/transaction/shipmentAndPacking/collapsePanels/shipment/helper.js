@@ -10,29 +10,9 @@ export const getShipByDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const empAttachment_action = async (attachment) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file?.file);
-  });
-  try {
-    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success('Upload  successfully');
-    return data;
-  } catch (error) {
-    toast.error('Document not upload');
-
-    return [];
-  }
-};
 
 export const createShipment = async (payload, cb, setDisabled) => {
   setDisabled && setDisabled(true);
@@ -84,7 +64,7 @@ export const getShipmentItemDDL = async (
       setter(item);
       InitialInvoiceAmountHandler && InitialInvoiceAmountHandler(item);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCurrencyDDL = async (setter) => {
@@ -93,7 +73,7 @@ export const getCurrencyDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // https://localhost:44396/imp/Shipment/GetTolerance?accountId=2&businessUnitId=164&search=lc-001
 export const getTollarence = async (
@@ -109,7 +89,7 @@ export const getTollarence = async (
     if (res.status === 200 && res.data) {
       setter(res.data.tolerancePercent);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // https://localhost:44396/imp/Shipment/GetShipmentInfoByPoNumber?accountId=2&businessUnitId=164&poNumber=PO-420088
 export const getShipmentInfo = async (
@@ -133,7 +113,7 @@ export const getShipmentInfo = async (
         currencyId: res?.data?.currencyId,
       });
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getShipmentLandingData = async (
@@ -155,7 +135,7 @@ export const getShipmentLandingData = async (
       `/imp/Shipment/GetShipmentLandingPasignation?searchTerm=${searchTerm}&accountId=${accId}&businessUnitId=${buId}&fromDate=${FromDate}&toDate=${ToDate}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`,
     );
     setter(res.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getShipmentDataById = async (
@@ -203,7 +183,7 @@ export const getShipmentDataById = async (
         }),
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const EditShipment = async (payload, setDisabled) => {
@@ -263,5 +243,5 @@ export const cancelShipmentHeaderById = async (id, cb) => {
       cb && cb();
       toast.success(res?.data?.message || 'Successfully Deleted');
     }
-  } catch (error) {}
+  } catch (error) { }
 };

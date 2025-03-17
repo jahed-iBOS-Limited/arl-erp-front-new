@@ -1,28 +1,11 @@
 import axios from 'axios';
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
-import numberWithCommas from '../../../../../_helper/_numberWithCommas';
 import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../../_helper/_numberWithCommas';
 
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file?.file);
-  });
-  try {
-    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success('Upload  successfully');
-    return data;
-  } catch (error) {
-    toast.error('Document not upload');
-  }
-};
+
 
 // GetInsuranceTypeDDL
 export const GetInsuranceTypeDDL = async (setter) => {
@@ -31,7 +14,7 @@ export const GetInsuranceTypeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // GetProviderDDL
@@ -44,7 +27,7 @@ export const GetProviderDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Get Currency Type DDL
@@ -55,7 +38,7 @@ export const GetCurrencyTypeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Get Insurance Coverage DDL
@@ -66,7 +49,7 @@ export const GetInsuranceCoverageDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Get Payment Type DDL
@@ -77,7 +60,7 @@ export const GetPaymentTypeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const CreateInsuranceCoverNote = async (data, cb) => {

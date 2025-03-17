@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, initData } from "./helper";
-import InputField from "../../../../../_helper/_inputField";
-import RowDtoTable from "./rowDtoTable";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLActionforReleaseInv,
-  getTransactionTypeDDLAction,
-  getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  getItemDDLAction,
-  saveInventoryTransactionForReleaseInv,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
-  getItemforReleaseInv,
-} from "../../_redux/Actions";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import { toast } from "react-toastify";
-import { empAttachment_action } from "../../helper";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import {
+  getBusinessPartnerDDLAction,
+  getItemDDLAction,
+  getItemforReleaseInv,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLActionforReleaseInv,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForReleaseInv,
+} from "../../_redux/Actions";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -426,7 +426,7 @@ export default function CreateForm({
                     //style={{ marginTop: "25px", transform: "translateX(95px)" }}
                     className="btn btn-primary ml-2"
                     onClick={() => addRowDtoData(values)}
-                    // disabled={values.item === "" && values.isAllItem === false}
+                  // disabled={values.item === "" && values.isAllItem === false}
                   >
                     View
                   </button>

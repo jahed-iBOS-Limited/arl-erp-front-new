@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { IInput } from "../../../../_helper/_input";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { empAttachment_action } from "../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions";
 import TextArea from "antd/lib/input/TextArea";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { IInput } from "../../../../_helper/_input";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import { getPmsReportAction } from "../../../_helper/getReportAction";
 
 // Validation schema
@@ -191,24 +191,24 @@ export default function _Form({
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
                           "Yearly"
-                        ? "Year " + year
-                        : Object.values(target?.objHeader)[clickedMonth] +
+                          ? "Year " + year
+                          : Object.values(target?.objHeader)[clickedMonth] +
                           " Quarter"}
                     </b>{" "}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
                     rowDto[clickedMonth]?.documentString) && (
-                    <IView
-                      clickHandler={() => {
-                        dispatch(
-                          getDownlloadFileView_Action(
-                            rowDto[clickedMonth]?.documentString ||
+                      <IView
+                        clickHandler={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              rowDto[clickedMonth]?.documentString ||
                               target?.objRow?.[clickedMonth]?.documentString
-                          )
-                        );
-                      }}
-                    />
-                  )}
+                            )
+                          );
+                        }}
+                      />
+                    )}
 
                   {!target?.objRow?.[clickedMonth]?.isApproved && (
                     <ButtonStyleOne
