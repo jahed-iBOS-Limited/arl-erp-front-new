@@ -189,6 +189,7 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
     }
   } catch (error) { }
 };
+
 export const approvalApi = async (
   parameter,
   poayload,

@@ -1,24 +1,6 @@
 import Axios from "axios";
 import { _dateFormatter } from './../../../_helper/_dateFormate';
 
-//generalLedgerTypeId_Api
-export const generalLedgerTypeId_Api = async (
-  accId,
-  buId,
-  generalLedger,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${buId}&AccountingGroupId=${generalLedger}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
 //getBusinessPartnerDDL_Api
 export const getBusinessPartnerDDL_Api = async (accId, buId, setter) => {
   try {
