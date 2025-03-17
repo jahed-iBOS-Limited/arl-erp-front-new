@@ -647,6 +647,14 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                               ...(shipingCargoTypeDDL ?? []).filter(
                                 (i) => i?.value !== 8,
                               ),
+                              ...(isAirOperation
+                                ? [
+                                    {
+                                      label: 'Air Ops',
+                                      value: 0,
+                                    },
+                                  ]
+                                : []),
                               {
                                 label: `Others`,
                                 value: 0,
@@ -771,6 +779,14 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                               ...(shipingCargoTypeDDL ?? []).filter(
                                 (i) => i?.value !== 8,
                               ),
+                              ...(isAirOperation
+                                ? [
+                                    {
+                                      label: 'Air Ops',
+                                      value: 0,
+                                    },
+                                  ]
+                                : []),
                               {
                                 label: `Others`,
                                 value: 0,
