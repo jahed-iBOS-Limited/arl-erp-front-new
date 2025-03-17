@@ -10,9 +10,9 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { empAttachment_action } from "../../../../inventoryManagement/warehouseManagement/invTransaction/helper";
 import { getDistributionChannelDDL } from "../../customerCreditLimit/helper";
 import AttachmentListTable from "../attachmentListsTable";
 import { attachmentUploadEntry, getItemList, getSalesOrgList } from "../helper";
@@ -405,9 +405,10 @@ export default function AttachmentUploadForm({
                   onClose={() => setOpen(false)}
                   onSave={() => {
                     setLoading(true);
-                    empAttachment_action(fileObjects, setUploadedFiles).then(
+                    empAttachment_action(fileObjects).then(
                       (data) => {
                         if (data?.length) {
+                          setUploadedFiles(data);
                           setOpen(false);
                           toast.success("Uploaded Successfully!");
                           setLoading(false);
