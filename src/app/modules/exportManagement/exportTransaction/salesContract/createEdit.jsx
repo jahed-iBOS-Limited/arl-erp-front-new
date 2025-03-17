@@ -13,12 +13,11 @@ import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { empAttachment_action } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 import IForm from './../../../_helper/_form';
 import InputField from './../../../_helper/_inputField';
 import Loading from './../../../_helper/_loading';
 import NewSelect from './../../../_helper/_select';
-
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 const salesTerms = [
   { value: 1, label: 'FOB' },
   { value: 2, label: 'CNF(CFR)' },

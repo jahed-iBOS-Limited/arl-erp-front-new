@@ -6,7 +6,6 @@ import NewSelect from '../../../../../../_helper/_select';
 import InputField from '../../../../../../_helper/_inputField';
 import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
@@ -18,7 +17,7 @@ import {
   getResultDDL_api,
   getYearDDL_api,
 } from './helper';
-import { empAttachment_action } from '../../../helper';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 

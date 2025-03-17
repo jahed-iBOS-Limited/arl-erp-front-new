@@ -60,17 +60,7 @@ export const createCashInvoiceClear_api = async (data, cb, setDisabled) => {
   }
 };
 
-//getBankAccountDDL_api
-export const getBankAccountDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
+
 //getInstrumentType_Api
 export const getInstrumentType_Api = async (setter) => {
   try {

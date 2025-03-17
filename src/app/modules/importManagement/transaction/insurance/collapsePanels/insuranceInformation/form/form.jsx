@@ -1,16 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
-import NewSelect from '../../../../../../_helper/_select';
-import InputField from '../../../../../../_helper/_inputField';
-import {
-  GetCurrencyByPO,
-  // ValidatePoNo,
-  validationSchema,
-  getCalculationFormLandingForm,
-  empAttachment_action,
-  // getDataByPoNo,
-} from '../helper';
+import { Form, Formik } from 'formik';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardHeader,
@@ -18,16 +8,24 @@ import {
   ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 import { useDispatch } from 'react-redux';
-import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
-import CalculationForm from './calculationForm';
-import IViewModal from '../../../../../../_helper/_viewModal';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import removeComma from '../../../../../../_helper/_removeComma';
 import { _formatMoney } from '../../../../../../_helper/_formatMoney';
-import { toast } from 'react-toastify';
+import InputField from '../../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
+import removeComma from '../../../../../../_helper/_removeComma';
+import NewSelect from '../../../../../../_helper/_select';
+import IViewModal from '../../../../../../_helper/_viewModal';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
+import {
+  getCalculationFormLandingForm,
+  GetCurrencyByPO,
+  // ValidatePoNo,
+  validationSchema,
+} from '../helper';
+import CalculationForm from './calculationForm';
 
 export default function _Form({
   initData,

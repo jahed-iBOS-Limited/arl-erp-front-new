@@ -1,26 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import Loading from '../../../../_helper/_loading';
-import VoyageChecklistView from '../view/index';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ArrowBackOutlined } from '@mui/icons-material';
 import { Formik } from 'formik';
 import { Tooltip } from '@mui/material';
 import { Info } from '@mui/icons-material';
 import IViewModal from '../../../_chartinghelper/_viewModal';
-import AttachmentModal from '../attachmentModal/attachmentModal';
 import FormikInput from '../../../_chartinghelper/common/formikInput';
-import {
-  createVoyageChecklist,
-  empAttachment_action,
-  getVoyageByIdShow,
-} from '../../helper';
+import { createVoyageChecklist, getVoyageByIdShow } from '../../helper';
 import { shallowEqual, useSelector } from 'react-redux';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import '../../voyage.css';
-import { toast } from 'react-toastify';
+import AttachmentModal from '../attachmentModal/attachmentModal';
+import VoyageChecklistView from '../view/index';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
 const initData = {
   activeStatus: null,

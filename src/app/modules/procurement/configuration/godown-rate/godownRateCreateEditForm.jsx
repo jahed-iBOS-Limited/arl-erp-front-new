@@ -14,8 +14,8 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { empAttachment_action, validationSchema } from './helper';
-
+import { validationSchema } from './helper';
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 const initData = {
   plant: '',
   warehouse: '',

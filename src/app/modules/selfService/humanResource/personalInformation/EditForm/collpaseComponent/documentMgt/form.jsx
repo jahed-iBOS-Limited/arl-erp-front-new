@@ -5,13 +5,12 @@ import NewSelect from '../../../../../../_helper/_select';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../../../../_metronic/_partials/controls';
-import { empAttachment_action } from './../../../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IView from './../../../../../../_helper/_helperIcons/_view';
 import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
@@ -275,7 +274,6 @@ export default function _Form({
                     }}
                     onClose={() => setOpen(false)}
                     onSave={() => {
-                      console.log('onSave', fileObjects);
                       setOpen(false);
                       empAttachment_action(fileObjects).then((data) => {
                         setUploadImage(data);

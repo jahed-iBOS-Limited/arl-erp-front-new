@@ -5,7 +5,7 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { empAttachment_action } from '../../../../inventoryManagement/warehouseManagement/invTransaction/helper';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import { shallowEqual, useSelector } from 'react-redux';
 import { attachmentUploadEntry, getItemList, getSalesOrgList } from '../helper';
 import { toast } from 'react-toastify';
@@ -417,15 +417,14 @@ export default function AttachmentUploadForm({
                   onClose={() => setOpen(false)}
                   onSave={() => {
                     setLoading(true);
-                    empAttachment_action(fileObjects, setUploadedFiles).then(
-                      (data) => {
-                        if (data?.length) {
-                          setOpen(false);
-                          toast.success('Uploaded Successfully!');
-                          setLoading(false);
-                        }
-                      },
-                    );
+                    empAttachment_action(fileObjects).then((data) => {
+                      if (data?.length) {
+                        setUploadedFiles(data);
+                        setOpen(false);
+                        toast.success('Uploaded Successfully!');
+                        setLoading(false);
+                      }
+                    });
                   }}
                   showPreviews={true}
                   showFileNamesInPreview={true}

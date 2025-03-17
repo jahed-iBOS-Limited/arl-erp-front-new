@@ -9,7 +9,6 @@ import Select from "react-select";
 import customStyles from "./../../../../selectCustomStyle";
 import { useEffect } from "react";
 import { useState } from "react";
-import { cashJournalSbuApi } from "../helper";
 import FormikError from "./../../../../_helper/_formikError";
 import { getCashJournalGridData } from "../_redux/Actions";
 import { _todayDate } from "./../../../../_helper/_todayDate";
@@ -29,6 +28,7 @@ import {
 import { setCashJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import findIndex from "../../../../_helper/_findIndex";
+import { getSBU } from "../../../../_helper/_commonApi";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -110,7 +110,7 @@ export default function HeaderForm({
   //Dispatch Get getEmpDDLAction
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      cashJournalSbuApi(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit.value,
         setSbuDDl

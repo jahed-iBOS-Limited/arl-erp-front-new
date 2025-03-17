@@ -8,16 +8,15 @@ import { shallowEqual, useSelector } from 'react-redux';
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
+  getRoutingToBOMDDL,
   getShopFloorDDL,
   getWorkCenterDDL,
-  getRoutingToBOMDDL,
-  empAttachment_action,
 } from '../helper';
 import { toast } from 'react-toastify';
 import CreateTableRow from '../Table/CreateTableRow';
 import { getItemListForBackCalculation } from './../helper';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
-
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 export default function _Form({
   initData,
   btnRef,
@@ -411,7 +410,6 @@ export default function _Form({
                                 errors={errors}
                                 touched={touched}
                               />
-                                       
                             </div>
                             <div className="col-lg-4">
                               <InputField
@@ -426,7 +424,6 @@ export default function _Form({
                                 placeholder="Others Output Quantity"
                                 type="number"
                               />
-                                     
                             </div>
                             <div className="col-lg-4 pt-5 mt-2">
                               <button

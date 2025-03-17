@@ -5,7 +5,7 @@ import { _fixedPoint } from '../../../_helper/_fixedPoint';
 import InputField from '../../../_helper/_inputField';
 import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
-import { empAttachment_action } from './helper';
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 const GodownsWiseDeliveryReport = ({
   printRef,
   gridData,

@@ -18,7 +18,7 @@ import {
   getItemReturnInvAction,
 } from '../../_redux/Actions';
 import { toast } from 'react-toastify';
-import { empAttachment_action } from '../../helper';
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { invTransactionSlice } from '../../_redux/Slice';
 import Loading from '../../../../../_helper/_loading';

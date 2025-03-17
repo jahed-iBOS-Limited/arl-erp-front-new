@@ -4,7 +4,6 @@ import ICustomTable from '../../../../_helper/_customTable';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import {
   CancelDocumentAction,
-  empAttachment_action,
   getAttachmentLandingData,
   saveAttchmentForPo,
 } from '../helper/Actions';
@@ -14,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IClose from '../../../../_helper/_helperIcons/_close';
 import { _todayDate } from '../../../../_helper/_todayDate';
-
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 const ths = ['SL', 'Attachment', 'Action'];
 
 export default function ViewForm({ poData, setIsShowModal }) {

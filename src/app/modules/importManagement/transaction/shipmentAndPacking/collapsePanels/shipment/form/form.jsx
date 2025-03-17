@@ -15,8 +15,9 @@ import InputField from '../../../../../../_helper/_inputField';
 import numberWithCommas from '../../../../../../_helper/_numberWithCommas';
 import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../../../_helper/_select';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
-import { validationSchema, empAttachment_action } from '../helper';
+import { validationSchema } from '../helper';
 
 export default function _Form({
   initData,
@@ -81,8 +82,8 @@ export default function _Form({
     setFieldValue(
       'invoiceAmount',
       getTotalAmount(data, 'shippedQuantity') +
-        Number(values?.freightCharge) +
-        Number(values?.packingCharge),
+      Number(values?.freightCharge) +
+      Number(values?.packingCharge),
     );
     setRowDto([...data]);
   };
@@ -124,8 +125,8 @@ export default function _Form({
                   type === 'view'
                     ? 'View Shipment'
                     : type === 'edit'
-                    ? 'Edit Shipment'
-                    : 'Create Shipment'
+                      ? 'Edit Shipment'
+                      : 'Create Shipment'
                 }
               >
                 <CardHeaderToolbar>
@@ -279,8 +280,8 @@ export default function _Form({
                               setFieldValue(
                                 'invoiceAmount',
                                 getTotalAmount(rowDto, 'shippedQuantity') +
-                                  Number(values?.freightCharge) +
-                                  Number(e.target.value),
+                                Number(values?.freightCharge) +
+                                Number(e.target.value),
                               );
                             }}
                           />
@@ -301,8 +302,8 @@ export default function _Form({
                               setFieldValue(
                                 'invoiceAmount',
                                 getTotalAmount(rowDto, 'shippedQuantity') +
-                                  Number(e.target.value) +
-                                  Number(values?.packingCharge),
+                                Number(e.target.value) +
+                                Number(values?.packingCharge),
                               );
                             }}
                             min="0"
@@ -696,7 +697,7 @@ export default function _Form({
                   type="reset"
                   style={{ display: 'none' }}
                   ref={resetBtnRef}
-                  // onSubmit={() => resetForm(initData)}
+                // onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
             </Card>

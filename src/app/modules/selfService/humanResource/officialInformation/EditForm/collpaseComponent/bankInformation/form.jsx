@@ -4,14 +4,13 @@ import NewSelect from '../../../../../../_helper/_select';
 import InputField from '../../../../../../_helper/_inputField';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import { getBankBranchDDL_api, getBankDDL_api, getCountryDDL } from './helper';
-import { empAttachment_action } from './../../../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';

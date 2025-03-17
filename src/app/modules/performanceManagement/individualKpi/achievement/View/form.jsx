@@ -8,12 +8,11 @@ import { getDailyTargetData, saveDailyTargetRow } from './helper';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { empAttachment_action } from '../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IView from '../../../../_helper/_helperIcons/_view';
 import TextArea from 'antd/lib/input/TextArea';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
-
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 

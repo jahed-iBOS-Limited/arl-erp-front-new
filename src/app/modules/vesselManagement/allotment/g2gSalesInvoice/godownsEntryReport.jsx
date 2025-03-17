@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import { _fixedPoint } from '../../../_helper/_fixedPoint';
 import InputField from '../../../_helper/_inputField';
-import { empAttachment_action } from './helper';
 import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import { commonGetLetterHead } from '../../../_helper/letterHead/commonGetLetterHead';
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 const GodownsEntryReport = ({
   printRef,
   gridData,

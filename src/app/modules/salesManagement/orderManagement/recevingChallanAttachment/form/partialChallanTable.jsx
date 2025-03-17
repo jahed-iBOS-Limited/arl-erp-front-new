@@ -6,9 +6,8 @@ import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IViewModal from '../../../../_helper/_viewModal';
 import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
-import { empAttachment_action } from '../helper';
 import AttachmentListTable from './attachmentListTable';
-
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 export default function PartialChallanTable({ obj }) {
   const { gridData, allSelect, selectedAll, setGridData } = obj;
   const [attachmentListModal, setAttachmentListModal] = useState(false);

@@ -10,9 +10,8 @@ import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
 import NewSelect from '../../../../../_helper/_select';
 import FromDateToDateForm from '../../../../../_helper/commonInputFieldsGroups/dateForm';
 import IButton from '../../../../../_helper/iButton';
-import { empAttachment_action } from '../../helper';
 import { insertDataInExcel } from '../helper';
-
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required('Bill No is Required'),
   billDate: Yup.date().required('Bill Date is Required'),

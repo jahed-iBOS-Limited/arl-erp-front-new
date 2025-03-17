@@ -12,7 +12,7 @@ import {
   getUnBilledAmountDetails,
 } from '../../../salesManagement/orderManagement/salesOrder/helper';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { _formatMoney } from '../../../_helper/_formatMoney';
 import { _todayDate } from '../../../_helper/_todayDate';
@@ -23,7 +23,6 @@ import Loading from './../../../_helper/_loading';
 import NewSelect from './../../../_helper/_select';
 import SalesOrderRowTable from './rowDtoTable';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { empAttachment_action } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 
 const initData = {
   orderReferenceType: '',

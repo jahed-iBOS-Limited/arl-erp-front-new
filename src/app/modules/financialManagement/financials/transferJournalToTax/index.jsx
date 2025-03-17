@@ -11,7 +11,6 @@ import {
 } from "../../../../../_metronic/_partials/controls";
 import NewSelect from "../../../_helper/_select";
 import InputField from "../../../_helper/_inputField";
-import { cashJournalSbuApi } from "../cashJournal/helper";
 import {
   getAdjustmentJournalGridData,
   getBankJournalGridData,
@@ -25,6 +24,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
 import { IInput } from "../../../_helper/_input";
 import "./transferJournal.css";
+import { getSBU } from "../../../_helper/_commonApi";
 
 const initData = {
   sbu: "",
@@ -49,7 +49,7 @@ const TransferJournalToTax = () => {
 
   useEffect(() => {
     getJournalTypeDDL(setJournalTypeDDL);
-    cashJournalSbuApi(
+    getSBU(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setSbuDDL

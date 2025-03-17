@@ -15,7 +15,6 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import Loading from '../../../_helper/_loading';
 import {
    cancelAccountingJournalTax,
-   cashJournalSbuApi,
    getAccountJournalLandingData,
    getJournalTypeDDL,
 } from './helper';
@@ -26,6 +25,7 @@ import { IInput } from '../../../_helper/_input';
 import { SetAccountingJournalLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { getSBU } from '../../../_helper/_commonApi';
 
 const AccountJournal = () => {
    const history = useHistory();
@@ -48,7 +48,7 @@ const AccountJournal = () => {
 
    useEffect(() => {
       getJournalTypeDDL(setJournalTypeDDL);
-      cashJournalSbuApi(
+      getSBU(
          profileData?.accountId,
          selectedBusinessUnit?.value,
          setSbuDDL

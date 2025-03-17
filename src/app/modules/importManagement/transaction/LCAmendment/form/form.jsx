@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
-import {
-  validationSchema,
-  empAttachment_action,
-  getLatestChangesOfDoc,
-} from '../helper';
+import { validationSchema, getLatestChangesOfDoc } from '../helper';
 import InputField from '../../../../_helper/_inputField';
 import { useDispatch } from 'react-redux';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
@@ -14,7 +10,7 @@ import NewSelect from '../../../../_helper/_select';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
 import { toast } from 'react-toastify';
 import TextArea from '../../../../_helper/TextArea';
-
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 export default function _Form({
   initData,
   btnRef,

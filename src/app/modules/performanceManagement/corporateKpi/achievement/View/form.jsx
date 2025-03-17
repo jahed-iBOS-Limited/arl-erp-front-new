@@ -7,7 +7,7 @@ import { DropzoneDialogBase } from 'react-mui-dropzone';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IView from '../../../../_helper/_helperIcons/_view';
-import { empAttachment_action } from '../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import TextArea from 'antd/lib/input/TextArea';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
 

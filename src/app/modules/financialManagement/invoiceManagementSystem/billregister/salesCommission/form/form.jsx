@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { empAttachment_action } from '../../helper';
 import GridView from '../Table/table';
 import Loading from '../../../../../_helper/_loading';
 import {
@@ -14,7 +13,7 @@ import {
 } from '../../../../../../../_metronic/_partials/controls';
 import NewSelect from '../../../../../_helper/_select';
 import InputField from '../../../../../_helper/_inputField';
-
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 const _Form = ({
   initData,
   saveHandler,

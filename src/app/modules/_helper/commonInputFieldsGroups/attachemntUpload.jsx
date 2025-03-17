@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { empAttachment_action } from '../../selfService/humanResource/employeeInformation/helper';
-
+import { empAttachment_action } from '../attachmentUpload';
 const AttachFile = ({ obj }) => {
   const {
     // these 3 are required

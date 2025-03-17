@@ -8,7 +8,7 @@ import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 import InputField from '../../../../_helper/_inputField';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
-import { empAttachment_action } from '../helper';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const DamageEntryLandingTable = ({ obj }) => {

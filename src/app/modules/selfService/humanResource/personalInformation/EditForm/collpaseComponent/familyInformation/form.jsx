@@ -6,13 +6,12 @@ import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 //import { useDispatch } from "react-redux";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../../../../_metronic/_partials/controls';
-import { empAttachment_action } from '../../../helper';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 //import IView from './../../../../../../_helper/_helperIcons/_view'
 import { _dateFormatter } from './../../../../../../_helper/_dateFormate';

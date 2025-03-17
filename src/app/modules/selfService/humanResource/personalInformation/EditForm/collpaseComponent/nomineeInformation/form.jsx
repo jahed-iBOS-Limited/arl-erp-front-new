@@ -5,7 +5,6 @@ import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import NewSelect from './../../../../../../_helper/_select';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
@@ -15,11 +14,11 @@ import {
   getCountryDDL_api,
   getDistrictDDL_api,
   getDivisionDDL_api,
+  getNationalityDDL,
   getPoliceStationDDL_api,
   getPostCodeDDL_api,
-  getNationalityDDL,
 } from './helper';
-import { empAttachment_action } from '../../../helper';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 

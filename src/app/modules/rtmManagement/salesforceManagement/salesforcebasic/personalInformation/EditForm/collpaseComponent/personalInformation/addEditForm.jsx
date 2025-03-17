@@ -3,18 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import {
-  getNationalityDDL,
-  getBloodGroupDDL,
-  getGenderDDL,
-  getEmpIdentificationTypeDDL,
-  religionDDL_api,
-  getMeritalStatusDDL_api,
   createEmployeePersonalInformation,
-  getEmpPersonalInfoById_api,
   employeePersonalInformation_api,
 } from './helper';
 import { _todayDate } from './../../../../../../../_helper/_todayDate';
-import { empAttachment_action } from '../../../../helper';
+import { empAttachment_action } from '../../../../../../../_helper/attachmentUpload';
 import { useSelector } from 'react-redux';
 import { shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';

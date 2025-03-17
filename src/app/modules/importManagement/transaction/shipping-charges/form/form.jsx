@@ -17,7 +17,7 @@ import ICustomTable from '../../../../_helper/_customTable';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
-import { empAttachment_action } from '../helper';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
 export default function _Form({
   initData,

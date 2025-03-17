@@ -2,12 +2,15 @@ import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { toast } from 'react-toastify';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import {
   currencyTypeDDLAction,
-  empAttachment_action,
   encoItemDDLAction,
   GetBankDDL,
   getCalculationFormLandingForm,
@@ -19,10 +22,7 @@ import {
   validationSchema,
 } from '../helper';
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import IViewModal from '../../../../_helper/_viewModal';
 import CalculationForm from './calculationForm';
-import { toast } from 'react-toastify';
 
 export default function _Form({
   initData,
@@ -326,7 +326,7 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                      // isDisabled={viewType === "view" || forDisable?.currencyId}
+                    // isDisabled={viewType === "view" || forDisable?.currencyId}
                     />
                     {/* <label>Currency</label>
                     <InputField
@@ -351,7 +351,7 @@ export default function _Form({
                           'PIAmountBDT',
                           values?.PIAmountFC
                             ? (+valueOption.target.value ||
-                                +initData?.PIAmountFC) * +values?.exchangeRate
+                              +initData?.PIAmountFC) * +values?.exchangeRate
                             : '',
                         );
                       }}
@@ -378,8 +378,8 @@ export default function _Form({
                           'PIAmountBDT',
                           e?.target.value
                             ? values?.PIAmountFC *
-                                (Number(e?.target?.value) ||
-                                  initData?.exchangeRate)
+                            (Number(e?.target?.value) ||
+                              initData?.exchangeRate)
                             : '',
                         );
                         // setFieldValue(
@@ -567,7 +567,7 @@ export default function _Form({
                       value={values?.lcMarginValue}
                       name="lcMarginValue"
                       type="number"
-                      // disabled
+                    // disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -609,7 +609,7 @@ export default function _Form({
                   <div
                     className="col-auto"
                     style={{ marginTop: '26px' }}
-                    // marginLeft: "20px"
+                  // marginLeft: "20px"
                   >
                     <button
                       className="btn btn-primary"
@@ -648,7 +648,7 @@ export default function _Form({
                     <div
                       className="col-lg-2"
                       style={{ marginTop: '26px' }}
-                      // marginLeft: "20px"
+                    // marginLeft: "20px"
                     >
                       <button
                         className="btn btn-primary d-flex"

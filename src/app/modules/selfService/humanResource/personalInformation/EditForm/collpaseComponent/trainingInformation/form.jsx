@@ -10,13 +10,12 @@ import customStyles from './../../../../../../selectCustomStyle';
 import FormikError from './../../../../../../_helper/_formikError';
 import { _monthsFunc } from './months';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from '../../../../../../../../_metronic/_partials/controls';
-import { empAttachment_action } from '../../../helper';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 // Validation schema

@@ -5,14 +5,7 @@ import InputField from '../../../../../_helper/_inputField';
 import RowDtoTable from './rowDtoTable';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLAction,
-  getTransactionTypeDDLAction,
   getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionForAdjustInv,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
   getItemforReftypeAction,
 } from '../../_redux/Actions';
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
@@ -20,12 +13,11 @@ import FormikError from './../../../../../_helper/_formikError';
 import { ISelect } from '../../../../../_helper/_inputDropDown';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { empAttachment_action } from '../../helper';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { invTransactionSlice } from '../../_redux/Slice';
 import Loading from '../../../../../_helper/_loading';
 const { actions: slice } = invTransactionSlice;
-
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 export default function CreateForm({
   btnRef,
   resetBtnRef,
