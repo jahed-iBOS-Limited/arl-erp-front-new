@@ -8,9 +8,9 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import IForm from "../../../../../../_helper/_form";
 import Loading from "../../../../../../_helper/_loading";
-import { getcashJournalSingleData_api} from "../helper";
 import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
 import { commonTransferJournal } from "../../../helper";
+import { getcashJournalSingleData_api } from "../../../../cashJournal/helper";
 
 const initData = {
   id: undefined,
