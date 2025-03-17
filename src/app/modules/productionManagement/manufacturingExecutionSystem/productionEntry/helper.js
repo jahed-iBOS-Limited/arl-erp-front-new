@@ -55,7 +55,7 @@ export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getProductionOrderDDL = async (
@@ -76,7 +76,7 @@ export const getProductionOrderDDL = async (
       setter(res.data);
       // console.log(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemNameDDL = async (accId, buId, plantId, setter) => {
@@ -88,7 +88,7 @@ export const getItemNameDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getShiftDDL = async (accId, buId, setter) => {
@@ -100,7 +100,7 @@ export const getShiftDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWorkCenterDDL = async (
@@ -118,7 +118,7 @@ export const getWorkCenterDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const createProductionEntry = async (
@@ -225,7 +225,7 @@ export const getSingleDataById = async (
       setter(newObj);
       setRowData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //for back calculation api
 export const getSingleDataByForBackCalculation = async (
@@ -283,7 +283,7 @@ export const getSingleDataByForBackCalculation = async (
       setTableData(newObjRow);
       // ?.filter((item, index) => index !== 0)
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //for ------ WITHOUT ------- back calculation approve by id
@@ -339,7 +339,7 @@ export const getSingleDataByIdApprove = async (
       setter(newObj);
       setRowData(newObjRow);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //for back calculation approve by id
@@ -392,7 +392,7 @@ export const getSingleDataByIdForBackCalculation = async (
       setter(newObj);
       setTableData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const editProductionEntry = async (payload, setDisabled) => {
@@ -488,7 +488,7 @@ export const getOtherOutputItemDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Plant DDL for Landing
@@ -521,7 +521,7 @@ export const getOrderQuantityDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getProductionItemQuantity = async (poId, itemId, setter) => {
@@ -533,7 +533,7 @@ export const getProductionItemQuantity = async (poId, itemId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const productionOrderAction = async (poId, updateRowDto, setRowDto) => {
@@ -560,7 +560,7 @@ export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
       `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemListForBackCalculation = async (
@@ -582,7 +582,7 @@ export const getItemListForBackCalculation = async (
       isMain: true,
     }));
     setter(data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getRoutingToBOMDDL = async (
@@ -600,7 +600,7 @@ export const getRoutingToBOMDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWarehouseDDL = async (
@@ -618,25 +618,5 @@ export const getWarehouseDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
-};
-
-//Image Attachment
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success(data?.message || "Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
+  } catch (error) { }
 };

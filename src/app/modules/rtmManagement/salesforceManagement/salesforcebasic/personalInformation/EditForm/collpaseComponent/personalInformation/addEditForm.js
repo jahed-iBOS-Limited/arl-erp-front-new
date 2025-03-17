@@ -1,25 +1,23 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { empAttachment_action } from "../../../../../../../_helper/attachmentUpload";
+import Loading from "./../../../../../../../_helper/_loading";
+import { _todayDate } from "./../../../../../../../_helper/_todayDate";
 import Form from "./form";
 import {
-  getNationalityDDL,
-  getBloodGroupDDL,
-  getGenderDDL,
-  getEmpIdentificationTypeDDL,
-  religionDDL_api,
-  getMeritalStatusDDL_api,
   createEmployeePersonalInformation,
-  getEmpPersonalInfoById_api,
   employeePersonalInformation_api,
+  getBloodGroupDDL,
+  getEmpIdentificationTypeDDL,
+  getEmpPersonalInfoById_api,
+  getGenderDDL,
+  getMeritalStatusDDL_api,
+  getNationalityDDL,
+  religionDDL_api,
 } from "./helper";
-import { _todayDate } from "./../../../../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { getImageFile_api } from "./../../../../helper";
-import Loading from "./../../../../../../../_helper/_loading";
 const initData = {
   employeeNickName: "",
   nationality: "",
@@ -195,7 +193,7 @@ export default function PersonalInformation() {
       getNationalityDDL(setNationalityDDL);
       getBloodGroupDDL(setBloodGroupDDL);
       getGenderDDL(setGenderDDL);
-      
+
       religionDDL_api(setReligionDDL);
       getMeritalStatusDDL_api(setMeritalStatusDDL);
     }
