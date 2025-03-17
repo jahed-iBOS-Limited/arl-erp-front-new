@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../../../_helper/_select";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "./../../../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions";
-import IView from "./../../../../../../_helper/_helperIcons/_view";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
 import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
+import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
+import NewSelect from "../../../../../../_helper/_select";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IView from "./../../../../../../_helper/_helperIcons/_view";
 import { getDocumentTypeDDL } from "./helper";
 // eslint-disable-next-line no-unused-vars
-import { TrainOutlined } from "@material-ui/icons";
-import InputField from "../../../../../../_helper/_inputField";
 import { useDispatch } from "react-redux";
+import InputField from "../../../../../../_helper/_inputField";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
 // import { _todayDate } from "./../../../../../../_helper/_todayDate";
 // Validation schema
@@ -188,64 +187,64 @@ export default function _Form({
                     <div className="row">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>Document Type</th>
-                                <th style={{ width: "35px" }}>
-                                  Effective Date
-                                </th>
-                                <th style={{ width: "35px" }}>Created By</th>
-                                <th style={{ width: "35px" }}>Created Date</th>
-                                <th style={{ width: "35px" }}>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>Document Type</th>
+                                  <th style={{ width: "35px" }}>
+                                    Effective Date
+                                  </th>
+                                  <th style={{ width: "35px" }}>Created By</th>
+                                  <th style={{ width: "35px" }}>Created Date</th>
+                                  <th style={{ width: "35px" }}>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
 
-                                  <td className="text-center">
-                                    {itm?.strDocType}
-                                  </td>
-                                  <td className="text-center">
-                                    {_dateFormatter(itm?.effectiveDate)}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.createdByName}
-                                  </td>
-                                  <td className="text-center">
-                                    {_dateFormatter(itm?.createdDateTime)}
-                                  </td>
-                                  <td>
-                                    <div className="d-flex justify-content-around">
-                                      <span>
-                                        <IView
-                                          clickHandler={() => {
-                                            dispatch(
-                                              getDownlloadFileView_Action(
-                                                itm?.intDocumentId
-                                              )
-                                            );
-                                          }}
-                                        />
-                                      </span>
-                                      {edit && (
+                                    <td className="text-center">
+                                      {itm?.strDocType}
+                                    </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(itm?.effectiveDate)}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.createdByName}
+                                    </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(itm?.createdDateTime)}
+                                    </td>
+                                    <td>
+                                      <div className="d-flex justify-content-around">
                                         <span>
-                                          <IDelete
-                                            remover={remover}
-                                            id={index}
+                                          <IView
+                                            clickHandler={() => {
+                                              dispatch(
+                                                getDownlloadFileView_Action(
+                                                  itm?.intDocumentId
+                                                )
+                                              );
+                                            }}
                                           />
                                         </span>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                        {edit && (
+                                          <span>
+                                            <IDelete
+                                              remover={remover}
+                                              id={index}
+                                            />
+                                          </span>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>
@@ -271,7 +270,6 @@ export default function _Form({
                     }}
                     onClose={() => setOpen(false)}
                     onSave={() => {
-                      console.log("onSave", fileObjects);
                       setOpen(false);
                       empAttachment_action(fileObjects).then((data) => {
                         setUploadImage(data);

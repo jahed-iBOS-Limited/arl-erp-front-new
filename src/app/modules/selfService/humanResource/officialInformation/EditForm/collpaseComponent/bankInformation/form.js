@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { toast } from "react-toastify";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { getBankBranchDDL_api, getBankDDL_api, getCountryDDL } from "./helper";
-import { empAttachment_action } from "./../../../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../../../_helper/_inputField";
+import NewSelect from "../../../../../../_helper/_select";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import { getBankBranchDDL_api, getBankDDL_api, getCountryDDL } from "./helper";
 
 export default function _Form({
   initData,
@@ -139,7 +139,7 @@ export default function _Form({
                 )}
               </CardHeader>
               <CardBody>
-                
+
                 <Form className="form form-label-right">
                   {edit && (
                     <div className="row global-form global-form-custom bj-left pb-2">
@@ -190,7 +190,7 @@ export default function _Form({
                               name="bank"
                               placeholder="Bank Name"
                               type="text"
-                              // disabled={!edit}
+                            // disabled={!edit}
                             />
                           </div>
                           <div className="col-lg-3 mb-2">
@@ -200,7 +200,7 @@ export default function _Form({
                               name="bankBranch"
                               placeholder="Bank Branch"
                               type="text"
-                              // disabled={!edit}
+                            // disabled={!edit}
                             />
                           </div>
                           <div className="col-lg-3 mb-2">
@@ -210,7 +210,7 @@ export default function _Form({
                               name="swiftCode"
                               placeholder="Swift Code"
                               type="text"
-                              // disabled={!edit}
+                            // disabled={!edit}
                             />
                           </div>
                           <div className="col-lg-3 mb-2">
@@ -220,7 +220,7 @@ export default function _Form({
                               name="ibanNo"
                               placeholder="IBAN No"
                               type="text"
-                              // disabled={!edit}
+                            // disabled={!edit}
                             />
                           </div>
                         </>
@@ -316,63 +316,63 @@ export default function _Form({
                     <div className="row global-form global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>
-                                  Account/Beneficiary
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Account Number
-                                </th>
-                                <th style={{ width: "35px" }}>Country</th>
-                                <th style={{ width: "35px" }}>Bank</th>
-                                <th style={{ width: "35px" }}>Bank Branch</th>
-                                <th style={{ width: "35px" }}>
-                                  IBAN/Routing No:
-                                </th>
-                                <th style={{ width: "35px" }}>Swift Code</th>
-                                <th style={{ width: "35px" }}>Default?</th>
-                                {/* <th style={{ width: "35px" }}>Attachment</th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.accountName}</td>
-                                  <td className="">{itm?.accountNumber}</td>
-                                  <td className="">{itm?.countryName}</td>
-                                  <td className="">{itm?.bankName}</td>
-                                  <td className="">{itm?.bankBranchName}</td>
-                                  <td className="">
-                                    {itm?.bankRoutingNumber || itm?.ibanNo}
-                                  </td>
-                                  <td className="">{itm?.swiftCode}</td>
-                                  <td className="text-center">
-                                    <input
-                                      id="isDefaultAccount"
-                                      type="checkbox"
-                                      className=""
-                                      value={itm.isDefaultAccount}
-                                      checked={itm.isDefaultAccount}
-                                      name={itm.isDefaultAccount}
-                                      onChange={(e) => {
-                                        //setFieldValue("isDefaultAccount", e.target.checked);
-                                        itemSlectedHandler(
-                                          e.target.checked,
-                                          index
-                                        );
-                                      }}
-                                      disabled={!edit}
-                                    />
-                                  </td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>
+                                    Account/Beneficiary
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Account Number
+                                  </th>
+                                  <th style={{ width: "35px" }}>Country</th>
+                                  <th style={{ width: "35px" }}>Bank</th>
+                                  <th style={{ width: "35px" }}>Bank Branch</th>
+                                  <th style={{ width: "35px" }}>
+                                    IBAN/Routing No:
+                                  </th>
+                                  <th style={{ width: "35px" }}>Swift Code</th>
+                                  <th style={{ width: "35px" }}>Default?</th>
+                                  {/* <th style={{ width: "35px" }}>Attachment</th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.accountName}</td>
+                                    <td className="">{itm?.accountNumber}</td>
+                                    <td className="">{itm?.countryName}</td>
+                                    <td className="">{itm?.bankName}</td>
+                                    <td className="">{itm?.bankBranchName}</td>
+                                    <td className="">
+                                      {itm?.bankRoutingNumber || itm?.ibanNo}
+                                    </td>
+                                    <td className="">{itm?.swiftCode}</td>
+                                    <td className="text-center">
+                                      <input
+                                        id="isDefaultAccount"
+                                        type="checkbox"
+                                        className=""
+                                        value={itm.isDefaultAccount}
+                                        checked={itm.isDefaultAccount}
+                                        name={itm.isDefaultAccount}
+                                        onChange={(e) => {
+                                          //setFieldValue("isDefaultAccount", e.target.checked);
+                                          itemSlectedHandler(
+                                            e.target.checked,
+                                            index
+                                          );
+                                        }}
+                                        disabled={!edit}
+                                      />
+                                    </td>
+                                    {/* <td className="text-center">
                                     {itm?.documentPath && (
                                       <IView
                                         clickHandler={() => {
@@ -386,37 +386,37 @@ export default function _Form({
                                     )}
                                   </td> */}
 
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className=" d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                              branchOnChangeHandler(itm);
-                                              console.log(itm, "jasmin");
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
-                                        {!singleData.length > 0 && (
-                                          <IDelete
-                                            id={index}
-                                            remover={remover}
-                                          />
-                                        )}
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className=" d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                                branchOnChangeHandler(itm);
+                                                console.log(itm, "jasmin");
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
+                                          {!singleData.length > 0 && (
+                                            <IDelete
+                                              id={index}
+                                              remover={remover}
+                                            />
+                                          )}
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>

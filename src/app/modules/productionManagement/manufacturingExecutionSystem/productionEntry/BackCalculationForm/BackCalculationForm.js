@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import { Field, Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
+  getRoutingToBOMDDL,
   getShopFloorDDL,
   getWorkCenterDDL,
-  getRoutingToBOMDDL,
-  empAttachment_action,
 } from "../helper";
-import { toast } from "react-toastify";
 import CreateTableRow from "../Table/CreateTableRow";
 import { getItemListForBackCalculation } from "./../helper";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 
 export default function _Form({
   initData,
@@ -287,7 +286,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -333,7 +332,7 @@ export default function _Form({
                           placeholder="Shift"
                           errors={errors}
                           touched={touched}
-                          // isDisabled={isEdit}
+                        // isDisabled={isEdit}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -349,7 +348,7 @@ export default function _Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -412,7 +411,7 @@ export default function _Form({
                                 errors={errors}
                                 touched={touched}
                               />
-                                       
+
                             </div>
                             <div className="col-lg-4">
                               <InputField
@@ -427,7 +426,7 @@ export default function _Form({
                                 placeholder="Others Output Quantity"
                                 type="number"
                               />
-                                     
+
                             </div>
                             <div className="col-lg-4 pt-5 mt-2">
                               <button

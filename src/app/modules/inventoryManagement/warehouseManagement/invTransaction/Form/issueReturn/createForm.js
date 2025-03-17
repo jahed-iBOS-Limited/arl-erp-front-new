@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { ISelect } from "../../../../../_helper/_inputDropDown";
 import NewSelect from "../../../../../_helper/_select";
-import { validationSchema, initData, getSupplierDDL } from "./helper";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
-  getreferenceTypeDDLAction,
-  // getTransactionTypeDDLAction,
-  getpersonnelDDLAction,
-  // saveInventoryTransactionOrder,
-  getStockDDLAction,
-  getreferenceNoReceiveInvDDLAction,
   // getItemforReceiveInvAction,
   getItemListForIssueReturnAction,
   getItemforReceiveInvForeignPOAction,
+  // saveInventoryTransactionOrder,
+  getStockDDLAction,
+  // getTransactionTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoReceiveInvDDLAction,
+  getreferenceTypeDDLAction,
   saveInventoryTransactionForIssue,
 } from "../../_redux/Actions";
-import RowDtoTable from "./rowDtoTable";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
+import { getSupplierDDL, initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 // import { confirmAlert } from "react-confirm-alert";
-import InputField from "../../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { empAttachment_action } from "../../helper";
-import { getForeignPurchaseDDL } from "../../helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
-import Loading from "../../../../../_helper/_loading";
 import axios from "axios";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import { toast } from "react-toastify";
+import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { getForeignPurchaseDDL } from "../../helper";
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -154,11 +154,11 @@ export default function ReceiveInvCreateForm({
                 : values.item.baseValue,
             location: values?.item?.location
               ? [
-                  {
-                    value: values?.item?.location?.locationId,
-                    label: values?.item?.location?.locationName,
-                  },
-                ]
+                {
+                  value: values?.item?.location?.locationId,
+                  label: values?.item?.location?.locationName,
+                },
+              ]
               : [{ value: 0, label: "" }],
             stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
             quantity: Math.abs(values?.item?.issueQty),
@@ -188,11 +188,11 @@ export default function ReceiveInvCreateForm({
           baseValue: data.baseValue || 0,
           location: data?.location
             ? [
-                {
-                  value: data?.location?.locationId,
-                  label: data?.location?.locationName,
-                },
-              ]
+              {
+                value: data?.location?.locationId,
+                label: data?.location?.locationName,
+              },
+            ]
             : [{ value: 0, label: "" }],
           stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
           quantity: Math.abs(data?.issueQty),
@@ -451,9 +451,9 @@ export default function ReceiveInvCreateForm({
                           "busiPartner",
                           valueOption?.actionBy
                             ? {
-                                value: valueOption.actionBy || 0,
-                                label: valueOption.actionName || "",
-                              }
+                              value: valueOption.actionBy || 0,
+                              label: valueOption.actionName || "",
+                            }
                             : ""
                         );
                         setFieldValue("item", "");
@@ -527,9 +527,9 @@ export default function ReceiveInvCreateForm({
                           "busiPartner",
                           data.supplierId
                             ? {
-                                value: data.supplierId || 0,
-                                label: data.supplierName || "",
-                              }
+                              value: data.supplierId || 0,
+                              label: data.supplierName || "",
+                            }
                             : ""
                         );
                         setFieldValue("freight", data?.freight);
@@ -551,32 +551,32 @@ export default function ReceiveInvCreateForm({
                 )}
                 {values?.refNo?.purchaseOrganizationName ===
                   "Foreign Procurement" && (
-                  <div className="col-lg-2">
-                    <NewSelect
-                      label="Invoice"
-                      options={foreignPurchaseDDL}
-                      value={values?.foreignPurchase}
-                      placeholder="Invoice"
-                      name="foreignPurchase"
-                      onChange={(value) => {
-                        setFieldValue("foreignPurchase", value);
-                        setRowDto([]);
-                        dispatch(
-                          getItemforReceiveInvForeignPOAction(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            values?.refNo?.value,
-                            value?.value
-                          )
-                        );
-                      }}
-                      //setFieldValue={setFieldValue}
-                      isDisabled={values.refType === ""}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
+                    <div className="col-lg-2">
+                      <NewSelect
+                        label="Invoice"
+                        options={foreignPurchaseDDL}
+                        value={values?.foreignPurchase}
+                        placeholder="Invoice"
+                        name="foreignPurchase"
+                        onChange={(value) => {
+                          setFieldValue("foreignPurchase", value);
+                          setRowDto([]);
+                          dispatch(
+                            getItemforReceiveInvForeignPOAction(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              values?.refNo?.value,
+                              value?.value
+                            )
+                          );
+                        }}
+                        //setFieldValue={setFieldValue}
+                        isDisabled={values.refType === ""}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                 <div className="col-lg-2">
                   <NewSelect
                     label="Transaction Type"
@@ -871,7 +871,7 @@ export default function ReceiveInvCreateForm({
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                    // style={{ marginTop: "45px" }}
+                  // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}

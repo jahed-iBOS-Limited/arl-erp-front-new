@@ -13,9 +13,10 @@ import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
 import InputField from '../../../../../_helper/_inputField';
 import NewSelect from '../../../../../_helper/_select';
 import PaginationTable from '../../../../../_helper/_tablePagination';
-import { getLandingData, empAttachment_action } from '../helper';
+import { getLandingData } from '../helper';
 // import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 // import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import ServiceBreakDownViewModal from '../serviceBreakDown/serviceBreakDownViewModal';
 
@@ -280,7 +281,7 @@ export default function _Form({
                           name="billNo"
                           placeholder="Bill No"
                           type="text"
-                          // disabled={values?.billingStatus?.label === "Done"}
+                        // disabled={values?.billingStatus?.label === "Done"}
                         />
                       </div>
                     )}
@@ -371,13 +372,13 @@ export default function _Form({
                         Total Bill Amount (with VAT) :{' '}
                         {rowDto?.length > 0
                           ? rowDto
-                              ?.filter((item) => item?.isSelect)
-                              ?.reduce(
-                                (accumulator, currentValue) =>
-                                  accumulator +
-                                    +currentValue?.totalBilledAmount || 0,
-                                0,
-                              )
+                            ?.filter((item) => item?.isSelect)
+                            ?.reduce(
+                              (accumulator, currentValue) =>
+                                accumulator +
+                                +currentValue?.totalBilledAmount || 0,
+                              0,
+                            )
                           : 0}
                       </strong>
                     </div>
@@ -408,13 +409,13 @@ export default function _Form({
 
                             return item?.isSelect
                               ? {
-                                  ...item,
-                                  vatamount: modifyVatAmount,
-                                  modifyVatPercentage: +e.target.value || 0,
-                                  totalBilledAmount:
-                                    (+item?.totalAmount || 0) +
-                                    (+modifyVatAmount || 0),
-                                }
+                                ...item,
+                                vatamount: modifyVatAmount,
+                                modifyVatPercentage: +e.target.value || 0,
+                                totalBilledAmount:
+                                  (+item?.totalAmount || 0) +
+                                  (+modifyVatAmount || 0),
+                              }
                               : item;
                           });
                           setRowDto(modifyData);

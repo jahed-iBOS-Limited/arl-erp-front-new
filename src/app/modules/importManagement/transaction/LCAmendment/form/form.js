@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, empAttachment_action, getLatestChangesOfDoc } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { useDispatch } from "react-redux";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import NewSelect from "../../../../_helper/_select";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import TextArea from "../../../../_helper/TextArea";
+import InputField from "../../../../_helper/_inputField";
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import NewSelect from "../../../../_helper/_select";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
+import { getLatestChangesOfDoc, validationSchema } from "../helper";
+import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
 
 export default function _Form({
   initData,
@@ -425,11 +426,11 @@ export default function _Form({
                       className="btn btn-primary d-flex mt-4"
                       type="button"
                       onClick={() => {
-                        const docUrl  =  values?.docLink;
+                        const docUrl = values?.docLink;
                         const docId = docUrl.split("/")[5];
                         getLatestChangesOfDoc(docId, setDisabled, (resData) => {
 
-                        } )
+                        })
                       }}
                     >
                       Check
@@ -473,7 +474,7 @@ export default function _Form({
                 type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
-                // onSubmit={() => resetForm(initData)}
+              // onSubmit={() => resetForm(initData)}
               ></button>
 
               <DropzoneDialogBase

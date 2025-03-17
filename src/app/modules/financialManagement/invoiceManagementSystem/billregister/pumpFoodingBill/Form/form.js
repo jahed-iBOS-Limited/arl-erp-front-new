@@ -8,9 +8,9 @@ import InputField from "../../../../../_helper/_inputField";
 // import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import NewSelect from "../../../../../_helper/_select";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
 import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../../_helper/iButton";
-import { empAttachment_action } from "../../helper";
 import { insertDataInExcel } from "../helper";
 
 const validationSchema = Yup.object().shape({
@@ -187,96 +187,96 @@ export default function _Form({
                   </span>
                 </div>
                 <div className="col-lg-12 mt-4">
-                <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
-                    <thead className="bg-secondary">
-                      <tr>
-                        <th
-                          onClick={() => allSelect(!selectedAll())}
-                          style={{ width: "30px" }}
-                        >
-                          <input
-                            type="checkbox"
-                            value={selectedAll()}
-                            checked={selectedAll()}
-                            onChange={() => {}}
-                          />
-                        </th>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
+                      <thead className="bg-secondary">
+                        <tr>
+                          <th
+                            onClick={() => allSelect(!selectedAll())}
+                            style={{ width: "30px" }}
+                          >
+                            <input
+                              type="checkbox"
+                              value={selectedAll()}
+                              checked={selectedAll()}
+                              onChange={() => { }}
+                            />
+                          </th>
 
-                        {headers?.map((th) => (
-                          <th key={th}>{th}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.data?.map((item, index) => {
-                        totalBillAmount += item?.billAmount;
-                        totalApproveAmount += item?.approveAmount;
-                        return (
-                          <tr key={index}>
-                            <td
-                              onClick={() => {
-                                rowDataHandler(
-                                  "isSelected",
-                                  index,
-                                  !item.isSelected
-                                );
-                              }}
-                              className="text-center"
-                              style={
-                                item?.isSelected
-                                  ? {
+                          {headers?.map((th) => (
+                            <th key={th}>{th}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.data?.map((item, index) => {
+                          totalBillAmount += item?.billAmount;
+                          totalApproveAmount += item?.approveAmount;
+                          return (
+                            <tr key={index}>
+                              <td
+                                onClick={() => {
+                                  rowDataHandler(
+                                    "isSelected",
+                                    index,
+                                    !item.isSelected
+                                  );
+                                }}
+                                className="text-center"
+                                style={
+                                  item?.isSelected
+                                    ? {
                                       backgroundColor: "#aacae3",
                                       width: "30px",
                                     }
-                                  : { width: "30px" }
-                              }
-                            >
-                              <input
-                                type="checkbox"
-                                value={item?.isSelected}
-                                checked={item?.isSelected}
-                                onChange={() => {}}
-                              />
-                            </td>
+                                    : { width: "30px" }
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  value={item?.isSelected}
+                                  checked={item?.isSelected}
+                                  onChange={() => { }}
+                                />
+                              </td>
 
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.employeeName}</td>
-                            <td>{item?.employeeId}</td>
-                            <td>{item?.workplaceName}</td>
-                            <td>{item?.empDesignation}</td>
-                            <td>{_dateFormatter(item?.date)}</td>
-                            <td>{item?.startTime}</td>
-                            <td>{_dateFormatter(item?.endDate)}</td>
-                            <td>{item?.endTime}</td>
-                            {/* <td>{item?.hours}</td> */}
-                            <td className="text-right">{item?.billAmount}</td>
-                            <td className="text-right">
-                              {item?.approveAmount}
-                            </td>
-                            <td>{item?.remarks}</td>
-                          </tr>
-                        );
-                      })}
-                      <tr>
-                        <td colSpan={10} className="text-right">
-                          <b>Total </b>
-                        </td>
-                        <td className="text-right">
-                          <b>{_fixedPoint(totalBillAmount, true, 0)}</b>
-                        </td>
-                        <td className="text-right">
-                          <b>{_fixedPoint(totalApproveAmount, true, 0)}</b>
-                        </td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.employeeName}</td>
+                              <td>{item?.employeeId}</td>
+                              <td>{item?.workplaceName}</td>
+                              <td>{item?.empDesignation}</td>
+                              <td>{_dateFormatter(item?.date)}</td>
+                              <td>{item?.startTime}</td>
+                              <td>{_dateFormatter(item?.endDate)}</td>
+                              <td>{item?.endTime}</td>
+                              {/* <td>{item?.hours}</td> */}
+                              <td className="text-right">{item?.billAmount}</td>
+                              <td className="text-right">
+                                {item?.approveAmount}
+                              </td>
+                              <td>{item?.remarks}</td>
+                            </tr>
+                          );
+                        })}
+                        <tr>
+                          <td colSpan={10} className="text-right">
+                            <b>Total </b>
+                          </td>
+                          <td className="text-right">
+                            <b>{_fixedPoint(totalBillAmount, true, 0)}</b>
+                          </td>
+                          <td className="text-right">
+                            <b>{_fixedPoint(totalApproveAmount, true, 0)}</b>
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

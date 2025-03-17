@@ -32,7 +32,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -43,7 +43,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWareForTransferDDL = async (
@@ -68,7 +68,7 @@ export const getWareForTransferDDL = async (
       }
       setter(wareData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWareDDL = async (userId, accId, buId, plantId, setter) => {
@@ -79,7 +79,7 @@ export const getWareDDL = async (userId, accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const transGrupDDL = async (setter) => {
@@ -90,25 +90,7 @@ export const transGrupDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
-};
-
-export const empAttachment_action = async (attachment, setUploadImage) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setUploadImage(data);
-    return data;
-  } catch (error) {
-    toast.error(error?.response?.data?.message || "Document not upload");
-  }
+  } catch (error) { }
 };
 
 export const uploadAttachment = (attachment) => {
@@ -132,7 +114,7 @@ export const getImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getReportForInvReq = async (prId, buId, setter) => {
@@ -141,7 +123,7 @@ export const getReportForInvReq = async (prId, buId, setter) => {
       `/wms/InventoryView/GetInvTransectionByIdView?TransectionId=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getReportForInvReqW2w = async (prId, setter) => {
@@ -150,7 +132,7 @@ export const getReportForInvReqW2w = async (prId, setter) => {
       `/wms/InventoryView/GetInvTransectionByIdViewWtoW?TransectionId=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getReportForCanceledMRR = async (transactionId, businessUnitId, setter) => {
@@ -159,7 +141,7 @@ export const getReportForCanceledMRR = async (transactionId, businessUnitId, set
       `/wms/InventoryTransaction/GetInventoryTransectionMRRCancelReportViewById?transactionId=${transactionId}&businessUnitId=${businessUnitId}`
     );
     setter(res?.data[0]);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getReportForInvReqInternal = async (prId, setter) => {
@@ -168,7 +150,7 @@ export const getReportForInvReqInternal = async (prId, setter) => {
       `/wms/InventoryView/GetInternalInventoryTransaction?TransectionId=${prId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const saveAttchmentForPo = async (data, cb) => {
@@ -194,7 +176,7 @@ export const getAttachmentLandingData = async (refId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const CancelDocumentAction = async (docId, refId, cb) => {
@@ -219,7 +201,7 @@ export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
       `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const uplaodAttachment = async (attachment, setUploadImage) => {
@@ -250,5 +232,5 @@ export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
       `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res.data);
-  } catch (error) {}
+  } catch (error) { }
 };

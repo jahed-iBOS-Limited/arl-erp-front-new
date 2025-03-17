@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { empAttachment_action } from "../../../../../../../_helper/attachmentUpload";
 import Loading from "./../../../../../../../_helper/_loading";
+import Form from "./form";
 import {
-  getEmployeeBasicInfoById_api,
   EditEmployeeBasicInformation,
+  getEmployeeBasicInfoById_api,
 } from "./helper";
-import { empAttachment_action } from "./../../../../helper";
 
 const initData = {
   id: undefined,

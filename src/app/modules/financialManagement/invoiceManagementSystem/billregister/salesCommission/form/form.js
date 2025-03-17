@@ -1,10 +1,7 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../helper";
-import GridView from "../Table/table";
-import Loading from "../../../../../_helper/_loading";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -12,8 +9,11 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../../_helper/_select";
 import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import GridView from "../Table/table";
 
 const _Form = ({
   initData,
@@ -133,7 +133,7 @@ const _Form = ({
                         placeholder="Account Of"
                         errors={errors}
                         touched={touched}
-                        // isDisabled={true}
+                      // isDisabled={true}
                       />
                     </div>
 

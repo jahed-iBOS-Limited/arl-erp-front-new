@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, initData } from "./helper";
-import InputField from "../../../../../_helper/_inputField";
-import RowDtoTable from "./rowDtoTable";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLActionforreturnDeleviry,
-  getTransactionTypeDDLAction,
-  getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  getItemDDLAction,
-  saveInventoryTransactionForPurchaseReturn,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
-  getItemReturnInvAction,
-} from "../../_redux/Actions";
-import { toast } from "react-toastify";
-import { empAttachment_action } from "../../helper";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import {
+  getBusinessPartnerDDLAction,
+  getItemDDLAction,
+  getItemReturnInvAction,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLActionforreturnDeleviry,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForPurchaseReturn,
+} from "../../_redux/Actions";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -384,7 +384,7 @@ export default function CreateForm({
                     />
                   </div>
                 )}
-               
+
                 <div className="col-lg-2">
                   <InputField
                     value={values?.remarks}
@@ -414,7 +414,7 @@ export default function CreateForm({
                     Attachment
                   </button>
                 </div>
-                
+
               </div>
               {/* <div className="form-group row global-form">
                 <div className="col-lg-3">

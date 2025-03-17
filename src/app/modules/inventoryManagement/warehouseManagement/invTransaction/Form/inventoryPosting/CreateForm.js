@@ -1,27 +1,27 @@
+import { Form, Formik } from 'formik'
+import { DropzoneDialogBase } from 'material-ui-dropzone'
 import React, { useEffect, useState } from 'react'
-import { Formik, Form } from 'formik'
-import { validationSchema, initData } from './helper'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { ISelect } from '../../../../../_helper/_inputDropDown'
 import InputField from '../../../../../_helper/_inputField'
-import RowDtoTable from './rowDtoTable'
-import { shallowEqual, useSelector, useDispatch } from 'react-redux'
+import Loading from '../../../../../_helper/_loading'
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload'
 import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLActionforCancelInv,
   getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
   getItemDDLAction,
-  saveInventoryTransactionForCancelInv,
+  getItemforCancelInvAction,
   getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLActionforCancelInv,
+  getreferenceTypeDDLAction,
   getStockDDLAction,
   getTransactionTypeforCancelInv,
-  getItemforCancelInvAction,
+  saveInventoryTransactionForCancelInv,
 } from '../../_redux/Actions'
-import { ISelect } from '../../../../../_helper/_inputDropDown'
-import { toast } from 'react-toastify'
-import { DropzoneDialogBase } from 'material-ui-dropzone'
-import { empAttachment_action } from '../../helper'
-import Loading from '../../../../../_helper/_loading'
 import { invTransactionSlice } from '../../_redux/Slice'
+import { initData, validationSchema } from './helper'
+import RowDtoTable from './rowDtoTable'
 
 const { actions: slice } = invTransactionSlice
 
@@ -84,13 +84,13 @@ export default function CreateForm({
       )
     )
 
-    return () =>{
+    return () => {
       dispatch(slice.setItemDDL([]))
       dispatch(slice.setreferenceTypeDDL([]))
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
-    } 
-    
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData.accountId, selectedBusinessUnit.value])
 
@@ -127,7 +127,7 @@ export default function CreateForm({
   }, [transactionTypeDDL])
 
   const onChangeForRefNo = (refNo, values) => {
-    dispatch(getItemforCancelInvAction(values.refType.value,values.refType.label, refNo.value))
+    dispatch(getItemforCancelInvAction(values.refType.value, values.refType.label, refNo.value))
     dispatch(getTransactionTypeforCancelInv(refNo.value))
     //    if(transactionTypeDDL){
     //     setTransaType(transactionTypeDDL[0])
@@ -214,7 +214,7 @@ export default function CreateForm({
           objRow: rowDataformet,
           objtransfer: {},
         }
-     
+
         if (fileObjects.length > 0) {
           empAttachment_action(fileObjects).then((data) => {
             const modifyPlyload = {
