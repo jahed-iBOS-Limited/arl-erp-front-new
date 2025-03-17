@@ -1,19 +1,6 @@
 import Axios from "axios";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
-//GetSBUListDDL
-export const cashJournalSbuApi = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
 //generalLedgerTypeId_Api
 export const generalLedgerTypeId_Api = async (
   accId,

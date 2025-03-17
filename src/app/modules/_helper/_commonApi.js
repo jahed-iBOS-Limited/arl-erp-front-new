@@ -826,3 +826,16 @@ export const getCostElementByCostCenterDDL = async (
     setter(res?.data);
   } catch (error) { }
 };
+
+export const cashJournalSbuApi = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    
+  }
+};
