@@ -132,6 +132,12 @@ export const getPartner = async (accId, BuId, setter) => {
   } catch (error) { }
 };
 
+export function getPartnerDDL(accId, buId) {
+  return axios.get(
+    `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
+  );
+}
+
 
 export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
   try {

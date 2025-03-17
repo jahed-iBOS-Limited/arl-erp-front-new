@@ -129,18 +129,6 @@ export const getInvStockTypeDDL = async (setter) => {
   }
 };
 
-export const getBusinessPartnerDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
 
 export const getEmployeeDDL = async (accId, buId, setter) => {
   try {
