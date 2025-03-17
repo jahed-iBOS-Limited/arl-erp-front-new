@@ -91,7 +91,7 @@ export default function AutoPRCreateModal({
         <>
           {(loading || saveLoader || loading2) && <Loading />}
           <IForm
-            title="Generate MRP"
+            title="Run MRP"
             isHiddenReset
             isHiddenBack
             isHiddenSave
