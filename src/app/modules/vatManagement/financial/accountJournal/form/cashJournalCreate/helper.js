@@ -1,37 +1,6 @@
 import Axios from "axios";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
-//getProfitCenterDDL_Api
-export const getProfitCenterDDL_Api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/ProfitCenter/GetProfitCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
-
-//getBusinessTransactionDDL_api
-
-
-//getBankAccountDDL_api
-export const getBankAccountDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
-
 //getBankAccountDDL_api
 export const getcashJournalSingleData_api = async (
   cashJournalId,

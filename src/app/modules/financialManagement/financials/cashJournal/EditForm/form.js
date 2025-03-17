@@ -7,7 +7,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../_helper/_commonApi";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import DebitCredit from "../Form/DebitCredit";
 import ReceiveAndPaymentsTable from "../Form/ReceiveAndPaymentsTable";
@@ -16,7 +16,6 @@ import FormikError from "./../../../../_helper/_formikError";
 import { IInput } from "./../../../../_helper/_input";
 import customStyles from "./../../../../selectCustomStyle";
 import {
-  getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./../helper";

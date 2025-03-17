@@ -833,3 +833,17 @@ export const getCostElementByCostCenterDDL = async (
     setter(res?.data);
   } catch (error) { }
 };
+
+
+export const getBankAccountDDL_api = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    
+  }
+};

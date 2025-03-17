@@ -8,7 +8,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../_helper/_commonApi";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -17,7 +17,6 @@ import { IInput } from "./../../../../_helper/_input";
 import placeholderImg from "./../../../../_helper/images/placeholderImg.png";
 import customStyles from "./../../../../selectCustomStyle";
 import {
-  getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./../helper";

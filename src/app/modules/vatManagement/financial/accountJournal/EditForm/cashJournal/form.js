@@ -12,12 +12,11 @@ import FormikError from "../../../../../_helper/_formikError";
 import { IInput } from "../../../../../_helper/_input";
 import DebitCredit from "../../form/cashJournalCreate/DebitCredit";
 import {
-  getBankAccountDDL_api,
   getPartnerTypeDDLAction
 } from "../../form/cashJournalCreate/helper";
 import ReceiveAndPaymentsTable from "../../form/cashJournalCreate/ReceiveAndPaymentsTable";
 import TransferTable from "../../form/cashJournalCreate/TransferTable";
-import { getSendToGLBank } from "../../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getSendToGLBank } from "../../../../../_helper/_commonApi";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()

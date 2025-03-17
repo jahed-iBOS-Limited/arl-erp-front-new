@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import DebitCredit from "./DebitCredit";
 import {
-  getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./helper";
@@ -18,7 +17,7 @@ import TransferTable from "./TransferTable";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../../../_helper/_commonApi";
 import FormikError from "../../../../../../_helper/_formikError";
 import { IInput } from "../../../../../../_helper/_input";
 import Loading from "../../../../../../_helper/_loading";
