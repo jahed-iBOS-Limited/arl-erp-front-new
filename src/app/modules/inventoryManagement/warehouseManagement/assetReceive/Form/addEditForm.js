@@ -9,7 +9,6 @@ import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { empAttachment_action } from "../../../../_helper/attachmentUpload";
-import { serviceReceiveAttachment_action } from "../../serviceReceive/helper/Actions";
 import {
   getPoNumberDDL,
   getSingleDataForEdit,
@@ -292,7 +291,7 @@ export default function AssetsReceiveForm({
           if (fileObjects.length < 1) return toast.warn("Attachment is required");
 
           if (fileObjects.length > 0) {
-            serviceReceiveAttachment_action(fileObjects).then((data) => {
+            empAttachment_action(fileObjects).then((data) => {
               const modifyPlyload = {
                 objHeader: {
                   ...payload?.objHeader

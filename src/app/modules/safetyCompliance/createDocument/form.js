@@ -4,15 +4,16 @@ import ReactQuill from "react-quill";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import ICustomTable from "../../_helper/_customTable";
+import IDelete from "../../_helper/_helperIcons/_delete";
 import InputField from "../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../_helper/_redux/Actions";
 import NewSelect from "../../_helper/_select";
-import { attachment_action, nameCutter } from "../legalDocRegistration/helper";
-import "./style.css";
-import placeholderImg from "../../_helper/images/placeholderImg.png";
+import { attachmentUpload } from "../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../_helper/button/ButtonStyleOne";
-import IDelete from "../../_helper/_helperIcons/_delete";
-import ICustomTable from "../../_helper/_customTable";
+import placeholderImg from "../../_helper/images/placeholderImg.png";
+import { nameCutter } from "../legalDocRegistration/helper";
+import "./style.css";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -280,7 +281,7 @@ const _Form = ({
                           <input
                             onChange={(e) => {
                               if (e.target.files?.[0]) {
-                                attachment_action(e.target.files, setDisabled)
+                                attachmentUpload(e.target.files, setDisabled)
                                   .then((data) => {
                                     setAttachmentFile(data?.[0]?.id);
                                     setAttachmentFileName(data[0]);
