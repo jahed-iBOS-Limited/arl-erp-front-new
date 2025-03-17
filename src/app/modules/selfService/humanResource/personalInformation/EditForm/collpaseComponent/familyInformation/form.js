@@ -1,22 +1,22 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React from "react";
+import InputField from "../../../../../../_helper/_inputField";
+import NewSelect from "../../../../../../_helper/_select";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
 //import { useDispatch } from "react-redux";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "../../../helper";
 import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
 //import IView from './../../../../../../_helper/_helperIcons/_view'
-import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
 //import {getDownlloadFileView_Action} from '../../../../../../_helper/_redux/Actions'
 
 export default function _Form({
@@ -259,44 +259,44 @@ export default function _Form({
                     <div className="row global-form global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>Relation</th>
-                                <th style={{ width: "35px" }}>Name</th>
-                                <th style={{ width: "35px" }}>Gender</th>
-                                <th style={{ width: "35px" }}>Date Of Birth</th>
-                                <th style={{ width: "35px" }}>Occupation</th>
-                                <th style={{ width: "35px" }}>
-                                  Identification Type
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Identification Number
-                                </th>
-                                {/* <th style={{ width: '35px' }}>Attach</th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.relation}</td>
-                                  <td className="">{itm?.familyPerson}</td>
-                                  <td className="">{itm?.genderName}</td>
-                                  <td className="">
-                                    {_dateFormatter(itm?.dateOfBirth)}
-                                  </td>
-                                  <td className="">{itm?.occupation}</td>
-                                  <td className="">
-                                    {itm?.identificationType}
-                                  </td>
-                                  <td className="">{itm?.identificationNo}</td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>Relation</th>
+                                  <th style={{ width: "35px" }}>Name</th>
+                                  <th style={{ width: "35px" }}>Gender</th>
+                                  <th style={{ width: "35px" }}>Date Of Birth</th>
+                                  <th style={{ width: "35px" }}>Occupation</th>
+                                  <th style={{ width: "35px" }}>
+                                    Identification Type
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Identification Number
+                                  </th>
+                                  {/* <th style={{ width: '35px' }}>Attach</th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.relation}</td>
+                                    <td className="">{itm?.familyPerson}</td>
+                                    <td className="">{itm?.genderName}</td>
+                                    <td className="">
+                                      {_dateFormatter(itm?.dateOfBirth)}
+                                    </td>
+                                    <td className="">{itm?.occupation}</td>
+                                    <td className="">
+                                      {itm?.identificationType}
+                                    </td>
+                                    <td className="">{itm?.identificationNo}</td>
+                                    {/* <td className="text-center">
                                     {itm?.identificationDocLink && (
                                       <IView
                                         clickHandler={() => {
@@ -310,31 +310,31 @@ export default function _Form({
                                       />
                                     )}
                                   </td> */}
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className=" d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className=" d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
 
-                                        <IDelete id={index} remover={remover} />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                          <IDelete id={index} remover={remover} />
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>
