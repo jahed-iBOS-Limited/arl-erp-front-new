@@ -240,41 +240,6 @@ export const getcashJournalSingleData_api = async (
   };
 
 
-  //generalLedgerTypeId_Api
-export const generalLedgerTypeId_Api = async (
-    accId,
-    buId,
-    generalLedger,
-    setter
-  ) => {
-    try {
-      const res = await axios.get(
-        `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${buId}&AccountingGroupId=${generalLedger}`
-      );
-      if (res.status === 200 && res?.data) {
-        setter(res?.data);
-      }
-    } catch (error) {
-      
-    }
-  };
-
-
-  //getBankAccountDDL_api
-export const getBankAccountDDL_api = async (accId, buId, setter) => {
-    try {
-      const res = await axios.get(
-        `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
-      );
-      if (res.status === 200 && res?.data) {
-        setter(res?.data);
-      }
-    } catch (error) {
-      
-    }
-  };
-
-
   export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
     try {
       const res = await axios.get(

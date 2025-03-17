@@ -8,7 +8,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../_helper/_commonApi";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -17,8 +17,6 @@ import { IInput } from "./../../../../_helper/_input";
 import placeholderImg from "./../../../../_helper/images/placeholderImg.png";
 import customStyles from "./../../../../selectCustomStyle";
 import {
-  generalLedgerTypeId_Api,
-  getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./../helper";
@@ -132,14 +130,14 @@ export default function _Form({
         headerData?.accountingJournalTypeId === 1 ||
         headerData?.accountingJournalTypeId === 2
       ) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
           setGeneralLedgerDDL
         );
       } else if (headerData?.accountingJournalTypeId === 3) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
@@ -287,7 +285,7 @@ export default function _Form({
                             placeholder="Select Trasfer To"
                             onChange={(valueOption) => {
                               setFieldValue("trasferTo", valueOption);
-                              generalLedgerTypeId_Api(
+                              getSendToGLBank(
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,

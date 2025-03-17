@@ -24,7 +24,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
 import { IInput } from "../../../_helper/_input";
 import "./transferJournal.css";
-import { cashJournalSbuApi } from "../../../_helper/_commonApi";
+import { getSBU } from "../../../_helper/_commonApi";
 
 const initData = {
   sbu: "",
@@ -49,7 +49,7 @@ const TransferJournalToTax = () => {
 
   useEffect(() => {
     getJournalTypeDDL(setJournalTypeDDL);
-    cashJournalSbuApi(
+    getSBU(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setSbuDDL

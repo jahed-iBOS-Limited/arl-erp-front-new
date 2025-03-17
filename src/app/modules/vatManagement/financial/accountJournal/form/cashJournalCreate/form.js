@@ -12,12 +12,11 @@ import FormikError from "../../../../../_helper/_formikError";
 import { IInput } from "../../../../../_helper/_input";
 import DebitCredit from "./DebitCredit";
 import {
-  generalLedgerTypeId_Api,
-  getBankAccountDDL_api,
   getPartnerTypeDDLAction
 } from "./helper";
 import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
 import TransferTable from "./TransferTable";
+import { getBankAccountDDL_api, getSendToGLBank } from "../../../../../_helper/_commonApi";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
@@ -114,14 +113,14 @@ export default function _Form({
         headerData?.accountingJournalTypeId === 1 ||
         headerData?.accountingJournalTypeId === 2
       ) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
           setGeneralLedgerDDL
         );
       } else if (headerData?.accountingJournalTypeId === 3) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
@@ -249,7 +248,7 @@ export default function _Form({
                             placeholder="Select Trasfer To"
                             onChange={(valueOption) => {
                               setFieldValue("trasferTo", valueOption);
-                              generalLedgerTypeId_Api(
+                              getSendToGLBank(
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,
