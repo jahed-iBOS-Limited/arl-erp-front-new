@@ -14,7 +14,6 @@ import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import customStyles from '../../../../selectCustomStyle';
 import {
-  expenseAttachment_action,
   getCategory,
   getCostCenter,
   getCostElementDDL,
@@ -29,6 +28,8 @@ import IView from './../../../../_helper/_helperIcons/_view';
 import InputField from './../../../../_helper/_inputField';
 import NewSelect from './../../../../_helper/_select';
 import { YearDDL } from './../../../../_helper/_yearDDL';
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+
 import { getBusTransDDLForExpense } from '../../../../_helper/_commonApi';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
@@ -167,19 +168,19 @@ export default function _Form({
           isEdit
             ? initData
             : {
-                ...initData,
-                vehicle: {
-                  value: vehicleDDL[0]?.value,
-                  label: vehicleDDL[0]?.label,
-                },
-                disbursmentCenter:
-                  disbustmentCenter?.length > 0
-                    ? {
-                        value: disbustmentCenter[0]?.value,
-                        label: disbustmentCenter[0]?.label,
-                      }
-                    : '',
-              }
+              ...initData,
+              vehicle: {
+                value: vehicleDDL[0]?.value,
+                label: vehicleDDL[0]?.label,
+              },
+              disbursmentCenter:
+                disbustmentCenter?.length > 0
+                  ? {
+                    value: disbustmentCenter[0]?.value,
+                    label: disbustmentCenter[0]?.label,
+                  }
+                  : "",
+            }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -456,14 +457,11 @@ export default function _Form({
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <div
-                    className={'row bank-journal-custom bj-right'}
-                    style={{
-                      marginLeft: '0px',
-                      marginRight: '0px',
-                      marginTop: '5px',
-                    }}
-                  >
+                  <div className={"row bank-journal-custom bj-right"} style={{
+                    marginLeft: "0px",
+                    marginRight: "0px",
+                    marginTop: "5px",
+                  }}>
                     <div className="col-lg-3">
                       <label>Expense Date</label>
                       <InputField
@@ -653,20 +651,20 @@ export default function _Form({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                                !values?.transaction ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.userNmae ||
-                                !values?.profitCenter ||
-                                !values?.costCenter ||
-                                !values?.costElement
+                              !values?.transaction ||
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.userNmae ||
+                              !values?.profitCenter ||
+                              !values?.costCenter ||
+                              !values?.costElement
                               : !values?.expenseDate ||
-                                !values?.transaction ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.profitCenter ||
-                                !values?.costCenter ||
-                                !values?.costElement
+                              !values?.transaction ||
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.profitCenter ||
+                              !values?.costCenter ||
+                              !values?.costElement
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -690,35 +688,35 @@ export default function _Form({
                   <div className="row">
                     <div className="col-lg-12 pr-0">
                       <div className="table-responsive">
-                        <table className={'table mt-1 bj-table'}>
-                          <thead className={rowDto.length < 1 && 'd-none'}>
+                        <table className={"table mt-1 bj-table"}>
+                          <thead className={rowDto.length < 1 && "d-none"}>
                             <tr>
-                              <th style={{ width: '20px' }}>SL</th>
-                              <th style={{ width: '120px' }}>Expense Date</th>
-                              <th style={{ width: '100px' }}>Expense Group</th>
-                              <th style={{ width: '100px' }}>Expense Place</th>
-                              <th style={{ width: '200px' }}>Expense Amount</th>
-                              <th style={{ width: '200px' }}>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "120px" }}>Expense Date</th>
+                              <th style={{ width: "100px" }}>Expense Group</th>
+                              <th style={{ width: "100px" }}>Expense Place</th>
+                              <th style={{ width: "200px" }}>Expense Amount</th>
+                              <th style={{ width: "200px" }}>
                                 Expense Description
                               </th>
-                              <th style={{ width: '200px' }}>Element</th>
+                              <th style={{ width: "200px" }}>Element</th>
                               <th
                                 style={{
                                   width: rowDto?.some((i) => i?.driverName)
-                                    ? '200px'
-                                    : '50px',
+                                    ? "200px"
+                                    : "50px",
                                 }}
                               >
                                 Driver Name
                               </th>
-                              <th style={{ width: '100px' }}>Attachments</th>
-                              <th style={{ width: '50px' }}>Actions</th>
-                            </tr>
-                          </thead>
+                              <th style={{ width: "100px" }}>Attachments</th>
+                              <th style={{ width: "50px" }}>Actions</th>
+                            </tr >
+                          </thead >
                           <tbody>
                             {rowDto?.map((item, index) => {
                               const isFuelLogCash =
-                                item?.comments2 === 'Fuel Log Cash';
+                                item?.comments2 === "Fuel Log Cash";
                               return (
                                 <tr key={index}>
                                   <td>{index + 1}</td>
@@ -750,7 +748,7 @@ export default function _Form({
                                           if (
                                             location?.state?.isApproval &&
                                             e.target.value >
-                                              item?.prvExpenseAmount
+                                            item?.prvExpenseAmount
                                           ) {
                                             return false;
                                           }
@@ -773,12 +771,12 @@ export default function _Form({
                                   </td>
                                   <td>
                                     <div className="text-left pl-2">
-                                      {item?.costCenterName || ''}
+                                      {item?.costCenterName || ""}
                                       {item?.costElementName
-                                        ? `, ${item?.costElementName || ''}`
-                                        : ''}
-                                    </div>
-                                  </td>
+                                        ? `, ${item?.costElementName || ""}`
+                                        : ""}
+                                    </div >
+                                  </td >
                                   <td>
                                     <div className="text-left pl-2">
                                       {item?.driverName}
@@ -792,8 +790,8 @@ export default function _Form({
                                           clickHandler={() => {
                                             dispatch(
                                               getDownlloadFileView_Action(
-                                                item?.attachmentLink,
-                                              ),
+                                                item?.attachmentLink
+                                              )
                                             );
                                           }}
                                         />
@@ -805,23 +803,23 @@ export default function _Form({
                                       <IDelete remover={remover} id={index} />
                                     )}
                                   </td>
-                                </tr>
+                                </tr >
                               );
                             })}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                          </tbody >
+                        </table >
+                      </div >
+                    </div >
+                  </div >
+                </div >
+              </div >
               {/* Row Dto Table End */}
-              <button
+              < button
                 type="submit"
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-              ></button>
+              ></button >
               <button
                 type="reset"
                 style={{ display: 'none' }}
@@ -849,17 +847,17 @@ export default function _Form({
                 onClose={() => setOpen(false)}
                 onSave={() => {
                   setOpen(false);
-                  expenseAttachment_action(fileObjects).then((data) => {
+                  empAttachment_action(fileObjects).then((data) => {
                     setUploadImage(data);
                   });
                 }}
                 showPreviews={true}
                 showFileNamesInPreview={true}
               />
-            </Form>
+            </Form >
           </>
         )}
-      </Formik>
+      </Formik >
     </>
   );
 }

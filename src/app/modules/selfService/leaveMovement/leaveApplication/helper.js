@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 export const getEmpInfoById = async (valueOption, setFieldValue, fieldName) => {
   try {
     let res = await Axios.get(`/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${valueOption?.value}`);
-    let { employeeInfoDesignation, employeeBusinessUnit, employeeInfoDepartment} = res?.data
+    let { employeeInfoDesignation, employeeBusinessUnit, employeeInfoDepartment } = res?.data
     setFieldValue(
       "employeeInfo",
       `${employeeInfoDesignation},${employeeInfoDepartment},${employeeBusinessUnit}`
     );
-    setFieldValue(fieldName, {...valueOption, ...res?.data})
+    setFieldValue(fieldName, { ...valueOption, ...res?.data })
   } catch (error) {
     return null;
   }
@@ -152,14 +152,12 @@ export const saveLeaveMovementAction = async (data, cb, setDisabled) => {
     let fromModifiedTime = tmStart || null;
     let toModifiedTime = tmEnd || null;
 
-    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
-      documentFile ? documentFile : ""
-    }`;
+    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ""
+      }`;
 
     if (fromModifiedTime && toModifiedTime) {
-      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
-        documentFile ? documentFile : ""
-      }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
+      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ""
+        }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
     }
     let res = await Axios.post(url);
     // do not remove this status code check, this is mendatory
@@ -275,23 +273,4 @@ export const getMovementSummarySelfData = (MoveTypeId, EmployeeId, setter) => {
     .catch((err) => {
       setter([]);
     });
-};
-
-export const leaveMovementAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Attachment Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Something went wrong, try again");
-  }
 };

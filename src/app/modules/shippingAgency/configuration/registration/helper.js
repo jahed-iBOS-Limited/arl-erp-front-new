@@ -16,9 +16,9 @@ export const getASLLAgencyRegistrationLandingApi = async (
   setLoading(true);
   setter([]);
   try {
-    const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : '';
-    const _verselId = verselId ? `&VesselId=${verselId}` : '';
-    const _vesselTypeId = verselType ? `&VesselTypeId=${verselType}` : '';
+    const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : "";
+    const _verselId = verselId ? `&VesselId=${verselId}` : "";
+    const _vesselTypeId = verselType ? `&VesselTypeId=${verselType}` : "";
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}${_verselId}${_vesselTypeId}`,
     );
@@ -35,7 +35,7 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
       `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getVesselTypeDDL = async (accId, buId, setter) => {
   try {
@@ -43,7 +43,7 @@ export const getVesselTypeDDL = async (accId, buId, setter) => {
       `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
   try {
@@ -58,7 +58,7 @@ export const getVoyageNoDDLApi = async (accId, buId, setter) => {
         };
       }),
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
   setLoading(true);

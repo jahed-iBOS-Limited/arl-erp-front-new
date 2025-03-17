@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import shortid from "shortid";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 // //vatPercentORTaka calculaion
 // const vatPercentORTakaCalFunc = (item) => {
@@ -132,7 +132,7 @@ export const getVatBranches = async (userId, accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSupplierDDL = async (accId, buId, setter) => {
@@ -143,7 +143,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTaxConfig = async (accId, buId, tradeType, setter) => {
@@ -154,7 +154,7 @@ export const getTaxConfig = async (accId, buId, tradeType, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTradeTypeDDL = async (setter) => {
@@ -165,7 +165,7 @@ export const getTradeTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPaymentTermDDL = async (setter) => {
@@ -176,7 +176,7 @@ export const getPaymentTermDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemDDL = async (accId, buId, setter) => {
@@ -192,7 +192,7 @@ export const getItemDDL = async (accId, buId, setter) => {
       }));
       setter(modifiedData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetGrnNumberDDLApi = async (buId, setter) => {
   try {
@@ -200,7 +200,7 @@ export const GetGrnNumberDDLApi = async (buId, setter) => {
       `/vat/TaxPurchase/GetGrnNumberDDL?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemTypeDDL = async (setter) => {
@@ -209,7 +209,7 @@ export const getItemTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTaxPortDDL = async (setter) => {
@@ -218,7 +218,7 @@ export const getTaxPortDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getUomDDL = async (accId, buId, setter) => {
@@ -229,7 +229,7 @@ export const getUomDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSinglePurchaseview = async (
@@ -268,9 +268,9 @@ export const getSinglePurchaseview = async (
         },
         grnCode: taxPurchase.grnid
           ? {
-              value: taxPurchase.grnid,
-              label: taxPurchase.grncode,
-            }
+            value: taxPurchase.grnid,
+            label: taxPurchase.grncode,
+          }
           : "",
         vehicalInfo: taxPurchase?.vehicleNo,
         refferenceNo: taxPurchase.referanceNo,
@@ -288,17 +288,17 @@ export const getSinglePurchaseview = async (
         lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : "",
         customsHouse: taxPurchase?.customHouseId
           ? {
-              value: taxPurchase?.customHouseId,
-              label: taxPurchase?.customHouseName,
-              code: taxPurchase?.customHouseCode,
-            }
+            value: taxPurchase?.customHouseId,
+            label: taxPurchase?.customHouseName,
+            code: taxPurchase?.customHouseCode,
+          }
           : "",
         CustomsHouseCode: taxPurchase?.customHouseCode || "",
         country: taxPurchase?.orginCountryId
           ? {
-              value: taxPurchase?.orginCountryId,
-              label: taxPurchase?.orginCountryName,
-            }
+            value: taxPurchase?.orginCountryId,
+            label: taxPurchase?.orginCountryName,
+          }
           : "",
         CPCCode: taxPurchase?.cpcCode || "",
         numberOfItem: taxPurchase?.noItem || taxPurchase?.noProduct || "",
@@ -492,9 +492,9 @@ export const getSinglePurchase = async (
         ...taxPurchase,
         grnCode: taxPurchase.grnid
           ? {
-              value: taxPurchase.grnid,
-              label: taxPurchase.grncode,
-            }
+            value: taxPurchase.grnid,
+            label: taxPurchase.grncode,
+          }
           : "",
         supplier: {
           value: taxPurchase.supplierId,
@@ -530,17 +530,17 @@ export const getSinglePurchase = async (
         lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : "",
         customsHouse: taxPurchase?.customHouseId
           ? {
-              value: taxPurchase?.customHouseId,
-              label: taxPurchase?.customHouseName,
-              code: taxPurchase?.customHouseCode,
-            }
+            value: taxPurchase?.customHouseId,
+            label: taxPurchase?.customHouseName,
+            code: taxPurchase?.customHouseCode,
+          }
           : "",
         CustomsHouseCode: taxPurchase?.customHouseCode || "",
         country: taxPurchase?.orginCountryId
           ? {
-              value: taxPurchase?.orginCountryId,
-              label: taxPurchase?.orginCountryName,
-            }
+            value: taxPurchase?.orginCountryId,
+            label: taxPurchase?.orginCountryName,
+          }
           : "",
         CPCCode: taxPurchase?.cpcCode || "",
         numberOfItem: taxPurchase?.noItem || taxPurchase?.noProduct || "",
@@ -551,7 +551,7 @@ export const getSinglePurchase = async (
       const isFixedRate =
         (selectedBusinessUnit?.value === 171 ||
           selectedBusinessUnit?.value === 224) &&
-        taxPurchase.tradeTypeName === "Import"
+          taxPurchase.tradeTypeName === "Import"
           ? true
           : false;
       const row = objRow.map((item) => {
@@ -573,9 +573,9 @@ export const getSinglePurchase = async (
           label: item?.taxItemGroupName,
           uom: item?.uomid
             ? {
-                value: item?.uomid,
-                label: item?.uomname,
-              }
+              value: item?.uomid,
+              label: item?.uomname,
+            }
             : "",
           quantity: item?.quantity,
           rate: item?.invoicePrice?.toFixed(2),
@@ -659,7 +659,7 @@ export const GetCustomHouseDDL_api = async (setter) => {
         }))
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCountryDDL_api = async (setter) => {
@@ -668,33 +668,9 @@ export const getCountryDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const purchaseAttachment_action = async (
-  attachment,
-  setUploadImage,
-  setDisabled
-) => {
-  setDisabled(true);
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    toast.success("Upload  successfully");
-    setDisabled(false);
-    setUploadImage(data);
-  } catch (error) {
-    setDisabled(false);
-    toast.error("Document not upload");
-  }
-};
 export const GetHSCodeByTarrifSchedule_api = async (hsCode, type, setter) => {
   try {
     const res = await Axios.get(

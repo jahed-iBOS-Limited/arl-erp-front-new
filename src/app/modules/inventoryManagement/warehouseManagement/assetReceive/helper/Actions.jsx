@@ -204,22 +204,6 @@ export const getRowDtoForForeignPOData = async (id, setter) => {
 };
 
 
-export const attachment_action = async (attachment) => {
-  try {
-    let formData = new FormData();
-    formData.append("files", attachment[0]);
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    toast.success("Upload  successfully");
-    return data;
-  } catch (err) {
-    toast.error("Document not upload");
-  }
-};
-
 export const getSingleDataForEdit = async (id, setter) => {
   try {
     const res = await Axios.get(

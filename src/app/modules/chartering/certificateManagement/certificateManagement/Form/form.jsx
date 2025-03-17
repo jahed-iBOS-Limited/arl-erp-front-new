@@ -1,18 +1,18 @@
-import React, { useRef, useState } from "react";
 import { Formik } from "formik";
-import {
-  certificateAttachment_action,
-  getCertificateDDL,
-  validationSchema,
-} from "../helper";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import placeholderImg from "../../../../_helper/images/placeholderImg.png";
+import TextArea from "../../../../_helper/TextArea";
+import FormikInput from "../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import TextArea from "../../../../_helper/TextArea";
 import { CreateIcon } from "../../../lighterVessel/trip/Form/components/header";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  getCertificateDDL,
+  validationSchema
+} from "../helper";
 
 export default function _Form({
   title,
@@ -98,7 +98,7 @@ export default function _Form({
                       type="submit"
                       className={"btn btn-primary ml-2 px-3 py-2"}
                       onClick={handleSubmit}
-                      //disabled={!rowData?.length}
+                    //disabled={!rowData?.length}
                     >
                       {console.log("errors", errors)}
                       Save
@@ -190,7 +190,7 @@ export default function _Form({
                     />
                   </div>
                   {values?.strCertificateName?.dateRangeTypeId === 1 ||
-                  singleData?.intDateRangeTypeId === 1 ? (
+                    singleData?.intDateRangeTypeId === 1 ? (
                     <div className="col-lg-3">
                       <label>To Date</label>
                       <FormikInput
@@ -304,7 +304,7 @@ export default function _Form({
                       <input
                         onChange={(e) => {
                           if (e.target.files?.[0]) {
-                            certificateAttachment_action(e.target.files)
+                            empAttachment_action(e.target.files)
                               .then((data) => {
                                 setAttachmentFile(data?.[0]?.id);
                               })

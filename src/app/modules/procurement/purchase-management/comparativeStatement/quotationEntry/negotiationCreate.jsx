@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IForm from '../../../../_helper/_form';
 import IView from '../../../../_helper/_helperIcons/_view';
@@ -12,7 +10,9 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { attachment_action } from './helper';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import NegotiationCreateRowDtoTable from './negotiationCreateTable';
 
 const initData = {
@@ -59,7 +59,7 @@ export default function ShippingNegotiationCreate() {
                numAmount:
                   +item?.numNegotiationRate > 0
                      ? (+item?.numNegotiationRate || 0) *
-                       (+item?.numRequestQuantity || 0)
+                     (+item?.numRequestQuantity || 0)
                      : (+item?.numRate || 0) * (+item?.numRequestQuantity || 0),
                negotiationRate:
                   item?.numNegotiationRate > 0
@@ -181,7 +181,7 @@ export default function ShippingNegotiationCreate() {
                }) => (
                   <>
                      <Form className="form form-label-right">
-                        
+
                         <div className="form-group  global-form">
                            <div className="row">
                               <div className="col-lg-3">
@@ -213,27 +213,23 @@ export default function ShippingNegotiationCreate() {
                               </div>
                               <div className="col-lg-3">
                                  Quotation Start Date:{' '}
-                                 {`${
-                                    negotiationItemList?.objHeader?.quotationStartDateTime?.split(
-                                       'T'
-                                    )[0]
-                                 } / ${
-                                    negotiationItemList?.objHeader?.quotationStartDateTime?.split(
+                                 {`${negotiationItemList?.objHeader?.quotationStartDateTime?.split(
+                                    'T'
+                                 )[0]
+                                    } / ${negotiationItemList?.objHeader?.quotationStartDateTime?.split(
                                        'T'
                                     )[1]
-                                 }`}
+                                    }`}
                               </div>
                               <div className="col-lg-3">
                                  Quotation End Date:{' '}
-                                 {`${
-                                    negotiationItemList?.objHeader?.quotationEndDateTime?.split(
-                                       'T'
-                                    )[0]
-                                 } / ${
-                                    negotiationItemList?.objHeader?.quotationEndDateTime?.split(
+                                 {`${negotiationItemList?.objHeader?.quotationEndDateTime?.split(
+                                    'T'
+                                 )[0]
+                                    } / ${negotiationItemList?.objHeader?.quotationEndDateTime?.split(
                                        'T'
                                     )[1]
-                                 }`}
+                                    }`}
                               </div>
                            </div>
                            <div className="row">
@@ -371,7 +367,7 @@ export default function ShippingNegotiationCreate() {
                                        onChange={e => {
                                           // e.stopPropagation();
                                           if (e.target.files?.[0]) {
-                                             attachment_action(
+                                             attachmentUpload(
                                                 e.target.files,
                                                 setLoading
                                              )
@@ -391,19 +387,19 @@ export default function ShippingNegotiationCreate() {
                                        style={{ display: 'none' }}
                                     />
                                  </div>
-                                 {(negotiationItemList?.objSuplierHeader?.strHeaderAttachment || headerAttachment) && 
-                                  <div className='mt-5 ml-5'>
-                                    <IView
-                                      title={'Attachment'}
-                                      style={{fontSize:"30px !important"}}
-                                      classes={'text-primary'}
-                                      clickHandler={() => {
-                                         dispatch(
-                                            getDownlloadFileView_Action(headerAttachment ? headerAttachment : negotiationItemList?.objSuplierHeader?.strHeaderAttachment || "")
-                                         );
-                                      }}
-                                    />
-                                  </div>
+                                 {(negotiationItemList?.objSuplierHeader?.strHeaderAttachment || headerAttachment) &&
+                                    <div className='mt-5 ml-5'>
+                                       <IView
+                                          title={'Attachment'}
+                                          style={{ fontSize: "30px !important" }}
+                                          classes={'text-primary'}
+                                          clickHandler={() => {
+                                             dispatch(
+                                                getDownlloadFileView_Action(headerAttachment ? headerAttachment : negotiationItemList?.objSuplierHeader?.strHeaderAttachment || "")
+                                             );
+                                          }}
+                                       />
+                                    </div>
                                  }
                               </div>
                            </div>

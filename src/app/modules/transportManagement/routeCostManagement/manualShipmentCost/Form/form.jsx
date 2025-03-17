@@ -16,6 +16,8 @@ import { GetSupplierFuelStationDDL_api, getComponentDDL } from '../helper';
 import IView from './../../../../_helper/_helperIcons/_view';
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 import { compressfile } from './../../../../_helper/compressfile';
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+
 import {
   GetSupplierListDDL_api,
   GetVehicleFuelTypeDDL_api,
@@ -133,6 +135,14 @@ export default function _Form({
     };
   }, []);
 
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     getProfitCenterDDL(
       `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
@@ -232,7 +242,7 @@ export default function _Form({
 
   const fileUploadFunc = async () => {
     const compressedFile = await compressfile([fileObjects[0].file]);
-    multipleAttachment_action(compressedFile)
+    empAttachment_action(compressedFile)
       .then((data) => {
         setUploadImage(open?.type === 'fuelCost' && data?.[0]);
         setFileObjects([]);
@@ -259,7 +269,7 @@ export default function _Form({
                 setAdvanceAmount(0);
               });
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           });
           // saveHandler(values, () => {
           //   resetForm(initData);
@@ -317,13 +327,7 @@ export default function _Form({
           >
             <>
               <Form className="form form-label-right position-relative">
-                <p
-                  style={
-                    windowSize?.width > 1000
-                      ? { position: 'absolute', top: '-46px', left: '45%' }
-                      : { marginTop: '10px', textAlign: 'center' }
-                  }
-                >
+                <p style={windowSize?.width > 1000 ? { position: "absolute", top: "-46px", left: "45%" } : { marginTop: "10px", textAlign: "center" }}>
                   <b>Pay to Driver: </b>
                   {netPayable || 0}
                 </p>
@@ -999,30 +1003,30 @@ export default function _Form({
                         Attachment
                       </button>
                     </div>
-                    {(values?.purchaseType === 'Cash' ||
-                      values?.purchaseType === 'Both') && (
-                      <div className="col-lg-3">
-                        <label>Cash</label>
-                        <InputField
-                          value={values?.cash}
-                          name="cash"
-                          placeholder="Cash"
-                          type="text"
-                        />
-                      </div>
-                    )}
-                    {(values?.purchaseType === 'Credit' ||
-                      values?.purchaseType === 'Both') && (
-                      <div className="col-lg-3">
-                        <label>Credit</label>
-                        <InputField
-                          value={values?.credit}
-                          name="credit"
-                          placeholder="Credit"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                    {(values?.purchaseType === "Cash" ||
+                      values?.purchaseType === "Both") && (
+                        <div className="col-lg-3">
+                          <label>Cash</label>
+                          <InputField
+                            value={values?.cash}
+                            name="cash"
+                            placeholder="Cash"
+                            type="text"
+                          />
+                        </div>
+                      )}
+                    {(values?.purchaseType === "Credit" ||
+                      values?.purchaseType === "Both") && (
+                        <div className="col-lg-3">
+                          <label>Credit</label>
+                          <InputField
+                            value={values?.credit}
+                            name="credit"
+                            placeholder="Credit"
+                            type="text"
+                          />
+                        </div>
+                      )}
 
                     <div className="col-lg-2 pl pr-1 mb-1">
                       <button
@@ -1042,7 +1046,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === 'Both' &&
                             +values?.fuelAmount !=
-                              +values?.credit + +values?.cash
+                            +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               'Credit and cash should be equal to amount',
