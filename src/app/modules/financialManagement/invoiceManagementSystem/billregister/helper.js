@@ -13,7 +13,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetBillTypeDDL = async (setter) => {
@@ -22,7 +22,7 @@ export const GetBillTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter([{ value: 0, label: "All" }].concat(res?.data));
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetApproveExpensesGroupApi = async (
@@ -46,9 +46,9 @@ export const GetApproveExpensesGroupApi = async (
     const url =
       type === 4
         ? `/fino/PaymentRequest/GetApproveExpensesGroupByEmployeeId?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${costCenterId ||
-            0}`
+        0}`
         : `/fino/PaymentRequest/GetApproveExpensesForTaDaGroupByEmployeeId?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${costCenterId ||
-            0}`;
+        0}`;
 
     const res = await Axios.get(url);
     if (res.status === 200 && res?.data) {
@@ -243,13 +243,13 @@ export const getExpenseById = async (expId, setter, setRowDto) => {
           expenseGroup:
             data?.objHeader?.expenseGroup === "TaDa"
               ? {
-                  value: "TaDa",
-                  label: "Ta/Da",
-                }
+                value: "TaDa",
+                label: "Ta/Da",
+              }
               : {
-                  value: "Other",
-                  label: "Other",
-                },
+                value: "Other",
+                label: "Other",
+              },
         },
         objRow: [...data?.objRow],
       };
@@ -274,7 +274,7 @@ export const getExpenseById = async (expId, setter, setRowDto) => {
       setRowDto(newRowDto);
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const CreateBillRegister_api = async (
@@ -402,7 +402,7 @@ export const getSingleDataForEdit = async (id, setter) => {
       };
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const savePurchaseInvoice = async (
@@ -446,7 +446,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
@@ -457,7 +457,7 @@ export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWarehouseDDLFuelBill_api = async (accId, buId, setter) => {
@@ -468,7 +468,7 @@ export const getWarehouseDDLFuelBill_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
@@ -480,7 +480,7 @@ export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
@@ -491,7 +491,7 @@ export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const savePurchaseEditInvoice = async (
@@ -550,7 +550,7 @@ export const GetAdvanceForSupplierById = async (poId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetSupplierAmountInfo = async (poId, setter, setFieldValue) => {
@@ -568,7 +568,7 @@ export const GetSupplierAmountInfo = async (poId, setter, setFieldValue) => {
         res?.data?.poAdvanceAmount // - res?.data?.totalAdjustedBalance
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getGrnAttachmentAction = async (refId, setter, setLoading) => {
@@ -629,10 +629,9 @@ export const getBillRegisterPagination_api = async (
     const isTopsheet = typeId === 18 ? "&isTopSheet=true" : "";
 
     const res = await Axios.get(
-      `/fino/BillRegister/BillRegisterPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&SBUId=${sbu}&TypeId=${typeId}&fromDate=${
-        values?.fromDate
+      `/fino/BillRegister/BillRegisterPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&SBUId=${sbu}&TypeId=${typeId}&fromDate=${values?.fromDate
       }&toDate=${values?.toDate}&CostCenterId=${costCenterId ||
-        0}&Search=${searchValue}${isTopsheet}`
+      0}&Search=${searchValue}${isTopsheet}`
     );
     setDisabled(false);
     if (res.status === 200 && res?.data) {
@@ -664,7 +663,7 @@ export const CreateAdvanceForSupplier = async (
     setDisabled(false);
     IWarningModal({
       title: `${res?.data?.message}`,
-      okAlertFunc: async () => {},
+      okAlertFunc: async () => { },
     });
   } catch (error) {
     toast.error(error?.response?.data?.message, {
@@ -754,7 +753,7 @@ export const getG2GBillData = async (
           item?.soldToPartnerId === 73245
             ? item?.transportAmount
             : item?.transportAmount +
-              +item?.quantity * +item?.godownUnloadLabourRate,
+            +item?.quantity * +item?.godownUnloadLabourRate,
         label: item?.challanNo,
         value: item?.tripId,
         approvedAmount: item?.totalCost,
@@ -885,25 +884,6 @@ export const getSupplierDDlForFuelBill_api = async (
   }
 };
 
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
-
 export const createTransportBill = async (
   data,
   cb,
@@ -923,7 +903,7 @@ export const createTransportBill = async (
     // const res={data:{message:"test"}}
     IWarningModal({
       title: res?.data?.message,
-      okAlertFunc: async () => {},
+      okAlertFunc: async () => { },
     });
     cb();
   } catch (error) {
@@ -952,7 +932,7 @@ export const createG2GCustomizeBill = async (
     // const res={data:{message:"test"}}
     IWarningModal({
       title: res?.data?.message,
-      okAlertFunc: async () => {},
+      okAlertFunc: async () => { },
     });
     cb();
   } catch (error) {
@@ -982,7 +962,7 @@ export const postInternalTransportBillEntry_api = async (
     // const res={data:{message:"test"}}
     IWarningModal({
       title: res?.data?.message,
-      okAlertFunc: async () => {},
+      okAlertFunc: async () => { },
     });
     cb();
   } catch (error) {
@@ -1009,7 +989,7 @@ export const PostLabourBillEntry_api = async (
     // const res={data:{message:"test"}}
     IWarningModal({
       title: res?.data?.message,
-      okAlertFunc: async () => {},
+      okAlertFunc: async () => { },
     });
     cb();
   } catch (error) {
@@ -1319,7 +1299,7 @@ export const getShippointDDL = async (userId, clientId, buId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // expense for api
 export const getExpenseFor = async (accId, BuId, setter) => {
@@ -1362,9 +1342,9 @@ export const GetApproveExpensesApi = async (
     const url =
       type === 4
         ? `/fino/PaymentRequest/GetApproveExpenses?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${costCenterId ||
-            0}`
+        0}`
         : `/fino/PaymentRequest/GetApproveExpensesForTaDa?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${costCenterId ||
-            0}`;
+        0}`;
 
     const res = await Axios.get(url);
     if (res.status === 200 && res?.data) {
@@ -1456,7 +1436,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const common_api_for_4_types_of_bill = (
@@ -1481,5 +1461,5 @@ export const getTdsVdsAmount = async (
       `/fino/Report/GetTdsVdsAmount?businessUnitId=${accId}&partnerId=${partnerId}&poId=${poId}&reqAmount=${reqAmount}`
     );
     setter(res?.data?.[0]);
-  } catch (error) {}
+  } catch (error) { }
 };

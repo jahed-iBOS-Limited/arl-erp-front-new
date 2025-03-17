@@ -1,21 +1,21 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useEffect, useState, useRef } from "react";
-import Form from "../../../common/form";
 import Axios from "axios";
-import shortid from "shortid";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import shortid from "shortid";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../../../_helper/_loading";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import Form from "../../../common/form";
 import { editPartnerBasic_api } from "../../../helper";
-import { partnerBasicAttachment_action } from "./../../../helper";
+import Loading from "./../../../../../../_helper/_loading";
 
 export default function PartnerBasic() {
   const { id } = useParams();
@@ -96,7 +96,7 @@ export default function PartnerBasic() {
 
       if (fileObjects.length > 0) {
         // attachmentLink  add
-        partnerBasicAttachment_action(fileObjects).then((data) => {
+        empAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...warehouseData,
             attachmentLink: data[0]?.id || "",
@@ -120,7 +120,7 @@ export default function PartnerBasic() {
         });
       }
     } catch (error) {
-     
+
       toast.error(error?.response?.data?.message, { toastId: shortid() });
       setDisabled(false);
     }
