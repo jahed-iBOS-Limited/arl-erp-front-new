@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import DebitCredit from "./DebitCredit";
 import {
-  generalLedgerTypeId_Api,
-  getBankAccountDDL_api,
   getCostElementDDL,
   getPartnerTypeDDLAction,
 } from "./helper";
@@ -19,7 +17,7 @@ import TransferTable from "./TransferTable";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import { useDispatch } from "react-redux";
-import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from "../../../../../../_helper/_commonApi";
 import FormikError from "../../../../../../_helper/_formikError";
 import { IInput } from "../../../../../../_helper/_input";
 import Loading from "../../../../../../_helper/_loading";
@@ -141,14 +139,14 @@ export default function _Form({
         headerData?.accountingJournalTypeId === 1 ||
         headerData?.accountingJournalTypeId === 2
       ) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
           setGeneralLedgerDDL
         );
       } else if (headerData?.accountingJournalTypeId === 3) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
@@ -312,7 +310,7 @@ export default function _Form({
                             placeholder="Select Trasfer To"
                             onChange={(valueOption) => {
                               setFieldValue("trasferTo", valueOption);
-                              generalLedgerTypeId_Api(
+                              getSendToGLBank(
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,

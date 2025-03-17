@@ -132,6 +132,12 @@ export const getPartner = async (accId, BuId, setter) => {
   } catch (error) { }
 };
 
+export function getPartnerDDL(accId, buId) {
+  return axios.get(
+    `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
+  );
+}
+
 
 export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
   try {
@@ -189,6 +195,7 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
     }
   } catch (error) { }
 };
+
 export const approvalApi = async (
   parameter,
   poayload,
@@ -827,10 +834,11 @@ export const getCostElementByCostCenterDDL = async (
   } catch (error) { }
 };
 
-export const cashJournalSbuApi = async (accId, buId, setter) => {
+
+export const getBankAccountDDL_api = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);

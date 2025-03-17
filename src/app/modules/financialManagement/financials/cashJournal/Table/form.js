@@ -28,7 +28,7 @@ import {
 import { setCashJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import findIndex from "../../../../_helper/_findIndex";
-import { cashJournalSbuApi } from "../../../../_helper/_commonApi";
+import { getSBU } from "../../../../_helper/_commonApi";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -110,7 +110,7 @@ export default function HeaderForm({
   //Dispatch Get getEmpDDLAction
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      cashJournalSbuApi(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit.value,
         setSbuDDl

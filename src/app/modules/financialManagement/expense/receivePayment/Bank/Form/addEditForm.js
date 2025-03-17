@@ -9,13 +9,12 @@ import Loading from "./../../../../../_helper/_loading";
 import {
   profitCenterDDL_Api,
   recivePayment_SBU_Api,
-  getBankAccountDDL_api,
   getInstrumentType_Api,
   createBankReceive_Api,
   createBankPayment_Api,
   getPaymentOrReceiveById_api,
 } from "../../helper";
-import { getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
+import { getBankAccountDDL_api, getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
 
 const initData = {
   id: undefined,

@@ -13,7 +13,8 @@ import customStyles from "../../../../../../selectCustomStyle";
 import FormikError from "../../../../../../_helper/_formikError";
 import { IInput } from "../../../../../../_helper/_input";
 import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
-import { generalLedgerTypeId_Api, getBankAccountDDL_api, getCostCenterDDL, getCostElementDDL, getPartnerTypeDDLAction, getRevenueCenterListDDL, getRevenueElementListDDL } from "../helper";
+import { getCostCenterDDL, getCostElementDDL, getPartnerTypeDDLAction, getRevenueCenterListDDL, getRevenueElementListDDL } from "../helper";
+import { getBankAccountDDL_api, getSendToGLBank } from "../../../../../../_helper/_commonApi";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
@@ -113,14 +114,14 @@ export default function _Form({
         journalTypeId === 1 ||
         journalTypeId === 2
       ) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
           setGeneralLedgerDDL
         );
       } else if (journalTypeId === 3) {
-        generalLedgerTypeId_Api(
+        getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
@@ -263,7 +264,7 @@ export default function _Form({
                             placeholder="Select Trasfer To"
                             onChange={(valueOption) => {
                               setFieldValue("trasferTo", valueOption);
-                              generalLedgerTypeId_Api(
+                              getSendToGLBank(
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,

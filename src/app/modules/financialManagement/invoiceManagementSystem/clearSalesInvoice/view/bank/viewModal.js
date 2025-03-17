@@ -10,12 +10,12 @@ import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import {
   createBankInvoiceClear_api,
-  getBankAccountDDL_api,
   getInstrumentType_Api,
 } from "../../helper";
 
 import { _todayDate } from "./../../../../../_helper/_todayDate";
 import Loading from './../../../../../_helper/_loading';
+import { getBankAccountDDL_api } from "../../../../../_helper/_commonApi";
 const initData = {
   invoiceAmount: "",
   pendingAmount: "",
