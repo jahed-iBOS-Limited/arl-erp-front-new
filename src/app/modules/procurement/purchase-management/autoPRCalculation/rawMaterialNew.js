@@ -102,7 +102,7 @@ export default function RawMaterialAutoPRNew() {
         <>
           {(saveLoader || loading2) && <Loading />}
           <IForm
-            title="MPR Calculation"
+            title="MPR"
             isHiddenReset
             isHiddenBack
             isHiddenSave
