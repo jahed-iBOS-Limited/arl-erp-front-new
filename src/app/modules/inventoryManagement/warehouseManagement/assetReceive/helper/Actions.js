@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
-import { setLastInvDataAction } from '../../../../_helper/reduxForLocalStorage/Actions'
+import { setLastInvDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 
 export const getSBUDDL = async (accId, buId, setter) => {
@@ -284,26 +284,6 @@ export const saveCreateServiceEdit = async (data, cb, setDisabled) => {
     setDisabled(false);
   }
 };
-
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    //toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
-
 
 
 export const getReportAssetReceive = async (prId, setter) => {

@@ -1,32 +1,33 @@
+import axios from "axios";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, initData } from "./helper";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
-import RowDtoTable from "./rowDtoTable";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLAction,
-  getTransactionTypeDDLAction,
   getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionForAdjustInv,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
   getItemforReftypeAction,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLAction,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForAdjustInv,
 } from "../_redux/Actions";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../_helper/_formikError";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { empAttachment_action } from "../helper";
+import { initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
+
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../_redux/Slice";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { useLocation } from "react-router-dom";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { invTransactionSlice } from "../_redux/Slice";
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -239,8 +240,8 @@ export default function CreateForm({
             warehouseName: landingData?.warehouse?.label,
             businessPartnerId: values.busiPartner.value,
             parsonnelId: values.personnel.value || 0,
-            profitCenterId:values?.profitCenter?.value || 0,
-            profitCenterName:values?.profitCenter?.label || "",
+            profitCenterId: values?.profitCenter?.value || 0,
+            profitCenterName: values?.profitCenter?.label || "",
             costCenterId: values?.costCenter?.value || -1,
             costCenterCode: values?.costCenter?.code || "",
             costCenterName: values?.costCenter?.label || "",
@@ -363,20 +364,20 @@ export default function CreateForm({
                     touched={touched}
                   />
                 </div>
-                {[7]?.includes(landingData?.transGrup?.value) ?  
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="Profit Center"
-                    options={profitCenterDDL || []}
-                    value={values?.profitCenter}
-                    label="Profit Center"
-                    onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> :null}
+                {[7]?.includes(landingData?.transGrup?.value) ?
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="Profit Center"
+                      options={profitCenterDDL || []}
+                      value={values?.profitCenter}
+                      label="Profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div> : null}
                 <div className="col-lg-2">
                   <InputField
                     value={values?.remarks}

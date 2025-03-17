@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { DropzoneDialogBase } from 'material-ui-dropzone';
 import React, { useEffect, useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { DropzoneDialogBase } from 'material-ui-dropzone'
-import { CancelDocumentAction, empAttachment_action, getAttachmentLandingData, saveAttchmentForPo } from "../helper/Actions";
-import { toast } from "react-toastify";
-import IView from "../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { toast } from "react-toastify";
+import ICustomTable from "../../../../_helper/_customTable";
 import IClose from "../../../../_helper/_helperIcons/_close";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { CancelDocumentAction, getAttachmentLandingData, saveAttchmentForPo } from "../helper/Actions";
 
 
 
@@ -25,7 +26,7 @@ export default function ViewForm({
   const dispatch = useDispatch();
 
 
-   // get priceStructure data from table row, and set it to state, later fill up this data from user, and save it to table row
+  // get priceStructure data from table row, and set it to state, later fill up this data from user, and save it to table row
   useEffect(() => {
     cb()
   }, [poData]);
@@ -82,7 +83,7 @@ export default function ViewForm({
           onClick={() => setOpen(true)}
         >
           Attachment
-                  </button>
+        </button>
         <div className="row mb-2 text-left">
 
         </div>
@@ -91,31 +92,31 @@ export default function ViewForm({
           {attachmentData?.map((item, index) => (
             <tr key={index}>
               <td> {index + 1} </td>
-              <td className="text-center">          
-                  <IView
+              <td className="text-center">
+                <IView
                   title={"Attachment"}
                   classes={"text-primary"}
-                    clickHandler={() => {
-                      dispatch(
-                        getDownlloadFileView_Action(item?.documentId)
-                      );
-                    }
-                    }
-                  />
+                  clickHandler={() => {
+                    dispatch(
+                      getDownlloadFileView_Action(item?.documentId)
+                    );
+                  }
+                  }
+                />
               </td>
               <td
-              className="text-center"
+                className="text-center"
               > <span className="mt-1"
-              style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
               >
                   <IClose
                     title="InActive"
-                    closer={() =>{
-                      CancelDocumentAction(item?.docId,item?.referenceId, cb)
-                     // CancelDocumentAction(docId,invId, cb)
-                    } 
-                    //approveSubmitlHandler(item?.documentId,item?.referenceId)
-                  }
+                    closer={() => {
+                      CancelDocumentAction(item?.docId, item?.referenceId, cb)
+                      // CancelDocumentAction(docId,invId, cb)
+                    }
+                      //approveSubmitlHandler(item?.documentId,item?.referenceId)
+                    }
                   />
                 </span> </td>
             </tr>
