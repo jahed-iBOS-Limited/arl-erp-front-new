@@ -41,7 +41,7 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
       ];
 
       // Make the API call
-      const apiURL = `/mes/ProductionEntry/CreateOrUpdateProductionSchedule?businessUnitId=${values?.businessUnit?.value}&yearId=${values?.year?.value}&monthId=${values?.month?.value}&actionBy=${profileData?.userId}`;
+      const apiURL = `/mes/ProductionEntry/CreateOrUpdateProductionSchedule?businessUnitId=${values?.businessUnit?.value}&yearId=${values?.year?.value}&monthId=${values?.month?.value}&actionBy=${profileData?.userId}&plantId=${singleData?.plantId || 0}`;
 
       onSave(apiURL, payload, cb, true);
     }

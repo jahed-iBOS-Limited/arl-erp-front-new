@@ -12,6 +12,7 @@ import MonthTable from './monthTable';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import InputField from '../../../_helper/_inputField';
 import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
+import { toast } from 'react-toastify';
 
 const initData = {
   businessUnit: '',
@@ -33,7 +34,7 @@ export default function ProductionScheduling() {
   const [singleData, setSingleData] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-  
+
 
   console.log('tableData', tableData);
 
@@ -61,7 +62,7 @@ export default function ProductionScheduling() {
     );
 
     getTableData(
-      `/mes/ProductionEntry/GetProductScheduleListAsync?businessUnitId=${values?.businessUnit?.value}&date=${values?.year?.value}-${values?.month?.value}-1&isForecast=false`,
+      `/mes/ProductionEntry/GetProductScheduleListAsync?businessUnitId=${values?.businessUnit?.value}&date=${values?.year?.value}-${values?.month?.value}-1&isForecast=false&plantId=${values?.plant?.value || 0}`,
       (res) => {
         // Modify data to replace null or empty dailySchedules with dailySchedulesList
         const modifiedData = res?.map((product) => {
@@ -133,26 +134,26 @@ export default function ProductionScheduling() {
                       setFieldValue('businessUnit', valueOption);
                       setFieldValue('plant', '');
                       setFieldValue('strManagementUomName', valueOption?.strManagementUomName || "");
-                      getPlantDDL(profileData?.userId,profileData?.accountId,valueOption?.value,setPlantDDL)
+                      getPlantDDL(profileData?.userId, profileData?.accountId, valueOption?.value, setPlantDDL)
                       setTableData([]);
                     }}
                   />
                 </div>
                 <div className="col-lg-3">
-                      <NewSelect
-                        name="plant"
-                        options={plantDDL}
-                        value={values?.plant}
-                        label="Select Plant"
-                        onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                          setTableData([]);
-                        }}
-                        placeholder="Select Plant"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                  <NewSelect
+                    name="plant"
+                    options={plantDDL}
+                    value={values?.plant}
+                    label="Select Plant"
+                    onChange={(valueOption) => {
+                      setFieldValue("plant", valueOption);
+                      setTableData([]);
+                    }}
+                    placeholder="Select Plant"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="year"
@@ -202,15 +203,15 @@ export default function ProductionScheduling() {
                 </div>
                 {tableData.length > 0 && (
                   <div className="mt-5 ml-4">
-                  <ReactHTMLTableToExcel
-                    id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table 
-                    className="btn btn-primary"
-                    table="production-scheduling-table-to-xlsx"  // always same with table id
-                    filename={"Date Wise Report"}
-                    sheet={"Production Scheduling Report"}
-                    buttonText="Export Excel"
-                  />
-                </div>
+                    <ReactHTMLTableToExcel
+                      id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table 
+                      className="btn btn-primary"
+                      table="production-scheduling-table-to-xlsx"  // always same with table id
+                      filename={"Date Wise Report"}
+                      sheet={"Production Scheduling Report"}
+                      buttonText="Export Excel"
+                    />
+                  </div>
                 )}
               </div>
               {/* Table Display */}
@@ -243,10 +244,14 @@ export default function ProductionScheduling() {
                               <td className="text-center" key={i}>
                                 <span
                                   onClick={() => {
+                                    if (!values?.plant?.value) {
+                                      return toast.warn("Please select plant first")
+                                    }
                                     setSingleData({
                                       ...product,
                                       productIndex: index,
                                       workCenterIndex: i,
+                                      plantId: values?.plant?.value,
                                     });
                                     setIsShowModal(true);
                                   }}
