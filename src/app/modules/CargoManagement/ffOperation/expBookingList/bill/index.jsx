@@ -3,17 +3,17 @@ import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'material-ui-dropzone';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
-import { newAttachment_action } from '../../../../_helper/attachmentUpload';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import './style.css';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { toast } from 'react-toastify';
+import './style.css';
 
 const validationSchema = Yup.object().shape({
   paymentParty: Yup.object().shape({
@@ -78,7 +78,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
     if (bookingRequestId) {
       getMasterBLWiseBilling(
         `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}&isAirOperation=${isAirOperation ||
-          false}`,
+        false}`,
         (resData) => {
           const billingDataList = resData
             ?.filter(
@@ -406,7 +406,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                 onClose={() => setOpen(false)}
                 onSave={() => {
                   setOpen(false);
-                  newAttachment_action(fileObjects, setUploadImageLoading).then(
+                  attachmentUpload(fileObjects, setUploadImageLoading).then(
                     (data) => {
                       const documentFileId = data?.[0]?.id;
                       setFieldValue('documentFileId', documentFileId || '');

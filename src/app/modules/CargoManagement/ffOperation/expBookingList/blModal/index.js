@@ -8,10 +8,10 @@ import { imarineBaseUrl } from '../../../../../App';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { attachmentUpload } from '../helper';
-import './style.css';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import './style.css';
 const validationSchema = Yup.object().shape({
   documentsNumber: Yup.string().required('BL No is required'),
 });
@@ -238,7 +238,7 @@ function BLModal({ rowClickData, CB }) {
               onClose={() => setOpen(false)}
               onSave={() => {
                 setOpen(false);
-                attachmentUpload(fileObjects).then((data) => {
+                empAttachment_action(fileObjects).then((data) => {
                   const documentFileId = data?.[0]?.id;
                   setFieldValue('documentFileId', documentFileId || '');
                 });

@@ -11,7 +11,7 @@ export const getVehicleNoDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getOwnVehicleNo = async (employeeId, setter) => {
@@ -27,7 +27,7 @@ export const getOwnVehicleNo = async (employeeId, setter) => {
       }));
       setter(modifyData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getFuelTypeDDL = async (setter) => {
@@ -38,7 +38,7 @@ export const getFuelTypeDDL = async (setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSupplierDDL = async (accId, buId, setter) => {
@@ -49,7 +49,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getFuelStationDDL = async (partnerId, setter) => {
@@ -60,7 +60,7 @@ export const getFuelStationDDL = async (partnerId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getVehicleLogBookLanding = async (
@@ -109,22 +109,6 @@ export const saveVehicleLogBook = async (data, cb, setDisabled) => {
   }
 };
 
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
 
 export const getMailageInformation = async (vehicleId, setter) => {
   try {
@@ -134,7 +118,7 @@ export const getMailageInformation = async (vehicleId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getExpenseForDDL = async (accId, buId, setter) => {
@@ -145,7 +129,7 @@ export const getExpenseForDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSbuDDL = async (accId, buId, setter) => {
@@ -156,7 +140,7 @@ export const getSbuDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCounteryDDL = async (setter) => {
@@ -165,7 +149,7 @@ export const getCounteryDDL = async (setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCurrencyDDL = async (accId, buId, setter) => {
@@ -176,7 +160,7 @@ export const getCurrencyDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
@@ -187,7 +171,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getProjectNameDDL = async (accId, buId, setter) => {
@@ -198,7 +182,7 @@ export const getProjectNameDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getDistrubutionCenterDDL = async (accId, buId, sbuId, setter) => {
@@ -209,7 +193,7 @@ export const getDistrubutionCenterDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getExpenseRowData = async (vehileNo, fromDate, toDate, setter) => {
@@ -220,7 +204,7 @@ export const getExpenseRowData = async (vehileNo, fromDate, toDate, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const saveVehicleLExpenseRegister = async (
@@ -283,23 +267,23 @@ export const getSingleData = async (id, setter, cb) => {
             headerPart?.isFuelPurchased === false
               ? ""
               : {
-                  label: rowPart?.paymentMethod,
-                  value: rowPart?.paymentMethod,
-                } || "",
+                label: rowPart?.paymentMethod,
+                value: rowPart?.paymentMethod,
+              } || "",
           supplier:
             headerPart?.isFuelPurchased === false
               ? ""
               : {
-                  value: rowPart?.businessPartnerId,
-                  label: rowPart?.businessPartnerName,
-                } || "",
+                value: rowPart?.businessPartnerId,
+                label: rowPart?.businessPartnerName,
+              } || "",
           fuelStation:
             headerPart?.isFuelPurchased === false
               ? ""
               : {
-                  value: rowPart?.fuelStationId,
-                  label: rowPart?.fuelStationName,
-                },
+                value: rowPart?.fuelStationId,
+                label: rowPart?.fuelStationName,
+              },
           referenceNo: rowPart?.referenceNo,
           comments: headerPart?.comments,
           fuelPurchaseId:
@@ -309,7 +293,7 @@ export const getSingleData = async (id, setter, cb) => {
       setter(newData);
     }
     cb && cb(res.data.objRow);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const EditVehicleLogBook = async (data, setDisabled) => {
@@ -331,7 +315,7 @@ export const getPaymentType = async (setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const updateVehicle = async (payload, setLoading, cb) => {

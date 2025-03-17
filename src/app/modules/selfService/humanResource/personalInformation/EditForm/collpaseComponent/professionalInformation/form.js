@@ -1,21 +1,21 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React from "react";
+import * as Yup from "yup";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "../../../helper";
+import InputField from "../../../../../../_helper/_inputField";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
 import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
 //import IView from "./../../../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
 //import { useDispatch } from "react-redux";
 //import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
 

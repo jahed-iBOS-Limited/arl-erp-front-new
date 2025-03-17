@@ -18,9 +18,9 @@ import InputField from '../../../../../_helper/_inputField';
 import Loading from '../../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../../_helper/_todayDate';
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 import {
   CommercialCostingForTypeTwo,
-  empAttachment_action,
   getCommercialBreakdownForAdvanceAndBill,
 } from '../helper';
 import FormikError from './../../../../../_helper/_formikError';
@@ -174,7 +174,7 @@ export default function AddBill({
           numAdvanceAdjust: advanceBill[0]?.remainAdvance || 0,
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
@@ -210,7 +210,7 @@ export default function AddBill({
                     }}
                     className="btn btn-primary"
                     type="button"
-                    // disabled={bill?.billAndAdvanceId}
+                  // disabled={bill?.billAndAdvanceId}
                   >
                     Save
                   </button>
@@ -228,7 +228,7 @@ export default function AddBill({
                         name="billNo"
                         placeholder="Bill No"
                         type="text"
-                        // disabled={bill?.billAndAdvanceId}
+                      // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -243,7 +243,7 @@ export default function AddBill({
                         name="dteTransactionDate"
                         placeholder="Bill Date"
                         type="date"
-                        // disabled={bill?.billAndAdvanceId}
+                      // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -260,7 +260,7 @@ export default function AddBill({
                           }
                         }}
                         type="number"
-                        // disabled={bill?.billAndAdvanceId}
+                      // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -309,7 +309,7 @@ export default function AddBill({
                         name="description"
                         placeholder="Description"
                         type="text"
-                        // disabled={bill?.billAndAdvanceId}
+                      // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-auto">

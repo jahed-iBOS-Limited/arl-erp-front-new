@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
-import NewSelect from "./../../../../../../_helper/_select";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
+import InputField from "../../../../../../_helper/_inputField";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import NewSelect from "./../../../../../../_helper/_select";
 import {
   getCountryDDL_api,
   getDistrictDDL_api,
   getDivisionDDL_api,
+  getNationalityDDL,
   getPoliceStationDDL_api,
   getPostCodeDDL_api,
-  getNationalityDDL,
 } from "./helper";
-import { empAttachment_action } from "../../../helper";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
-import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
 
 export default function _Form({
   initData,
@@ -380,45 +380,45 @@ export default function _Form({
                     <div className="row global-form global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>Nominee Name</th>
-                                <th style={{ width: "35px" }}>Relationship</th>
-                                <th style={{ width: "35px" }}>Address</th>
-                                <th style={{ width: "35px" }}>
-                                  Identification
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Percentage (%)
-                                </th>
-                                <th style={{ width: "35px" }}>Mobile No</th>
-                                {/* <th style={{ width: "35px" }}>Attachment </th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.nomineeName}</td>
-                                  <td className="">
-                                    {itm?.relationWithEmployee}
-                                  </td>
-                                  <td className="">{`${itm?.countryName}, ${itm?.state}, ${itm?.policeStation}, ${itm?.city}`}</td>
-                                  <td className="">
-                                    {itm?.identificationType ||
-                                      itm?.identificationTypeName}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.percentage}
-                                  </td>
-                                  <td className="">{itm?.mobileNumber}</td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>Nominee Name</th>
+                                  <th style={{ width: "35px" }}>Relationship</th>
+                                  <th style={{ width: "35px" }}>Address</th>
+                                  <th style={{ width: "35px" }}>
+                                    Identification
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Percentage (%)
+                                  </th>
+                                  <th style={{ width: "35px" }}>Mobile No</th>
+                                  {/* <th style={{ width: "35px" }}>Attachment </th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.nomineeName}</td>
+                                    <td className="">
+                                      {itm?.relationWithEmployee}
+                                    </td>
+                                    <td className="">{`${itm?.countryName}, ${itm?.state}, ${itm?.policeStation}, ${itm?.city}`}</td>
+                                    <td className="">
+                                      {itm?.identificationType ||
+                                        itm?.identificationTypeName}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.percentage}
+                                    </td>
+                                    <td className="">{itm?.mobileNumber}</td>
+                                    {/* <td className="text-center">
                                     {itm?.identificationDocLink && (
                                       <IView
                                         clickHandler={() => {
@@ -431,30 +431,30 @@ export default function _Form({
                                       />
                                     )}
                                   </td> */}
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className="d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
-                                        <IDelete id={index} remover={remover} />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className="d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
+                                          <IDelete id={index} remover={remover} />
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>

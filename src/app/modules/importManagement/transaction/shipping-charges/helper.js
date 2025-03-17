@@ -1,24 +1,6 @@
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file?.file);
-  });
-  try {
-    let { data } = await Axios.post('/domain/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success('Upload  successfully');
-    return data;
-  } catch (error) {
-    toast.error('Document not upload');
-  }
-};
 
 // Get Landing Data for Shipping Charges
 export const GetLandingData = async (
@@ -63,37 +45,37 @@ export const GetSingleData = async (id, setter) => {
     );
     if (res.status === 200 && res?.data) {
       const data =
-        // res?.data?.map((item) => ({
-        {
-          billNo: res?.data?.billNo,
-          description: res?.data?.description,
-          instrument: {
-            value: res?.data?.instrumentId,
-            label: res?.data?.instrumentId,
-          },
-          payBank: {
-            value: res?.data?.payBankId,
-            label: res?.data?.payBankName,
-          },
-          deliveryDate: _dateFormatter(res?.data?.deliveryDate),
-          amountBDT: res?.data?.amount,
-          demurrage: res?.data?.demurrageAmount,
-          total: res?.data?.totalAmount,
-          shippingLine: {
-            value: res?.data?.shippingLineId,
-            label: res?.data?.shippingLineId,
-          },
-          agent: {
-            value: res?.data?.forwarderName,
-            label: res?.data?.forwarderName,
-          },
-          arivalDate: _dateFormatter(res?.data?.arivalDate),
-          shipment: {
-            value: res?.data?.shipmentId,
-            label: res?.data?.shipmentId,
-          },
-          paymentDate: _dateFormatter(res?.data?.paymentDate),
-        };
+      // res?.data?.map((item) => ({
+      {
+        billNo: res?.data?.billNo,
+        description: res?.data?.description,
+        instrument: {
+          value: res?.data?.instrumentId,
+          label: res?.data?.instrumentId,
+        },
+        payBank: {
+          value: res?.data?.payBankId,
+          label: res?.data?.payBankName,
+        },
+        deliveryDate: _dateFormatter(res?.data?.deliveryDate),
+        amountBDT: res?.data?.amount,
+        demurrage: res?.data?.demurrageAmount,
+        total: res?.data?.totalAmount,
+        shippingLine: {
+          value: res?.data?.shippingLineId,
+          label: res?.data?.shippingLineId,
+        },
+        agent: {
+          value: res?.data?.forwarderName,
+          label: res?.data?.forwarderName,
+        },
+        arivalDate: _dateFormatter(res?.data?.arivalDate),
+        shipment: {
+          value: res?.data?.shipmentId,
+          label: res?.data?.shipmentId,
+        },
+        paymentDate: _dateFormatter(res?.data?.paymentDate),
+      };
       // }));
       setter(data);
     }

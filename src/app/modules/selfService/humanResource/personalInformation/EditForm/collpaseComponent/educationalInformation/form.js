@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
+import InputField from "../../../../../../_helper/_inputField";
+import NewSelect from "../../../../../../_helper/_select";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
 import {
   getEmployeeEducationDegreeDDL_api,
   getEmployeeEducationLevelDDL_api,
   getResultDDL_api,
   getYearDDL_api
 } from "./helper";
-import { empAttachment_action } from "../../../helper";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
-import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -195,11 +195,11 @@ export default function _Form({
                           placeholder="Major/Group"
                           type="text"
                           disabled={!edit}
-                          // || values?.levelofEducation.value === 1
-                          //     ? true
-                          //     : values?.levelofEducation.value === 2
-                          //     ? true
-                          //     : false
+                        // || values?.levelofEducation.value === 1
+                        //     ? true
+                        //     : values?.levelofEducation.value === 2
+                        //     ? true
+                        //     : false
                         />
                       </div>
                       <div className="col-lg-3">
@@ -292,7 +292,7 @@ export default function _Form({
                                   // result (7, 9) disabled condition
                                   disabled={
                                     values?.result?.value === 7 ||
-                                    values?.result?.value === 9
+                                      values?.result?.value === 9
                                       ? values?.CGPA || values?.CGPAScal
                                       : false
                                   }
@@ -304,8 +304,8 @@ export default function _Form({
                               second Devision / Class,
                               Third Devision / Class"  */}
                             {values?.result?.value === 1 ||
-                            values?.result?.value === 2 ||
-                            values?.result?.value === 3 ? null : (
+                              values?.result?.value === 2 ||
+                              values?.result?.value === 3 ? null : (
                               <>
                                 <div className="col-lg-3 mt-1">
                                   <label>CGPA</label>
@@ -317,7 +317,7 @@ export default function _Form({
                                     // result (7, 9) disabled condition
                                     disabled={
                                       values?.result?.value === 7 ||
-                                      values?.result?.value === 9
+                                        values?.result?.value === 9
                                         ? values?.mark
                                         : false
                                     }
@@ -342,7 +342,7 @@ export default function _Form({
                                     // result (7, 9) disabled condition
                                     isDisabled={
                                       values?.result?.value === 7 ||
-                                      values?.result?.value === 9
+                                        values?.result?.value === 9
                                         ? values?.mark
                                         : false
                                     }
@@ -391,50 +391,50 @@ export default function _Form({
                     <div className="row global-form global-form-custom bg_none ">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>
-                                  Level of Education
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Exam/Degree Name
-                                </th>
-                                <th style={{ width: "35px" }}>Major/Group</th>
-                                <th style={{ width: "35px" }}>
-                                  Duration (Years)
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Name of Institute
-                                </th>
-                                <th style={{ width: "35px" }}>Passing Year</th>
-                                <th style={{ width: "35px" }}>Result</th>
-                                {/* <th style={{ width: "35px" }}>Attachment</th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.educationLevel}</td>
-                                  <td className="">{itm?.degree}</td>
-                                  <td className="">{itm?.group}</td>
-                                  <td className="text-center">
-                                    {itm?.durationYears}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.institute}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.passingYear}
-                                  </td>
-                                  <td className="">{itm?.result}</td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>
+                                    Level of Education
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Exam/Degree Name
+                                  </th>
+                                  <th style={{ width: "35px" }}>Major/Group</th>
+                                  <th style={{ width: "35px" }}>
+                                    Duration (Years)
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Name of Institute
+                                  </th>
+                                  <th style={{ width: "35px" }}>Passing Year</th>
+                                  <th style={{ width: "35px" }}>Result</th>
+                                  {/* <th style={{ width: "35px" }}>Attachment</th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.educationLevel}</td>
+                                    <td className="">{itm?.degree}</td>
+                                    <td className="">{itm?.group}</td>
+                                    <td className="text-center">
+                                      {itm?.durationYears}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.institute}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.passingYear}
+                                    </td>
+                                    <td className="">{itm?.result}</td>
+                                    {/* <td className="text-center">
                                     {itm?.attachment && (
                                       <IView
                                         clickHandler={() => {
@@ -447,32 +447,32 @@ export default function _Form({
                                       />
                                     )}
                                   </td> */}
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className=" d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                              degreeOnChangeHandler(itm);
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className=" d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                                degreeOnChangeHandler(itm);
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
 
-                                        <IDelete id={index} remover={remover} />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                          <IDelete id={index} remover={remover} />
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>

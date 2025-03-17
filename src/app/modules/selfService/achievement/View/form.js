@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { IInput } from "../../../_helper/_input";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getDailyTargetData, saveDailyTargetRow } from "./helper";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions";
-import IView from "../../../_helper/_helperIcons/_view";
 import TextArea from "antd/lib/input/TextArea";
-import { getPmsReportAction } from "../../../performanceManagement/_helper/getReportAction";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IView from "../../../_helper/_helperIcons/_view";
+import { IInput } from "../../../_helper/_input";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
+import { getPmsReportAction } from "../../../performanceManagement/_helper/getReportAction";
+import { getDailyTargetData, saveDailyTargetRow } from "./helper";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -103,113 +103,113 @@ export default function _Form({
               </div>
               <div className="mt-5">
                 {target?.objRow?.length ? (
-                   <div className='table-responsive'>
-                  <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th></th>
+                  <div className='table-responsive'>
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th></th>
 
-                        {target?.objRow &&
-                          Object.values(target?.objRow)?.map((th, index) => {
-                            return <th key={index}>{th?.monthName}</th>;
-                          })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className="align-middle">Target</td>
-                        {target?.objRow &&
-                          target?.objRow.map((itm, index) => (
-                            <td
-                              key={index}
-                              className="disabled-feedback disable-border target-input"
-                            >
-                              <IInput
-                                value={itm?.target}
-                                // placeholder={itm}
-                                onClick={() => alert("H")}
-                                name=""
-                                type="number"
-                                disabled={true}
-                                min="0"
-                              />
-                            </td>
-                          ))}
-                      </tr>
-                      <tr>
-                        <td className="align-middle">Actual</td>
-                        {target?.objRow &&
-                          target?.objRow.map((itm, index) => (
-                            <td
-                              key={index}
-                              className="disabled-feedback disable-border str-achievement"
-                              onClick={() => {
-                                setClickedMonth(
-                                  Object.keys(target?.objRow)[index]
-                                );
-                              }}
-                            >
-                              <IInput
-                                value={rowDto[index]?.numAchivment}
-                                placeholder={itm?.achivment}
-                                type="number"
-                                min="0"
-                                name="numAchivment"
-                                step="any"
+                          {target?.objRow &&
+                            Object.values(target?.objRow)?.map((th, index) => {
+                              return <th key={index}>{th?.monthName}</th>;
+                            })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="align-middle">Target</td>
+                          {target?.objRow &&
+                            target?.objRow.map((itm, index) => (
+                              <td
+                                key={index}
+                                className="disabled-feedback disable-border target-input"
+                              >
+                                <IInput
+                                  value={itm?.target}
+                                  // placeholder={itm}
+                                  onClick={() => alert("H")}
+                                  name=""
+                                  type="number"
+                                  disabled={true}
+                                  min="0"
+                                />
+                              </td>
+                            ))}
+                        </tr>
+                        <tr>
+                          <td className="align-middle">Actual</td>
+                          {target?.objRow &&
+                            target?.objRow.map((itm, index) => (
+                              <td
+                                key={index}
+                                className="disabled-feedback disable-border str-achievement"
                                 onClick={() => {
-                                  getDailyTargetData(
-                                    target?.kpiid,
-                                    target?.objRow[index]?.monthId,
-                                    setDailyEntryRow
+                                  setClickedMonth(
+                                    Object.keys(target?.objRow)[index]
                                   );
                                 }}
-                                onChange={(e) =>
-                                  rowDtoHandler(
-                                    "numAchivment",
-                                    e.target.value,
-                                    index,
-                                    itm.rowId
-                                  )
-                                }
-                                disabled={
-                                  itm?.isApproved === itm?.isReject
-                                    ? false
-                                    : true
-                                }
-                              />
-                            </td>
-                          ))}
-                      </tr>
-                      <tr>
-                        <td className="align-middle">Remarks</td>
-                        {target?.objRow &&
-                          target.objRow.map((itm, index) => (
-                            <td
-                              key={index}
-                              className="disabled-feedback disable-border str-achievement"
-                            >
-                              <TextArea
-                                value={rowDto[index]?.remarks}
-                                name="remarks"
-                                placeholder={itm?.remarks}
-                                rows="1"
-                                onChange={(e) => {
-                                  rowDtoHandler(
-                                    "remarks",
-                                    e.target.value,
-                                    index,
-                                    itm.rowId
-                                  );
-                                }}
-                                max={1000}
-                                errors={errors}
-                                touched={touched}
-                              />
-                            </td>
-                          ))}
-                      </tr>
-                    </tbody>
-                  </table>
+                              >
+                                <IInput
+                                  value={rowDto[index]?.numAchivment}
+                                  placeholder={itm?.achivment}
+                                  type="number"
+                                  min="0"
+                                  name="numAchivment"
+                                  step="any"
+                                  onClick={() => {
+                                    getDailyTargetData(
+                                      target?.kpiid,
+                                      target?.objRow[index]?.monthId,
+                                      setDailyEntryRow
+                                    );
+                                  }}
+                                  onChange={(e) =>
+                                    rowDtoHandler(
+                                      "numAchivment",
+                                      e.target.value,
+                                      index,
+                                      itm.rowId
+                                    )
+                                  }
+                                  disabled={
+                                    itm?.isApproved === itm?.isReject
+                                      ? false
+                                      : true
+                                  }
+                                />
+                              </td>
+                            ))}
+                        </tr>
+                        <tr>
+                          <td className="align-middle">Remarks</td>
+                          {target?.objRow &&
+                            target.objRow.map((itm, index) => (
+                              <td
+                                key={index}
+                                className="disabled-feedback disable-border str-achievement"
+                              >
+                                <TextArea
+                                  value={rowDto[index]?.remarks}
+                                  name="remarks"
+                                  placeholder={itm?.remarks}
+                                  rows="1"
+                                  onChange={(e) => {
+                                    rowDtoHandler(
+                                      "remarks",
+                                      e.target.value,
+                                      index,
+                                      itm.rowId
+                                    );
+                                  }}
+                                  max={1000}
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </td>
+                            ))}
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 ) : (
                   <h3>No data found!</h3>
@@ -226,24 +226,24 @@ export default function _Form({
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
                           "Yearly"
-                        ? "Year " + year
-                        : Object.values(target?.objHeader)[clickedMonth] +
+                          ? "Year " + year
+                          : Object.values(target?.objHeader)[clickedMonth] +
                           " Quarter"}
                     </b>{" "}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
                     rowDto[clickedMonth]?.documentString) && (
-                    <IView
-                      clickHandler={() => {
-                        dispatch(
-                          getDownlloadFileView_Action(
-                            rowDto[clickedMonth]?.documentString ||
+                      <IView
+                        clickHandler={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              rowDto[clickedMonth]?.documentString ||
                               target?.objRow?.[clickedMonth]?.documentString
-                          )
-                        );
-                      }}
-                    />
-                  )}
+                            )
+                          );
+                        }}
+                      />
+                    )}
 
                   {!target?.objRow?.[clickedMonth]?.isApproved && (
                     <ButtonStyleOne

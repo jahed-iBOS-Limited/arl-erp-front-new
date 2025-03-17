@@ -296,25 +296,6 @@ const updatePayloadChange = (
   return payload;
 };
 
-//Image Attachment
-export const empAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success(data?.message || "Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
 
 //Dropdown loading start
 
@@ -425,14 +406,10 @@ export const getCalculationFormLandingForm = async (
     // console.log(values, "calculation form landing");
     setLoading(true);
     const res = await Axios.get(
-      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
-        values?.poId
-      }&tenorDays=${
-        values?.lcTenor
-      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
-        values?.tolarance
-      }&excRate=${values?.exchangeRate}&bankId=${
-        values?.bankName?.value
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${values?.poId
+      }&tenorDays=${values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${values?.bankName?.value
       }&type=${values?.lcType?.value}`
     );
     setLoading(false);

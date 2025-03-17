@@ -1,24 +1,24 @@
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React from "react";
 import Select from "react-select";
-import { Formik, Form } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import * as Yup from "yup";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
-import NewSelect from "./../../../../../../_helper/_select";
-import customStyles from "./../../../../../../selectCustomStyle";
-import FormikError from "./../../../../../../_helper/_formikError";
-import { _monthsFunc } from "./months";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "../../../helper";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import InputField from "../../../../../../_helper/_inputField";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import FormikError from "./../../../../../../_helper/_formikError";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import NewSelect from "./../../../../../../_helper/_select";
+import customStyles from "./../../../../../../selectCustomStyle";
+import { _monthsFunc } from "./months";
 // Validation schema
 const validationSchema = Yup.object().shape({
   // traningYear: Yup.string()
@@ -269,7 +269,7 @@ export default function _Form({
                                 name="months1"
                                 styles={customStyles}
                                 placeholder="Month"
-                                // isDisabled={!values?.credential}
+                              // isDisabled={!values?.credential}
                               />
                               <FormikError
                                 errors={errors}
@@ -288,7 +288,7 @@ export default function _Form({
                                 name="year1"
                                 styles={customStyles}
                                 placeholder="Year"
-                                // isDisabled={!values?.credential}
+                              // isDisabled={!values?.credential}
                               />
                               <FormikError
                                 errors={errors}
@@ -319,7 +319,7 @@ export default function _Form({
                           disabled={!edit}
                         />
                       </div>
-                      {}
+                      { }
                       <div
                         style={{ marginTop: "18px" }}
                         className={!edit ? "d-none" : "col-lg-3"}
@@ -359,58 +359,58 @@ export default function _Form({
                     <div className="row global-table global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>
-                                  Training Title
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Issuing Organization
-                                </th>
-                                <th style={{ width: "35px" }}>Traning Year</th>
-                                <th style={{ width: "35px" }}>
-                                  Duration (days)
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Issue & ExpireDate
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Training Covered On
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Credential ID (Optional)
-                                </th>
-                                {/* <th style={{ width: "35px" }}>Attachment</th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.trainingTitle}</td>
-                                  <td className="">
-                                    {itm?.issuingOrganization}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.trainingYear}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.durationDays}
-                                  </td>
-                                  <td className="text-center">{`${itm?.monthOfIssue} - ${itm?.yearOfIssue}, ${itm?.monthOfExpire} - ${itm?.yearOfExpire} `}</td>
-                                  <td className="text-center">
-                                    {itm?.trainingCoveredOn}
-                                  </td>
-                                  <td className="text-center">
-                                    {itm?.credentialId}
-                                  </td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>
+                                    Training Title
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Issuing Organization
+                                  </th>
+                                  <th style={{ width: "35px" }}>Traning Year</th>
+                                  <th style={{ width: "35px" }}>
+                                    Duration (days)
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Issue & ExpireDate
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Training Covered On
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Credential ID (Optional)
+                                  </th>
+                                  {/* <th style={{ width: "35px" }}>Attachment</th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.trainingTitle}</td>
+                                    <td className="">
+                                      {itm?.issuingOrganization}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.trainingYear}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.durationDays}
+                                    </td>
+                                    <td className="text-center">{`${itm?.monthOfIssue} - ${itm?.yearOfIssue}, ${itm?.monthOfExpire} - ${itm?.yearOfExpire} `}</td>
+                                    <td className="text-center">
+                                      {itm?.trainingCoveredOn}
+                                    </td>
+                                    <td className="text-center">
+                                      {itm?.credentialId}
+                                    </td>
+                                    {/* <td className="text-center">
                                     {itm?.attachment && (
                                       <IView
                                         clickHandler={() => {
@@ -424,31 +424,31 @@ export default function _Form({
                                     )}
                                   </td> */}
 
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className=" d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className=" d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
 
-                                        <IDelete id={index} remover={remover} />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                          <IDelete id={index} remover={remover} />
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>

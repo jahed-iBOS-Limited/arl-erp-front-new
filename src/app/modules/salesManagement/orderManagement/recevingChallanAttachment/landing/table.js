@@ -7,9 +7,9 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { empAttachment_action } from "../helper";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
 const DamageEntryLandingTable = ({ obj }) => {
   const {
@@ -107,7 +107,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                     type="checkbox"
                     value={selectedAll()}
                     checked={selectedAll()}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                 </th>
                 <th>SL</th>
@@ -137,7 +137,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                       type="checkbox"
                       value={item?.isSelected}
                       checked={item?.isSelected}
-                      onChange={() => {}}
+                      onChange={() => { }}
                     />
                   </td>
                   <td className="text-center"> {index + 1}</td>
@@ -152,34 +152,34 @@ const DamageEntryLandingTable = ({ obj }) => {
                   <td className="text-right">
                     {false
                       ? values?.viewAs?.value === 1 && (
-                          <InputField
-                            value={item?.totalReturnQty}
-                            name="totalReturnQty"
-                            placeholder="Quantity"
-                            type="number"
-                            min={0.2}
-                            onChange={(e) => {
-                              dataChangeHandler(
-                                index,
-                                "totalReturnQty",
-                                +e?.target?.value
+                        <InputField
+                          value={item?.totalReturnQty}
+                          name="totalReturnQty"
+                          placeholder="Quantity"
+                          type="number"
+                          min={0.2}
+                          onChange={(e) => {
+                            dataChangeHandler(
+                              index,
+                              "totalReturnQty",
+                              +e?.target?.value
+                            );
+                          }}
+                          onBlur={(e) => {
+                            if (+e?.target?.value > item?.numDeliveryQnt) {
+                              toast.warn(
+                                "Damage qty can not be greater than delivery qty"
                               );
-                            }}
-                            onBlur={(e) => {
-                              if (+e?.target?.value > item?.numDeliveryQnt) {
-                                toast.warn(
-                                  "Damage qty can not be greater than delivery qty"
-                                );
-                              }
+                            }
 
-                              if (+e?.target?.value < 0.2) {
-                                toast.warn(
-                                  "Return qty can not be less than 0.2"
-                                );
-                              }
-                            }}
-                          />
-                        )
+                            if (+e?.target?.value < 0.2) {
+                              toast.warn(
+                                "Return qty can not be less than 0.2"
+                              );
+                            }
+                          }}
+                        />
+                      )
                       : _fixedPoint(item?.totalReturnQty, true)}
                   </td>
                   <td className="text-right">
@@ -193,10 +193,10 @@ const DamageEntryLandingTable = ({ obj }) => {
                     {item?.isApprovedBySupervisor && item?.isApprovedByAccount
                       ? "Approved by Supervisor and Account"
                       : item?.isApprovedBySupervisor
-                      ? "Approved by Supervisor"
-                      : !item?.isActive
-                      ? "Canceled"
-                      : "Pending"}
+                        ? "Approved by Supervisor"
+                        : !item?.isActive
+                          ? "Canceled"
+                          : "Pending"}
                   </td>
                   <td>
                     {/* <div className="d-flex justify-content-around">

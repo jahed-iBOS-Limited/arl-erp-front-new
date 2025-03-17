@@ -11,10 +11,11 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { empAttachment_action, validationSchema } from "./helper";
+import { validationSchema } from "./helper";
 
 const initData = {
   plant: "",
@@ -35,12 +36,12 @@ export default function GodownRateCreateEditForm() {
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [wareHouseDDL, getWareHouseDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
-  const[,saveGodownData,loadSaveGodownData] = useAxiosPost()
-  const[editAbleInitData,setEditAbleInitData] = useState({})
-  const {id} = useParams()
-  const {state} = useLocation()
+  const [, saveGodownData, loadSaveGodownData] = useAxiosPost()
+  const [editAbleInitData, setEditAbleInitData] = useState({})
+  const { id } = useParams()
+  const { state } = useLocation()
   const {
-    profileData: { accountId: accId,userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const handleSaveAndEdit = (values) => {
@@ -55,19 +56,19 @@ export default function GodownRateCreateEditForm() {
       rate: values?.rate,
       contractStartDate: values?.startDate,
       contractEndtDate: values?.endDate,
-      attachmentId: id ? state?.attachmentId:uploadImage[0]?.id,
+      attachmentId: id ? state?.attachmentId : uploadImage[0]?.id,
       createdBy: userId,
       createdAt: _todayDate(),
     };
     saveGodownData(
-        `/procurement/PurchaseOrder/CreateAndUpdateGodownRateConfiguration`,
-        payload,
-        (data)=>{
-          if(data){
-            
-          }
-        },
-        true
+      `/procurement/PurchaseOrder/CreateAndUpdateGodownRateConfiguration`,
+      payload,
+      (data) => {
+        if (data) {
+
+        }
+      },
+      true
     )
   };
   const saveHandler = (values, cb) => {
@@ -80,23 +81,23 @@ export default function GodownRateCreateEditForm() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
-  useEffect(()=>{
-  setEditAbleInitData({
-  plant: {value:state?.plantId,label:state?.plantName},
-  warehouse: {value:state?.warehouseId,label:state?.warehouseName},
-  supplier: {value:state?.supplierId,label:state?.supplierName},
-  item: {value:state?.itemId,label:state?.itemName},
-  totalLand:state?.totalSize,
-  rate: state?.rate,
-  startDate: _dateFormatter(state?.contractStartDate),
-  endDate: _dateFormatter(state?.contractStartDate),
-   })
-  },[id,state])
+  useEffect(() => {
+    setEditAbleInitData({
+      plant: { value: state?.plantId, label: state?.plantName },
+      warehouse: { value: state?.warehouseId, label: state?.warehouseName },
+      supplier: { value: state?.supplierId, label: state?.supplierName },
+      item: { value: state?.itemId, label: state?.itemName },
+      totalLand: state?.totalSize,
+      rate: state?.rate,
+      startDate: _dateFormatter(state?.contractStartDate),
+      endDate: _dateFormatter(state?.contractStartDate),
+    })
+  }, [id, state])
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={id ? editAbleInitData:initData}
-        validationSchema={validationSchema}
+      initialValues={id ? editAbleInitData : initData}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);

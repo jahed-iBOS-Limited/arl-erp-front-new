@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
+import React, { useEffect, useState } from "react";
 import {
-  employeeContactTypeDDL_api,
-  getCountryDDL_api,
-  getDivisionDDL_api,
-  getDistrictDDL_api,
-  getPostCodeDDL_api,
-  getPoliceStationDDL_api,
-} from "./helper";
-import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
-import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "../../../helper";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import InputField from "../../../../../../_helper/_inputField";
+import NewSelect from "../../../../../../_helper/_select";
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
+import IDelete from "./../../../../../../_helper/_helperIcons/_delete";
+import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import {
+  employeeContactTypeDDL_api,
+  getCountryDDL_api,
+  getDistrictDDL_api,
+  getDivisionDDL_api,
+  getPoliceStationDDL_api,
+  getPostCodeDDL_api,
+} from "./helper";
 
 export default function _Form({
   initData,
@@ -267,7 +267,7 @@ export default function _Form({
                               onChange={(valueOption) => {
                                 setFieldValue("policeStation", "");
                                 setFieldValue("postCode", "");
-                                setFieldValue("cityDistrict", valueOption);                               
+                                setFieldValue("cityDistrict", valueOption);
                                 cityDistrictOnChangeHandler(
                                   values?.country?.value,
                                   values?.stateDivision?.value,
@@ -399,46 +399,46 @@ export default function _Form({
                     <div className="row global-form global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
-                           <div className="table-responsive">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "35px" }}>SL</th>
-                                <th style={{ width: "35px" }}>Contact Type</th>
-                                <th style={{ width: "35px" }}>
-                                  Contact Person
-                                </th>
-                                <th style={{ width: "35px" }}>Relation</th>
-                                <th style={{ width: "35px" }}>Contact No.</th>
-                                <th style={{ width: "35px" }}>Address</th>
-                                <th style={{ width: "35px" }}>
-                                  Identification Type
-                                </th>
-                                <th style={{ width: "35px" }}>
-                                  Identification Number
-                                </th>
-                                {/* <th style={{ width: "35px" }}>Attachment</th> */}
-                                {edit && (
-                                  <th style={{ width: "35px" }}>Action</th>
-                                )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto?.map((itm, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{itm?.contactType}</td>
-                                  <td className="">{itm?.contactPerson}</td>
-                                  <td className="">{itm?.relation}</td>
-                                  <td className="">{itm?.contactNo}</td>
-                                  <td className="">{itm?.address}</td>
-                                  <td className="">
-                                    {itm?.strIdentificationType}
-                                  </td>
-                                  <td className="">
-                                    {itm?.strIdentificationNo}
-                                  </td>
-                                  {/* <td className="text-center">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "35px" }}>SL</th>
+                                  <th style={{ width: "35px" }}>Contact Type</th>
+                                  <th style={{ width: "35px" }}>
+                                    Contact Person
+                                  </th>
+                                  <th style={{ width: "35px" }}>Relation</th>
+                                  <th style={{ width: "35px" }}>Contact No.</th>
+                                  <th style={{ width: "35px" }}>Address</th>
+                                  <th style={{ width: "35px" }}>
+                                    Identification Type
+                                  </th>
+                                  <th style={{ width: "35px" }}>
+                                    Identification Number
+                                  </th>
+                                  {/* <th style={{ width: "35px" }}>Attachment</th> */}
+                                  {edit && (
+                                    <th style={{ width: "35px" }}>Action</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto?.map((itm, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{itm?.contactType}</td>
+                                    <td className="">{itm?.contactPerson}</td>
+                                    <td className="">{itm?.relation}</td>
+                                    <td className="">{itm?.contactNo}</td>
+                                    <td className="">{itm?.address}</td>
+                                    <td className="">
+                                      {itm?.strIdentificationType}
+                                    </td>
+                                    <td className="">
+                                      {itm?.strIdentificationNo}
+                                    </td>
+                                    {/* <td className="text-center">
                                     {itm?.otherDocLink && (
                                       <IView
                                         clickHandler={() => {
@@ -451,32 +451,32 @@ export default function _Form({
                                       />
                                     )}
                                   </td> */}
-                                  {edit && (
-                                    <td className="text-center">
-                                      <div className=" d-flex justify-content-around">
-                                        {singleData.length > 0 && (
-                                          <span
-                                            onClick={() => {
-                                              editBtnHandler(
-                                                index,
-                                                itm,
-                                                setValues
-                                              );
-                                              ddlForEdit(itm);
-                                            }}
-                                          >
-                                            <IEdit />
-                                          </span>
-                                        )}
+                                    {edit && (
+                                      <td className="text-center">
+                                        <div className=" d-flex justify-content-around">
+                                          {singleData.length > 0 && (
+                                            <span
+                                              onClick={() => {
+                                                editBtnHandler(
+                                                  index,
+                                                  itm,
+                                                  setValues
+                                                );
+                                                ddlForEdit(itm);
+                                              }}
+                                            >
+                                              <IEdit />
+                                            </span>
+                                          )}
 
-                                        <IDelete id={index} remover={remover} />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                                          <IDelete id={index} remover={remover} />
+                                        </div>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
                           </div>
                         )}
                       </div>

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { IInput } from "../../../../_helper/_input";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getDailyTargetData, saveDailyTargetRow } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../../../inventoryManagement/warehouseManagement/assetReceive/helper/Actions";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import IView from "../../../../_helper/_helperIcons/_view";
 import TextArea from "antd/lib/input/TextArea";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { IInput } from "../../../../_helper/_input";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import { getPmsReportAction } from "../../../_helper/getReportAction";
+import { getDailyTargetData, saveDailyTargetRow } from "./helper";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -223,24 +223,24 @@ export default function _Form({
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
                           "Yearly"
-                        ? "Year " + year
-                        : Object.values(target?.objHeader)[clickedMonth] +
+                          ? "Year " + year
+                          : Object.values(target?.objHeader)[clickedMonth] +
                           " Quarter"}
                     </b>{" "}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
                     rowDto[clickedMonth]?.documentString) && (
-                    <IView
-                      clickHandler={() => {
-                        dispatch(
-                          getDownlloadFileView_Action(
-                            rowDto[clickedMonth]?.documentString ||
+                      <IView
+                        clickHandler={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              rowDto[clickedMonth]?.documentString ||
                               target?.objRow?.[clickedMonth]?.documentString
-                          )
-                        );
-                      }}
-                    />
-                  )}
+                            )
+                          );
+                        }}
+                      />
+                    )}
 
                   {!target?.objRow?.[clickedMonth]?.isApproved && (
                     <ButtonStyleOne

@@ -11,9 +11,9 @@ import BasicModal from "../../../_helper/_BasicModal";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { empAttachment_action } from "../../../financialManagement/invoiceManagementSystem/billregister/helper";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
@@ -166,27 +166,27 @@ export default function SalesContractCreateEdit() {
             },
             portofShipment:
               data?.data?.objHeader?.portofShipment &&
-              data?.data?.objHeader?.portofShipmentId
+                data?.data?.objHeader?.portofShipmentId
                 ? {
-                    value: data?.data?.objHeader?.portofShipmentId,
-                    label: data?.data?.objHeader?.portofShipment,
-                  }
+                  value: data?.data?.objHeader?.portofShipmentId,
+                  label: data?.data?.objHeader?.portofShipment,
+                }
                 : "",
             portofDishcharge:
               data?.data?.objHeader?.portofDishcharge &&
-              data?.data?.objHeader?.portofDischargeId
+                data?.data?.objHeader?.portofDischargeId
                 ? {
-                    value: data?.data?.objHeader?.portofDischargeId,
-                    label: data?.data?.objHeader?.portofDishcharge,
-                  }
+                  value: data?.data?.objHeader?.portofDischargeId,
+                  label: data?.data?.objHeader?.portofDishcharge,
+                }
                 : "",
             destinationCountry:
               data?.data?.objHeader?.toCountryId &&
-              data?.data?.objHeader?.toCountryName
+                data?.data?.objHeader?.toCountryName
                 ? {
-                    value: data?.data?.objHeader?.toCountryId,
-                    label: data?.data?.objHeader?.toCountryName,
-                  }
+                  value: data?.data?.objHeader?.toCountryId,
+                  label: data?.data?.objHeader?.toCountryName,
+                }
                 : "",
             finalDestination: data?.data?.objHeader?.finalDestination,
             countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -201,11 +201,11 @@ export default function SalesContractCreateEdit() {
             exPortRegNo: data?.data?.objHeader?.exPortRegNo,
             viewAs:
               data?.data?.objHeader?.strViewAs &&
-              data?.data?.objHeader?.intViewAs
+                data?.data?.objHeader?.intViewAs
                 ? {
-                    value: data?.data?.objHeader?.intViewAs,
-                    label: data?.data?.objHeader?.strViewAs,
-                  }
+                  value: data?.data?.objHeader?.intViewAs,
+                  label: data?.data?.objHeader?.strViewAs,
+                }
                 : "",
             attachmentno: data?.data?.objHeader?.attachmentno,
           });
@@ -338,11 +338,11 @@ export default function SalesContractCreateEdit() {
                 portofDishcharge: data?.data?.objHeader?.portofDishcharge,
                 destinationCountry:
                   data?.data?.objHeader?.toCountryId &&
-                  data?.data?.objHeader?.toCountryName
+                    data?.data?.objHeader?.toCountryName
                     ? {
-                        value: data?.data?.objHeader?.toCountryId,
-                        label: data?.data?.objHeader?.toCountryName,
-                      }
+                      value: data?.data?.objHeader?.toCountryId,
+                      label: data?.data?.objHeader?.toCountryName,
+                    }
                     : "",
                 finalDestination: data?.data?.objHeader?.finalDestination,
                 countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -816,11 +816,10 @@ export default function SalesContractCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.freightAmount}
-                    label={`Freight Amount ${
-                      values?.currency?.label
+                    label={`Freight Amount ${values?.currency?.label
                         ? `in (${values?.currency?.label})`
                         : ``
-                    }`}
+                      }`}
                     name="freightAmount"
                     type="number"
                     onChange={(e) => {
@@ -835,9 +834,8 @@ export default function SalesContractCreateEdit() {
                     type="button"
                     onClick={() => setOpen(true)}
                   >
-                    {`${
-                      id && modifyData?.attachmentno ? "ReAttach" : "Attach"
-                    } File`}
+                    {`${id && modifyData?.attachmentno ? "ReAttach" : "Attach"
+                      } File`}
                   </button>
                 </div>
                 {id && modifyData?.attachmentno && (
@@ -1001,7 +999,7 @@ export default function SalesContractCreateEdit() {
                         setFieldValue("exportUoM", "");
                       }
                     }}
-                    // isDisabled={true}
+                  // isDisabled={true}
                   />
                 </div>
 
@@ -1108,111 +1106,111 @@ export default function SalesContractCreateEdit() {
               {/* )} */}
               {/* objSpecRow table */}
               <div className="table-responsive">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>Sl</th>
-                    <th>Specification</th>
-                    <th>Value</th>
-                    {/* <th>Item Code</th> */}
-                    <th>Item Name</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {objSpecRow?.length > 0 &&
-                    objSpecRow?.map((itm, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td>{idx + 1}</td>
-                          <td>{itm?.specification}</td>
-                          <td className="text-center">{itm?.value}</td>
-                          {/* <td className="text-center">{itm?.itemCode}</td> */}
-                          <td>{itm?.itemName}</td>
-                          <td className="text-center">
-                            <i
-                              className="fa fa-trash"
-                              style={{ cursor: "pointer", color: "red" }}
-                              onClick={() => {
-                                let _objSpecRow = objSpecRow;
-                                _objSpecRow.splice(idx, 1);
-                                setObjSpecRow([..._objSpecRow]);
-                                if (
-                                  objRow?.find(
-                                    (item) => item?.itemId === itm?.itemId
-                                  )
-                                ) {
-                                  let _objRow = objRow;
-                                  _objRow.splice(idx, 1);
-                                  setObjRow([..._objRow]);
-                                }
-                              }}
-                            ></i>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>Sl</th>
+                      <th>Specification</th>
+                      <th>Value</th>
+                      {/* <th>Item Code</th> */}
+                      <th>Item Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {objSpecRow?.length > 0 &&
+                      objSpecRow?.map((itm, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td>{itm?.specification}</td>
+                            <td className="text-center">{itm?.value}</td>
+                            {/* <td className="text-center">{itm?.itemCode}</td> */}
+                            <td>{itm?.itemName}</td>
+                            <td className="text-center">
+                              <i
+                                className="fa fa-trash"
+                                style={{ cursor: "pointer", color: "red" }}
+                                onClick={() => {
+                                  let _objSpecRow = objSpecRow;
+                                  _objSpecRow.splice(idx, 1);
+                                  setObjSpecRow([..._objSpecRow]);
+                                  if (
+                                    objRow?.find(
+                                      (item) => item?.itemId === itm?.itemId
+                                    )
+                                  ) {
+                                    let _objRow = objRow;
+                                    _objRow.splice(idx, 1);
+                                    setObjRow([..._objRow]);
+                                  }
+                                }}
+                              ></i>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
               </div>
 
               {/* item table */}
-           <div className="table-responsive">
-           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>Sl</th>
-                    <th>Item Code</th>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Packing Details</th>
-                    <th>Specification</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {objRow?.length > 0 &&
-                    objRow?.map((itm, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td>{idx + 1}</td>
-                          <td className="text-center">{itm?.itemCode}</td>
-                          <td>{itm?.itemName}</td>
-                          <td className="text-center">
-                            {itm?.quotationQuantity}
-                          </td>
-                          <td className="text-center">{itm?.currencyPrice}</td>
-                          <td className="text-center">
-                            {(
-                              itm?.quotationQuantity * itm?.currencyPrice
-                            ).toFixed(2)}
-                          </td>
-                          <td className="text-center">{itm?.packingDetails}</td>
-                          <td>{itm?.specification}</td>
-                          <td className="text-center">
-                            <i
-                              className="fa fa-trash"
-                              style={{ cursor: "pointer", color: "red" }}
-                              onClick={() => {
-                                let _objRow = objRow;
-                                _objRow.splice(idx, 1);
-                                setObjRow([..._objRow]);
-                                let _objSpecRow = objSpecRow;
-                                let _objSpecRowFilter = _objSpecRow.filter(
-                                  (item) => item?.itemId !== itm?.itemId
-                                );
-                                setObjSpecRow([..._objSpecRowFilter]);
-                              }}
-                            ></i>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-           </div>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>Sl</th>
+                      <th>Item Code</th>
+                      <th>Item Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Total</th>
+                      <th>Packing Details</th>
+                      <th>Specification</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {objRow?.length > 0 &&
+                      objRow?.map((itm, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td className="text-center">{itm?.itemCode}</td>
+                            <td>{itm?.itemName}</td>
+                            <td className="text-center">
+                              {itm?.quotationQuantity}
+                            </td>
+                            <td className="text-center">{itm?.currencyPrice}</td>
+                            <td className="text-center">
+                              {(
+                                itm?.quotationQuantity * itm?.currencyPrice
+                              ).toFixed(2)}
+                            </td>
+                            <td className="text-center">{itm?.packingDetails}</td>
+                            <td>{itm?.specification}</td>
+                            <td className="text-center">
+                              <i
+                                className="fa fa-trash"
+                                style={{ cursor: "pointer", color: "red" }}
+                                onClick={() => {
+                                  let _objRow = objRow;
+                                  _objRow.splice(idx, 1);
+                                  setObjRow([..._objRow]);
+                                  let _objSpecRow = objSpecRow;
+                                  let _objSpecRowFilter = _objSpecRow.filter(
+                                    (item) => item?.itemId !== itm?.itemId
+                                  );
+                                  setObjSpecRow([..._objSpecRowFilter]);
+                                }}
+                              ></i>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
 
               {/* t&c */}
               <div className="form-group global-form row">
@@ -1252,39 +1250,39 @@ export default function SalesContractCreateEdit() {
                 </div>
               </div>
 
-          <div className="table-responsive">
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>Sl</th>
-                    <th>Terms & Conditions</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {objTerms?.length > 0 &&
-                    objTerms?.map((itm, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td>{itm?.sl}</td>
-                          <td>{itm?.terms}</td>
-                          <td className="text-center">
-                            <i
-                              className="fa fa-trash"
-                              style={{ cursor: "pointer", color: "red" }}
-                              onClick={() => {
-                                let _objTerms = objTerms;
-                                _objTerms.splice(idx, 1);
-                                setObjTerms([..._objTerms]);
-                              }}
-                            ></i>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-          </div>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>Sl</th>
+                      <th>Terms & Conditions</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {objTerms?.length > 0 &&
+                      objTerms?.map((itm, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td>{itm?.sl}</td>
+                            <td>{itm?.terms}</td>
+                            <td className="text-center">
+                              <i
+                                className="fa fa-trash"
+                                style={{ cursor: "pointer", color: "red" }}
+                                onClick={() => {
+                                  let _objTerms = objTerms;
+                                  _objTerms.splice(idx, 1);
+                                  setObjTerms([..._objTerms]);
+                                }}
+                              ></i>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
 
               {/* modal */}
 
