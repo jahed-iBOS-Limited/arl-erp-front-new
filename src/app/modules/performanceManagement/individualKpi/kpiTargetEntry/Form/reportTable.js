@@ -1,10 +1,9 @@
-import React from "react";
-import "antd/dist/antd.css";
-import { useSelector, shallowEqual } from "react-redux";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import PmsCommonTable from "../../../_helper/pmsCommonTable/PmsCommonTable";
+import React from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { toast } from 'react-toastify';
+import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
 
 export default function KpiReportTable({
   deleteIndividualKPIById,
@@ -22,16 +21,16 @@ export default function KpiReportTable({
   return (
     <PmsCommonTable
       ths={[
-        { name: "BSC" },
-        { name: "Objective" },
-        { name: "KPI" },
-        { name: "SRF" },
-        { name: "Weight" },
-        { name: "Benchmark" },
-        { name: "Target" },
-        { name: "Achievement" },
-        { name: "Progress" },
-        { name: "Action", style: { width: "50px" } },
+        { name: 'BSC' },
+        { name: 'Objective' },
+        { name: 'KPI' },
+        { name: 'SRF' },
+        { name: 'Weight' },
+        { name: 'Benchmark' },
+        { name: 'Target' },
+        { name: 'Achievement' },
+        { name: 'Progress' },
+        { name: 'Action', style: { width: '50px' } },
       ]}
     >
       {report?.infoList?.map((itm, indx) => (
@@ -48,8 +47,8 @@ export default function KpiReportTable({
               )}
               {item?.isParent && (
                 <td className="obj" rowspan={item?.numberOfChild}>
-                  {" "}
-                  {item?.parentName}{" "}
+                  {' '}
+                  {item?.parentName}{' '}
                 </td>
               )}
               <td> {item?.label} </td>
@@ -61,7 +60,7 @@ export default function KpiReportTable({
               <td>
                 {indx !== report?.infoList.length - 1 && (
                   <div className="text-right">
-                    {item?.progress}%{" "}
+                    {item?.progress}%{' '}
                     <i
                       className={`ml-2 fas fa-arrow-alt-${item?.arrowText}`}
                     ></i>
