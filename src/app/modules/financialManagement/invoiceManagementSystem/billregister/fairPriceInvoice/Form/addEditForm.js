@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import {
-  saveFairPriceShopInvoice,
-  getWarehouseDDL,
-  uploadAttachment,
-  getPurchaseOrganizationDDL
-} from "../../helper";
-import { toast } from "react-toastify";
-import "./purchaseInvoice.css";
-import IForm from "../../../../../_helper/_form";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Loading from "../../../../../_helper/_loading";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { compressfile } from "../../../../../_helper/compressfile";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
+import IForm from "../../../../../_helper/_form";
+import Loading from "../../../../../_helper/_loading";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
+import { compressfile } from "../../../../../_helper/compressfile";
+import {
+  getPurchaseOrganizationDDL,
+  getWarehouseDDL,
+  saveFairPriceShopInvoice
+} from "../../helper";
+import Form from "./form";
+import "./purchaseInvoice.css";
 
 const initData = {
   purchaseOrg: "",
@@ -104,9 +104,9 @@ export default function SupplerInvoiceForm() {
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      let rowDetailsList=[]
-      grnGridData.forEach(data=>{
-        return data?.objItemInfo?.forEach(item=>{
+      let rowDetailsList = []
+      grnGridData.forEach(data => {
+        return data?.objItemInfo?.forEach(item => {
           rowDetailsList.push({
             "referenceId": data?.mrrId,
             "referenceAmount": data?.mrrAmount,
@@ -174,7 +174,7 @@ export default function SupplerInvoiceForm() {
               fileObjects?.map((f) => f.file)
             );
             // console.log(compressedFile)
-            uploadAttachment(compressedFile, setDisabled)
+            attachmentUpload(compressedFile, setDisabled)
               .then((data) => {
                 const modifyPlyload = {
                   headerData: {
@@ -185,7 +185,7 @@ export default function SupplerInvoiceForm() {
                       imageId: data?.id,
                     };
                   }),
-                  rowListData: grnGridData.map(data=>{
+                  rowListData: grnGridData.map(data => {
                     return {
                       "actionBy": profileData?.userId,
                       "referenceAmount": data?.mrrAmount,
@@ -219,7 +219,7 @@ export default function SupplerInvoiceForm() {
                 fileObjects?.map((f) => f.file)
               );
               // console.log(compressedFile)
-              uploadAttachment(compressedFile, setDisabled)
+              attachmentUpload(compressedFile, setDisabled)
                 .then((data) => {
                   const modifyPlyload = {
                     headerData: {
@@ -230,7 +230,7 @@ export default function SupplerInvoiceForm() {
                         imageId: data?.id,
                       };
                     }),
-                    rowListData: grnGridData.map(data=>{
+                    rowListData: grnGridData.map(data => {
                       return {
                         "actionBy": profileData?.userId,
                         "referenceAmount": data?.mrrAmount,
@@ -258,7 +258,7 @@ export default function SupplerInvoiceForm() {
                   ...payload,
                 },
                 imageData: [],
-                rowListData: grnGridData.map(data=>{
+                rowListData: grnGridData.map(data => {
                   return {
                     "actionBy": profileData?.userId,
                     "referenceAmount": data?.mrrAmount,

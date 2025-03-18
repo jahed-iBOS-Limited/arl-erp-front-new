@@ -15,10 +15,9 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import { attachment_action, attachmentUpload } from '../../../../_helper/attachmentUpload';
 import {
   allowDelegationMenuPermission,
-  attachment_actionTwo,
   checkDelegationMenuPermission,
   delegateComplainApi,
   getComplainByIdWidthOutModify
@@ -590,7 +589,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               onClose={() => setOpenRow(false)}
               onSave={() => {
                 setOpenRow(false);
-                attachment_actionTwo(fileObjectsRow, setFieldValue, setLoading);
+                attachment_action(fileObjectsRow, setFieldValue, setLoading);
               }}
               showPreviews={true}
               showFileNamesInPreview={true}

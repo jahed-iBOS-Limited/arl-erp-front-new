@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import {
-  savePurchaseInvoice,
-  getWarehouseDDL,
-  uploadAttachment,
-  getPurchaseOrgDDL,
-  getTdsVdsAmount,
-} from "../../helper";
-import { toast } from "react-toastify";
-import "./purchaseInvoice.css";
-import IForm from "./../../../../../_helper/_form";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Loading from "./../../../../../_helper/_loading";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { compressfile } from "../../../../../_helper/compressfile";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
+import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
+import { compressfile } from "../../../../../_helper/compressfile";
+import {
+  getPurchaseOrgDDL,
+  getTdsVdsAmount,
+  getWarehouseDDL,
+  savePurchaseInvoice,
+} from "../../helper";
+import IForm from "./../../../../../_helper/_form";
+import Loading from "./../../../../../_helper/_loading";
+import { _todayDate } from "./../../../../../_helper/_todayDate";
+import Form from "./form";
+import "./purchaseInvoice.css";
 
 const initData = {
   purchaseOrg: "",
@@ -169,7 +169,7 @@ export default function SupplerInvoiceForm() {
         }
       }
 
-    
+
     } else {
       let data = grnDDLData?.map((data) => {
         let refAmount =
@@ -316,7 +316,7 @@ export default function SupplerInvoiceForm() {
               fileObjects?.map((f) => f.file)
             );
             // console.log(compressedFile)
-            uploadAttachment(compressedFile, setDisabled)
+            attachmentUpload(compressedFile, setDisabled)
               .then((data) => {
                 const modifyPlyload = {
                   headerData: {
@@ -353,7 +353,7 @@ export default function SupplerInvoiceForm() {
                 fileObjects?.map((f) => f.file)
               );
               // console.log(compressedFile)
-              uploadAttachment(compressedFile, setDisabled)
+              attachmentUpload(compressedFile, setDisabled)
                 .then((data) => {
                   const modifyPlyload = {
                     headerData: {
