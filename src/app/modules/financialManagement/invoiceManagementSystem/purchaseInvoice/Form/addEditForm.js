@@ -1,28 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import {
-  getSingleDataForEdit,
-  savePurchaseInvoice,
-  getSBUDDL,
-  getPlantDDL,
-  getWarehouseDDL,
-  getPurchaseOrgDDL,
-  getSupplierDDL,
-  getPurchaseDDL,
-  savePurchaseEditInvoice,
-  getGRNDDL,
-  purchaseInvoiceAttachment_action,
-} from "../helper";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import IForm from "../../../../_helper/_form";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import {
+  getPlantDDL,
+  getPurchaseOrgDDL,
+  getSBUDDL,
+  getSingleDataForEdit,
+  getSupplierDDL,
+  getWarehouseDDL,
+  savePurchaseEditInvoice,
+  savePurchaseInvoice
+} from "../helper";
 import "../purchaseInvoice.css";
 import Loading from "./../../../../_helper/_loading";
+import Form from "./form";
 
 const initData = {
   SBU: "",
@@ -87,8 +85,8 @@ export default function PurchaseInvoiceForm({
 
     if (
       (profileData?.accountId &&
-      selectedBusinessUnit?.value &&
-      location?.state?.selectSBU?.value)
+        selectedBusinessUnit?.value &&
+        location?.state?.selectSBU?.value)
     ) {
       getPurchaseOrgDDL(
         profileData.accountId,
@@ -123,7 +121,7 @@ export default function PurchaseInvoiceForm({
   }, [singleData]);
 
 
-  let singleDataCB = () =>{
+  let singleDataCB = () => {
     getSingleDataForEdit(id, setSingleData);
   }
 
@@ -278,7 +276,7 @@ export default function PurchaseInvoiceForm({
         };
         if (fileObjects.length > 0) {
           //true image attachment
-          purchaseInvoiceAttachment_action(fileObjects).then((data) => {
+          empAttachment_action(fileObjects).then((data) => {
             const modifyPlyload = {
               headerData: {
                 ...payload,
@@ -287,7 +285,7 @@ export default function PurchaseInvoiceForm({
               rowData: rowDatas,
             };
             if (grnGridData.length) {
-              savePurchaseEditInvoice(modifyPlyload, cb,setDisabled,singleDataCB);
+              savePurchaseEditInvoice(modifyPlyload, cb, setDisabled, singleDataCB);
             } else {
               toast.warning("You must have to add atleast one item");
             }
@@ -343,7 +341,7 @@ export default function PurchaseInvoiceForm({
         };
 
         if (fileObjects.length > 0) {
-          purchaseInvoiceAttachment_action(fileObjects).then((data) => {
+          empAttachment_action(fileObjects).then((data) => {
             const modifyPlyload = {
               headerData: {
                 ...payload,
@@ -439,8 +437,8 @@ export default function PurchaseInvoiceForm({
           setgrnGridData={setgrnGridData}
           purchaseOrderDDL={purchaseOrderDDL}
           purchaseOrg={location?.state?.selectpurchaseOrg?.value}
-          plantValue = {location?.state?.selectplant?.value}
-          warehouseValue = {location?.state?.selectwarehouse?.value}
+          plantValue={location?.state?.selectplant?.value}
+          warehouseValue={location?.state?.selectwarehouse?.value}
           sbuValue={location?.state.selectSBU.value}
         />
       </IForm>

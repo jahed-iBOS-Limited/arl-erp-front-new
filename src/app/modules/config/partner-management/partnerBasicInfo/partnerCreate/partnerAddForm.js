@@ -1,21 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import Form from '../common/form';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
-import { useSelector } from 'react-redux';
-import Loading from './../../../../_helper/_loading';
 import {
-  partnerBasicAttachment_action,
   createPartnerBasic_api,
-  getDistrictUpzillaStatus,
+  getDistrictUpzillaStatus
 } from '../helper';
+import Loading from './../../../../_helper/_loading';
 const initProduct = {
   cargoType: '',
   id: undefined,
@@ -100,7 +100,7 @@ export default function PartnerAddForm({
       try {
         if (fileObjects.length > 0) {
           // attachmentLink  add
-          partnerBasicAttachment_action(fileObjects).then((data) => {
+          empAttachment_action(fileObjects).then((data) => {
             // upload image link
             const modifyPlyload = {
               ...warehouseData,

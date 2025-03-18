@@ -18,7 +18,7 @@ export const getExpenseFor = async (accId, BuId, setter) => {
       setter(ddlWithNameID);
       // setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getBankAccountNumberDDL_Api = async (accId, BuId, setter) => {
   try {
@@ -29,7 +29,7 @@ export const getBankAccountNumberDDL_Api = async (accId, BuId, setter) => {
       setter(res?.data);
       // setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 
@@ -41,7 +41,7 @@ export const getCountry = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // currency api
@@ -54,7 +54,7 @@ export const getCurrency = async (BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // Payment Type api
@@ -65,7 +65,7 @@ export const getPaymentType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // category api
@@ -79,7 +79,7 @@ export const getCategory = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // project Name api
@@ -92,7 +92,7 @@ export const getProjectName = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // cost center api
@@ -105,7 +105,7 @@ export const getCostCenter = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 // get disbursment api
@@ -117,7 +117,7 @@ export const getDisbursementCenter = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 export const getBankAc = async (accId, BuId, setter) => {
@@ -128,7 +128,7 @@ export const getBankAc = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //create expense register
@@ -167,8 +167,8 @@ export const getExpenseLandingPagination = async (
 ) => {
   try {
     setLoading(true);
-    let apiUrl = supervisor === "employee" ? `/fino/Expense/ExpenseEmployeeLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&fromDate=${fromDate}&toDate=${toDate}` : 
-                                            `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`
+    let apiUrl = supervisor === "employee" ? `/fino/Expense/ExpenseEmployeeLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&fromDate=${fromDate}&toDate=${toDate}` :
+      `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`
 
     const res = await Axios.get(apiUrl);
     if (res.status === 200 && res?.data) {
@@ -221,13 +221,13 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
           expenseGroup:
             data?.objHeader?.expenseGroup === "TaDa"
               ? {
-                  value: "TaDa",
-                  label: "Ta/Da",
-                }
+                value: "TaDa",
+                label: "Ta/Da",
+              }
               : {
-                  value: "Other",
-                  label: "Other",
-                },
+                value: "Other",
+                label: "Other",
+              },
         },
         objRow: [...data?.objRow],
       };
@@ -238,17 +238,17 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
         return {
           ...item,
           expenseRowId: item.expenseRowId,
-          costCenter:{
-            label:item.costCenterName,
-            value:item.costCenterId,
+          costCenter: {
+            label: item.costCenterName,
+            value: item.costCenterId,
           },
-          profitCenter:{
-            label:item.profitCenterName,
-            value:item.profitCenterId,
+          profitCenter: {
+            label: item.profitCenterName,
+            value: item.profitCenterId,
           },
-          costElement:{
-            label:item.costElementName,
-            value:item.costElementId,
+          costElement: {
+            label: item.costElementName,
+            value: item.costElementId,
           },
           expenseDate: item.expenseDate,
           transaction: {
@@ -307,7 +307,7 @@ export const GetSumOfBalanceAmmount = async (
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //GetSumOfAdjustedAmmount
 export const GetSumOfAdjustedAmmount = async (
@@ -326,7 +326,7 @@ export const GetSumOfAdjustedAmmount = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //GetSumOfTotalExpense
 export const GetSumOfTotalExpense = async (
@@ -345,7 +345,7 @@ export const GetSumOfTotalExpense = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //Get Advance Code DDL api
 export const GetAdvanceCodeDDL = async (accId, BuId, SBUID, empId, setter) => {
@@ -364,7 +364,7 @@ export const GetAdvanceCodeDDL = async (accId, BuId, SBUID, empId, setter) => {
       });
       setter(addVanceDDL);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //created adjust with advance api
 export const createAdjustWithAdvance = async (data, cb) => {
@@ -391,7 +391,7 @@ export const getAdjustAdvanceInfoByAdvanceId = async (advanceId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // vehicle api
@@ -407,7 +407,7 @@ export const getVehicleDDL = async (accId, BuId, setter) => {
       ];
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 //BillSubmit_Api
@@ -429,24 +429,6 @@ export const BillSubmit_Api = async (
   }
 };
 
-export const expenseAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
 
 export const getExpensePlantDDLAction = async (accId, buId, setter) => {
   try {
@@ -459,7 +441,7 @@ export const getExpensePlantDDLAction = async (accId, buId, setter) => {
       label: item?.strPlantname,
     }));
     setter(modifyData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getFuelLogCash = async (enroll, date, setLoading) => {

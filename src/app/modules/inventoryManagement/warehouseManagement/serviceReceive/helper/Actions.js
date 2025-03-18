@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
-import { setLastInvDataAction } from '../../../../_helper/reduxForLocalStorage/Actions'
+import { setLastInvDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 
 export const getSBUDDL = async (accId, buId, setter) => {
@@ -200,24 +200,6 @@ export const getRowDtoForeignPOData = async (id, setter) => {
   } catch (error) { }
 };
 
-// export const attachment_action = async (attachment) => {
-//   try {
-//     let formData = new FormData();
-//     formData.append("files", attachment[0]);
-//     let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-//     toast.success("Upload  successfully");
-//     console.log(data);
-//     return data;
-//   } catch (err) {
-//
-//     toast.error(err?.response?.data?.message);
-//   }
-// };
-
 export const getSingleDataForEdit = async (id, setter) => {
   try {
     const res = await Axios.get(
@@ -329,25 +311,6 @@ export const getServiceReceivedDDL = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) { }
-};
-// image upload
-export const serviceReceiveAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    // toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
 };
 
 export const getReportServiceReceive = async (prId, setter) => {

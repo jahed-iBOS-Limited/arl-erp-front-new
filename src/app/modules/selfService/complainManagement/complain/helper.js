@@ -15,7 +15,7 @@ export const employeEnroll_Api = async (accId, buId, setter) => {
       }));
       setter(modify);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainStatus = async (buId, setter) => {
   try {
@@ -23,7 +23,7 @@ export const getComplainStatus = async (buId, setter) => {
       `/oms/CustomerPoint/ComplainStatus?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainCategory = async (buId, setter) => {
   try {
@@ -31,7 +31,7 @@ export const getComplainCategory = async (buId, setter) => {
       `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainSubcategoryApi = async (buId, ctgId, setter) => {
   try {
@@ -39,7 +39,7 @@ export const getComplainSubcategoryApi = async (buId, ctgId, setter) => {
       `/oms/CustomerPoint/ComplainSubcategory?BusinessUnitId=${buId}&ComplainCategoryId=${ctgId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainById = async (
   complainId,
@@ -60,47 +60,47 @@ export const getComplainById = async (
       occurrenceDate: _dateFormatter(res?.data?.requestDateTime),
       respondentType: res?.data?.respondentTypeId
         ? {
-            value: res?.data?.respondentTypeId,
-            label: res?.data?.respondentTypeName,
-          }
+          value: res?.data?.respondentTypeId,
+          label: res?.data?.respondentTypeName,
+        }
         : "",
       respondentName: res?.data?.respondentId
         ? {
-            value: res?.data?.respondentId,
-            label: res?.data?.respondentName,
-          }
+          value: res?.data?.respondentId,
+          label: res?.data?.respondentName,
+        }
         : "",
       respondentContact: res?.data?.contactNo || "",
       issueType: res?.data?.complainCategoryId
         ? {
-            value: res?.data?.complainCategoryId,
-            label: res?.data?.complainCategoryName,
-          }
+          value: res?.data?.complainCategoryId,
+          label: res?.data?.complainCategoryName,
+        }
         : "",
       issueSubType: res?.data?.complainSubCategoryId
         ? {
-            value: res?.data?.complainSubCategoryId,
-            label: res?.data?.complainSubCategoryName,
-          }
+          value: res?.data?.complainSubCategoryId,
+          label: res?.data?.complainSubCategoryName,
+        }
         : "",
       issueTitle: res?.data?.issueTitle || "",
       distributionChannel: res?.data?.distributionChannelId
         ? {
-            value: res?.data?.distributionChannelId,
-            label: res?.data?.distributionChannelName,
-          }
+          value: res?.data?.distributionChannelId,
+          label: res?.data?.distributionChannelName,
+        }
         : "",
       contactSource: res?.data?.contactSourceId
         ? {
-            value: res?.data?.contactSourceId,
-            label: res?.data?.contactSourceName,
-          }
+          value: res?.data?.contactSourceId,
+          label: res?.data?.contactSourceName,
+        }
         : "",
       product: res?.data?.itemId
         ? {
-            value: res?.data?.itemId,
-            label: res?.data?.itemName,
-          }
+          value: res?.data?.itemId,
+          label: res?.data?.itemName,
+        }
         : "",
       issueDetails: res?.data?.description || "",
 
@@ -109,9 +109,9 @@ export const getComplainById = async (
         : "",
       respondentBusinessUnit: res?.data?.respondentBusinessUnitId
         ? {
-            value: res?.data?.respondentBusinessUnitId,
-            label: res?.data?.respondentBusinessUnitIdName,
-          }
+          value: res?.data?.respondentBusinessUnitId,
+          label: res?.data?.respondentBusinessUnitIdName,
+        }
         : "",
       respondent: res?.data?.respondentType || "",
       respondentOrg: res?.data?.respondentOrg || "",
@@ -119,15 +119,15 @@ export const getComplainById = async (
       additionalCommentAndSuggestion: res?.data?.commentAndSuggestion || "",
       itemCategory: res?.data?.itemCategoryId
         ? {
-            value: res?.data?.itemCategoryId,
-            label: res?.data?.itemCategoryName,
-          }
+          value: res?.data?.itemCategoryId,
+          label: res?.data?.itemCategoryName,
+        }
         : "",
       challanOrPO: res?.data?.challanOrPoId
         ? {
-            value: res?.data?.challanOrPoId,
-            label: res?.data?.challanOrPoName,
-          }
+          value: res?.data?.challanOrPoId,
+          label: res?.data?.challanOrPoName,
+        }
         : "",
       deliveryDate: res?.data?.deliveryDate
         ? _dateFormatter(res?.data?.deliveryDate)
@@ -260,7 +260,7 @@ export const getSupplierDDLApi = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getItemSalesByChanneldDDLApi = async (
   accId,
@@ -299,7 +299,7 @@ export const complainLandingPasignation = async (
     const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
       `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId ||
-        0}&issueTypeId=${issueTypeId}`
+      0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -333,7 +333,7 @@ export const getBusinessUnitDDLApi = async (accId, setter) => {
       `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getItemCategoryDDL = async (accId, buId, setLoading, setter) => {
   setLoading(true);

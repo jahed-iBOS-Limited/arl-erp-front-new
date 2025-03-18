@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { toast } from "react-toastify";
 
 // getBusinessPartnerBasicinfoAction
 export const getBusinessPartnerBasicinfoAction = async (
@@ -15,27 +14,10 @@ export const getBusinessPartnerBasicinfoAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const attachmentUpload = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
+
 export const getBankNameDDL_api = async (setter) => {
   try {
     const res = await Axios.get(`/costmgmt/BankAccount/GETBankDDl`);
@@ -97,10 +79,10 @@ export const getBusinessPartnerSalesByPartnerId = async (
     const limitType = bothCheck
       ? "both"
       : data?.objData?.[0]?.isDayLimit
-      ? "dayesLimit"
-      : data?.objData?.length > 0
-      ? "creditLimit"
-      : "";
+        ? "dayesLimit"
+        : data?.objData?.length > 0
+          ? "creditLimit"
+          : "";
 
     const daysLimitFind = data?.objData?.find((itm) => itm?.isDayLimit);
 
@@ -111,72 +93,72 @@ export const getBusinessPartnerSalesByPartnerId = async (
       businessUnitId: buId,
       customerType: objDataGet?.customerType
         ? {
-            value: 100,
-            label: objDataGet?.customerType,
-          }
+          value: 100,
+          label: objDataGet?.customerType,
+        }
         : "",
       sbu: objDataGet?.businessAreaId
         ? {
-            value: objDataGet?.businessAreaId,
-            label: objDataGet?.businessAreaName,
-          }
+          value: objDataGet?.businessAreaId,
+          label: objDataGet?.businessAreaName,
+        }
         : "",
       salesOrganaization: objDataGet?.salesOrganizationId
         ? {
-            value: objDataGet?.salesOrganizationId,
-            label: objDataGet?.salesOrganizationName,
-          }
+          value: objDataGet?.salesOrganizationId,
+          label: objDataGet?.salesOrganizationName,
+        }
         : "",
       distributionChannel: objDataGet?.distributionChannelId
         ? {
-            value: objDataGet?.distributionChannelId,
-            label: objDataGet?.distributionChannelName,
-          }
+          value: objDataGet?.distributionChannelId,
+          label: objDataGet?.distributionChannelName,
+        }
         : "",
       salesTerriory:
         objDataGet?.territoryId && objDataGet?.territoryName
           ? {
-              value: objDataGet?.territoryId,
-              label: objDataGet?.territoryName,
-            }
+            value: objDataGet?.territoryId,
+            label: objDataGet?.territoryName,
+          }
           : "",
       transportZone: objDataGet?.transportZoneId
         ? {
-            value: objDataGet?.transportZoneId,
-            label: objDataGet?.transportZoneName,
-          }
+          value: objDataGet?.transportZoneId,
+          label: objDataGet?.transportZoneName,
+        }
         : "",
       reconGeneralLedger: objDataGet?.generalLederId
         ? {
-            value: objDataGet?.generalLederId,
-            label: objDataGet?.generalLederName,
-          }
+          value: objDataGet?.generalLederId,
+          label: objDataGet?.generalLederName,
+        }
         : "",
       alternetGeneralLedger: objDataGet?.alternateGlid
         ? {
-            value: objDataGet?.alternateGlid,
-            label: objDataGet?.alternateGlidName,
-          }
+          value: objDataGet?.alternateGlid,
+          label: objDataGet?.alternateGlidName,
+        }
         : "",
       shippingPoint: defaultShipPoint[0]?.shipPointId
         ? {
-            value: defaultShipPoint[0]?.shipPointId,
-            label: defaultShipPoint[0]?.shipPointName,
-          }
+          value: defaultShipPoint[0]?.shipPointId,
+          label: defaultShipPoint[0]?.shipPointName,
+        }
         : "",
       defaultDistanceKm: defaultShipPoint[0]?.distanceKm,
       creditLimit: objDataGet?.creditLimit,
       soldToParty: objDataGet?.soldToPartnerShipToPartnerID
         ? {
-            value: objDataGet?.soldToPartnerShipToPartnerID,
-            label: objDataGet?.soldToPartnerShipToPartnerName,
-          }
+          value: objDataGet?.soldToPartnerShipToPartnerID,
+          label: objDataGet?.soldToPartnerShipToPartnerName,
+        }
         : "",
       priceStructure: objDataGet?.priceStructureId
         ? {
-            value: objDataGet?.priceStructureId,
-            label: objDataGet?.priceStructureName,
-          }
+          value: objDataGet?.priceStructureId,
+          label: objDataGet?.priceStructureName,
+        }
         : "",
       collectionDays: objDataGet?.collectionDays || 0,
       bankName: "",
@@ -195,21 +177,21 @@ export const getBusinessPartnerSalesByPartnerId = async (
         limitType === "creditLimit" || limitType === "both" ? true : false,
       paymentMode: objDataGet?.creditFacilityTypeId
         ? {
-            value: objDataGet?.creditFacilityTypeId,
-            label: objDataGet?.creditFacilityTypeName,
-          }
+          value: objDataGet?.creditFacilityTypeId,
+          label: objDataGet?.creditFacilityTypeName,
+        }
         : "",
       partyStatusType: objDataGet?.partyStatusType
         ? {
-            value: objDataGet?.partyStatusType,
-            label: objDataGet?.partyStatusType,
-          }
+          value: objDataGet?.partyStatusType,
+          label: objDataGet?.partyStatusType,
+        }
         : "",
       customerCategory: objDataGet?.customerCategory
         ? {
-            value: objDataGet?.customerCategory,
-            label: objDataGet?.customerCategory,
-          }
+          value: objDataGet?.customerCategory,
+          label: objDataGet?.customerCategory,
+        }
         : "",
       exclusivity: objDataGet?.isExclusive
         ? { value: true, label: "Exclusive" }

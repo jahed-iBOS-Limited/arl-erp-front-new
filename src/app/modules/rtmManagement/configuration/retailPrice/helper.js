@@ -140,24 +140,6 @@ export const getRetailPriceId = async (
   }
 };
 
-export const retailPriceAttachment_action = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
-};
 
 export const getRetailPriceImageFile_api = async (id) => {
   try {
@@ -168,5 +150,5 @@ export const getRetailPriceImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) {}
+  } catch (error) { }
 };

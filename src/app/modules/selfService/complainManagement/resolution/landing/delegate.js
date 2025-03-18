@@ -15,13 +15,13 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import {
   allowDelegationMenuPermission,
-  attachment_action,
   attachment_actionTwo,
   checkDelegationMenuPermission,
   delegateComplainApi,
-  getComplainByIdWidthOutModify,
+  getComplainByIdWidthOutModify
 } from '../helper';
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required('Delegate Date is required'),
@@ -102,9 +102,9 @@ function DelegateForm({ clickRowData, landingCB }) {
             'delegateTo',
             resData?.delegateToId
               ? {
-                  value: resData?.delegateToId,
-                  label: resData?.delegateToName,
-                }
+                value: resData?.delegateToId,
+                label: resData?.delegateToName,
+              }
               : '',
           );
           formikRef.current.setFieldValue(
@@ -559,7 +559,12 @@ function DelegateForm({ clickRowData, landingCB }) {
               onClose={() => setOpen(false)}
               onSave={() => {
                 setOpen(false);
-                attachment_action(fileObjects, setFieldValue, setLoading);
+                attachmentUpload(fileObjects, setLoading).then((data) => {
+                  setFieldValue("attachment", data?.[0]?.id);
+                })
+                  .catch((err) => {
+                    setFieldValue("attachment", "");
+                  });
               }}
               showPreviews={true}
               showFileNamesInPreview={true}
