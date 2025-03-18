@@ -4,6 +4,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import IView from '../../../_helper/_helperIcons/_view';
 import Loading from '../../../_helper/_loading';
+import { attachmentUpload } from '../../../_helper/attachmentUpload';
 import { compressfile } from '../../../_helper/compressfile';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import AdvForInternalView from '../approvebillregister/advForInternal';
@@ -24,7 +25,6 @@ import ViewG2GLighterBill from './g2gLighterBill/view/viewBillRegister';
 import ViewG2GTruckBill from './g2gTruckBill/view/viewBillRegister';
 import ViewGhatLoadUnloadBill from './ghatLoadUnloadBill/view/viewBillRegister';
 import ViewHatchLaborBill from './hatchLaborBill/view/table';
-import { uploadAttachment } from './helper';
 import ViewInternalTransportBill from './internalTransportBill/view/viewBillRegister';
 import ViewLabourBill from './labourBill/view/viewBillRegister';
 import ViewMotherVesselBill from './motherVesselBill/view/viewBillRegister';
@@ -33,10 +33,10 @@ import ViewPumpFoodingBill from './pumpFoodingBill/view/viewPumpFoodingBill';
 import PumpFoodingBillDetails from './pumpFoodingBillDetails';
 import RejectModel from './rejectModel/form';
 import ViewSalesCommission from './salesCommission/view/viewSalesCommission';
+import SalesForceIncetiveDetailsModal from './salesForceIncentive/detailsModal';
 import ViewStevedoreBill from './stevedoreBill/view/table';
 import ViewSurveyorBill from './surveyorBill/view/table';
 import ViewTransportBill from './transportBill/view/viewBillRegister';
-import SalesForceIncetiveDetailsModal from './salesForceIncentive/detailsModal';
 const GridData = ({
   rowDto,
   values,
@@ -70,7 +70,7 @@ const GridData = ({
   const saveHandler = async () => {
     if (!fileObjects.length) return null;
     const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
-    uploadAttachment(compressedFile, setDisabled).then((res) => {
+    attachmentUpload(compressedFile, setDisabled).then((res) => {
       const attachment = res?.[0] || '';
       const payload = [
         {
@@ -183,7 +183,7 @@ const GridData = ({
                           />
                         )}
                         {tableData?.billType === 5 &&
-                        tableData?.attatchment?.length ? (
+                          tableData?.attatchment?.length ? (
                           <IView
                             title="View Attachment"
                             clickHandler={() => {
@@ -352,8 +352,8 @@ const GridData = ({
               <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
 
-            {gridItem?.billType===35 && 
-            <SalesForceIncetiveDetailsModal gridItem={gridItem}/>            
+            {gridItem?.billType === 35 &&
+              <SalesForceIncetiveDetailsModal gridItem={gridItem} />
             }
           </IViewModal>
 

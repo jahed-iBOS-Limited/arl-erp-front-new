@@ -12,6 +12,7 @@ import InputField from '../../../../../_helper/_inputField';
 import Loading from '../../../../../_helper/_loading';
 import NewSelect from '../../../../../_helper/_select';
 import { _todayDate } from '../../../../../_helper/_todayDate';
+import { uploadAttachment } from '../../../../../_helper/attachmentUpload';
 import { compressfile } from '../../../../../_helper/compressfile';
 import {
   getItemforReceiveInvAction,
@@ -24,11 +25,11 @@ import {
   saveInventoryTransactionOrder,
 } from '../../_redux/Actions';
 import { invTransactionSlice } from '../../_redux/Slice';
-import { getForeignPurchaseDDL, uploadAttachment } from '../../helper';
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../../_helper/_formikError';
 import { getSupplierDDL, initData, validationSchema } from './helper';
 import RowDtoTable from './rowDtoTable';
+import { getForeignPurchaseDDL } from '../../../itemQualityCheck/helper';
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -437,7 +438,7 @@ export default function ReceiveInvCreateForm({
             };
             modifyPlyload.objHeader['isPOS'] =
               landingData?.warehouse?.isPOS &&
-              modifyPlyload?.objHeader?.referenceTypeId === 1
+                modifyPlyload?.objHeader?.referenceTypeId === 1
                 ? true
                 : false;
             let compressedFile = [];
@@ -594,9 +595,9 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           valueOption?.actionBy
                             ? {
-                                value: valueOption?.actionBy || 0,
-                                label: valueOption?.actionName || '',
-                              }
+                              value: valueOption?.actionBy || 0,
+                              label: valueOption?.actionName || '',
+                            }
                             : '',
                         );
                         setFieldValue('item', '');
@@ -668,9 +669,9 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || '',
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || '',
+                            }
                             : '',
                         );
                         setFieldValue('freight', data?.freight);
@@ -684,13 +685,11 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${
-                              selectedBusinessUnit?.value || 0
-                            }&SbuId=${landingData?.sbu?.value || 0}&PlantId=${
-                              landingData?.plant?.value || 0
-                            }&WearhouseId=${
-                              landingData?.warehouse?.value || 0
-                            }&Search=${v || ''}`,
+                            `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value ||
+                            0}&SbuId=${landingData?.sbu?.value ||
+                            0}&PlantId=${landingData?.plant?.value ||
+                            0}&WearhouseId=${landingData?.warehouse?.value ||
+                            0}&Search=${v || ''}`,
                           )
                           .then((res) => {
                             // const updateList = res?.data.map((item) => ({
@@ -754,9 +753,9 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || '',
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || '',
+                            }
                             : '',
                         );
                         setFieldValue('freight', data?.freight);
@@ -778,37 +777,37 @@ export default function ReceiveInvCreateForm({
                 )}
                 {values?.refNo?.purchaseOrganizationName ===
                   'Foreign Procurement' && (
-                  <div className="col-lg-2">
-                    <NewSelect
-                      label="Invoice"
-                      options={foreignPurchaseDDL}
-                      value={values?.foreignPurchase}
-                      placeholder="Invoice"
-                      name="foreignPurchase"
-                      onChange={(value) => {
-                        setFieldValue('foreignPurchase', value);
-                        setRowDto([]);
-                        if (!value?.isApprove) {
-                          return toast.warn(
-                            "Your 'Invoice Number' invoice has not been approved, Please approve it",
+                    <div className="col-lg-2">
+                      <NewSelect
+                        label="Invoice"
+                        options={foreignPurchaseDDL}
+                        value={values?.foreignPurchase}
+                        placeholder="Invoice"
+                        name="foreignPurchase"
+                        onChange={(value) => {
+                          setFieldValue('foreignPurchase', value);
+                          setRowDto([]);
+                          if (!value?.isApprove) {
+                            return toast.warn(
+                              "Your 'Invoice Number' invoice has not been approved, Please approve it",
+                            );
+                          }
+                          dispatch(
+                            getItemforReceiveInvForeignPOAction(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              values?.refNo?.value,
+                              value?.value,
+                            ),
                           );
-                        }
-                        dispatch(
-                          getItemforReceiveInvForeignPOAction(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            values?.refNo?.value,
-                            value?.value,
-                          ),
-                        );
-                      }}
-                      //setFieldValue={setFieldValue}
-                      isDisabled={values.refType === ''}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
+                        }}
+                        //setFieldValue={setFieldValue}
+                        isDisabled={values.refType === ''}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                 <div className="col-lg-2">
                   <NewSelect
                     label="Transaction Type"
@@ -1017,17 +1016,12 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${
-                              profileData.accountId
-                            }&businessUnitId=${
-                              selectedBusinessUnit?.value || 0
-                            }&plantId=${
-                              landingData?.plant?.value || 0
-                            }&warehouseId=${
-                              landingData?.warehouse?.value || 0
-                            }&searchTerm=${v || ''}&RefTypeId=${
-                              values?.refType?.value || 0
-                            }`,
+                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId
+                            }&businessUnitId=${selectedBusinessUnit?.value ||
+                            0}&plantId=${landingData?.plant?.value ||
+                            0}&warehouseId=${landingData?.warehouse?.value ||
+                            0}&searchTerm=${v || ''}&RefTypeId=${values
+                              ?.refType?.value || 0}`,
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -1115,7 +1109,7 @@ export default function ReceiveInvCreateForm({
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                    // style={{ marginTop: "45px" }}
+                  // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}

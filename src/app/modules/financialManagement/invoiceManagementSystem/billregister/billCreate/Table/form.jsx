@@ -1,39 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'react-redux';
-import InputField from './../../../../../_helper/_inputField';
-import { useLocation, useHistory } from 'react-router-dom';
-import NewSelect from './../../../../../_helper/_select';
-import {
-  GetApproveExpensesGroupApi,
-  GetApproveAdvancesApi,
-  billregisterAttachment_action,
-  SaveBillRegister_api,
-  GetApproveExpensesApi,
-  getExpenseFor,
-  getCostCenterDDL,
-} from './../../helper';
+import { Form, Formik } from 'formik';
 import moment from 'moment';
-import Loading from './../../../../../_helper/_loading';
-import AdvancesForIntGrid from './../../advancesForInt/advancesForInt';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
+import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import InternalExpenseGrid from '../../internalExpense/InternalExpenseGrid';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { YearDDL } from './../../../../../_helper/_yearDDL';
-import { _dateFormatter } from './../../../../../_helper/_dateFormate';
-import { _todayDate } from './../../../../../_helper/_todayDate';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
+import InternalExpenseGrid from '../../internalExpense/InternalExpenseGrid';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from './../../../../../../../_metronic/_partials/controls';
-import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../../../_helper/_dateFormate';
+import InputField from './../../../../../_helper/_inputField';
+import Loading from './../../../../../_helper/_loading';
+import NewSelect from './../../../../../_helper/_select';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import { YearDDL } from './../../../../../_helper/_yearDDL';
+import AdvancesForIntGrid from './../../advancesForInt/advancesForInt';
+import {
+  GetApproveAdvancesApi,
+  GetApproveExpensesApi,
+  GetApproveExpensesGroupApi,
+  getCostCenterDDL,
+  getExpenseFor,
+  SaveBillRegister_api
+} from './../../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const monthDDL = [
@@ -78,10 +76,10 @@ export default function HeaderForm() {
     expenseGroup:
       headerData?.billType?.value === 4
         ? {
-            value: 'Other',
-            label: 'Other',
-          }
-        : '',
+          value: "Other",
+          label: "Other",
+        }
+        : "",
     isGroup:
       headerData?.billType?.value === 4 ? { value: 2, label: 'Group' } : '',
   };
@@ -291,7 +289,7 @@ export default function HeaderForm() {
     };
     if (fileObjects?.length > 0) {
       // if image upload
-      billregisterAttachment_action(fileObjects, setDisabled)
+      attachmentUpload(fileObjects, setDisabled)
         .then((data) => {
           const newPayload = {
             ...payload,

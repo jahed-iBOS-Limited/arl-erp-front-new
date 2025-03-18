@@ -14,7 +14,7 @@ export const employeEnroll_Api = async (accId, buId, setter) => {
       }));
       setter(modify);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainStatus = async (buId, setter) => {
   try {
@@ -22,7 +22,7 @@ export const getComplainStatus = async (buId, setter) => {
       `/oms/CustomerPoint/ComplainStatus?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainCategory = async (buId, setter) => {
   try {
@@ -30,7 +30,7 @@ export const getComplainCategory = async (buId, setter) => {
       `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getComplainById = async (
   complainId,
@@ -50,35 +50,35 @@ export const getComplainById = async (
       occurrenceDate: _dateFormatter(res?.data?.requestDateTime),
       respondentType: res?.data?.respondentTypeId
         ? {
-            value: res?.data?.respondentTypeId,
-            label: res?.data?.respondentTypeName,
-          }
+          value: res?.data?.respondentTypeId,
+          label: res?.data?.respondentTypeName,
+        }
         : "",
       respondentName: res?.data?.respondentId
         ? {
-            value: res?.data?.respondentId,
-            label: res?.data?.respondentName,
-          }
+          value: res?.data?.respondentId,
+          label: res?.data?.respondentName,
+        }
         : "",
       respondentContact: res?.data?.contactNo || "",
       issueType: res?.data?.complainCategoryId
         ? {
-            value: res?.data?.complainCategoryId,
-            label: res?.data?.complainCategoryName,
-          }
+          value: res?.data?.complainCategoryId,
+          label: res?.data?.complainCategoryName,
+        }
         : "",
       issueTitle: res?.data?.issueTitle || "",
       distributionChannel: res?.data?.distributionChannelId
         ? {
-            value: res?.data?.distributionChannelId,
-            label: res?.data?.distributionChannelName,
-          }
+          value: res?.data?.distributionChannelId,
+          label: res?.data?.distributionChannelName,
+        }
         : "",
       product: res?.data?.itemId
         ? {
-            value: res?.data?.itemId,
-            label: res?.data?.itemName,
-          }
+          value: res?.data?.itemId,
+          label: res?.data?.itemName,
+        }
         : "",
       issueDetails: res?.data?.description || "",
     });
@@ -87,57 +87,9 @@ export const getComplainById = async (
   }
 };
 
-export const attachment_action = async (
-  attachment,
-  setFieldValue,
-  setLoading
-) => {
-  setLoading(true);
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  setFieldValue("attachment", "");
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    toast.success("Upload  successfully");
-    setFieldValue("attachment", data?.[0]?.id);
-    setLoading(false);
-  } catch (error) {
-    setLoading(false);
-    toast.error("Document not upload");
-  }
-};
 
-export const attachment_actionTwo = async (
-  attachment,
-  setFieldValue,
-  setLoading
-) => {
-  setLoading(true);
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  setFieldValue("attachment", "");
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    toast.success("Upload  successfully");
-    setFieldValue("attachmentRow", data?.[0]?.id);
-    setLoading(false);
-  } catch (error) {
-    setLoading(false);
-    toast.error("Document not upload");
-  }
-};
+
+
 
 export const createComplain = async (payload, setLoading, cb) => {
   setLoading(true);
@@ -296,7 +248,7 @@ export const getSupplierDDLApi = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getItemSalesByChanneldDDLApi = async (
   accId,
@@ -319,7 +271,7 @@ export const getInvestigateComplainbyApi = async (complainId, setter) => {
       `/oms/CustomerPoint/InvestigateComplainbyId?ComplainId=${complainId}`
     );
     setter(res?.data || []);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const complainLandingPasignationByEmployeeId = async (
@@ -345,7 +297,7 @@ export const complainLandingPasignationByEmployeeId = async (
     const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
     const res = await axios.get(
       `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId ||
-        0}&issueTypeId=${issueTypeId}`
+      0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);

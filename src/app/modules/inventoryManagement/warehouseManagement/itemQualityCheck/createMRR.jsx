@@ -15,7 +15,7 @@ import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
-import { empAttachment_action } from '../../../_helper/attachmentUpload';
+import { uploadAttachment } from '../../../_helper/attachmentUpload';
 import { compressfile } from '../../../_helper/compressfile';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import RowDtoTable from '../invTransaction/Form/receiveInventory/rowDtoTable';
@@ -32,7 +32,6 @@ import {
   initData,
   validationSchemaForMRR
 } from './helper';
-import { uploadAttachment } from '../mrrCancel/helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
   // eslint-disable-next-line no-unused-vars

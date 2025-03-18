@@ -14,9 +14,9 @@ import InputField from '../../../../_helper/_inputField';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
 import IViewModal from '../../../../_helper/_viewModal';
+import { attachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
-  attachment_action,
   customerListDDL,
   getBusinessUnitDDLApi,
   getComplainCategory,
@@ -176,15 +176,15 @@ function Form({
               view
                 ? false
                 : () => {
-                    handleSubmit();
-                  }
+                  handleSubmit();
+                }
             }
             resetHandler={
               view
                 ? false
                 : () => {
-                    resetForm(initData);
-                  }
+                  resetForm(initData);
+                }
             }
           >
             <form>
@@ -435,9 +435,9 @@ function Form({
                         setFieldValue('sourceCustomerType', valueOption);
                       }}
                       placeholder="Source Customer Type"
-                      // errors={errors}
-                      // touched={touched}
-                      // isDisabled={!values?.respondentBusinessUnit || view}
+                    // errors={errors}
+                    // touched={touched}
+                    // isDisabled={!values?.respondentBusinessUnit || view}
                     />
                   </div>
                 )}
@@ -809,9 +809,8 @@ function Form({
                 <div className="col-lg-3">
                   <InputField
                     value={values?.deliveryDate}
-                    label={`${
-                      values?.respondentType?.value === 2 ? 'PO' : 'Challan'
-                    } Date`}
+                    label={`${values?.respondentType?.value === 2 ? 'PO' : 'Challan'
+                      } Date`}
                     placeholder="Delivery Date"
                     name="deliveryDate"
                     type="date"

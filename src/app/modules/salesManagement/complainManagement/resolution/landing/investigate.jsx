@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
@@ -12,8 +12,8 @@ import FormikError from '../../../../_helper/_formikError';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { attachment_action } from "../../../../_helper/attachmentUpload";
 import {
-  attachment_action,
   getComplainByIdWidthOutModify,
   investigateComplainApi,
 } from '../helper';
@@ -79,10 +79,10 @@ function InvestigateForm({ clickRowData, landingCB }) {
             'investigationPerson',
             matchEmployee
               ? {
-                  value: matchEmployee?.investigatorId,
-                  label: matchEmployee?.investigatorName,
-                }
-              : '',
+                value: matchEmployee?.investigatorId,
+                label: matchEmployee?.investigatorName,
+              }
+              : ""
           );
           formikRef.current.setFieldValue(
             'investigationDueDate',
@@ -109,9 +109,9 @@ function InvestigateForm({ clickRowData, landingCB }) {
             'investigationDateTime',
             matchEmployee?.investigationDateTime
               ? moment(matchEmployee?.investigationDateTime).format(
-                  'YYYY-MM-DDTHH:mm',
-                )
-              : '',
+                "YYYY-MM-DDTHH:mm"
+              )
+              : ""
           );
         }
       });
@@ -198,10 +198,11 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
+
               </div>
               <div>
                 <p>
-                  <b>Create Date: </b>{' '}
+                  <b>Create Date: </b>{" "}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
                       'YYYY-MM-DD hh:mm A',
@@ -306,9 +307,10 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   </label>
                   <InputField
                     value={values?.investigationDateTime}
-                    placeholder="Investigation Date"
-                    name="investigationDateTime"
-                    type="datetime-local"
+
+                    placeholder='Investigation Date'
+                    name='investigationDateTime'
+                    type='datetime-local'
                   />
                 </div>
 

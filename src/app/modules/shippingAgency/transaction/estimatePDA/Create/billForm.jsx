@@ -1,19 +1,20 @@
 import { Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { attachment_action } from '../helper';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
-import IDelete from '../../../../_helper/_helperIcons/_delete';
-import IEdit from '../../../../_helper/_helperIcons/_edit';
+
 const validationSchema = Yup.object().shape({});
 const initData = {
   billDate: _todayDate(),
@@ -181,10 +182,10 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       errors={errors}
                       touched={touched}
                       onChange={(e) => {
-                        setFieldValue('amount', e.target.value);
+                        setFieldValue("amount", e.target.value);
                         const amount = +e.target.value || 0;
                         const vat = +values?.vat || 0;
-                        setFieldValue('total', amount + vat);
+                        setFieldValue("total", amount + vat);
                       }}
                     />
                   </div>
@@ -198,10 +199,10 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       errors={errors}
                       touched={touched}
                       onChange={(e) => {
-                        setFieldValue('vat', e.target.value);
+                        setFieldValue("vat", e.target.value);
                         const amount = +values?.amount || 0;
                         const vat = +e.target.value || 0;
-                        setFieldValue('total', amount + vat);
+                        setFieldValue("total", amount + vat);
                       }}
                     />
                   </div>

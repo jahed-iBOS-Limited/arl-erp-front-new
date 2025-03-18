@@ -2,14 +2,14 @@ import { DropzoneDialogBase } from "react-mui-dropzone";
 import React, { useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { compressfile } from "../../../_helper/compressfile";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import IView from "../../../_helper/_helperIcons/_view";
 import Loading from "../../../_helper/_loading";
 import IViewModal from "../../../_helper/_viewModal";
-import { uploadAttachment } from "../billregister/helper";
+import { attachmentUpload } from "../../../_helper/attachmentUpload";
+import { compressfile } from "../../../_helper/compressfile";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import RejectModel from "../billregister/rejectModel/form";
 import ShippingInvoiceView from "./shippingInvoiceView";
 const GridData = ({
@@ -36,7 +36,7 @@ const GridData = ({
   const saveHandler = async () => {
     if (!fileObjects.length) return null;
     const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
-    uploadAttachment(compressedFile, setDisabled).then((res) => {
+    attachmentUpload(compressedFile, setDisabled).then((res) => {
       const attachment = res?.[0] || "";
       const payload = [
         {

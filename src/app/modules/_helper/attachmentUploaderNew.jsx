@@ -1,14 +1,14 @@
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { toast } from 'react-toastify';
 import {
-  uploadAttachment,
   uploadAttachmentForPeopleDeskApi,
   uploadAttachmentNew,
 } from '../financialManagement/invoiceManagementSystem/billregister/helper';
-import { compressfile } from './compressfile';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Loading from './_loading';
+import { attachmentUpload } from "./attachmentUpload";
+import { compressfile } from './compressfile';
 
 export default function AttachmentUploaderNew({
   CBAttachmentRes,
@@ -66,12 +66,7 @@ export default function AttachmentUploaderNew({
       <DropzoneDialogBase
         filesLimit={fileUploadLimits || 3}
         showAlerts={false}
-        acceptedFiles={[
-          'image/*',
-          'application/pdf',
-          'application/vnd.ms-excel',
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        ]}
+        acceptedFiles={["image/*", "application/pdf", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]}
         fileObjects={fileObjects}
         cancelButtonText={'cancel'}
         submitButtonText={'submit'}
@@ -117,12 +112,12 @@ export default function AttachmentUploaderNew({
               } else {
                 // const uploadFunction = isForPublicRoute
                 //   ? uploadAttachmentNew
-                //   : uploadAttachment;
+                //   : attachmentUpload;
                 const uploadFunction = isForPublicRoute
                   ? uploadAttachmentNew
                   : isForPeopleDeskApi
-                  ? uploadAttachmentForPeopleDeskApi
-                  : uploadAttachment;
+                    ? uploadAttachmentForPeopleDeskApi
+                    : attachmentUpload;
 
                 uploadFunction(compressedFile, setLoading)
                   .then((res) => {
