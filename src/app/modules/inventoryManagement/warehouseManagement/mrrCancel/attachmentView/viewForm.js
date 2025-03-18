@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { DropzoneDialogBase } from 'material-ui-dropzone';
 import React, { useEffect, useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { DropzoneDialogBase } from 'material-ui-dropzone'
-import { uploadAttachment, getAttachmentLandingData, saveAttchmentForPo } from "../helper";
-import { toast } from "react-toastify";
-import IView from "../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { toast } from "react-toastify";
+import ICustomTable from "../../../../_helper/_customTable";
 import IClose from "../../../../_helper/_helperIcons/_close";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { uploadAttachment } from "../../../../_helper/attachmentUpload";
+import { getAttachmentLandingData, saveAttchmentForPo } from "../helper";
 
 
 
@@ -44,7 +45,6 @@ export default function ViewForm({
     // save modal data to rowDto and calculate netValue
     const saveHandler = () => {
         uploadAttachment(fileObjects).then((res) => {
-            console.log(res)
             const payload = {
                 referenceId: poData?.inventoryTransactionId,
                 referenceCode: poData?.inventoryTransactionCode,

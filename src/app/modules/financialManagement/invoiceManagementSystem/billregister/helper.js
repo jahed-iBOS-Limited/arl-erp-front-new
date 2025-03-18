@@ -1,9 +1,9 @@
 import { default as Axios, default as axios } from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { eProcurementBaseURL } from "../../../../App";
 import { _fixedPoint } from "./../../../_helper/_fixedPoint";
 import { _todayDate } from "./../../../_helper/_todayDate";
-import { eProcurementBaseURL } from "../../../../App";
 // Plant DDL Call
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -517,30 +517,6 @@ export const savePurchaseEditInvoice = async (
   }
 };
 
-export const billregisterAttachment_action = async (
-  attachment,
-  setDisabled
-) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    setDisabled && setDisabled(true);
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
-    return data;
-  } catch (error) {
-    setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
-  }
-};
 
 export const GetAdvanceForSupplierById = async (poId, setter) => {
   try {
@@ -1000,27 +976,6 @@ export const PostLabourBillEntry_api = async (
   }
 };
 
-export const uploadAttachment = async (attachment, setDisabled) => {
-  setDisabled && setDisabled(true);
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
-    return data;
-  } catch (error) {
-    setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
-  }
-};
 
 export const uploadAttachmentForPeopleDeskApi = async (
   attachment,

@@ -93,17 +93,7 @@ export const transGrupDDL = async (setter) => {
   } catch (error) { }
 };
 
-export const uploadAttachment = (attachment) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  return Axios.post("/domain/Document/UploadFile", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-};
+
 
 export const getImageFile_api = async (id) => {
   try {
