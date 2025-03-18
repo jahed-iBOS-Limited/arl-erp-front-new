@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { toast } from "react-toastify";
-import "./purchaseInvoice.css";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { getImageuploadStatus } from "../../../../_helper/_commonApi";
-import { compressfile } from "../../../../_helper/compressfile";
-import { getPurchaseOrgDDL, getWarehouseDDL, uploadAttachment } from "../../billregister/helper";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import { compressfile } from "../../../../_helper/compressfile";
+import { getPurchaseOrgDDL, getWarehouseDDL } from "../../billregister/helper";
 import { saveShippingPurchaseInvoice } from "../helper";
+import Form from "./form";
+import "./purchaseInvoice.css";
 
 const initData = {
   purchaseOrg: "",
@@ -237,7 +238,7 @@ export default function ShippingSupplerInvoiceForm() {
   console.log("headerData", headerData)
 
   const saveHandler = async (values, cb) => {
-    if(!values?.warehouse?.value){
+    if (!values?.warehouse?.value) {
       return toast.warn("Please select Warehouse.")
     }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -288,7 +289,7 @@ export default function ShippingSupplerInvoiceForm() {
               fileObjects?.map((f) => f.file)
             );
             // console.log(compressedFile)
-            uploadAttachment(compressedFile, setDisabled)
+            attachmentUpload(compressedFile, setDisabled)
               .then((data) => {
                 const modifyPlyload = {
                   headerData: {
@@ -325,7 +326,7 @@ export default function ShippingSupplerInvoiceForm() {
                 fileObjects?.map((f) => f.file)
               );
               // console.log(compressedFile)
-              uploadAttachment(compressedFile, setDisabled)
+              attachmentUpload(compressedFile, setDisabled)
                 .then((data) => {
                   const modifyPlyload = {
                     headerData: {

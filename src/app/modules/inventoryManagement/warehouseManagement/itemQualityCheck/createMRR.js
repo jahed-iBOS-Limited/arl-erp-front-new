@@ -15,6 +15,7 @@ import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
+import { uploadAttachment } from '../../../_helper/attachmentUpload';
 import { compressfile } from '../../../_helper/compressfile';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import RowDtoTable from '../invTransaction/Form/receiveInventory/rowDtoTable';
@@ -29,8 +30,7 @@ import {
   getForeignPurchaseDDL,
   getSupplierDDL,
   initData,
-  uploadAttachment,
-  validationSchemaForMRR,
+  validationSchemaForMRR
 } from './helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
@@ -169,7 +169,7 @@ export default function CreateMRR() {
           totalValue: item.basePrice.toFixed(2) * item.qcActualQuantity || 0,
           netValue:
             (item.vatAmount / item?.refQty) * item?.qcActualQuantity +
-              item?.basePrice.toFixed(2) * item?.qcActualQuantity || 0,
+            item?.basePrice.toFixed(2) * item?.qcActualQuantity || 0,
         }));
         console.log('updatedItems', updatedItems);
         setModifiedInitData(makeInitData);
@@ -270,7 +270,7 @@ export default function CreateMRR() {
       _sl['totalValue'] = _sl?.baseValue.toFixed(2) * +value;
       _sl['netValue'] =
         (_sl?.vatValue / _sl?.refQty) * +value +
-          _sl?.baseValue.toFixed(2) * +value || 0;
+        _sl?.baseValue.toFixed(2) * +value || 0;
     } else if (name === 'baseValue') {
       _sl[name] = value ? +value : value;
     } else {
@@ -583,9 +583,9 @@ export default function CreateMRR() {
                         'busiPartner',
                         data?.supplierId
                           ? {
-                              value: data?.supplierId || 0,
-                              label: data?.supplierName || '',
-                            }
+                            value: data?.supplierId || 0,
+                            label: data?.supplierName || '',
+                          }
                           : '',
                       );
                       setFieldValue('freight', data?.freight);
@@ -871,7 +871,7 @@ export default function CreateMRR() {
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                    // style={{ marginTop: "45px" }}
+                  // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}
@@ -895,7 +895,7 @@ export default function CreateMRR() {
                 stockDDL={stockDDL}
                 locationTypeDDL={locationTypeDDL}
                 values={values}
-                //   landingData={landingData}
+              //   landingData={landingData}
               />
 
               <DropzoneDialogBase

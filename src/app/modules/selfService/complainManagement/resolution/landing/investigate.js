@@ -12,10 +12,10 @@ import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 import {
-  attachment_action,
   getComplainByIdWidthOutModify,
-  investigateComplainApi,
+  investigateComplainApi
 } from "../helper";
 export const validationSchema = Yup.object().shape({
   investigationDateTime: Yup.string().required(
@@ -79,9 +79,9 @@ function InvestigateForm({ clickRowData, landingCB }) {
             "investigationPerson",
             matchEmployee
               ? {
-                  value: matchEmployee?.investigatorId,
-                  label: matchEmployee?.investigatorName,
-                }
+                value: matchEmployee?.investigatorId,
+                label: matchEmployee?.investigatorName,
+              }
               : ""
           );
           formikRef.current.setFieldValue(
@@ -109,8 +109,8 @@ function InvestigateForm({ clickRowData, landingCB }) {
             "investigationDateTime",
             matchEmployee?.investigationDateTime
               ? moment(matchEmployee?.investigationDateTime).format(
-                  "YYYY-MM-DDTHH:mm"
-                )
+                "YYYY-MM-DDTHH:mm"
+              )
               : ""
           );
         }
@@ -198,10 +198,10 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
-               
+
               </div>
               <div>
-              <p>
+                <p>
                   <b>Create Date: </b>{" "}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
@@ -235,7 +235,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 )}
                 {singleData?.respondentTypeName === "End User" && (
                   <>
-                  <p>
+                    <p>
                       <b>Territory Name:</b> {singleData?.territoryName}
                     </p>
                     <p>
@@ -244,7 +244,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                     <p>
                       <b>Region Name:</b> {singleData?.regionName}
                     </p>
-                    
+
                   </>
                 )}
                 <p>
@@ -301,7 +301,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   }}>*</b> Investigation Date</label>
                   <InputField
                     value={values?.investigationDateTime}
-                    
+
                     placeholder='Investigation Date'
                     name='investigationDateTime'
                     type='datetime-local'
@@ -377,7 +377,12 @@ function InvestigateForm({ clickRowData, landingCB }) {
               onClose={() => setOpen(false)}
               onSave={() => {
                 setOpen(false);
-                attachment_action(fileObjects, setFieldValue, setLoading);
+                attachmentUpload(fileObjects, setLoading).then((data) => {
+                  setFieldValue("attachment", data?.[0]?.id);
+                })
+                  .catch((err) => {
+                    setFieldValue("attachment", "");
+                  });
               }}
               showPreviews={true}
               showFileNamesInPreview={true}

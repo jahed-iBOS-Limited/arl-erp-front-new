@@ -1,35 +1,35 @@
 /* eslint-disable eqeqeq */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import NewSelect from "../../../../../_helper/_select";
-import { validationSchema, initData, getSupplierDDL } from "./helper";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { uploadAttachment } from "../../../../../_helper/attachmentUpload";
+import { compressfile } from "../../../../../_helper/compressfile";
 import {
-  getreferenceTypeDDLAction,
-  // getTransactionTypeDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionOrder,
-  getStockDDLAction,
   // getreferenceNoReceiveInvDDLAction,
   getItemforReceiveInvAction,
   getItemforReceiveInvForeignPOAction,
+  // getTransactionTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  saveInventoryTransactionOrder,
 } from "../../_redux/Actions";
-import RowDtoTable from "./rowDtoTable";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { getForeignPurchaseDDL } from "../../helper";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
-import { confirmAlert } from "react-confirm-alert";
-import InputField from "../../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { uploadAttachment } from "../../helper";
-import { getForeignPurchaseDDL } from "../../helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
-import Loading from "../../../../../_helper/_loading";
-import axios from "axios";
-import { compressfile } from "../../../../../_helper/compressfile";
-import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import { getSupplierDDL, initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -365,7 +365,7 @@ export default function ReceiveInvCreateForm({
             };
             modifyPlyload.objHeader["isPOS"] =
               landingData?.warehouse?.isPOS &&
-              modifyPlyload?.objHeader?.referenceTypeId === 1
+                modifyPlyload?.objHeader?.referenceTypeId === 1
                 ? true
                 : false;
             let compressedFile = [];
@@ -520,9 +520,9 @@ export default function ReceiveInvCreateForm({
                           "busiPartner",
                           valueOption?.actionBy
                             ? {
-                                value: valueOption?.actionBy || 0,
-                                label: valueOption?.actionName || "",
-                              }
+                              value: valueOption?.actionBy || 0,
+                              label: valueOption?.actionName || "",
+                            }
                             : ""
                         );
                         setFieldValue("item", "");
@@ -594,9 +594,9 @@ export default function ReceiveInvCreateForm({
                           "busiPartner",
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || "",
+                            }
                             : ""
                         );
                         setFieldValue("freight", data?.freight);
@@ -674,9 +674,9 @@ export default function ReceiveInvCreateForm({
                           "busiPartner",
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || "",
+                            }
                             : ""
                         );
                         setFieldValue("freight", data?.freight);
@@ -698,32 +698,32 @@ export default function ReceiveInvCreateForm({
                 )}
                 {values?.refNo?.purchaseOrganizationName ===
                   "Foreign Procurement" && (
-                  <div className="col-lg-2">
-                    <NewSelect
-                      label="Invoice"
-                      options={foreignPurchaseDDL}
-                      value={values?.foreignPurchase}
-                      placeholder="Invoice"
-                      name="foreignPurchase"
-                      onChange={(value) => {
-                        setFieldValue("foreignPurchase", value);
-                        setRowDto([]);
-                        dispatch(
-                          getItemforReceiveInvForeignPOAction(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            values?.refNo?.value,
-                            value?.value
-                          )
-                        );
-                      }}
-                      //setFieldValue={setFieldValue}
-                      isDisabled={values.refType === ""}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
+                    <div className="col-lg-2">
+                      <NewSelect
+                        label="Invoice"
+                        options={foreignPurchaseDDL}
+                        value={values?.foreignPurchase}
+                        placeholder="Invoice"
+                        name="foreignPurchase"
+                        onChange={(value) => {
+                          setFieldValue("foreignPurchase", value);
+                          setRowDto([]);
+                          dispatch(
+                            getItemforReceiveInvForeignPOAction(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              values?.refNo?.value,
+                              value?.value
+                            )
+                          );
+                        }}
+                        //setFieldValue={setFieldValue}
+                        isDisabled={values.refType === ""}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                 <div className="col-lg-2">
                   <NewSelect
                     label="Transaction Type"
@@ -1057,7 +1057,7 @@ export default function ReceiveInvCreateForm({
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                    // style={{ marginTop: "45px" }}
+                  // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}

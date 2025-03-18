@@ -1,19 +1,17 @@
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import NewSelect from "../../../_helper/_select";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import NewSelect from "../../../_helper/_select";
+import { empAttachment_action } from "../../../_helper/attachmentUpload";
 import {
   // getDepartmentDDL,
   getSbuDDL,
   getStrategicMapById,
-  saveAttachment_action,
   saveStrategicMap,
 } from "../helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 // import {
 //   makeStyles,
@@ -101,7 +99,7 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
 
       if (fileObjects.length > 0) {
         //  Attachment file add
-        saveAttachment_action(fileObjects).then((data) => {
+        empAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...payload,
             documentId: data[0]?.id || "",
@@ -164,7 +162,7 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
                 disabled={!values?.sbu}
                 onClick={() => setOpen(true)}
               >
-              Map  Upload
+                Map  Upload
               </button>
 
               {/* <button
@@ -272,13 +270,13 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
                   disabled={!values?.sbu}
                   onClick={() => {
                     getStrategicMapById(
-                      values?.sbu?.value, 
+                      values?.sbu?.value,
                       (data) => {
-                      dispatch(
-                        getDownlloadFileView_Action(data?.documentId, true)
-                      );
-                    },
-                    setLoading
+                        dispatch(
+                          getDownlloadFileView_Action(data?.documentId, true)
+                        );
+                      },
+                      setLoading
                     );
                   }}
                 >
@@ -319,10 +317,10 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
         )}
       </Formik>
       {/* {loading && <Loading/>} */}
-      
-      <div className="row" style={{marginBottom:"30px"}}>
+
+      <div className="row" style={{ marginBottom: "30px" }}>
         <div className="col-md-12">
-          <img src={imageView?.url} alt="" style={{ width: "100%",padding:"0 25px"}} />
+          <img src={imageView?.url} alt="" style={{ width: "100%", padding: "0 25px" }} />
         </div>
       </div>
     </div>

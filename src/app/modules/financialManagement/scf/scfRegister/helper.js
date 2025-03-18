@@ -203,8 +203,8 @@ export const getLoanRegisterLanding = async (
     applicationType === 1
       ? `&isLoanApproved=${false}`
       : applicationType === 2
-      ? `&isLoanApproved=${true}`
-      : "";
+        ? `&isLoanApproved=${true}`
+        : "";
   const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : "";
   const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
   const dateParam2 = toDate ? `&toDate=${toDate}` : "";
@@ -326,7 +326,7 @@ export const createRepay = async (
   try {
     const res = await Axios.post(
       `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount ||
-        0}&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
+      0}&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");
@@ -410,9 +410,9 @@ export const getFdrById = async (id, setter, setLoading, setOldPrincipal) => {
       interestRate: "",
       bankBranch: res?.data?.strBankBranchName
         ? {
-            label: res?.data?.strBankBranchName,
-            value: res?.data?.intBankBranchId,
-          }
+          label: res?.data?.strBankBranchName,
+          value: res?.data?.intBankBranchId,
+        }
         : "",
       bankAccount: "",
     };
@@ -532,24 +532,6 @@ export const getAttachments = async (
   }
 };
 
-export const fundManagementAttch = async (attachment, setUploadImage) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setUploadImage(data);
-    return data;
-  } catch (error) {
-    toast.error(error?.response?.data?.message || "Document not upload");
-  }
-};
-
 export const getBusinessUnitDDL = async (accId, setter) => {
   try {
     const res = await Axios.get(
@@ -559,5 +541,5 @@ export const getBusinessUnitDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
