@@ -26,7 +26,6 @@ const validationSchema = Yup.object().shape({
       .nullable()
       .typeError('Warehouse is required'),
   }),
-
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
     label: Yup.string().required('Consignee’s Name is required'),
@@ -121,7 +120,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
             //  consignee Information set value
             formikRef.current.setFieldValue(
               'consigneeName',
-              data?.consigneeId
+              data?.consigneeId && data?.consigneeName
                 ? {
                     value: data?.consigneeId || 0,
                     label: data?.consigneeName || '',
