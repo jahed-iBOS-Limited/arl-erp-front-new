@@ -1,13 +1,13 @@
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import IView from '../../../_helper/_helperIcons/_view';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { attachmentUpload } from '../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { attachmentUploadAction } from '../../../financialManagement/expense/dryDocSchedule/helper';
 import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
 
@@ -102,44 +102,44 @@ export default function CheckListView() {
                     <tbody>
                       {tableData?.length > 0
                         ? tableData.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.intAssetHealthCheckId}</td>
-                              <td>{item?.strCheckListCriteriaType}</td>
-                              <td>{item?.strCheckListCriteria}</td>
-                              <td>{item?.strStandardValue}</td>
-                              <td className="d-flex justify-content-around">
-                                {item?.strImageUrl ? (
-                                  <IView
-                                    title="View Attachment"
-                                    clickHandler={() => {
-                                      dispatch(
-                                        getDownlloadFileView_Action(
-                                          item?.strImageUrl,
-                                        ),
-                                      );
-                                    }}
-                                  />
-                                ) : null}
-                                <>
-                                  <span
-                                    className="cursor-pointer"
-                                    onClick={() => {
-                                      setOpen(true);
-                                      steRowClickData({
-                                        ...rowClickData,
-                                        rowIdx: index,
-                                      });
-                                    }}
-                                  >
-                                    <i class="fa fa-upload" aria-hidden="true">
-                                      upload
-                                    </i>
-                                  </span>
-                                </>
-                              </td>
-                            </tr>
-                          ))
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.intAssetHealthCheckId}</td>
+                            <td>{item?.strCheckListCriteriaType}</td>
+                            <td>{item?.strCheckListCriteria}</td>
+                            <td>{item?.strStandardValue}</td>
+                            <td className="d-flex justify-content-around">
+                              {item?.strImageUrl ? (
+                                <IView
+                                  title="View Attachment"
+                                  clickHandler={() => {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.strImageUrl,
+                                      ),
+                                    );
+                                  }}
+                                />
+                              ) : null}
+                              <>
+                                <span
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    setOpen(true);
+                                    steRowClickData({
+                                      ...rowClickData,
+                                      rowIdx: index,
+                                    });
+                                  }}
+                                >
+                                  <i class="fa fa-upload" aria-hidden="true">
+                                    upload
+                                  </i>
+                                </span>
+                              </>
+                            </td>
+                          </tr>
+                        ))
                         : null}
                     </tbody>
                   </table>
@@ -179,7 +179,7 @@ export default function CheckListView() {
                 onClose={() => setOpen(false)}
                 onSave={() => {
                   setOpen(false);
-                  attachmentUploadAction(fileObjects).then((data) => {
+                  attachmentUpload(fileObjects).then((data) => {
                     const copyData = [...tableData];
                     copyData[rowClickData?.rowIdx].strImageUrl =
                       data?.[0].id || '';

@@ -13,7 +13,7 @@ import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { attachment_action } from '../helper';
+import { attachment_action } from '../../../../_helper/attachmentUpload';
 
 const validationSchema = Yup.object().shape({});
 const initData = {

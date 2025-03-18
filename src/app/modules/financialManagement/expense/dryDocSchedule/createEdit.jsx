@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -15,9 +15,9 @@ import numberWithCommas from '../../../_helper/_numberWithCommas';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { attachmentUploadAction } from './helper';
 
 const initData = {
   vessel: '',
@@ -355,7 +355,7 @@ export default function DryDocCreateEdit() {
                     onClose={() => setOpen(false)}
                     onSave={() => {
                       setOpen(false);
-                      attachmentUploadAction(fileObjects).then((data) => {
+                      attachmentUpload(fileObjects).then((data) => {
                         setFieldValue('attachment', data[0]?.id);
                         setFileObjects([]);
                       });

@@ -19,11 +19,12 @@ import {
   getItemforReceiveInvForeignPOAction,
 } from '../../_redux/Actions';
 import { invTransactionSlice } from '../../_redux/Slice';
-import { getForeignPurchaseDDL, uploadAttachment } from '../../helper';
+import { getForeignPurchaseDDL } from '../../helper';
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../../_helper/_formikError';
 import { getSupplierDDL, initData, validationSchema } from './helper';
 import RowDtoTable from './rowDtoTable';
+import { uploadAttachment } from '../../../../../_helper/attachmentUpload';
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({

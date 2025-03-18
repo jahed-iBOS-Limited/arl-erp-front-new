@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import ICustomTable from '../../../../_helper/_customTable';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICustomTable from '../../../../_helper/_customTable';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
-  uploadAttachment,
   getAttachmentLandingData,
   saveAttchmentForPo,
 } from '../helper';
-import { toast } from 'react-toastify';
-import IView from '../../../../_helper/_helperIcons/_view';
-import { useDispatch } from 'react-redux';
-import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
-import IClose from '../../../../_helper/_helperIcons/_close';
-import { _todayDate } from '../../../../_helper/_todayDate';
+import { uploadAttachment } from '../../../../_helper/attachmentUpload';
 
 const ths = ['SL', 'Attachment', 'Action'];
 
