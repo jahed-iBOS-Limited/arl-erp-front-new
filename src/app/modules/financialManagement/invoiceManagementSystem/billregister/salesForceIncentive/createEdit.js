@@ -35,12 +35,22 @@ export default function SalesForceIncentiveCreate({ headerData }) {
   ] = useAxiosGet();
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
+  const [reportType, setReportType] = useState({ value: 1, label: "Top Sheet" });
+
+  const incentiveReportData = reportType?.label === "Top Sheet" ? incentiveData?.filter((item) => item?.numIncentiveAmount > 0) : incentiveData;
+  const selectedIncentiveReportData = incentiveReportData?.filter((item) => item?.isSelected);
 
 
   const saveHandler = (values, cb) => {
-    const newData = incentiveData?.filter((item) => item?.isSelected);
+    const newData = incentiveReportData?.filter((item) => item?.isSelected);
     if (!newData?.length) {
       return toast.warn("Select at least one row");
+    }
+
+    const hasMissingIncentiveAmount = newData?.some((item) => !(+item?.numIncentiveAmount > 0));
+
+    if(hasMissingIncentiveAmount){
+      return toast.warn("Incentive amont missing in save data")
     }
 
     const rowPayloadData = newData?.map((item) => ({
@@ -55,7 +65,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       salesAmount: item?.numSalesAmount,
       targetAmount: item?.numTargetAmount || 0,
       achievement: item?.numAchievement || 0,
-      incentiveAmount: item?.numIncentiveAmount || 0,
+      numIncentiveAmount: item?.numIncentiveAmount || 0,
       regionId: item?.intRegionId || 0,
       areaId: item?.intAreaId || 0,
       territoryId: item?.intTerritoryId || 0,
@@ -206,11 +216,9 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                       // const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
                       const api = `/oms/IncentiveConfig/GetIncenttiveViewByDesignation?intunitid=4&fromdate=${values?.fromDate}&todate=${values?.toDate}&intSalesOrganizationId=${values?.salesOrganization?.value}&intChannelId=${values?.channel?.value}&intRATId=0&intLevelid=0`;
 
-                      const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${
-                        values.channel.value
-                      }&RegionId=0&AreaId=0&FromDate=${
-                        values.fromDate
-                      }&ToDate=${values.toDate}`;
+                      const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${values.channel.value
+                        }&RegionId=0&AreaId=0&FromDate=${values.fromDate
+                        }&ToDate=${values.toDate}`;
 
                       if (buId === 144) {
                         // console.log("scope");
@@ -269,118 +277,145 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                     rowData={essentialLandingData}
                   />
                 ) : (
-                  <div className="table-responsive">
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th>
-                            <input
-                              type="checkbox"
-                              checked={
-                                incentiveData?.length > 0 &&
-                                incentiveData.every((item) => item?.isSelected)
-                              }
-                              onChange={(e) => {
-                                const data = incentiveData.map((item) => ({
-                                  ...item,
-                                  isSelected: e.target.checked,
-                                }));
-                                setIncentiveData(data);
-                              }}
-                            />
-                          </th>
-                          <th>Sl</th>
-                          <th>Employee</th>
-                          <th>Enroll</th>
-                          <th>Designation</th>
-                          <th>Account Name</th>
-                          <th>Bank Wallet</th>
-                          <th>Branch Name</th>
-                          <th>Account No</th>
-                          <th>Region</th>
-                          <th>Area</th>
-                          <th>Territory</th>
-                          <th>Zone</th>
-                          <th>Target Quantity</th>
-                          <th>Sales Quantity</th>
-                          <th>Achievement %</th>
-                          <th>Incentive Amount</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {incentiveData?.length > 0 &&
-                          incentiveData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  checked={item?.isSelected}
-                                  onChange={(e) => {
-                                    const data = [...incentiveData];
-                                    data[index]["isSelected"] =
-                                      e.target.checked;
-                                    setIncentiveData(data);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strEmployeeName}
-                              </td>
-                              <td className="text-center">
-                                {item?.intEmployeeBasicInfoId}
-                              </td>
-                              <td className="text-center">
-                                {item?.strDesignation}
-                              </td>
-                              <td>{item?.strAccountName}</td>
-                              <td>{item?.strBankWalletName}</td>
-                              <td>{item?.strBranchName}</td>
-                              <td>{item?.strAccountNo}</td>
-                              <td className="text-center">{item?.strRegoin}</td>
-                              <td className="text-center">{item?.strArea}</td>
-                              <td className="text-center">
-                                {item?.strTeritory}
-                              </td>
-                              <td className="text-center">
-                                {item?.strZoneName}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTargetQuantity}
-                              </td>
-                              <td className="text-center">
-                                {item?.numSalesQnt}
-                              </td>
-                              <td className="text-center">
-                                {item?.numAchievement}
-                              </td>
-                              <td className="text-center">
-                                <InputField
-                                  value={item?.numIncentiveAmount || ""}
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const data = [...incentiveData];
-                                    data[index]["numIncentiveAmount"] = +e
-                                      .target.value;
-                                    setIncentiveData(data);
-                                  }}
-                                />
-                                {/* {item?.numIncentiveAmount} */}
-                              </td>
-                              <td className="text-center">
-                                {" "}
-                                <IView
-                                  title="View"
-                                  clickHandler={() => alert("hello")}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <>
+                    <div className="row mt-3">
+
+                      <div className="col-lg-9 text-center">
+                        <strong>
+                          Grand Total of Incentive Amount : {selectedIncentiveReportData?.reduce(
+                            (total, item) => total + (item.numIncentiveAmount || 0),
+                            0
+                          )}
+                        </strong>
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          options={[{ value: 1, label: "Top Sheet" }, { value: 2, label: "Details" }]}
+                          value={reportType}
+                          onChange={(valueOption) => {
+                            if (valueOption) {
+                              setReportType(valueOption)
+                            } else {
+                              setReportType({ value: 1, label: "Top Sheet" })
+                            }
+                          }}
+                        />
+
+                      </div>
+                    </div>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th>
+                              <input
+                                type="checkbox"
+                                checked={
+                                  incentiveReportData?.length > 0 &&
+                                  incentiveReportData.every((item) => item?.isSelected)
+                                }
+                                onChange={(e) => {
+                                  const data = incentiveReportData.map((item) => ({
+                                    ...item,
+                                    isSelected: e.target.checked,
+                                  }));
+                                  setIncentiveData(data);
+                                }}
+                              />
+                            </th>
+                            <th>Sl</th>
+                            <th>Employee</th>
+                            <th>Enroll</th>
+                            <th>Designation</th>
+                            <th>Account Name</th>
+                            <th>Bank Wallet</th>
+                            <th>Branch Name</th>
+                            <th>Account No</th>
+                            <th>Region</th>
+                            <th>Area</th>
+                            <th>Territory</th>
+                            <th>Zone</th>
+                            <th>Target Quantity</th>
+                            <th>Sales Quantity</th>
+                            <th>Achievement %</th>
+                            <th>Incentive Amount</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {incentiveReportData?.length > 0 &&
+                            incentiveReportData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>
+                                  <input
+                                    type="checkbox"
+                                    checked={item?.isSelected}
+                                    onChange={(e) => {
+                                      const data = [...incentiveReportData];
+                                      data[index]["isSelected"] =
+                                        e.target.checked;
+                                      setIncentiveData(data);
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.strEmployeeName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intEmployeeBasicInfoId}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strDesignation}
+                                </td>
+                                <td>{item?.strAccountName}</td>
+                                <td>{item?.strBankWalletName}</td>
+                                <td>{item?.strBranchName}</td>
+                                <td>{item?.strAccountNo}</td>
+                                <td className="text-center">{item?.strRegoin}</td>
+                                <td className="text-center">{item?.strArea}</td>
+                                <td className="text-center">
+                                  {item?.strTeritory}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strZoneName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTargetQuantity}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numSalesQnt}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numAchievement}
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item?.numIncentiveAmount || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const data = [...incentiveReportData];
+                                      data[index]["numIncentiveAmount"] = +e
+                                        .target.value;
+                                      setIncentiveData(data);
+                                    }}
+                                  />
+                                  {/* {item?.numIncentiveAmount} */}
+                                </td>
+                                <td className="text-center">
+                                  {" "}
+                                  <IView
+                                    title="View"
+                                    clickHandler={() => alert("hello")}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
                 )}
               </div>
 
