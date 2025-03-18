@@ -54,6 +54,7 @@ export default function PartnerRegApproval() {
     'Bank',
     'Bank Branch',
     'Routing No',
+    'Bank Account No',
     'Reference Employee',
 
     'Email',
@@ -245,6 +246,7 @@ export default function PartnerRegApproval() {
                         <td className="text-center">
                           {item?.strRoutingNumber || item?.strSwiftCode}
                         </td>
+                        <td className='text-center'>{item?.strAccountNumber || ""}</td>
                         <td className="text-center">
                           {item?.strReferenceEmployeeName}-
                           {item?.intReferenceEmployeeId
