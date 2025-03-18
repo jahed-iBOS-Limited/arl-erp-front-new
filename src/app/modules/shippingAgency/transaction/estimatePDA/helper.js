@@ -38,7 +38,7 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
       `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // export const getVesselDDL = async (accId, buId, setter, vesselId) => {
@@ -63,31 +63,7 @@ export const getVesselDDL = async (accId, buId, setter, vesselId) => {
     setter([]);
   }
 };
-export const attachment_action = async (
-  attachment,
-  setFieldValue,
-  setLoading
-) => {
-  setLoading(true);
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  setFieldValue("attachment", "");
-  try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    toast.success("Upload  successfully");
-    setFieldValue("attachment", data?.[0]?.id);
-    setLoading(false);
-  } catch (error) {
-    setLoading(false);
-    toast.error("Document not upload");
-  }
-};
+
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
@@ -101,7 +77,7 @@ export const getVoyageNoDDLApi = async (accId, buId, setter) => {
         };
       })
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetDomesticPortDDL = async (setter) => {
@@ -178,11 +154,11 @@ export const getBuUnitDDL = async (userId, clientId, setter) => {
       setter(data)
     }
   } catch (error) {
-    
+
   }
 };
 
-export const getBusinessUnitDDL_api = async (actionBy, accountId,setLoading, setter) => {
+export const getBusinessUnitDDL_api = async (actionBy, accountId, setLoading, setter) => {
   try {
     setLoading(true);
     const res = await axios.get(

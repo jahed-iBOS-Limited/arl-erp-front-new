@@ -12,7 +12,7 @@ import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { _todayDate } from "../../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../../_helper/attachmentUpload";
+import { uploadAttachment } from "../../../../../_helper/attachmentUpload";
 import { compressfile } from "../../../../../_helper/compressfile";
 import {
   // getreferenceNoReceiveInvDDLAction,
@@ -25,7 +25,7 @@ import {
   saveInventoryTransactionOrder,
 } from "../../_redux/Actions";
 import { invTransactionSlice } from "../../_redux/Slice";
-import { getForeignPurchaseDDL, uploadAttachment } from "../../helper";
+import { getForeignPurchaseDDL } from "../../helper";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
 import { getSupplierDDL, initData, validationSchema } from "./helper";
