@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { useDispatch } from "react-redux";
-import InputField from "../../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../../_helper/_select";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../../_helper/_formikError";
-import { getPartnerTypeDDL, loadPartners } from "../helper";
-import TextArea from "antd/lib/input/TextArea";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import { useDispatch } from 'react-redux';
+import InputField from '../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../../_helper/_select';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../../_helper/_formikError';
+import { getPartnerTypeDDL, loadPartners } from '../helper';
+import TextArea from '../../../../../_helper/TextArea';
 const validationSchema = Yup.object().shape({
-  partnerType: Yup.object().required("Partner Type is Required"),
-  partner: Yup.object().required("Partner  is Required"),
-  billAmount: Yup.number().required("Bill Amount is required"),
-  narration: Yup.string().required("Narration is required"),
-  billDate: Yup.date().required("Bill Date is required")
+  partnerType: Yup.object().required('Partner Type is Required'),
+  partner: Yup.object().required('Partner  is Required'),
+  billAmount: Yup.number().required('Bill Amount is required'),
+  narration: Yup.string().required('Narration is required'),
+  billDate: Yup.date().required('Bill Date is required'),
 });
 
 export default function _Form({
@@ -69,7 +69,7 @@ export default function _Form({
                     value={values?.partnerType}
                     label="Partner Type"
                     onChange={(v) => {
-                      setFieldValue("partnerType", v);
+                      setFieldValue('partnerType', v);
                     }}
                     placeholder="Partner Type"
                     errors={errors}
@@ -78,16 +78,23 @@ export default function _Form({
                 </div>
                 <div className="col-lg-3">
                   <label>
-                    {values?.partnerType?.label ? `${values?.partnerType?.label} Name` : "Partner Name"}
+                    {values?.partnerType?.label
+                      ? `${values?.partnerType?.label} Name`
+                      : 'Partner Name'}
                   </label>
                   <SearchAsyncSelect
                     selectedValue={values?.partner}
                     isSearchIcon={true}
                     handleChange={(valueOption) => {
-                      setFieldValue("partner", valueOption);
+                      setFieldValue('partner', valueOption);
                     }}
-                    loadOptions={e => {
-                      return loadPartners(e, profileData?.accountId, selectedBusinessUnit?.value, values?.partnerType?.reffPrtTypeId)
+                    loadOptions={(e) => {
+                      return loadPartners(
+                        e,
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        values?.partnerType?.reffPrtTypeId,
+                      );
                     }}
                     isDisabled={!values?.partnerType}
                   />
@@ -126,8 +133,8 @@ export default function _Form({
                     placeholder="Narration"
                     touched={touched}
                     rows="3"
-                    onChange={e => {
-                      setFieldValue('narration', e.target.value)
+                    onChange={(e) => {
+                      setFieldValue('narration', e.target.value);
                     }}
                   />
                   <FormikError
@@ -151,9 +158,7 @@ export default function _Form({
                           classes="purchaseInvoiceAttachIcon"
                           clickHandler={() => {
                             dispatch(
-                              getDownlloadFileView_Action(
-                                values?.attachmentId
-                              )
+                              getDownlloadFileView_Action(values?.attachmentId),
                             );
                           }}
                         />
@@ -164,23 +169,23 @@ export default function _Form({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
             <DropzoneDialogBase
               filesLimit={5}
-              acceptedFiles={["image/*"]}
+              acceptedFiles={['image/*']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={100000000000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -188,7 +193,7 @@ export default function _Form({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}

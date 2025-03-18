@@ -1,18 +1,18 @@
-import TextArea from "antd/lib/input/TextArea";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import { IInput } from "../../../_helper/_input";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import { empAttachment_action } from "../../../_helper/attachmentUpload";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { getPmsReportAction } from "../../../performanceManagement/_helper/getReportAction";
-import { getDailyTargetData, saveDailyTargetRow } from "./helper";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import { IInput } from '../../../_helper/_input';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { getPmsReportAction } from '../../../performanceManagement/_helper/getReportAction';
+import { getDailyTargetData, saveDailyTargetRow } from './helper';
+import TextArea from '../../../_helper/TextArea';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -37,7 +37,7 @@ export default function _Form({
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [clickedMonth, setClickedMonth] = useState("");
+  const [clickedMonth, setClickedMonth] = useState('');
   const [dailyEntryRow, setDailyEntryRow] = useState([]);
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
@@ -61,9 +61,7 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push(
-              "/self-service/kpi-target-entry"
-            );
+            history.push('/self-service/kpi-target-entry');
 
             getPmsReportAction(
               setReport,
@@ -73,7 +71,7 @@ export default function _Form({
               13,
               24,
               false,
-              1
+              1,
             );
           });
         }}
@@ -91,19 +89,19 @@ export default function _Form({
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg">
-                  <p style={{ fontSize: "14px", marginTop: "5px" }}>
-                    {" "}
-                    <b>Objective</b> : {objective}{" "}
+                  <p style={{ fontSize: '14px', marginTop: '5px' }}>
+                    {' '}
+                    <b>Objective</b> : {objective}{' '}
                   </p>
-                  <p style={{ fontSize: "14px", marginBottom: "0px" }}>
-                    {" "}
-                    <b>KPI</b> : {kpi}{" "}
+                  <p style={{ fontSize: '14px', marginBottom: '0px' }}>
+                    {' '}
+                    <b>KPI</b> : {kpi}{' '}
                   </p>
                 </div>
               </div>
               <div className="mt-5">
                 {target?.objRow?.length ? (
-                  <div className='table-responsive'>
+                  <div className="table-responsive">
                     <table className="table table-striped table-bordered">
                       <thead>
                         <tr>
@@ -127,7 +125,7 @@ export default function _Form({
                                 <IInput
                                   value={itm?.target}
                                   // placeholder={itm}
-                                  onClick={() => alert("H")}
+                                  onClick={() => alert('H')}
                                   name=""
                                   type="number"
                                   disabled={true}
@@ -145,7 +143,7 @@ export default function _Form({
                                 className="disabled-feedback disable-border str-achievement"
                                 onClick={() => {
                                   setClickedMonth(
-                                    Object.keys(target?.objRow)[index]
+                                    Object.keys(target?.objRow)[index],
                                   );
                                 }}
                               >
@@ -160,15 +158,15 @@ export default function _Form({
                                     getDailyTargetData(
                                       target?.kpiid,
                                       target?.objRow[index]?.monthId,
-                                      setDailyEntryRow
+                                      setDailyEntryRow,
                                     );
                                   }}
                                   onChange={(e) =>
                                     rowDtoHandler(
-                                      "numAchivment",
+                                      'numAchivment',
                                       e.target.value,
                                       index,
-                                      itm.rowId
+                                      itm.rowId,
                                     )
                                   }
                                   disabled={
@@ -195,10 +193,10 @@ export default function _Form({
                                   rows="1"
                                   onChange={(e) => {
                                     rowDtoHandler(
-                                      "remarks",
+                                      'remarks',
                                       e.target.value,
                                       index,
-                                      itm.rowId
+                                      itm.rowId,
                                     );
                                   }}
                                   max={1000}
@@ -218,32 +216,32 @@ export default function _Form({
 
               {/* Upload Attachment */}
 
-              {clickedMonth >= 0 && clickedMonth !== "" && (
+              {clickedMonth >= 0 && clickedMonth !== '' && (
                 <div className="mt-3">
                   <span>
                     <b>
                       {target?.objRow?.[clickedMonth]?.monthName
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
-                          "Yearly"
-                          ? "Year " + year
-                          : Object.values(target?.objHeader)[clickedMonth] +
-                          " Quarter"}
-                    </b>{" "}
+                          'Yearly'
+                        ? 'Year ' + year
+                        : Object.values(target?.objHeader)[clickedMonth] +
+                          ' Quarter'}
+                    </b>{' '}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
                     rowDto[clickedMonth]?.documentString) && (
-                      <IView
-                        clickHandler={() => {
-                          dispatch(
-                            getDownlloadFileView_Action(
-                              rowDto[clickedMonth]?.documentString ||
-                              target?.objRow?.[clickedMonth]?.documentString
-                            )
-                          );
-                        }}
-                      />
-                    )}
+                    <IView
+                      clickHandler={() => {
+                        dispatch(
+                          getDownlloadFileView_Action(
+                            rowDto[clickedMonth]?.documentString ||
+                              target?.objRow?.[clickedMonth]?.documentString,
+                          ),
+                        );
+                      }}
+                    />
+                  )}
 
                   {!target?.objRow?.[clickedMonth]?.isApproved && (
                     <ButtonStyleOne
@@ -256,10 +254,10 @@ export default function _Form({
 
                   <DropzoneDialogBase
                     filesLimit={1}
-                    acceptedFiles={["image/*"]}
+                    acceptedFiles={['image/*']}
                     fileObjects={fileObjects}
-                    cancelButtonText={"cancel"}
-                    submitButtonText={"submit"}
+                    cancelButtonText={'cancel'}
+                    submitButtonText={'submit'}
                     maxFileSize={1000000}
                     open={open}
                     onAdd={(newFileObjs) => {
@@ -267,20 +265,20 @@ export default function _Form({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name
+                        (item) => item.file.name !== deleteFileObj.file.name,
                       );
                       setFileObjects(newData);
                     }}
                     onClose={() => setOpen(false)}
                     onSave={() => {
-                      console.log("onSave", fileObjects);
+                      console.log('onSave', fileObjects);
                       setOpen(false);
                       empAttachment_action(fileObjects).then((data) => {
                         rowDtoHandler(
-                          "documentString",
+                          'documentString',
                           data?.[0]?.id,
                           clickedMonth,
-                          target?.objRow?.[clickedMonth]?.rowId
+                          target?.objRow?.[clickedMonth]?.rowId,
                         );
                         setFileObjects([]);
                       });
@@ -299,7 +297,7 @@ export default function _Form({
                   <div className="indKpiDailyEntry">
                     <div className="d-flex align-items-center mb-2">
                       <b className="text-capitalize">
-                        Month Name : {clickedMonth}{" "}
+                        Month Name : {clickedMonth}{' '}
                       </b>
                       <button
                         className="btn btn-primary btn-sm ml-2"
@@ -311,7 +309,7 @@ export default function _Form({
                         Save
                       </button>
                     </div>
-                    <table style={{ width: "50%" }} className="table">
+                    <table style={{ width: '50%' }} className="table">
                       <thead>
                         <tr>
                           <th>Date</th>
@@ -341,7 +339,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       ) : (
-                        "...loading"
+                        '...loading'
                       )}
                     </table>
                   </div>
@@ -349,14 +347,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

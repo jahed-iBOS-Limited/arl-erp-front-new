@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
-import "antd/dist/antd.css";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { getYearDDLAction } from "../../../_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useState } from "react";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import { OverlayTrigger } from "react-bootstrap";
-import { Tooltip } from "@material-ui/core";
-import "./table.css";
-import { getCorporateDepertmentDDL } from "./../helper";
-import { toast } from "react-toastify";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTable from "../../../_helper/pmsCommonTable/PmsCommonTable";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../View/mainForm.js";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { getYearDDLAction } from '../../../_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useState } from 'react';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import { OverlayTrigger } from 'react-bootstrap';
+import { Tooltip } from '@material-ui/core';
+import './table.css';
+import { getCorporateDepertmentDDL } from './../helper';
+import { toast } from 'react-toastify';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../View/mainForm.js';
 
 export default function AchievementTable() {
   let storeData = useSelector(
@@ -27,7 +26,7 @@ export default function AchievementTable() {
         monthDDL: state.corporatePerformanceChart.monthDDL,
       };
     },
-    { shallowEqual }
+    { shallowEqual },
   );
   let {
     profileData,
@@ -38,12 +37,12 @@ export default function AchievementTable() {
   } = storeData;
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
   const dispatch = useDispatch();
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
   const [corporateDDL, setCorporateDDL] = useState([]);
   const [corporate, setCorporate] = useState({
     value: profileData?.departmentId,
@@ -53,12 +52,12 @@ export default function AchievementTable() {
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
       dispatch(
-        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
+        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
       );
       getCorporateDepertmentDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCorporateDDL
+        setCorporateDDL,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +83,7 @@ export default function AchievementTable() {
         0,
         0,
         false,
-        4
+        4,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,7 +131,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                4
+                4,
               );
             }}
             isDisabled={!corKpiResultPublic?.isView}
@@ -161,7 +160,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                4
+                4,
               );
             }}
             className="mb-3"
@@ -189,7 +188,7 @@ export default function AchievementTable() {
                 valueOption?.value,
                 to?.value,
                 false,
-                4
+                4,
               );
             }}
             className="mb-3"
@@ -218,7 +217,7 @@ export default function AchievementTable() {
                 from?.value,
                 valueOption?.value,
                 false,
-                4
+                4,
               );
             }}
             className="mb-3"
@@ -234,15 +233,15 @@ export default function AchievementTable() {
       <div className="achievement">
         <PmsCommonTable
           ths={[
-            { name: "BSC" },
-            { name: "Objective" },
-            { name: "KPI" },
-            { name: "SRF" },
-            { name: "Weight" },
-            { name: "Target" },
-            { name: "Achievement" },
-            { name: "Achievement (%)" },
-            { name: "Progress" },
+            { name: 'BSC' },
+            { name: 'Objective' },
+            { name: 'KPI' },
+            { name: 'SRF' },
+            { name: 'Weight' },
+            { name: 'Target' },
+            { name: 'Achievement' },
+            { name: 'Achievement (%)' },
+            { name: 'Progress' },
           ]}
         >
           {report?.infoList?.map((itm, indx) => (
@@ -259,8 +258,8 @@ export default function AchievementTable() {
                   )}
                   {item?.isParent && (
                     <td className="obj" rowspan={item?.numberOfChild}>
-                      {" "}
-                      {item?.parentName}{" "}
+                      {' '}
+                      {item?.parentName}{' '}
                     </td>
                   )}
                   <td> {item?.label} </td>
@@ -278,10 +277,10 @@ export default function AchievementTable() {
                       >
                         <span
                           style={{
-                            padding: "16px 16px",
-                            cursor: "pointer",
-                            color: "blue",
-                            textDecoration: "underline",
+                            padding: '16px 16px',
+                            cursor: 'pointer',
+                            color: 'blue',
+                            textDecoration: 'underline',
                           }}
                           onClick={() => {
                             if (corKpiResult?.isCreate) {
@@ -311,11 +310,11 @@ export default function AchievementTable() {
                     className={
                       indx !== report?.infoList.length - 1
                         ? item?.progress >= 80
-                          ? "green"
+                          ? 'green'
                           : item?.progress >= 60
-                          ? "yellow"
-                          : "red"
-                        : ""
+                          ? 'yellow'
+                          : 'red'
+                        : ''
                     }
                   >
                     <div></div>

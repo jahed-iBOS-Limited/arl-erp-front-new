@@ -1,4 +1,3 @@
-import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
@@ -45,7 +44,11 @@ import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actio
 import TransferTable from './TransferTable';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import DebitCredit from './DebitCredit';
-import { getBankAc, getInstrumentType } from '../../../../../_helper/_commonApi';
+import {
+  getBankAc,
+  getInstrumentType,
+} from '../../../../../_helper/_commonApi';
+import TextArea from '../../../../../_helper/TextArea';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -169,9 +172,12 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -192,10 +198,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                ...item,
-                value: item?.bankId,
-                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-              }))
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -224,8 +230,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-              ? PaymentvalidationSchema
-              : TransfervalidationSchema
+            ? PaymentvalidationSchema
+            : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
@@ -406,10 +412,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                        ...item,
-                                        value: item?.bankId,
-                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                      }))
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },

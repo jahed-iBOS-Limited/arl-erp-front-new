@@ -1,41 +1,41 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory, useLocation } from "react-router-dom";
-import "antd/dist/antd.css";
-import { IInput } from "../../../_helper/_input";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { IInput } from '../../../_helper/_input';
 
 const reports = [
   {
     bscperspectiveId: 2,
 
-    heading: "Process",
+    heading: 'Process',
 
     strategicParticularid: 27,
 
-    strategicParticularName: "Accomplish any project assigned by supervisor",
+    strategicParticularName: 'Accomplish any project assigned by supervisor',
 
     strategicParticularsTypeId: 1,
 
-    strategicParticularsTypeName: "Objective",
+    strategicParticularsTypeName: 'Objective',
 
     freqId: 3,
 
-    freqName: "Quarterly",
+    freqName: 'Quarterly',
   },
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 71,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 4,
 
@@ -45,15 +45,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 72,
 
-    strategicParticularName: "Particulars Name",
+    strategicParticularName: 'Particulars Name',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 4,
 
@@ -63,15 +63,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 74,
 
-    strategicParticularName: "42",
+    strategicParticularName: '42',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 4,
 
@@ -81,15 +81,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 85,
 
-    strategicParticularName: "fgbfgbd",
+    strategicParticularName: 'fgbfgbd',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 4,
 
@@ -99,15 +99,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 86,
 
-    strategicParticularName: "jhhbmjhcmjhm",
+    strategicParticularName: 'jhhbmjhcmjhm',
 
     strategicParticularsTypeId: 5,
 
-    strategicParticularsTypeName: "Milestone",
+    strategicParticularsTypeName: 'Milestone',
 
     freqId: 3,
 
@@ -117,15 +117,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 88,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 3,
 
@@ -135,15 +135,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 118,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 2,
 
@@ -153,15 +153,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 119,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 2,
 
@@ -171,15 +171,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 120,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 2,
 
@@ -189,15 +189,15 @@ const reports = [
   {
     bscperspectiveId: 1,
 
-    heading: "Finance",
+    heading: 'Finance',
 
     strategicParticularid: 124,
 
-    strategicParticularName: "demo strategic particulars",
+    strategicParticularName: 'demo strategic particulars',
 
     strategicParticularsTypeId: 2,
 
-    strategicParticularsTypeName: "Action Plan",
+    strategicParticularsTypeName: 'Action Plan',
 
     freqId: 2,
 
@@ -229,12 +229,14 @@ export default function _Form({
   let _sameKey;
   const columns = [
     {
-      title: "BSC",
-      dataIndex: "heading",
-      key: "heading",
+      title: 'BSC',
+      dataIndex: 'heading',
+      key: 'heading',
       render: (value, row, index) => {
         const obj = {
-          children: <div className="test-rotate font-weight-bold"> {value} </div>,
+          children: (
+            <div className="test-rotate font-weight-bold"> {value} </div>
+          ),
           props: {
             className: `bg-${row.bscperspectiveId}`,
           },
@@ -244,7 +246,7 @@ export default function _Form({
           return obj;
         }
         const count = reports.filter(
-          (item) => item.bscperspectiveId === row.bscperspectiveId
+          (item) => item.bscperspectiveId === row.bscperspectiveId,
         ).length;
         _sameKey = value;
 
@@ -254,17 +256,17 @@ export default function _Form({
     },
 
     {
-      title: "Strategic Particulars Name",
-      dataIndex: "strategicParticularName",
-      key: "strategicParticularName",
+      title: 'Strategic Particulars Name',
+      dataIndex: 'strategicParticularName',
+      key: 'strategicParticularName',
       render: (v, r, index) => {
         return <div className="text-left font-weight-bold">{v}</div>;
       },
     },
     {
-      title: "Perspective",
-      dataIndex: "strategicParticularsTypeName",
-      key: "strategicParticularsTypeName",
+      title: 'Perspective',
+      dataIndex: 'strategicParticularsTypeName',
+      key: 'strategicParticularsTypeName',
       render: (v, r, index) => {
         return <div className="text-left">{v}</div>;
       },
@@ -280,7 +282,7 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("");
+            history.push('');
           });
         }}
       >
@@ -305,13 +307,13 @@ export default function _Form({
               </div> */}
               {/* Target and Achievement Form */}
               <div className="mt-2">
-                <p style={{ marginBottom: ".05em" }}>
+                <p style={{ marginBottom: '.05em' }}>
                   <b>Particulars Name : </b> {state?.objective}
                 </p>
-                <p style={{ marginBottom: ".05em" }}>
+                <p style={{ marginBottom: '.05em' }}>
                   <b>Type : </b> {state?.strategicParticularsTypeName}
                 </p>
-                <p style={{ marginBottom: ".05em" }}>
+                <p style={{ marginBottom: '.05em' }}>
                   <b>BSC Perspective : </b> {state?.heading}
                 </p>
               </div>
@@ -332,15 +334,15 @@ export default function _Form({
                           <tr key={idx}>
                             <td>{itm.strYearName}</td>
                             <td>
-                              <div style={{ paddingLeft: "6px" }}>
+                              <div style={{ paddingLeft: '6px' }}>
                                 {itm.strTargetFrequency}
                               </div>
                             </td>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               {itm.numTarget}
                             </td>
                             <td
-                              style={{ width: "50px" }}
+                              style={{ width: '50px' }}
                               className="text-center disable-border disabled-feedback str-achievement"
                             >
                               <IInput
@@ -353,10 +355,10 @@ export default function _Form({
                                 name={itm.intRowId}
                                 onChange={(e) =>
                                   rowDtoHandler(
-                                    "achievement",
+                                    'achievement',
                                     e.target.value,
                                     idx,
-                                    itm?.intRowId
+                                    itm?.intRowId,
                                   )
                                 }
                                 value={rowDto?.[idx]?.achievement}
@@ -372,14 +374,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
