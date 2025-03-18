@@ -1,4 +1,3 @@
-import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -26,6 +25,7 @@ import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';
 import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
+import TextArea from '../../../../_helper/TextArea';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({

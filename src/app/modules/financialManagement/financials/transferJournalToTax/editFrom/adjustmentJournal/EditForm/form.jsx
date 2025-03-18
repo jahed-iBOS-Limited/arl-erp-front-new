@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { toast } from "react-toastify";
-import Select from "react-select";
-import axios from "axios";
-import TextArea from "antd/lib/input/TextArea";
-import customStyles from "../../../../../../selectCustomStyle";
-import FormikError from "../../../../../../_helper/_formikError";
-import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
-import { IInput } from "../../../../../../_helper/_input";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import { toast } from 'react-toastify';
+import Select from 'react-select';
+import axios from 'axios';
+import customStyles from '../../../../../../selectCustomStyle';
+import FormikError from '../../../../../../_helper/_formikError';
+import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
+import { IInput } from '../../../../../../_helper/_input';
+import IDelete from '../../../../../../_helper/_helperIcons/_delete';
 import {
   getCostCenterDDL,
   getCostElementDDL,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
-} from "../helper";
+} from '../helper';
+import TextArea from '../../../../../../_helper/TextArea';
 
 export default function _Form({
   initData,
@@ -32,7 +32,7 @@ export default function _Form({
   selectedBusinessUnit,
   profileData,
 }) {
-  const [partnerType, setPartnerType] = useState("");
+  const [partnerType, setPartnerType] = useState('');
   const [costCenterDDL, setCostCenterDDL] = useState([]);
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [revenueCenterDDL, setRevenueCenterDDL] = useState([]);
@@ -46,9 +46,9 @@ export default function _Form({
           profileData?.accountId
         }&BusinessUnitId=${
           selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`
+        }`,
       )
       .then((res) => {
         return res?.data;
@@ -58,7 +58,7 @@ export default function _Form({
 
   const debitCalc = () => {
     const debit = rowDto
-      .filter((itm) => itm.debitCredit === "Debit")
+      .filter((itm) => itm.debitCredit === 'Debit')
       .map((itm) => Math.abs(itm.amount))
       .reduce((sum, curr) => {
         return (sum += curr);
@@ -68,7 +68,7 @@ export default function _Form({
 
   const creditCalc = () => {
     let credit = rowDto
-      .filter((itm) => itm.debitCredit === "Credit")
+      .filter((itm) => itm.debitCredit === 'Credit')
       .map((itm) => Math.abs(itm.amount))
       .reduce((sum, curr) => {
         return (sum += curr);
@@ -79,12 +79,12 @@ export default function _Form({
     getCostElementDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostElementDDL
+      setCostElementDDL,
     );
     getCostCenterDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostCenterDDL
+      setCostCenterDDL,
     );
     getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
     getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
@@ -123,10 +123,10 @@ export default function _Form({
                       <label>Partner Type</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("gl", "");
-                          setFieldValue("partnerType", valueOption);
+                          setFieldValue('gl', '');
+                          setFieldValue('partnerType', valueOption);
                           setPartnerType(valueOption);
-                          setFieldValue("transaction", "");
+                          setFieldValue('transaction', '');
                         }}
                         options={partnerTypeDDL}
                         value={values?.partnerType}
@@ -148,22 +148,22 @@ export default function _Form({
                         value={values?.transactionDate}
                         name="transactionDate"
                         onChange={(e) =>
-                          setFieldValue("transactionDate", e.target.value)
+                          setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
                       />
                     </div>
-                    <div style={{ marginBottom: "12px" }} className="col-lg-12">
+                    <div style={{ marginBottom: '12px' }} className="col-lg-12">
                       <label>Transaction</label>
                       <SearchAsyncSelect
                         selectedValue={values?.transaction}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("gl", "");
+                          setFieldValue('gl', '');
                           if (valueOption?.glData?.length === 1) {
-                            setFieldValue("gl", valueOption?.glData[0]);
+                            setFieldValue('gl', valueOption?.glData[0]);
                           }
-                          setFieldValue("transaction", valueOption);
+                          setFieldValue('transaction', valueOption);
                         }}
                         loadOptions={loadTransactionList}
                         isDisabled={!values?.partnerType}
@@ -179,7 +179,7 @@ export default function _Form({
                       <label>General Ledger</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("gl", valueOption);
+                          setFieldValue('gl', valueOption);
                         }}
                         isDisabled={!values?.transaction}
                         options={values?.transaction?.glData || []}
@@ -197,7 +197,7 @@ export default function _Form({
                     </div>
 
                     <div
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="col-lg-6 d-flex"
                     >
                       <Field
@@ -207,7 +207,7 @@ export default function _Form({
                         value="Debit"
                       />
                       <label
-                        style={{ marginTop: "-1.5px" }}
+                        style={{ marginTop: '-1.5px' }}
                         className="ml-2 mr-2"
                         for="debit"
                       >
@@ -222,7 +222,7 @@ export default function _Form({
                       />
                       <label
                         for="credit"
-                        style={{ marginTop: "-1.5px" }}
+                        style={{ marginTop: '-1.5px' }}
                         className="ml-2"
                       >
                         Credit
@@ -246,7 +246,7 @@ export default function _Form({
                         placeholder="Narration"
                         rows="3"
                         onChange={(e) =>
-                          setFieldValue("headerNarration", e.target.value)
+                          setFieldValue('headerNarration', e.target.value)
                         }
                         max={1000}
                         errors={errors}
@@ -254,7 +254,7 @@ export default function _Form({
                       />
                     </div>
                     <div
-                      style={{ marginTop: "10px" }}
+                      style={{ marginTop: '10px' }}
                       className="col-lg-10 d-flex"
                     >
                       <Field
@@ -263,13 +263,13 @@ export default function _Form({
                         name="costRevenue"
                         value="cost"
                         onChange={(e) => {
-                          setFieldValue("costRevenue", e.target.value);
-                          setFieldValue("revenueCenter", "");
-                          setFieldValue("revenueElement", "");
+                          setFieldValue('costRevenue', e.target.value);
+                          setFieldValue('revenueCenter', '');
+                          setFieldValue('revenueElement', '');
                         }}
                       />
                       <label
-                        style={{ marginTop: "-1.5px" }}
+                        style={{ marginTop: '-1.5px' }}
                         className="ml-2 mr-2"
                         htmlFor="cost"
                       >
@@ -282,27 +282,27 @@ export default function _Form({
                         name="costRevenue"
                         value="revenue"
                         onChange={(e) => {
-                          setFieldValue("costRevenue", e.target.value);
-                          setFieldValue("costCenter", "");
-                          setFieldValue("costElement", "");
+                          setFieldValue('costRevenue', e.target.value);
+                          setFieldValue('costCenter', '');
+                          setFieldValue('costElement', '');
                         }}
                       />
                       <label
                         htmlFor="revenue"
-                        style={{ marginTop: "-1.5px" }}
+                        style={{ marginTop: '-1.5px' }}
                         className="ml-2"
                       >
                         Revenue
                       </label>
                     </div>
                     {/* it will be changed if user select bank receipt from previous page */}
-                    {values?.costRevenue === "revenue" ? (
-                      <div className="d-flex" style={{ marginTop: "10px" }}>
+                    {values?.costRevenue === 'revenue' ? (
+                      <div className="d-flex" style={{ marginTop: '10px' }}>
                         <div className="col-lg-6  mb-2">
                           <label>Revenue Center</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("revenueCenter", valueOption);
+                              setFieldValue('revenueCenter', valueOption);
                             }}
                             value={values?.revenueCenter}
                             options={revenueCenterDDL || []}
@@ -321,7 +321,7 @@ export default function _Form({
                           <label>Revenue Element</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("revenueElement", valueOption);
+                              setFieldValue('revenueElement', valueOption);
                             }}
                             value={values?.revenueElement}
                             options={revenueElementDDL || []}
@@ -338,12 +338,12 @@ export default function _Form({
                         </div>
                       </div>
                     ) : (
-                      <div className="d-flex" style={{ marginTop: "10px" }}>
+                      <div className="d-flex" style={{ marginTop: '10px' }}>
                         <div className="col-lg-6 mb-2">
                           <label>Cost Center</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("costCenter", valueOption);
+                              setFieldValue('costCenter', valueOption);
                             }}
                             value={values?.costCenter}
                             options={costCenterDDL || []}
@@ -362,7 +362,7 @@ export default function _Form({
                           <label>Cost Element</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("costElement", valueOption);
+                              setFieldValue('costElement', valueOption);
                             }}
                             value={values?.costElement}
                             options={costElementDDL || []}
@@ -383,20 +383,20 @@ export default function _Form({
                       <button
                         onClick={() => {
                           if (!values?.transaction)
-                            return toast.warn("Please select transaction");
+                            return toast.warn('Please select transaction');
                           if (!values?.gl)
-                            return toast.warn("Please select general Ledger");
+                            return toast.warn('Please select general Ledger');
 
                           if (values?.amount < 1)
                             return toast.error(
-                              "Amount Field must be positive !"
+                              'Amount Field must be positive !',
                             );
                           setter(values);
                         }}
                         className="btn btn-primary"
                         style={{
-                          padding: "5px 20px",
-                          marginTop: "12px",
+                          padding: '5px 20px',
+                          marginTop: '12px',
                         }}
                         disabled={
                           !values?.transactionDate ||
@@ -417,7 +417,7 @@ export default function _Form({
                   <div className="row">
                     <div className="col-lg-12 pr-0">
                       <div
-                        style={{ padding: "5px" }}
+                        style={{ padding: '5px' }}
                         className="d-flex justify-content-between global-form m-0"
                       >
                         <div></div>
@@ -464,8 +464,8 @@ export default function _Form({
                                           {itm?.transaction?.label}
                                         </div>
                                       </td>
-                                      {itm?.debitCredit === "Debit" ? (
-                                        <td style={{ width: "145px" }}>
+                                      {itm?.debitCredit === 'Debit' ? (
+                                        <td style={{ width: '145px' }}>
                                           <div className="text-center">
                                             {/* {Math.abs(itm?.amount)} */}
                                             <input
@@ -477,18 +477,18 @@ export default function _Form({
                                                 //     : e.target.value;
                                                 rowDtoHandler(
                                                   idx,
-                                                  "amount",
-                                                  e.target.value
+                                                  'amount',
+                                                  e.target.value,
                                                 );
                                               }}
                                             />
                                           </div>
                                         </td>
                                       ) : (
-                                        <td>{""}</td>
+                                        <td>{''}</td>
                                       )}
-                                      {itm?.debitCredit === "Credit" ? (
-                                        <td style={{ width: "145px" }}>
+                                      {itm?.debitCredit === 'Credit' ? (
+                                        <td style={{ width: '145px' }}>
                                           <div className="text-center">
                                             {/* {Math.abs(itm?.amount)} */}
                                             <input
@@ -500,20 +500,20 @@ export default function _Form({
                                                 //     : e.target.value;
                                                 rowDtoHandler(
                                                   idx,
-                                                  "amount",
-                                                  e.target.value
+                                                  'amount',
+                                                  e.target.value,
                                                 );
                                               }}
                                             />
                                           </div>
                                         </td>
                                       ) : (
-                                        <td>{""}</td>
+                                        <td>{''}</td>
                                       )}
                                       <td
                                         style={{
-                                          width: "100px",
-                                          fontSize: "9px",
+                                          width: '100px',
+                                          fontSize: '9px',
                                         }}
                                       >
                                         <div className="text-left pl-2">
@@ -530,7 +530,7 @@ export default function _Form({
                             </table>
                           </div>
                         ) : (
-                          ""
+                          ''
                         )}
                       </div>
                     </div>
@@ -540,14 +540,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

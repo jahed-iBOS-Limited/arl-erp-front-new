@@ -10,7 +10,7 @@ import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { empAttachment_action } from '../../../_helper/attachmentUpload';
 import IView from '../../../_helper/_helperIcons/_view';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from '../../../_helper/TextArea';
 import { getPmsReportAction } from '../../../performanceManagement/_helper/getReportAction';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 

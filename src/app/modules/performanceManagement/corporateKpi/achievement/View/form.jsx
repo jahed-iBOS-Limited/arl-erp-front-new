@@ -8,7 +8,7 @@ import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IView from '../../../../_helper/_helperIcons/_view';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from '../../../../_helper/TextArea';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 // Validation schema

@@ -1,4 +1,3 @@
-import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
@@ -50,6 +49,7 @@ import { approveHandeler } from '../../fundTransferApproval/helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
+import TextArea from '../../../../../_helper/TextArea';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive

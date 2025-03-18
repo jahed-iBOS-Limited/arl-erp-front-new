@@ -10,9 +10,9 @@ import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import IView from '../../../../_helper/_helperIcons/_view';
-import TextArea from 'antd/lib/input/TextArea';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import TextArea from '../../../../_helper/TextArea';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 

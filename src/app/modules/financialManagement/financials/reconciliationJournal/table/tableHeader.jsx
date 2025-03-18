@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Typography } from 'antd';
 import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -1015,7 +1014,7 @@ const ReconciliationJournal = () => {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Typography>Salary Journal</Typography>
+                        <h6>Salary Journal</h6>
                       </AccordionSummary>
                       <AccordionDetails>
                         <ViewSalaryJournalTable salaryJournal={salaryJournal} />
@@ -1036,7 +1035,7 @@ const ReconciliationJournal = () => {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Typography>JV Report of Salary Journal</Typography>
+                        <h6>JV Report of Salary Journal</h6>
                       </AccordionSummary>
                       <AccordionDetails>
                         <CreateSalaryJournalTable

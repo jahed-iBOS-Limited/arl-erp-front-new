@@ -10,7 +10,7 @@ import IView from '../../../../../_helper/_helperIcons/_view';
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../../_helper/_formikError';
 import { getPartnerTypeDDL, loadPartners } from '../helper';
-import TextArea from 'antd/lib/input/TextArea';
+import TextArea from '../../../../../_helper/TextArea';
 const validationSchema = Yup.object().shape({
   partnerType: Yup.object().required('Partner Type is Required'),
   partner: Yup.object().required('Partner  is Required'),

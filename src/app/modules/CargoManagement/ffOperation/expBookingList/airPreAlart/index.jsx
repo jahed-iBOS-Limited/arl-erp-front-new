@@ -1,4 +1,3 @@
-import { Divider } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
@@ -174,14 +173,14 @@ const CommonHeaderInfo = ({
         </div>
       </div>
       <div>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
         <span>Shipper : </span>
         <span>{bookingData?.shipperName}</span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         <span>Consignee : </span>
         <span>{bookingData?.consigneeName}</span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         {transportPlanningMode === 4 ? (
           <></>
@@ -189,17 +188,17 @@ const CommonHeaderInfo = ({
           <>
             <span>HAWB Number : </span>
             <span>{bookingData?.hblnumber}</span>
-            <Divider sx={{ pb: '2px' }} />
+            <br />
 
             <span>MAWB Number : </span>
             <span>{bookingData?.mawbnumber}</span>
-            <Divider sx={{ pb: '2px' }} />
+            <br />
           </>
         )}
 
         <span>Origin : </span>
         <span>{bookingData?.countryOfOrigin}</span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         <span>PO Number : </span>
         <span>
@@ -213,7 +212,7 @@ const CommonHeaderInfo = ({
             );
           })}
         </span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         <span>Style : </span>
         <span>
@@ -227,7 +226,7 @@ const CommonHeaderInfo = ({
             );
           })}{' '}
         </span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         <span>Color : </span>
         <span>
@@ -241,14 +240,14 @@ const CommonHeaderInfo = ({
             );
           })}{' '}
         </span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
 
         <span>Total Carton :</span>
         <span> {transportPlanning?.carton}</span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
         <span>Final Destination :</span>
         <span>{bookingData?.finalDestinationAddress}</span>
-        <Divider sx={{ pb: '2px' }} />
+        <br />
       </div>
     </div>
   );

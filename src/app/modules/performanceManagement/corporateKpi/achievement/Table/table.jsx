@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import 'antd/dist/antd.css';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getYearDDLAction } from '../../../_redux/Actions';
 import ICard from '../../../../_helper/_card';
