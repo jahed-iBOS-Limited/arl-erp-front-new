@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import IView from '../../../../_helper/_helperIcons/_view';
 import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import { validateDigit } from '../../../../_helper/validateDigit';
-import { attachment_action } from './helper';
 
 const NegotiationCreateRowDtoTable = ({
   negotiationItemList,
@@ -67,7 +67,7 @@ const NegotiationCreateRowDtoTable = ({
                   </th>
                   <th style={{ fontSize: '10px' }}>Item Name</th>
                   {negotiationItemList?.objSupplierRow[0]?.intItemCategoryId ===
-                  624 ? (
+                    624 ? (
                     <>
                       <th style={{ fontSize: '10px' }}>Part No</th>
                       <th style={{ fontSize: '10px' }}>Drawing No</th>
@@ -102,9 +102,9 @@ const NegotiationCreateRowDtoTable = ({
                     <>
                       {(index === 0 ||
                         item.strShippingItemSubHead !==
-                          negotiationItemList?.objSupplierRow[index - 1]
-                            .strShippingItemSubHead) &&
-                      item?.strShippingItemSubHead ? (
+                        negotiationItemList?.objSupplierRow[index - 1]
+                          .strShippingItemSubHead) &&
+                        item?.strShippingItemSubHead ? (
                         <tr
                           style={{
                             background: '#ADD8E6',
@@ -216,7 +216,7 @@ const NegotiationCreateRowDtoTable = ({
                                 onChange={(e) => {
                                   // e.stopPropagation();
                                   if (e.target.files?.[0]) {
-                                    attachment_action(
+                                    attachmentUpload(
                                       e.target.files,
                                       setLoading,
                                     )

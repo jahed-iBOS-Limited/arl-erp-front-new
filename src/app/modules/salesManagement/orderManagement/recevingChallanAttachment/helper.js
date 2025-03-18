@@ -130,26 +130,3 @@ export const salesReturnCancel = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
-
-
-export const uploadAttachment = async (attachment, setDisabled) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file);
-  });
-  try {
-    setDisabled && setDisabled(true);
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
-    return data;
-  } catch (error) {
-    setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
-  }
-};

@@ -12,10 +12,11 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import NewSelect from "../../../_helper/_select";
+import { attachmentUpload } from "../../../_helper/attachmentUpload";
 import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import placeholderImg from "../../../_helper/images/placeholderImg.png";
-import { attachment_action, nameCutter } from "../helper";
+import { nameCutter } from "../helper";
 import "./form.css";
 
 const validationSchema = Yup.object().shape({
@@ -391,7 +392,7 @@ export default function _Form({
                     <input
                       onChange={(e) => {
                         if (e.target.files?.[0]) {
-                          attachment_action(e.target.files, setDisabled)
+                          attachmentUpload(e.target.files, setDisabled)
                             .then((data) => {
                               setAttachmentFile(data?.[0]?.id);
                               setAttachmentFileName(data[0]);

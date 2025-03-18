@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import ICustomTable from "../../../../_helper/_customTable";
+import IClose from "../../../../_helper/_helperIcons/_close";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import {
-  uploadAttachment,
   getAttachmentLandingData,
   saveAttchmentForPo,
 } from "../helper";
-import { toast } from "react-toastify";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const ths = ["SL", "Attachment", "Action"];
 
@@ -35,7 +35,7 @@ export default function ViewForm({ poData, setIsShowModal }) {
 
   // save modal data to rowDto and calculate netValue
   const saveHandler = () => {
-    uploadAttachment(fileObjects).then((res) => {
+    empAttachment_action(fileObjects).then((res) => {
       console.log(res);
       const payload = {
         referenceId: poData?.inventoryTransactionId,

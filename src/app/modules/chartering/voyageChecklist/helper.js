@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-
-
-
 export const getVoyageByIdShow = async (voyageId, setter, setLoading) => {
   setLoading && setLoading(true);
   try {

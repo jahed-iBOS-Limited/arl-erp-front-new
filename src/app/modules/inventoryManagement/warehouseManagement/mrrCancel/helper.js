@@ -204,23 +204,6 @@ export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
   } catch (error) { }
 };
 
-export const uplaodAttachment = async (attachment, setUploadImage) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setUploadImage(data);
-    return data;
-  } catch (error) {
-    toast.error(error?.response?.data?.message || "Document not upload");
-  }
-};
 
 export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
   accId,

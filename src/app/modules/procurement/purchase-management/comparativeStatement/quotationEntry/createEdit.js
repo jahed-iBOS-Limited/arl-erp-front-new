@@ -11,11 +11,11 @@ import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import {
-   attachment_action,
    createQuotationEntry,
    getQuotationEntryItemList,
-   getSupplierNameDDLAction,
+   getSupplierNameDDLAction
 } from './helper';
 import QuotationCreateRowDtoTable from './quotationCreateTable';
 
@@ -132,13 +132,13 @@ export default function ShippingQuotationCreate() {
                   supplierName:
                      supplierNameDDL?.length === 1
                         ? {
-                             value: supplierNameDDL[0]?.value,
-                             label: supplierNameDDL[0]?.label,
-                             intPartnerRfqid:
-                                supplierNameDDL[0]?.intPartnerRfqid,
-                             intBusinessPartnerId:
-                                supplierNameDDL[0]?.intBusinessPartnerId,
-                          }
+                           value: supplierNameDDL[0]?.value,
+                           label: supplierNameDDL[0]?.label,
+                           intPartnerRfqid:
+                              supplierNameDDL[0]?.intPartnerRfqid,
+                           intBusinessPartnerId:
+                              supplierNameDDL[0]?.intBusinessPartnerId,
+                        }
                         : '',
                   supplierContactNo:
                      supplierNameDDL?.length === 1
@@ -174,7 +174,7 @@ export default function ShippingQuotationCreate() {
                }) => (
                   <>
                      <Form className="form form-label-right">
-                        
+
                         <div className="form-group  global-form">
                            <div className="row">
                               <div className="col-lg-3">
@@ -194,27 +194,23 @@ export default function ShippingQuotationCreate() {
                               </div>
                               <div className="col-lg-3">
                                  Quotation Start Date:{' '}
-                                 {`${
-                                    rowDto?.objHeader?.quotationStartDateTime?.split(
-                                       'T'
-                                    )[0]
-                                 } / ${
-                                    rowDto?.objHeader?.quotationStartDateTime?.split(
+                                 {`${rowDto?.objHeader?.quotationStartDateTime?.split(
+                                    'T'
+                                 )[0]
+                                    } / ${rowDto?.objHeader?.quotationStartDateTime?.split(
                                        'T'
                                     )[1]
-                                 }`}
+                                    }`}
                               </div>
                               <div className="col-lg-3">
                                  Quotation End Date:{' '}
-                                 {`${
-                                    rowDto?.objHeader?.quotationEndDateTime?.split(
-                                       'T'
-                                    )[0]
-                                 } / ${
-                                    rowDto?.objHeader?.quotationEndDateTime?.split(
+                                 {`${rowDto?.objHeader?.quotationEndDateTime?.split(
+                                    'T'
+                                 )[0]
+                                    } / ${rowDto?.objHeader?.quotationEndDateTime?.split(
                                        'T'
                                     )[1]
-                                 }`}
+                                    }`}
                               </div>
                            </div>
                            <div className="row">
@@ -367,7 +363,7 @@ export default function ShippingQuotationCreate() {
                                        onChange={e => {
                                           // e.stopPropagation();
                                           if (e.target.files?.[0]) {
-                                             attachment_action(
+                                             attachmentUpload(
                                                 e.target.files,
                                                 setLoading
                                              )
@@ -387,19 +383,19 @@ export default function ShippingQuotationCreate() {
                                        style={{ display: 'none' }}
                                     />
                                  </div>
-                                 {headerAttachment && 
-                                  <div className='mt-5 ml-5'>
-                                    <IView
-                                      title={'Attachment'}
-                                      style={{fontSize:"30px !important"}}
-                                      classes={'text-primary'}
-                                      clickHandler={() => {
-                                         dispatch(
-                                            getDownlloadFileView_Action(headerAttachment ? headerAttachment : "")
-                                         );
-                                      }}
-                                    />
-                                  </div>
+                                 {headerAttachment &&
+                                    <div className='mt-5 ml-5'>
+                                       <IView
+                                          title={'Attachment'}
+                                          style={{ fontSize: "30px !important" }}
+                                          classes={'text-primary'}
+                                          clickHandler={() => {
+                                             dispatch(
+                                                getDownlloadFileView_Action(headerAttachment ? headerAttachment : "")
+                                             );
+                                          }}
+                                       />
+                                    </div>
                                  }
                               </div>
                            </div>

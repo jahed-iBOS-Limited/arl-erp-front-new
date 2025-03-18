@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 export const attachmentUpload = async (attachment, setLoading) => {
-  console.log(attachment, 'fileObjects');
   let formData = new FormData();
   attachment.forEach((file) => {
     formData.append('files', file);
