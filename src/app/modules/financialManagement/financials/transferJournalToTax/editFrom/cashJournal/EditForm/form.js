@@ -1,36 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import DebitCredit from "../Form/DebitCredit";
-import ReceiveAndPaymentsTable from "../Form/ReceiveAndPaymentsTable";
-import TransferTable from "../Form/TransferTable";
-import axios from "axios";
-import TextArea from "antd/lib/input/TextArea";
-import customStyles from "../../../../../../selectCustomStyle";
-import FormikError from "../../../../../../_helper/_formikError";
-import { IInput } from "../../../../../../_helper/_input";
-import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
-import { getCostCenterDDL, getCostElementDDL, getPartnerTypeDDLAction, getRevenueCenterListDDL, getRevenueElementListDDL } from "../helper";
-import { getBankAccountDDL_api, getSendToGLBank } from "../../../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Select from 'react-select';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import DebitCredit from '../Form/DebitCredit';
+import ReceiveAndPaymentsTable from '../Form/ReceiveAndPaymentsTable';
+import TransferTable from '../Form/TransferTable';
+import axios from 'axios';
+import customStyles from '../../../../../../selectCustomStyle';
+import FormikError from '../../../../../../_helper/_formikError';
+import { IInput } from '../../../../../../_helper/_input';
+import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
+import {
+  getCostCenterDDL,
+  getCostElementDDL,
+  getPartnerTypeDDLAction,
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+} from '../helper';
+import {
+  getBankAccountDDL_api,
+  getSendToGLBank,
+} from '../../../../../../_helper/_commonApi';
+import TextArea from '../../../../../../_helper/TextArea';
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(1000, "Maximum 100 symbols")
-    .required("Receive From required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(1000, 'Maximum 100 symbols')
+    .required('Receive From required'),
   narration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
   headerNarration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols")
-    .required("Narration required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
+    .required('Narration required'),
   cashGLPlus: Yup.object().shape({
-    label: Yup.string().required("Cash GL is required"),
-    value: Yup.string().required("Cash GL is required"),
+    label: Yup.string().required('Cash GL is required'),
+    value: Yup.string().required('Cash GL is required'),
   }),
   transaction: Yup.object().shape({
     label: Yup.string(),
@@ -40,22 +49,22 @@ const receiptsJournal = Yup.object().shape({
 
 const paymentsJournal = Yup.object().shape({
   paidTo: Yup.string()
-    .min(1, "Minimum 1 symbols")
+    .min(1, 'Minimum 1 symbols')
     .max(
       1000000000000000000000000000000,
-      "Maximum 1000000000000000000000000000000 symbols"
+      'Maximum 1000000000000000000000000000000 symbols',
     )
-    .required("Paid To required"),
+    .required('Paid To required'),
   narration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
   headerNarration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols")
-    .required("Narration required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
+    .required('Narration required'),
   cashGLPlus: Yup.object().shape({
-    label: Yup.string().required("Cash GL is required"),
-    value: Yup.string().required("Cash GL is required"),
+    label: Yup.string().required('Cash GL is required'),
+    value: Yup.string().required('Cash GL is required'),
   }),
   transaction: Yup.object().shape({
     label: Yup.string(),
@@ -65,20 +74,20 @@ const paymentsJournal = Yup.object().shape({
 
 const transferJournal = Yup.object().shape({
   headerNarration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols")
-    .required("Narration required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
+    .required('Narration required'),
   cashGLPlus: Yup.object().shape({
-    label: Yup.string().required("Cash GL is required"),
-    value: Yup.string().required("Cash GL is required"),
+    label: Yup.string().required('Cash GL is required'),
+    value: Yup.string().required('Cash GL is required'),
   }),
   gLBankAc: Yup.object().shape({
-    label: Yup.string().required("GL/Bank Ac is required"),
-    value: Yup.string().required("GL/Bank Ac is required"),
+    label: Yup.string().required('GL/Bank Ac is required'),
+    value: Yup.string().required('GL/Bank Ac is required'),
   }),
   trasferTo: Yup.object().shape({
-    label: Yup.string().required("Trasfer To is required"),
-    value: Yup.string().required("Trasfer To is required"),
+    label: Yup.string().required('Trasfer To is required'),
+    value: Yup.string().required('Trasfer To is required'),
   }),
 });
 
@@ -94,15 +103,15 @@ export default function _Form({
   setter,
   id,
   netAmount,
-  journalTypeId
+  journalTypeId,
 }) {
   const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
   const [bankAccountDDL, setBankAccountDDL] = useState([]);
   const [partnerTypeDDL, setPartnerTypeDDL] = useState([]);
-  const [costCenterDDL, setCostCenterDDL] = useState([])
-  const [costElementDDL, setCostElementDDL] = useState([])
-  const [revenueCenterDDL, setRevenueCenterDDL] = useState([])
-  const [revenueElementDDL, setRevenueElementDDL] = useState([])
+  const [costCenterDDL, setCostCenterDDL] = useState([]);
+  const [costElementDDL, setCostElementDDL] = useState([]);
+  const [revenueCenterDDL, setRevenueCenterDDL] = useState([]);
+  const [revenueElementDDL, setRevenueElementDDL] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -110,28 +119,36 @@ export default function _Form({
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      if (
-        journalTypeId === 1 ||
-        journalTypeId === 2
-      ) {
+      if (journalTypeId === 1 || journalTypeId === 2) {
         getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
-          setGeneralLedgerDDL
+          setGeneralLedgerDDL,
         );
       } else if (journalTypeId === 3) {
         getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
-          setGeneralLedgerDDL
+          setGeneralLedgerDDL,
         );
       }
-      getCostElementDDL( selectedBusinessUnit.value, profileData.accountId, setCostElementDDL);
-      getCostCenterDDL( selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
-      getRevenueElementListDDL(selectedBusinessUnit.value,setRevenueElementDDL)
-      getRevenueCenterListDDL(selectedBusinessUnit.value,setRevenueCenterDDL)
+      getCostElementDDL(
+        selectedBusinessUnit.value,
+        profileData.accountId,
+        setCostElementDDL,
+      );
+      getCostCenterDDL(
+        selectedBusinessUnit.value,
+        profileData.accountId,
+        setCostCenterDDL,
+      );
+      getRevenueElementListDDL(
+        selectedBusinessUnit.value,
+        setRevenueElementDDL,
+      );
+      getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
@@ -141,7 +158,7 @@ export default function _Form({
       getBankAccountDDL_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setBankAccountDDL
+        setBankAccountDDL,
       );
     }
   }, [profileData, selectedBusinessUnit, initData]);
@@ -150,7 +167,7 @@ export default function _Form({
     getPartnerTypeDDLAction(setPartnerTypeDDL);
   }, []);
 
-  const [partnerType, setPartnerType] = useState("");
+  const [partnerType, setPartnerType] = useState('');
 
   const loadTransactionList = (v) => {
     if (v?.length < 3) return [];
@@ -160,9 +177,9 @@ export default function _Form({
           profileData?.accountId
         }&BusinessUnitId=${
           selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`
+        }`,
       )
       .then((res) => {
         return res?.data;
@@ -212,14 +229,13 @@ export default function _Form({
                         value={values?.transactionDate}
                         name="transactionDate"
                         onChange={(e) =>
-                          setFieldValue("transactionDate", e.target.value)
+                          setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
                       />
                     </div>
                     {/* col-lg-6 */}
-                    {(journalTypeId === 1 ||
-                      journalTypeId === 2) && (
+                    {(journalTypeId === 1 || journalTypeId === 2) && (
                       <div className="col-lg-6 pl pr-1 mb-2">
                         <label>Select Cash GL</label>
                         <Select
@@ -234,7 +250,7 @@ export default function _Form({
                           styles={customStyles}
                           placeholder="Select Cash GL"
                           onChange={(valueOption) => {
-                            setFieldValue("cashGLPlus", valueOption);
+                            setFieldValue('cashGLPlus', valueOption);
                           }}
                         />
                         <FormikError
@@ -253,8 +269,8 @@ export default function _Form({
                             label="Select Trasfer To"
                             options={
                               [
-                                { value: 2, label: "Cash" },
-                                { value: 3, label: "Bank" },
+                                { value: 2, label: 'Cash' },
+                                { value: 3, label: 'Bank' },
                               ] || []
                             }
                             value={values.trasferTo}
@@ -263,23 +279,23 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="Select Trasfer To"
                             onChange={(valueOption) => {
-                              setFieldValue("trasferTo", valueOption);
+                              setFieldValue('trasferTo', valueOption);
                               getSendToGLBank(
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,
-                                setGeneralLedgerDDL
+                                setGeneralLedgerDDL,
                               );
                               if (valueOption?.value === 3) {
                                 getBankAccountDDL_api(
                                   profileData?.accountId,
                                   selectedBusinessUnit.value,
-                                  setBankAccountDDL
+                                  setBankAccountDDL,
                                 );
                               }
 
-                              setFieldValue("cashGLPlus", "");
-                              setFieldValue("gLBankAc", "");
+                              setFieldValue('cashGLPlus', '');
+                              setFieldValue('gLBankAc', '');
                             }}
                           />
                           <FormikError
@@ -299,7 +315,7 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="Select Cash GL"
                             onChange={(valueOption) => {
-                              setFieldValue("cashGLPlus", valueOption);
+                              setFieldValue('cashGLPlus', valueOption);
                             }}
                           />
                           <FormikError
@@ -315,10 +331,10 @@ export default function _Form({
                           <label>Partner Type</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("gl", "");
-                              setFieldValue("partnerType", valueOption);
+                              setFieldValue('gl', '');
+                              setFieldValue('partnerType', valueOption);
                               setPartnerType(valueOption);
-                              setFieldValue("transaction", "");
+                              setFieldValue('transaction', '');
                             }}
                             options={partnerTypeDDL}
                             value={values?.partnerType}
@@ -335,34 +351,32 @@ export default function _Form({
                         </div>
 
                         <div
-                          style={{ marginBottom: "12px" }}
+                          style={{ marginBottom: '12px' }}
                           className="col-lg-12 pl pr"
                         >
                           <label>
-                            {(values?.partnerType?.label === "Others"
-                              ? "Transaction"
-                              : values?.partnerType?.label) || "Transaction"}
+                            {(values?.partnerType?.label === 'Others'
+                              ? 'Transaction'
+                              : values?.partnerType?.label) || 'Transaction'}
                           </label>
                           <SearchAsyncSelect
                             selectedValue={values?.transaction}
                             isSearchIcon={true}
                             handleChange={(valueOption) => {
-                              setFieldValue("gl", "");
+                              setFieldValue('gl', '');
                               if (valueOption?.glData?.length === 1) {
-                                setFieldValue("gl", valueOption?.glData[0]);
+                                setFieldValue('gl', valueOption?.glData[0]);
                               }
                               if (journalTypeId === 1) {
                                 setFieldValue(
-                                  "receiveFrom",
-                                  valueOption?.label
+                                  'receiveFrom',
+                                  valueOption?.label,
                                 );
-                              } else if (
-                                journalTypeId === 2
-                              ) {
-                                setFieldValue("paidTo", valueOption?.label);
+                              } else if (journalTypeId === 2) {
+                                setFieldValue('paidTo', valueOption?.label);
                               }
 
-                              setFieldValue("transaction", valueOption);
+                              setFieldValue('transaction', valueOption);
                             }}
                             loadOptions={loadTransactionList}
                             isDisabled={!values?.partnerType}
@@ -378,7 +392,7 @@ export default function _Form({
                           <label>General Ledger</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("gl", valueOption);
+                              setFieldValue('gl', valueOption);
                             }}
                             isDisabled={!values?.transaction}
                             options={values?.transaction?.glData || []}
@@ -446,7 +460,7 @@ export default function _Form({
                           styles={customStyles}
                           placeholder="Select GL/Bank Ac"
                           onChange={(valueOption) => {
-                            setFieldValue("gLBankAc", valueOption);
+                            setFieldValue('gLBankAc', valueOption);
                           }}
                         />
                         <FormikError
@@ -478,8 +492,8 @@ export default function _Form({
                         placeholder="Narration"
                         rows="3"
                         onChange={(e) => {
-                          setFieldValue("narration", e.target.value);
-                          setFieldValue("headerNarration", e.target.value);
+                          setFieldValue('narration', e.target.value);
+                          setFieldValue('headerNarration', e.target.value);
                         }}
                         max={1000}
                         errors={errors}
@@ -487,83 +501,82 @@ export default function _Form({
                       />
                     </div>
                     {/* it will be changed if user select bank receipt from previous page */}
-                    {journalTypeId === 1 ?(
+                    {journalTypeId === 1 ? (
                       <>
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Revenue Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueCenter", valueOption);
-                              }}
-                              value={values?.revenueCenter}
-                              options={revenueCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueCenter"
-                              touched={touched}
-                            />
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Revenue Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue('revenueCenter', valueOption);
+                            }}
+                            value={values?.revenueCenter}
+                            options={revenueCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Revenue Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueElement", valueOption);
-                              }}
-                              value={values?.revenueElement}
-                              options={revenueElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueElement"
-                              touched={touched}
-                            />
+                          <label>Revenue Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue('revenueElement', valueOption);
+                            }}
+                            value={values?.revenueElement}
+                            options={revenueElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
-                    ):(
+                    ) : (
                       <>
-                      
-                         <div className="col-lg-6 pr pl-1 mb-2">
-                            <label>Cost Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costCenter", valueOption);
-                              }}
-                              value={values?.costCenter}
-                              options={costCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Center"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costCenter"
-                              touched={touched}
-                            />
+                        <div className="col-lg-6 pr pl-1 mb-2">
+                          <label>Cost Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue('costCenter', valueOption);
+                            }}
+                            value={values?.costCenter}
+                            options={costCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Center"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Cost Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costElement", valueOption);
-                              }}
-                              value={values?.costElement}
-                              options={costElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Element"
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costElement"
-                              touched={touched}
-                            />
+                          <label>Cost Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue('costElement', valueOption);
+                            }}
+                            value={values?.costElement}
+                            options={costElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Element"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costElement"
+                            touched={touched}
+                          />
                         </div>
                       </>
                     )}
@@ -571,9 +584,9 @@ export default function _Form({
                       <div className="col-lg-12 text-right pl-0 bank-journal">
                         <button
                           style={{
-                            padding: "5px 20px",
-                            marginTop: "10px",
-                            marginBottom: "10px",
+                            padding: '5px 20px',
+                            marginTop: '10px',
+                            marginBottom: '10px',
                           }}
                           type="button"
                           disabled={
@@ -584,16 +597,16 @@ export default function _Form({
                           className="btn btn-primary"
                           onClick={() => {
                             if (!values?.transaction)
-                              return toast.warn("Select transaction");
+                              return toast.warn('Select transaction');
                             if (!values?.gl)
-                              return toast.warn("Select General Ledger");
+                              return toast.warn('Select General Ledger');
                             if (!values?.cashGLPlus)
-                              return toast.warn("Please add cash GL");
+                              return toast.warn('Please add cash GL');
                             if (!values?.headerNarration)
-                              return toast.warn("Please add header narration");
+                              return toast.warn('Please add header narration');
                             setter(values);
                             // setFieldValue("transaction", "");
-                            setFieldValue("amount", "");
+                            setFieldValue('amount', '');
                           }}
                         >
                           Add
@@ -606,10 +619,10 @@ export default function _Form({
 
                 <div className="col-lg-8 pr-0">
                   <div
-                    style={{ paddingBottom: "6px", paddingTop: "1px" }}
+                    style={{ paddingBottom: '6px', paddingTop: '1px' }}
                     className="row bank-journal bank-journal-custom bj-left"
                   >
-                    <div style={{ paddingTop: "4px" }} className="col-lg-12">
+                    <div style={{ paddingTop: '4px' }} className="col-lg-12">
                       <DebitCredit
                         type={journalTypeId}
                         amount={values?.amount}
@@ -626,10 +639,7 @@ export default function _Form({
                     remover={remover}
                     isEdit={true}
                   />
-                  <TransferTable
-                    jorunalType={journalTypeId}
-                    values={values}
-                  />
+                  <TransferTable jorunalType={journalTypeId} values={values} />
                 </div>
               </div>
 
@@ -637,14 +647,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

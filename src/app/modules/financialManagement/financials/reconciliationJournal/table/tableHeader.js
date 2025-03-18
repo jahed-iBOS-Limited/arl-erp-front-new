@@ -3,26 +3,25 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Typography } from "antd";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useMemo, useState } from "react";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { SetFinancialsInventoryJournalAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useMemo, useState } from 'react';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { SetFinancialsInventoryJournalAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   getDepreciationGenLedgerList,
   getDepreciationJournal,
@@ -36,22 +35,22 @@ import {
   postDepreciationJournal,
   postInventoryJournal,
   saveYearClosing,
-} from "../helper";
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import NewSelect from "./../../../../_helper/_select";
-import CreateBaddebt from "./baddebtInterest/createBaddebt";
-import ViewBaddebt from "./baddebtInterest/viewBaddebt";
-import COGSTable from "./cogsTable";
-import DepreciationTable from "./depreciationTable";
-import CreateSalaryJournalTable from "./salaryJournal/createJournal";
-import ViewSalaryJournalTable from "./salaryJournal/viewJournal";
-import YearClosingTable from "./yearClosingTable";
+} from './../../../../../../_metronic/_partials/controls';
+import NewSelect from './../../../../_helper/_select';
+import CreateBaddebt from './baddebtInterest/createBaddebt';
+import ViewBaddebt from './baddebtInterest/viewBaddebt';
+import COGSTable from './cogsTable';
+import DepreciationTable from './depreciationTable';
+import CreateSalaryJournalTable from './salaryJournal/createJournal';
+import ViewSalaryJournalTable from './salaryJournal/viewJournal';
+import YearClosingTable from './yearClosingTable';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -68,7 +67,7 @@ function getMonthFirstLastDate(fromDate) {
 
 const ReconciliationJournal = () => {
   const { financialsInventoryJournal } = useSelector(
-    (state) => state?.localStorage
+    (state) => state?.localStorage,
   );
 
   // get user profile data from store
@@ -85,7 +84,7 @@ const ReconciliationJournal = () => {
   ] = useAxiosGet();
 
   const handleGetBaddebtRowData = (values) => {
-    const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
+    const [year, month] = values?.monthYear?.split('-')?.map(Number) || [];
     let startDate;
     let endDate;
     let formattedStartDate;
@@ -93,15 +92,15 @@ const ReconciliationJournal = () => {
     if (year && month) {
       startDate = new Date(Date.UTC(year, month - 1, 1));
       endDate = new Date(Date.UTC(year, month, 0));
-      formattedStartDate = startDate.toISOString().split("T")[0];
-      formattedEndDate = endDate.toISOString().split("T")[0];
+      formattedStartDate = startDate.toISOString().split('T')[0];
+      formattedEndDate = endDate.toISOString().split('T')[0];
     }
 
-    const api = ["Create"]?.includes(values?.tableMode?.label)
+    const api = ['Create']?.includes(values?.tableMode?.label)
       ? `/fino/Expense/GetMonthlyBaddebtAmount?businessUnitId=${buId}&dteFromDate=${formattedStartDate}&dteToDate=${formattedEndDate}`
-      : ["View"]?.includes(values?.tableMode?.label)
+      : ['View']?.includes(values?.tableMode?.label)
       ? `/fino/Expense/getBaddebitJournal?businessUnitId=${buId}`
-      : "";
+      : '';
 
     getBaddebtRowData(api);
   };
@@ -119,9 +118,9 @@ const ReconciliationJournal = () => {
       financialsInventoryJournal?.transactionDate || _todayDate(),
     fromDate: financialsInventoryJournal?.fromDate || _monthFirstDate(),
     toDate: financialsInventoryJournal?.toDate || _todayDate(),
-    sbu: financialsInventoryJournal?.sbu || "",
-    type: financialsInventoryJournal?.type || "",
-    closingType: financialsInventoryJournal?.closingType || "",
+    sbu: financialsInventoryJournal?.sbu || '',
+    type: financialsInventoryJournal?.type || '',
+    closingType: financialsInventoryJournal?.closingType || '',
     closingDate: getLastDateOfJuneOfCurrentYear(),
   };
 
@@ -131,7 +130,7 @@ const ReconciliationJournal = () => {
 
   // states
   const [expanded, setExpanded] = useState(false);
-  const [fileObject, setFileObject] = useState("");
+  const [fileObject, setFileObject] = useState('');
   const [sbuDDL, setSbuDDL] = useState([]);
   const [typeDDL] = useState(getType());
   // eslint-disable-next-line no-unused-vars
@@ -173,7 +172,7 @@ const ReconciliationJournal = () => {
         values?.fromDate,
         values?.toDate,
         setJounalLedgerData,
-        setLoading
+        setLoading,
       );
     } else if (values?.type?.value === 2) {
       getDepreciationGenLedgerList(
@@ -182,7 +181,7 @@ const ReconciliationJournal = () => {
         values?.sbu?.value,
         values?.transactionDate,
         setJounalLedgerData,
-        setLoading
+        setLoading,
       );
       getDepreciationJournal(
         profileData?.accountId,
@@ -190,7 +189,7 @@ const ReconciliationJournal = () => {
         values?.sbu?.value,
         values?.transactionDate,
         setJournalData,
-        setLoading
+        setLoading,
       );
     } else if (values?.type?.value === 4) {
       // type 1 for view data
@@ -200,7 +199,7 @@ const ReconciliationJournal = () => {
         1,
         values?.closingDate,
         setClosingData,
-        setLoading
+        setLoading,
       );
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
@@ -211,17 +210,17 @@ const ReconciliationJournal = () => {
         values,
         setterFunction: setSalaryJournal,
         setLoading,
-        type: "get",
+        type: 'get',
         setExpanded,
       });
       setJVSalaryJournal([]);
     } else if (values?.type?.value === 3) {
-      const [year, month] = values?.taxMonth?.split("-")?.map(Number) || [];
+      const [year, month] = values?.taxMonth?.split('-')?.map(Number) || [];
       let customDate;
       let formattedDate;
       if (year && month) {
         customDate = new Date(Date.UTC(year, month, 1));
-        formattedDate = customDate.toISOString().split("T")[0];
+        formattedDate = customDate.toISOString().split('T')[0];
       }
 
       // console.log(formattedDate);
@@ -229,11 +228,11 @@ const ReconciliationJournal = () => {
       incomeTaxProvisionViewCreate(
         `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
         {
-          partName: "view",
+          partName: 'view',
           businessUnitId: selectedBusinessUnit?.value,
           date: formattedDate,
           actionBy: profileData?.userId,
-        }
+        },
       );
     }
   };
@@ -254,7 +253,7 @@ const ReconciliationJournal = () => {
         values?.fromDate,
         values?.toDate,
         setJournalData,
-        setLoading
+        setLoading,
       );
     }
     if (values?.type?.value === 1 && values?.transactionType?.value !== 1) {
@@ -265,7 +264,7 @@ const ReconciliationJournal = () => {
         values?.transactionType?.value,
         isBaseTypeId,
         setJournalData,
-        setLoading
+        setLoading,
       );
     }
   };
@@ -283,7 +282,7 @@ const ReconciliationJournal = () => {
           values?.toDate,
           profileData?.userId,
           setLoading,
-          cb
+          cb,
         );
       } else if (values?.type?.value === 2) {
         postDepreciationJournal(
@@ -293,7 +292,7 @@ const ReconciliationJournal = () => {
           values?.transactionDate,
           profileData?.userId,
           setLoading,
-          cb
+          cb,
         );
       }
       // else if (values?.type?.value === 4) {
@@ -314,7 +313,7 @@ const ReconciliationJournal = () => {
   const totalJournalAmount = useMemo(() => {
     if (jounalLedgerData?.length > 0) {
       return _formatMoney(
-        jounalLedgerData?.reduce((acc, item) => (acc += item?.numAmount), 0)
+        jounalLedgerData?.reduce((acc, item) => (acc += item?.numAmount), 0),
       );
     } else {
       return 0;
@@ -336,7 +335,7 @@ const ReconciliationJournal = () => {
             getMonthFirstLastDate(values?.fromDate)?.lastDate === values?.toDate
           ) {
             return toast.warn(
-              "You can't create journal for continuous closing type, when you select full month. please change from date or to date"
+              "You can't create journal for continuous closing type, when you select full month. please change from date or to date",
             );
           }
 
@@ -354,7 +353,7 @@ const ReconciliationJournal = () => {
                   message: `${values?.type?.label} Journal has been created successfully with code ${code}`,
                   buttons: [
                     {
-                      label: "OK",
+                      label: 'OK',
                       onClick: () => {},
                     },
                   ],
@@ -374,7 +373,7 @@ const ReconciliationJournal = () => {
               incomeTaxProvisionViewCreateLoading) && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Reconciliation Journal"}>
+              <CardHeader title={'Reconciliation Journal'}>
                 <CardHeaderToolbar>
                   {/* Salary Journal */}
                   {values?.type?.value === 6 && (
@@ -386,7 +385,7 @@ const ReconciliationJournal = () => {
                           values,
                           setterFunction: setJVSalaryJournal,
                           setLoading,
-                          type: "create",
+                          type: 'create',
                           setExpanded,
                         })
                       }
@@ -404,7 +403,7 @@ const ReconciliationJournal = () => {
                         incomeTaxProvisionViewCreate(
                           `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
                           {
-                            partName: "save",
+                            partName: 'save',
                             businessUnitId: selectedBusinessUnit?.value,
                             date: values?.taxMonth,
                             actionBy: profileData?.userId,
@@ -420,7 +419,7 @@ const ReconciliationJournal = () => {
                             if (statusCode === 200) {
                               toast.success(message);
                             }
-                          }
+                          },
                         )
                       }
                       className="btn btn-primary ml-2"
@@ -443,9 +442,9 @@ const ReconciliationJournal = () => {
                             Math.round(
                               jounalLedgerData?.reduce(
                                 (acc, item) => acc + item.numAmount,
-                                0
-                              )
-                            )
+                                0,
+                              ),
+                            ),
                           ) ||
                           jounalLedgerData?.length === 0 ||
                           (values?.type?.value === 1 && !values?.closingType)
@@ -464,7 +463,7 @@ const ReconciliationJournal = () => {
                             selectedBusinessUnit?.value,
                             2,
                             values?.closingDate,
-                            setLoading
+                            setLoading,
                           );
                         }
                       }
@@ -481,7 +480,7 @@ const ReconciliationJournal = () => {
                   <div className="form-group row global-form align-items-end">
                     {values?.type?.value === 1 && (
                       <div className="col-lg-12">
-                        <p style={{ color: "red" }}>
+                        <p style={{ color: 'red' }}>
                           <b>
                             *When creating a journal for Monthly Closing Type,
                             you must select the first and last day of the month.
@@ -499,12 +498,12 @@ const ReconciliationJournal = () => {
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                           dispatch(
                             SetFinancialsInventoryJournalAction({
                               ...values,
                               sbu: valueOption,
-                            })
+                            }),
                           );
                         }}
                         placeholder="SBU"
@@ -519,14 +518,14 @@ const ReconciliationJournal = () => {
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                           setJounalLedgerData([]);
                           setJournalData([]);
                           dispatch(
                             SetFinancialsInventoryJournalAction({
                               ...values,
                               type: valueOption,
-                            })
+                            }),
                           );
                         }}
                         placeholder="Type"
@@ -540,13 +539,13 @@ const ReconciliationJournal = () => {
                           <NewSelect
                             name="tableMode"
                             options={[
-                              { value: 1, label: "Create" },
-                              { value: 2, label: "View" },
+                              { value: 1, label: 'Create' },
+                              { value: 2, label: 'View' },
                             ]}
                             value={values?.tableMode}
                             label="Mode"
                             onChange={(valueOption) => {
-                              setFieldValue("tableMode", valueOption);
+                              setFieldValue('tableMode', valueOption);
                               setBaddebtRowData([]);
                               // dispatch(
                               //   SetFinancialsInventoryJournalAction({
@@ -559,7 +558,7 @@ const ReconciliationJournal = () => {
                             touched={touched}
                           />
                         </div>
-                        {["Create"].includes(values.tableMode?.label) && (
+                        {['Create'].includes(values.tableMode?.label) && (
                           <div className="col-lg-3">
                             <label>Month-Year</label>
                             <InputField
@@ -568,7 +567,7 @@ const ReconciliationJournal = () => {
                               placeholder="From Date"
                               type="month"
                               onChange={(e) => {
-                                setFieldValue("monthYear", e?.target?.value);
+                                setFieldValue('monthYear', e?.target?.value);
                               }}
                             />
                           </div>
@@ -610,7 +609,7 @@ const ReconciliationJournal = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
@@ -622,7 +621,7 @@ const ReconciliationJournal = () => {
                                 toDate: getMonthFirstLastDate(e.target.value)
                                   ?.lastDate,
                                 closingType: values?.closingType,
-                              })
+                              }),
                             );
                             setJounalLedgerData([]);
                             setJournalData([]);
@@ -631,13 +630,13 @@ const ReconciliationJournal = () => {
                             values?.closingType?.value === 1
                               ? getMonthFirstLastDate(values?.fromDate)
                                   ?.firstDate
-                              : ""
+                              : ''
                           }
                           max={
                             values?.closingType?.value === 1
                               ? getMonthFirstLastDate(values?.fromDate)
                                   ?.lastDate
-                              : ""
+                              : ''
                           }
                         />
                       </div>
@@ -651,8 +650,8 @@ const ReconciliationJournal = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
-                            setFieldValue("closingType", "");
+                            setFieldValue('toDate', e.target.value);
+                            setFieldValue('closingType', '');
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
@@ -667,7 +666,7 @@ const ReconciliationJournal = () => {
                                         ?.lastDate
                                     : e.target.value,
                                 closingType: values?.closingType,
-                              })
+                              }),
                             );
                             setJounalLedgerData([]);
                             setJournalData([]);
@@ -688,12 +687,12 @@ const ReconciliationJournal = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("transactionDate", e.target.value);
+                            setFieldValue('transactionDate', e.target.value);
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
                                 transactionDate: e.target.value,
-                              })
+                              }),
                             );
                           }}
                         />
@@ -718,7 +717,7 @@ const ReconciliationJournal = () => {
                           placeholder="From Date"
                           type="month"
                           onChange={(e) => {
-                            setFieldValue("monthYear", e?.target?.value);
+                            setFieldValue('monthYear', e?.target?.value);
                           }}
                         />
                       </div>
@@ -741,7 +740,7 @@ const ReconciliationJournal = () => {
                         placeholder="Select Month"
                         type="month"
                         onChange={(e) => {
-                          setFieldValue("taxMonth", e?.target?.value);
+                          setFieldValue('taxMonth', e?.target?.value);
                           setIncomeTaxProvisionViewCreateData([]);
                         }}
                       />
@@ -753,12 +752,12 @@ const ReconciliationJournal = () => {
                         disabled={(() => {
                           if ([5].includes(values.type?.value)) {
                             if (
-                              ["Create"].includes(values.tableMode?.label) &&
+                              ['Create'].includes(values.tableMode?.label) &&
                               values?.monthYear
                             ) {
                               return false;
                             } else if (
-                              ["View"].includes(values.tableMode?.label)
+                              ['View'].includes(values.tableMode?.label)
                             ) {
                               return false;
                             } else return true;
@@ -784,18 +783,18 @@ const ReconciliationJournal = () => {
                           options={[
                             {
                               value: 1,
-                              label: "Monthly",
+                              label: 'Monthly',
                             },
                             {
                               value: 2,
-                              label: "Continuous",
+                              label: 'Continuous',
                             },
                           ]}
                           value={values?.closingType}
                           label="Closing Type"
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("closingType", valueOption);
+                              setFieldValue('closingType', valueOption);
                               dispatch(
                                 SetFinancialsInventoryJournalAction({
                                   ...values,
@@ -810,12 +809,12 @@ const ReconciliationJournal = () => {
                                       ? getMonthFirstLastDate(values?.fromDate)
                                           ?.lastDate
                                       : values?.toDate,
-                                })
+                                }),
                               );
                               setJounalLedgerData([]);
                               setJournalData([]);
                             } else {
-                              setFieldValue("closingType", "");
+                              setFieldValue('closingType', '');
                             }
                           }}
                           placeholder="Closing Type"
@@ -827,13 +826,13 @@ const ReconciliationJournal = () => {
                   </div>
 
                   {values?.type.value === 5 &&
-                    ["Create"]?.includes(values?.tableMode?.label) &&
+                    ['Create']?.includes(values?.tableMode?.label) &&
                     baddebtRowData?.length > 0 && (
                       <CreateBaddebt tableData={baddebtRowData} />
                     )}
 
                   {values?.type.value === 5 &&
-                    ["View"]?.includes(values?.tableMode?.label) &&
+                    ['View']?.includes(values?.tableMode?.label) &&
                     baddebtRowData?.length > 0 && (
                       <ViewBaddebt tableData={baddebtRowData} />
                     )}
@@ -851,7 +850,7 @@ const ReconciliationJournal = () => {
                                   <th>General Ledger Code</th>
                                   <th>General Ledger Name</th>
                                   <th>Narration</th>
-                                  <th style={{ width: "100px" }}>Amount</th>
+                                  <th style={{ width: '100px' }}>Amount</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -898,8 +897,8 @@ const ReconciliationJournal = () => {
                       <ReactHtmlTableToExcel
                         id="test-table-xls-button"
                         className="download-table-xls-button btn btn-primary ml-2"
-                        table={"depreciation"}
-                        filename={"Depreciation"}
+                        table={'depreciation'}
+                        filename={'Depreciation'}
                         sheet="Sheet-1"
                         buttonText="Export Excel"
                       />
@@ -914,18 +913,18 @@ const ReconciliationJournal = () => {
                           <NewSelect
                             name="transactionType"
                             options={[
-                              { value: 1, label: "Breakdown Of COGS" },
-                              { value: 9, label: "Issue for Cost Center" },
-                              { value: 10, label: "Issue For Maintenance" },
-                              { value: 14, label: "Issue For Shop Floor" },
-                              { value: 12, label: "Issue for Delivery" },
-                              { value: 25, label: "Inventory Adjustment" },
-                              { value: 59, label: "Receive from Shop Floor" },
+                              { value: 1, label: 'Breakdown Of COGS' },
+                              { value: 9, label: 'Issue for Cost Center' },
+                              { value: 10, label: 'Issue For Maintenance' },
+                              { value: 14, label: 'Issue For Shop Floor' },
+                              { value: 12, label: 'Issue for Delivery' },
+                              { value: 25, label: 'Inventory Adjustment' },
+                              { value: 59, label: 'Receive from Shop Floor' },
                             ]}
                             value={values?.transactionType}
                             label="Transaction Type"
                             onChange={(valueOption) => {
-                              setFieldValue("transactionType", valueOption);
+                              setFieldValue('transactionType', valueOption);
                               // setJounalLedgerData([]);
                               setJournalData([]);
                             }}
@@ -967,7 +966,7 @@ const ReconciliationJournal = () => {
                     <>
                       <div className="text-center">
                         <h3 className="mt-2">
-                          {values?.transactionType?.label || ""}
+                          {values?.transactionType?.label || ''}
                         </h3>
                       </div>
 
@@ -975,10 +974,10 @@ const ReconciliationJournal = () => {
                         <ReactHtmlTableToExcel
                           id="test-table-xls-button"
                           className="download-table-xls-button btn btn-primary ml-2"
-                          table={"cogs"}
+                          table={'cogs'}
                           filename={
                             values?.transactionType?.label ||
-                            "reconsilationJournel"
+                            'reconsilationJournel'
                           }
                           sheet="Sheet-1"
                           buttonText="Export Excel"
@@ -1019,7 +1018,7 @@ const ReconciliationJournal = () => {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Typography>Salary Journal</Typography>
+                        <h6>Salary Journal</h6>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails>
                         <ViewSalaryJournalTable salaryJournal={salaryJournal} />
@@ -1040,7 +1039,7 @@ const ReconciliationJournal = () => {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                       >
-                        <Typography>JV Report of Salary Journal</Typography>
+                        <h6>JV Report of Salary Journal</h6>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails>
                         <CreateSalaryJournalTable
@@ -1059,7 +1058,7 @@ const ReconciliationJournal = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
                         }
                       >
                         <thead>
@@ -1077,7 +1076,7 @@ const ReconciliationJournal = () => {
                               return (
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "40px" }}
+                                    style={{ width: '40px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -1090,7 +1089,7 @@ const ReconciliationJournal = () => {
                                   </td>
                                 </tr>
                               );
-                            }
+                            },
                           )}
                         </tbody>
                       </table>
@@ -1102,10 +1101,10 @@ const ReconciliationJournal = () => {
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
-                      acceptedFiles={[".xlsx", ".xls"]}
+                      acceptedFiles={['.xlsx', '.xls']}
                       fileObjects={fileObject}
-                      cancelButtonText={"cancel"}
-                      submitButtonText={"submit"}
+                      cancelButtonText={'cancel'}
+                      submitButtonText={'submit'}
                       maxFileSize={100000000000000}
                       open={open}
                       onAdd={(newFileObjs) => {

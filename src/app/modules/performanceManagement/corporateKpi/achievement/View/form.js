@@ -1,15 +1,15 @@
-import TextArea from "antd/lib/input/TextArea";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { IInput } from "../../../../_helper/_input";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { IInput } from '../../../../_helper/_input';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import TextArea from '../../../../_helper/TextArea';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -31,7 +31,7 @@ export default function _Form({
 }) {
   const dispatch = useDispatch();
 
-  const [clickedMonth, setClickedMonth] = useState("");
+  const [clickedMonth, setClickedMonth] = useState('');
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   let date = new Date();
@@ -45,7 +45,7 @@ export default function _Form({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
-            resetForm(initData)
+            resetForm(initData);
 
             getPmsReportAction(
               setReport,
@@ -55,7 +55,7 @@ export default function _Form({
               0,
               0,
               false,
-              4
+              4,
             );
           });
         }}
@@ -74,13 +74,13 @@ export default function _Form({
               {console.log(target)}
               <div className="row">
                 <div className="col-lg">
-                  <p style={{ fontSize: "14px", marginTop: "5px" }}>
-                    {" "}
-                    <b>Objective</b> : {objective}{" "}
+                  <p style={{ fontSize: '14px', marginTop: '5px' }}>
+                    {' '}
+                    <b>Objective</b> : {objective}{' '}
                   </p>
-                  <p style={{ fontSize: "14px", marginBottom: "0px" }}>
-                    {" "}
-                    <b>KPI</b> : {kpi}{" "}
+                  <p style={{ fontSize: '14px', marginBottom: '0px' }}>
+                    {' '}
+                    <b>KPI</b> : {kpi}{' '}
                   </p>
                 </div>
               </div>
@@ -125,7 +125,7 @@ export default function _Form({
                               className="disabled-feedback disable-border str-achievement"
                               onClick={() => {
                                 setClickedMonth(
-                                  Object.keys(target?.objRow)[index]
+                                  Object.keys(target?.objRow)[index],
                                 );
                               }}
                             >
@@ -138,10 +138,10 @@ export default function _Form({
                                 step="any"
                                 onChange={(e) =>
                                   rowDtoHandler(
-                                    "numAchivment",
+                                    'numAchivment',
                                     e.target.value,
                                     index,
-                                    itm.rowId
+                                    itm.rowId,
                                   )
                                 }
                               />
@@ -163,10 +163,10 @@ export default function _Form({
                                 rows="1"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "remarks",
+                                    'remarks',
                                     e.target.value,
                                     index,
-                                    itm.rowId
+                                    itm.rowId,
                                   );
                                 }}
                                 max={1000}
@@ -183,32 +183,32 @@ export default function _Form({
                 )}
               </div>
 
-              {clickedMonth >= 0 && clickedMonth !== "" && (
+              {clickedMonth >= 0 && clickedMonth !== '' && (
                 <div className="mt-3">
                   <span>
                     <b>
                       {target?.objRow?.[clickedMonth]?.monthName
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
-                          "Yearly"
-                          ? "Year " + year
-                          : Object.values(target?.objHeader)[clickedMonth] +
-                          " Quarter"}
-                    </b>{" "}
+                          'Yearly'
+                        ? 'Year ' + year
+                        : Object.values(target?.objHeader)[clickedMonth] +
+                          ' Quarter'}
+                    </b>{' '}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
                     rowDto[clickedMonth]?.documentString) && (
-                      <IView
-                        clickHandler={() => {
-                          dispatch(
-                            getDownlloadFileView_Action(
-                              rowDto[clickedMonth]?.documentString ||
-                              target?.objRow?.[clickedMonth]?.documentString
-                            )
-                          );
-                        }}
-                      />
-                    )}
+                    <IView
+                      clickHandler={() => {
+                        dispatch(
+                          getDownlloadFileView_Action(
+                            rowDto[clickedMonth]?.documentString ||
+                              target?.objRow?.[clickedMonth]?.documentString,
+                          ),
+                        );
+                      }}
+                    />
+                  )}
 
                   {!target?.objRow?.[clickedMonth]?.isApproved && (
                     <ButtonStyleOne
@@ -221,10 +221,10 @@ export default function _Form({
 
                   <DropzoneDialogBase
                     filesLimit={1}
-                    acceptedFiles={["image/*"]}
+                    acceptedFiles={['image/*']}
                     fileObjects={fileObjects}
-                    cancelButtonText={"cancel"}
-                    submitButtonText={"submit"}
+                    cancelButtonText={'cancel'}
+                    submitButtonText={'submit'}
                     maxFileSize={1000000}
                     open={open}
                     onAdd={(newFileObjs) => {
@@ -232,20 +232,20 @@ export default function _Form({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name
+                        (item) => item.file.name !== deleteFileObj.file.name,
                       );
                       setFileObjects(newData);
                     }}
                     onClose={() => setOpen(false)}
                     onSave={() => {
-                      console.log("onSave", fileObjects);
+                      console.log('onSave', fileObjects);
                       setOpen(false);
                       empAttachment_action(fileObjects).then((data) => {
                         rowDtoHandler(
-                          "documentString",
+                          'documentString',
                           data?.[0]?.id,
                           clickedMonth,
-                          target?.objRow?.[clickedMonth]?.rowId
+                          target?.objRow?.[clickedMonth]?.rowId,
                         );
                         setFileObjects([]);
                       });
@@ -258,14 +258,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

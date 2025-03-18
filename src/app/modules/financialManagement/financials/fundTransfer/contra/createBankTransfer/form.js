@@ -1,4 +1,3 @@
-import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
@@ -18,16 +17,25 @@ import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
 // import { _todayDate } from '../../../../_helper/_todayDate';
 import { _todayDate } from '../../../../../_helper/_todayDate';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
-import {
-  getCostElementByCostCenterDDL,
-} from './helper';
+import { getCostElementByCostCenterDDL } from './helper';
 // import DebitCredit from './DebitCredit';
 // import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 // import TransferTable from './TransferTable';
 // import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { confirmAlert } from 'react-confirm-alert';
 import { Input } from '../../../../../../../_metronic/_partials/controls';
-import { generateAdviceNo, getBankAc, getCostCenterDDL, getInstrumentType, getNextBankCheque, getPartnerTypeDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank } from '../../../../../_helper/_commonApi';
+import {
+  generateAdviceNo,
+  getBankAc,
+  getCostCenterDDL,
+  getInstrumentType,
+  getNextBankCheque,
+  getPartnerTypeDDL,
+  getProfitCenterDDL,
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+  getSendToGLBank,
+} from '../../../../../_helper/_commonApi';
 import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';
@@ -41,6 +49,7 @@ import { approveHandeler } from '../../fundTransferApproval/helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
+import TextArea from '../../../../../_helper/TextArea';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -115,7 +124,7 @@ export default function _Form({
   attachmentFile,
   setAttachmentFile,
   isEdit,
-  transferRowItem
+  transferRowItem,
 }) {
   const [sendToGLBank, setSendToGLBank] = useState([]);
   const [bankAcc, setBankAcc] = useState([]);
@@ -132,7 +141,6 @@ export default function _Form({
   const [partnerBank, getPartnerBank, , setPartnerBank] = useAxiosGet();
   const [, onUpdateJournalHandler, updateJounalLoader] = useAxiosPost();
   const [glList, getGlList] = useAxiosGet();
-
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -169,9 +177,12 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -192,10 +203,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                ...item,
-                value: item?.bankId,
-                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-              }))
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -203,7 +214,9 @@ export default function _Form({
     }
 
     if (true) {
-      getGlList(`/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`)
+      getGlList(
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
@@ -229,11 +242,11 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-              ? PaymentvalidationSchema
-              : TransfervalidationSchema
+            ? PaymentvalidationSchema
+            : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          let bankPaymentValues = { ...values } //If you want to resetFrom write code after this line.
+          let bankPaymentValues = { ...values }; //If you want to resetFrom write code after this line.
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -242,22 +255,23 @@ export default function _Form({
                 label: 'Yes',
                 onClick: () => {
                   saveHandler(values, (journalCode) => {
-
                     // For Update Journal for Bank Transfer
                     approveHandeler({
                       item: transferRowItem,
                       onApproveHandler: onUpdateJournalHandler,
                       profileData,
-                      cb: () => {
-
-                      },
+                      cb: () => {},
                       isApproved: 1,
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      actionName: jorunalType === 5 ? "Bank Payments" : jorunalType === 6 ? "Bank Transfer" : ""
+                      actionName:
+                        jorunalType === 5
+                          ? 'Bank Payments'
+                          : jorunalType === 6
+                          ? 'Bank Transfer'
+                          : '',
                     });
-
 
                     if (jorunalType === 6) {
                       setFieldValue('transferAmount', '');
@@ -431,17 +445,19 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                        ...item,
-                                        value: item?.bankId,
-                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                      }))
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
                               );
                             }}
                             loadOptions={loadTransactionList}
-                            isDisabled={!values?.partnerType || jorunalType === 5}
+                            isDisabled={
+                              !values?.partnerType || jorunalType === 5
+                            }
                           />
                           <FormikError
                             errors={errors}
@@ -472,7 +488,7 @@ export default function _Form({
                                 isSearchable={true}
                                 styles={customStyles}
                                 placeholder="Partner Bank Account"
-                              // isDisabled={jorunalType === 5}
+                                // isDisabled={jorunalType === 5}
                               />
                             </div>
                           )}
@@ -484,7 +500,9 @@ export default function _Form({
                               setFieldValue('gl', valueOption);
                             }}
                             isDisabled={!values?.transaction}
-                            options={values?.transaction?.glData || glList || []}
+                            options={
+                              values?.transaction?.glData || glList || []
+                            }
                             value={values?.gl}
                             isSearchable={true}
                             styles={customStyles}
@@ -511,7 +529,7 @@ export default function _Form({
                     ) : jorunalType === 5 ? (
                       <div className="col-lg-6 pr-1 pl mb-2 border-gray">
                         <IInput
-                          value={values.paidTo || ""}
+                          value={values.paidTo || ''}
                           label="Paid to"
                           name="paidTo"
                         />
