@@ -168,5 +168,5 @@ export const getRetailPriceImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) {}
+  } catch (error) { }
 };

@@ -8,8 +8,9 @@ import TextArea from "../../../../_helper/TextArea";
 import InputField from "../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
-import { attachment_action, cbForAppId, cbForRegistrationId } from "./utils";
+import { cbForAppId, cbForRegistrationId } from "./utils";
 import placeholderImg from "../../../../_helper/images/placeholderImg.png";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 
 export default function _Form({
   initData,
@@ -650,7 +651,7 @@ export default function _Form({
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   "routing",
-                                  {value : valueOption?.strRoutingNo, label: valueOption?.strRoutingNo}
+                                  { value: valueOption?.strRoutingNo, label: valueOption?.strRoutingNo }
                                 );
                                 setFieldValue("branchName", valueOption);
                               }}
@@ -788,7 +789,7 @@ export default function _Form({
                         <input
                           onChange={(e) => {
                             if (e.target.files?.[0]) {
-                              attachment_action(e.target.files)
+                              attachmentUpload(e.target.files)
                                 .then((data) => {
                                   setAttachmentFile(data?.[0]?.id);
                                 })

@@ -58,7 +58,7 @@ export const getVatBranches = async (accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSupplierDDL = async (accId, buId, setter) => {
@@ -69,7 +69,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
@@ -80,7 +80,7 @@ export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTaxConfig = async (buId, setter) => {
@@ -91,7 +91,7 @@ export const getTaxConfig = async (buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTradeTypeDDL = async (setter) => {
@@ -100,7 +100,7 @@ export const getTradeTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPaymentTermDDL = async (setter) => {
@@ -111,7 +111,7 @@ export const getPaymentTermDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemDDL = async (accId, buId, setter) => {
@@ -122,7 +122,7 @@ export const getItemDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getUomDDL = async (accId, buId, setter) => {
@@ -133,7 +133,7 @@ export const getUomDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemAmounts = (item, selectedItemInfo) => {
@@ -217,9 +217,9 @@ export const getShipmentByID = async (
         downTripCredit: objHeader?.downTripCredit || 0,
         businessUnitName: objHeader?.downTripUnitId
           ? {
-              value: objHeader.downTripUnitId,
-              label: objHeader.downTripUnitName,
-            }
+            value: objHeader.downTripUnitId,
+            label: objHeader.downTripUnitName,
+          }
           : "",
         extraMillage: objHeader?.extraMillage || 0,
         fuelDate: _todayDate(),
@@ -260,7 +260,7 @@ export const GetFuelConstInfoById_api = async (shipmentCost, setter) => {
       }));
       setter(modifiedData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getComponentDDL = async (accId, setter) => {
@@ -271,7 +271,7 @@ export const getComponentDDL = async (accId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetSupplierFuelStationDDL_api = async (
   partnerId,
@@ -286,7 +286,7 @@ export const GetSupplierFuelStationDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetVehicleFuelTypeDDL_api = async (setter) => {
   try {
@@ -296,7 +296,7 @@ export const GetVehicleFuelTypeDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetSupplierListDDL_api = async (accId, busId, setter) => {
   try {
@@ -306,7 +306,7 @@ export const GetSupplierListDDL_api = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetShipToPartnerDistanceByShipmentId_api = async (
   shipmentId,
@@ -324,7 +324,7 @@ export const GetShipToPartnerDistanceByShipmentId_api = async (
         }))
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
   try {
@@ -339,7 +339,7 @@ export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
         }))
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getChalanInfo = async (shipmentId, setter) => {
@@ -451,7 +451,7 @@ export const getSelectedItemInfo = async (
         setter({});
       }
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getGridData = async (
@@ -475,10 +475,8 @@ export const getGridData = async (
     const toDateTime = moment(`${toDate} ${toTime}`).format("YYYY-MM-DDTHH:mm:ss");
     const searchPath = searchValue ? `search=${searchValue}&` : "";
     const res = await Axios.get(
-      `/tms/ShipmentStandardCost/ShipmentStandardCostPaginationModified?${searchPath}&accountId=${accId}&businessUnitId=${buId}&shipmentId=${shippointId}&FromDate=${fromDateTime}&ToDate=${toDateTime}&status=true&IsClose=${
-        rtId === 2 ? true : rtId
-      }&isBillSubmited=${
-        rtId === 2 ? true : false
+      `/tms/ShipmentStandardCost/ShipmentStandardCostPaginationModified?${searchPath}&accountId=${accId}&businessUnitId=${buId}&shipmentId=${shippointId}&FromDate=${fromDateTime}&ToDate=${toDateTime}&status=true&IsClose=${rtId === 2 ? true : rtId
+      }&isBillSubmited=${rtId === 2 ? true : false
       }&PageNo=1&PageSize=1000&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
@@ -513,7 +511,7 @@ export const getSalesInvoiceById = async (id, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 //
 
@@ -525,7 +523,7 @@ export const getDownTripData = async (vehiId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBUMilageAllowance = async (accId, buId, setter) => {
@@ -536,48 +534,10 @@ export const getBUMilageAllowance = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) {}
-};
-export const attachmentUpload = async (attachment, cb) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
-    return data;
-  } catch (error) {
-    toast.error("Document not upload");
-  }
+  } catch (error) { }
 };
 
-export const multipleAttachment_action = async (attachment, setDisabled) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append("files", file?.file);
-  });
-  try {
-    setDisabled && setDisabled(true);
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
-    return data;
-  } catch (error) {
-    setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
-  }
-};
+
 export const GetShipmentCostEntryStatus_api = async (
   accId,
   buId,
@@ -589,7 +549,7 @@ export const GetShipmentCostEntryStatus_api = async (
       `/tms/ShipmentStandardCost/GetShipmentCostEntryStatus?accountid=${accId}&businessunitid=${buId}&TripId=${tripId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
@@ -606,5 +566,5 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       });
       setter(newdata);
     }
-  } catch (error) {}
+  } catch (error) { }
 };

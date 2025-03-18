@@ -1,27 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
 import { toast } from "react-toastify";
+import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 import {
-  saveServiceReceive,
+  getCostCenterDDL,
   getPoNumberDDL,
+  getProjectDDL,
+  getServiceReceivedDDL,
   //getRowDtoData,
   // attachment_action,
   getSingleDataForEdit,
   saveCreateServiceEdit,
-  getCostCenterDDL,
-  getProjectDDL,
-  getServiceReceivedDDL,
-  serviceReceiveAttachment_action,
-
+  saveServiceReceive,
 } from "../helper/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
+import Form from "./form";
 // import { _validationNumber } from "../../../../_helper/_numberValidation";
 
 let initData = {
@@ -40,11 +39,11 @@ let initData = {
   vatChallan: "",
   vatAmmount: "",
   getEntry: "",
-  freight:"",
-  grossDiscount:"",
-  commission:"",
+  freight: "",
+  grossDiscount: "",
+  commission: "",
   productCost: "",
-  foreignPurchase:"",
+  foreignPurchase: "",
   othersCharge: ""
 };
 
@@ -125,7 +124,7 @@ export default function ServiceReceiveForm({
   //   getRowDtoData(poId, setRowDto);
   // };
 
-  let vatAmount = rowDto?.reduce((sum, data) => sum + data.vatValue , 0)
+  let vatAmount = rowDto?.reduce((sum, data) => sum + data.vatValue, 0)
 
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl) => {
@@ -133,7 +132,7 @@ export default function ServiceReceiveForm({
     let _sl = data[sl];
     if (name === "quantity") {
       // _sl[name] = _validationNumber(value) ;
-      _sl[name] = value ;
+      _sl[name] = value;
       _sl["serviceAmount"] = (_sl.totalValue / _sl.poQuantity) * +value;
       _sl["totalVat"] = (_sl?.vatValue / _sl?.poQuantity) * +value
       _sl["netTotalValue"] = ((_sl?.vatValue / _sl?.poQuantity) * +value) + ((_sl.totalValue / _sl.poQuantity) * +value);
@@ -177,11 +176,11 @@ export default function ServiceReceiveForm({
         },
       ],
     });
-    
+
   };
 
   const saveHandler = async (values, cb) => {
-    if(totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
+    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       //edit api check
       if (id) {
@@ -226,7 +225,7 @@ export default function ServiceReceiveForm({
             poQuantity: data?.poQuantity,
             previousQuantity: data?.receiveQuantity,
             transactionValue: +data?.quantity * data?.baseBalue,
-            vatAmount: data?.vatValue ||0,
+            vatAmount: data?.vatValue || 0,
             discount: data?.discount || 0,
             referenceId: data?.referenceId || 0,
             profitCenterId: data?.profitCenterId || 0,
@@ -284,10 +283,10 @@ export default function ServiceReceiveForm({
           shipmentId: values?.foreignPurchase?.value || 0,
           othersCharge: +values?.othersCharge || 0
         };
-        if(fileObjects.length < 1) return toast.warn("Attachment is required", {toastId: "attachment"});
+        if (fileObjects.length < 1) return toast.warn("Attachment is required", { toastId: "attachment" });
         if (fileObjects.length > 0) {
           setDisabled(true)
-          serviceReceiveAttachment_action(fileObjects).then((data) => {
+          empAttachment_action(fileObjects).then((data) => {
             setDisabled(false)
             const modifyPlyload = {
               objHeader: {
@@ -301,7 +300,7 @@ export default function ServiceReceiveForm({
               }),
               objRow: rowDtoFormet,
             };
-            saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled,IConfirmModal, dispatch).then((data) => {
+            saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then((data) => {
               setFileObjects([]);
             });
           }).catch(err => {
@@ -316,7 +315,7 @@ export default function ServiceReceiveForm({
             images: [],
             objRow: rowDtoFormet,
           };
-          saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled,IConfirmModal, dispatch).then((data) => {
+          saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then((data) => {
             setFileObjects([]);
           });
         }

@@ -2,36 +2,36 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import Axios from 'axios';
 import { Field, Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import FormikError from '../../../../_helper/_formikError';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../_helper/_helperIcons/_view';
 import { IInput } from '../../../../_helper/_input';
+import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { YearDDL } from '../../../../_helper/_yearDDL';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { CostElementDDLApi } from '../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper';
 import customStyles from '../../../../selectCustomStyle';
 import {
-  expenseAttachment_action,
   getCategory,
   getCostCenter,
   getDisbursementCenter,
   getPaymentType,
   getVehicleDDL,
 } from '../helper';
-import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import IView from '../../../../_helper/_helperIcons/_view';
-import InputField from '../../../../_helper/_inputField';
-import NewSelect from '../../../../_helper/_select';
-import { YearDDL } from '../../../../_helper/_yearDDL';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import { toast } from 'react-toastify';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -164,12 +164,10 @@ export default function _Form({
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
       getProfitcenterDDL(
-        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${
-          selectedBusinessUnit.value
-        }&employeeId=${
-          [184].includes(selectedBusinessUnit?.value)
-            ? profileData?.employeeId
-            : 0
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value
+        }&employeeId=${[184].includes(selectedBusinessUnit?.value)
+          ? profileData?.employeeId
+          : 0
         }`,
       );
     }
@@ -187,20 +185,20 @@ export default function _Form({
           isEdit
             ? initData
             : {
-                ...initData,
-                // profitCenter: profitcenterDDL.length > 1 && "",
-                vehicle: {
-                  value: vehicleDDL[0]?.value,
-                  label: vehicleDDL[0]?.label,
-                },
-                disbursmentCenter:
-                  disbustmentCenter?.length > 0
-                    ? {
-                        value: disbustmentCenter[0]?.value,
-                        label: disbustmentCenter[0]?.label,
-                      }
-                    : '',
-              }
+              ...initData,
+              // profitCenter: profitcenterDDL.length > 1 && "",
+              vehicle: {
+                value: vehicleDDL[0]?.value,
+                label: vehicleDDL[0]?.label,
+              },
+              disbursmentCenter:
+                disbustmentCenter?.length > 0
+                  ? {
+                    value: disbustmentCenter[0]?.value,
+                    label: disbustmentCenter[0]?.label,
+                  }
+                  : '',
+            }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
@@ -486,14 +484,11 @@ export default function _Form({
                               setFieldValue('profitCenter', '');
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
-                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
-                                  valueOption?.value
-                                }&businessUnitId=${
-                                  selectedBusinessUnit.value
-                                }&employeeId=${
-                                  [184].includes(selectedBusinessUnit?.value)
-                                    ? profileData?.employeeId
-                                    : 0
+                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value
+                                }&businessUnitId=${selectedBusinessUnit.value
+                                }&employeeId=${[184].includes(selectedBusinessUnit?.value)
+                                  ? profileData?.employeeId
+                                  : 0
                                 }`,
                                 (data) => {
                                   if (data?.length === 1) {
@@ -522,10 +517,8 @@ export default function _Form({
                           setBugetHeadWiseBalance([]);
                           if (valueOption) {
                             getBugetHeadWiseBalance(
-                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${
-                                selectedBusinessUnit?.value
-                              }&generalLedgerId=${valueOption?.glId}&subGlId=${
-                                valueOption?.subGlId
+                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value
+                              }&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId
                               }&accountHeadId=0&dteJournalDate=${_todayDate()}`,
                               (res) => {
                                 const modiFyData = res?.map((item) => ({
@@ -560,12 +553,9 @@ export default function _Form({
                               setFieldValue('accountHead', valueOption || '');
                               if (valueOption) {
                                 getAvailableBudgetAdvanceBalance(
-                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${
-                                    selectedBusinessUnit?.value
-                                  }&subGlId=${
-                                    values?.costElement?.subGlId
-                                  }&accountHeadId=${
-                                    valueOption?.value
+                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value
+                                  }&subGlId=${values?.costElement?.subGlId
+                                  }&accountHeadId=${valueOption?.value
                                   }&dteJournalDate=${_todayDate()}`,
                                 );
                               }
@@ -668,17 +658,17 @@ export default function _Form({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.userNmae
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.userNmae
                               : !values?.expenseDate ||
-                                !values?.expenseAmount ||
-                                !values?.location ||
-                                !values?.costCenter ||
-                                !values?.costElement ||
-                                !values?.profitCenter ||
-                                (bugetHeadWiseBalance?.length > 0 &&
-                                  !values?.accountHead)
+                              !values?.expenseAmount ||
+                              !values?.location ||
+                              !values?.costCenter ||
+                              !values?.costElement ||
+                              !values?.profitCenter ||
+                              (bugetHeadWiseBalance?.length > 0 &&
+                                !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -814,7 +804,7 @@ export default function _Form({
                                           if (
                                             location?.state?.isApproval &&
                                             e.target.value >
-                                              item?.prvExpenseAmount
+                                            item?.prvExpenseAmount
                                           ) {
                                             return false;
                                           }
@@ -904,7 +894,7 @@ export default function _Form({
                 onClose={() => setOpen(false)}
                 onSave={() => {
                   setOpen(false);
-                  expenseAttachment_action(fileObjects).then((data) => {
+                  empAttachment_action(fileObjects).then((data) => {
                     setUploadImage(data);
                   });
                 }}

@@ -38,7 +38,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const savePurchaseInvoice = async (
@@ -104,7 +104,7 @@ export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -115,7 +115,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
@@ -126,7 +126,7 @@ export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
@@ -137,7 +137,7 @@ export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetAdvanceForSupplierById = async (poId, setter) => {
@@ -148,7 +148,7 @@ export const GetAdvanceForSupplierById = async (poId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPurchaseDDL = async (
@@ -183,7 +183,7 @@ export const getPurchaseDDL = async (
       setter(options);
       // setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getGRNDDL = async (
@@ -204,7 +204,7 @@ export const getGRNDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSingleDataForEdit = async (id, setter) => {
@@ -254,7 +254,7 @@ export const getSingleDataForEdit = async (id, setter) => {
       };
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSingleData = async (id, setter) => {
@@ -265,7 +265,7 @@ export const getSingleData = async (id, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const savePurchaseEditInvoice = async (
@@ -319,7 +319,7 @@ export const purchaseInvoiceImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const postCancelInvoiceAction = async (POId) => {

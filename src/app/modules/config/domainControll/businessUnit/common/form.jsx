@@ -1,16 +1,16 @@
+import Axios from 'axios';
+import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import Select from 'react-select';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import Axios from 'axios';
-import Select from 'react-select';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import customStyles from '../../../../selectCustomStyle';
 // import IView from "../../../../_helper/_helperIcons/_view";
-import { attachmentUpload } from '../helper';
 import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 // import imageCompression from 'browser-image-compression';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import { compressfile } from '../../../../_helper/compressfile';
 // Validation schema
 const BusinessUnitDataSchema = Yup.object().shape({
@@ -93,7 +93,7 @@ export default function _Form({
         setCurrency(currencyListTemp);
         currencyListTemp = null;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -185,9 +185,9 @@ export default function _Form({
                     className="text-danger"
                   >
                     {errors &&
-                    errors.languageName &&
-                    touched &&
-                    touched.languageName
+                      errors.languageName &&
+                      touched &&
+                      touched.languageName
                       ? errors.languageName.value
                       : ''}
                   </p>
@@ -222,9 +222,9 @@ export default function _Form({
                     className="text-danger"
                   >
                     {touched &&
-                    touched.currencyName &&
-                    errors &&
-                    errors.currencyName
+                      touched.currencyName &&
+                      errors &&
+                      errors.currencyName
                       ? errors.currencyName.value
                       : ''}
                   </p>
@@ -256,7 +256,7 @@ export default function _Form({
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-                // disabled={true}
+              // disabled={true}
               ></button>
 
               <button
