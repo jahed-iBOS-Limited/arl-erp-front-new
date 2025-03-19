@@ -19,7 +19,6 @@ import {
   getCostElementDDL,
   getDisbursementCenter,
   getPaymentType,
-  getProfitCenterDDL,
   getProjectName,
   getVehicleDDL,
 } from '../helper';
@@ -30,7 +29,7 @@ import NewSelect from './../../../../_helper/_select';
 import { YearDDL } from './../../../../_helper/_yearDDL';
 import { empAttachment_action } from "../../../../_helper/attachmentUpload";
 
-import { getBusTransDDLForExpense } from '../../../../_helper/_commonApi';
+import { getBusTransDDLForExpense, getProfitCenterDDL } from '../../../../_helper/_commonApi';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   paymentType: Yup.object().shape({
