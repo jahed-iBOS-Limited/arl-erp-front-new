@@ -35,13 +35,6 @@ import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
-// Validation schema for bank receive
-
-
-// Validation schema for bank payment
-
-// Validation schema for bank transfer
-
 
 export default function _Form({
   initData,
