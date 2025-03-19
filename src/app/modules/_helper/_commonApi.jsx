@@ -844,6 +844,14 @@ export const getBankAccountDDL_api = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
+};
+export const getShipByDDL = async (setter) => {
+  try {
+    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) { }
 };
