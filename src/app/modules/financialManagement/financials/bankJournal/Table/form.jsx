@@ -1,50 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
-import customStyles from "./../../../../selectCustomStyle";
-import { useEffect } from "react";
-import { useState } from "react";
-import FormikError from "./../../../../_helper/_formikError";
+import { getSBU } from "../../../../_helper/_commonApi";
+import findIndex from "../../../../_helper/_findIndex";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
+import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  getBankJournalGridData,
   EmptyBankJournalGridData,
+  getBankJournalGridData,
 } from "../_redux/Actions";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { IInput } from "./../../../../_helper/_input";
-import { getBankJournalGridDatabyCode } from "./../_redux/Actions";
-import GridData from "./grid";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import findIndex from "../../../../_helper/_findIndex";
-import { getSBU } from "../../../../_helper/_commonApi";
+import FormikError from "./../../../../_helper/_formikError";
+import { IInput } from "./../../../../_helper/_input";
+import { _todayDate } from "./../../../../_helper/_todayDate";
+import customStyles from "./../../../../selectCustomStyle";
+import { getBankJournalGridDatabyCode } from "./../_redux/Actions";
+import GridData from "./grid";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  controllingUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
-  sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
-  }),
-  accountingJournalTypeId: Yup.object().shape({
-    label: Yup.string().required("Journal Type is required"),
-    value: Yup.string().required("Journal Type is required"),
-  }),
-});
+
 
 const initData = {
   id: undefined,
@@ -150,8 +134,8 @@ export default function HeaderForm({
           toDate: bankJournalLanding?.toDate || _todayDate(),
           type: bankJournalLanding?.type || "notComplated",
         }}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        validationSchema={bankJournalValidationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -161,7 +145,7 @@ export default function HeaderForm({
                 <CardHeader title={"Bank Journal"}>
                   <CardHeaderToolbar>
                     <button
-                    disabled={!canCreate}
+                      disabled={!canCreate}
                       onClick={() => {
                         dispatch(
                           setBankJournalLandingAction({ ...values, code: "" })

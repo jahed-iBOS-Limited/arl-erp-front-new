@@ -20,7 +20,7 @@ import {
 } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
-import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../_helper/_validationScema';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../_helper/_validationSchema';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';

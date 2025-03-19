@@ -16,7 +16,7 @@ import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../../_helper/_todayDate';
-import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationScema';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationSchema';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import placeholderImg from '../../../../../_helper/images/placeholderImg.png';

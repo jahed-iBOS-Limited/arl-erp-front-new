@@ -37,7 +37,6 @@ const DamageEntryLandingForm = ({ obj }) => {
       .then((res) => res?.data);
   };
 
-  // DamangeEntryFieldForm
   // View As Field Form
   const ViewAsFieldForm = () => (
     <div className="col-lg-2">
@@ -137,31 +136,7 @@ const DamageEntryLandingForm = ({ obj }) => {
           />{' '}
           {/* Status Form Field For Damage Entry Landing */}
           {[1].includes(values?.reportType?.value) && <StatusFormField />}
-          {/* {values?.viewAs?.value === 2 && (
-            <>
-              <div className="col-md-2">
-                <NewSelect
-                  name="sbu"
-                  options={sbuDDL || []}
-                  value={values?.sbu}
-                  label="SBU"
-                  onChange={(valueOption) => {
-                    setFieldValue("sbu", valueOption);
-                  }}
-                  placeholder="Select SBU"
-                />
-              </div>{" "}
-              <div className="col-lg-4">
-                <label>Narration</label>
-                <TextArea
-                  name="narration"
-                  value={values?.narration}
-                  label="Narration"
-                  placeholder="Narration"
-                />
-              </div>
-            </>
-          )} */}
+
           {isChallanVSDamageFilterSelectShow(values, gridData?.data) ? (
             <div className="col-lg-2">
               <NewSelect
