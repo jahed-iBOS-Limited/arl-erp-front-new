@@ -92,16 +92,7 @@ export const EditLighterAllotment = async (payload, setLoading, cb) => {
   }
 };
 
-export const GetLighterCNFDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/FertilizerOperation/GetLighterCNFDDL`);
-    if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {

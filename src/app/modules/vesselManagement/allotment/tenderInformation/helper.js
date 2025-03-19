@@ -2,16 +2,7 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
-export const GetLighterCNFDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/FertilizerOperation/GetLighterCNFDDL`);
-    if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {
@@ -30,25 +21,11 @@ export const getMotherVesselDDL = async (accId, buId, setter, portId) => {
   try {
     const res = await Axios.get(
       `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-        0}`
+      0}`
     );
     setter(res.data);
   } catch (error) {
     setter([]);
-  }
-};
-
-export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
-  setLoading && setLoading(true);
-  try {
-    const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`
-    );
-    cb && cb(res?.data);
-    setLoading && setLoading(false);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setLoading && setLoading(false);
   }
 };
 

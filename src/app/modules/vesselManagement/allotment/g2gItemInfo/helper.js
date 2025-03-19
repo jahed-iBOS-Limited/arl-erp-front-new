@@ -31,7 +31,7 @@ import * as Yup from "yup";
 //   setLoading && setLoading(true);
 //   try {
 //     const res = await Axios.get(
-//       `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`
+//       
 //     );
 //     cb && cb(res?.data);
 //     setLoading && setLoading(false);
@@ -47,7 +47,7 @@ export const setShipPointData = async (url, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const deleteG2GInfo = async (id, setLoading, cb) => {
