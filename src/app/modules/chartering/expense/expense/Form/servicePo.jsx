@@ -33,7 +33,6 @@ import {
   savePurchaseOrderForAssetStandardService,
 } from '../../../../procurement/purchase-management/purchaseOrder/_redux/Actions';
 import {
-  getCostElementDDL,
   getRefNoDdlForServicePo,
 } from '../../../../procurement/purchase-management/purchaseOrder/Form/servicePO/helper';
 import Loading from '../../../../_helper/_loading';
@@ -49,6 +48,7 @@ import {
 } from '../../../../_helper/_redux/Actions';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { imarineBaseUrl } from '../../../../../../App';
+import { getCostElementByCostCenterDDL } from '../../../../_helper/_commonApi';
 
 export default function ServicePO({
   setIsShowPoModal,
@@ -992,7 +992,7 @@ export default function ServicePO({
                               if (valueOption) {
                                 setFieldValue('costCenter', valueOption);
                                 setFieldValue('costElement', '');
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   values?.transferBusinessUnit?.value,
                                   accountId,
                                   valueOption?.value,
@@ -1071,7 +1071,7 @@ export default function ServicePO({
                               if (valueOption) {
                                 setFieldValue('costCenterTwo', valueOption);
                                 setFieldValue('costElementTwo', '');
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   buId,
                                   accountId,
                                   valueOption?.value,
