@@ -16,7 +16,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   GetDomesticPortDDL,
-  getMotherVesselDDL,
+
   GetShipPointDDL,
 } from "../../generalInformation/helper";
 import {
@@ -25,6 +25,7 @@ import {
 } from "../../loadingInformation/helper";
 import ReportsByPowerBI from "./powerBIReport";
 import GridView from "./table";
+import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   shipPoint: "",

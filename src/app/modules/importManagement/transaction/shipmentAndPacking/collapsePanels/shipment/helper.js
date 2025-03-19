@@ -3,17 +3,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
-// GetShipTypeDDL
-export const getShipByDDL = async (setter) => {
-  try {
-    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
-    if (res.status === 200 && res.data) {
-      setter(res.data);
-    }
-  } catch (error) { }
-};
-
-
+// // GetShipTypeDDL
 export const createShipment = async (payload, cb, setDisabled) => {
   setDisabled && setDisabled(true);
   try {

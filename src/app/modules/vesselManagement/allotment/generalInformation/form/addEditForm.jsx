@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { GetLighterCNFDDL } from "../../../../_helper/_commonApi";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   CreateLighterAllotment,
   EditLighterAllotment,
   GetDomesticPortDDL,
   GetLighterAllotmentById,
-  GetLighterCNFDDL,
   GetLighterDDL,
   GetLighterStevedoreDDL,
   GetShipPointDDL,
@@ -216,23 +216,22 @@ export default function GeneralInformationCreate() {
   const selectedAll = () => {
     const create =
       lighterList?.length > 0 &&
-      lighterList?.filter((item) => item?.isSelected)?.length ===
+        lighterList?.filter((item) => item?.isSelected)?.length ===
         lighterList?.length
         ? true
         : false;
 
     const edit =
       rowDto?.length > 0 &&
-      rowDto?.filter((item) => item?.isSelected)?.length === rowDto?.length
+        rowDto?.filter((item) => item?.isSelected)?.length === rowDto?.length
         ? true
         : false;
 
     return id ? edit : create;
   };
 
-  const title = `${
-    type === "edit" ? "Edit" : type === "view" ? "View" : "Create"
-  } General Information`;
+  const title = `${type === "edit" ? "Edit" : type === "view" ? "View" : "Create"
+    } General Information`;
 
   return (
     <>

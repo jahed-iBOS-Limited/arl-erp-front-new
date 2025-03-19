@@ -6,18 +6,6 @@ import { _formatMoney } from '../../../../../_helper/_formatMoney';
 import numberWithCommas from '../../../../../_helper/_numberWithCommas';
 
 
-
-// GetInsuranceTypeDDL
-export const GetInsuranceTypeDDL = async (setter) => {
-  try {
-    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
-    if (res.status === 200 && res.data) {
-      setter(res.data);
-    }
-  } catch (error) { }
-};
-
-// GetProviderDDL
 export const GetProviderDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(

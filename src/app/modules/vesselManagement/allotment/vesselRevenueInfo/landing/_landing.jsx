@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import TextArea from "../../../../_helper/TextArea";
+import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
@@ -10,15 +11,13 @@ import Loading from "../../../../_helper/_loading";
 import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../../_helper/iButton";
 import {
   GetDomesticPortDDL,
-  // GetLighterAllotmentPagination,
-  getMotherVesselDDL,
 } from "../../generalInformation/helper";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const initData = {
   port: "",
@@ -164,7 +163,7 @@ const VesselRevenueLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -302,7 +301,7 @@ const VesselRevenueLanding = () => {
                         !values?.narration ||
                         !values?.billRef ||
                         gridData?.filter((item) => item?.isSelected)?.length <
-                          1 ||
+                        1 ||
                         loader ||
                         loading
                       }
@@ -330,7 +329,7 @@ const VesselRevenueLanding = () => {
                             type="checkbox"
                             value={selectedAll()}
                             checked={selectedAll()}
-                            onChange={() => {}}
+                            onChange={() => { }}
                           />
                         </th>
                         {headers?.map((th, index) => {
@@ -356,9 +355,9 @@ const VesselRevenueLanding = () => {
                               style={
                                 item?.isSelected
                                   ? {
-                                      backgroundColor: "#aacae3",
-                                      width: "30px",
-                                    }
+                                    backgroundColor: "#aacae3",
+                                    width: "30px",
+                                  }
                                   : { width: "30px" }
                               }
                             >
@@ -366,7 +365,7 @@ const VesselRevenueLanding = () => {
                                 type="checkbox"
                                 value={item?.isSelected}
                                 checked={item?.isSelected}
-                                onChange={() => {}}
+                                onChange={() => { }}
                               />
                             </td>
                             <td> {index + 1}</td>

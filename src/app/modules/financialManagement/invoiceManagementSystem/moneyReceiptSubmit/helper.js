@@ -1,22 +1,12 @@
 import Axios from 'axios';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
-export const GetLighterCNFDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/FertilizerOperation/GetLighterCNFDDL`);
-    if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
+
 export const getBankDDL_api = async (setter) => {
   try {
     const res = await Axios.get('/hcm/HCMDDL/GetBankDDL');
     setter(res.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getBankBranchDDL_api = async (bankId, setter) => {
   try {
@@ -24,7 +14,7 @@ export const getBankBranchDDL_api = async (bankId, setter) => {
       `/hcm/HCMDDL/GetBankBranchDDL?BankId=${bankId}`,
     );
     setter(res.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetLighterStevedoreDDL = async (setter) => {
@@ -40,30 +30,7 @@ export const GetLighterStevedoreDDL = async (setter) => {
   }
 };
 
-export const getMotherVesselDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
-    );
-    setter(res.data);
-  } catch (error) {
-    setter([]);
-  }
-};
 
-export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
-  setLoading && setLoading(true);
-  try {
-    const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`,
-    );
-    cb && cb(res?.data);
-    setLoading && setLoading(false);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setLoading && setLoading(false);
-  }
-};
 
 export const validationSchema = Yup.object().shape({
   motherVessel: Yup.object().shape({
