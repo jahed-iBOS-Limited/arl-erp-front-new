@@ -173,16 +173,7 @@ export const GetLighterVesselList = async (
   }
 };
 
-export const getMotherVesselDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res.data);
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const DeleteLighterAllotment = async (id, setLoading, cb) => {
   setLoading(true);

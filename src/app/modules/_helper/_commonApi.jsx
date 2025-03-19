@@ -880,3 +880,14 @@ export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
     setLoading && setLoading(false);
   }
 };
+
+export const getMotherVesselDDL = async (accId, buId, setter) => {
+  try {
+    const res = await Axios.get(
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
+  }
+};
