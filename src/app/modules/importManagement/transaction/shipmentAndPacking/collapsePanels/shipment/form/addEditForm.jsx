@@ -13,7 +13,6 @@ import {
   GetCNFAgencyDDL,
   createShipment,
   getCurrencyDDL,
-  getShipByDDL,
   getShipmentDataById,
   getShipmentInfo,
   getShipmentItemDDL,
@@ -128,7 +127,7 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
     }
   };
 
-  const InitialInvoiceAmountHandler = (data) =>{
+  const InitialInvoiceAmountHandler = (data) => {
     const result = data.reduce((acc, item) => {
       return Number(
         (acc + Number(item["poquantity"]) * Number(item["rate"])).toFixed(2)
@@ -322,10 +321,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
             shipmentId || id
               ? singleData
               : {
-                  ...initFormData,
-                  currency: state?.values?.poDDL?.currencyName,
-                  invoiceAmount: initialInvoiceAmount,
-                }
+                ...initFormData,
+                currency: state?.values?.poDDL?.currencyName,
+                invoiceAmount: initialInvoiceAmount,
+              }
           }
           saveHandler={saveHandler}
           profileData={profileData}

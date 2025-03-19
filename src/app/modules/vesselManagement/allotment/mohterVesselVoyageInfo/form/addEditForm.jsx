@@ -8,10 +8,11 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import {
   GetDomesticPortDDL,
-  getMotherVesselDDL,
+
 } from "../../loadingInformation/helper";
 import { editMotherVesselVoyageInfo } from "../helper";
 import Form from "./form";
+import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   voyageCode: "",
@@ -180,9 +181,8 @@ export default function MotherVesselVoyageInfoForm() {
     }
   };
 
-  const title = `${
-    type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
-  } Mother Vessel Voyage Information`;
+  const title = `${type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
+    } Mother Vessel Voyage Information`;
 
   return (
     <>

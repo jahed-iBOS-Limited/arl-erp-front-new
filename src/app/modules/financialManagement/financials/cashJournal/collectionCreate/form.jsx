@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
   getSendToGLBank,
@@ -22,7 +23,7 @@ import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import customStyles from '../../../../selectCustomStyle';
 
-import { getCostElementDDL, getPartnerTypeDDLAction } from '../helper';
+import { getCostElementDDL } from '../helper';
 import placeholderImg from './../../../../_helper/images/placeholderImg.png';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';

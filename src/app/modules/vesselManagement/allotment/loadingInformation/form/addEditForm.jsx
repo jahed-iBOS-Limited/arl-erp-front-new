@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getMotherVesselInfo } from "../../../../_helper/_commonApi";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getMotherVesselInfo } from "../../tenderInformation/helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   CreateLighterLoadUnloadInfo,
   EditLighterLoadingInfo,
@@ -78,7 +78,7 @@ export default function LoadInformationCreate({
     getMotherVesselDDL(
       `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${values
         ?.loadingPort?.value || 0}&OrganizationId=${values?.organization
-        ?.value || 0}`
+          ?.value || 0}`
     );
   };
 
@@ -125,13 +125,13 @@ export default function LoadInformationCreate({
       if (payload.rowObject && payload.rowObject.length > 0) {
         type === "edit"
           ? EditLighterLoadingInfo(payload, setDisabled, () => {
-              cb();
-              setRowData([]);
-            })
+            cb();
+            setRowData([]);
+          })
           : CreateLighterLoadUnloadInfo(payload, setDisabled, () => {
-              cb();
-              setRowData([]);
-            });
+            cb();
+            setRowData([]);
+          });
       } else {
         toast.warning("Please select at least one row");
       }
@@ -191,7 +191,7 @@ export default function LoadInformationCreate({
                 resData?.programNo,
                 setRowData,
                 setDisabled,
-                (resData) => {}
+                (resData) => { }
               );
             }
           );
@@ -213,9 +213,8 @@ export default function LoadInformationCreate({
     }
   };
 
-  const title = `${
-    type === "view" ? "View" : type === "edit" ? "Edit" : "Create"
-  } Loading Information`;
+  const title = `${type === "view" ? "View" : type === "edit" ? "Edit" : "Create"
+    } Loading Information`;
 
   return (
     <>

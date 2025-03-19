@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../../../_helper/_loading";
-import {
-  GetCurrencyTypeDDL,
-  GetInsuranceCoverageDDL,
-  GetInsuranceTypeDDL,
-  GetProviderDDL,
-  GetPaymentTypeDDL,
-  GetInsuranceCoverNoteById,
-  EditInstanceCoverNote,
-  CreateInsuranceCoverNote,
-} from "../helper";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
 import { toast } from "react-toastify";
+import { getShipByDDL } from "../../../../../../_helper/_commonApi";
+import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
+import Loading from "../../../../../../_helper/_loading";
 import removeComma from "../../../../../../_helper/_removeComma";
+import {
+  CreateInsuranceCoverNote,
+  EditInstanceCoverNote,
+  GetCurrencyTypeDDL,
+  GetInsuranceCoverageDDL,
+  GetInsuranceCoverNoteById,
+  GetPaymentTypeDDL,
+  GetProviderDDL,
+} from "../helper";
+import Form from "./form";
 
 const initData = {
   poNo: "",
@@ -76,7 +76,7 @@ export default function InsurancePolicyForm() {
 
   // GetDDL
   useEffect(() => {
-    GetInsuranceTypeDDL(setShipmentTypeDDL);
+    getShipByDDL(setShipmentTypeDDL);
     GetProviderDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -162,9 +162,9 @@ export default function InsurancePolicyForm() {
           initData={
             id
               ? {
-                  ...singleData,
-                  coverNoteNumberActual: singleData?.providerPolicyPrefix,
-                }
+                ...singleData,
+                coverNoteNumberActual: singleData?.providerPolicyPrefix,
+              }
               : { ...initFOrmData, poNo: state?.po?.label }
           }
           saveHandler={saveHandler}
