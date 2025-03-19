@@ -2,19 +2,11 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import * as Yup from 'yup';
-import { getBankAccountDDLByBankId } from '../helper';
-import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { loanRegisterSchema } from '../../../../_helper/_validationScema';
+import { getBankAccountDDLByBankId } from '../helper';
 
-
-const loanRegister = Yup.object().shape({
-  account: Yup.object().shape({
-    label: Yup.string().required('Bank is required'),
-    value: Yup.string().required('Bank is required'),
-  }),
-  instrumentNo: Yup.string().required('Instrument No is required'),
-});
 
 export default function RepayForm({
   initData,
@@ -51,7 +43,7 @@ export default function RepayForm({
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
-        validationSchema={loanRegister}
+        validationSchema={loanRegisterSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

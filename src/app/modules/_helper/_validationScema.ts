@@ -103,3 +103,10 @@ export const bankJournalValidationSchema = Yup.object().shape({
         value: Yup.string().required("Journal Type is required"),
     }),
 });
+export const loanRegisterSchema = Yup.object().shape({
+    account: Yup.object().shape({
+        label: Yup.string().required('Bank is required'),
+        value: Yup.string().required('Bank is required'),
+    }),
+    instrumentNo: Yup.string().required('Instrument No is required'),
+});
