@@ -90,36 +90,10 @@ export default function BankJournalCreateFormContra() {
         }
       }
     }
-    /* 
-     // previous code 
-     if (selectedJournalTypeId === 4) {
-      if (values?.revenueCenter || values?.revenueElement) {
-        if (!(values?.revenueCenter && values?.revenueElement)) {
-          return toast.warn("Please add Revenue center or Revenue element");
-        }
-      }
-    } else {
-      if (values?.costCenter || values?.costElement) {
-        if (!(values?.costCenter && values?.costElement)) {
-          return toast.warn("Please add Cost center or Cost element");
-        }
-      }
-    } */
+
 
     // dispatch values for localStorageSlice
     dispatch(setBankJournalCreateAction(values));
-    // setDisabled(true);
-
-    // const chequeNo = await genarateChequeNo(
-    //   profileData?.accountId,
-    //   selectedBusinessUnit?.value,
-    //   +values?.bankAcc?.bankId,
-    //   +values?.bankAcc?.bankBranch_Id,
-    //   +values?.bankAcc?.value,
-    //   values?.bankAcc?.label,
-    //   +values?.instrumentType?.value
-    // );
-
 
     if (
       values &&
