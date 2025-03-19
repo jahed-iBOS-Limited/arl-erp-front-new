@@ -7,7 +7,7 @@ import { generateAdviceNo, getBankAc, getBusinessPartnerSalesDDLAction, getBusin
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
-import { PaymentValidationSchema, TransferValidationSchema } from "../../../../_helper/_validationScema";
+import { PaymentValidationSchema, TransferValidationSchema } from "../../../../_helper/_validationSchema";
 import customStyles from "../../../../selectCustomStyle";
 
 

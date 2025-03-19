@@ -1,27 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import {
-  ModalProgressBar,
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import * as Yup from "yup";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Select from "react-select";
+import FormikError from "../../../../_helper/_formikError";
+import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
+import customStyles from "../../../../selectCustomStyle";
 import {
   getPaymentOrReceiveLandingPasignation_Api,
   getReferenceNoDDL_Api,
 } from "../helper";
-import Select from "react-select";
-import GridData from "./grid";
-import FormikError from "../../../../_helper/_formikError";
-import customStyles from "../../../../selectCustomStyle";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "./../../../../../../_metronic/_partials/controls";
 import { setReceiveOrPaymentAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationScema";
+import GridData from "./grid";
 
 
 const initData = {

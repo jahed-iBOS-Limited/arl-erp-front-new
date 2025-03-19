@@ -3,7 +3,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationScema";
+import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
 import { SetInvoicemanagementSystemClearSalesInvoiceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { getCustomerDDL_api } from "../helper";
 import {

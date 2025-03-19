@@ -12,6 +12,7 @@ import FormikError from '../../../../_helper/_formikError';
 import InputField from '../../../../_helper/_inputField';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
+import { complainValidationSchema } from '../../../../_helper/_validationSchema';
 import IViewModal from '../../../../_helper/_viewModal';
 import { attachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
@@ -26,7 +27,6 @@ import {
   respondentTypeDDL,
 } from '../helper';
 import RespondentModal from './RespondentModal';
-import { complainValidationSchema } from '../../../../_helper/_validationScema';
 
 
 function Form({

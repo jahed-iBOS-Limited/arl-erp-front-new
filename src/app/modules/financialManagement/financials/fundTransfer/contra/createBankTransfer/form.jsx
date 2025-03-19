@@ -39,7 +39,7 @@ import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
-import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationScema';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationSchema';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';

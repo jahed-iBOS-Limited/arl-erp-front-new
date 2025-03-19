@@ -4,7 +4,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
-import { loanRegisterSchema } from '../../../../_helper/_validationScema';
+import { loanRegisterSchema } from '../../../../_helper/_validationSchema';
 import { getBankAccountDDLByBankId } from '../helper';
 
 
