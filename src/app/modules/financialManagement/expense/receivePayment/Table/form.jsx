@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import {
   ModalProgressBar,
@@ -21,21 +21,8 @@ import GridData from "./grid";
 import FormikError from "../../../../_helper/_formikError";
 import customStyles from "../../../../selectCustomStyle";
 import { setReceiveOrPaymentAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-// Validation schema
-const validationSchema = Yup.object().shape({
-  controllingUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
-  sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
-  }),
-  accountingJournalTypeId: Yup.object().shape({
-    label: Yup.string().required("Journal Type is required"),
-    value: Yup.string().required("Journal Type is required"),
-  }),
-});
+import { bankJournalValidationSchema } from "../../../../_helper/_validationScema";
+
 
 const initData = {
   transactionType: "",
@@ -91,17 +78,17 @@ export default function HeaderForm({
   };
 
   useEffect(() => {
-    if(receiveOrPaymentIntData?.transactionType?.value) {
+    if (receiveOrPaymentIntData?.transactionType?.value) {
       gridDataFunc(receiveOrPaymentIntData)
     }
-  }, [receiveOrPaymentIntData]) 
+  }, [receiveOrPaymentIntData])
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={receiveOrPaymentIntData || initData}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        validationSchema={bankJournalValidationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>

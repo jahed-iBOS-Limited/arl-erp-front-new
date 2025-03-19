@@ -29,22 +29,9 @@ import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalSt
 import PaginationTable from "../../../../_helper/_tablePagination";
 import findIndex from "../../../../_helper/_findIndex";
 import { getSBU } from "../../../../_helper/_commonApi";
+import { bankJournalValidationSchema } from "../../../../_helper/_validationScema";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  controllingUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
-  sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
-  }),
-  accountingJournalTypeId: Yup.object().shape({
-    label: Yup.string().required("Journal Type is required"),
-    value: Yup.string().required("Journal Type is required"),
-  }),
-});
+
 
 const initData = {
   id: undefined,
@@ -150,8 +137,8 @@ export default function HeaderForm({
           toDate: bankJournalLanding?.toDate || _todayDate(),
           type: bankJournalLanding?.type || "notComplated",
         }}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        validationSchema={bankJournalValidationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -161,7 +148,7 @@ export default function HeaderForm({
                 <CardHeader title={"Bank Journal"}>
                   <CardHeaderToolbar>
                     <button
-                    disabled={!canCreate}
+                      disabled={!canCreate}
                       onClick={() => {
                         dispatch(
                           setBankJournalLandingAction({ ...values, code: "" })

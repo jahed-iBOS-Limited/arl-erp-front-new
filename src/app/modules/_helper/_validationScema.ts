@@ -89,3 +89,17 @@ export const complainValidationSchema = Yup.object().shape({
     issueDetails: Yup.string().required('Issue Details is required'),
     respondent: Yup.string().required('Respondent Name is required'),
 });
+export const bankJournalValidationSchema = Yup.object().shape({
+    controllingUnitCode: Yup.string()
+        .min(2, "Minimum 2 symbols")
+        .max(100, "Maximum 100 symbols")
+        .required("Code is required"),
+    sbu: Yup.object().shape({
+        label: Yup.string().required("SBU is required"),
+        value: Yup.string().required("SBU is required"),
+    }),
+    accountingJournalTypeId: Yup.object().shape({
+        label: Yup.string().required("Journal Type is required"),
+        value: Yup.string().required("Journal Type is required"),
+    }),
+});

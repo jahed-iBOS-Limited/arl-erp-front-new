@@ -1,38 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { bankJournalValidationSchema } from "../../../../_helper/_validationScema";
+import { SetInvoicemanagementSystemClearSalesInvoiceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { getCustomerDDL_api } from "../helper";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import * as Yup from "yup";
-import GridData from "./grid";
 import NewSelect from "./../../../../_helper/_select";
-import { getCustomerDDL_api } from "../helper";
 import { getInvoiceClearPasignation_api } from "./../helper";
-import { useDispatch, useSelector } from "react-redux";
-import {SetInvoicemanagementSystemClearSalesInvoiceAction} from "../../../../_helper/reduxForLocalStorage/Actions"
-// Validation schema
-const validationSchema = Yup.object().shape({
-  controllingUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
-  sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
-  }),
-  accountingJournalTypeId: Yup.object().shape({
-    label: Yup.string().required("Journal Type is required"),
-    value: Yup.string().required("Journal Type is required"),
-  }),
-});
-
-
+import GridData from "./grid";
 
 export default function HeaderForm({
   rowDto,
@@ -47,14 +30,14 @@ export default function HeaderForm({
 }) {
   const { pageNo, setPageNo, pageSize, setPageSize } = paginationState;
   const [customerDDL, setCustomerDDL] = useState([]);
-  const {invoicemanagementSystemClearSalesInvoice} = useSelector(state=>state?.localStorage)
+  const { invoicemanagementSystemClearSalesInvoice } = useSelector(state => state?.localStorage)
   const dispatch = useDispatch()
 
 
   const initData = {
     transactionType: invoicemanagementSystemClearSalesInvoice?.transactionType || "",
     ReferanceNo: invoicemanagementSystemClearSalesInvoice?.ReferanceNo || "",
-    employeeEnroll:invoicemanagementSystemClearSalesInvoice?.employeeEnroll || "",
+    employeeEnroll: invoicemanagementSystemClearSalesInvoice?.employeeEnroll || "",
     customer: invoicemanagementSystemClearSalesInvoice?.customer || "",
   };
 
@@ -68,24 +51,24 @@ export default function HeaderForm({
     }
   }, [profileData, selectedBusinessUnit]);
 
-const gridDataFunc = (values) => {
-  getInvoiceClearPasignation_api(
-    profileData?.accountId,
-    selectedBusinessUnit.value,
-    setGirdData,
-    setLoading,
-    pageNo,
-    pageSize,
-    values?.customer?.value
-  );
-}
+  const gridDataFunc = (values) => {
+    getInvoiceClearPasignation_api(
+      profileData?.accountId,
+      selectedBusinessUnit.value,
+      setGirdData,
+      setLoading,
+      pageNo,
+      pageSize,
+      values?.customer?.value
+    );
+  }
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        validationSchema={bankJournalValidationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -106,8 +89,8 @@ const gridDataFunc = (values) => {
                         onChange={(valueOption) => {
                           setFieldValue("customer", valueOption);
                           dispatch(SetInvoicemanagementSystemClearSalesInvoiceAction({
-                              ...values,
-                              customer:valueOption
+                            ...values,
+                            customer: valueOption
                           }))
                         }}
                         placeholder="Select Customer"
