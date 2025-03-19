@@ -1,25 +1,25 @@
-import { CheckCircleOutline } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { CheckCircleOutline } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   CardBody,
   CardHeaderToolbar,
   Card,
   CardHeader,
-} from "../../../../_metronic/_partials/controls";
-import { OverlayTrigger, Tooltip as ReactToolTip } from "react-bootstrap";
-import IEdit from "../../_helper/_helperIcons/_edit";
-import IView from "../../_helper/_helperIcons/_view";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import Loading from "../../_helper/_loading";
-import { TablePagination } from "@material-ui/core";
-import { useSelector, shallowEqual } from "react-redux";
-import moment from "moment";
-import ProjectAccountingView from "./ProjectAccountingView";
+} from '../../../../_metronic/_partials/controls';
+import { OverlayTrigger, Tooltip as ReactToolTip } from 'react-bootstrap';
+import IEdit from '../../_helper/_helperIcons/_edit';
+import IView from '../../_helper/_helperIcons/_view';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import Loading from '../../_helper/_loading';
+import { TablePagination } from '@mui/material';
+import { useSelector, shallowEqual } from 'react-redux';
+import moment from 'moment';
+import ProjectAccountingView from './ProjectAccountingView';
 const ProjectAccountingLanding = () => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   const [
     projectAccountingLanding,
@@ -35,8 +35,9 @@ const ProjectAccountingLanding = () => {
     getProjectAccountingLanding(
       `/fino/ProjectAccounting/ProjectDescriptionLanding?accountId=${
         profileData?.accountId
-      }&BuId=${selectedBusinessUnit?.value}&PageNo=${pageNo +
-        1}&PageSize=${pageSize}`
+      }&BuId=${selectedBusinessUnit?.value}&PageNo=${
+        pageNo + 1
+      }&PageSize=${pageSize}`,
     );
     // eslint-disable-next-line
   }, [profileData?.accountId, selectedBusinessUnit?.value, pageNo, pageSize]);
@@ -44,7 +45,7 @@ const ProjectAccountingLanding = () => {
     <>
       {loadingOnGetProjectAccountingLanding && <Loading />}
       <Card>
-        <CardHeader title={"Project Accounting"}>
+        <CardHeader title={'Project Accounting'}>
           <CardHeaderToolbar>
             <button
               className="btn btn-primary ml-2"
@@ -89,32 +90,32 @@ const ProjectAccountingLanding = () => {
                           <tr key={item?.sl}>
                             <td className="text-center">{item?.sl}</td>
                             <td className="text-left">
-                              {item?.strProjectName || "N/A"}
+                              {item?.strProjectName || 'N/A'}
                             </td>
                             <td className="text-left">
-                              {item?.strOwner || "N/A"}
+                              {item?.strOwner || 'N/A'}
                             </td>
                             <td className="text-center">
                               {item?.dteStartDate
                                 ? moment(item?.dteStartDate).format(
-                                    "DD-MM-YYYY"
+                                    'DD-MM-YYYY',
                                   )
-                                : "N/A"}
+                                : 'N/A'}
                             </td>
                             <td className="text-center">
                               {item?.dteEndDate
-                                ? moment(item?.dteEndDate).format("DD-MM-YYYY")
-                                : "N/A"}
+                                ? moment(item?.dteEndDate).format('DD-MM-YYYY')
+                                : 'N/A'}
                             </td>
                             <td className="text-left">
-                              {item?.strLocation || "N/A"}
+                              {item?.strLocation || 'N/A'}
                             </td>
                             <td className="text-center">
                               {item?.intStatusId === 1
-                                ? "in progress"
+                                ? 'in progress'
                                 : item?.intStatusId === 2
-                                ? "complete"
-                                : "N/A"}
+                                ? 'complete'
+                                : 'N/A'}
                             </td>
                             <td className="d-flex align-items-center justify-content-around">
                               <IView
@@ -132,7 +133,7 @@ const ProjectAccountingLanding = () => {
                                     onClick={() => {
                                       history.push({
                                         pathname:
-                                          "/financial-management/projectAccounting/projectAccounting/edit",
+                                          '/financial-management/projectAccounting/projectAccounting/edit',
                                         state: {
                                           project: item,
                                         },
@@ -152,15 +153,15 @@ const ProjectAccountingLanding = () => {
                                       onClick={() => {
                                         history.push({
                                           pathname:
-                                            "/financial-management/projectAccounting/projectAccounting/complete",
+                                            '/financial-management/projectAccounting/projectAccounting/complete',
                                           state: {
                                             projectId: item?.intProjectId,
                                           },
                                         });
                                       }}
                                       style={{
-                                        color: "#B5B5C3",
-                                        fontSize: "16px",
+                                        color: '#B5B5C3',
+                                        fontSize: '16px',
                                         fontWeight: 900,
                                       }}
                                     />

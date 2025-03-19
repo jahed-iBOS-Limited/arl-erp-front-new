@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
@@ -60,7 +60,6 @@ export default function IOU({ clickRowDto, CB }) {
         }
       `,
   });
-
   const tableStyle = {
     fontSize: '12px',
     width: '100%',

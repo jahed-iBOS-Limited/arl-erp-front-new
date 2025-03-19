@@ -1,17 +1,17 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
   charterer: Yup.object().shape({
-    label: Yup.string().required("Charterer is required"),
-    value: Yup.string().required("Charterer is required"),
+    label: Yup.string().required('Charterer is required'),
+    value: Yup.string().required('Charterer is required'),
   }),
   shipper: Yup.object().shape({
-    label: Yup.string().required("Shipper is required"),
-    value: Yup.string().required("Shipper is required"),
+    label: Yup.string().required('Shipper is required'),
+    value: Yup.string().required('Shipper is required'),
   }),
 });
 
@@ -26,7 +26,7 @@ export const getShipperLandingData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/HireCargoInfo/GetHireCargoInfoLanding?VoyageId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/HireCargoInfo/GetHireCargoInfoLanding?VoyageId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -40,7 +40,7 @@ export const getShipperDDLbyVoyageId = async (voyageId, setter, setLoading) => {
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/HireCargoInfo/GetShipperDDlByVoyage?VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/HireCargoInfo/GetShipperDDlByVoyage?VoyageId=${voyageId}`,
     );
     setter(data);
     setLoading && setLoading(false);
@@ -54,12 +54,12 @@ export const getCargoDDLbyChartererId = async (
   voyageId,
   chartererId,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/HireCargoInfo/GetCargoDDl?CharterId=${chartererId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/HireCargoInfo/GetCargoDDl?CharterId=${chartererId}&VoyageId=${voyageId}`,
     );
     setter(data);
     setLoading && setLoading(false);
@@ -74,12 +74,12 @@ export const getCargoDDLbyChartererIdForInvoice = async (
   voyageId,
   chartererId,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetInvoiceCargoDDL?VoyageId=${voyageId}&ChartererId=${chartererId}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetInvoiceCargoDDL?VoyageId=${voyageId}&ChartererId=${chartererId}`,
     );
     setter(data);
     setLoading && setLoading(false);
@@ -100,10 +100,10 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
     );
-    setter("lsfoballastRate", data?.lsifoPrice);
-    setter("lsmgoballastRate", data?.lsmgoPrice);
+    setter('lsfoballastRate', data?.lsifoPrice);
+    setter('lsmgoballastRate', data?.lsmgoPrice);
     setLoading(false);
   } catch (err) {
     setter([]);
@@ -116,7 +116,7 @@ export const createShipper = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/HireCargoInfo/CreateCargoHireInfo`,
-      data
+      data,
     );
     cb();
     toast.success(res?.data?.message);
@@ -132,7 +132,7 @@ export const editShipper = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/HireCargoInfo/EditCargoHireInfo",
-      data`
+      data`,
     );
 
     toast.success(res?.data?.message, { toastId: 123 });
@@ -154,14 +154,14 @@ export const getSingleData = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/HireCargoInfo/GetCargoHireInfoById?CargoHireId=${id}`
+      `${imarineBaseUrl}/domain/HireCargoInfo/GetCargoHireInfoById?CargoHireId=${id}`,
     );
 
     const objHeaderDTO = data?.objHeaderDTO;
     const objRowList = data?.objRowList;
 
     setter({
-      cargo: "",
+      cargo: '',
       charterer: {
         value: objHeaderDTO?.charterId,
         label: objHeaderDTO?.charterName,
@@ -184,7 +184,7 @@ export const getSingleData = async ({
           numVoyageCargoQty:
             item?.voyageCargoQty || item?.numVoyageCargoQty || 0,
         };
-      })
+      }),
     );
     setLoading(false);
   } catch (err) {

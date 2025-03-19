@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import Loading from '../../../_helper/_loading';
 import IViewModal from '../../../_helper/_viewModal';
@@ -29,11 +29,8 @@ export default function ShipperCreateModalOpen({
   }, shallowEqual);
   const formikRef = React.useRef(null);
   const [gridData, setGridData] = React.useState([]);
-  const [
-    ,
-    saveShipperUserToPartner,
-    saveShipperUserToPartnerLoading,
-  ] = useAxiosPost();
+  const [, saveShipperUserToPartner, saveShipperUserToPartnerLoading] =
+    useAxiosPost();
 
   const [, getAllShipperUser, allShipperUserLoading] = useAxiosGet();
 

@@ -1,26 +1,26 @@
-import axios from "axios";
-import { imarineBaseUrl } from "../../../../App";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { imarineBaseUrl } from '../../../../../App';
+import { toast } from 'react-toastify';
 
 export const categoryDDL = [
-  { value: 1, label: "Gov" },
-  { value: 2, label: "Operation" },
-  { value: 3, label: "Party" },
+  { value: 1, label: 'Gov' },
+  { value: 2, label: 'Operation' },
+  { value: 3, label: 'Party' },
 ];
 
 export const createUpdateExpenseParticularsApi = async (
   payload,
   setDisabled,
-  cb
+  cb,
 ) => {
   try {
     setDisabled(true);
     await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateExpenseParticulars`,
-      payload
+      payload,
     );
 
-    toast.success("Submitted Successfully");
+    toast.success('Submitted Successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -36,14 +36,14 @@ export const getExpenseParticularsLandingApi = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   setter([]);
   try {
-    const _category = category ? `&Category=${category}` : "";
+    const _category = category ? `&Category=${category}` : '';
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${_category}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${_category}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -56,7 +56,7 @@ export const getExpenseParticularsById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsById?expenceId=${id}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsById?expenceId=${id}`,
     );
     setLoading(false);
     setter(res?.data);

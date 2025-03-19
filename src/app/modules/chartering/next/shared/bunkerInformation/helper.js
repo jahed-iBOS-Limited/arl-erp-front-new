@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../../../App';
 // import * as Yup from "yup";
 
 export const saveBunkerInformation = async (data, setLoading, cb) => {
@@ -8,7 +8,7 @@ export const saveBunkerInformation = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/BunkerInformation/CreateBunkerInformation`,
-      data
+      data,
     );
     cb(res?.data?.message);
     setLoading(false);
@@ -24,12 +24,12 @@ export const getPreBORInformationByVoyageId = async (
   vesselId,
   voyageId,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`,
     );
     setter(res?.data);
 
@@ -47,12 +47,12 @@ export const GetItemInfoFromPurchase = async (
   vesselId,
   voyageId,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -64,13 +64,13 @@ export const GetItemInfoFromPurchase = async (
 };
 
 export const setEmptyString = (setFieldValue) => {
-  setFieldValue("bodLsmgoQty", "");
-  setFieldValue("bodLsfo1Qty", "");
-  setFieldValue("bodLsfo2Qty", "");
-  setFieldValue("bunkerSaleLsmgoRate", "");
-  setFieldValue("bunkerSaleLsfo1Rate", "");
-  setFieldValue("bunkerSaleLsfo2Rate", "");
-  setFieldValue("bunkerPurchaseLsmgoRate", "");
-  setFieldValue("bunkerPurchaseLsfo1Rate", "");
-  setFieldValue("bunkerPurchaseLsfo2Rate", "");
+  setFieldValue('bodLsmgoQty', '');
+  setFieldValue('bodLsfo1Qty', '');
+  setFieldValue('bodLsfo2Qty', '');
+  setFieldValue('bunkerSaleLsmgoRate', '');
+  setFieldValue('bunkerSaleLsfo1Rate', '');
+  setFieldValue('bunkerSaleLsfo2Rate', '');
+  setFieldValue('bunkerPurchaseLsmgoRate', '');
+  setFieldValue('bunkerPurchaseLsfo1Rate', '');
+  setFieldValue('bunkerPurchaseLsfo2Rate', '');
 };

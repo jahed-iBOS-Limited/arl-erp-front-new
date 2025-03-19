@@ -50,10 +50,10 @@ export const validationSchema = Yup.object().shape({
   }),
 
   payDays: Yup.number().required("Pay days is required"),
-  // incoterms: Yup.object().shape({
-  //   label: Yup.string().required("Incoterm is required"),
-  //   value: Yup.string().required("Incoterm is required"),
-  // }),
+  incoterms: Yup.object().shape({
+    label: Yup.string().required("Incoterm is required"),
+    value: Yup.string().required("Incoterm is required"),
+  }),
 
   validity: Yup.date().required("Validity date is required"),
 });

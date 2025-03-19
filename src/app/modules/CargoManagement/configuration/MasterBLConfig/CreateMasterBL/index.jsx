@@ -1,4 +1,4 @@
-import { Divider } from '@material-ui/core';
+import { Divider } from '@mui/material';
 import { Form, Formik } from 'formik';
 import moment from 'moment';
 import React from 'react';
@@ -6,7 +6,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';

@@ -1,13 +1,13 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { imarineBaseUrl } from '../../../../App';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
+import { imarineBaseUrl } from '../../../../../App';
 export const savePurchaseBunker = async (data, setLoading, cb, setReturnID) => {
   setLoading(true);
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/PurchaseBunker/CreatePurchaseBunker`,
-      data
+      data,
     );
     setLoading(false);
     toast.success(res?.data?.message);
@@ -24,7 +24,7 @@ export const editPurchaseBunker = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/PurchaseBunker/EditPurchaseBunker`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -41,13 +41,13 @@ export const getPurchaseBunkerLandingData = async (
   pageSize,
   searchValue,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
-  const search = searchValue ? `&search=${searchValue}` : "";
+  const search = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -62,13 +62,13 @@ export const getPurchaseBunkerById = async (
   id,
   setHeader,
   setRow,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`,
     );
     const {
       vesselName,
@@ -160,12 +160,12 @@ export const deleteItemFromPurchaseBunker = async (
   headerId,
   rowId,
   setLoading,
-  cb
+  cb,
 ) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${imarineBaseUrl}/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`,
     );
     toast.success(res?.data?.message);
     cb();

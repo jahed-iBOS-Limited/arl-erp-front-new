@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const getTripLandingData = async ({
   accId,
@@ -19,15 +19,15 @@ export const getTripLandingData = async ({
   setLoading(true);
   const lighterIdStr = lighterVesselId
     ? `&LighterVesselId=${lighterVesselId}`
-    : "";
-  const statusStr = Status ? `&Status=${Status}` : "";
-  const fromDateStr = fromDate ? `&FromDate=${fromDate}` : "";
-  const toDateStr = toDate ? `&ToDate=${toDate}` : "";
-  const vesselTypeStr = vesselType ? `&vesselType=${vesselType}` : "";
+    : '';
+  const statusStr = Status ? `&Status=${Status}` : '';
+  const fromDateStr = fromDate ? `&FromDate=${fromDate}` : '';
+  const toDateStr = toDate ? `&ToDate=${toDate}` : '';
+  const vesselTypeStr = vesselType ? `&vesselType=${vesselType}` : '';
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -41,7 +41,7 @@ export const updateOilRateApi = async (payload) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselOilRate`,
-      payload
+      payload,
     );
     toast.success(res?.data?.message, { toastId: 34567890 });
   } catch (err) {
@@ -54,29 +54,29 @@ export const updateOilRateApi = async (payload) => {
 export const getOilRateApi = async ({ values, setFieldValue }) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselOilRate`
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselOilRate`,
     );
 
-    setFieldValue("numDieselRate", res?.data[0]?.numOilRate);
-    setFieldValue("numLubRate", res?.data[1]?.numOilRate);
-    setFieldValue("numHydrolicRate", res?.data[2]?.numOilRate);
+    setFieldValue('numDieselRate', res?.data[0]?.numOilRate);
+    setFieldValue('numLubRate', res?.data[1]?.numOilRate);
+    setFieldValue('numHydrolicRate', res?.data[2]?.numOilRate);
 
     setFieldValue(
-      "numDieselCost",
-      (res?.data[0]?.numOilRate * values?.numDieselSupply)?.toFixed(2) || 0
+      'numDieselCost',
+      (res?.data[0]?.numOilRate * values?.numDieselSupply)?.toFixed(2) || 0,
     );
     setFieldValue(
-      "numLubCost",
-      (res?.data[1]?.numOilRate * values?.numLubSupply)?.toFixed(2) || 0
+      'numLubCost',
+      (res?.data[1]?.numOilRate * values?.numLubSupply)?.toFixed(2) || 0,
     );
     setFieldValue(
-      "numHydrolicCost",
-      (res?.data[2]?.numOilRate * values?.numHydrolicSupply)?.toFixed(2) || 0
+      'numHydrolicCost',
+      (res?.data[2]?.numOilRate * values?.numHydrolicSupply)?.toFixed(2) || 0,
     );
 
-    setFieldValue("numDiesel", res?.data[0]);
-    setFieldValue("numLub", res?.data[1]);
-    setFieldValue("numHydrolic", res?.data[2]);
+    setFieldValue('numDiesel', res?.data[0]);
+    setFieldValue('numLub', res?.data[1]);
+    setFieldValue('numHydrolic', res?.data[2]);
   } catch (err) {}
 };
 
@@ -91,10 +91,10 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
     );
-    setter("lsfotripRate", data?.lsifoPrice);
-    setter("lsmgotripRate", data?.lsmgoPrice);
+    setter('lsfotripRate', data?.lsifoPrice);
+    setter('lsmgotripRate', data?.lsmgoPrice);
     setLoading(false);
   } catch (err) {
     setter([]);
@@ -107,7 +107,7 @@ export const createTrip = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVesselTrip/CreateLighterVesselTrip`,
-      data
+      data,
     );
     cb();
     toast.success(res?.data?.message);
@@ -123,10 +123,10 @@ export const editTrip = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVesselTrip/EditLighterVesselTrip`,
-      data
+      data,
     );
     if (res?.status === 200) {
-      toast.success("Updated Successfully", {
+      toast.success('Updated Successfully', {
         toastId: 123,
       });
     }
@@ -148,7 +148,7 @@ export const getTripDataById = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`,
     );
 
     const exp = data?.exp;
@@ -197,36 +197,36 @@ export const getTripDataById = async ({
             value: header?.dischargePortId,
             label: header?.dischargePortName,
           }
-        : "", // DDL
+        : '', // DDL
       dteTripCommencedDate: header?.dteTripCommencedDate,
       dteTripCompletionDate: header?.dteTripCompletionDate,
       numTotalTripDuration: header?.numTotalTripDuration,
       isComplete: header?.isComplete,
 
       completeDate: header?.completeDate,
-      receiveDate: header?.receiveDate || "",
-      dischargeStartDate: header?.dischargeStartDate || "",
-      dischargeComplDate: header?.dischargeComplDate || "",
+      receiveDate: header?.receiveDate || '',
+      dischargeStartDate: header?.dischargeStartDate || '',
+      dischargeComplDate: header?.dischargeComplDate || '',
 
       // tripNo: "",
-      arrivalAtCtg: header?.arrivalCtgDate || "",
-      loadingCommenceAtCtg: header?.loadCommCtgDate || "",
-      loadingCompleteAtCtg: header?.loadComplCtgDate || "",
-      departureAtCtg: header?.departureCtgDate || "",
+      arrivalAtCtg: header?.arrivalCtgDate || '',
+      loadingCommenceAtCtg: header?.loadCommCtgDate || '',
+      loadingCompleteAtCtg: header?.loadComplCtgDate || '',
+      departureAtCtg: header?.departureCtgDate || '',
 
       /* Row State */
-      motherVessel: "", // DDL
-      voyageNo: "", // DDL
-      srnumber: "",
-      eta: "",
-      numBlqty: "",
-      consigneeParty: "", // DDL
-      lcnumber: "",
-      cargo: "", // DDL
-      numEstimatedCargoQty: "",
-      numFreight: "",
-      numActualCargoQty: "",
-      numTotalFreight: "",
+      motherVessel: '', // DDL
+      voyageNo: '', // DDL
+      srnumber: '',
+      eta: '',
+      numBlqty: '',
+      consigneeParty: '', // DDL
+      lcnumber: '',
+      cargo: '', // DDL
+      numEstimatedCargoQty: '',
+      numFreight: '',
+      numActualCargoQty: '',
+      numTotalFreight: '',
     };
 
     setSingleData(payload);
@@ -238,21 +238,15 @@ export const getTripDataById = async ({
   }
 };
 
-
-export const setValue = async (
-  id,
-  setFieldValue,
-) => {
+export const setValue = async (id, setFieldValue) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`,
     );
-  if(res?.data){
-    setFieldValue("eta", _dateFormatter(res?.data?.arrivalDate));
-    setFieldValue("numBlqty", res?.data?.blqty);
-    setFieldValue("lcnumber", res?.data?.lcno);
-  }
-  } catch (err) {
-
-  }
+    if (res?.data) {
+      setFieldValue('eta', _dateFormatter(res?.data?.arrivalDate));
+      setFieldValue('numBlqty', res?.data?.blqty);
+      setFieldValue('lcnumber', res?.data?.lcno);
+    }
+  } catch (err) {}
 };

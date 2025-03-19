@@ -1,18 +1,18 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
+import { imarineBaseUrl } from '../../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel Name is required"),
-    value: Yup.string().required("Vessel Name is required"),
+    label: Yup.string().required('Vessel Name is required'),
+    value: Yup.string().required('Vessel Name is required'),
   }),
   voyageNo: Yup.object().shape({
-    label: Yup.string().required("Voyage No is required"),
-    value: Yup.string().required("Voyage No is required"),
+    label: Yup.string().required('Voyage No is required'),
+    value: Yup.string().required('Voyage No is required'),
   }),
 });
 
@@ -24,13 +24,13 @@ export const getVoyageCharterTransactionLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   // const voyageNoStr = voyageId ? `` : "";
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -45,7 +45,7 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoice`,
-      data
+      data,
     );
     cb();
     toast.success(res?.data?.message, { toastId: 123 });
@@ -59,13 +59,13 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
 export const saveVoyageCharterTransactionIntermidiate = async (
   data,
   setLoading,
-  cb
+  cb,
 ) => {
   setLoading(true);
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
-      data
+      data,
     );
     cb();
     toast.success(res?.data?.message, { toastId: 123 });
@@ -81,7 +81,7 @@ export const editVoyageCharterTransaction = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/VoyageCharter/EditVoyageCharter`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -95,12 +95,12 @@ export const getVoyageChartererTransactionById = async (
   id,
   setLoading,
   setRowData,
-  setter
+  setter,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`,
     );
 
     setter(res?.data?.objHeader);
@@ -110,7 +110,7 @@ export const getVoyageChartererTransactionById = async (
           ...item,
           isChecked: true,
         };
-      })
+      }),
     );
     setLoading(false);
   } catch (err) {
@@ -127,13 +127,13 @@ export const getIntermidiateInvoiceData = async (
   charterId,
   setLoading,
   setRowData,
-  setter
+  setter,
 ) => {
   setLoading(true);
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`,
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -159,7 +159,7 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "LOAD PORT DEMURRAGE",
+              particulars: 'LOAD PORT DEMURRAGE',
               cargoQty: 0,
               freightRate: 0,
               debit: header?.loadPortDem || 0,
@@ -171,7 +171,7 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "DISCHARGE PORT DEMURRAGE",
+              particulars: 'DISCHARGE PORT DEMURRAGE',
               cargoQty: 0,
               freightRate: 0,
               debit: header?.disChargePortDem || 0,
@@ -183,7 +183,7 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "LOAD PORT DESPATCH",
+              particulars: 'LOAD PORT DESPATCH',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -195,7 +195,7 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "DISCHARGE PORT DESPATCH",
+              particulars: 'DISCHARGE PORT DESPATCH',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -207,7 +207,7 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "GRAND TOTAL",
+              particulars: 'GRAND TOTAL',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -272,8 +272,9 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${header?.brokerCommission ||
-                0}% BROKER COMMISSION ON 100% FREIGHT`,
+              particulars: `${
+                header?.brokerCommission || 0
+              }% BROKER COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -285,8 +286,9 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${header?.addressCommission ||
-                0}% ADDRESS COMMISSION ON 100% FREIGHT`,
+              particulars: `${
+                header?.addressCommission || 0
+              }% ADDRESS COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -331,13 +333,13 @@ export const getInvoiceData = async (
   setLoading,
   setRowData,
   setter,
-  cargoId
+  cargoId,
 ) => {
   setLoading(true);
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`,
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -363,7 +365,7 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "LOAD PORT DEMURRAGE",
+              particulars: 'LOAD PORT DEMURRAGE',
               cargoQty: 0,
               freightRate: 0,
               debit: header?.loadPortDem || 0,
@@ -375,7 +377,7 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "DISCHARGE PORT DEMURRAGE",
+              particulars: 'DISCHARGE PORT DEMURRAGE',
               cargoQty: 0,
               freightRate: 0,
               debit: header?.disChargePortDem || 0,
@@ -387,7 +389,7 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "LOAD PORT DESPATCH",
+              particulars: 'LOAD PORT DESPATCH',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -399,7 +401,7 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "DISCHARGE PORT DESPATCH",
+              particulars: 'DISCHARGE PORT DESPATCH',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -411,7 +413,7 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: "GRAND TOTAL",
+              particulars: 'GRAND TOTAL',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -477,8 +479,9 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${header?.brokerCommission ||
-                0}% BROKER COMMISSION ON 100% FREIGHT`,
+              particulars: `${
+                header?.brokerCommission || 0
+              }% BROKER COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -490,8 +493,9 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${header?.addressCommission ||
-                0}% ADDRESS COMMISSION ON 100% FREIGHT`,
+              particulars: `${
+                header?.addressCommission || 0
+              }% ADDRESS COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -533,7 +537,7 @@ export const createJournalForVoyageCharter = async (
   freightInvoiceId,
   NetPayable,
   setLoading,
-  cb
+  cb,
 ) => {
   setLoading(true);
   const payload = getPayload(
@@ -541,16 +545,16 @@ export const createJournalForVoyageCharter = async (
     selectedBusinessUnit,
     values,
     freightInvoiceId,
-    NetPayable
+    NetPayable,
   );
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/VoyageCharter/CreateVoyageCharterJournal`,
-      payload
+      payload,
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();
-    console.log(payload, "payload");
+    console.log(payload, 'payload');
     setLoading(false);
   } catch (error) {
     toast.warning(error?.response?.data?.message, {
@@ -565,7 +569,7 @@ const getPayload = (
   selectedBusinessUnit,
   values,
   freightInvoiceId,
-  NetPayable
+  NetPayable,
 ) => {
   return {
     accountId: profileData?.accountId,
@@ -582,7 +586,7 @@ const getPayload = (
 export const getAccDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -603,7 +607,7 @@ export const voyageCharterBRApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBRNew?VoyageCharterId=${payload?.voyageCharterId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&ReceiveDate=${payload?.receiveDate}&HireNo=${payload?.hireNo}`
+      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBRNew?VoyageCharterId=${payload?.voyageCharterId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&ReceiveDate=${payload?.receiveDate}&HireNo=${payload?.hireNo}`,
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();

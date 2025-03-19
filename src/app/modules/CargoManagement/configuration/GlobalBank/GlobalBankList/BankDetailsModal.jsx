@@ -2,7 +2,7 @@ import React from 'react';
 import IViewModal from '../../../../_helper/_viewModal';
 import ICustomCard from '../../../../_helper/_customCard';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
 
 export default function BankDetailsModal({

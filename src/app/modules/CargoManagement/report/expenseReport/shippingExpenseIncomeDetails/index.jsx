@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 

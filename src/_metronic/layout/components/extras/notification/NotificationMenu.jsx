@@ -1,21 +1,20 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import NotificationPopUp from "./NotificationPopUp";
-import { getAllNotificationsActions } from "./helper";
-import { useDispatch } from "react-redux";
-import { NotificationsNoneOutlined } from "@material-ui/icons";
-import { setNotifyCountAction } from "../../../../../app/modules/_helper/chattingAppRedux/Action";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import NotificationPopUp from './NotificationPopUp';
+import { getAllNotificationsActions } from './helper';
+import { useDispatch } from 'react-redux';
+import { NotificationsNoneOutlined } from '@mui/icons-material';
+import { setNotifyCountAction } from '../../../../../app/modules/_helper/chattingAppRedux/Action';
 
 export default function NotificationMenu({ myCount }) {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
 
   const employeeId = profileData?.employeeId;
   const orgId = profileData?.accountId;
   const buId = selectedBusinessUnit?.value;
-
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -33,7 +32,7 @@ export default function NotificationMenu({ myCount }) {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <>
@@ -48,7 +47,7 @@ export default function NotificationMenu({ myCount }) {
             pageNo,
             pageSize,
             employeeId,
-            orgId
+            orgId,
           );
           handleClick(e);
         }}
@@ -56,7 +55,7 @@ export default function NotificationMenu({ myCount }) {
         <span>
           <NotificationsNoneOutlined
             sx={{
-              color: "action.active",
+              color: 'action.active',
               zIndex: 1,
             }}
           />

@@ -1,11 +1,11 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const validationSchema = Yup.object().shape({
   // motherVessel: Yup.string().required("Mother Vessel is required"),
-  ref: Yup.string().required("Ref is required"),
+  ref: Yup.string().required('Ref is required'),
   // unit: Yup.object()
   //   .shape({
   //     label: Yup.string().required("Unit is required"),
@@ -20,12 +20,12 @@ export const getSurveyVesselData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -40,12 +40,12 @@ export const createSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVesselSurvey/CreateLighterVesselSurvey`,
-      data
+      data,
     );
-    toast.success(res?.data?.message || "Created Successfully");
+    toast.success(res?.data?.message || 'Created Successfully');
     cb();
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -53,7 +53,7 @@ export const createSurveyVessel = async (data, cb) => {
 // Business Unit DDL
 export function getBUDDL(userId, clientId) {
   return axios.get(
-    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`
+    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`,
   );
 }
 
@@ -65,11 +65,11 @@ export const editSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVesselSurvey/EditLighterVesselSurvey`,
-      data
+      data,
     );
-    toast.success(res?.data?.message || "Created Successfully");
+    toast.success(res?.data?.message || 'Created Successfully');
     cb();
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };

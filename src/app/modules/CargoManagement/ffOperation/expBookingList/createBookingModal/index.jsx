@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 

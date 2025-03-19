@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
@@ -80,15 +80,13 @@ export default function ViewInvoice({ clickRowDto }) {
     border: '1px solid #000',
   };
 
-  const totalCollectionAmount = singleChaShipmentBooking?.chaServiceCharges?.reduce(
-    (acc, curr) => {
+  const totalCollectionAmount =
+    singleChaShipmentBooking?.chaServiceCharges?.reduce((acc, curr) => {
       const collectionQty = +curr?.collectionQty || 0;
       const collectionRate = +curr?.collectionRate || 0;
       const collectionAmount = collectionQty * collectionRate;
       return acc + collectionAmount;
-    },
-    0,
-  );
+    }, 0);
 
   return (
     <div className="chaShipmentBookingInvoice">

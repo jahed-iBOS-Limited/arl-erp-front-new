@@ -1,9 +1,9 @@
-import moment from "moment";
-import React, { useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../../App";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import moment from 'moment';
+import React, { useEffect, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../../../App';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function ShipmentOrderInvoice({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
@@ -16,12 +16,12 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
           @media print {
             body {
               -webkit-print-color-adjust: exact;
-  
+
             }
             @page {
               size: portrait !important;
@@ -36,7 +36,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,8 +59,8 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
         style={{
           fontSize: 11,
           fontWeight: 400,
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 10,
         }}
         ref={componentRef}
@@ -68,15 +68,15 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
         {/* header */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               gap: 10,
             }}
           >
@@ -113,22 +113,22 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
           {/* shipper */}
           <div
             style={{
-              borderTop: "1px solid #000000",
-              borderBottom: "1px solid #000000",
+              borderTop: '1px solid #000000',
+              borderBottom: '1px solid #000000',
             }}
           >
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
               }}
             >
-              <div style={{ borderRight: "1px solid #000000" }}>
+              <div style={{ borderRight: '1px solid #000000' }}>
                 <div>Shipper,</div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 4fr",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 4fr',
                     gap: 5,
                     paddingTop: 5,
                   }}
@@ -139,10 +139,10 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                   <div>
                     : {data?.shipperAddress}
                     {data?.shipperPostalCode
-                      ? data?.shipperPostalCode + ", "
-                      : ""}
-                    {data?.shipperCity ? data?.shipperCity + ", " : ""}
-                    {data?.shipperCountry ? data?.shipperCountry : ""}
+                      ? data?.shipperPostalCode + ', '
+                      : ''}
+                    {data?.shipperCity ? data?.shipperCity + ', ' : ''}
+                    {data?.shipperCountry ? data?.shipperCountry : ''}
                   </div>
                   <div>CNEE </div>
                   <div>: {data?.consigneeName}</div>
@@ -152,17 +152,17 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                   <div>: {data?.portOfDischarge}</div>
                   <div>Quantity </div>
                   <div>
-                    :{" "}
+                    :{' '}
                     {data?.rowsData?.reduce((acc, item) => {
                       return acc + (+item.totalNumberOfPackages || 0);
-                    }, 0)}{" "}
+                    }, 0)}{' '}
                   </div>
                   <div>Volume </div>
                   <div>
-                    :{" "}
+                    :{' '}
                     {data?.rowsData?.reduce((acc, item) => {
                       return acc + item.totalVolumeCBM;
-                    }, 0)}{" "}
+                    }, 0)}{' '}
                   </div>
                   <div>Local Agent </div>
                   <div>: {data?.freightAgentReference}</div>
@@ -171,9 +171,9 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
               <div>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    borderBottom: "1px solid #000000",
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    borderBottom: '1px solid #000000',
                   }}
                 >
                   <div
@@ -186,12 +186,12 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                   </div>
                   <div
                     style={{
-                      borderLeft: "1px solid #000000",
+                      borderLeft: '1px solid #000000',
                     }}
                   >
                     <div style={{ paddingLeft: 5 }}>
                       <div>Date:</div>
-                      {moment(data?.bookingRequestDate).format("DD-MM-YYYY")}
+                      {moment(data?.bookingRequestDate).format('DD-MM-YYYY')}
                       <br />
                     </div>
                   </div>
@@ -207,16 +207,16 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
           {/* Notify Party (Complete Name and Address) */}
           <div
             style={{
-              borderBottom: "1px solid #000000",
+              borderBottom: '1px solid #000000',
             }}
           >
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
               }}
             >
-              <div style={{ borderRight: "1px solid #000000" }}>
+              <div style={{ borderRight: '1px solid #000000' }}>
                 <div>Notify Party </div>
 
                 <div>{data?.notifyParty}</div>
@@ -243,9 +243,9 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
               <table>
                 <thead
                   style={{
-                    backgroundColor: "#f5f5f5",
-                    padding: "10px 0",
-                    borderBottom: "1px solid #000000",
+                    backgroundColor: '#f5f5f5',
+                    padding: '10px 0',
+                    borderBottom: '1px solid #000000',
                   }}
                 >
                   <tr>
@@ -259,7 +259,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                     <th>Gross Weight (kg)</th>
                     <th>Net Weight (kg)</th>
                     <th>Volume (CBM)</th>
-                    {data?.modeOfTransport === "Air" && (
+                    {data?.modeOfTransport === 'Air' && (
                       <th>Volumetric Weight</th>
                     )}
                     <th>Dimensions (Length)</th>
@@ -273,27 +273,27 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                     <tr
                       key={index}
                       style={{
-                        padding: "10px 0",
-                        borderBottom: "1px solid #000000",
+                        padding: '10px 0',
+                        borderBottom: '1px solid #000000',
                       }}
                     >
                       <td>{index + 1}</td>
                       <td>{item?.typeOfCargo}</td>
-                      <td>{item?.descriptionOfGoods || ""}</td>
+                      <td>{item?.descriptionOfGoods || ''}</td>
                       <td>{item?.hsCode}</td>
                       <td>
-                        {item?.dimensionRow?.map((d) => d?.poNumber).join(", ")}
+                        {item?.dimensionRow?.map((d) => d?.poNumber).join(', ')}
                       </td>
                       <td>
-                        {item?.dimensionRow?.map((d) => d?.style).join(", ")}
+                        {item?.dimensionRow?.map((d) => d?.style).join(', ')}
                       </td>
                       <td>
-                        {item?.dimensionRow?.map((d) => d?.color).join(", ")}
+                        {item?.dimensionRow?.map((d) => d?.color).join(', ')}
                       </td>
                       <td>{item?.totalGrossWeightKG}</td>
                       <td>{item?.totalNetWeightKG}</td>
                       <td>{item?.totalVolumeCBM}</td>
-                      {data?.modeOfTransport === "Air" && (
+                      {data?.modeOfTransport === 'Air' && (
                         <td>{item?.totalVolumetricWeight}</td>
                       )}
                       <td>{item?.totalDimsLength}</td>
@@ -310,7 +310,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalGrossWeightKG,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -318,7 +318,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNetWeightKG,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -326,16 +326,16 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalVolumeCBM,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
-                    {data?.modeOfTransport === "Air" && (
+                    {data?.modeOfTransport === 'Air' && (
                       <td>
                         <span className="font-bold">
                           {data?.rowsData?.reduce(
                             (acc, item) => acc + +item?.totalVolumetricWeight,
-                            0
+                            0,
                           )}
                         </span>
                       </td>
@@ -344,7 +344,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsLength,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -352,7 +352,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsWidth,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -360,7 +360,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsHeight,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -368,7 +368,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNumberOfPackages,
-                          0
+                          0,
                         )}
                       </span>
                     </td>
@@ -382,8 +382,8 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
 
           <div
             style={{
-              textAlign: "center",
-              paddingTop: "50px",
+              textAlign: 'center',
+              paddingTop: '50px',
             }}
           >
             Thanking you

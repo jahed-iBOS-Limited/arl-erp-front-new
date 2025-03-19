@@ -1,30 +1,30 @@
-import axios from "axios";
-import moment from "moment";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel name is required"),
-    value: Yup.string().required("Vessel name is required"),
+    label: Yup.string().required('Vessel name is required'),
+    value: Yup.string().required('Vessel name is required'),
   }),
   voyageNo: Yup.object().shape({
-    label: Yup.string().required("Voyage No is required"),
-    value: Yup.string().required("Voyage No is required"),
+    label: Yup.string().required('Voyage No is required'),
+    value: Yup.string().required('Voyage No is required'),
   }),
-  ballastStartDate: Yup.string().required("Ballast Start Date is required"),
-  ballastEndDate: Yup.string().required("Ballast End Date is required"),
-  ballastDuration: Yup.string().required("Ballast Duration is required"),
-  lsmgoperDayQty: Yup.string().required("This Field is required"),
-  lsmgoballastQty: Yup.string().required("This Field is required"),
-  lsmgoballastRate: Yup.string().required("This Field is required"),
-  lsmgoballastAmount: Yup.string().required("This Field is required"),
-  lsfoperDayQty: Yup.string().required("This Field is required"),
-  lsfoballastQty: Yup.string().required("This Field is required"),
-  lsfoballastRate: Yup.string().required("This Field is required"),
-  lsfoballastAmount: Yup.string().required("This Field is required"),
+  ballastStartDate: Yup.string().required('Ballast Start Date is required'),
+  ballastEndDate: Yup.string().required('Ballast End Date is required'),
+  ballastDuration: Yup.string().required('Ballast Duration is required'),
+  lsmgoperDayQty: Yup.string().required('This Field is required'),
+  lsmgoballastQty: Yup.string().required('This Field is required'),
+  lsmgoballastRate: Yup.string().required('This Field is required'),
+  lsmgoballastAmount: Yup.string().required('This Field is required'),
+  lsfoperDayQty: Yup.string().required('This Field is required'),
+  lsfoballastQty: Yup.string().required('This Field is required'),
+  lsfoballastRate: Yup.string().required('This Field is required'),
+  lsfoballastAmount: Yup.string().required('This Field is required'),
 });
 
 export const getBallastPassageLandingData = async ({
@@ -40,7 +40,7 @@ export const getBallastPassageLandingData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassageLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassageLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -61,10 +61,10 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
     );
-    setter("lsfoballastRate", data?.lsifoPrice);
-    setter("lsmgoballastRate", data?.lsmgoPrice);
+    setter('lsfoballastRate', data?.lsifoPrice);
+    setter('lsmgoballastRate', data?.lsmgoPrice);
     setLoading(false);
   } catch (err) {
     setter([]);
@@ -77,7 +77,7 @@ export const createBallastPassge = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/BallastPassage/CreateBallastPassage`,
-      data
+      data,
     );
     cb();
     toast.success(res?.data?.message);
@@ -93,7 +93,7 @@ export const editBallastPassge = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/BallastPassage/EditBallastPassage`,
-      data
+      data,
     );
 
     toast.success(res?.data?.message, { toastId: 123 });
@@ -110,7 +110,7 @@ export const getSingleBallastDataById = async ({ id, setLoading, setter }) => {
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`,
     );
 
     setter({
@@ -124,10 +124,10 @@ export const getSingleBallastDataById = async ({ id, setLoading, setter }) => {
         label: data?.voyageNo,
       },
       ballastStartDate: moment(data?.ballastStartDate).format(
-        "YYYY-MM-DDTHH:mm:ss"
+        'YYYY-MM-DDTHH:mm:ss',
       ),
       ballastEndDate: moment(data?.ballastEndDate).format(
-        "YYYY-MM-DDTHH:mm:ss"
+        'YYYY-MM-DDTHH:mm:ss',
       ),
     });
     setLoading(false);

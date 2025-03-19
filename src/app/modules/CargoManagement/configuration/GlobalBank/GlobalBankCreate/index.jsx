@@ -1,4 +1,4 @@
-import { Button, Divider } from '@material-ui/core';
+import { Button, Divider } from '@mui/material';
 import { Form, Formik } from 'formik';
 import _ from 'lodash';
 import React from 'react';
@@ -7,7 +7,7 @@ import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 import InputField from '../../../../_helper/_inputField';

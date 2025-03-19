@@ -1,16 +1,16 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../../App';
 
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel Name is required"),
-    value: Yup.string().required("Vessel Name is required"),
+    label: Yup.string().required('Vessel Name is required'),
+    value: Yup.string().required('Vessel Name is required'),
   }),
   voyageNo: Yup.object().shape({
-    label: Yup.string().required("Voyage No is required"),
-    value: Yup.string().required("Voyage No is required"),
+    label: Yup.string().required('Voyage No is required'),
+    value: Yup.string().required('Voyage No is required'),
   }),
 });
 
@@ -18,12 +18,12 @@ export const getConsumption = async (
   vesselId,
   voyageId,
   setLoading,
-  setter
+  setter,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`,
     );
     setter(res?.data[0]);
     setLoading(false);
@@ -37,12 +37,12 @@ export const getBunkerPurchaseList = async (
   buId,
   vesselId,
   setLoading,
-  setter
+  setter,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`,
     );
 
     setter(
@@ -51,7 +51,7 @@ export const getBunkerPurchaseList = async (
         itemCost: 0,
         consumption: 0,
         remainingQty: item?.remaining,
-      }))
+      })),
     );
     setLoading(false);
   } catch (error) {
@@ -65,7 +65,7 @@ export const saveBunkerCost = async (payload, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/BunkerCost/CreateBunkerCost`,
-      payload
+      payload,
     );
     toast.success(res?.data?.message);
     cb();
@@ -83,12 +83,12 @@ export const getBunkerCostLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -103,12 +103,12 @@ export const GetBunkerCostById = async (
   setter,
   setBunkerPurchaseList,
   setConsumption,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`
+      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`,
     );
     const modifyList = res?.data?.objRow?.map((item) => ({
       ...item,

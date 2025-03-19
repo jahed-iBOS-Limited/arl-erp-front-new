@@ -1,28 +1,28 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { attachmentUpload } from "./helper";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 const validationSchema = Yup.object().shape({
-  activityDateTime: Yup.string().required("Date is required"),
-  description: Yup.string().required("Agenda is required"),
-  outcome: Yup.string().required("Outcome is required"),
+  activityDateTime: Yup.string().required('Date is required'),
+  description: Yup.string().required('Agenda is required'),
+  outcome: Yup.string().required('Outcome is required'),
   calledbyName: Yup.object().shape({
-    value: Yup.number().required("Call By is required"),
-    label: Yup.string().required("Call By is required"),
+    value: Yup.number().required('Call By is required'),
+    label: Yup.string().required('Call By is required'),
   }),
-  followUpDate: Yup.string().required("Follow Up Date is required"),
+  followUpDate: Yup.string().required('Follow Up Date is required'),
 });
 export default function CallTab({ data }) {
   const formikRef = React.useRef(null);
@@ -43,41 +43,41 @@ export default function CallTab({ data }) {
       followUpActivityId: 0,
       businessUnitId: selectedBusinessUnit?.value,
       customerAcquisitionId: data?.customerAcquisitionId || 0,
-      stageName: data?.currentStage || "",
+      stageName: data?.currentStage || '',
       activityTypeId: 1,
-      activityTypeName: "Call",
+      activityTypeName: 'Call',
 
       calledbyId: values?.calledbyName?.value || 0,
-      calledbyName: values?.calledbyName?.label || "",
+      calledbyName: values?.calledbyName?.label || '',
 
       activityDateTime: values?.activityDateTime || new Date(),
-      description: values?.description || "",
-      outcome: values?.outcome || "",
-      attachment: values?.documentFileId || "",
+      description: values?.description || '',
+      outcome: values?.outcome || '',
+      attachment: values?.documentFileId || '',
       actionBy: userId || 0,
 
       scheduleTypeId: values?.scheduleTypeName?.value || 0,
-      scheduleTypeName: values?.scheduleTypeName?.label || "",
+      scheduleTypeName: values?.scheduleTypeName?.label || '',
 
       followUpDate: values?.followUpDate || new Date(),
     };
 
     SaveCustomerFollowUpActivity(
-      "/oms/SalesQuotation/CreateCustomerFollowUpActivity",
+      '/oms/SalesQuotation/CreateCustomerFollowUpActivity',
       payload,
       () => {
         if (cb) {
           cb();
         }
       },
-      "save"
+      'save',
     );
   };
   const loadCallByDDL = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
       )
       .then((res) => {
         return res?.data;
@@ -90,7 +90,7 @@ export default function CallTab({ data }) {
   }, []);
   return (
     <ICustomCard
-      title={"Call"}
+      title={'Call'}
       saveHandler={(values) => {
         formikRef.current.submitForm();
       }}
@@ -102,14 +102,14 @@ export default function CallTab({ data }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          activityDateTime: "",
-          description: "",
-          outcome: "",
-          calledbyName: "",
-          scheduleTypeName: "",
-          followUpDate: "",
-          attachment: "",
-          documentFileId: "",
+          activityDateTime: '',
+          description: '',
+          outcome: '',
+          calledbyName: '',
+          scheduleTypeName: '',
+          followUpDate: '',
+          attachment: '',
+          documentFileId: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -125,9 +125,9 @@ export default function CallTab({ data }) {
             <Form className="form form-label-right">
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '10px',
                 }}
               >
                 <div className="form-group row global-form">
@@ -139,7 +139,7 @@ export default function CallTab({ data }) {
                       name="activityDateTime"
                       value={values?.activityDateTime}
                       onChange={(e) => {
-                        setFieldValue("activityDateTime", e.target.value);
+                        setFieldValue('activityDateTime', e.target.value);
                       }}
                     />
                   </div>
@@ -151,7 +151,7 @@ export default function CallTab({ data }) {
                       value={values?.description}
                       placeholder="Agenda"
                       onChange={(e) => {
-                        setFieldValue("description", e.target.value);
+                        setFieldValue('description', e.target.value);
                       }}
                     />
                   </div>
@@ -163,7 +163,7 @@ export default function CallTab({ data }) {
                       value={values?.outcome}
                       placeholder="Outcome"
                       onChange={(e) => {
-                        setFieldValue("outcome", e.target.value);
+                        setFieldValue('outcome', e.target.value);
                       }}
                     />
                   </div>
@@ -174,7 +174,7 @@ export default function CallTab({ data }) {
                       selectedValue={values?.calledbyName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("calledbyName", valueOption);
+                        setFieldValue('calledbyName', valueOption);
                       }}
                       loadOptions={loadCallByDDL}
                       placeholder="Search (min 2 letter)"
@@ -183,12 +183,12 @@ export default function CallTab({ data }) {
                   {/* scheduleType */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Schedule Type"}
+                      label={'Schedule Type'}
                       options={scheduleTypeDDL || []}
                       value={values?.scheduleTypeName}
                       name="scheduleTypeName"
                       onChange={(valueOption) => {
-                        setFieldValue("scheduleTypeName", valueOption || "");
+                        setFieldValue('scheduleTypeName', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -202,7 +202,7 @@ export default function CallTab({ data }) {
                       name="followUpDate"
                       value={values?.followUpDate}
                       onChange={(e) => {
-                        setFieldValue("followUpDate", e.target.value);
+                        setFieldValue('followUpDate', e.target.value);
                       }}
                     />
                   </div>
@@ -220,7 +220,7 @@ export default function CallTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId)
+                            getDownlloadFileView_Action(values?.documentFileId),
                           );
                         }}
                       >
@@ -233,10 +233,10 @@ export default function CallTab({ data }) {
             </Form>
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -244,7 +244,7 @@ export default function CallTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}
@@ -253,7 +253,7 @@ export default function CallTab({ data }) {
                 setOpen(false);
                 attachmentUpload(fileObjects).then((data) => {
                   const documentFileId = data?.[0]?.id;
-                  setFieldValue("documentFileId", documentFileId || "");
+                  setFieldValue('documentFileId', documentFileId || '');
                 });
               }}
               showPreviews={true}

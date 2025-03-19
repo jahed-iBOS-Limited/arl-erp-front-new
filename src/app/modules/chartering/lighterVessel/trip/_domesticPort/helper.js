@@ -1,10 +1,10 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../../App';
 
 export const validationSchema = Yup.object().shape({
-  portName: Yup.string().required("Port Name is required"),
+  portName: Yup.string().required('Port Name is required'),
 });
 
 export const createPort = async (data, setLoading, cb) => {
@@ -12,7 +12,7 @@ export const createPort = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CreateDomesticPort`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();

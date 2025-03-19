@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
@@ -41,11 +41,8 @@ export default function MasterHBLModal({
   const [, getHBLList, isLoadingGetHBLList] = useAxiosPost();
   const [, SaveShipMasterBl, SaveShipMasterBlLoading] = useAxiosPost();
   const [msterBLDDL, getMasterBLDDL] = useAxiosGet();
-  const [
-    getShipMasteBlById,
-    GetShipMasterBlById,
-    shipMasterBlByIdLoaidng,
-  ] = useAxiosGet();
+  const [getShipMasteBlById, GetShipMasterBlById, shipMasterBlByIdLoaidng] =
+    useAxiosGet();
 
   const formikRef = React.useRef();
 
@@ -285,8 +282,9 @@ export default function MasterHBLModal({
                 })
                 .join(', ') || '',
             strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
-            strOceanVessel: `${transportPlanningSea?.vesselName ||
-              ''} / ${transportPlanningSea?.voyagaNo || ''}`,
+            strOceanVessel: `${transportPlanningSea?.vesselName || ''} / ${
+              transportPlanningSea?.voyagaNo || ''
+            }`,
             strVoyageNo: '',
             strPortOfLoading: firstIndex?.portOfLoading || '',
             strPlaceOfReceipt: firstIndex?.pickupPlace || '',

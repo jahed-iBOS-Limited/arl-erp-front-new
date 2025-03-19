@@ -1,12 +1,12 @@
 /* eslint-disable no-restricted-imports */
-import React, { useState } from "react";
-import { getAllNotificationsActions } from "./helper";
-import NotiBodyContent from "./NotiBodyContent";
+import React, { useState } from 'react';
+import { getAllNotificationsActions } from './helper';
+import NotiBodyContent from './NotiBodyContent';
 import Loading from './../../../../../app/modules/_helper/_loading';
 import useDebounce from './../../../../../app/modules/_helper/customHooks/useDebounce';
-import { IconButton, Popover } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { IconButton, Popover } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const NotificationPopUp = ({ propsObj }) => {
   const {
@@ -32,13 +32,13 @@ const NotificationPopUp = ({ propsObj }) => {
   return (
     <Popover
       sx={{
-        "& .MuiPaper-root": {
-          minWidth: "346px",
+        '& .MuiPaper-root': {
+          minWidth: '346px',
           // maxHeight: "360px",
           // padding: "0px 5px",
-          "&::-webkit-scrollbar": {
-            display: "none"
-          }
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
       }}
       id={id}
@@ -46,8 +46,8 @@ const NotificationPopUp = ({ propsObj }) => {
       anchorEl={anchorEl}
       onClose={handleClose}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
     >
       <div className="notification-popover">
@@ -63,14 +63,19 @@ const NotificationPopUp = ({ propsObj }) => {
               }}
             >
               <CloseIcon
-                sx={{ fontSize: "20px", color: 'rgba(0, 0, 0, 0.6)' }}
+                sx={{ fontSize: '20px', color: 'rgba(0, 0, 0, 0.6)' }}
               />
             </IconButton>
           </div>
         </div>
         <div
           className="notification-popover-body-content"
-          style={{ overflowY: "scroll", overflowX: "hidden", height: "360px", position: 'relative' }}
+          style={{
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+            height: '360px',
+            position: 'relative',
+          }}
           onScroll={(e) => {
             e.stopPropagation();
             debounce(() => {
@@ -82,7 +87,7 @@ const NotificationPopUp = ({ propsObj }) => {
                 pageSize,
                 employeeId,
                 orgId,
-                setNotificationLoading
+                setNotificationLoading,
               );
             }, 500);
           }}
@@ -98,20 +103,24 @@ const NotificationPopUp = ({ propsObj }) => {
             />
           ))}
         </div>
-        {notficationLoading && <div style={{
-          position: 'absolute',
-          bottom: '-5px',
-          right: '0',
-          width: '100%',
-          height: '3px',
-          margin: '0px',
-          padding: '0px'
-        }} className="text-center my-5">
-          <div>
-            <LinearProgress />
+        {notficationLoading && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '-5px',
+              right: '0',
+              width: '100%',
+              height: '3px',
+              margin: '0px',
+              padding: '0px',
+            }}
+            className="text-center my-5"
+          >
+            <div>
+              <LinearProgress />
+            </div>
           </div>
-        </div>}
-
+        )}
       </div>
     </Popover>
   );
