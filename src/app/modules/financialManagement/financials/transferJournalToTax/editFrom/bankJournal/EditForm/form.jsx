@@ -12,7 +12,7 @@ import {
 } from '../../../../../../_helper/_commonApi';
 import FormikError from '../../../../../../_helper/_formikError';
 import { IInput } from '../../../../../../_helper/_input';
-import { ReceivevalidationSchema } from '../../../../../../_helper/_validationScema';
+import { PaymentvalidationSchema, ReceivevalidationSchema } from '../../../../../../_helper/_validationScema';
 import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
 import TextArea from '../../../../../../_helper/TextArea';
 import customStyles from '../../../../../../selectCustomStyle';
@@ -31,20 +31,7 @@ import {
 
 
 // Validation schema for bank payment
-const PaymentvalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  paidTo: Yup.string().required('Paid to is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 // Validation schema for bank transfer
 const TransfervalidationSchema = Yup.object().shape({
   bankAcc: Yup.object().shape({
