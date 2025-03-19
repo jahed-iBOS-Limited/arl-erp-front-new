@@ -770,22 +770,8 @@ export const cancelJournal = async (
     // setDisabled(false);
   }
 };
-export const getBusinessTransactionByPartnerDDL = async (
-  accountId,
-  businessUnitId,
-  partnerTypeId,
-  partnerId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}&partnerId=${partnerId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
+
+
 export const checkTwoFactorApproval = async (
   otpType,
   unitId,
