@@ -241,21 +241,6 @@ export const getcashJournalSingleData_api = async (
   }
 };
 
-// getBusinessPartnerSalesDDL
-export const getBusinessPartnerPurchaseDDLAction = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
-
-
 export const getOthersPartner = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
