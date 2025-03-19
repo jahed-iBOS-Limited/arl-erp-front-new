@@ -390,6 +390,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                   {item?.numAchievement}
                                 </td>
                                 <td className="text-center">
+                                  {reportType?.label === "Top Sheet" ? 
                                   <InputField
                                     value={item?.numIncentiveAmount || ""}
                                     type="number"
@@ -400,8 +401,8 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                         .target.value;
                                       setIncentiveData(data);
                                     }}
-                                  />
-                                  {/* {item?.numIncentiveAmount} */}
+                                  /> :
+                                   <span>{item?.numIncentiveAmount}</span> }
                                 </td>
                                 <td className="text-center">
                                   {" "}
