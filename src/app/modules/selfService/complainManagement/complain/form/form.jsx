@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
-import * as Yup from 'yup';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import TextArea from '../../../../_helper/TextArea';
 import ICustomCard from '../../../../_helper/_customCard';
@@ -27,41 +26,8 @@ import {
   respondentTypeDDL,
 } from '../helper';
 import RespondentModal from './RespondentModal';
-export const validationSchema = Yup.object().shape({
-  occurrenceDate: Yup.date().required('Occurrence Date is required'),
-  respondentType: Yup.object().shape({
-    label: Yup.string().required('Respondent Type is required'),
-    value: Yup.string().required('Respondent Type is required'),
-  }),
-  // respondentName: Yup.object().shape({
-  //   label: Yup.string().required("Field is required"),
-  //   value: Yup.string().required("Field is required"),
-  // }),
-  respondentName: Yup.object().when('respondentType.value', {
-    is: (value) => value !== '4',
-    then: Yup.object().shape({
-      label: Yup.string().required('Field is required'),
-      value: Yup.string().required('Field is required'),
-    }),
-  }),
-  respondentBusinessUnit: Yup.object().shape({
-    label: Yup.string().required('Respondent BusinessUnit is required'),
-    value: Yup.string().required('Respondent BusinessUnit is required'),
-  }),
-  respondentContact: Yup.string()
-    .required('Respondent Contact is required')
-    .matches(/^[0-9]+$/, 'Must be only number'),
-  issueType: Yup.object().shape({
-    label: Yup.string().required('Issue Type is required'),
-    value: Yup.string().required('Issue Type is required'),
-  }),
-  issueSubType: Yup.object().shape({
-    label: Yup.string().required('Sub Issue Type is required'),
-    value: Yup.string().required('Sub Issue Type is required'),
-  }),
-  issueDetails: Yup.string().required('Issue Details is required'),
-  respondent: Yup.string().required('Respondent Name is required'),
-});
+import { complainValidationSchema } from '../../../../_helper/_validationScema';
+
 
 function Form({
   initData,
@@ -157,7 +123,7 @@ function Form({
             resetForm();
           });
         }}
-        validationSchema={validationSchema}
+        validationSchema={complainValidationSchema}
       >
         {({
           values,
