@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getCostElementByCostCenterDDL,
   getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
@@ -558,7 +559,7 @@ export default function _Form({
                             onChange={(valueOption) => {
                               if (valueOption) {
                                 setFieldValue('costCenter', valueOption);
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,

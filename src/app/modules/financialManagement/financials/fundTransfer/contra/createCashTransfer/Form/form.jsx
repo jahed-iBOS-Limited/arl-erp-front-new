@@ -6,7 +6,6 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import DebitCredit from './DebitCredit';
-import { getCostElementDDL } from './helper';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
 // import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../bankJournal/helper";
@@ -16,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getCostElementByCostCenterDDL,
   getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
@@ -579,7 +579,7 @@ export default function _Form({
                             onChange={(valueOption) => {
                               if (valueOption) {
                                 setFieldValue('costCenter', valueOption);
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
