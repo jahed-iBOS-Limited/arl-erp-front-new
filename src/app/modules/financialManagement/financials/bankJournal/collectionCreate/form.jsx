@@ -8,6 +8,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
+import { ReceivevalidationSchema } from '../../../../_helper/_validationScema';
 import {
   generateAdviceNo,
   getBankAc,
@@ -35,23 +36,6 @@ import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
 import TextArea from '../../../../_helper/TextArea';
-
-// Validation schema for bank receive
-const ReceivevalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  receiveFrom: Yup.string().required('Receive from is required'),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Narration is required'),
-  placingDate: Yup.string().required('Placing date is required'),
-});
 
 // Validation schema for bank payment
 const PaymentvalidationSchema = Yup.object().shape({
@@ -159,12 +143,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -185,10 +166,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                  ...item,
-                  value: item?.bankId,
-                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                }))
+                ...item,
+                value: item?.bankId,
+                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+              }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -228,8 +209,8 @@ export default function _Form({
           jorunalType === 4
             ? ReceivevalidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentvalidationSchema
+              : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
@@ -411,10 +392,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                          ...item,
-                                          value: item?.bankId,
-                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                        }))
+                                        ...item,
+                                        value: item?.bankId,
+                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                      }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
