@@ -21,11 +21,10 @@ import {
   GetSupplierListDDL_api,
   GetVehicleFuelTypeDDL_api,
   getBusinessUnitDDL_api,
-  multipleAttachment_action,
 } from './../helper';
 import ChalanInfo from './ChalanInfo';
 import AttachmentGrid from './attachmentGrid';
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
 import './form.scss';
 // Validation schema
@@ -240,7 +239,7 @@ export default function _Form({
                 setRowDto([]);
               });
             },
-            noAlertFunc: () => { },
+            noAlertFunc: () => {},
           };
           IConfirmModal(confirmObject);
         }}
@@ -965,30 +964,30 @@ export default function _Form({
                         Attachment
                       </button>
                     </div>
-                    {(values?.purchaseType === "Cash" ||
-                      values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Cash</label>
-                          <InputField
-                            value={values?.cash}
-                            name="cash"
-                            placeholder="Cash"
-                            type="text"
-                          />
-                        </div>
-                      )}
-                    {(values?.purchaseType === "Credit" ||
-                      values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Credit</label>
-                          <InputField
-                            value={values?.credit}
-                            name="credit"
-                            placeholder="Credit"
-                            type="text"
-                          />
-                        </div>
-                      )}
+                    {(values?.purchaseType === 'Cash' ||
+                      values?.purchaseType === 'Both') && (
+                      <div className="col-lg-3">
+                        <label>Cash</label>
+                        <InputField
+                          value={values?.cash}
+                          name="cash"
+                          placeholder="Cash"
+                          type="text"
+                        />
+                      </div>
+                    )}
+                    {(values?.purchaseType === 'Credit' ||
+                      values?.purchaseType === 'Both') && (
+                      <div className="col-lg-3">
+                        <label>Credit</label>
+                        <InputField
+                          value={values?.credit}
+                          name="credit"
+                          placeholder="Credit"
+                          type="text"
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-3">
                       <label>Fuel Memo No</label>
                       <InputField
@@ -1017,7 +1016,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === 'Both' &&
                             values?.fuelAmount !=
-                            +values?.credit + +values?.cash
+                              +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               'Credit and cash should be equal to amount',
