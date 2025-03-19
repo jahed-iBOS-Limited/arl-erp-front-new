@@ -6,7 +6,6 @@ import { confirmAlert } from 'react-confirm-alert';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
 import {
   generateAdviceNo,
@@ -25,7 +24,7 @@ import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { PaymentvalidationSchema, ReceivevalidationSchema } from '../../../../_helper/_validationScema';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../_helper/_validationScema';
 import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import placeholderImg from '../../../../_helper/images/placeholderImg.png';
@@ -40,28 +39,7 @@ import TransferTable from './TransferTable';
 // Validation schema for bank payment
 
 // Validation schema for bank transfer
-const TransfervalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  transferTo: Yup.object().shape({
-    label: Yup.string().required('Transfer to is required'),
-    value: Yup.string().required('Transfer to is required'),
-  }),
-  sendToGLBank: Yup.object().shape({
-    label: Yup.string().required('GL/BL is required'),
-    value: Yup.string().required('GL/BL is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  transferAmount: Yup.string().required('Amount is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.date().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 
 export default function _Form({
   initData,
@@ -194,10 +172,10 @@ export default function _Form({
         }}
         validationSchema={
           jorunalType === 4
-            ? ReceivevalidationSchema
+            ? ReceiveValidationSchema
             : jorunalType === 5
-              ? PaymentvalidationSchema
-              : TransfervalidationSchema
+              ? PaymentValidationSchema
+              : TransferValidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
