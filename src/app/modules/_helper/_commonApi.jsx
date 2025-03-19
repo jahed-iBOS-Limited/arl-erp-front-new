@@ -844,6 +844,50 @@ export const getBankAccountDDL_api = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
+  }
+};
+export const getShipByDDL = async (setter) => {
+  try {
+    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) { }
+};
+
+export const GetLighterCNFDDL = async (setter) => {
+  try {
+    const res = await axios.get(`/wms/FertilizerOperation/GetLighterCNFDDL`);
+    if (res.status === 200) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await Axios.get(
+      `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`
+    );
+    cb && cb(res?.data);
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
+
+export const getMotherVesselDDL = async (accId, buId, setter) => {
+  try {
+    const res = await Axios.get(
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
   }
 };

@@ -92,16 +92,7 @@ export const EditLighterAllotment = async (payload, setLoading, cb) => {
   }
 };
 
-export const GetLighterCNFDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/FertilizerOperation/GetLighterCNFDDL`);
-    if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {
@@ -182,16 +173,7 @@ export const GetLighterVesselList = async (
   }
 };
 
-export const getMotherVesselDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res.data);
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const DeleteLighterAllotment = async (id, setLoading, cb) => {
   setLoading(true);
