@@ -1,23 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Form from "./form";
 import {
   saveBankJournal,
 } from "./helper";
-import { confirmAlert } from "react-confirm-alert";
 // import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css"
-import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
+import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
+import "./style.css";
 
-// const initData = {
-
-// };
 
 export default function BankJournalCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
@@ -76,35 +73,10 @@ export default function BankJournalCreateForm() {
         }
       }
     }
-    /* 
-     // previous code 
-     if (location?.state?.selectedJournal?.value === 4) {
-      if (values?.revenueCenter || values?.revenueElement) {
-        if (!(values?.revenueCenter && values?.revenueElement)) {
-          return toast.warn("Please add Revenue center or Revenue element");
-        }
-      }
-    } else {
-      if (values?.costCenter || values?.costElement) {
-        if (!(values?.costCenter && values?.costElement)) {
-          return toast.warn("Please add Cost center or Cost element");
-        }
-      }
-    } */
 
     // dispatch values for localStorageSlice
     dispatch(setBankJournalCreateAction(values));
     // setDisabled(true);
-
-    // const chequeNo = await genarateChequeNo(
-    //   profileData?.accountId,
-    //   selectedBusinessUnit?.value,
-    //   +values?.bankAcc?.bankId,
-    //   +values?.bankAcc?.bankBranch_Id,
-    //   +values?.bankAcc?.value,
-    //   values?.bankAcc?.label,
-    //   +values?.instrumentType?.value
-    // );
 
 
     if (
