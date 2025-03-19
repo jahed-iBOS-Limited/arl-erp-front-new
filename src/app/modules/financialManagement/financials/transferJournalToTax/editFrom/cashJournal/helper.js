@@ -1,17 +1,6 @@
 
 import axios from "axios";
 
-  export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
-    try {
-      const res = await axios.get(
-        "/fino/AccountingConfig/GetAccTransectionTypeDDL"
-      );
-      setPartnerTypeDDL(res?.data);
-    } catch (error) {
-      setPartnerTypeDDL([])
-    }
-  };
-
   // getCostCenterDDL 
 export const getCostCenterDDL = async (UnitId,AccountId,setter) => {
     try {

@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import DebitCredit from './DebitCredit';
-import { getCostElementDDL, getPartnerTypeDDLAction } from './helper';
+import { getCostElementDDL } from './helper';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
 // import { getCostCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../../bankJournal/helper";
@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
   getSendToGLBank,

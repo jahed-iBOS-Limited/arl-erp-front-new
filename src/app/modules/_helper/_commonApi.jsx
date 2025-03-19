@@ -770,22 +770,8 @@ export const cancelJournal = async (
     // setDisabled(false);
   }
 };
-export const getBusinessTransactionByPartnerDDL = async (
-  accountId,
-  businessUnitId,
-  partnerTypeId,
-  partnerId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}&partnerId=${partnerId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
+
+
 export const checkTwoFactorApproval = async (
   otpType,
   unitId,
@@ -889,5 +875,17 @@ export const getMotherVesselDDL = async (accId, buId, setter) => {
     setter(res.data);
   } catch (error) {
     setter([]);
+  }
+};
+
+
+export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
+  try {
+    const res = await Axios.get(
+      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
+    );
+    setPartnerTypeDDL(res?.data);
+  } catch (error) {
+    setPartnerTypeDDL([])
   }
 };

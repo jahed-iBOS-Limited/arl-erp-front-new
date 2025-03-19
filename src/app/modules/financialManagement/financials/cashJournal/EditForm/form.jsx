@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
   getSendToGLBank,
@@ -20,7 +21,7 @@ import TransferTable from '../Form/TransferTable';
 import FormikError from './../../../../_helper/_formikError';
 import { IInput } from './../../../../_helper/_input';
 import customStyles from './../../../../selectCustomStyle';
-import { getCostElementDDL, getPartnerTypeDDLAction } from './../helper';
+import { getCostElementDDL } from './../helper';
 import TextArea from '../../../../_helper/TextArea';
 
 const receiptsJournal = Yup.object().shape({

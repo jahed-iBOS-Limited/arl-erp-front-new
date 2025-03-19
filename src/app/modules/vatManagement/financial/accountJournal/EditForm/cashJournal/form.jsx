@@ -10,11 +10,11 @@ import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
 import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import DebitCredit from '../../form/cashJournalCreate/DebitCredit';
-import { getPartnerTypeDDLAction } from '../../form/cashJournalCreate/helper';
 import ReceiveAndPaymentsTable from '../../form/cashJournalCreate/ReceiveAndPaymentsTable';
 import TransferTable from '../../form/cashJournalCreate/TransferTable';
 import {
   getBankAccountDDL_api,
+  getPartnerTypeDDLAction,
   getSendToGLBank,
 } from '../../../../../_helper/_commonApi';
 import TextArea from '../../../../../_helper/TextArea';
