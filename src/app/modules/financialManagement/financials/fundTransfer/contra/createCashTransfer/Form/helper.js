@@ -1,20 +1,6 @@
 import Axios from "axios";
 
 // getBusinessPartnerSalesDDL
-export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/BusinessPartnerSales/GetBusinessPartnerSales?AccountId=${accId}&BusniessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
-  }
-};
-
-// getBusinessPartnerSalesDDL
 export const getBusinessPartnerPurchaseDDLAction = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
