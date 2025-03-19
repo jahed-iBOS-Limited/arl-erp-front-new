@@ -449,22 +449,6 @@ export const getFuelLogCash = async (enroll, date, setLoading) => {
   }
 };
 
-// getProfitCenter List
-export const getProfitCenterDDL = async (buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`
-    );
-    const modifiedData = res?.data?.map((item) => ({
-      ...item,
-      value: item?.profitCenterId,
-      label: item?.profitCenterName,
-    }));
-    setter(modifiedData);
-  } catch (error) {
-    console.log(error);
-  }
-};
 // getCostElementDDL
 export const getCostElementDDL = async (UnitId, AccountId, setter) => {
   try {
