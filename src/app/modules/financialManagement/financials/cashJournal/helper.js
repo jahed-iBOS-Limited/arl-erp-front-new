@@ -241,17 +241,6 @@ export const getcashJournalSingleData_api = async (
   }
 };
 
-export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
-  try {
-    const res = await Axios.get(
-      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
-    );
-    setPartnerTypeDDL(res?.data);
-  } catch (error) {
-    setPartnerTypeDDL([])
-  }
-};
-
 // https://localhost:44339/costmgmt/BusinessTransaction/GetBusinessTransactionByPartnerDDL?AccountId=1&BusinessUnitId=8&partnerTypeId=3&partnerId=0
 export const getBusinessTransactionByPartnerDDL = async (accountId, businessUnitId,partnerTypeId,partnerId, setter) => {
   try {

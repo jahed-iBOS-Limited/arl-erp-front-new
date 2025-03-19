@@ -891,3 +891,15 @@ export const getMotherVesselDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
+
+
+export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
+  try {
+    const res = await Axios.get(
+      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
+    );
+    setPartnerTypeDDL(res?.data);
+  } catch (error) {
+    setPartnerTypeDDL([])
+  }
+};

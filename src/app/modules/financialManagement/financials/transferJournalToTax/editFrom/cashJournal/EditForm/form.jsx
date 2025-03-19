@@ -15,12 +15,12 @@ import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
 import {
   getCostCenterDDL,
   getCostElementDDL,
-  getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
 } from '../helper';
 import {
   getBankAccountDDL_api,
+  getPartnerTypeDDLAction,
   getSendToGLBank,
 } from '../../../../../../_helper/_commonApi';
 import TextArea from '../../../../../../_helper/TextArea';

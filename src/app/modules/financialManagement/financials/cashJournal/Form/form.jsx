@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
   getSendToGLBank,
@@ -21,7 +22,7 @@ import FormikError from './../../../../_helper/_formikError';
 import { IInput } from './../../../../_helper/_input';
 import placeholderImg from './../../../../_helper/images/placeholderImg.png';
 import customStyles from './../../../../selectCustomStyle';
-import { getCostElementDDL, getPartnerTypeDDLAction } from './../helper';
+import { getCostElementDDL } from './../helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
