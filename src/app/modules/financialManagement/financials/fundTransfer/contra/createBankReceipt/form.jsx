@@ -5,7 +5,6 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 // import { Input } from '../../../../../../_metronic/_partials/controls';
 // import customStyles from '../../../../selectCustomStyle';
 // import { attachmentUpload } from '../../../../_helper/attachmentUpload';
@@ -40,6 +39,7 @@ import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationScema';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';
@@ -50,7 +50,6 @@ import { approveHandeler } from '../../fundTransferApproval/helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
-import { ReceivevalidationSchema } from '../../../../../_helper/_validationScema';
 
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
@@ -58,43 +57,9 @@ import { ReceivevalidationSchema } from '../../../../../_helper/_validationScema
 
 
 // Validation schema for bank payment
-const PaymentvalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  paidTo: Yup.string().required('Paid to is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 // Validation schema for bank transfer
-const TransfervalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  transferTo: Yup.object().shape({
-    label: Yup.string().required('Transfer to is required'),
-    value: Yup.string().required('Transfer to is required'),
-  }),
-  sendToGLBank: Yup.object().shape({
-    label: Yup.string().required('GL/BL is required'),
-    value: Yup.string().required('GL/BL is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  transferAmount: Yup.string().required('Amount is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.date().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 
 export default function _Form({
   initData,
@@ -225,10 +190,10 @@ export default function _Form({
         }}
         validationSchema={
           jorunalType === 4
-            ? ReceivevalidationSchema
+            ? ReceiveValidationSchema
             : jorunalType === 5
-              ? PaymentvalidationSchema
-              : TransfervalidationSchema
+              ? PaymentValidationSchema
+              : TransferValidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           let bankPaymentValues = { ...values }; //If you want to resetFrom write code after this line.
