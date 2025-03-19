@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import { CardHeader, Card } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import { CardHeader, Card } from '@mui/material';
+import { Form, Formik } from 'formik';
+import moment from 'moment';
 import {
   CardBody,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import axios from "axios";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../_helper/_formikError";
-import { DeleteOutlined } from "@ant-design/icons";
-import { onAddItemRequestForProject } from "./projectApi";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import { toast } from "react-toastify";
+} from '../../../../../_metronic/_partials/controls';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../_helper/_formikError';
+import { DeleteOutlined } from '@ant-design/icons';
+import { onAddItemRequestForProject } from './projectApi';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 const initialValues = {
-  item: "",
-  quantity: "",
-  price: "",
-  labor: "",
+  item: '',
+  quantity: '',
+  price: '',
+  labor: '',
 };
 const ProjectInventoryCost = ({
   project,
@@ -32,7 +32,7 @@ const ProjectInventoryCost = ({
 }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   const [itemList, setItemList] = useState([]);
   const [
@@ -48,7 +48,7 @@ const ProjectInventoryCost = ({
         itemCode: item?.intItemId,
         itemName: item?.strItem,
         strUom: item?.strUom,
-        dteUpdatedAt: moment().format("YYYY-MM-DDThh:mm:ss"),
+        dteUpdatedAt: moment().format('YYYY-MM-DDThh:mm:ss'),
         intUpdatedBy: profileData?.userId,
       }));
       setItemList(modifiedList);
@@ -69,7 +69,7 @@ const ProjectInventoryCost = ({
           setFieldError,
           itemList,
           setItemList,
-          setValues
+          setValues,
         );
       }}
     >
@@ -86,7 +86,7 @@ const ProjectInventoryCost = ({
           <Card>
             {true && <ModalProgressBar />}
             <div className="d-flex justify-content-between align-items-center">
-              <CardHeader title={"Project Inventory"}></CardHeader>
+              <CardHeader title={'Project Inventory'}></CardHeader>
               <ButtonStyleOne
                 label="Save"
                 type="button"
@@ -97,20 +97,20 @@ const ProjectInventoryCost = ({
                       responseOfCreateItemRequest?.message ||
                       responseOfCreateItemRequest?.statusCode
                 }
-                style={{ marginRight: "15px", padding: "5px 15px" }}
+                style={{ marginRight: '15px', padding: '5px 15px' }}
                 onClick={() => {
                   if (isEdit) {
                     if (!project?.intProjectId)
-                      return toast.warn("Please create a project first");
+                      return toast.warn('Please create a project first');
                   } else {
                     if (!project?.id)
-                      return toast.warn("Please create a project first");
+                      return toast.warn('Please create a project first');
                   }
                   createItemRequestForProject(
                     `/fino/ProjectAccounting/SaveProjectCostingInventory`,
                     itemList,
                     null,
-                    true
+                    true,
                   );
                 }}
               />
@@ -123,14 +123,14 @@ const ProjectInventoryCost = ({
                     <SearchAsyncSelect
                       selectedValue={values?.item}
                       handleChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                        setFieldValue("price", Math.ceil(valueOption?.price));
+                        setFieldValue('item', valueOption);
+                        setFieldValue('price', Math.ceil(valueOption?.price));
                       }}
                       loadOptions={(value) => {
                         if (value?.length < 2) return [];
                         return axios
                           .get(
-                            `/fino/ProjectAccounting/ProjectCostingInventoryItemDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
+                            `/fino/ProjectAccounting/ProjectCostingInventoryItemDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
                           )
                           .then((response) => {
                             return response.data;
@@ -151,7 +151,7 @@ const ProjectInventoryCost = ({
                       value={values?.quantity}
                       label="Item Quantity"
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                     />
                     <FormikError
@@ -166,7 +166,7 @@ const ProjectInventoryCost = ({
                       value={values?.price}
                       label="Item Price"
                       onChange={(e) => {
-                        setFieldValue("price", e.target.value);
+                        setFieldValue('price', e.target.value);
                       }}
                     />
                     <FormikError
@@ -181,7 +181,7 @@ const ProjectInventoryCost = ({
                       value={values?.labor}
                       label="Labor Value"
                       onChange={(e) => {
-                        setFieldValue("labor", e.target.value);
+                        setFieldValue('labor', e.target.value);
                       }}
                     />
                     {/* <FormikError
@@ -197,7 +197,7 @@ const ProjectInventoryCost = ({
                         label="Add"
                         type="button"
                         onClick={handleSubmit}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                   </div>
@@ -213,37 +213,37 @@ const ProjectInventoryCost = ({
                           <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                             <thead>
                               <tr>
-                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: '50px' }}>SL</th>
                                 <th
                                   style={{
-                                    width: "150px",
-                                    textAlign: "center",
+                                    width: '150px',
+                                    textAlign: 'center',
                                   }}
                                 >
                                   Item Code
                                 </th>
-                                <th style={{ width: "200px" }}>
+                                <th style={{ width: '200px' }}>
                                   <div className="text-left">Item Name</div>
                                 </th>
-                                <th style={{ width: "100px" }}>UOM</th>
+                                <th style={{ width: '100px' }}>UOM</th>
                                 <th
                                   style={{
-                                    width: "150px",
-                                    textAlign: "center",
+                                    width: '150px',
+                                    textAlign: 'center',
                                   }}
                                 >
                                   Quantity
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div>Price</div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div>Labor</div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div>Total</div>
                                 </th>
-                                <th style={{ width: "150px" }}>Action</th>
+                                <th style={{ width: '150px' }}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -269,7 +269,7 @@ const ProjectInventoryCost = ({
                                       {item?.numPrice}
                                     </td>
                                     <td className="text-right">
-                                      {item?.numLaborValue || ""}
+                                      {item?.numLaborValue || ''}
                                     </td>
                                     <td className="text-right">
                                       {item?.numTotal}
@@ -282,11 +282,12 @@ const ProjectInventoryCost = ({
                                               let modifiedItemList = [];
 
                                               if (item?.intProjectInvId === 0) {
-                                                modifiedItemList = itemList.filter(
-                                                  (nestedItem) =>
-                                                    nestedItem?.strItemCode !==
-                                                    item?.strItemCode
-                                                );
+                                                modifiedItemList =
+                                                  itemList.filter(
+                                                    (nestedItem) =>
+                                                      nestedItem?.strItemCode !==
+                                                      item?.strItemCode,
+                                                  );
                                                 setItemList(modifiedItemList);
                                               } else {
                                                 modifiedItemList = itemList.map(
@@ -297,7 +298,7 @@ const ProjectInventoryCost = ({
                                                           ...nestedItem,
                                                           isActive: false,
                                                         }
-                                                      : nestedItem
+                                                      : nestedItem,
                                                 );
                                                 setItemList(modifiedItemList);
                                               }
@@ -307,7 +308,7 @@ const ProjectInventoryCost = ({
                                       </div>
                                     </td>
                                   </tr>
-                                ) : null
+                                ) : null,
                               )}
                             </tbody>
                           </table>

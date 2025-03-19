@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const getIncomeReport = async (
   accId,
@@ -10,14 +10,14 @@ export const getIncomeReport = async (
   fromDate,
   toDate,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
-  const FromDate = fromDate ? `&FromDate=${fromDate}` : "";
-  const ToDate = toDate ? `&ToDate=${toDate}` : "";
+  const FromDate = fromDate ? `&FromDate=${fromDate}` : '';
+  const ToDate = toDate ? `&ToDate=${toDate}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Report/GetRevenueReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}${FromDate}${ToDate}`
+      `${imarineBaseUrl}/domain/Report/GetRevenueReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}${FromDate}${ToDate}`,
     );
     if (fromDate && toDate) {
       setter(
@@ -29,7 +29,7 @@ export const getIncomeReport = async (
               jvDisable: false,
               ajDisable: false,
               finalRevenue: elem?.netRevinue,
-              dollarConversionRate: "",
+              dollarConversionRate: '',
               // _fixedPoint(
               //   elem?.incomeInDateRange +
               //     elem?.addrComm +
@@ -38,7 +38,7 @@ export const getIncomeReport = async (
               //   false
               // ),
             };
-          })
+          }),
       );
     } else {
       setter(
@@ -47,7 +47,7 @@ export const getIncomeReport = async (
             ...elem,
             jvDisable: false,
           };
-        })
+        }),
       );
     }
     setLoading(false);
@@ -64,12 +64,12 @@ export const getExpenseReport = async (
   vesselId,
   voyageId,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Report/GetCostReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/Report/GetCostReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`,
     );
     setter(res?.data);
     setLoading(false);

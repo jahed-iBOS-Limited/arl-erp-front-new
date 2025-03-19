@@ -1,11 +1,11 @@
-import axios from "axios";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
-  fileName: Yup.string().required("File name is required"),
+  fileName: Yup.string().required('File name is required'),
 });
 
 export const getChartererCPData = async ({
@@ -20,7 +20,7 @@ export const getChartererCPData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ChartererCP/GetChartererCPData?AccountId=${accId}&BusinessUnitId=${buId}&rptType=${reportType}&DocId=${docId}`
+      `${imarineBaseUrl}/domain/ChartererCP/GetChartererCPData?AccountId=${accId}&BusinessUnitId=${buId}&rptType=${reportType}&DocId=${docId}`,
     );
     setter(res?.data);
     cb && cb();
@@ -36,7 +36,7 @@ export const saveCPClause = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/ChartererCP/UplaodCharterCP`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();
@@ -53,12 +53,12 @@ export const getCPLandingData = async (
   fromDate,
   toDate,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ChartererCP/GetChartererCPLandingData?AccountId=${accId}&BusinessUnitId=${buId}&fromCreateDate=${fromDate}&toCreateDate=${toDate}`
+      `${imarineBaseUrl}/domain/ChartererCP/GetChartererCPLandingData?AccountId=${accId}&BusinessUnitId=${buId}&fromCreateDate=${fromDate}&toCreateDate=${toDate}`,
     );
     setter(res?.data);
     setLoading(false);

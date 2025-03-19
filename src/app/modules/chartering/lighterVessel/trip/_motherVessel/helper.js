@@ -1,10 +1,10 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../../App';
 
 export const validationSchema = Yup.object().shape({
-  mvesselName: Yup.string().required("Mother Vessel is required"),
+  mvesselName: Yup.string().required('Mother Vessel is required'),
 });
 
 export const createMotherVessel = async (data, setLoading, cb) => {
@@ -12,7 +12,7 @@ export const createMotherVessel = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CreateLighterMotherVessel`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();

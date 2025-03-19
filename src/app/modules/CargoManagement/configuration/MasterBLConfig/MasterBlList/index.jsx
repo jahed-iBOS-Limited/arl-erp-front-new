@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import PaginationTable from '../../../../_helper/_tablePagination';

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { imarineBaseUrl } from "../../../../App";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { imarineBaseUrl } from '../../../../../App';
+import { toast } from 'react-toastify';
 
 export const getASLLAgencyBill = async (
   typeId,
@@ -8,13 +8,13 @@ export const getASLLAgencyBill = async (
   fromDate,
   toDate,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   setter([]);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyBill?typeId=${typeId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyBill?typeId=${typeId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -39,13 +39,13 @@ export const createShippingAgencyJVApi = async ({
   setLoading(true);
   try {
     const res = await axios.post(
-      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}&VasselTypeId=${vasselTypeId}`
+      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}&VasselTypeId=${vasselTypeId}`,
     );
-    toast.success(res.data?.message || "Submitted successfully");
+    toast.success(res.data?.message || 'Submitted successfully');
     cb();
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted failed");
+    toast.error(error?.response?.data?.message || 'Submitted failed');
     setLoading(false);
   }
 };

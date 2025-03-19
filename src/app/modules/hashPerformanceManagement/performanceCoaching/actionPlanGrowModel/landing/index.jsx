@@ -1,29 +1,29 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import html2pdf from "html2pdf.js";
-import "./styles.css";
+import { Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import html2pdf from 'html2pdf.js';
+import './styles.css';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { quaterDDL } from "../../../hashPerformanceCommon";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import GrowModelPdf from "../GrowModelPdf";
+} from '../../../../../../_metronic/_partials/controls';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { quaterDDL } from '../../../hashPerformanceCommon';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import GrowModelPdf from '../GrowModelPdf';
 const initData = {
-  year: "",
-  quater: "",
+  year: '',
+  quater: '',
 };
 
 export default function GrowModelActionPlan() {
@@ -33,13 +33,8 @@ export default function GrowModelActionPlan() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit.value;
   }, shallowEqual);
-  const {
-    accountId,
-    userId,
-    employeeId,
-    employeeFullName,
-    designationId,
-  } = profileData;
+  const { accountId, userId, employeeId, employeeFullName, designationId } =
+    profileData;
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
   const [yearData, getYearData] = useAxiosGet();
   const [referenceData, getReferenceData] = useAxiosGet();
@@ -75,34 +70,34 @@ export default function GrowModelActionPlan() {
       businessUnitId: selectedBusinessUnit,
       workplaceGroupId: values?.workplaceGroupId || 0,
       typeId: rowData?.typeId || 1,
-      type: rowData?.type || "Grow Model",
+      type: rowData?.type || 'Grow Model',
       typeReferenceId:
         rowData?.typeReferenceId || values?.typeReference?.growModelId,
       typeReference: rowData?.typeReference || values?.typeReference?.label,
       yearId: values?.year?.value,
       year: values?.year?.label,
       quarterId: values?.quater?.value || 1,
-      quarter: values?.quater?.label || "",
+      quarter: values?.quater?.label || '',
       currentResult: values?.currentResult,
       desiredResult: values?.desiredResult,
       isActive: true,
       actionDate: _todayDate(),
       actionBy: userId,
-      typeGroup: "GrowModel",
+      typeGroup: 'GrowModel',
       row: rowList,
     };
     saveData(
       `/pms/PerformanceMgmt/PMSActionPlanCreateAndEdit`,
       payload,
       null,
-      true
+      true,
     );
   };
 
   const addHandler = (values) => {
     if (values?.activity && values?.stardDate && values?.endDate) {
       if (rowData?.row?.find((item) => item?.activity === values?.activity)) {
-        toast.error("Activity already exist");
+        toast.error('Activity already exist');
         return;
       } else {
         if (rowData.row) {
@@ -144,7 +139,7 @@ export default function GrowModelActionPlan() {
         }
       }
     } else {
-      toast.error("Please fill all the fields");
+      toast.error('Please fill all the fields');
       return;
     }
   };
@@ -153,46 +148,43 @@ export default function GrowModelActionPlan() {
     getRowData(
       `/pms/PerformanceMgmt/GetActionPlanRowGrid?EmployeeId=${empId}&YearId=${yearId}&QuarterId=${quaterId}&TypeGroup=GrowModel`,
       (data) => {
-        setFieldValue("typeReference", {
+        setFieldValue('typeReference', {
           value: data?.typeReferenceId,
           label: data?.typeReference,
         });
-      }
+      },
     );
   };
 
   useEffect(() => {
     getYearData(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId, selectedBusinessUnit]);
 
   const pdfExport = (fileName) => {
-    var element = document.getElementById("pdf-section");
+    var element = document.getElementById('pdf-section');
     var clonedElement = element.cloneNode(true);
-    clonedElement.classList.add("d-block");
+    clonedElement.classList.add('d-block');
 
     var opt = {
       margin: 20,
       filename: `${fileName}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
+      image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale: 5,
         dpi: 300,
         letterRendering: true,
-        padding: "50px",
+        padding: '50px',
         scrollX: -window.scrollX,
         scrollY: -window.scrollY,
         windowWidth: document.documentElement.offsetWidth,
         windowHeight: document.documentElement.offsetHeight,
       },
-      jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "portrait" },
+      jsPDF: { unit: 'px', hotfixes: ['px_scaling'], orientation: 'portrait' },
     };
-    html2pdf()
-      .set(opt)
-      .from(clonedElement)
-      .save();
+    html2pdf().set(opt).from(clonedElement).save();
   };
 
   const pdfData = {
@@ -209,18 +201,18 @@ export default function GrowModelActionPlan() {
           ...initData,
           type: {
             value: rowData?.typeId || 1,
-            label: "Grow Model",
+            label: 'Grow Model',
           },
         }}
         onSubmit={() => {
-          console.log("submit", rowData);
+          console.log('submit', rowData);
         }}
       >
         {({ values, setFieldValue, errors, touched }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Action Plan GROW Model"}>
+              <CardHeader title={'Action Plan GROW Model'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -238,22 +230,22 @@ export default function GrowModelActionPlan() {
                 <div className="row">
                   <div className="col-lg-4 mt-2">
                     <div>
-                      <strong>Name</strong>:{" "}
+                      <strong>Name</strong>:{' '}
                       <span>{rowData?.employeeName}</span>
                     </div>
                     <div>
-                      <strong>Enroll</strong>:{" "}
+                      <strong>Enroll</strong>:{' '}
                       <span>{rowData?.employeeId}</span>
                     </div>
                   </div>
                   <div className="col-lg-4">
                     <div>
-                      <strong>Designation</strong>:{" "}
-                      <span>{rowData?.designation || ""}</span>
+                      <strong>Designation</strong>:{' '}
+                      <span>{rowData?.designation || ''}</span>
                     </div>
                     <div>
-                      <strong>Location</strong>:{" "}
-                      <span>{rowData?.workplaceGroup || ""}</span>
+                      <strong>Location</strong>:{' '}
+                      <span>{rowData?.workplaceGroup || ''}</span>
                     </div>
                   </div>
                 </div>
@@ -268,13 +260,13 @@ export default function GrowModelActionPlan() {
                         label="Year"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("year", valueOption);
-                            setFieldValue("quater", "");
-                            setFieldValue("typeReference", "");
+                            setFieldValue('year', valueOption);
+                            setFieldValue('quater', '');
+                            setFieldValue('typeReference', '');
                             setRowData({});
                           } else {
-                            setFieldValue("year", "");
-                            setFieldValue("quater", "");
+                            setFieldValue('year', '');
+                            setFieldValue('quater', '');
                             setRowData({});
                           }
                         }}
@@ -294,11 +286,11 @@ export default function GrowModelActionPlan() {
                               employeeId,
                               values.year.value,
                               valueOption?.value,
-                              setFieldValue
+                              setFieldValue,
                             );
-                            setFieldValue("quater", valueOption);
+                            setFieldValue('quater', valueOption);
                             getReferenceData(
-                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=2`
+                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=2`,
                             );
                           } else {
                           }
@@ -314,7 +306,7 @@ export default function GrowModelActionPlan() {
                           <button
                             id="actionplan-pdf"
                             onClick={(e) =>
-                              pdfExport("Action plan Grow Model", html2pdf)
+                              pdfExport('Action plan Grow Model', html2pdf.js)
                             }
                             className="btn btn-primary position-absolute bottom-0"
                             type="button"
@@ -350,7 +342,7 @@ export default function GrowModelActionPlan() {
                       value={values?.typeReference}
                       label="Type Reference"
                       onChange={(valueOption) => {
-                        setFieldValue("typeReference", valueOption);
+                        setFieldValue('typeReference', valueOption);
                       }}
                       placeholder="Type Reference"
                       errors={errors}
@@ -373,7 +365,7 @@ export default function GrowModelActionPlan() {
                       type="string"
                       name="activity"
                       onChange={(e) => {
-                        setFieldValue("activity", e.target.value);
+                        setFieldValue('activity', e.target.value);
                       }}
                     />
                   </div>
@@ -391,7 +383,7 @@ export default function GrowModelActionPlan() {
                       type="date"
                       name="stardDate"
                       onChange={(e) => {
-                        setFieldValue("stardDate", e.target.value);
+                        setFieldValue('stardDate', e.target.value);
                       }}
                     />
                   </div>
@@ -410,7 +402,7 @@ export default function GrowModelActionPlan() {
                       type="date"
                       name="endDate"
                       onChange={(e) => {
-                        setFieldValue("endDate", e.target.value);
+                        setFieldValue('endDate', e.target.value);
                       }}
                     />
                   </div>
@@ -431,7 +423,7 @@ export default function GrowModelActionPlan() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>
                             LIST OF TASKS/ACTIVITIES/BEHAVIOR TO ACHIEVE RESULT
                           </th>
@@ -477,7 +469,7 @@ export default function GrowModelActionPlan() {
                   componentRef={printRef}
                   ref={printRef}
                   style={{
-                    marginTop: "20px",
+                    marginTop: '20px',
                   }}
                 >
                   <GrowModelPdf pdfData={pdfData} />

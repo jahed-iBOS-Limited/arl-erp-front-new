@@ -8,7 +8,6 @@
 /.pnp
 .pnp.js
 debug.log
-.vscode
 .github
 # testing
 /coverage
@@ -20,6 +19,7 @@ debug.log
 # production
 /_site
 /build
+/dist
 
 # misc
 .DS_Store

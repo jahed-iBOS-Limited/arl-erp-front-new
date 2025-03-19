@@ -1,29 +1,29 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import html2pdf from "html2pdf.js";
-import "./styles.css";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import html2pdf from 'html2pdf.js';
+import './styles.css';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { quaterDDL } from "../../../hashPerformanceCommon";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import JohariWindowPdfFile from "../JohariWindowPdfFile";
+} from '../../../../../../_metronic/_partials/controls';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { quaterDDL } from '../../../hashPerformanceCommon';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import JohariWindowPdfFile from '../JohariWindowPdfFile';
 const initData = {
-  year: "",
-  quater: "",
+  year: '',
+  quater: '',
 };
 
 export default function JohariWindowActionPlan() {
@@ -33,13 +33,8 @@ export default function JohariWindowActionPlan() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit.value;
   }, shallowEqual);
-  const {
-    accountId,
-    userId,
-    employeeId,
-    employeeFullName,
-    designationId,
-  } = profileData;
+  const { accountId, userId, employeeId, employeeFullName, designationId } =
+    profileData;
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
   const [yearData, getYearData] = useAxiosGet();
   const [referenceData, getReferenceData] = useAxiosGet();
@@ -78,7 +73,7 @@ export default function JohariWindowActionPlan() {
         businessUnitId: selectedBusinessUnit,
         workplaceGroupId: values?.workplaceGroupId || 0,
         typeId: rowData?.typeId || 1,
-        type: rowData?.type || "Johari Window",
+        type: rowData?.type || 'Johari Window',
         typeReferenceId:
           rowData?.typeReferenceId || values?.typeReference?.value,
         typeReference:
@@ -86,30 +81,30 @@ export default function JohariWindowActionPlan() {
         yearId: values?.year?.value,
         year: values?.year?.label,
         quarterId: values?.quater?.value || 1,
-        quarter: values?.quater?.label || "",
+        quarter: values?.quater?.label || '',
         currentResult: values?.currentResult,
         desiredResult: values?.desiredResult,
         isActive: true,
         actionDate: _todayDate(),
         actionBy: userId,
-        typeGroup: "JohariWindow",
+        typeGroup: 'JohariWindow',
         row: rowList,
       };
       saveData(
         `/pms/PerformanceMgmt/PMSActionPlanCreateAndEdit`,
         payload,
         null,
-        true
+        true,
       );
     } else {
-      toast.error("Please Select Year and Quater");
+      toast.error('Please Select Year and Quater');
     }
   };
 
   const addHandler = (values) => {
     if (values?.activity && values?.stardDate && values?.endDate) {
       if (rowData?.row?.find((item) => item?.activity === values?.activity)) {
-        toast.error("Activity already exist");
+        toast.error('Activity already exist');
         return;
       } else {
         if (rowData.row) {
@@ -147,7 +142,7 @@ export default function JohariWindowActionPlan() {
         }
       }
     } else {
-      toast.error("Please fill all the fields");
+      toast.error('Please fill all the fields');
       return;
     }
   };
@@ -156,37 +151,34 @@ export default function JohariWindowActionPlan() {
     getRowData(
       `/pms/PerformanceMgmt/GetActionPlanRowGrid?EmployeeId=${empId}&YearId=${yearId}&QuarterId=${quaterId}&TypeGroup=JohariWindow`,
       (data) => {
-        setFieldValue("typeReference", {
+        setFieldValue('typeReference', {
           value: data?.typeReferenceId,
           label: data?.typeReference,
         });
-      }
+      },
     );
   };
 
   useEffect(() => {
     getYearData(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pdfExport = (fileName) => {
-    var element = document.getElementById("pdf-section");
+    var element = document.getElementById('pdf-section');
     var clonedElement = element.cloneNode(true);
-    clonedElement.classList.add("d-block");
+    clonedElement.classList.add('d-block');
 
     var opt = {
       margin: 20,
       filename: `${fileName}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
+      image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "portrait" },
+      jsPDF: { unit: 'px', hotfixes: ['px_scaling'], orientation: 'portrait' },
     };
-    html2pdf()
-      .set(opt)
-      .from(clonedElement)
-      .save();
+    html2pdf().set(opt).from(clonedElement).save();
   };
 
   const pdfData = {
@@ -202,7 +194,7 @@ export default function JohariWindowActionPlan() {
           ...initData,
           type: {
             value: 1,
-            label: "Johari Window",
+            label: 'Johari Window',
           },
         }}
         onSubmit={() => {}}
@@ -211,7 +203,7 @@ export default function JohariWindowActionPlan() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Action Plan Johari Window"}>
+              <CardHeader title={'Action Plan Johari Window'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -236,12 +228,12 @@ export default function JohariWindowActionPlan() {
                         label="Year"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("year", valueOption);
-                            setFieldValue("quater", "");
+                            setFieldValue('year', valueOption);
+                            setFieldValue('quater', '');
                             setRowData({});
                           } else {
-                            setFieldValue("year", "");
-                            setFieldValue("quater", "");
+                            setFieldValue('year', '');
+                            setFieldValue('quater', '');
                             setRowData({});
                           }
                         }}
@@ -261,14 +253,14 @@ export default function JohariWindowActionPlan() {
                               employeeId,
                               values.year.value,
                               valueOption?.value,
-                              setFieldValue
+                              setFieldValue,
                             );
                             getReferenceData(
-                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=1`             
+                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=1`,
                             );
-                            setFieldValue("quater", valueOption);
+                            setFieldValue('quater', valueOption);
                           } else {
-                            setFieldValue("quater", "");
+                            setFieldValue('quater', '');
                             setRowData({});
                           }
                         }}
@@ -283,7 +275,7 @@ export default function JohariWindowActionPlan() {
                           <button
                             id="actionplan-pdf"
                             onClick={(e) =>
-                              pdfExport("Action plan Johari Window")
+                              pdfExport('Action plan Johari Window')
                             }
                             className="btn btn-primary position-absolute bottom-0"
                             type="button"
@@ -319,7 +311,7 @@ export default function JohariWindowActionPlan() {
                       value={values?.typeReference}
                       label="Type Reference"
                       onChange={(valueOption) => {
-                        setFieldValue("typeReference", valueOption);
+                        setFieldValue('typeReference', valueOption);
                       }}
                       placeholder="Type Reference"
                       errors={errors}
@@ -341,7 +333,7 @@ export default function JohariWindowActionPlan() {
                       type="string"
                       name="activity"
                       onChange={(e) => {
-                        setFieldValue("activity", e.target.value);
+                        setFieldValue('activity', e.target.value);
                       }}
                     />
                   </div>
@@ -354,7 +346,7 @@ export default function JohariWindowActionPlan() {
                       type="date"
                       name="stardDate"
                       onChange={(e) => {
-                        setFieldValue("stardDate", e.target.value);
+                        setFieldValue('stardDate', e.target.value);
                       }}
                     />
                   </div>
@@ -367,7 +359,7 @@ export default function JohariWindowActionPlan() {
                       type="date"
                       name="endDate"
                       onChange={(e) => {
-                        setFieldValue("endDate", e.target.value);
+                        setFieldValue('endDate', e.target.value);
                       }}
                     />
                   </div>
@@ -388,7 +380,7 @@ export default function JohariWindowActionPlan() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>
                             LIST OF TASKS/ACTIVITIES/BEHAVIOR TO ACHIEVE RESULT
                           </th>
@@ -410,13 +402,13 @@ export default function JohariWindowActionPlan() {
                                 {_dateFormatter(item.endDate)}
                               </td>
                               <td className="text-center">
-                                  <span
-                                    onClick={() => {
-                                      closeHandler(index);
-                                    }}
-                                  >
-                                    <IClose />
-                                  </span>
+                                <span
+                                  onClick={() => {
+                                    closeHandler(index);
+                                  }}
+                                >
+                                  <IClose />
+                                </span>
                               </td>
                             </tr>
                           );

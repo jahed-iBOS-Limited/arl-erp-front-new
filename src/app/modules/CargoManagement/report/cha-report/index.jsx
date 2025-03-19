@@ -2,7 +2,7 @@ import { Form, Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
@@ -10,12 +10,8 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import NewSelect from '../../../_helper/_select';
 
 const initialValues = {
-  fromDate: moment()
-    .startOf('month')
-    .format('YYYY-MM-DD'),
-  toDate: moment()
-    .endOf('month')
-    .format('YYYY-MM-DD'),
+  fromDate: moment().startOf('month').format('YYYY-MM-DD'),
+  toDate: moment().endOf('month').format('YYYY-MM-DD'),
   chaType: {
     value: 0,
     label: 'All',
@@ -30,11 +26,8 @@ const validationSchema = Yup.object().shape({
   }),
 });
 export default function CHAReport() {
-  const [
-    acLedgerforPaymentReport,
-    getACLedgerforPaymentReport,
-    isLoading,
-  ] = useAxiosGet();
+  const [acLedgerforPaymentReport, getACLedgerforPaymentReport, isLoading] =
+    useAxiosGet();
 
   const saveHandler = (values) => {
     commonGetApi(values);

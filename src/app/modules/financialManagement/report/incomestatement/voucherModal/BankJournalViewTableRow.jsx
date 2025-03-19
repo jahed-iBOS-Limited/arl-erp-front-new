@@ -1,28 +1,28 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form as FormikForm, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { useDispatch } from "react-redux";
-import { getBankJournalView } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
-import { APIUrl } from "../../../../../App";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IViewModal from "../../../../_helper/_viewModal";
-import SupplerInvoiceView from "../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView";
-import AdvForInternalView from "../../../invoiceManagementSystem/approvebillregister/advForInternal";
-import ExpenseView from "../../../invoiceManagementSystem/approvebillregister/expenseView";
-import ViewTransportBill from "../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
-import ViewSalesCommission from "../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
-import ViewFuelBill from "../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
-import ViewLabourBill from "../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
-import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
-import ViewInternalTransportBill from "../../../invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister";
+import { Form as FormikForm, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { useDispatch } from 'react-redux';
+import { getBankJournalView } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import Loading from '../../../../_helper/_loading';
+import { APIUrl } from '../../../../../../App';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IViewModal from '../../../../_helper/_viewModal';
+import SupplerInvoiceView from '../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView';
+import SupplierAdvanceView from '../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView';
+import AdvForInternalView from '../../../invoiceManagementSystem/approvebillregister/advForInternal';
+import ExpenseView from '../../../invoiceManagementSystem/approvebillregister/expenseView';
+import ViewTransportBill from '../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister';
+import ViewSalesCommission from '../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission';
+import ViewFuelBill from '../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister';
+import ViewLabourBill from '../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister';
+import OthersBillView from '../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView';
+import ViewInternalTransportBill from '../../../invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister';
 
 export function BankJournalViewTableRow({ id, headerData }) {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
   const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [theBusinessUnit, setTheBusinessUnit] = useState("");
+  const [theBusinessUnit, setTheBusinessUnit] = useState('');
   useEffect(() => {
     if (id && headerData) {
       getBankJournalView(
@@ -47,12 +47,12 @@ export function BankJournalViewTableRow({ id, headerData }) {
           setbankJournalReport(bankJournalReportData);
           const specificBusinessUnit = businessUnitList?.find(
             (item) =>
-              item?.value === bankJournalReportData?.objHeader?.businessUnitId
+              item?.value === bankJournalReportData?.objHeader?.businessUnitId,
           );
           setTheBusinessUnit(specificBusinessUnit);
         },
         setLoading,
-        headerData
+        headerData,
       );
     }
   }, [id, headerData, selectedBusinessUnit]);
@@ -77,8 +77,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                   onClick={() => {
                     dispatch(
                       getDownlloadFileView_Action(
-                        bankJournalReport?.objHeader?.attachment
-                      )
+                        bankJournalReport?.objHeader?.attachment,
+                      ),
                     );
                   }}
                   className="btn btn-primary mr-4"
@@ -107,19 +107,21 @@ export function BankJournalViewTableRow({ id, headerData }) {
                   <div ref={printRef}>
                     <div className="m-3 adjustment-journalReport">
                       <div>
-                        <div style={{ position: "absolute" }}>
+                        <div style={{ position: 'absolute' }}>
                           <img
-                            style={{ width: "70px" }}
-                            src={`${APIUrl}/domain/Document/DownlloadFile?id=${theBusinessUnit?.imageId ||
-                              selectedBusinessUnit?.imageId}`}
+                            style={{ width: '70px' }}
+                            src={`${APIUrl}/domain/Document/DownlloadFile?id=${
+                              theBusinessUnit?.imageId ||
+                              selectedBusinessUnit?.imageId
+                            }`}
                             alt=""
                           />
                         </div>
                         <div className="d-flex flex-column justify-content-center align-items-center mt-2">
                           <span
                             style={{
-                              fontSize: "22px",
-                              fontWeight: "bold",
+                              fontSize: '22px',
+                              fontWeight: 'bold',
                             }}
                           >
                             {bankJournalReport?.objHeader?.businessUnitName}
@@ -129,8 +131,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                           </span>
                           <span className="my-2">Bank Journal</span>
                           <span>
-                            Bank Name And A/C NO.{" "}
-                            {bankJournalReport?.objHeader?.bankName}{" "}
+                            Bank Name And A/C NO.{' '}
+                            {bankJournalReport?.objHeader?.bankName}{' '}
                             {bankJournalReport?.objHeader?.bankAccountNo}
                           </span>
                         </div>
@@ -141,10 +143,10 @@ export function BankJournalViewTableRow({ id, headerData }) {
                             Cheque No.
                             <sapn
                               className="ml-1"
-                              style={{ fontWeight: "bold" }}
+                              style={{ fontWeight: 'bold' }}
                             >
                               {bankJournalReport?.objHeader?.chequeNo}
-                              {" , "}
+                              {' , '}
                             </sapn>
                             Instrument :
                             <sapn className="font-weight-bold ml-1">
@@ -155,7 +157,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                             Cheque Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.chequeDate
+                                bankJournalReport?.objHeader?.chequeDate,
                               )}
                             </sapn>
                           </div>
@@ -168,9 +170,9 @@ export function BankJournalViewTableRow({ id, headerData }) {
                               style={
                                 gridItem?.billRegisterId && gridItem?.billTypeId
                                   ? {
-                                      textDecoration: "underline",
-                                      cursor: "pointer",
-                                      color: "#3699FF",
+                                      textDecoration: 'underline',
+                                      cursor: 'pointer',
+                                      color: '#3699FF',
                                     }
                                   : {}
                               }
@@ -190,7 +192,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.journalDate
+                                bankJournalReport?.objHeader?.journalDate,
                               )}
                             </sapn>
                           </div>
@@ -219,14 +221,14 @@ export function BankJournalViewTableRow({ id, headerData }) {
                                   <div className="text-right pr-2">
                                     {data.debit
                                       ? _formatMoney(Math.abs(data?.debit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-right pr-2">
                                     {data.credit
                                       ? _formatMoney(Math.abs(data?.credit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                               </tr>
@@ -235,28 +237,28 @@ export function BankJournalViewTableRow({ id, headerData }) {
                               <td
                                 colspan="3"
                                 className="text-center ml-1"
-                                style={{ fontWeight: "bold" }}
+                                style={{ fontWeight: 'bold' }}
                               >
                                 Total
                               </td>
                               <td
                                 className="text-right pr-2"
-                                style={{ fontWeight: "bold" }}
+                                style={{ fontWeight: 'bold' }}
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount
-                                  )
+                                    bankJournalReport?.objHeader?.numAmount,
+                                  ),
                                 )}
                               </td>
                               <td
                                 className="text-right pr-2"
-                                style={{ fontWeight: "bold" }}
+                                style={{ fontWeight: 'bold' }}
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount
-                                  )
+                                    bankJournalReport?.objHeader?.numAmount,
+                                  ),
                                 )}
                               </td>
                             </tr>
@@ -266,22 +268,22 @@ export function BankJournalViewTableRow({ id, headerData }) {
 
                       <div className="mt-5">
                         <div className="d-flex">
-                          <p className="mr-2" style={{ fontWeight: "bold" }}>
-                            Sum Of Taka :{" "}
+                          <p className="mr-2" style={{ fontWeight: 'bold' }}>
+                            Sum Of Taka :{' '}
                           </p>
-                          <p style={{ fontWeight: "bold" }}>
+                          <p style={{ fontWeight: 'bold' }}>
                             {bankJournalReport?.objHeader?.amount}
                           </p>
                         </div>
                         <div className="d-flex">
-                          <p className="mr-2" style={{ fontWeight: "bold" }}>
-                            Pay To :{" "}
+                          <p className="mr-2" style={{ fontWeight: 'bold' }}>
+                            Pay To :{' '}
                           </p>
                           <p>{bankJournalReport?.objHeader?.paidTo}</p>
                         </div>
                         <div className="d-flex">
-                          <p className="mr-2" style={{ fontWeight: "bold" }}>
-                            Description :{" "}
+                          <p className="mr-2" style={{ fontWeight: 'bold' }}>
+                            Description :{' '}
                           </p>
                           <p>{bankJournalReport?.objHeader?.narration}</p>
                         </div>

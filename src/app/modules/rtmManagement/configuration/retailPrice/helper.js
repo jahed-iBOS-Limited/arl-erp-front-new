@@ -1,12 +1,12 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
-import { APIUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { APIUrl } from '../../../../../App';
 
 export const getDistributionChannelDDL = async (accId, buId, setter) => {
   try {
     let res = await axios.get(
-      `/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -19,7 +19,7 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
 export const getItemDDL = async (accId, buId, dcId, setter) => {
   try {
     let res = await axios.get(
-      `/rtm/RTMDDL/GetItemInfoByChannelIdDDL?AccountId=${accId}&BusinessUnitI=${buId}&DistributionChannel=${dcId}`
+      `/rtm/RTMDDL/GetItemInfoByChannelIdDDL?AccountId=${accId}&BusinessUnitI=${buId}&DistributionChannel=${dcId}`,
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -36,12 +36,12 @@ export const getRetailPriceLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setIsLoading
+  setIsLoading,
 ) => {
   setIsLoading(true);
   try {
     let res = await axios.get(
-      `/rtm/RetailPrice/GetRetailPriceLandingPasignation?accountId=${accId}&businessUnitid=${buId}&distributionChannelId=${dcId}&PageNo=${pageNo}&PageSize=${pageSize}&vieworder=desc`
+      `/rtm/RetailPrice/GetRetailPriceLandingPasignation?accountId=${accId}&businessUnitid=${buId}&distributionChannelId=${dcId}&PageNo=${pageNo}&PageSize=${pageSize}&vieworder=desc`,
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -57,7 +57,7 @@ export const createRetailPrice = async (payload, cb) => {
   try {
     let res = await axios.post(`/rtm/RetailPrice/CreateRetailPrice`, payload);
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "createRetailPrice" });
+      toast.success(res?.data?.message, { toastId: 'createRetailPrice' });
       cb();
     }
   } catch (err) {
@@ -69,7 +69,7 @@ export const editRetailPrice = async (payload) => {
   try {
     let res = await axios.put(`/rtm/RetailPrice/EditRetailPrice`, payload);
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "editRetailPrice" });
+      toast.success(res?.data?.message, { toastId: 'editRetailPrice' });
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message);
@@ -83,12 +83,12 @@ export const getRetailPriceId = async (
   dId,
   setSingleData,
   setRowData,
-  setDisabled
+  setDisabled,
 ) => {
   setDisabled(true);
   try {
     let res = await axios.get(
-      `/rtm/RetailPrice/GetBusinessTypeById?distributionChannelId=${dId}`
+      `/rtm/RetailPrice/GetBusinessTypeById?distributionChannelId=${dId}`,
     );
     if (res?.status === 200) {
       const data = res?.data;
@@ -98,10 +98,10 @@ export const getRetailPriceId = async (
           value: data[0]?.distributionChannelId,
           label: data[0]?.distributionChannelName,
         },
-        item: "",
-        UomId: "",
-        UoM: "",
-        rate: "",
+        item: '',
+        UomId: '',
+        UoM: '',
+        rate: '',
       };
 
       const rowData = data?.map((item) => {
@@ -140,11 +140,29 @@ export const getRetailPriceId = async (
   }
 };
 
+export const retailPriceAttachment_action = async (attachment, cb) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append('files', file?.file);
+  });
+  try {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    // toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success('Upload  successfully');
+    return data;
+  } catch (error) {
+    toast.error('Document not upload');
+  }
+};
 
 export const getRetailPriceImageFile_api = async (id) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
     );
 
     if (res.status === 200 && res.data) {

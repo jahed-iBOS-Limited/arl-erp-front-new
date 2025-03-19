@@ -2,7 +2,7 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../App';
+import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import IEdit from '../../../_helper/_helperIcons/_edit';

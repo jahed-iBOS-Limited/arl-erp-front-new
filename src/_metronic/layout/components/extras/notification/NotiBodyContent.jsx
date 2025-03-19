@@ -1,17 +1,21 @@
-import { IconButton } from '@material-ui/core';
-import GroupIcon from '@material-ui/icons/Group';
-import SettingsIcon from '@material-ui/icons/Settings';
+import { IconButton } from '@mui/material';
+import GroupIcon from '@mui/icons-material/Group';
+import SettingsIcon from '@mui/icons-material/Settings';
 import axios from 'axios';
-import React from "react";
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../../../app/modules/_helper/_redux/Actions';
 import { NotificationRirectFunc } from './helper';
 
 const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
-
   const { peopledeskApiURL } = useSelector((state) => state.authData);
-  const { notifyDetails, notifyTitle, timeDifference, notificationMaster, isSeen } =
-    content;
+  const {
+    notifyDetails,
+    notifyTitle,
+    timeDifference,
+    notificationMaster,
+    isSeen,
+  } = content;
   const dispatch = useDispatch();
   return (
     <>
@@ -22,17 +26,16 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             : `notification-popover-body-main-content unseen`
         }
         style={{
-          cursor: "pointer",
-          borderBottom: "1px solid #D0D5DD",
-          width: "346px",
+          cursor: 'pointer',
+          borderBottom: '1px solid #D0D5DD',
+          width: '346px',
         }}
         onClick={(e) => {
-
-          if (notificationMaster?.strFeature === "policy") {
+          if (notificationMaster?.strFeature === 'policy') {
             const policyFileUrl = async () => {
               try {
                 let { data } = await axios.get(
-                  `${peopledeskApiURL}/SaasMasterData/GetUploadedPolicyByIdErp?AccountId=${orgId}&BusinessUnitId=${buId}&PolicyId=${notificationMaster?.intFeatureTableAutoId}`
+                  `${peopledeskApiURL}/SaasMasterData/GetUploadedPolicyByIdErp?AccountId=${orgId}&BusinessUnitId=${buId}&PolicyId=${notificationMaster?.intFeatureTableAutoId}`,
                 );
                 if (data?.intPolicyFileUrlId) {
                   const callback = () => {
@@ -43,8 +46,8 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
                       data?.intPolicyFileUrlId,
                       false,
                       callback,
-                      setLoading
-                    )
+                      setLoading,
+                    ),
                   );
                 }
               } catch (error) {
@@ -53,10 +56,11 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             };
             policyFileUrl();
           }
-          content?.routeUrl && NotificationRirectFunc({
-            ...content,
-            peopledeskApiURL: peopledeskApiURL,
-          })
+          content?.routeUrl &&
+            NotificationRirectFunc({
+              ...content,
+              peopledeskApiURL: peopledeskApiURL,
+            });
         }}
       >
         <div className="d-flex">
@@ -64,12 +68,12 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             <div className="notification-popover-body-main-content-avatar">
               <IconButton
                 className="circle-button-icon"
-                style={{ height: "40px", width: "40px" }}
+                style={{ height: '40px', width: '40px' }}
               >
-                {notificationMaster?.strModule === "Employee Management" && (
+                {notificationMaster?.strModule === 'Employee Management' && (
                   <GroupIcon></GroupIcon>
                 )}
-                {notificationMaster?.strFeature === "policy" && (
+                {notificationMaster?.strFeature === 'policy' && (
                   <SettingsIcon></SettingsIcon>
                 )}
               </IconButton>
@@ -80,15 +84,15 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
 
             <div className="notification-body-header">
               <div className="d-flex justify-content-between ">
-                <h6>{notifyTitle?.toUpperCase() || ""}</h6>
+                <h6>{notifyTitle?.toUpperCase() || ''}</h6>
                 <h6>
-                  {timeDifference === "now"
+                  {timeDifference === 'now'
                     ? timeDifference
                     : `${timeDifference} ago`}
                 </h6>
               </div>
               <div>
-                <span>{notifyDetails || ""}</span>
+                <span>{notifyDetails || ''}</span>
               </div>
             </div>
           </div>

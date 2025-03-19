@@ -1,12 +1,12 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 
 export const validationSchema = Yup.object().shape({
-  lighterVesselName: Yup.string().required("Name is required"),
-  vesselType: Yup.string().required("Vessel Type is required"),
-  capacity: Yup.string().required("Capacity is required"),
+  lighterVesselName: Yup.string().required('Name is required'),
+  vesselType: Yup.string().required('Vessel Type is required'),
+  capacity: Yup.string().required('Capacity is required'),
 });
 
 export const getLighterVesselList = async (
@@ -15,12 +15,12 @@ export const getLighterVesselList = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
     setLoading(false);
@@ -35,7 +35,7 @@ export const saveLighterVessel = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CreateLighterVessel`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();
@@ -51,14 +51,14 @@ export const saveEditedLighterVessel = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVessel/EditLighterVessel`,
-      data
+      data,
     );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "An error occurred while updating!"
+      error?.response?.data?.message || 'An error occurred while updating!',
     );
     setLoading(false);
   }
@@ -67,7 +67,7 @@ export const saveEditedLighterVessel = async (data, setLoading, cb) => {
 export const getRevenueCenterList = async (buId, setter) => {
   try {
     const res = await axios.get(
-      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${buId}`
+      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${buId}`,
     );
     setter(res?.data);
   } catch (error) {
@@ -78,7 +78,7 @@ export const getRevenueCenterList = async (buId, setter) => {
 export const getCostCenterList = async (accId, buId, sbuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`
+      `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`,
     );
     setter(res?.data);
   } catch (error) {
@@ -89,7 +89,7 @@ export const getCostCenterList = async (accId, buId, sbuId, setter) => {
 export const getSBUList = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
     );
     setter(res?.data);
   } catch (error) {

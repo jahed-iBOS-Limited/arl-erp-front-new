@@ -1,11 +1,12 @@
-import { imarineBaseUrl } from '../../../../App';
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../../App';
 import IConfirmModal from '../../../_helper/_confirmModal';
 
 export const cancelHandler = ({ item, deleteBookingRequestById, CB }) => {
   const obj = {
     title: 'Cancel Booking',
     message: 'Are you sure you want to cancel this?',
-    noAlertFunc: () => { },
+    noAlertFunc: () => {},
     yesAlertFunc: () => {
       deleteBookingRequestById(
         `${imarineBaseUrl}/domain/ShippingService/deleteBookingRequestById?bookingId=${item?.bookingRequestId}&userId=${item?.userId}`,

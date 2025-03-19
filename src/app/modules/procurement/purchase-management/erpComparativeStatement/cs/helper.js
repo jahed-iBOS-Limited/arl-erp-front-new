@@ -1,4 +1,4 @@
-import { eProcurementBaseURL } from '../../../../../App';
+import { eProcurementBaseURL } from '../../../../../../App';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 
 export const deleteHandler = ({ item, deleteRFQById, CB }) => {

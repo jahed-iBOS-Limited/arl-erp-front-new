@@ -1,44 +1,44 @@
-import { Form, Formik } from "formik";
-import html2pdf from "html2pdf.js";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import html2pdf from 'html2pdf.js';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ImageViewer from "../../../performancePlanning/workPlan/landing/staticImageViewerModal";
-import image from "./../assets/johariWindow-02.jpg";
-import JohariChip from "./chip";
-import "./JohariWindow.css";
-import PDFVIEW from "./pdf";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ImageViewer from '../../../performancePlanning/workPlan/landing/staticImageViewerModal';
+import image from './../assets/johariWindow-02.jpg';
+import JohariChip from './chip';
+import './JohariWindow.css';
+import PDFVIEW from './pdf';
 
 const initData = {
-  employee: "",
-  year: "",
-  open: "",
-  blind: "",
-  hidden: "",
-  unknown: "",
+  employee: '',
+  year: '',
+  open: '',
+  blind: '',
+  hidden: '',
+  unknown: '',
 };
 
 export const validationSchema = Yup.object().shape({
   employee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
 });
 export default function JohariWindowLanding() {
@@ -55,15 +55,10 @@ export default function JohariWindowLanding() {
   const [isShowRowItemModal, setIsShowRowItemModal] = useState(false);
   const [, saveData] = useAxiosPost();
 
-  const {
-    accountId,
-    userId,
-    employeeId,
-    employeeFullName,
-    designationId,
-  } = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
+  const { accountId, userId, employeeId, employeeFullName, designationId } =
+    useSelector((state) => {
+      return state.authData.profileData;
+    }, shallowEqual);
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit.value;
@@ -72,10 +67,10 @@ export default function JohariWindowLanding() {
   useEffect(() => {
     if (rowData?.johariWindowHeaderId) {
       const data = { ...chipList };
-      data["open"] = [...data?.open, ...rowData?.open];
-      data["blind"] = [...data?.blind, ...rowData?.blind];
-      data["hidden"] = [...data?.hidden, ...rowData?.hidden];
-      data["unknown"] = [...data?.unknown, ...rowData?.unknown];
+      data['open'] = [...data?.open, ...rowData?.open];
+      data['blind'] = [...data?.blind, ...rowData?.blind];
+      data['hidden'] = [...data?.hidden, ...rowData?.hidden];
+      data['unknown'] = [...data?.unknown, ...rowData?.unknown];
       setChipList(data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,10 +78,10 @@ export default function JohariWindowLanding() {
 
   useEffect(() => {
     getYearDDL(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
     getEmployeeDDL(
-      `/pms/PerformanceMgmt/GetEmployeeWithSupervisorStatusDDL?intEmployeeId=${employeeId}&strEmployeeName=${employeeFullName}`
+      `/pms/PerformanceMgmt/GetEmployeeWithSupervisorStatusDDL?intEmployeeId=${employeeId}&strEmployeeName=${employeeFullName}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,7 +89,7 @@ export default function JohariWindowLanding() {
   const addChipHandler = (name, valueOption) => {
     let data = { ...chipList };
     const isExist = data[name]?.some((itm) => itm.label === valueOption?.label);
-    if (isExist) return toast.warn("Chip already exist");
+    if (isExist) return toast.warn('Chip already exist');
 
     data[name].push({ value: valueOption?.value, label: valueOption.label });
     setChipList(data);
@@ -111,7 +106,7 @@ export default function JohariWindowLanding() {
       return {
         intRowId: data?.intRowId || 0,
         intJohariWindowHeaderId: data?.intJohariWindowHeaderId || 0,
-        strChipsType: "Open",
+        strChipsType: 'Open',
         strChipsLabel: data.label,
         isActive: true,
         dteActionDate: _todayDate(),
@@ -123,7 +118,7 @@ export default function JohariWindowLanding() {
       return {
         intRowId: data.intRowId || 0,
         intJohariWindowHeaderId: data?.intJohariWindowHeaderId || 0,
-        strChipsType: "Blind",
+        strChipsType: 'Blind',
         strChipsLabel: data.label,
         isActive: true,
         dteActionDate: _todayDate(),
@@ -134,7 +129,7 @@ export default function JohariWindowLanding() {
       return {
         intRowId: data.intRowId || 0,
         intJohariWindowHeaderId: data?.intJohariWindowHeaderId || 0,
-        strChipsType: "Hidden",
+        strChipsType: 'Hidden',
         strChipsLabel: data.label,
         isActive: true,
         dteActionDate: _todayDate(),
@@ -145,7 +140,7 @@ export default function JohariWindowLanding() {
       return {
         intRowId: data.intRowId || 0,
         intJohariWindowHeaderId: data?.intJohariWindowHeaderId || 0,
-        strChipsType: "Unknown",
+        strChipsType: 'Unknown',
         strChipsLabel: data.label,
         isActive: true,
         dteActionDate: _todayDate(),
@@ -162,7 +157,7 @@ export default function JohariWindowLanding() {
       yearId: values?.year?.value,
       year: values?.year?.label,
       quarterId: 0,
-      quarter: "",
+      quarter: '',
       isActive: true,
       actionDate: _todayDate(),
       actionBy: userId,
@@ -172,34 +167,31 @@ export default function JohariWindowLanding() {
       unknown: unknownData,
     };
     saveData(
-      "/pms/PerformanceMgmt/CreateJohariWindow",
+      '/pms/PerformanceMgmt/CreateJohariWindow',
       johariWindowPayload,
       null,
-      true
+      true,
     );
   };
 
   const pdfExport = (fileName) => {
-    var element = document.getElementById("pdf-section");
+    var element = document.getElementById('pdf-section');
 
     var clonedElement = element.cloneNode(true);
-    clonedElement.classList.add("d-block");
+    clonedElement.classList.add('d-block');
 
     var opt = {
       margin: 20,
       filename: `${fileName}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
+      image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 5, dpi: 300, letterRendering: true },
       jsPDF: {
-        unit: "px",
-        hotfixes: ["px_scaling"],
-        orientation: "portrait",
+        unit: 'px',
+        hotfixes: ['px_scaling'],
+        orientation: 'portrait',
       },
     };
-    html2pdf()
-      .set(opt)
-      .from(clonedElement)
-      .save();
+    html2pdf().set(opt).from(clonedElement).save();
   };
 
   // console.log("rowwwww", rowData);
@@ -246,7 +238,7 @@ export default function JohariWindowLanding() {
                     type="button"
                     className={`btn btn-primary mr-2`}
                     onClick={() => {
-                      pdfExport("Johari Window");
+                      pdfExport('Johari Window');
                     }}
                     disabled={
                       !chipList?.open?.length &&
@@ -261,7 +253,7 @@ export default function JohariWindowLanding() {
                   <button
                     type="submit"
                     style={{
-                      cursor: "pointer",
+                      cursor: 'pointer',
                     }}
                     disabled={
                       !chipList?.open?.length &&
@@ -280,7 +272,7 @@ export default function JohariWindowLanding() {
                   <div className="row">
                     <div className="col-lg-4 mt-2">
                       <div>
-                        <strong>Name</strong>:{" "}
+                        <strong>Name</strong>:{' '}
                         <span>
                           {values?.employee
                             ? values?.employee?.label
@@ -288,7 +280,7 @@ export default function JohariWindowLanding() {
                         </span>
                       </div>
                       <div>
-                        <strong>Enroll</strong>:{" "}
+                        <strong>Enroll</strong>:{' '}
                         <span>
                           {values?.employee
                             ? values?.employee?.value
@@ -298,12 +290,12 @@ export default function JohariWindowLanding() {
                     </div>
                     <div className="col-lg-4 mt-2">
                       <div>
-                        <strong>Designation</strong>:{" "}
-                        <span>{rowData?.designation || ""}</span>
+                        <strong>Designation</strong>:{' '}
+                        <span>{rowData?.designation || ''}</span>
                       </div>
                       <div>
-                        <strong>Location</strong>:{" "}
-                        <span>{rowData?.workplaceGroup || ""}</span>
+                        <strong>Location</strong>:{' '}
+                        <span>{rowData?.workplaceGroup || ''}</span>
                       </div>
                     </div>
                   </div>
@@ -317,8 +309,8 @@ export default function JohariWindowLanding() {
                         label="Employee"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("employee", valueOption);
-                            setFieldValue("year", "");
+                            setFieldValue('employee', valueOption);
+                            setFieldValue('year', '');
                             setChipList({
                               open: [],
                               blind: [],
@@ -326,8 +318,8 @@ export default function JohariWindowLanding() {
                               unknown: [],
                             });
                           } else {
-                            setFieldValue("employee", "");
-                            setFieldValue("year", "");
+                            setFieldValue('employee', '');
+                            setFieldValue('year', '');
                             setChipList({
                               open: [],
                               blind: [],
@@ -352,7 +344,7 @@ export default function JohariWindowLanding() {
                         isDisabled={!values?.employee?.value}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("year", valueOption);
+                            setFieldValue('year', valueOption);
                             setChipList({
                               open: [],
                               blind: [],
@@ -360,13 +352,13 @@ export default function JohariWindowLanding() {
                               unknown: [],
                             });
                             getRowData(
-                              `/pms/PerformanceMgmt/GetJohariWindow?EmployeeId=${values?.employee.value}&YearId=${valueOption.value}`
+                              `/pms/PerformanceMgmt/GetJohariWindow?EmployeeId=${values?.employee.value}&YearId=${valueOption.value}`,
                             );
                             getChipsDDL(
-                              `/pms/PerformanceMgmt/GetJohariWindoWChips`
+                              `/pms/PerformanceMgmt/GetJohariWindoWChips`,
                             );
                           } else {
-                            setFieldValue("year", "");
+                            setFieldValue('year', '');
                             setRowData([]);
                             setChipsDDL([]);
                             setChipList({
@@ -391,8 +383,8 @@ export default function JohariWindowLanding() {
                         <div className="row">
                           <div className="col-sm-4 col-md-2">
                             <label htmlFor="">
-                              <strong style={{ fontSize: "12px" }}>
-                                {"Open"}
+                              <strong style={{ fontSize: '12px' }}>
+                                {'Open'}
                               </strong>
                             </label>
                           </div>
@@ -402,13 +394,13 @@ export default function JohariWindowLanding() {
                               options={chipsDDL}
                               value={values?.open}
                               onChange={(valueOption) => {
-                                addChipHandler("open", valueOption);
-                                setFieldValue("open", "");
+                                addChipHandler('open', valueOption);
+                                setFieldValue('open', '');
                               }}
                               isSearchable={true}
                               isDisabled={
                                 values?.employee?.subordinateStatus ===
-                                "Supervisor"
+                                'Supervisor'
                               }
                             />
                           </div>
@@ -418,11 +410,11 @@ export default function JohariWindowLanding() {
                             <JohariChip
                               key={index}
                               data={data}
-                              name={"open"}
+                              name={'open'}
                               deleteChipHandler={deleteChipHandler}
                               isDisabled={
                                 values?.employee?.subordinateStatus ===
-                                "Supervisor"
+                                'Supervisor'
                               }
                             />
                           ))}
@@ -436,7 +428,7 @@ export default function JohariWindowLanding() {
                         <div className="row">
                           <div className="col-sm-4 col-md-2">
                             <label htmlFor="">
-                              <strong style={{ fontSize: "12px" }}>
+                              <strong style={{ fontSize: '12px' }}>
                                 Blind
                               </strong>
                             </label>
@@ -447,12 +439,12 @@ export default function JohariWindowLanding() {
                               options={chipsDDL}
                               value={values?.blind}
                               onChange={(valueOption) => {
-                                addChipHandler("blind", valueOption);
-                                setFieldValue("blind", "");
+                                addChipHandler('blind', valueOption);
+                                setFieldValue('blind', '');
                               }}
                               isSearchable={true}
                               isDisabled={
-                                values?.employee?.subordinateStatus === "Self"
+                                values?.employee?.subordinateStatus === 'Self'
                               }
                             />
                           </div>
@@ -462,10 +454,10 @@ export default function JohariWindowLanding() {
                             <JohariChip
                               key={index}
                               data={data}
-                              name={"blind"}
+                              name={'blind'}
                               deleteChipHandler={deleteChipHandler}
                               isDisabled={
-                                values?.employee?.subordinateStatus === "Self"
+                                values?.employee?.subordinateStatus === 'Self'
                               }
                             />
                           ))}
@@ -479,7 +471,7 @@ export default function JohariWindowLanding() {
                         <div className="row">
                           <div className="col-sm-4 col-md-2">
                             <label htmlFor="">
-                              <strong style={{ fontSize: "12px" }}>
+                              <strong style={{ fontSize: '12px' }}>
                                 Hidden
                               </strong>
                             </label>
@@ -490,13 +482,13 @@ export default function JohariWindowLanding() {
                               options={chipsDDL}
                               value={values?.hidden}
                               onChange={(valueOption) => {
-                                addChipHandler("hidden", valueOption);
-                                setFieldValue("hidden", "");
+                                addChipHandler('hidden', valueOption);
+                                setFieldValue('hidden', '');
                               }}
                               isSearchable={true}
                               isDisabled={
                                 values?.employee?.subordinateStatus ===
-                                "Supervisor"
+                                'Supervisor'
                               }
                             />
                           </div>
@@ -506,11 +498,11 @@ export default function JohariWindowLanding() {
                             <JohariChip
                               key={index}
                               data={data}
-                              name={"hidden"}
+                              name={'hidden'}
                               deleteChipHandler={deleteChipHandler}
                               isDisabled={
                                 values?.employee?.subordinateStatus ===
-                                "Supervisor"
+                                'Supervisor'
                               }
                             />
                           ))}
@@ -524,7 +516,7 @@ export default function JohariWindowLanding() {
                         <div className="row">
                           <div className="col-sm-4 col-md-2">
                             <label htmlFor="">
-                              <strong style={{ fontSize: "12px" }}>
+                              <strong style={{ fontSize: '12px' }}>
                                 Unknown
                               </strong>
                             </label>
@@ -535,12 +527,12 @@ export default function JohariWindowLanding() {
                               options={chipsDDL}
                               value={values?.unknown}
                               onChange={(valueOption) => {
-                                addChipHandler("unknown", valueOption);
-                                setFieldValue("unknown", "");
+                                addChipHandler('unknown', valueOption);
+                                setFieldValue('unknown', '');
                               }}
                               isSearchable={true}
                               isDisabled={
-                                values?.employee?.subordinateStatus === "Self"
+                                values?.employee?.subordinateStatus === 'Self'
                               }
                             />
                           </div>
@@ -550,10 +542,10 @@ export default function JohariWindowLanding() {
                             <JohariChip
                               key={index}
                               data={data}
-                              name={"unknown"}
+                              name={'unknown'}
                               deleteChipHandler={deleteChipHandler}
                               isDisabled={
-                                values?.employee?.subordinateStatus === "Self"
+                                values?.employee?.subordinateStatus === 'Self'
                               }
                             />
                           ))}

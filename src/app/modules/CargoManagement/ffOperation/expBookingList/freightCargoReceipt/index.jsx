@@ -2,7 +2,7 @@ import { Form, Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../../App';
+import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
@@ -456,8 +456,10 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     <span style={{ padding: 2 }}>
                       :{' '}
                       {bookingData?.objPurchase?.map((item, index) => {
-                        return `${item?.lcdate &&
-                          `${moment(item?.lcdate).format('DD MMM YYYY')}`}${
+                        return `${
+                          item?.lcdate &&
+                          `${moment(item?.lcdate).format('DD MMM YYYY')}`
+                        }${
                           index < bookingData?.objPurchase?.length - 1
                             ? ','
                             : ''
