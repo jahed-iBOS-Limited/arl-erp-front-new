@@ -91,6 +91,26 @@ export default function ItemConversionLanding() {
       actionBy: userId,
       numConvertedValue: (+row?.itemRate || 0) * (+row.convertedQuantity || 0),
       numRate: +row.itemRate,
+      itemTypeId: row.itemTypeId,
+      itemTypeName: row.itemTypeName,
+      itemCategoryId: row.itemCategoryId,
+      itemCategoryName: row.itemCategoryName,
+      itemSubCategoryId: row.itemSubCategoryId,
+      itemSubCategoryName: row.itemSubCategoryName,
+      convertedItemTypeId: row.convertedItemTypeId,
+      convertedItemTypeName: row.convertedItemTypeName,
+      convertedItemCategoryId: row.convertedItemCategoryId,
+      convertedItemCategoryName: row.convertedItemCategoryName,
+      convertedItemSubCategoryId: row.convertedItemSubCategoryId,
+      convertedItemSubCategoryName: row.convertedItemSubCategoryName,
+      plantId: row.plantId,
+      plantName: row.plantName,
+      warehouseId: row.warehouseId,
+      warehouseName: row.warehouseName,
+      convertedPlantId: row.convertedPlantId,
+      convertedPlantName: row.convertedPlantName,
+      convertedWarehouseId: row.convertedWarehouseId,
+      convertedWarehouseName: row.convertedWarehouseName,
     }));
 
     onCreateCoversion(
@@ -147,6 +167,22 @@ export default function ItemConversionLanding() {
         convertedUomId: values?.convertedItem?.baseUomId,
         convertedUomName: values?.convertedItem?.baseUomName,
         convertedItemAvailableStock: values?.convertedItem?.availableStock,
+        itemTypeId: values?.item?.itemTypeId,
+        itemTypeName: values?.item?.itemTypeName,
+        itemCategoryId: values?.item?.itemCategoryId,
+        itemCategoryName: values?.item?.itemCategoryName,
+        itemSubCategoryId: values?.item?.itemSubCategoryId,
+        itemSubCategoryName: values?.item?.itemSubCategoryName,
+        convertedItemTypeId: values?.convertedItem?.itemTypeId,
+        convertedItemTypeName: values?.convertedItem?.itemTypeName,
+        convertedItemCategoryId: values?.convertedItem?.itemCategoryId,
+        convertedItemCategoryName: values?.convertedItem?.itemCategoryName,
+        convertedItemSubCategoryId: values?.convertedItem?.itemSubCategoryId,
+        convertedItemSubCategoryName: values?.convertedItem?.itemSubCategoryName,
+        plantName: values?.plant?.label,
+        warehouseName: values?.warehouse?.label,
+        convertedPlantName: values?.convertedPlant?.label,
+        convertedWarehouseName: values?.convertedWarehouse?.label,
       };
       setRowDto([...rowDto, obj]);
       setFieldValue('item', '');
@@ -224,6 +260,7 @@ export default function ItemConversionLanding() {
                     touched={touched}
                   />
                 </div>
+                {console.log("values", values)}
                 <div className="col-lg-3">
                   <label>Item Name</label>
                   <SearchAsyncSelect

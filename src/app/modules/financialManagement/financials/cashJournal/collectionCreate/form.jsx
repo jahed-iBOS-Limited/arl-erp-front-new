@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getCostElementByCostCenterDDL,
   getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
@@ -23,7 +24,6 @@ import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import customStyles from '../../../../selectCustomStyle';
 
-import { getCostElementDDL } from '../helper';
 import placeholderImg from './../../../../_helper/images/placeholderImg.png';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
@@ -584,7 +584,7 @@ export default function _Form({
                             onChange={(valueOption) => {
                               if (valueOption) {
                                 setFieldValue('costCenter', valueOption);
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,

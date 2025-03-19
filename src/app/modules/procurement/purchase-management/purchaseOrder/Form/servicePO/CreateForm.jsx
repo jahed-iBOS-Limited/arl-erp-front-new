@@ -12,7 +12,6 @@ import { getPOItemForServiceItemDDLAction } from '../../_redux/Actions';
 import {
   getCostCenterDDL,
   getControllingUnitDDL,
-  getCostElementDDL,
 } from './helper';
 import TotalNetAmount from '../../TotalNetAmount';
 // import { purchaseOrderSlice } from "../../_redux/Slice";
@@ -28,6 +27,7 @@ import { getProfitCenterList } from '../assetStandardPo/helper';
 import Loading from '../../../../../_helper/_loading';
 import { toast } from 'react-toastify';
 import AttachmentUploaderNew from '../../../../../_helper/attachmentUploaderNew';
+import { getCostElementByCostCenterDDL } from '../../../../../_helper/_commonApi';
 
 export default function CreateForm({
   btnRef,
@@ -675,7 +675,7 @@ export default function CreateForm({
                             if (valueOption) {
                               setFieldValue('costCenter', valueOption);
                               setFieldValue('costElement', '');
-                              getCostElementDDL(
+                              getCostElementByCostCenterDDL(
                                 values?.transferBusinessUnit?.value,
                                 profileData?.accountId,
                                 valueOption?.value,
@@ -754,7 +754,7 @@ export default function CreateForm({
                             if (valueOption) {
                               setFieldValue('costCenterTwo', valueOption);
                               setFieldValue('costElementTwo', '');
-                              getCostElementDDL(
+                              getCostElementByCostCenterDDL(
                                 selectedBusinessUnit?.value,
                                 profileData?.accountId,
                                 valueOption?.value,
