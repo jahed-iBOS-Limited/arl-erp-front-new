@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
 import {
   getBankAc,
   getCostCenterDDL,
@@ -20,68 +20,20 @@ import {
 } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../_helper/_validationScema';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';
 import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
-import TextArea from '../../../../_helper/TextArea';
 
 // Validation schema for bank receive
-const ReceivevalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  receiveFrom: Yup.string().required('Receive from is required'),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Narration is required'),
-  placingDate: Yup.string().required('Placing date is required'),
-});
+
 
 // Validation schema for bank payment
-const PaymentvalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  paidTo: Yup.string().required('Paid to is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 // Validation schema for bank transfer
-const TransfervalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  transferTo: Yup.object().shape({
-    label: Yup.string().required('Transfer to is required'),
-    value: Yup.string().required('Transfer to is required'),
-  }),
-  sendToGLBank: Yup.object().shape({
-    label: Yup.string().required('GL/BL is required'),
-    value: Yup.string().required('GL/BL is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  transferAmount: Yup.string().required('Amount is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.date().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 
 export default function _Form({
   initData,
@@ -184,12 +136,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -206,10 +155,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                  ...item,
-                  value: item?.bankId,
-                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                }))
+                ...item,
+                value: item?.bankId,
+                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+              }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -225,10 +174,10 @@ export default function _Form({
         enableReinitialize={true}
         validationSchema={
           jorunalType === 4
-            ? ReceivevalidationSchema
+            ? ReceiveValidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentValidationSchema
+              : TransferValidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           return confirmAlert({
@@ -275,7 +224,7 @@ export default function _Form({
                           setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-6 pl pr-1 mb-2">
@@ -289,7 +238,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         placeholder="Bank Ac"
-                        // isDisabled={isEdit}
+                      // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -383,10 +332,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                          ...item,
-                                          value: item?.bankId,
-                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                        }))
+                                        ...item,
+                                        value: item?.bankId,
+                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                      }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
@@ -458,7 +407,7 @@ export default function _Form({
                           value={values.receiveFrom}
                           label="Receive From"
                           name="receiveFrom"
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                     ) : jorunalType === 5 ? (
@@ -467,7 +416,7 @@ export default function _Form({
                           value={values.paidTo}
                           label="Paid to"
                           name="paidTo"
-                          // disabled={isEdit}
+                        // disabled={isEdit}
                         />
                       </div>
                     ) : (
@@ -772,7 +721,7 @@ export default function _Form({
                         options={instrumentType || []}
                         styles={customStyles}
                         placeholder="Instrument Type"
-                        // isDisabled={isEdit}
+                      // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -786,7 +735,7 @@ export default function _Form({
                         value={values.instrumentNo}
                         label="Instrument No"
                         name="instrumentNo"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
 
@@ -796,7 +745,7 @@ export default function _Form({
                         label="Instrument Date"
                         name="instrumentDate"
                         type="date"
-                        // disabled={isEdit}
+                      // disabled={isEdit}
                       />
                     </div>
 

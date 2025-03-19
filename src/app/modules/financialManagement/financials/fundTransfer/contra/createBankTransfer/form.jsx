@@ -5,7 +5,6 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 // import { Input } from '../../../../../../_metronic/_partials/controls';
 // import customStyles from '../../../../selectCustomStyle';
 // import { attachmentUpload } from '../../../../_helper/attachmentUpload';
@@ -40,73 +39,20 @@ import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import Loading from '../../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationScema';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';
 import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../../_helper/TextArea';
 import customStyles from '../../../../../selectCustomStyle';
 import { approveHandeler } from '../../fundTransferApproval/helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
-import TextArea from '../../../../../_helper/TextArea';
-// import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
-// Validation schema for bank receive
-const ReceivevalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  receiveFrom: Yup.string().required('Receive from is required'),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Narration is required'),
-  placingDate: Yup.string().required('Placing date is required'),
-});
-
-// Validation schema for bank payment
-const PaymentvalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  paidTo: Yup.string().required('Paid to is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.string().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
 // Validation schema for bank transfer
-const TransfervalidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required('Bank Account is required'),
-    value: Yup.string().required('Bank Account is required'),
-  }),
-  transferTo: Yup.object().shape({
-    label: Yup.string().required('Transfer to is required'),
-    value: Yup.string().required('Transfer to is required'),
-  }),
-  sendToGLBank: Yup.object().shape({
-    label: Yup.string().required('GL/BL is required'),
-    value: Yup.string().required('GL/BL is required'),
-  }),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required('Instrument type is required'),
-    value: Yup.string().required('Instrument type is required'),
-  }),
-  transferAmount: Yup.string().required('Amount is required'),
-  instrumentNo: Yup.string().required('Instrument no is required'),
-  instrumentDate: Yup.date().required('Instrument date is required'),
-  headerNarration: Yup.string().required('Header narration is required'),
-});
+
 
 export default function _Form({
   initData,
@@ -177,12 +123,9 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
-          partnerType?.reffPrtTypeId
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
         }`,
       )
       .then((res) => {
@@ -203,10 +146,10 @@ export default function _Form({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                  ...item,
-                  value: item?.bankId,
-                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                }))
+                ...item,
+                value: item?.bankId,
+                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+              }))
               : [];
           setPartnerBank(newBankAcc);
         },
@@ -240,10 +183,10 @@ export default function _Form({
         }}
         validationSchema={
           jorunalType === 4
-            ? ReceivevalidationSchema
+            ? ReceiveValidationSchema
             : jorunalType === 5
-            ? PaymentvalidationSchema
-            : TransfervalidationSchema
+              ? PaymentValidationSchema
+              : TransferValidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           let bankPaymentValues = { ...values }; //If you want to resetFrom write code after this line.
@@ -260,7 +203,7 @@ export default function _Form({
                       item: transferRowItem,
                       onApproveHandler: onUpdateJournalHandler,
                       profileData,
-                      cb: () => {},
+                      cb: () => { },
                       isApproved: 1,
                       isTransferCreated: 1,
                       journalCode: journalCode,
@@ -269,8 +212,8 @@ export default function _Form({
                         jorunalType === 5
                           ? 'Bank Payments'
                           : jorunalType === 6
-                          ? 'Bank Transfer'
-                          : '',
+                            ? 'Bank Transfer'
+                            : '',
                     });
 
                     if (jorunalType === 6) {
@@ -445,10 +388,10 @@ export default function _Form({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                          ...item,
-                                          value: item?.bankId,
-                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                        }))
+                                        ...item,
+                                        value: item?.bankId,
+                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                      }))
                                       : [];
                                   setPartnerBank(newBankAcc);
                                 },
@@ -488,7 +431,7 @@ export default function _Form({
                                 isSearchable={true}
                                 styles={customStyles}
                                 placeholder="Partner Bank Account"
-                                // isDisabled={jorunalType === 5}
+                              // isDisabled={jorunalType === 5}
                               />
                             </div>
                           )}

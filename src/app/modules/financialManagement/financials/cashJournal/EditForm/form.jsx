@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import {
   getBankAccountDDL_api,
   getCostCenterDDL,
+  getCostElementByCostCenterDDL,
   getPartnerTypeDDLAction,
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
@@ -21,7 +22,6 @@ import TransferTable from '../Form/TransferTable';
 import FormikError from './../../../../_helper/_formikError';
 import { IInput } from './../../../../_helper/_input';
 import customStyles from './../../../../selectCustomStyle';
-import { getCostElementDDL } from './../helper';
 import TextArea from '../../../../_helper/TextArea';
 
 const receiptsJournal = Yup.object().shape({
@@ -562,7 +562,7 @@ export default function _Form({
                             onChange={(valueOption) => {
                               if (valueOption) {
                                 setFieldValue('costCenter', valueOption);
-                                getCostElementDDL(
+                                getCostElementByCostCenterDDL(
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
