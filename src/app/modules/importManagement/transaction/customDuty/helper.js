@@ -510,18 +510,6 @@ export const validationSchema = Yup.object().shape({
   grandTotal: Yup.number().positive("Grand Total Must be a Positive Number"),
 });
 
-// Get Bank List DDL
-// export const GetBankListDDL = async (setter) => {
-//   try {
-//     let res = await axios.get(`/imp/ImportCommonDDL/GetBankListDDL`);
-//     if (res?.status === 200) {
-//       setter(res?.data);
-//     }
-//   } catch (err) {
-//     toast.warning(err?.response?.data?.message);
-//   }
-// };
-
 //cnf agency ddl
 // https://localhost:44396/imp/ImportCommonDDL/GetCnFAgencyList?accountId=2&businessUnitId=164
 export const GetCNFAgencyDDL = async (accountId, businessUnitId, setter) => {

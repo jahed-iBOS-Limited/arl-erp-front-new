@@ -1003,3 +1003,19 @@ export const GetShipmentTypeApi = async (
     setLoading(false);
   }
 };
+
+export const getCommercialCostingServiceBreakdown = async (
+  referenceId,
+  setter,
+) => {
+  try {
+    const res = await axios.get(
+      `/imp/AllCharge/GetCommercialCostingServiceBreakdown?referenceId=${referenceId}`,
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+    }
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+  }
+};
