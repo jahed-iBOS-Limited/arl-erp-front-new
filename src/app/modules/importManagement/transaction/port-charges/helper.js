@@ -181,19 +181,6 @@ export const saveServicezbreakdown = async (
   }
 };
 
-export const getCommercialCostingServiceBreakdown = async (
-  referenceId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/imp/AllCharge/GetCommercialCostingServiceBreakdown?referenceId=${referenceId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
 
 export const getClosingInfoForBillAndAdvance = async (
   referenceId,

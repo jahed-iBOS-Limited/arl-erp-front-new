@@ -24,8 +24,8 @@ import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSch
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';
-import ReceiveAndPaymentsTable from '../Create/ReceiveAndPaymentsTable';
 import TransferTable from '../Create/TransferTable';
+import ReceiveAndPaymentsTable from '../../../../_helper/_commonComponent';
 
 // Validation schema for bank receive
 
