@@ -202,33 +202,7 @@ export default function _Form({
                   label="Business Partner Address"
                 />
               </div>
-              {/* <div className="col-lg-4">
-                  <Field
-                    value={values?.billingName || ""}
-                    name="billingName"
-                    component={Input}
-                    placeholder="Billing Name"
-                    label="Billing Name"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values?.billingAddress || ""}
-                    name="billingAddress"
-                    component={Input}
-                    placeholder="Billing Address"
-                    label="Billing Address"
-                  />
-                </div> */}
-              {/* <div className="col-lg-4">
-                  <Field
-                    value={values?.businessPartnerAddress || ""}
-                    name="businessPartnerAddress"
-                    component={Input}
-                    placeholder="Business Partner Address"
-                    label="Business Partner Address"
-                  />
-                </div> */}
+
               <div className="col-lg-4">
                 <InputField
                   value={values?.proprietor || ''}
@@ -371,7 +345,7 @@ export default function _Form({
                           onChange={(e) => {
                             setFieldValue('createNewUser', e.target.checked);
                           }}
-                          // disabled={product?.createNewUser}
+                        // disabled={product?.createNewUser}
                         />
                       )}
                       label="Is slab program"
@@ -400,7 +374,7 @@ export default function _Form({
                               e.target.checked,
                             );
                           }}
-                          // disabled={product?.updateUserLoginId}
+                        // disabled={product?.updateUserLoginId}
                         />
                       )}
                       label="Is slab program"
