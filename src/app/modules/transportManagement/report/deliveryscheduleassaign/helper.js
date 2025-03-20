@@ -29,32 +29,6 @@ export const getAssignedDeliveryVehicleProvider = async (
   }
 };
 
-export const GetShipmentTypeApi = async (
-  accId,
-  buId,
-  territoryId,
-  setter,
-  setLoading
-) => {
-  setLoading(true);
-  try {
-    const res = await axios.get(
-      `/wms/DeliveryRequisition/GetShipmentType?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${territoryId}`
-    );
-
-    const dataModify = res?.data?.map((item) => ({
-      value: item?.shipmentTypeId,
-      label: item?.shipmentType,
-      extraRate: item?.extraRate || 0,
-    }));
-    setter([{ value: 0, label: "All" }, ...dataModify] || []);
-    setLoading(false);
-  } catch (error) {
-    setter([]);
-    toast.warn(error?.response?.data?.message);
-    setLoading(false);
-  }
-};
 export const saveAssignDeliveryVehicleSupplier = async (
   data,
   setLoading,
