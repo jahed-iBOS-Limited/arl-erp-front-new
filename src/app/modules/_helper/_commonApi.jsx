@@ -941,3 +941,15 @@ export const getTimeCharterLandingData = async (
     setLoading(false);
   }
 };
+
+
+export const GetBranchDDL = async (accid, buid, setter) => {
+  try {
+    const res = await axios.get(
+      `/vat/TaxDDL/GetTaxBranchDDL?AccountId=${accid}&BusinessUnitId=${buid}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
