@@ -13,6 +13,8 @@ import CommonTable from "./commonTable";
 import BongTradersTable from "./bongTradersTable";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { _currentTime } from "../../../../../_helper/_currentTime";
+import { getDeliveryChallanInfoById } from "../../../../../_helper/_commonApi";
+
 export default function DeliveryReportTable({ id }) {
   const [loading, setLoading] = React.useState(false);
   const { state: landingData } = useLocation();
@@ -30,26 +32,9 @@ export default function DeliveryReportTable({ id }) {
   const businessUnitId = selectedBusinessUnit?.value;
   const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
 
-  const getDeliveryChallanInfoById = async (id) => {
-    setLoading(true);
-    try {
-      const res = await Axios.get(
-        `/wms/ShopBySales/GetDeliveryChallanByDeliveryId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&DeliveryId=${id}`
-      );
-      setLoading(false);
-      const modified = res?.data?.[0]?.rows?.map((itm) => ({
-        ...itm,
-        weight: +itm?.weight?.toFixed(3),
-      }));
-      setDeliveryOrderReporData({ ...res?.data?.[0], rows: modified });
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value && id) {
-      getDeliveryChallanInfoById(id);
+      getDeliveryChallanInfoById({id,profileData,selectedBusinessUnit,setLoading,setDeliveryOrderReporData});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, id]);
