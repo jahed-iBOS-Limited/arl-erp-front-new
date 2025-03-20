@@ -889,3 +889,55 @@ export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
     setPartnerTypeDDL([])
   }
 };
+
+
+export const getPortDDL = async (voyageId, chartererId, setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/LayTime/GetPortDDL?VoyageId=${voyageId}&PartnerId=${chartererId}`,
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const getCargoDDL = async (voyageId, type, chartererId, setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/LayTime/GetCargoDDL?VoyageId=${voyageId}&PartnerType=${type}&PartnerId=${chartererId}`,
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+
+export const getTimeCharterLandingData = async (
+  accId,
+  buId,
+  vesselId,
+  voyageId,
+  pageNo,
+  pageSize,
+  searchValue,
+  setter,
+  setLoading,
+) => {
+  setLoading(true);
+  const search = searchValue ? `&search=${searchValue}` : '';
+  const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
+        vesselId || 0
+      }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (err) {
+    setter([]);
+    setLoading(false);
+  }
+};
