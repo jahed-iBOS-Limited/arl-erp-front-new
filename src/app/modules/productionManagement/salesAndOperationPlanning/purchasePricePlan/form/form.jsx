@@ -67,128 +67,20 @@ export default function _Form({
     hiddenFileInput.current.click();
   };
 
-  //setPositionHandler
-  // const setPositionHandler = (pageNo, pageSize) => {
-  //   getItemListSalesPlanDDL(
-  //     profileData?.accountId,
-  //     selectedBusinessUnit?.value,
-  //     plant?.value,
-  //     pageNo,
-  //     pageSize,
-  //     setRowDto
-  //   );
-  // };
-
-  // const updateRequiredQuantity = (values, valueOption) => {
-  //   getMrpPlanningInfo(
-  //     // `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`
-
-  //     `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.year?.value}&monthId=${valueOption?.monthId}`,
-
-  //     (resMrplanningInfo) => {
-  //       // let actualItemMonthWise = resMrplanningInfo
-  //       // console.log("actualItemMonthWise", actualItemMonthWise)
-  //       getHeaderRowInfo(
-  //         `/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
-  //         (resPurchaseRate) => {
-  //           const modifiedRowDto = rowDto?.data?.map((itm) => {
-  //             const actualItemMonthWiseMathch = resMrplanningInfo.find(
-  //               (itm2) => itm2?.intItemId === itm?.itemId
-  //             );
-  //             const resPurchaseRateMatch = resPurchaseRate.find(
-  //               (itm2) => itm2?.itemId === itm?.itemId
-  //             );
-  //             return {
-  //               ...itm,
-  //               itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
-  //               purchaseQty: resPurchaseRateMatch?.purchaseQty || 0,
-  //               intPurchasePlanId: resPurchaseRateMatch?.intPurchasePlanId || 0,
-  //               intPurchasePlanRowId:
-  //                 resPurchaseRateMatch?.intPurchasePlanRowId || 0,
-  //               numRate: resPurchaseRateMatch?.numRate || 0,
-  //             };
-  //           });
-  //           setRowDto({ ...rowDto, data: modifiedRowDto });
-  //         },
-  //         (err) => {
-  //           // if GetPurchaseRateDetails error
-  //           const modifiedRowDto = rowDto?.data?.map((itm) => {
-  //             const actualItemMonthWiseMathch = resMrplanningInfo.find(
-  //               (itm2) => itm2?.intItemId === itm?.itemId
-  //             );
-  //             return {
-  //               ...itm,
-  //               itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
-  //               purchaseQty: 0,
-  //               intPurchasePlanId: 0,
-  //               intPurchasePlanRowId: 0,
-  //               numRate: 0,
-  //             };
-  //           });
-  //           setRowDto({ ...rowDto, data: modifiedRowDto });
-  //         }
-  //       );
-  //     },
-  //     (err) => {
-  //       // if GetMrplanningInfoDetail error
-  //       toast.error(err?.response?.data?.message);
-  //       const modifiedRowDto = rowDto?.data?.map((itm) => {
-  //         return {
-  //           ...itm,
-  //           itemPlanQty: 0,
-  //           purchaseQty: 0,
-  //           intPurchasePlanId: 0,
-  //           intPurchasePlanRowId: 0,
-  //           numRate: 0,
-  //         };
-  //       });
-  //       setRowDto({ ...rowDto, data: modifiedRowDto });
-  //     }
-  //   );
-  // };
 
   return (
     <div>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
-            // modifyHandler(
-            //   `/fino/BudgetFinancial/GetsprGetPurchasePlanByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&year=${values?.fiscalYear?.value}&month=${values?.horizon?.monthId}`,
-            //   (updatedData) => {
-            //     getRowDto(
-            //       `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${values?.horizon?.monthId}`,
-            //       (data) => {
-            //         const result = data.filter((item2) => {
-            //           return updatedData.some(
-            //             (item1) => item1.intItemId === item2.intItemId
-            //           );
-            //         });
-            //         setRowDto(result);
-            //       }
-            //     );
-            //   }
-            // );
-            // getRowDto(
-            //   `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
-            //     profileData?.accountId
-            //   }&businessUnitId=${selectedBusinessUnit?.value}&yearId=${
-            //     values?.horizon?.monthId > 6
-            //       ? values?.fiscalYear?.value
-            //       : values?.fiscalYear?.value + 1
-            //   }&monthId=${values?.horizon?.monthId}`
-            // );
             getRowDto(
-              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
-                profileData?.accountId
-              }&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${
-                values?.plant?.value
-              }&yearId=${
-                values?.horizon?.monthId > 6
-                  ? values?.fiscalYear?.value
-                  : values?.fiscalYear?.value + 1
+              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId
+              }&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value
+              }&yearId=${values?.horizon?.monthId > 6
+                ? values?.fiscalYear?.value
+                : values?.fiscalYear?.value + 1
               }&monthId=${values?.horizon?.monthId}`,
             );
           });
@@ -219,21 +111,7 @@ export default function _Form({
                         if (valueOption) {
                           setFileObject('');
                           setFieldValue('plant', valueOption);
-                          // setPlant(valueOption);
-                          // getItemListSalesPlanDDL(
-                          //   profileData?.accountId,
-                          //   selectedBusinessUnit?.value,
-                          //   valueOption?.value,
-                          //   pageNo,
-                          //   pageSize,
-                          //   setRowDto
-                          // );
-                          // getYearDDL(
-                          //   profileData?.accountId,
-                          //   selectedBusinessUnit?.value,
-                          //   valueOption?.value,
-                          //   setYearDDL
-                          // );
+
                           if (values?.fiscalYear?.value) {
                             getHorizonDDL(
                               profileData?.accountId,
@@ -252,35 +130,6 @@ export default function _Form({
                       isDisabled={id ? true : false}
                     />
                   </div>
-                  {/* <div className="col-lg-4">
-                    <NewSelect
-                      name="year"
-                      options={yearDDL}
-                      value={values?.year}
-                      label="Year"
-                      placeholder="Year"
-                      onChange={(valueOption) => {
-                        setRowDto([]);
-                        if (valueOption) {
-                          setFieldValue("year", valueOption);
-                          setFileObject("");
-                          setFieldValue("horizon", "");
-                          getHorizonDDL(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            values?.plant?.value,
-                            valueOption?.value,
-                            setHorizonDDL
-                          );
-                        } else {
-                          setHorizonDDL([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.plant?.label}
-                    />
-                  </div> */}
                   <div className="col-lg-4">
                     <NewSelect
                       name="fiscalYear"
@@ -319,14 +168,11 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setRowDto([]);
                         getRowDto(
-                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
-                            profileData?.accountId
-                          }&businessUnitId=${
-                            selectedBusinessUnit?.value
-                          }&PlantId=${values?.plant?.value}&yearId=${
-                            valueOption?.monthId > 6
-                              ? values?.fiscalYear?.value
-                              : values?.fiscalYear?.value + 1
+                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId
+                          }&businessUnitId=${selectedBusinessUnit?.value
+                          }&PlantId=${values?.plant?.value}&yearId=${valueOption?.monthId > 6
+                            ? values?.fiscalYear?.value
+                            : values?.fiscalYear?.value + 1
                           }&monthId=${valueOption?.monthId}`,
                         );
                         setFieldValue('horizon', valueOption);
@@ -366,8 +212,6 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-
-              {console.log('errors', errors)}
 
               <div className="global-form mt-4 d-flex">
                 <div className="form-group row text-right">
@@ -418,7 +262,6 @@ export default function _Form({
                       <th>MRP Quantity</th>
                       <th>Purchase Quantity</th>
                       <th>Rate</th>
-                      {/* <th>Action</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -452,7 +295,7 @@ export default function _Form({
                                 }
                               }}
                               className="quantity-field form-control"
-                              // disabled={item?.numMRPQty < 0}
+                            // disabled={item?.numMRPQty < 0}
                             />
                           </td>
                           <td
@@ -470,30 +313,14 @@ export default function _Form({
                                 dataHandler('numRate', index, +e.target.value);
                               }}
                               className="quantity-field form-control"
-                              // disabled={item?.numMRPQty < 0}
                             />
                           </td>
-                          {/* <td className="text-center">
-                          <IDelete id={index} remover={() => remover(index)} />
-                        </td> */}
                         </tr>
                       ))}
                   </tbody>
                 </table>
               </div>
 
-              {/* {!fileObject && !id && rowDto?.data?.length > 0 && (
-                <PaginationTable
-                  count={rowDto?.totalCount}
-                  setPositionHandler={setPositionHandler}
-                  paginationState={{
-                    pageNo,
-                    setPageNo,
-                    pageSize,
-                    setPageSize,
-                  }}
-                />
-              )} */}
               <button
                 type="submit"
                 style={{ display: 'none' }}

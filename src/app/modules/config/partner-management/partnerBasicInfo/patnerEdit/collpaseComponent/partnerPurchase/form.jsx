@@ -36,13 +36,9 @@ export default function _Form({
   btnRef,
   savePurchase,
   resetBtnRef,
-  businessPartnerCode,
   selectedBusinessUnit,
   accountId,
   profileData,
-  setter,
-  remover,
-  rowDto,
   shipPointRowDto,
   shipPointSetter,
   shipPointRemover,
@@ -51,7 +47,6 @@ export default function _Form({
 }) {
   const [purchaseOrgList, setPurchaseOrgList] = useState([]);
   const [gneralLedgerList, setgneralLedgerList] = useState([]);
-  // const [accuredGeneralLedgerList, setAccuredGeneralLedgerList] = useState([]);
   const [advancedGeneralLedgerList, setAdvancedGeneralLedgerList] = useState(
     [],
   );
@@ -63,9 +58,6 @@ export default function _Form({
   const [natureofBusinessDDL, getNatureofBusinessDDL] = useAxiosGet();
 
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
-  // const [accuredGeneralLedgerOption, setAccuredGeneralLedgerOption] = useState(
-  //   []
-  // );
 
   const [
     advancedGeneralLedgerOption,
@@ -74,7 +66,6 @@ export default function _Form({
   const [sbuDDL, setSbuDDL] = useState([]);
 
   useEffect(() => {
-    // PriceDDL(accountId, selectedBusinessUnit.value);
     getNatureofBusinessDDL(
       `/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`,
     );
@@ -99,17 +90,6 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  // useEffect(() => {
-  //   if(profileData?.accountId && selectedBusinessUnit?.value) {
-  //     setTimeout(() => {
-  //       getAccruedPayableGL(
-  //         profileData?.accountId,
-  //         selectedBusinessUnit?.value,
-  //         setAccuredGeneralLedgerList
-  //       );
-  //     },1000)
-  //   }
-  // }, [profileData,selectedBusinessUnit]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -123,14 +103,6 @@ export default function _Form({
     }
   }, [profileData, selectedBusinessUnit]);
 
-  // const PriceDDL = async (accId, buId) => {
-  //   try {
-  //     const res = await Axios.get(
-  //       `/item/PriceStructure/GetPriceStructureDDLByPriceStructureType?accountId=${accId}&businessUnitId=${buId}`
-  //     );
-  //     setPriceDDL(res.data);
-  //   } catch (error) {}
-  // };
 
   const getPurchaseOrganizationData = async (accountId, buId) => {
     try {
@@ -138,7 +110,7 @@ export default function _Form({
         `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
       );
       setPurchaseOrgList(res.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getAccountPayableGL = async (accountId, buId, setter) => {
@@ -147,25 +119,16 @@ export default function _Form({
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`,
       );
       setter(res?.data);
-    } catch (error) {}
+    } catch (error) { }
   };
-  // const getAccruedPayableGL = async (accountId, buId, setter) => {
-  //   try {
-  //     const res = await Axios.get(
-  //       `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`
-  //     );
-  //     setter(res?.data);
-  //   } catch (error) {
-  //
-  //   }
-  // };
+
   const getAdvancePayableGL = async (accountId, buId, setter) => {
     try {
       const res = await Axios.get(
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`,
       );
       setter(res?.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getSbuDDL = async (accId, buId) => {
@@ -174,7 +137,7 @@ export default function _Form({
         `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
       );
       setSbuDDL(res?.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -276,19 +239,7 @@ export default function _Form({
                     }}
                   />
                 </div>
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    label="Price structure"
-                    options={priceDDL || []}
-                    value={values?.priceStructure}
-                    name="priceStructure"
-                    errors={errors}
-                    touched={touched}
-                    onChange={(valueOption) => {
-                      setFieldValue("priceStructure", valueOption);
-                    }}
-                  />
-                </div> */}
+
                 <div className="col-lg-3">
                   <NewSelect
                     label="AC Payable GL"
@@ -360,102 +311,6 @@ export default function _Form({
                 </div>
               </div>
               <br />
-
-              {/* rowDtos */}
-
-              {/* <h3 style={{ fontSize: "1.275rem" }}>Supplier Item Assignment</h3>
-              <div className="row global-form">
-                <div className="col-lg-4">
-                  <label>Item Category</label>
-                  <Field
-                    name="conditionType"
-                    placeholder="Item Category"
-                    component={() => (
-                      <Select
-                        options={itemCategory}
-                        placeholder="Item Category"
-                        defaultValue={values?.itemCategory}
-                        onChange={(valueOption) => {
-                          getItemName(valueOption?.value);
-                          setFieldValue("itemName", "");
-                          setFieldValue("itemCategory", valueOption);
-                        }}
-                        isSearchable={true}
-                        styles={customStyles}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <ISelect
-                    label="Item Name"
-                    options={itemName || []}
-                    value={values?.itemName}
-                    name="itemName"
-                    setFieldValue={setFieldValue}
-                    isDisabled={!values.itemCategory}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <button
-                    onClick={() => {
-                      const obj = {
-                        ...values,
-                        configId: 0,
-                        itemId: values?.itemName?.value,
-                        itemName: values?.itemName.label,
-                        itemCode: values?.itemName?.code,
-                      };
-                      setter(obj);
-                      setFieldValue("itemCategory","")
-                      setFieldValue("itemName","")
-                    }}
-                    style={{ marginTop: "15px" }}
-                    className="btn btn-primary ml-2"
-                    disabled={!values?.itemCategory || !values?.itemName?.value}
-                    type="button"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div> */}
-
-              {/* <div>
-                {rowDto.length ? (
-                  <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Name</th>
-                        <th>Code</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto.map((itm, idx) => (
-                        <tr key={idx}>
-                          <td>{idx + 1}</td>
-                          <td>{itm.itemName}</td>
-                          <td>{itm.itemCode}</td>
-                          <td className="text-center">
-                            <span>
-                              <i
-                                onClick={() => remover(itm.itemId)}
-                                className="fa fa-trash deleteBtn"
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  ""
-                )}
-              </div> */}
 
               {/* shipPointRowDto */}
               <h3 style={{ fontSize: '1.275rem' }}>Supplier Shippoint</h3>
