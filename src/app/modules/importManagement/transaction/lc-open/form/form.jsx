@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import InputField from '../../../../_helper/_inputField';
@@ -382,10 +382,7 @@ export default function _Form({
                               initData?.exchangeRate)
                             : '',
                         );
-                        // setFieldValue(
-                        //   "PIAmountBDTNumber",
-                        //   values?.PIAmountFCNumber * Number(e?.target?.value)
-                        // );
+
                       }}
                       disabled={
                         viewType === 'view' ||
@@ -398,13 +395,13 @@ export default function _Form({
                     <label>PI Amount (BDT)</label>
                     <InputField
                       value={values?.PIAmountBDT}
-                      // value={numberWithCommas(values?.PIAmountBDT)}
+
                       name="PIAmountBDT"
                       placeholder="PI Amount (BDT)"
                       type="number"
                       onChange={(e) => {
                         setFieldValue('PIAmountBDT', e.target.value);
-                        // setFieldValue("lcMarginPercent", "");
+
                         setFieldValue('lcMarginValue', '');
                       }}
                       disabled={
@@ -474,80 +471,7 @@ export default function _Form({
                       disabled={viewType === 'view'}
                     />
                   </div>
-                  {/* <div
-                    style={{ marginTop: "10px" }}
-                    className="d-flex justify-content-center align-items-center col-auto"
-                  >
-                    <label className="d-flex justify-content-start align-items-center">
-                      <Field
-                        onClick={() => {
-                          setFieldValue("indemnityBond", "");
-                        }}
-                        style={{ marginRight: "5px" }}
-                        type="checkbox"
-                        name="indemnityBond"
-                        checked={values?.indemnityBond}
-                        disabled={viewType === "view"}
-                      />
-                      Indemnity Bond
-                    </label>
-                  </div> */}
-                  {/* <div
-                    style={{ marginTop: "10px" }}
-                    className="d-flex justify-content-center align-items-center col-auto"
-                  >
-                    <label className="d-flex justify-content-start align-items-center">
-                      <Field
-                        onClick={() => {
-                          setFieldValue("bondLicense", "");
-                        }}
-                        style={{ marginRight: "5px" }}
-                        type="checkbox"
-                        name="bondLicense"
-                        checked={values?.bondLicense}
-                        disabled={viewType === "view"}
-                      />
-                      Bond License
-                    </label>
-                  </div> */}
 
-                  {/* <div className="col-lg-3 mt-2">
-                    <label>Duration</label>
-                    <InputField
-                      value={values?.duration}
-                      name="duration"
-                      placeholder="Duration"
-                      type="date"
-                      disabled={viewType === "view"}
-                    />
-                  </div> */}
-                  {/* <div className="col-lg-3">
-                    <label>LC Margin (%)</label>
-                    <InputField
-                      value={values?.lcMarginPercent}
-                      name="lcMarginPercent"
-                      type="number"
-                      onChange={(e) => {
-                        if (+e.target.value < 0) return;
-                        if (!values?.PIAmountBDT)
-                          return toast.warn(
-                            "Please input PI Amount (BDT) first"
-                          );
-                        if (e.target.value) {
-                          setFieldValue("lcMarginPercent", e.target.value);
-                          setFieldValue(
-                            "lcMarginValue",
-                            (+values?.PIAmountBDT || 0) *
-                              ((+e.target.value || 0) / 100)
-                          );
-                        } else {
-                          setFieldValue("lcMarginPercent", "");
-                          setFieldValue("lcMarginValue", "");
-                        }
-                      }}
-                      disabled={viewType === "view"}
-                    />
-                  </div> */}
                   <div className="col-lg-3">
                     <NewSelect
                       name="marginType"

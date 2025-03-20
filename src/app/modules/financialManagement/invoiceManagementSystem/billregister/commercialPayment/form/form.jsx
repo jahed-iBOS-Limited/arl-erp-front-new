@@ -14,8 +14,6 @@ import InputField from '../../../../../_helper/_inputField';
 import NewSelect from '../../../../../_helper/_select';
 import PaginationTable from '../../../../../_helper/_tablePagination';
 import { getLandingData } from '../helper';
-// import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-// import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import ServiceBreakDownViewModal from '../serviceBreakDown/serviceBreakDownViewModal';
@@ -183,26 +181,7 @@ export default function _Form({
                         }}
                       />
                     </div>
-                    {/* <div className="col-lg-2">
-                      <NewSelect
-                        options={statusOption || []}
-                        placeholder="Billing Status"
-                        label="Billing Status"
-                        value={values?.billingStatus}
-                        name="billingStatus"
-                        isClearable={false}
-                        onChange={(valueOption) => {
-                          setFieldValue("billingStatus", valueOption);
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            values?.supplier?.value,
-                            valueOption?.value,
-                            values?.fromDate,
-                            values?.toDate
-                          );
-                        }}
-                      />
-                    </div> */}
+
 
                     <div className="col-lg-2">
                       <NewSelect
@@ -277,52 +256,12 @@ export default function _Form({
                           name="billNo"
                           placeholder="Bill No"
                           type="text"
-                        // disabled={values?.billingStatus?.label === "Done"}
+
                         />
                       </div>
                     )}
 
-                    {/* <div className="col-lg-2">
-                      <label>From Date</label>
-                      <InputField
-                        value={values?.fromDate}
-                        name="fromDate"
-                        placeholder="From Date"
-                        type="date"
-                        // disabled={values?.billingStatus?.label === "Done"}
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            values?.supplier?.value,
-                            values?.billingStatus?.value,
-                            e.target.value,
-                            values?.toDate
-                          );
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <label>To Date</label>
-                      <InputField
-                        value={values?.toDate}
-                        name="toDate"
-                        placeholder="To Date"
-                        type="date"
-                        // disabled={values?.billingStatus?.label === "Done"}
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            values?.supplier?.value,
-                            values?.billingStatus?.value,
-                            values?.fromDate,
-                            e.target.value
-                          );
-                        }}
-                      />
-                    </div> */}
-                    {/* {values?.billingStatus?.value === 0 && ( */}
+
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2 mt-5"
@@ -332,8 +271,6 @@ export default function _Form({
                         Attachment
                       </button>
                     </div>
-                    {/* )} */}
-
                     <DropzoneDialogBase
                       filesLimit={5}
                       acceptedFiles={['image/*']}
@@ -459,13 +396,7 @@ export default function _Form({
                             style={{ cursor: 'pointer' }}
                             onClick={(e) => {
                               if (
-                                // item.costTypeId === 12 ||
-                                // item.costTypeId === 21 ||
-                                // item.costTypeId === 22 ||
-                                // item.costTypeId === 13 ||
-                                // item.costTypeId === 14 ||
-                                // item.costTypeId === 15 ||
-                                // item.costTypeId === 20
+
                                 item.isMultipleSupplier
                               ) {
                                 setIsShowModal(true);
@@ -481,15 +412,7 @@ export default function _Form({
                               <input
                                 type="checkbox"
                                 name="isSelect"
-                                // disabled={
-                                //   item.costTypeId === 12 ||
-                                //   item.costTypeId === 21 ||
-                                //   item.costTypeId === 22 ||
-                                //   item.costTypeId === 13 ||
-                                //   item.costTypeId === 14 ||
-                                //   item.costTypeId === 15 ||
-                                //   item.costTypeId === 20
-                                // }
+
                                 disabled={item.isMultipleSupplier}
                                 checked={item?.isSelect}
                                 onClick={(e) => {
@@ -521,16 +444,12 @@ export default function _Form({
                             </td>
                             <td className="text-right">{item?.totalAmount}</td>
                             <td className="text-right">
-                              {/* {values?.billingStatus?.label === "Done" &&
-                                _formatMoney(item?.actualAmount)} */}
-                              {/* {values?.billingStatus?.label !== "Done" && ( */}
+
                               <InputField
                                 name="totalBilledAmount"
                                 type="number"
                                 className="form-control"
-                                // disabled={item.costTypeId===12 || item.costTypeId===21 ||
-                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                // }
+
                                 value={item?.totalBilledAmount}
                                 placeholder="Total Billed Amount"
                                 onClick={(e) => {
@@ -547,16 +466,12 @@ export default function _Form({
                               {/* )} */}
                             </td>
                             <td className="text-right">
-                              {/* {values?.billingStatus?.label === "Done" &&
-                                _formatMoney(item?.actualVat)} */}
-                              {/* {values?.billingStatus?.label !== "Done" && ( */}
+
                               <InputField
                                 name="vatamount"
                                 placeholder="VAT"
                                 value={rowDto[index]?.vatamount}
-                                // disabled={item.costTypeId===12 || item.costTypeId===21 ||
-                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                // }
+
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
@@ -571,7 +486,7 @@ export default function _Form({
                                   let numericTotalAmount = parseFloat(
                                     item?.totalAmount.replace(/,/g, ''),
                                   );
-                                  // data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (numericTotalAmount * +e?.target?.value /100 || 0);
+
                                   data[index]['totalBilledAmount'] =
                                     (+numericTotalAmount || 0) +
                                     (+e?.target?.value || 0);
@@ -581,9 +496,7 @@ export default function _Form({
                               {/* )} */}
                             </td>
                             <td className="text-center">
-                              {/* {values?.billingStatus?.label === "Done" &&
-                                _dateFormatter(item?.dueDate)} */}
-                              {/* {values?.billingStatus?.label !== "Done" && ( */}
+
                               <InputField
                                 value={item?.dueDate}
                                 type="date"
