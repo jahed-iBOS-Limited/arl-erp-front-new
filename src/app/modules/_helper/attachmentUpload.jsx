@@ -2,8 +2,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 export const attachmentUpload = async (attachment, setLoading) => {
   let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file);
+  Array.from(attachment)?.forEach((file) => {
+    formData?.append('files', file);
   });
   try {
     setLoading && setLoading(true);
@@ -26,7 +26,7 @@ export const attachmentUpload = async (attachment, setLoading) => {
 
 export const empAttachment_action = async (attachment, cb) => {
   let formData = new FormData();
-  attachment.forEach((file) => {
+  Array.from(attachment)?.forEach((file) => {
     formData.append('files', file?.file);
   });
   try {
@@ -50,7 +50,7 @@ export const attachment_action = async (
 ) => {
   setLoading(true);
   let formData = new FormData();
-  attachment.forEach((file) => {
+  Array.from(attachment)?.forEach((file) => {
     formData.append("files", file?.file);
   });
   setFieldValue("attachment", "");
@@ -71,7 +71,7 @@ export const attachment_action = async (
 
 export const uploadAttachment = (attachment) => {
   let formData = new FormData();
-  attachment.forEach((file) => {
+  Array.from(attachment)?.forEach((file) => {
     formData.append("files", file?.file);
   });
   return axios.post("/domain/Document/UploadFile", formData, {

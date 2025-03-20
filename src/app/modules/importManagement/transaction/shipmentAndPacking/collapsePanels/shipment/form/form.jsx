@@ -131,17 +131,7 @@ export default function _Form({
               >
                 <CardHeaderToolbar>
                   <>
-                    {/* <button
-                      onClick={() => {
-                        setEdit(false);
-                        resetForm(initData);
-                      }}
-                      className="btn btn-light "
-                      type="button"
-                    >
-                      <i className="fas fa-times pointer"></i>
-                      Close
-                    </button> */}
+
                     {type === 'view' ? (
                       false
                     ) : (
@@ -567,26 +557,7 @@ export default function _Form({
                                 )}
                               </tr>
                             ))}
-                          {/* <tr>
-                          <td colSpan="4">Total PO Amount</td>
-                          <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"poquantity")}</td>
-                          <td colSpan="3"></td>
-                        </tr>
-                        <tr>
-                          <td colSpan="4">Tolerance Percentage</td>
-                          <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"poquantity")*(Number(tollerence)/100)}</td>
-                          <td colSpan="3"></td>
-                        </tr>
-                        <tr>
-                          <td colSpan="4">Total Added Amount</td>
-                          <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"addedQuantity")}</td>
-                          <td colSpan="3"></td>
-                        </tr>
-                        <tr>
-                          <td colSpan="4">Total Shipped Amount</td>
-                          <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"shippedQuantity")}</td>
-                          <td colSpan="3"></td>
-                        </tr> */}
+
                         </tbody>
                       </table>
                     </div>
@@ -619,8 +590,7 @@ export default function _Form({
                       >
                         {Number(tollerence)}%
                       </div>
-                      {/* <div className="col-lg-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
-                      <div className="col-lg-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
+
                       {type !== 'view' && (
                         <>
                           {' '}
@@ -697,7 +667,6 @@ export default function _Form({
                   type="reset"
                   style={{ display: 'none' }}
                   ref={resetBtnRef}
-                // onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
             </Card>
