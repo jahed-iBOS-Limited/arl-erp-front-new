@@ -57,6 +57,8 @@ const initState = {
     distributionChannel: '',
     orderType: '',
     orderStatus: '',
+    fromDate: _todayDate(),
+    toDate:_todayDate(),
   },
   purchaseInvoiceLanding: {
     sbu: '',

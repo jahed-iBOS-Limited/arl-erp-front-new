@@ -60,12 +60,12 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       territory: item?.strTeritory || "",
       employeeId: item?.intEmployeeBasicInfoId || 0,
       employeeName: item?.strEmployeeName || "",
-      monthId: +values?.toDate?.split("-")[1],
-      yearId: +values?.toDate?.split("-")[0],
+      monthId: item?.monthid,
+      yearId: item?.yearid,
       salesAmount: item?.numSalesAmount,
       targetAmount: item?.numTargetAmount || 0,
       achievement: item?.numAchievement || 0,
-      numIncentiveAmount: item?.numIncentiveAmount || 0,
+      incentiveAmount: item?.numIncentiveAmount || 0,
       regionId: item?.intRegionId || 0,
       areaId: item?.intAreaId || 0,
       territoryId: item?.intTerritoryId || 0,
@@ -119,6 +119,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIncentiveData([])
         });
       }}
     >
