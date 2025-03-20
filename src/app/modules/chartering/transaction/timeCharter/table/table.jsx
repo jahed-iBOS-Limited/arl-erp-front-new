@@ -13,8 +13,8 @@ import Loading from "../../../_chartinghelper/loading/_loading";
 import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { getTimeCharterLandingData } from "../helper";
 import { CharteringContext } from "../../../charteringContext";
+import { getTimeCharterLandingData } from "../../../../_helper/_commonApi";
 
 const headers = [
   { name: "SL" },
