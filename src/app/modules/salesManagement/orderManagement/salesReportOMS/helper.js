@@ -80,16 +80,6 @@ export const getItemDDL_api = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const GetBranchDDL = async (accid, buid, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTaxBranchDDL?AccountId=${accid}&BusinessUnitId=${buid}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 export const getPartnerNameDDL_api = async (accid, buid, setter) => {
   try {

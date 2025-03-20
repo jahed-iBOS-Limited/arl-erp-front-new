@@ -8,7 +8,6 @@ import moment from "moment";
 import {
   getTaxSalesReport_api,
   getItemDDL_api,
-  GetBranchDDL,
   getPartnerNameDDL_api,
   GetItemTypeDDL_api,
   GetItemNameDDL_api,
@@ -22,6 +21,7 @@ import "./style.css";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { GetBranchDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   fromDate: _todayDate(),
