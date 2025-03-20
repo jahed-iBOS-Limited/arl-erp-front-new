@@ -2,16 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const GetBranchDDL = async (accid, buid, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTaxBranchDDL?AccountId=${accid}&BusinessUnitId=${buid}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 export const GetItemNameDDL = async (accId, buId, typeId, setter) => {
   try {
