@@ -27,7 +27,6 @@ import IButton from '../../../../_helper/iButton';
 import printIcon from '../../../../_helper/images/print-icon.png';
 import {
   CreateTransportScheduleTypeApi,
-  GetShipmentTypeApi,
   commonfilterGridData,
   getDeliverySchedulePlan,
 } from '../helper';
@@ -39,6 +38,7 @@ import './style.scss';
 import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
+import { GetShipmentTypeApi } from '../../../../_helper/_commonApi';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
