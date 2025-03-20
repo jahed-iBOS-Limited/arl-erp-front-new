@@ -29,8 +29,9 @@ import {
   getDisbursementCenter,
   getPaymentType,
   getProjectName,
-  getVehicleDDL
+  getVehicleDDL,
 } from '../helper';
+import { getBusTransDDLForExpense } from '../../../_helper/_commonApi';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
@@ -164,18 +165,10 @@ export default function _Form({
     // modifyDate.setYear(year);
 
     var newDate = moment();
-    newDate.set("month", month - 1);
-    newDate.set("year", year);
-    const firstDate = _dateFormatter(
-      moment(newDate)
-        .startOf("month")
-        .format()
-    );
-    const lestDate = _dateFormatter(
-      moment(newDate)
-        .endOf("month")
-        .format()
-    );
+    newDate.set('month', month - 1);
+    newDate.set('year', year);
+    const firstDate = _dateFormatter(moment(newDate).startOf('month').format());
+    const lestDate = _dateFormatter(moment(newDate).endOf('month').format());
     return { lestDate, firstDate };
   };
   const [loading, setLoading] = useState(false);
@@ -183,15 +176,17 @@ export default function _Form({
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
       getProfitcenterDDL(
-        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value
-        }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-          ? profileData?.employeeId
-          : 0
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${
+          selectedBusinessUnit.value
+        }&employeeId=${
+          [184].includes(selectedBusinessUnit?.value)
+            ? profileData?.employeeId
+            : 0
         }`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <>
@@ -204,20 +199,20 @@ export default function _Form({
           isEdit
             ? initData
             : {
-              ...initData,
-              // profitCenter: profitcenterDDL.length > 1 && "",
-              vehicle: {
-                value: vehicleDDL[0]?.value,
-                label: vehicleDDL[0]?.label,
-              },
-              disbursmentCenter:
-                disbustmentCenter?.length > 0
-                  ? {
-                    value: disbustmentCenter[0]?.value,
-                    label: disbustmentCenter[0]?.label,
-                  }
-                  : "",
-            }
+                ...initData,
+                // profitCenter: profitcenterDDL.length > 1 && "",
+                vehicle: {
+                  value: vehicleDDL[0]?.value,
+                  label: vehicleDDL[0]?.label,
+                },
+                disbursmentCenter:
+                  disbustmentCenter?.length > 0
+                    ? {
+                        value: disbustmentCenter[0]?.value,
+                        label: disbustmentCenter[0]?.label,
+                      }
+                    : '',
+              }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
@@ -393,11 +388,14 @@ export default function _Form({
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <div className={"row bank-journal-custom bj-right"} style={{
-                    marginLeft: "0px",
-                    marginRight: "0px",
-                    marginTop: "5px",
-                  }}>
+                  <div
+                    className={'row bank-journal-custom bj-right'}
+                    style={{
+                      marginLeft: '0px',
+                      marginRight: '0px',
+                      marginTop: '5px',
+                    }}
+                  >
                     <div className="col-lg-3">
                       <label>Expense Date</label>
                       <InputField
@@ -425,14 +423,17 @@ export default function _Form({
                               setCostElementDDL,
                             );
                             if (![184].includes(selectedBusinessUnit?.value)) {
-                              setFieldValue("profitCenter", "");
+                              setFieldValue('profitCenter', '');
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
-                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value
-                                }&businessUnitId=${selectedBusinessUnit.value
-                                }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-                                  ? profileData?.employeeId
-                                  : 0
+                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
+                                  valueOption?.value
+                                }&businessUnitId=${
+                                  selectedBusinessUnit.value
+                                }&employeeId=${
+                                  [184].includes(selectedBusinessUnit?.value)
+                                    ? profileData?.employeeId
+                                    : 0
                                 }`,
                                 (data) => {
                                   if (data?.length === 1) {
@@ -456,15 +457,25 @@ export default function _Form({
                       <label>Cost Element</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("costElement", valueOption);
-                          setFieldValue("accountHead", "");
-                          setBugetHeadWiseBalance([])
+                          setFieldValue('costElement', valueOption);
+                          setFieldValue('accountHead', '');
+                          setBugetHeadWiseBalance([]);
                           if (valueOption) {
-                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res) => {
-                              const modiFyData = res?.map((item) => ({ ...item, value: item?.intAccountHeadId, label: item?.strAccountHeadName }))
+                            getBugetHeadWiseBalance(
+                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${
+                                selectedBusinessUnit?.value
+                              }&generalLedgerId=${valueOption?.glId}&subGlId=${
+                                valueOption?.subGlId
+                              }&accountHeadId=0&dteJournalDate=${_todayDate()}`,
+                              (res) => {
+                                const modiFyData = res?.map((item) => ({
+                                  ...item,
+                                  value: item?.intAccountHeadId,
+                                  label: item?.strAccountHeadName,
+                                }));
 
-                              setBugetHeadWiseBalance(modiFyData);
-                            },
+                                setBugetHeadWiseBalance(modiFyData);
+                              },
                             );
                           }
                         }}
@@ -477,7 +488,7 @@ export default function _Form({
                         isDisabled={!values?.costCenter}
                       />
                     </div>
-                    {(bugetHeadWiseBalance?.length > 0) && (
+                    {bugetHeadWiseBalance?.length > 0 && (
                       <>
                         <div className="col-lg-3">
                           <NewSelect
@@ -486,9 +497,17 @@ export default function _Form({
                             value={values?.accountHead}
                             label="Account Head"
                             onChange={(valueOption) => {
-                              setFieldValue("accountHead", valueOption || "");
+                              setFieldValue('accountHead', valueOption || '');
                               if (valueOption) {
-                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                                getAvailableBudgetAdvanceBalance(
+                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&subGlId=${
+                                    values?.costElement?.subGlId
+                                  }&accountHeadId=${
+                                    valueOption?.value
+                                  }&dteJournalDate=${_todayDate()}`,
+                                );
                               }
                             }}
                             errors={errors}
@@ -590,16 +609,17 @@ export default function _Form({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.userNmae
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.userNmae
                               : !values?.expenseDate ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.costCenter ||
-                              !values?.costElement ||
-                              !values?.profitCenter ||
-                              (bugetHeadWiseBalance?.length > 0 && !values?.accountHead)
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.costCenter ||
+                                !values?.costElement ||
+                                !values?.profitCenter ||
+                                (bugetHeadWiseBalance?.length > 0 &&
+                                  !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -680,10 +700,10 @@ export default function _Form({
                   <div className="row">
                     <div className="col-lg-12 pr-0">
                       <div className="table-responsive">
-                        <table className={"table mt-1 bj-table"}>
-                          <thead className={rowDto.length < 1 && "d-none"}>
+                        <table className={'table mt-1 bj-table'}>
+                          <thead className={rowDto.length < 1 && 'd-none'}>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: '20px' }}>SL</th>
                               <th>Expense Date</th>
                               <th>Cost Center</th>
                               <th>Cost Element</th>
@@ -700,7 +720,7 @@ export default function _Form({
                           <tbody>
                             {rowDto?.map((item, index) => {
                               const isFuelLogCash =
-                                item?.comments2 === "Fuel Log Cash";
+                                item?.comments2 === 'Fuel Log Cash';
                               return (
                                 <tr key={index}>
                                   <td>{index + 1}</td>
@@ -730,7 +750,7 @@ export default function _Form({
                                           if (
                                             location?.state?.isApproval &&
                                             e.target.value >
-                                            item?.prvExpenseAmount
+                                              item?.prvExpenseAmount
                                           ) {
                                             return false;
                                           }
@@ -763,8 +783,8 @@ export default function _Form({
                                           clickHandler={() => {
                                             dispatch(
                                               getDownlloadFileView_Action(
-                                                item?.attachmentLink
-                                              )
+                                                item?.attachmentLink,
+                                              ),
                                             );
                                           }}
                                         />
