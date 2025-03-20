@@ -22,6 +22,7 @@ import { setSalesOrderLandingAction } from '../../../../_helper/reduxForLocalSto
 import { salesOrderComplete, cancelSalesOrder } from '../helper';
 // import Loading from "../../../../_helper/_loading";
 import IConfirmModal from './../../../../_helper/_confirmModal';
+import InputField from '../../../../_helper/_inputField';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -169,6 +170,8 @@ export default function HeaderForm({ loading, setLoading }) {
         searchValue,
         setLoading,
         salesOrderLanding?.distributionChannel?.value,
+        salesOrderLanding?.fromDate || "",
+        salesOrderLanding?.toDate || "",
       ),
     );
   };
@@ -286,6 +289,8 @@ export default function HeaderForm({ loading, setLoading }) {
         null,
         setLoading,
         salesOrderLanding?.distributionChannel?.value,
+        salesOrderLanding?.fromDate || "",
+        salesOrderLanding?.toDate || "",
       ),
     );
   };
@@ -365,6 +370,8 @@ export default function HeaderForm({ loading, setLoading }) {
               null,
               setLoading,
               values?.distributionChannel?.value,
+              values?.fromDate,
+              values?.toDate,
             ),
           );
         }
@@ -414,6 +421,8 @@ export default function HeaderForm({ loading, setLoading }) {
           null,
           setLoading,
           values?.distributionChannel?.value,
+          values?.fromDate,
+          values?.toDate,
         ),
       );
       // dispatch(
@@ -478,6 +487,26 @@ export default function HeaderForm({ loading, setLoading }) {
                     />
                   </div>
                 ))}
+                <div className="col-lg-3 ">
+                  <InputField
+                    value={values?.fromDate}
+                    label={'From Date'}
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) =>
+                      setFieldValue('fromDate', e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3 ">
+                  <InputField
+                    value={values?.toDate}
+                    label={'To Date'}
+                    name="toDate"
+                    type="date"
+                    onChange={(e) => setFieldValue('toDate', e.target.value)}
+                  />
+                </div>
                 {/* View button */}
                 <div className="d-flex col-lg-3">
                   <button
@@ -495,6 +524,8 @@ export default function HeaderForm({ loading, setLoading }) {
                           null,
                           setLoading,
                           values?.distributionChannel?.value,
+                          values?.fromDate,
+                          values?.toDate,
                         ),
                       );
                       dispatch(setSalesOrderLandingAction(values));

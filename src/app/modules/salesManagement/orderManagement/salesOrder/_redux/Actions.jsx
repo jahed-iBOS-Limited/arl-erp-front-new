@@ -534,6 +534,8 @@ export const getSalesOrderGridData = (
   search,
   setLoading,
   distributionChannelId,
+  fromDate,
+  toDate,
 ) => (dispatch) => {
   setLoading && setLoading(true);
   return requestFromServer
@@ -546,6 +548,8 @@ export const getSalesOrderGridData = (
       pageSize,
       search,
       distributionChannelId,
+      fromDate,
+      toDate,
     )
     .then((res) => {
       setLoading && setLoading(false);

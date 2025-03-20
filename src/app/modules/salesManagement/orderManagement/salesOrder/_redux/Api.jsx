@@ -23,12 +23,17 @@ export function getGridData(
   pageNo,
   pageSize,
   search,
-  distributionChannelId
+  distributionChannelId,
+  fromDate,
+  toDate,
 ) {
   const searchPath = search ? `searchTerm=${search}&` : "";
+  const strFromDate = fromDate ? `&fromdate=${fromDate}` : "";
+  const strToDate = toDate ? `&todate=${toDate}` : "";
+
   return axios.get(
     `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId ||
-      0}&DistributionChannelId=${distributionChannelId || 0}`
+      0}&DistributionChannelId=${distributionChannelId || 0}${strFromDate}${strToDate}`
   );
 }
 
