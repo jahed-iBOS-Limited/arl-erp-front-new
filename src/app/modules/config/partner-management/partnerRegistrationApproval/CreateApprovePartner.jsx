@@ -183,6 +183,11 @@ export default function CreateApprovePartner() {
                             contactPerson: '',
                             contactNumber2: '',
                             contactNumber3: '',
+                            bankId: state?.intBankId,
+                            bankBranchId: state?.intBankBranchId,
+                            routingNo: state?.strRoutingNumber,
+                            bankAccountNo: state?.strAccountNumber,
+                            bankAccountName: state?.strAccountName,
                           },
                           (res) => {
                             if (res?.statuscode === 200) {

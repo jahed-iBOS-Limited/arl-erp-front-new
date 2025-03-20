@@ -48,8 +48,8 @@ import TextArea from '../../../../../_helper/TextArea';
 import customStyles from '../../../../../selectCustomStyle';
 import { approveHandeler } from '../../fundTransferApproval/helper';
 import DebitCredit from './DebitCredit';
-import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
+import ReceiveAndPaymentsTable from '../../../../../_helper/_commonComponent';
 
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
