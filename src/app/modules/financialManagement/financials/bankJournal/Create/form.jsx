@@ -676,90 +676,92 @@ export default function _Form({
                         type="date"
                       />
                     </div>
-                    <div className="col-lg-12">
-                      <label>Attachment </label>
-                      <div
-                        className={
-                          attachmentFile
-                            ? 'image-upload-box with-img'
-                            : 'image-upload-box'
-                        }
-                        onClick={onButtonAttachmentClick}
-                        style={{
-                          cursor: 'pointer',
-                          position: 'relative',
-                          height: '35px',
-                        }}
-                      >
-                        <input
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              attachmentUpload(e.target.files)
-                                .then((data) => {
-                                  setAttachmentFile(data?.[0]?.id);
-                                })
-                                .catch((error) => {
-                                  setAttachmentFile('');
-                                });
-                            }
+                    {jorunalType === 5 && !isEdit ? (
+                      <div className="col-lg-12">
+                        <label>Attachment </label>
+                        <div
+                          className={
+                            attachmentFile
+                              ? 'image-upload-box with-img'
+                              : 'image-upload-box'
+                          }
+                          onClick={onButtonAttachmentClick}
+                          style={{
+                            cursor: 'pointer',
+                            position: 'relative',
+                            height: '35px',
                           }}
-                          type="file"
-                          ref={inputAttachFile}
-                          id="file"
-                          style={{ display: 'none' }}
-                        />
-                        <div>
-                          {!attachmentFile && (
-                            <img
-                              style={{ maxWidth: '50px' }}
-                              src={placeholderImg}
-                              className="img-fluid"
-                              alt="Upload or drag documents"
-                            />
+                        >
+                          <input
+                            onChange={(e) => {
+                              if (e.target.files?.[0]) {
+                                attachmentUpload(e.target.files)
+                                  .then((data) => {
+                                    setAttachmentFile(data?.[0]?.id);
+                                  })
+                                  .catch((error) => {
+                                    setAttachmentFile('');
+                                  });
+                              }
+                            }}
+                            type="file"
+                            ref={inputAttachFile}
+                            id="file"
+                            style={{ display: 'none' }}
+                          />
+                          <div>
+                            {!attachmentFile && (
+                              <img
+                                style={{ maxWidth: '50px' }}
+                                src={placeholderImg}
+                                className="img-fluid"
+                                alt="Upload or drag documents"
+                              />
+                            )}
+                          </div>
+                          {attachmentFile && (
+                            <div className="d-flex align-items-center">
+                              <p
+                                style={{
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                  color: '#0072E5',
+                                  cursor: 'pointer',
+                                  margin: '0px',
+                                }}
+                              >
+                                {attachmentFile}
+                              </p>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    View Attachment
+                                  </Tooltip>
+                                }
+                              >
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        attachmentFile,
+                                      ),
+                                    );
+                                  }}
+                                  className="ml-2"
+                                >
+                                  <i
+                                    style={{ fontSize: '16px' }}
+                                    className={`fa pointer fa-eye`}
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            </div>
                           )}
                         </div>
-                        {attachmentFile && (
-                          <div className="d-flex align-items-center">
-                            <p
-                              style={{
-                                fontSize: '12px',
-                                fontWeight: '500',
-                                color: '#0072E5',
-                                cursor: 'pointer',
-                                margin: '0px',
-                              }}
-                            >
-                              {attachmentFile}
-                            </p>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="cs-icon">
-                                  View Attachment
-                                </Tooltip>
-                              }
-                            >
-                              <span
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      attachmentFile,
-                                    ),
-                                  );
-                                }}
-                                className="ml-2"
-                              >
-                                <i
-                                  style={{ fontSize: '16px' }}
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </div>
-                        )}
                       </div>
-                    </div>
+                    ) : null}
                     {jorunalType !== 6 && (
                       <div className="col-lg-12 text-right pl-0 bank-journal">
                         <button
