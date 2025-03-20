@@ -20,6 +20,8 @@ import {
 } from './helper';
 import { getSalesTerrioryDDLAction } from './_redux/Actions';
 import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
+import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
+import { LayoutSplashScreen } from '../../../../../../../../_metronic/layout';
 
 
 // Validation schema
@@ -131,8 +133,10 @@ export default function _Form({
   const [bankNameDDL, setBankNameDDL] = useState([]);
   const [branchNameDDL, setBranchNameDDL] = useState([]);
   const [filterReconGLDDL, setFilterReconGLDDL] = useState([]);
-
   const [parnerBasicInfo, setParnerBasicInfo] = useState('');
+  
+  // api action
+  const [creditLimitApprovalData,getCreaditLimitApprovalData,getCreaditLimitApprovalDataLoading]=useAxiosGet()
 
   // Credit Limit File Attachment
   const [fileObjects, setFileObjects] = useState([]);
@@ -163,6 +167,10 @@ export default function _Form({
         setParnerBasicInfo,
       );
     }
+
+    // getCreaditLimitApprovalData
+    getCreaditLimitApprovalData(`/oms/TerritoryInfo/GetCreditLimitApprovalUser?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&userId=${profileData?.userId}
+`)
   }, [profileData, selectedBusinessUnit, id]);
 
   const getMortageTypeDDL = async () => {
@@ -209,8 +217,17 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, id, product]);
+
+  // is loading
+  const isLoading=getCreaditLimitApprovalDataLoading
+
+  // has permission to access credit limit approval
+  const hasPermissionOfCreditLimitApproval=creditLimitApprovalData?.permission
+
   return (
     <>
+      {isLoading && <LayoutSplashScreen/> }
+
       <Formik
         enableReinitialize={true}
         initialValues={product}
@@ -1188,6 +1205,7 @@ export default function _Form({
                   </div>
                 </div>
 
+                      {hasPermissionOfCreditLimitApproval?
                 <div className="col-lg-12 p-0">
                   <div className="row">
                     <div className="col-lg-4">
@@ -1322,7 +1340,9 @@ export default function _Form({
                     )}
                 </div>
 
-                {(values.limitType === "creditLimit" ||
+                :<></>}
+
+                {hasPermissionOfCreditLimitApproval&&(values.limitType === "creditLimit" ||
                   values.limitType === "both") && (
                     <div className="col-lg-12 p-0">
                       <h6
