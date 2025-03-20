@@ -33,8 +33,8 @@ import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import TextArea from '../../../../_helper/TextArea';
 import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from './DebitCredit';
-import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
+import ReceiveAndPaymentsTable from '../../../../_helper/_commonComponent';
 
 export default function _Form({
   initData,
