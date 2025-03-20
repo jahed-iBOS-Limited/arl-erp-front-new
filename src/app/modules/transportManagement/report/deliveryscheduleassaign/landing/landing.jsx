@@ -24,7 +24,6 @@ import { _todayDate } from '../../../../_helper/_todayDate';
 import IViewModal from '../../../../_helper/_viewModal';
 import printIcon from '../../../../_helper/images/print-icon.png';
 import {
-  GetShipmentTypeApi,
   commonfilterGridData,
   getAssignedDeliveryVehicleProvider,
   saveAssignDeliveryVehicleSupplier,
@@ -32,6 +31,7 @@ import {
 import LogisticByUpdateModal from './logisticByUpdateModal';
 import RATForm from './ratForm';
 import './style.scss';
+import { GetShipmentTypeApi } from '../../../../_helper/_commonApi';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),

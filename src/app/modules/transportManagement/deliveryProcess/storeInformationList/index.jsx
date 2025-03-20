@@ -99,7 +99,7 @@ export default function StoreInformationList() {
       );
     } else {
       getRowData(
-        `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+        `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=${values?.transferChallan?.value || false}&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
       );
     }
   };
@@ -121,7 +121,7 @@ export default function StoreInformationList() {
   function TransferChallan({ obj }) {
     const { values, setFieldValue } = obj;
 
-    return values?.type?.value === 4 ? (
+    return (
       <div className="col-lg-3">
         <NewSelect
           name="transferChallan"
@@ -138,9 +138,7 @@ export default function StoreInformationList() {
           }}
         />
       </div>
-    ) : (
-      <></>
-    );
+    ) 
   }
 
   return (
