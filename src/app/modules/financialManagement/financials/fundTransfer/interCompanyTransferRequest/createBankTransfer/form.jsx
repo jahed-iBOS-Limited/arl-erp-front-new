@@ -35,8 +35,8 @@ import {
   getRevenueElementListDDL,
   getSendToGLBank,
 } from './helper';
-import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
+import ReceiveAndPaymentsTable from '../../../../../_helper/_commonComponent';
 
 export default function _Form({
   initData,
