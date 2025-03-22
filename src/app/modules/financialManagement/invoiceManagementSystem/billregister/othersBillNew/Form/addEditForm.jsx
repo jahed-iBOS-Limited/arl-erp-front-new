@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
-// import {
-//   saveFairPriceShopInvoice,
-//   getWarehouseDDL,
-//   uploadAttachment,
-//   getPurchaseOrganizationDDL
-// } from "../helper";
 import { toast } from "react-toastify";
 import "./purchaseInvoice.css";
 import IForm from "../../../../../_helper/_form";
@@ -26,7 +20,7 @@ const initData = {
   amount: "",
   billRegisterDate: _todayDate(),
   businessTransaction: "",
-  profitCenter:"",
+  profitCenter: "",
 };
 
 export default function OthersBillCreateForm() {
@@ -98,7 +92,7 @@ export default function OthersBillCreateForm() {
       subGlId: values?.businessTransaction?.businessTransactionId,
       subGlName: values?.businessTransaction?.businessTransactionName,
       subGlCode: values?.businessTransaction?.businessTransactionCode,
-      profitCenterId : values?.profitCenter?.value,
+      profitCenterId: values?.profitCenter?.value,
     });
     setRowData(rows);
     cb();

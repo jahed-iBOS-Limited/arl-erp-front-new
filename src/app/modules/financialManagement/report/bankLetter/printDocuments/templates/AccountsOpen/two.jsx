@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import { formatDate } from "../../../helper";
+import { formatDate } from "../../../../../../_helper/_dateFormate";
 
 const AccountOpenTwo = ({ singleRowItem }) => {
   const {
@@ -218,7 +218,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
             <span>
               <strong>Ms. Faria Hossain</strong>
             </span>
-            {}
+            { }
             <span style={{ marginLeft: "143px" }}>Director</span>{" "}
             <span style={{ marginLeft: "158px" }}>Sd/</span>
           </p>
