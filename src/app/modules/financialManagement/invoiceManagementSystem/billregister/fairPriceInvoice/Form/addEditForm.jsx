@@ -4,14 +4,13 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
+import { getImageuploadStatus, getPurchaseOrganizationDDL } from "../../../../../_helper/_commonApi";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
 import { compressfile } from "../../../../../_helper/compressfile";
 import {
-  getPurchaseOrganizationDDL,
   getWarehouseDDL,
   saveFairPriceShopInvoice
 } from "../../helper";

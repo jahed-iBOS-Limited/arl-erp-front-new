@@ -1,22 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
-  try {
-    let res = await axios.get(
-      `/oms/SalesOrder/GetOrderCompleteInfo?AccountId=${accId}&BusinessUnitId=${buId}&OrderId=${orderId}`
-    );
-    if (res?.status === 200) {
-      setter(res?.data);
-      //   setter({
-      //     ...res?.data,
-      //     commentRequired: true,
-      //   });
-    }
-  } catch (err) {
-    toast.warning(err?.response?.data?.message);
-  }
-};
+
 
 export const getChannelBaseCollectionDays = async (buId, channelId, setter) => {
   try {

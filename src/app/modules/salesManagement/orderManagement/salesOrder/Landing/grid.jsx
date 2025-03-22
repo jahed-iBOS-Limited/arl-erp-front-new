@@ -9,12 +9,12 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
 import IViewModal from "./../../../../_helper/_viewModal";
 import CompleteModal from "./completeModal";
-import { getOrderCompleteInfo } from "./../helper";
 import ShippointTransferModel from "./shippointTransferModel";
 import Loading from "../../../../_helper/_loading";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { getOrderCompleteInfo } from "../../../../_helper/_commonApi";
 const GridData = ({
   callBackFuncGridData,
   history,
@@ -49,7 +49,7 @@ const GridData = ({
   useEffect(() => {
     getPermission(
       `/oms/SalesOrder/SalesOrderEditPermission?UserId=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-      (resData) => {}
+      (resData) => { }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);

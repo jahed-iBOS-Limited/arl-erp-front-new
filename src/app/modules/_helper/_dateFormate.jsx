@@ -47,10 +47,10 @@ export const _dateTimeFormatter = (param, format) => {
 };
 
 // date.getDay() return 0-6 & 0 for sunday & upto 6 for saturday. access the current day index number from days array
-export const _todayDayWeekName=()=>{
+export const _todayDayWeekName = () => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const date=new Date()
-  const dayName=days[date.getDay()] // days[4] // thursday
+  const date = new Date()
+  const dayName = days[date.getDay()] // days[4] // thursday
   return dayName // Thursday
 }
 
@@ -92,7 +92,7 @@ export const excelDateFormatter = (excelDate) => {
 };
 
 // date.getMonth() reutrn 0-11 and 0 start for January & 11 for December. accessing the current index from months array we can get current month
-export const currentMonthAndYear=()=>{
+export const currentMonthAndYear = () => {
   const months = [
     "Jan",
     "Feb",
@@ -107,7 +107,34 @@ export const currentMonthAndYear=()=>{
     "Nov",
     "Dec",
   ];
-  const date=new Date()
-  const month=months[date.getMonth()] // months[6] // July
+  const date = new Date()
+  const month = months[date.getMonth()] // months[6] // July
   return `${month} ${date.getFullYear()}` // July 24
 }
+
+export const formatDate = (dateString) => {
+  // Parse the input date
+  const date = moment(dateString, "YYYY-MM-DD");
+
+  // Get the day and determine the ordinal suffix
+  const day = date.date();
+  let dayWithSuffix;
+  if (day % 10 === 1 && day !== 11) {
+    dayWithSuffix = day + "ST";
+  } else if (day % 10 === 2 && day !== 12) {
+    dayWithSuffix = day + "ND";
+  } else if (day % 10 === 3 && day !== 13) {
+    dayWithSuffix = day + "RD";
+  } else {
+    dayWithSuffix = day + "TH";
+  }
+
+  // Get the month in uppercase
+  const month = date.format("MMMM").toUpperCase();
+
+  // Get the year
+  const year = date.year();
+
+  // Format the final string
+  return `${dayWithSuffix} DAY OF ${month},${year}`;
+};

@@ -1,23 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
-  try {
-    let res = await axios.get(
-      `/oms/SalesOrder/GetOrderCompleteInfo?AccountId=${accId}&BusinessUnitId=${buId}&OrderId=${orderId}`
-    );
-    if (res?.status === 200) {
-      setter(res?.data);
-      //   setter({
-      //     ...res?.data,
-      //     commentRequired: true,
-      //   });
-    }
-  } catch (err) {
-    toast.warning(err?.response?.data?.message);
-  }
-};
-
 export const salesOrderComplete = async (
   orderStatus,
   completeNarration,
@@ -68,19 +51,19 @@ export const saveShippointTransfer = async (obj) => {
     salesOrderId,
     cb,
     setIsTransferModel,
-    callBackFuncGridData
+    callBackFuncGridData,
   } = obj;
   setLoading(true);
   try {
     let res = await axios.put(
-      `/wms/ShipPoint/EditSalesOrderShippoint?businessUnitId=${buid}&ShippointId=${shipmentId}&shipPointName=${shipPointName}&salesOrderId=${salesOrderId}`,
+      `/wms/ShipPoint/EditSalesOrderShippoint?businessUnitId=${buid}&ShippointId=${shipmentId}&shipPointName=${shipPointName}&salesOrderId=${salesOrderId}`
     );
     if (res?.status === 200) {
       cb();
       toast.success(res?.data?.message, { toastId: "cso" });
       setLoading(false);
       setIsTransferModel(false);
-      callBackFuncGridData()
+      callBackFuncGridData();
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {

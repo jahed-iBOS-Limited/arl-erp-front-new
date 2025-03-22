@@ -930,8 +930,7 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
-        vesselId || 0
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId || 0
       }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
@@ -951,31 +950,31 @@ export const GetBranchDDL = async (accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
- export const getDeliveryChallanInfoById = async ({
-   id,
-   profileData,
-   selectedBusinessUnit,
-   setLoading,
-   setDeliveryOrderReporData,
- }) => {
-   setLoading(true);
-   try {
-     const res = await axios.get(
-       `/wms/ShopBySales/GetDeliveryChallanByDeliveryId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&DeliveryId=${id}`
-     );
-     setLoading(false);
-     const modified = res?.data?.[0]?.rows?.map((itm) => ({
-       ...itm,
-       weight: +itm?.weight?.toFixed(3),
-     }));
-     setDeliveryOrderReporData({ ...res?.data?.[0], rows: modified });
-   } catch (error) {
-     setLoading(false);
-   }
- };
+export const getDeliveryChallanInfoById = async ({
+  id,
+  profileData,
+  selectedBusinessUnit,
+  setLoading,
+  setDeliveryOrderReporData,
+}) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/wms/ShopBySales/GetDeliveryChallanByDeliveryId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&DeliveryId=${id}`
+    );
+    setLoading(false);
+    const modified = res?.data?.[0]?.rows?.map((itm) => ({
+      ...itm,
+      weight: +itm?.weight?.toFixed(3),
+    }));
+    setDeliveryOrderReporData({ ...res?.data?.[0], rows: modified });
+  } catch (error) {
+    setLoading(false);
+  }
+};
 
 export const GetShipmentTypeApi = async (
   accId,
@@ -1017,5 +1016,31 @@ export const getCommercialCostingServiceBreakdown = async (
     }
   } catch (err) {
     toast.error(err?.response?.data?.message);
+  }
+};
+
+export const getPurchaseOrganizationDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
+  try {
+    let res = await axios.get(
+      `/oms/SalesOrder/GetOrderCompleteInfo?AccountId=${accId}&BusinessUnitId=${buId}&OrderId=${orderId}`
+    );
+    if (res?.status === 200) {
+      setter(res?.data);
+    }
+  } catch (err) {
+    toast.warning(err?.response?.data?.message);
   }
 };

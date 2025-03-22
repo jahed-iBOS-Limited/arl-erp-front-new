@@ -1,7 +1,7 @@
 import React from "react";
 import "../../templates/style.scss";
 import moment from "moment/moment";
-import { formatDate } from "../../../helper";
+import { formatDate } from "../../../../../../_helper/_dateFormate";
 
 const SignatoryChangeOne = ({ singleRowItem }) => {
   const {
