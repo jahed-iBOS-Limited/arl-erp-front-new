@@ -7,6 +7,7 @@ import NewSelect from '../../../_helper/_select';
 import { YearDDL } from '../../../_helper/_yearDDL';
 import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import IButton from '../../../_helper/iButton';
+import { monthDDL } from '../../invoiceManagementSystem/billregister/billCreate/Table/form';
 
 export const getBuDDL = async (userId, accountId, setter) => {
   try {
@@ -23,23 +24,9 @@ export const getBuDDL = async (userId, accountId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
-const monthDDL = [
-  { value: 1, label: 'January' },
-  { value: 2, label: 'February' },
-  { value: 3, label: 'March' },
-  { value: 4, label: 'April' },
-  { value: 5, label: 'May' },
-  { value: 6, label: 'June' },
-  { value: 7, label: 'July' },
-  { value: 8, label: 'August' },
-  { value: 9, label: 'September' },
-  { value: 10, label: 'October' },
-  { value: 11, label: 'November' },
-  { value: 12, label: 'December' },
-];
 
 const CostVsRevenuePBR = () => {
   const groupId = `218e3d7e-f3ea-4f66-8150-bb16eb6fc606`;
