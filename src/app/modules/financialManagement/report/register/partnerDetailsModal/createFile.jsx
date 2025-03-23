@@ -4,7 +4,7 @@ import * as fs from 'file-saver';
 import { getWorkBook, getIndex } from './utils';
 import { getfontStyle, getTextFormat, getFill } from '../../../../_helper/excel/font';
 import { getAlignment } from './alignment';
-import { getBorder } from './border';
+import { getBorder } from '../../../../_helper/excel/border';
 
 export const createFile = (excel, flag) => {
   console.log(excel, 'excel');
