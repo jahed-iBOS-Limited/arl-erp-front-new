@@ -1,26 +1,24 @@
-/* eslint-disable no-unused-vars */
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetTransportOrganizationPagination = async (
   accountId,
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
       `/tms/TransportOrganization/BusinessUnitTransportOrganizationLanding?AccountId=${accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
-      `
+      `,
     );
     if (res.status === 200 && res?.data?.data) {
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -28,11 +26,11 @@ export const GetTransportOrganizationPagination = async (
 export const getTransportOrganizationView = async (
   TransportOrganizationId,
   setter,
-  setterRow
+  setterRow,
 ) => {
   try {
     const res = await Axios.get(
-      `tms/TransportOrganization/GetBusinessUnitTransportOrganizationById?TransportOrganizationId=${TransportOrganizationId}`
+      `tms/TransportOrganization/GetBusinessUnitTransportOrganizationById?TransportOrganizationId=${TransportOrganizationId}`,
     );
 
     if (res.status === 200 && res?.data) {
@@ -51,9 +49,7 @@ export const getTransportOrganizationView = async (
 
       setterRow(rowDtoModified);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveTransportOrganization = async (data, cb, setDisabled) => {
@@ -61,15 +57,14 @@ export const saveTransportOrganization = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/tms/TransportOrganization/CreateTransportOrganization`,
-      data
+      data,
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -80,15 +75,14 @@ export const ExtendTransportOrganization = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/tms/TransportOrganization/CreateExtendSave`,
-      data
+      data,
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Extended successfully");
+      toast.success(res.data?.message || 'Extended successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -98,38 +92,35 @@ export const editTransportOrganization = async (data, cb) => {
   try {
     const res = await Axios.put(
       `/tms/TransportOrganization/EditTransportOrganization`,
-      data
+      data,
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       cb();
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
   }
 };
 
 export const getTransportOrganizationByAccountId_api = async (
   accountId,
-  setter
+  setter,
 ) => {
   try {
     const res = await Axios.get(
-      `/tms/TransportOrganization/GetTransportOrganizationByAccountId?AccountId=${accountId}`
+      `/tms/TransportOrganization/GetTransportOrganizationByAccountId?AccountId=${accountId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
   try {
     const res = await Axios.get(
-      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`,
     );
     if (res.status === 200 && res?.data) {
       const newdata = res?.data.map((itm) => {
@@ -140,7 +131,5 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       });
       setter(newdata);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
