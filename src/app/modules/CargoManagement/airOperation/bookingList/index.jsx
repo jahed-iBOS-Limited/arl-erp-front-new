@@ -13,6 +13,7 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import AirPreAlert from '../../ffOperation/expBookingList/airPreAlart';
 import BillGenerate from '../../ffOperation/expBookingList/bill';
 import BLModal from '../../ffOperation/expBookingList/blModal';
 import Details from '../../ffOperation/expBookingList/bookingDetails';
@@ -36,7 +37,6 @@ import ReceiveModal from '../../ffOperation/expBookingList/receiveModal';
 import SeaAirMasterBL from '../../ffOperation/expBookingList/SeaAirMasterBl';
 import '../../ffOperation/expBookingList/style.css';
 import TransportModal from '../../ffOperation/expBookingList/transportModal';
-import AirPreAlert from '../../ffOperation/expBookingList/airPreAlart';
 const validationSchema = Yup.object().shape({});
 function AirOpsBookingList() {
   const { profileData } = useSelector(
@@ -106,12 +106,9 @@ function AirOpsBookingList() {
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirOperationBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
-        searchValue || ''
+      `${imarineBaseUrl}/domain/ShippingService/GetAirOperationBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue || ''
       }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`,
     );
   };
@@ -132,7 +129,7 @@ function AirOpsBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId
+      item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -163,7 +160,7 @@ function AirOpsBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -273,7 +270,7 @@ function AirOpsBookingList() {
                             minWidth: '120px',
                           }}
                         >
-                          Consignee Name
+                          Shipper Name
                         </th>
                         <th
                           style={{
@@ -451,7 +448,7 @@ function AirOpsBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                  item?.airMasterBlCode ? (
+                                    item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -1094,13 +1091,12 @@ function AirOpsBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    ['Air', 'Air-Shipment'].includes(
-                      rowClickData?.modeOfTransport,
-                    )
-                      ? 'HAWB'
-                      : 'HBL'
-                  } Report`}
+                  title={`${['Air', 'Air-Shipment'].includes(
+                    rowClickData?.modeOfTransport,
+                  )
+                    ? 'HAWB'
+                    : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
