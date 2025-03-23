@@ -4,7 +4,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
 import DashboardPage from '../../pages/DashboardPage';
 import NotPermittedPage from '../_helper/notPermitted/NotPermittedPage';
-import ResolutionLanding from '../salesManagement/complainManagement/resolution/landing/index';
 import MyAsset from './Assets';
 import AchievementTable from './achievement/Table/table';
 import AllReport from './allReport';
@@ -32,7 +31,8 @@ import ViewTraining from './training/viewTraining';
 import { ItemRequest } from './warehouse/itemRequest';
 import ItemRequestForm from './warehouse/itemRequest/Form/addEditForm';
 import ViewItemRequestForm from './warehouse/itemRequest/view/addEditForm';
-import { ComplainManagementPages } from './complainManagement/complainManagementPages';
+import { ComplainManagement } from '../common/fetures';
+import ResolutionLanding from '../common/fetures/complainManagement/resolution/landing';
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
@@ -187,9 +187,13 @@ export function SelfServicePages() {
             path="/self-service/DispatchRequisition"
             component={DispatchRequisitionLanding}
           />
-          <ContentRoute
+          {/* <ContentRoute
             path="/self-service/complainmanagement"
             component={ComplainManagementPages}
+          /> */}
+          <ContentRoute
+            path="/self-service/complainmanagement"
+            component={() => ComplainManagement("self-service")}
           />
         </Switch>
       </div>
