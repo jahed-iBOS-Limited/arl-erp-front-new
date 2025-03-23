@@ -142,7 +142,7 @@ export default function ServiceSalesCreateRecurring({
           schedule.numScheduleVatAmount === 0
             ? 0
             : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
-              100,
+            100,
         vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || '',
         isInvoiceComplete: schedule.isInvoiceComplete,
@@ -255,8 +255,8 @@ export default function ServiceSalesCreateRecurring({
         dteOrderDate: isValidDate(values?.agreementStartDate)
           ? values?.agreementStartDate
           : isValidDate(singleData?.dteStartDateTime)
-          ? singleData?.dteStartDateTime
-          : null,
+            ? singleData?.dteStartDateTime
+            : null,
         intDistributionChannelId: values?.distributionChannel?.value,
         strDistributionChannelName: values?.distributionChannel?.label,
         intPaymentTypeId: values?.paymentType?.value || 0,
@@ -282,13 +282,13 @@ export default function ServiceSalesCreateRecurring({
         dteStartDateTime: isValidDate(values?.agreementStartDate)
           ? values?.agreementStartDate
           : isValidDate(singleData?.dteStartDateTime)
-          ? singleData?.dteStartDateTime
-          : null,
+            ? singleData?.dteStartDateTime
+            : null,
         dteEndDateTime: isValidDate(values?.agreementEndDate)
           ? values?.agreementEndDate
           : isValidDate(singleData?.dteEndDateTime)
-          ? singleData?.dteEndDateTime
-          : null,
+            ? singleData?.dteEndDateTime
+            : null,
         // dteActualLiveDate: isValidDate(values?.dteActualLiveDate) ? values?.dteActualLiveDate : isValidDate(singleData?.dteActualLiveDate) ? singleData?.dteActualLiveDate : null,
         intWarrantyMonth:
           values?.intWarrantyMonth || singleData?.intWarrantyMonth || 0,
@@ -312,100 +312,10 @@ export default function ServiceSalesCreateRecurring({
         strStatus: values?.status?.value || singleData?.strStatus,
       };
 
-      // const header = {
-      //   intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
-      //   strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
-      //   intAccountId: singleData?.intAccountId,
-      //   intBusinessUnitId: singleData?.intBusinessUnitId,
-      //   dteOrderDate:
-      //     values?.agreementStartDate || singleData?.dteStartDateTime,
-      //   intDistributionChannelId: values?.distributionChannel?.value,
-      //   strDistributionChannelName: values?.distributionChannel?.label,
-      //   intPaymentTypeId: values?.paymentType?.value || 0,
-      //   strPaymentType: values?.paymentType?.label,
-      //   intSalesTypeId: values?.salesOrg?.value,
-      //   strSalesTypeName: values?.salesOrg?.label,
-      //   intCustomerId: values?.customer?.value,
-      //   strCustomerCode: values?.customer?.code || singleData?.strCustomerCode || "",
-      //   strCustomerName: values?.customer?.label || singleData?.strCustomerName,
-      //   strCustomerAddress:
-      //     values?.customer?.address || singleData?.strCustomerAddress || "",
-      //   intScheduleTypeId:
-      //     values?.paymentType?.value === 2
-      //       ? 4
-      //       : values?.scheduleType?.value || 0,
-      //   strScheduleTypeName:
-      //     values?.paymentType?.value === 2
-      //       ? "One Time"
-      //       : values?.scheduleType?.label || "",
-      //   intScheduleDayCount:
-      //     +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
-      //   dteStartDateTime:
-      //     values?.agreementStartDate || singleData?.dteStartDateTime,
-      //   dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
-      //   // dteActualLiveDate:
-      //   //   values?.dteActualLiveDate || singleData?.dteActualLiveDate,
-      //   intWarrantyMonth:
-      //     values?.intWarrantyMonth || singleData?.intWarrantyMonth,
-      //   // dteWarrantyEndDate:
-      //   //   values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
-      //   intAccountManagerEnroll:
-      //     values?.accountManager?.value ||
-      //     singleData?.intAccountManagerEnroll ||
-      //     0,
-      //   strAccountManagerName:
-      //     values?.accountManager?.label ||
-      //     singleData?.strAccountManagerName ||
-      //     "",
-      //   intOnetimeServiceSalesOrderId: 0,
-      //   numTotalSalesAmount: 0,
-      //   numScheduleAmount: +values?.numScheduleAmount || 0,
-      //   numServerAmount: +values?.numServerAmount || 0,
-      //   strAttachmentLink:
-      //     attachmentList[0]?.id || singleData?.strAttachmentLink,
-      //   isActive: true,
-      //   intActionBy: profileData?.userId,
-      //   strStatus: values?.status?.value || singleData?.strStatus,
-      // };
-
-      // const row = itemList?.map((item) => ({
-      //   intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
-      //   intServiceSalesOrderId: item?.intServiceSalesOrderId,
-      //   intItemId: item?.value || item?.intItemId,
-      //   strItemName: item?.label || item?.strItemName,
-      //   strUom: item?.strUom || "",
-      //   numSalesQty: +item?.qty || +item?.numSalesQty || 0,
-      //   numRate: +item?.rate || +item?.numRate || 0,
-      //   numSalesAmount:
-      //     (+item?.qty || +item?.numSalesQty || 0) *
-      //     (+item?.rate || +item?.numRate || 0),
-      //   numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
-      //   numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
-      //   isActive: true,
-      // }));
-      // const schedule = scheduleArray?.map((schedule) => ({
-      //   intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
-      //   intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
-      //   dteScheduleDateTime:
-      //     schedule?.dteScheduleCreateDateTime || _todayDate(),
-      //   dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
-      //   intPaymentByPercent:
-      //     +schedule?.percentage || +schedule?.intPaymentByPercent0,
-      //   numScheduleVatAmount:
-      //     +schedule?.scheduleListFOneTimeVat ||
-      //     +schedule?.vatAmount ||
-      //     +schedule?.numScheduleVatAmount,
-      //   numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
-      //   strRemarks: schedule?.remarks || schedule?.strRemarks || "",
-      //   isInvoiceComplete: schedule?.isInvoiceComplete,
-      //   isActive: true,
-      // }));
       updateSalesOrder(
         `/oms/ServiceSales/UpdateServiceSalesOrder`,
         {
           header: header,
-          // row: row,
-          // schedule: schedule,
         },
         cb,
         true,
@@ -436,86 +346,86 @@ export default function ServiceSalesCreateRecurring({
       initialValues={
         isEdit || isView
           ? {
-              ...initData,
-              paymentType: {
-                value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
-                label: singleData?.strPaymentType,
-              },
-              scheduleType:
-                singleData?.strScheduleTypeName === 'Monthly'
-                  ? { value: 1, label: 'Monthly', range: 1 }
-                  : singleData?.strScheduleTypeName === 'Quarterly'
+            ...initData,
+            paymentType: {
+              value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
+              label: singleData?.strPaymentType,
+            },
+            scheduleType:
+              singleData?.strScheduleTypeName === 'Monthly'
+                ? { value: 1, label: 'Monthly', range: 1 }
+                : singleData?.strScheduleTypeName === 'Quarterly'
                   ? { value: 2, label: 'Quarterly', range: 3 }
                   : singleData?.strScheduleTypeName === 'Yearly'
-                  ? { value: 3, label: 'Yearly', range: 12 }
-                  : { value: 1, label: 'Monthly', range: 1 },
-              salesOrg: {
-                value: singleData?.intSalesTypeId,
-                label: singleData?.strSalesTypeName,
-              },
-              distributionChannel: {
-                value: singleData?.intDistributionChannelId,
-                label: singleData?.strDistributionChannelName,
-              },
-              accountManager: {
-                value: singleData?.intAccountManagerEnroll,
-                label: singleData?.strAccountManagerName,
-              },
-              billToParty: singleData?.strCustomerName,
-              numScheduleAmount: singleData?.numScheduleAmount,
-              numServerAmount: singleData?.numServerAmount,
+                    ? { value: 3, label: 'Yearly', range: 12 }
+                    : { value: 1, label: 'Monthly', range: 1 },
+            salesOrg: {
+              value: singleData?.intSalesTypeId,
+              label: singleData?.strSalesTypeName,
+            },
+            distributionChannel: {
+              value: singleData?.intDistributionChannelId,
+              label: singleData?.strDistributionChannelName,
+            },
+            accountManager: {
+              value: singleData?.intAccountManagerEnroll,
+              label: singleData?.strAccountManagerName,
+            },
+            billToParty: singleData?.strCustomerName,
+            numScheduleAmount: singleData?.numScheduleAmount,
+            numServerAmount: singleData?.numServerAmount,
 
-              customer: {
-                value: singleData?.intCustomerId,
-                label: singleData?.strCustomerName,
-              },
-              item: {
-                value: singleData?.intItemId || '',
-                label: singleData?.strItemName || '',
-              },
-              agreementStartDate: moment(singleData?.dteStartDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              agreementEndDate: moment(singleData?.dteEndDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              validFrom: moment(singleData?.dteStartDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
-              intWarrantyMonth: singleData?.intWarrantyMonth,
-              dteWarrantyEndDate: dateFormatterForInput(
-                singleData?.dteWarrantyEndDate || '',
-              ),
-              dteActualLiveDate: dateFormatterForInput(
-                singleData?.dteActualLiveDate || '',
-              ),
-              status: singleData?.strStatus
-                ? { value: singleData?.strStatus, label: singleData?.strStatus }
-                : '',
-            }
+            customer: {
+              value: singleData?.intCustomerId,
+              label: singleData?.strCustomerName,
+            },
+            item: {
+              value: singleData?.intItemId || '',
+              label: singleData?.strItemName || '',
+            },
+            agreementStartDate: moment(singleData?.dteStartDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            agreementEndDate: moment(singleData?.dteEndDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            validFrom: moment(singleData?.dteStartDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
+            intWarrantyMonth: singleData?.intWarrantyMonth,
+            dteWarrantyEndDate: dateFormatterForInput(
+              singleData?.dteWarrantyEndDate || '',
+            ),
+            dteActualLiveDate: dateFormatterForInput(
+              singleData?.dteActualLiveDate || '',
+            ),
+            status: singleData?.strStatus
+              ? { value: singleData?.strStatus, label: singleData?.strStatus }
+              : '',
+          }
           : {
-              ...initData,
-              status:
-                !isEdit && !isView
-                  ? { value: 'Running', label: 'Running' }
-                  : '',
-              salesOrg: {
-                value: singleData?.intSalesTypeId,
-                label: singleData?.strSalesTypeName,
-              },
-              distributionChannel: {
-                value: singleData?.intDistributionChannelId,
-                label: singleData?.strDistributionChannelName,
-              },
-              customer: {
-                value: singleData?.intCustomerId,
-                label: singleData?.strCustomerName,
-              },
-              rate:
-                (+singleData?.numScheduleAmount || 0) +
-                (+singleData?.numServerAmount || 0),
-            }
+            ...initData,
+            status:
+              !isEdit && !isView
+                ? { value: 'Running', label: 'Running' }
+                : '',
+            salesOrg: {
+              value: singleData?.intSalesTypeId,
+              label: singleData?.strSalesTypeName,
+            },
+            distributionChannel: {
+              value: singleData?.intDistributionChannelId,
+              label: singleData?.strDistributionChannelName,
+            },
+            customer: {
+              value: singleData?.intCustomerId,
+              label: singleData?.strCustomerName,
+            },
+            rate:
+              (+singleData?.numScheduleAmount || 0) +
+              (+singleData?.numServerAmount || 0),
+          }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -546,9 +456,8 @@ export default function ServiceSalesCreateRecurring({
             customerListLoader ||
             itemDDLloader) && <Loading />}
           <IForm
-            title={`${
-              isEdit ? 'Edit' : isView ? 'View' : 'Create'
-            } Re-Curring Sales Order`}
+            title={`${isEdit ? 'Edit' : isView ? 'View' : 'Create'
+              } Re-Curring Sales Order`}
             getProps={setObjprops}
             isHiddenBack={isView}
             isHiddenReset={isView}
@@ -639,24 +548,6 @@ export default function ServiceSalesCreateRecurring({
                     onChange={(valueOption) => {
                       setFieldValue('item', valueOption);
                       setAgreementDatesForRecuuring(null);
-                      // if (
-                      //   valueOption &&
-                      //   [1].includes(values?.paymentType?.value)
-                      // ) {
-                      //   getAgreementDatesForRecuuring(
-                      //     `/oms/ServiceSales/RecurringSalseInfo?intCustomerId=${values?.customer?.value}&intItemId=${valueOption?.value}`,
-                      //     (res) => {
-                      //       setFieldValue(
-                      //         "validFrom",
-                      //         _dateFormatter(res?.dteStartDateTime) || ""
-                      //       );
-                      //       setFieldValue(
-                      //         "validTo",
-                      //         _dateFormatter(res?.dteEndDateTime) || ""
-                      //       );
-                      //     }
-                      //   );
-                      // }
                     }}
                     errors={errors}
                     touched={touched}
@@ -722,11 +613,6 @@ export default function ServiceSalesCreateRecurring({
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validFrom}
-                        // disabled={
-                        //   !values?.scheduleType ||
-                        //   !values?.invoiceDay ||
-                        //   agreementDatesForRecuuring
-                        // }
                         disabled={!values?.scheduleType || !values?.invoiceDay}
                         label="Agreement Valid From"
                         name="validFrom"
@@ -1363,7 +1249,7 @@ export default function ServiceSalesCreateRecurring({
                                           onClick={() => {
                                             const newValue =
                                               scheduleListFOneTime[index][
-                                                'percentage'
+                                              'percentage'
                                               ];
 
                                             if (!newValue) {

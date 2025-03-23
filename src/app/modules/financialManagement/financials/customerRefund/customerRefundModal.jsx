@@ -40,13 +40,13 @@ export default function CustomerRefundModal({ billRegisterId }) {
     <>
       <Formik enableReinitialize={true}>
         {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
+          // handleSubmit,
+          // resetForm,
+          // values,
+          // errors,
+          // touched,
+          // setFieldValue,
+          // isValid,
         }) => (
           <div className="">
             {loadingSingleData && <Loading />}
@@ -173,8 +173,8 @@ export default function CustomerRefundModal({ billRegisterId }) {
                                   getMultipleFileView_Action(
                                     singleData?.image?.length > 0
                                       ? singleData?.image?.map(
-                                          (item) => item?.strAttatchment,
-                                        )
+                                        (item) => item?.strAttatchment,
+                                      )
                                       : [],
                                   ),
                                 );

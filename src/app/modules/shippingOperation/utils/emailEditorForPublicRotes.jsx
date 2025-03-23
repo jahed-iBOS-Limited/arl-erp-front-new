@@ -26,9 +26,6 @@ const EmailEditorForPublicRoutes = ({
     attachment: '',
   });
 
-  console.log('emailData', emailData);
-  console.log('payloadInfo', payloadInfo);
-
   const [errors, setErrors] = useState({
     to: '',
     cc: '',
@@ -38,22 +35,6 @@ const EmailEditorForPublicRoutes = ({
 
   const [, onSendEmail, loader] = useAxiosPost();
 
-  // // Convert payloadInfo to HTML for ReactQuill
-  // const convertPayloadToHtml = () => {
-  //   let htmlContent = "";
-
-  //   Object.entries(payloadInfo).forEach(([key, value]) => {
-  //     if (typeof value === "string" && value.startsWith("http")) {
-  //       // If the value is a URL (e.g., image), insert an <img> tag
-  //       htmlContent += `<p><strong>${key}:</strong> <a href="${value}" target="_blank">${value}</a></p>`;
-  //     } else {
-  //       // Otherwise, just insert the text content
-  //       htmlContent += `<p><strong>${key}:</strong> ${value}</p>`;
-  //     }
-  //   });
-
-  //   return htmlContent;
-  // };
 
   // Function to remove prefixes and convert camelCase to space-separated words
   const cleanKey = (key) => {
@@ -340,8 +321,8 @@ const EmailEditorForPublicRoutes = ({
             className="btn btn-primary"
             onClick={handleSend}
             onMouseOver={(e) =>
-              (e.target.style.backgroundColor =
-                styles.buttonHover.backgroundColor)
+            (e.target.style.backgroundColor =
+              styles.buttonHover.backgroundColor)
             }
             onMouseOut={(e) =>
               (e.target.style.backgroundColor = styles.button.backgroundColor)

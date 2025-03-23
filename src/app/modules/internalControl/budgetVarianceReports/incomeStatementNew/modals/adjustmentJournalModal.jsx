@@ -85,7 +85,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
       >
         <Formik
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>

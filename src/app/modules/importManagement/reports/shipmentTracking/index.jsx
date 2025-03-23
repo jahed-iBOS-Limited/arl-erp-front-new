@@ -212,14 +212,7 @@ export default function ShipmentTracking() {
       )
       .then((res) => res?.data);
   };
-  // const loadPOList = (v) => {
-  //   if (v?.length < 3) return [];
-  //   return axios
-  //     .get(
-  //       `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${accountId}&businessUnitId=${buId}&search=${v}`
-  //     )
-  //     .then((res) => res?.data);
-  // };
+
   const style = {
     minWidth: '50px',
   };
@@ -229,32 +222,6 @@ export default function ShipmentTracking() {
       {loadGridData && <Loading />}
       <ICustomCard
         title="Shipment Tracking"
-        renderProps={() => (
-          <div
-          // onClick={() => {
-          //   setIsPrintable(true);
-          // }}
-          >
-            {/* ( */}
-            {/* <ReactToPrint
-              trigger={() => (
-                <button className="btn btn-primary">
-                  <img
-                    style={{ width: "25px", paddingRight: "5px" }}
-                    src={printIcon}
-                    alt="print-icon"
-                  />
-                  Print
-                </button>
-              )}
-              content={() => printRef.current}
-              onAfterPrint={() => {
-                setIsPrintable(false);
-              }}
-            /> */}
-            {/* ) */}
-          </div>
-        )}
       >
         <Formik
           enableReinitialize={true}
@@ -279,7 +246,6 @@ export default function ShipmentTracking() {
                       loadOptions={loadLCList}
                       handleChange={(valueOption) => {
                         setFieldValue('lcnumber', valueOption);
-                        console.log({ valueOption });
                       }}
                     />
                   </div>
@@ -307,20 +273,6 @@ export default function ShipmentTracking() {
                       }}
                     />
                   </div>
-                  {/* <div className="col-lg-3">
-                    <label>Po No</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.po}
-                      isSearchIcon={true}
-                      paddingRight={10}
-                      name="po"
-                      loadOptions={loadPOList}
-                      handleChange={(valueOption) => {
-                        setFieldValue("po", valueOption);
-                        console.log({ valueOption });
-                      }}
-                    />
-                  </div> */}
 
                   <div className="col-lg-2 pt-5 mt-1">
                     <button
@@ -328,8 +280,7 @@ export default function ShipmentTracking() {
                       onClick={() => {
                         getGridData(
                           `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values
-                            ?.lcnumber?.value || 0}&fromDate=${
-                            values?.fromDate
+                            ?.lcnumber?.value || 0}&fromDate=${values?.fromDate
                           }&toDate=${values?.toDate}`,
                         );
                       }}

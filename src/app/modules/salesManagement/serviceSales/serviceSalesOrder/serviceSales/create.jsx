@@ -86,10 +86,8 @@ export default function ServiceSalesCreate({
   useEffect(() => {
     if (isView) {
       getRowData(
-        `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
-          selectedBusinessUnit?.value
-        }&CustomerId=${
-          singleData?.intCustomerId
+        `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${selectedBusinessUnit?.value
+        }&CustomerId=${singleData?.intCustomerId
         }&PaymentTypeId=${0}&FromDate=${'2021-01-01'}&ToDate=${_todayDate()}`,
       );
     }
@@ -98,12 +96,10 @@ export default function ServiceSalesCreate({
 
   useEffect(() => {
     if (itemList?.length) {
-      // let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
       const amount = itemList.reduce(
         (sum, item) => sum + (item?.qty || 0) * (item?.rate || 0),
         0,
       );
-      // let vat = itemList[0]?.vat || 0;
       const vat = itemList.reduce(
         (sum, item) => sum + (item?.vatAmount || 0),
         0,
@@ -239,8 +235,8 @@ export default function ServiceSalesCreate({
         dteOrderDate: isValidDate(values?.agreementStartDate)
           ? values?.agreementStartDate
           : isValidDate(singleData?.dteStartDateTime)
-          ? singleData?.dteStartDateTime
-          : null,
+            ? singleData?.dteStartDateTime
+            : null,
         intDistributionChannelId: values?.distributionChannel?.value,
         strDistributionChannelName: values?.distributionChannel?.label,
         intPaymentTypeId: values?.paymentType?.value || 0,
@@ -265,25 +261,25 @@ export default function ServiceSalesCreate({
         dteStartDateTime: isValidDate(values?.agreementStartDate)
           ? values?.agreementStartDate
           : isValidDate(singleData?.dteStartDateTime)
-          ? singleData?.dteStartDateTime
-          : null,
+            ? singleData?.dteStartDateTime
+            : null,
         dteEndDateTime: isValidDate(values?.agreementEndDate)
           ? values?.agreementEndDate
           : isValidDate(singleData?.dteEndDateTime)
-          ? singleData?.dteEndDateTime
-          : null,
+            ? singleData?.dteEndDateTime
+            : null,
         dteActualLiveDate: isValidDate(values?.dteActualLiveDate)
           ? values?.dteActualLiveDate
           : isValidDate(singleData?.dteActualLiveDate)
-          ? singleData?.dteActualLiveDate
-          : null,
+            ? singleData?.dteActualLiveDate
+            : null,
         intWarrantyMonth:
           values?.intWarrantyMonth || singleData?.intWarrantyMonth || 0,
         dteWarrantyEndDate: isValidDate(values?.dteWarrantyEndDate)
           ? values?.dteWarrantyEndDate
           : isValidDate(singleData?.dteWarrantyEndDate)
-          ? singleData?.dteWarrantyEndDate
-          : null,
+            ? singleData?.dteWarrantyEndDate
+            : null,
         intAccountManagerEnroll:
           values?.accountManager?.value ||
           singleData?.intAccountManagerEnroll ||
@@ -360,7 +356,7 @@ export default function ServiceSalesCreate({
           schedule.numScheduleVatAmount === 0
             ? 0
             : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
-              100,
+            100,
         vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || '',
         isInvoiceComplete: schedule.isInvoiceComplete,
@@ -399,71 +395,71 @@ export default function ServiceSalesCreate({
       initialValues={
         isEdit || isView
           ? {
-              ...initData,
-              paymentType: {
-                value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
-                label: singleData?.strPaymentType,
-              },
-              scheduleType:
-                singleData?.strScheduleTypeName === 'Monthly'
-                  ? { value: 1, label: 'Monthly', range: 1 }
-                  : singleData?.strScheduleTypeName === 'Quarterly'
+            ...initData,
+            paymentType: {
+              value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
+              label: singleData?.strPaymentType,
+            },
+            scheduleType:
+              singleData?.strScheduleTypeName === 'Monthly'
+                ? { value: 1, label: 'Monthly', range: 1 }
+                : singleData?.strScheduleTypeName === 'Quarterly'
                   ? { value: 2, label: 'Quarterly', range: 3 }
                   : singleData?.strScheduleTypeName === 'Yearly'
-                  ? { value: 3, label: 'Yearly', range: 12 }
-                  : { value: 1, label: 'Monthly', range: 1 },
-              salesOrg: {
-                value: singleData?.intSalesTypeId,
-                label: singleData?.strSalesTypeName,
-              },
-              distributionChannel: {
-                value: singleData?.intDistributionChannelId,
-                label: singleData?.strDistributionChannelName,
-              },
-              accountManager: {
-                value: singleData?.intAccountManagerEnroll,
-                label: singleData?.strAccountManagerName,
-              },
-              billToParty: singleData?.strCustomerName,
-              numScheduleAmount: singleData?.numScheduleAmount,
-              numServerAmount: singleData?.numServerAmount,
+                    ? { value: 3, label: 'Yearly', range: 12 }
+                    : { value: 1, label: 'Monthly', range: 1 },
+            salesOrg: {
+              value: singleData?.intSalesTypeId,
+              label: singleData?.strSalesTypeName,
+            },
+            distributionChannel: {
+              value: singleData?.intDistributionChannelId,
+              label: singleData?.strDistributionChannelName,
+            },
+            accountManager: {
+              value: singleData?.intAccountManagerEnroll,
+              label: singleData?.strAccountManagerName,
+            },
+            billToParty: singleData?.strCustomerName,
+            numScheduleAmount: singleData?.numScheduleAmount,
+            numServerAmount: singleData?.numServerAmount,
 
-              customer: {
-                value: singleData?.intCustomerId,
-                label: singleData?.strCustomerName,
-              },
-              item: {
-                value: singleData?.intItemId || '',
-                label: singleData?.strItemName || '',
-              },
-              agreementStartDate: moment(singleData?.dteStartDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              agreementEndDate: moment(singleData?.dteEndDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              validFrom: moment(singleData?.dteStartDateTime).format(
-                'YYYY-MM-DD',
-              ),
-              validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
-              intWarrantyMonth: singleData?.intWarrantyMonth,
-              dteWarrantyEndDate: dateFormatterForInput(
-                singleData?.dteWarrantyEndDate || '',
-              ),
-              dteActualLiveDate: dateFormatterForInput(
-                singleData?.dteActualLiveDate || '',
-              ),
-              status: singleData?.strStatus
-                ? { value: singleData?.strStatus, label: singleData?.strStatus }
-                : '',
-            }
+            customer: {
+              value: singleData?.intCustomerId,
+              label: singleData?.strCustomerName,
+            },
+            item: {
+              value: singleData?.intItemId || '',
+              label: singleData?.strItemName || '',
+            },
+            agreementStartDate: moment(singleData?.dteStartDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            agreementEndDate: moment(singleData?.dteEndDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            validFrom: moment(singleData?.dteStartDateTime).format(
+              'YYYY-MM-DD',
+            ),
+            validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
+            intWarrantyMonth: singleData?.intWarrantyMonth,
+            dteWarrantyEndDate: dateFormatterForInput(
+              singleData?.dteWarrantyEndDate || '',
+            ),
+            dteActualLiveDate: dateFormatterForInput(
+              singleData?.dteActualLiveDate || '',
+            ),
+            status: singleData?.strStatus
+              ? { value: singleData?.strStatus, label: singleData?.strStatus }
+              : '',
+          }
           : {
-              ...initData,
-              status:
-                !isEdit && !isView
-                  ? { value: 'Running', label: 'Running' }
-                  : '',
-            }
+            ...initData,
+            status:
+              !isEdit && !isView
+                ? { value: 'Running', label: 'Running' }
+                : '',
+          }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -495,9 +491,8 @@ export default function ServiceSalesCreate({
             load ||
             itemDDLloader) && <Loading />}
           <IForm
-            title={`${
-              isEdit ? 'Edit' : isView ? 'View' : 'Create'
-            } Service Sales Order`}
+            title={`${isEdit ? 'Edit' : isView ? 'View' : 'Create'
+              } Service Sales Order`}
             isHiddenBack={isView}
             isHiddenReset={isView}
             isHiddenSave={isView}
@@ -1064,8 +1059,8 @@ export default function ServiceSalesCreate({
                     </div>
                   ) : null}
                   {[2]?.includes(values?.paymentType?.value) &&
-                  !isEdit &&
-                  !isView ? (
+                    !isEdit &&
+                    !isView ? (
                     <>
                       <div style={{ marginTop: '18px' }} className="ml-4">
                         <button
@@ -1361,7 +1356,7 @@ export default function ServiceSalesCreate({
                                             onClick={() => {
                                               const newValue =
                                                 scheduleListFOneTime[index][
-                                                  'percentage'
+                                                'percentage'
                                                 ];
 
                                               if (!newValue) {
@@ -1501,7 +1496,7 @@ export default function ServiceSalesCreate({
                                 <span className="">
                                   <IView
                                     styles={{ fontSize: '16px' }}
-                                    clickHandler={(e) => {}}
+                                    clickHandler={(e) => { }}
                                   />
                                 </span>
                               </td>
