@@ -1,50 +1,47 @@
-import { default as axios } from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./_dateFormate";
+import { default as axios } from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './_dateFormate';
+import { imarineBaseUrl } from '../../../App';
 
 export const getImageuploadStatus = (accountId) => {
   return axios.get(`/fino/Image/getImageuploadStatus?accountId=${accountId}`);
 };
 
-
 export const getSBU = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${BuId}&Status=true`
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${BuId}&Status=true`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getBankAc = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const changeChequeBookSave = async (id, chequeNo, cb) => {
   try {
     const res = await axios.put(
-      `/fino/BankJournal/UpdateChekNoById?Id=${id}&CheckNo=${chequeNo}`
+      `/fino/BankJournal/UpdateChekNoById?Id=${id}&CheckNo=${chequeNo}`,
     );
     if (res.status === 200 && res?.data) {
       cb();
-      toast.success(res?.data?.message, { toastId: "sfasfsf" });
+      toast.success(res?.data?.message, { toastId: 'sfasfsf' });
     }
   } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "sfasfsfErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'sfasfsfErr' });
   }
 };
-
 
 export const genarateChequeNo = async (
   accId,
@@ -53,21 +50,20 @@ export const genarateChequeNo = async (
   branchId,
   bankAccId,
   bankAccNo,
-  instrumentId
+  instrumentId,
 ) => {
   try {
     const res = await axios.get(
-      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`
+      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`,
     );
     if (res.status === 200 && res?.data) {
       return res?.data;
     }
   } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'asfasfasErr' });
     return [];
   }
 };
-
 
 export const setGenarateChequeNo = async (
   accId,
@@ -78,22 +74,21 @@ export const setGenarateChequeNo = async (
   bankAccNo,
   instrumentId,
   setter,
-  setChequeModal
+  setChequeModal,
 ) => {
   try {
     const res = await axios.get(
-      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`
+      `/fino/BankJournal/ChequeGeneretor?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccId}&BankAccountNo=${bankAccNo}&instrumentId=${instrumentId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data?.currentChequeNo);
       res?.data?.currentChequeNo ? setChequeModal(true) : setChequeModal(false);
     }
   } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'asfasfasErr' });
     setter([]);
   }
 };
-
 
 export const chequeGeneretor = async (
   accountId,
@@ -104,74 +99,70 @@ export const chequeGeneretor = async (
   bankAccountNo,
   instrumentId,
   bankJournalId,
-  cb
+  cb,
 ) => {
   try {
     const res = await axios.get(
-      `fino/BankJournal/ChequeGeneretor?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}&BankAccountNo=${bankAccountNo}&instrumentId=${instrumentId}&BankJournalId=${bankJournalId}`
+      `fino/BankJournal/ChequeGeneretor?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}&BankAccountNo=${bankAccountNo}&instrumentId=${instrumentId}&BankJournalId=${bankJournalId}`,
     );
     if (res.status === 200 && res?.data) {
       cb(res?.data);
       // res?.data?.currentChequeNo ? setChequeModal(true) : setChequeModal(false);
     }
   } catch (error) {
-    toast.warn(error?.response?.data?.message, { toastId: "asfasfasErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'asfasfasErr' });
     // setter([]);
   }
 };
 
-
 export const getPartner = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${BuId}`
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${BuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export function getPartnerDDL(accId, buId) {
   return axios.get(
-    `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
+    `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
   );
 }
-
 
 export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDetailsDDL?accountId=${accId}&businessUnitId=${BuId}`
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDetailsDDL?accountId=${accId}&businessUnitId=${BuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getBusinessTransactionDDL = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`
+      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDL?AccountId=${accId}&BusinessUnitId=${BuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getBusTransDDLForExpense = async (accId, BuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDLForExpense?AccountId=${accId}&BusinessUnitId=${BuId}`
+      `/costmgmt/BusinessTransaction/GetBusinessTransactionDDLForExpense?AccountId=${accId}&BusinessUnitId=${BuId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getInstrumentType = async (setter) => {
@@ -180,20 +171,18 @@ export const getInstrumentType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
 
 export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`
+      `/costmgmt/BankAccount/GetBusinessUnitGeneralLedgerDDLTypeById?AccountId=${accId}&BusinssUnitId=${BuId}&AccountingGroupId=${journalType}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const approvalApi = async (
@@ -201,15 +190,18 @@ export const approvalApi = async (
   poayload,
   activityName,
   onChangeForActivity,
-  setBillSubmitBtn
+  setBillSubmitBtn,
 ) => {
   try {
-    await axios.put(`/procurement/Approval/CommonApproved?AcountId=${parameter?.accid}&BusinessUnitId=${parameter?.buId}&UserId=${parameter?.userId}&ActivityId=${parameter?.activityId}`, poayload);
-    toast.success("Approved successfully");
-    setBillSubmitBtn(true)
+    await axios.put(
+      `/procurement/Approval/CommonApproved?AcountId=${parameter?.accid}&BusinessUnitId=${parameter?.buId}&UserId=${parameter?.userId}&ActivityId=${parameter?.activityId}`,
+      poayload,
+    );
+    toast.success('Approved successfully');
+    setBillSubmitBtn(true);
     onChangeForActivity();
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Approval Failed");
+    toast.error(error?.response?.data?.message || 'Approval Failed');
   }
 };
 
@@ -223,14 +215,16 @@ export const getItemGridData = async (
   pageNo,
   pageSize,
   search,
-  plantId
+  plantId,
 ) => {
-  const Search = search ? `&Search=${search}` : "";
+  const Search = search ? `&Search=${search}` : '';
   try {
     setLoading(true);
     const res = await axios.get(
       // `/procurement/Approval/GetItemRequestListForApproval?BusinessUnitId=${buId}&UserId=${userId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${pageNo || 1}&PageSize=${pageSize}${Search}&plantId=${plantId}`
+      `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${
+        pageNo || 1
+      }&PageSize=${pageSize}${Search}&plantId=${plantId}`,
     );
     if (res.status === 200 && res?.data) {
       setter({
@@ -241,13 +235,13 @@ export const getItemGridData = async (
         totalCount: res?.data[0]?.totalRows,
         currentPage: res?.data?.currentPage,
         pageSize: res?.data?.pageSize,
-      })
+      });
       // console.log(res.data)
       // setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    setter([])
+    setter([]);
     setLoading(false);
   }
 };
@@ -256,29 +250,29 @@ export const saveBankJournal = async (
   cb,
   setRowDto,
   setDisabled,
-  IConfirmModal
+  IConfirmModal,
 ) => {
   setDisabled(true);
   try {
     const res = await axios.post(
       `/fino/BankJournal/CreateBankJournalNew`,
-      data
+      data,
     );
 
     if (res?.data?.statuscode === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb && cb(res?.data?.code);
       setRowDto([]);
       setDisabled(false);
       const obj = {
-        title: "Bank Journal Code",
+        title: 'Bank Journal Code',
         message: res?.data?.code,
-        noAlertFunc: () => { },
+        noAlertFunc: () => {},
       };
       IConfirmModal(obj);
     }
     if (res?.data?.statuscode === 400) {
-      toast.warning(res?.data?.message || "Something went wrong");
+      toast.warning(res?.data?.message || 'Something went wrong');
       cb && cb(res?.data?.code);
       setRowDto([]);
       setDisabled(false);
@@ -291,9 +285,9 @@ export const saveBankJournal = async (
 export const generateAdviceNo = async (UnitId, setFieldValue) => {
   try {
     const res = await axios.post(
-      `/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`
+      `/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`,
     );
-    setFieldValue("instrumentNo", res?.data?.code);
+    setFieldValue('instrumentNo', res?.data?.code);
   } catch (error) {
     // toast.warn(error?.response?.data?.message);
     // setDisabled(false);
@@ -303,7 +297,7 @@ export const generateAdviceNo = async (UnitId, setFieldValue) => {
 export const singleDataById = async (id, type, setter) => {
   try {
     const res = await axios.get(
-      `/fino/BankJournal/GetBankJournalById?BankJournalId=${id}&AccountingJournalTypeId=${type}`
+      `/fino/BankJournal/GetBankJournalById?BankJournalId=${id}&AccountingJournalTypeId=${type}`,
     );
     if (res.status === 200 && res?.data) {
       if (type === 4) {
@@ -338,28 +332,28 @@ export const singleDataById = async (id, type, setter) => {
           },
           profitCenter: itm?.profitCenterId
             ? { value: itm?.profitCenterId, label: itm?.profitCenterName }
-            : "",
+            : '',
           revenueCenter:
-            itm?.controlType === "Revenue" && itm?.costRevenueId
+            itm?.controlType === 'Revenue' && itm?.costRevenueId
               ? { value: itm?.costRevenueId, label: itm?.costRevenueName }
-              : "",
+              : '',
           revenueElement:
-            itm?.controlType === "Revenue" && itm?.elementId
+            itm?.controlType === 'Revenue' && itm?.elementId
               ? { value: itm?.elementId, label: itm?.elementName }
-              : "",
+              : '',
           costCenter:
-            itm?.controlType === "Cost" && itm?.costRevenueId
+            itm?.controlType === 'Cost' && itm?.costRevenueId
               ? { value: itm?.costRevenueId, label: itm?.costRevenueName }
-              : "",
+              : '',
           costElement:
-            itm?.controlType === "Cost" && itm?.elementId
+            itm?.controlType === 'Cost' && itm?.elementId
               ? { value: itm?.elementId, label: itm?.elementName }
-              : "",
+              : '',
         }));
 
         const data = {
           objHeader: {
-            partnerBankAccount: "",
+            partnerBankAccount: '',
             transactionDate: _dateFormatter(item?.objHeader?.voucherDate),
             bankJournalCode: item?.objHeader?.bankJournalCode,
             bankAcc: {
@@ -376,12 +370,12 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                value: item?.objHeader?.businessPartnerId || 0,
-                label: item?.objHeader?.businessPartnerName || "",
-                businessPartnerCode:
-                  item?.objHeader?.businessPartnerCode || "",
-              }
-              : "",
+                  value: item?.objHeader?.businessPartnerId || 0,
+                  label: item?.objHeader?.businessPartnerName || '',
+                  businessPartnerCode:
+                    item?.objHeader?.businessPartnerCode || '',
+                }
+              : '',
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
             //   ? {
@@ -389,26 +383,26 @@ export const singleDataById = async (id, type, setter) => {
             //       label: item?.objHeader?.businessPartnerTypeName,
             //     }
             //   : "",
-            receiveFrom: item?.objHeader?.receiveFrom || "",
+            receiveFrom: item?.objHeader?.receiveFrom || '',
             instrumentType: {
               value: item?.objHeader?.instrumentId || 0,
-              label: item?.objHeader?.instrumentName || "",
+              label: item?.objHeader?.instrumentName || '',
             },
-            instrumentNo: item?.objHeader?.instrumentNo || "",
+            instrumentNo: item?.objHeader?.instrumentNo || '',
             instrumentDate:
-              _dateFormatter(item?.objHeader?.instrumentDate) || "",
-            headerNarration: item?.objHeader?.narration || "",
+              _dateFormatter(item?.objHeader?.instrumentDate) || '',
+            headerNarration: item?.objHeader?.narration || '',
             placedInBank: item?.objHeader?.placedInBank,
-            placingDate: _dateFormatter(item?.objHeader?.placingDate) || "",
-            paidTo: item?.objHeader?.paidTo || "",
-            transferTo: "",
-            sendToGLBank: "",
+            placingDate: _dateFormatter(item?.objHeader?.placingDate) || '',
+            paidTo: item?.objHeader?.paidTo || '',
+            transferTo: '',
+            sendToGLBank: '',
             // transaction: {value : item?.objHeader?.businessPartnerId, label : item?.objHeader?.businessPartnerName, code : item?.objHeader?.businessPartnerCode},
             // amount is for bank receive and bank payment row
-            amount: "",
+            amount: '',
             // transferAmount is for bank transfer header
-            transferAmount: "",
-            narration: "",
+            transferAmount: '',
+            narration: '',
             bankJournalId: item?.objHeader?.bankJournalId,
             customerSupplierStatus: item?.objHeader?.businessPartnerTypeName,
             revenueCenter: {
@@ -463,12 +457,12 @@ export const singleDataById = async (id, type, setter) => {
             reffPrtTypeId: itm?.subGLTypeId,
           },
           costElement:
-            itm?.controlType === "Cost" && itm?.elementId
+            itm?.controlType === 'Cost' && itm?.elementId
               ? { value: itm?.elementId, label: itm?.elementName }
-              : "",
+              : '',
           profitCenter: itm?.profitCenterId
             ? { value: itm?.profitCenterId, label: itm?.profitCenterName }
-            : "",
+            : '',
         }));
 
         const data = {
@@ -489,12 +483,12 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                value: item?.objHeader?.businessPartnerId || 0,
-                label: item?.objHeader?.businessPartnerName || "",
-                businessPartnerCode:
-                  item?.objHeader?.businessPartnerCode || "",
-              }
-              : "",
+                  value: item?.objHeader?.businessPartnerId || 0,
+                  label: item?.objHeader?.businessPartnerName || '',
+                  businessPartnerCode:
+                    item?.objHeader?.businessPartnerCode || '',
+                }
+              : '',
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
             //   ? {
@@ -502,26 +496,26 @@ export const singleDataById = async (id, type, setter) => {
             //       label: item?.objHeader?.businessPartnerTypeName,
             //     }
             //   : "",
-            receiveFrom: item?.objHeader?.receiveFrom || "",
+            receiveFrom: item?.objHeader?.receiveFrom || '',
             instrumentType: {
               value: item?.objHeader?.instrumentId || 0,
-              label: item?.objHeader?.instrumentName || "",
+              label: item?.objHeader?.instrumentName || '',
             },
-            instrumentNo: item?.objHeader?.instrumentNo || "",
+            instrumentNo: item?.objHeader?.instrumentNo || '',
             instrumentDate:
-              _dateFormatter(item?.objHeader?.instrumentDate) || "",
-            headerNarration: item?.objHeader?.narration || "",
+              _dateFormatter(item?.objHeader?.instrumentDate) || '',
+            headerNarration: item?.objHeader?.narration || '',
             placedInBank: item?.objHeader?.placedInBank,
-            placingDate: _dateFormatter(item?.objHeader?.placingDate) || "",
-            paidTo: item?.objHeader?.paidTo || "",
-            transferTo: item?.objHeader?.transferTo || "",
-            sendToGLBank: "",
-            transaction: "",
+            placingDate: _dateFormatter(item?.objHeader?.placingDate) || '',
+            paidTo: item?.objHeader?.paidTo || '',
+            transferTo: item?.objHeader?.transferTo || '',
+            sendToGLBank: '',
+            transaction: '',
             // amount is for bank receive and bank payment row
-            amount: "",
+            amount: '',
             // transferAmount is for bank transfer header
-            transferAmount: "",
-            narration: "",
+            transferAmount: '',
+            narration: '',
             bankJournalId: item?.objHeader?.bankJournalId,
             customerSupplierStatus: item?.objHeader?.businessPartnerTypeName,
             costCenter: {
@@ -578,51 +572,51 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: {
               value: item?.objHeader?.businessPartnerId || 0,
-              label: item?.objHeader?.businessPartnerName || "",
-              businessPartnerCode: item?.objHeader?.businessPartnerCode || "",
+              label: item?.objHeader?.businessPartnerName || '',
+              businessPartnerCode: item?.objHeader?.businessPartnerCode || '',
             },
             partnerType: {
               value: item?.objHeader?.businessPartnerTypeId,
               label: item?.objHeader?.businessPartnerTypeName,
             },
-            receiveFrom: item?.objHeader?.receiveFrom || "",
+            receiveFrom: item?.objHeader?.receiveFrom || '',
             instrumentType: {
               value: item?.objHeader?.instrumentId || 0,
-              label: item?.objHeader?.instrumentName || "",
+              label: item?.objHeader?.instrumentName || '',
             },
-            instrumentNo: item?.objHeader?.instrumentNo || "",
+            instrumentNo: item?.objHeader?.instrumentNo || '',
             instrumentDate:
-              _dateFormatter(item?.objHeader?.instrumentDate) || "",
-            headerNarration: item?.objHeader?.narration || "",
+              _dateFormatter(item?.objHeader?.instrumentDate) || '',
+            headerNarration: item?.objHeader?.narration || '',
             placedInBank: item?.objHeader?.placedInBank,
-            placingDate: _dateFormatter(item?.objHeader?.placingDate) || "",
-            paidTo: item?.objHeader?.paidTo || "",
+            placingDate: _dateFormatter(item?.objHeader?.placingDate) || '',
+            paidTo: item?.objHeader?.paidTo || '',
             transferTo:
-              item?.objHeader?.transferTo === "Bank"
-                ? { value: 2, label: "Bank" }
-                : { value: 1, label: "Cash" },
+              item?.objHeader?.transferTo === 'Bank'
+                ? { value: 2, label: 'Bank' }
+                : { value: 1, label: 'Cash' },
             sendToGLBank:
-              item?.objHeader?.transferTo === "Cash"
+              item?.objHeader?.transferTo === 'Cash'
                 ? {
-                  value: item?.objRow?.[0]?.generalLedgerId,
-                  label: item?.objRow?.[0]?.generalLedgerName,
-                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                }
+                    value: item?.objRow?.[0]?.generalLedgerId,
+                    label: item?.objRow?.[0]?.generalLedgerName,
+                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                  }
                 : {
-                  value: item?.objRow?.[0]?.bankAccountId,
-                  // label: item?.objRow?.[0]?.bankAccNo,
-                  label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
-                  bankAccNo: item?.objRow?.[0]?.bankAccNo,
-                  generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
-                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                  generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
-                },
-            transaction: "",
+                    value: item?.objRow?.[0]?.bankAccountId,
+                    // label: item?.objRow?.[0]?.bankAccNo,
+                    label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
+                    bankAccNo: item?.objRow?.[0]?.bankAccNo,
+                    generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
+                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                    generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
+                  },
+            transaction: '',
             // amount is for bank receive and bank payment row
-            amount: "",
+            amount: '',
             // transferAmount is for bank transfer header
             transferAmount: item?.objRow?.[0]?.amount,
-            narration: "",
+            narration: '',
             bankJournalId: item?.objHeader?.bankJournalId,
             costCenter: {
               label: item?.objHeader?.costRevenueName,
@@ -640,55 +634,55 @@ export const singleDataById = async (id, type, setter) => {
         setter(data);
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerSales/GetBusinessPartnerSales?AccountId=${accId}&BusniessUnitId=${buId}`
+      `/partner/BusinessPartnerSales/GetBusinessPartnerSales?AccountId=${accId}&BusniessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBusinessPartnerPurchaseDDLAction = async (
   accId,
   buId,
-  setter
+  setter,
 ) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`
+      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getOthersPartner = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerOthersDdl?accountId=${accId}&businessUnitId=${buId}`
+      `/partner/BusinessPartnerPurchaseInfo/GetBusinessPartnerOthersDdl?accountId=${accId}&businessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getPartnerTypeDDL = async (setter) => {
   try {
     const res = await axios.get(
-      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
+      '/fino/AccountingConfig/GetAccTransectionTypeDDL',
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getProfitCenterDDL = async (buId, setter) => {
   try {
     const res = await axios.get(
-      `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`,
     );
     const modifiedData = res?.data?.map((item) => ({
       ...item,
@@ -696,39 +690,39 @@ export const getProfitCenterDDL = async (buId, setter) => {
       label: item?.profitCenterName,
     }));
     setter(modifiedData);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getCostElementDDL = async (UnitId, AccountId, setter) => {
   try {
     const res = await axios.get(
-      `/procurement/PurchaseOrder/CostElement?AccountId=${AccountId}&UnitId=${UnitId}`
+      `/procurement/PurchaseOrder/CostElement?AccountId=${AccountId}&UnitId=${UnitId}`,
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
   try {
     const res = await axios.get(
-      `/procurement/PurchaseOrder/CostCenter?AccountId=${AccountId}&UnitId=${UnitId}`
+      `/procurement/PurchaseOrder/CostCenter?AccountId=${AccountId}&UnitId=${UnitId}`,
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getRevenueElementListDDL = async (businessUnitId, setter) => {
   try {
     const res = await axios.get(
-      `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`
+      `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`,
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
   try {
     const res = await axios.get(
-      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`
+      `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`,
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getNextBankCheque = async (
   accId,
@@ -737,11 +731,11 @@ export const getNextBankCheque = async (
   branchId,
   bankAccountId,
   setter,
-  key
+  key,
 ) => {
   try {
     const res = await axios.get(
-      `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`
+      `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(key, res?.data?.currentChequeNo);
@@ -756,21 +750,20 @@ export const cancelJournal = async (
   unitId,
   actionById,
   typeId,
-  cb
+  cb,
 ) => {
   try {
     await axios.post(
-      `/fino/JournalPosting/CancelJournal?JournalCode=${journalCode}&JournalTypeId=${journalTypeId}&UnitId=${unitId}&ActionById=${actionById}&TypeId=${typeId}`
+      `/fino/JournalPosting/CancelJournal?JournalCode=${journalCode}&JournalTypeId=${journalTypeId}&UnitId=${unitId}&ActionById=${actionById}&TypeId=${typeId}`,
     );
     // setFieldValue("instrumentNo",res?.data?.code)
     cb();
-    toast.success("Submitted successfully");
+    toast.success('Submitted successfully');
   } catch (error) {
     // toast.warn(error?.response?.data?.message);
     // setDisabled(false);
   }
 };
-
 
 export const checkTwoFactorApproval = async (
   otpType,
@@ -783,12 +776,12 @@ export const checkTwoFactorApproval = async (
   strOTP,
   cancelType,
   setDisabledModalButton,
-  cb
+  cb,
 ) => {
   try {
     setDisabledModalButton(true);
     const res = await axios.get(
-      `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`
+      `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`,
     );
     // setFieldValue("instrumentNo",res?.data?.code)
     if (res?.data?.status === 1) {
@@ -802,7 +795,7 @@ export const checkTwoFactorApproval = async (
     // toast.success("Submitted successfully");
   } catch (error) {
     setDisabledModalButton(false);
-    toast.warn(error?.response?.data?.message || "Please try again");
+    toast.warn(error?.response?.data?.message || 'Please try again');
     // setDisabled(false);
   }
 };
@@ -810,28 +803,25 @@ export const getCostElementByCostCenterDDL = async (
   unitId,
   accountId,
   costCenterId,
-  setter
+  setter,
 ) => {
   try {
     const res = await axios.get(
-      `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
+      `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`,
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getBankAccountDDL_api = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 export const getShipByDDL = async (setter) => {
   try {
@@ -839,7 +829,7 @@ export const getShipByDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetLighterCNFDDL = async (setter) => {
@@ -857,7 +847,7 @@ export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
     const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`
+      `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`,
     );
     cb && cb(res?.data);
     setLoading && setLoading(false);
@@ -870,7 +860,7 @@ export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
 export const getMotherVesselDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     setter(res.data);
   } catch (error) {
@@ -878,18 +868,16 @@ export const getMotherVesselDDL = async (accId, buId, setter) => {
   }
 };
 
-
 export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
   try {
     const res = await Axios.get(
-      "/fino/AccountingConfig/GetAccTransectionTypeDDL"
+      '/fino/AccountingConfig/GetAccTransectionTypeDDL',
     );
     setPartnerTypeDDL(res?.data);
   } catch (error) {
-    setPartnerTypeDDL([])
+    setPartnerTypeDDL([]);
   }
 };
-
 
 export const getPortDDL = async (voyageId, chartererId, setter) => {
   try {
@@ -913,7 +901,6 @@ export const getCargoDDL = async (voyageId, type, chartererId, setter) => {
   }
 };
 
-
 export const getTimeCharterLandingData = async (
   accId,
   buId,
@@ -930,7 +917,8 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId || 0
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
+        vesselId || 0
       }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
@@ -941,16 +929,15 @@ export const getTimeCharterLandingData = async (
   }
 };
 
-
 export const GetBranchDDL = async (accid, buid, setter) => {
   try {
     const res = await axios.get(
-      `/vat/TaxDDL/GetTaxBranchDDL?AccountId=${accid}&BusinessUnitId=${buid}`
+      `/vat/TaxDDL/GetTaxBranchDDL?AccountId=${accid}&BusinessUnitId=${buid}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDeliveryChallanInfoById = async ({
@@ -963,7 +950,7 @@ export const getDeliveryChallanInfoById = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/ShopBySales/GetDeliveryChallanByDeliveryId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&DeliveryId=${id}`
+      `/wms/ShopBySales/GetDeliveryChallanByDeliveryId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&DeliveryId=${id}`,
     );
     setLoading(false);
     const modified = res?.data?.[0]?.rows?.map((itm) => ({
@@ -986,7 +973,7 @@ export const GetShipmentTypeApi = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/DeliveryRequisition/GetShipmentType?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${territoryId}`
+      `/wms/DeliveryRequisition/GetShipmentType?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${territoryId}`,
     );
 
     const dataModify = res?.data?.map((item) => ({
@@ -994,7 +981,7 @@ export const GetShipmentTypeApi = async (
       label: item?.shipmentType,
       extraRate: item?.extraRate || 0,
     }));
-    setter([{ value: 0, label: "All" }, ...dataModify] || []);
+    setter([{ value: 0, label: 'All' }, ...dataModify] || []);
     setLoading(false);
   } catch (error) {
     setter([]);
@@ -1035,12 +1022,50 @@ export const getPurchaseOrganizationDDL = async (accId, buId, setter) => {
 export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
   try {
     let res = await axios.get(
-      `/oms/SalesOrder/GetOrderCompleteInfo?AccountId=${accId}&BusinessUnitId=${buId}&OrderId=${orderId}`
+      `/oms/SalesOrder/GetOrderCompleteInfo?AccountId=${accId}&BusinessUnitId=${buId}&OrderId=${orderId}`,
     );
     if (res?.status === 200) {
       setter(res?.data);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message);
+  }
+};
+
+
+export const getVoyageDDLNew = async ({
+  accId,
+  buId,
+  id,
+  setLoading,
+  setter,
+  voyageTypeId, // 0: All, 1: Time Charter, 2: Voyage Charter,
+  isComplete, // 0: All, 1: true, 2: false,
+  hireType, // 0: All, 1: Owner, 2: Charterer,
+}) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=${accId}&BusinessUnitId=${buId}&vesselId=${id}&VoyageTypeId=${
+        voyageTypeId || 0
+      }&ReturnType=${isComplete || 0}&HireTypeId=${hireType || 0}`,
+    );
+    setter(res?.data);
+    setLoading && setLoading(false);
+  } catch (error) {
+    setter([]);
+    setLoading && setLoading(false);
+  }
+};
+
+export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ''; // first perameter so not (?)
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`,
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
   }
 };

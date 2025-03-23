@@ -526,7 +526,7 @@ function AirOpsBookingList() {
                                   </span>
                                 </td>
                                 <td>
-                                  {item?.isAirOperation && (
+                                  {!item?.isAirOperation && (
                                     <>
                                       {' '}
                                       <span>
