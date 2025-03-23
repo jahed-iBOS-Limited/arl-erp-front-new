@@ -13,7 +13,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import IButton from '../../../_helper/iButton';
 import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
 import customStyles from '../../../selectCustomStyle';
-import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import { getVesselDDL, getVoyageDDLNew } from '../../../_helper/_commonApi';
 
 const initData = {
   fromDate: '',

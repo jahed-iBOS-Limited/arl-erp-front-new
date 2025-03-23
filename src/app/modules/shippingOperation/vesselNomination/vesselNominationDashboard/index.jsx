@@ -2,7 +2,6 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { getVesselDDL, getVoyageDDLNew } from '../../helper';
 import VoyageLicenseFlagAttachment from './voyageFlagLicenseAttachment';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
@@ -14,6 +13,7 @@ import EmailEditor from '../../utils/emailEditor';
 import Loading from '../../../_helper/_loading';
 import IForm from '../../../_helper/_form';
 import ICustomTable from '../../../chartering/_chartinghelper/_customTable';
+import { getVesselDDL, getVoyageDDLNew } from '../../../_helper/_commonApi';
 
 const initData = {
   voyageFlagLicenseAtt: '',
