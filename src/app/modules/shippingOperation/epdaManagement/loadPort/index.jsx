@@ -14,10 +14,10 @@ import IViewModal from '../../../_helper/_viewModal';
 import EmailEditor from './emailEditor';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
-import { getVesselDDL, getVoyageDDLNew } from '../../helper';
 import { _previousDate, _todayDate } from '../../../_helper/_todayDate';
 import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
 import customStyles from '../../../chartering/_chartinghelper/common/selectCustomStyle';
+import { getVesselDDL, getVoyageDDLNew } from '../../../_helper/_commonApi';
 
 const initData = {};
 export default function EDPALoadPort() {

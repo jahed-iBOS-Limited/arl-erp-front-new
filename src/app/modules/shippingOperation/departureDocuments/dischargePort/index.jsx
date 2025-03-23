@@ -9,7 +9,7 @@ import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
 import customStyles from '../../../chartering/_chartinghelper/common/selectCustomStyle';
-import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import { getVesselDDL, getVoyageDDLNew } from '../../../_helper/_commonApi';
 
 const initialValues = {};
 
