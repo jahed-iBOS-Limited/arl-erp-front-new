@@ -26,18 +26,7 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
         {({ values, setFieldValue, touched, errors }) => (
           <div className="row">
             <div className="col-lg-12 mt-3">
-              {/* <p>
-                Do you want to <b>{clickRowData?.status}</b>{" "}
-                <b
-                  style={{
-                    color: "blue",
-                    textDecoration: "underline",
-                  }}
-                >
-                  {clickRowData?.complainNo}
-                </b>
-                ? Please rate us.
-              </p> */}
+
               <div className="mt-2 d-flex justify-content-center mb-2">
                 <div className="d-flex justify-content-center align-items-center">
                   {' '}
