@@ -115,6 +115,7 @@ export function TableRow() {
     { dataField: 'strArea', text: 'Area' },
     { dataField: 'strTerritory', text: 'Territory' },
     { dataField: 'strZone', text: 'Point' },
+    { dataField: 'strSectionName', text: 'Section' },
     { dataField: 'intEmployeeId', text: 'Enroll' },
     { dataField: 'strEmployeeName', text: 'Name' },
     { dataField: 'strEmail', text: 'Email' },
