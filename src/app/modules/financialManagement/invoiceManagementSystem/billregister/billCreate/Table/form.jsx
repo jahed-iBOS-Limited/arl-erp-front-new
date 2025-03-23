@@ -34,7 +34,7 @@ import {
 } from './../../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({});
-const monthDDL = [
+export const monthDDL = [
   { value: 1, label: 'January' },
   { value: 2, label: 'February' },
   { value: 3, label: 'March' },

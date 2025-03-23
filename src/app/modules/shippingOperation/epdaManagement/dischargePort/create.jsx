@@ -16,7 +16,7 @@ import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
 import { generateFileUrl } from '../../utils/helper';
 
-const initData = {
+export const initData = {
   strName: '',
   strEmail: '',
   strEmailAddress: '',
