@@ -15,16 +15,9 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
 import { generateFileUrl } from '../../utils/helper';
+import { initData } from '../dischargePort/create';
 
-const initData = {
-  strName: '',
-  strEmail: '',
-  strEmailAddress: '',
-  strAttachmentForPort: '',
-  strAttachmentForPortDisbursment: '',
-  strVesselNominationCode: '',
-  numGrandTotalAmount: 0,
-};
+
 export default function EDPALoadPortCreate() {
   const {
     profileData: { userId, accountId },

@@ -37,12 +37,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   getGridData(
-  //     `mes/MSIL/GetFuelConsumptionSummery?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+
   const grandTotalValue = useMemo(() => {
     if (gridData?.length > 0) {
       return gridData?.reduce(
