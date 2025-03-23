@@ -10,6 +10,7 @@ import { AcclReportPages } from "./acclReport/acclReportPages";
 import { ServiceSalesPages } from "./serviceSales/serviceSalesPages";
 import { ComplainManagementPages } from "./complainManagement/complainManagementPages";
 import { CRMPages } from "./CRM/CRMPages";
+import { ComplainManagement } from "../common/fetures";
 
 export function SalesManagementPages() {
   return (
@@ -44,14 +45,19 @@ export function SalesManagementPages() {
           path='/sales-management/AcclReport'
           component={AcclReportPages}
         />{" "}
-        <ContentRoute
+        {/* <ContentRoute
           path='/sales-management/complainmanagement'
           component={ComplainManagementPages}
-        />
+        /> */}
         <ContentRoute
           path='/sales-management/CRM'
           component={CRMPages}
-        />
+          />
+          <ContentRoute
+            path='/sales-management/complainmanagement'
+            component={()=> ComplainManagement("sales-management")}
+          />
+
       </Switch>
     </Suspense>
   );
