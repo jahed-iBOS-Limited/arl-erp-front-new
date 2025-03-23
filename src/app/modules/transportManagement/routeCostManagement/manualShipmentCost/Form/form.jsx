@@ -72,7 +72,7 @@ const validationSchema = Yup.object().shape({
   vehicleInTime: Yup.string().required('Time is required'),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

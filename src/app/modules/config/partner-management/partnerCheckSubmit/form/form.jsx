@@ -16,7 +16,7 @@ import TextArea from "../../../../_helper/TextArea";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   addRow,

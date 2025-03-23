@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .required("Maximum Amount is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

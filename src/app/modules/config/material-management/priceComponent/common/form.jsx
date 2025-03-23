@@ -45,7 +45,7 @@ const FactorDDL = [
   },
 ];
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveWarehouse,
@@ -90,7 +90,7 @@ export default function _Form({
         setItemTypeList(ItemType);
       }
     } catch (error) {
-     
+
     }
   };
 
@@ -112,7 +112,7 @@ export default function _Form({
         roundingType = null;
       }
     } catch (error) {
-     
+
     }
   };
 
@@ -136,7 +136,7 @@ export default function _Form({
         roundingType = null;
       }
     } catch (error) {
-     
+
     }
   };
 

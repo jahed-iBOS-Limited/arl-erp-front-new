@@ -58,7 +58,7 @@ const validationSchema = Yup.object().shape({
     .required("District is required"),
 });
 
-export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
   const [BankDDL, setBankDDL] = useState([]);
   const [addressDDl, setAddressDDl] = useState([]);
   // get user profile data from store

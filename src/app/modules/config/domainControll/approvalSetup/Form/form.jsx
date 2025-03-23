@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
   groupName: Yup.string().required("Group Name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

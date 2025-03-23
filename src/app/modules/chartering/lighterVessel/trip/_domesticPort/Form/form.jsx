@@ -3,7 +3,7 @@ import React from "react";
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import { validationSchema } from "../helper";
 
-export default function _Form({ title, initData, saveHandler }) {
+export default function FormCmp({ title, initData, saveHandler }) {
   return (
     <>
       <Formik

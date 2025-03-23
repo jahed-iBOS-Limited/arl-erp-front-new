@@ -12,7 +12,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { collectPayment, ValidationSchema, getSalesOrgList } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   type,

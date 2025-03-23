@@ -15,7 +15,7 @@ import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   btnRef,
   resetBtnRef,
   initData,

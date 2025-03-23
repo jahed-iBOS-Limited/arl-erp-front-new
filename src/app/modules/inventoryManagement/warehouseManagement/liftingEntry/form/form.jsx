@@ -8,7 +8,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { getAreaList, getItemList, getRegionList } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   rowData,

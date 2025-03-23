@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
   targetEndDate: Yup.string().required('Target End Date is required'),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

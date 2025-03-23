@@ -40,7 +40,7 @@ const headers = [
   "Total Bill",
 ];
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   btnRef,

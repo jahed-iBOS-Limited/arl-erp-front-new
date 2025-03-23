@@ -54,7 +54,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -83,7 +83,7 @@ export default function _Form({
   const [kpiDDL, getKpiDDL, loader, setKpiDDL] = useAxiosGet();
   const { profileData } = useSelector((state) => {
     return state.authData;
-  }, shallowEqual); 
+  }, shallowEqual);
 
 
   const kpiDetails = (values) => {
@@ -117,7 +117,7 @@ export default function _Form({
           if(currentValue){
             getKpiDDL(`/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${currentValue}`)
             setter("kpiname","");
-          } 
+          }
           if(!currentValue){
             setter("kpiname","");
             setKpiDDL([])

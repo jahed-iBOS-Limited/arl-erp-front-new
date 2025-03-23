@@ -7,7 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../_helper/iButton";
 
-export default function _Form({
+export default function FormCmp({
   viewType,
   initData,
   postData,

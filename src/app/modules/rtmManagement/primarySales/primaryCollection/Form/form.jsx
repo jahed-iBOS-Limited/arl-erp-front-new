@@ -10,7 +10,7 @@ const validationSchema = Yup.object().shape({
     .required("Partner Name Name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -51,7 +51,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */} 
+            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="form-group row">
@@ -70,7 +70,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  
+
                   <div className="col-lg-3">
                     <InputField
                       type="number"

@@ -7,7 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const validationSchema = Yup.object().shape({});
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

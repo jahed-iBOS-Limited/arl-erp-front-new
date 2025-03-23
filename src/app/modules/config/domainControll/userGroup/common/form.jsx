@@ -36,7 +36,7 @@ const ProductEditSchemaEdit = Yup.object().shape({
     .required("User Group Code is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   tableData,
   remover,
   initData,

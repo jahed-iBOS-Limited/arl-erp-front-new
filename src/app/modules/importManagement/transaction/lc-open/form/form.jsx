@@ -24,7 +24,7 @@ import {
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 import CalculationForm from './calculationForm';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

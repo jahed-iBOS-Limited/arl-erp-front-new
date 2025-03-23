@@ -14,7 +14,7 @@ import { shallowEqual, useSelector } from "react-redux";
 
 const ValidationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   saveData,
   initData,
   getAreas,

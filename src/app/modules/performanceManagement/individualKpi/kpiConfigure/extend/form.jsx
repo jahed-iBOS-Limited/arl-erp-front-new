@@ -6,7 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
 import { getDDL } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

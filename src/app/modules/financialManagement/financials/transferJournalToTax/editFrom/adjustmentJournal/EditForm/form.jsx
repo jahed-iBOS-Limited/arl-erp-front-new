@@ -16,7 +16,7 @@ import {
 } from '../helper';
 import TextArea from '../../../../../../_helper/TextArea';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

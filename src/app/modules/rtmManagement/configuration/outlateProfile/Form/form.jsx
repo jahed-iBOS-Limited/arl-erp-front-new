@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
   isColler: Yup.bool().required("Is Coller is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -6,7 +6,7 @@ import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { validationSchema } from "../helper";
 
-export default function _Form({ title, initData, saveHandler, viewType }) {
+export default function FormCmp({ title, initData, saveHandler, viewType }) {
   const history = useHistory();
 
   return (

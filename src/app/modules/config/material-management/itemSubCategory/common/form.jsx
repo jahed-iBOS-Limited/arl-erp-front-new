@@ -23,7 +23,7 @@ const ProductEditSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveSubItemCategory,
@@ -51,7 +51,7 @@ export default function _Form({
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -98,7 +98,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-           
+
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row global-form">

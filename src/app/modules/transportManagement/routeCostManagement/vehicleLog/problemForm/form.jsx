@@ -3,7 +3,7 @@ import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -28,7 +28,7 @@ export default function _Form({
               {/* Form */}
               {/* <div className="global-form">
                 <div className="row">
-                   
+
                 </div>
               </div> */}
 

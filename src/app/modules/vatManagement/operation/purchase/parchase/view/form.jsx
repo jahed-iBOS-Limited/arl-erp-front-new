@@ -19,7 +19,7 @@ import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actio
 import { _fixedPoint } from "./../../../../../_helper/_fixedPoint";
 import IViewModal from "./../../../../../_helper/_viewModal";
 import HSCodeInfoModel from "./../Form/HSCodeInfoModel";
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

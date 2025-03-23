@@ -9,7 +9,7 @@ import InputField from "../../../../_helper/_inputField";
 import FormikError from "../../../../_helper/_formikError";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   disableHandler,

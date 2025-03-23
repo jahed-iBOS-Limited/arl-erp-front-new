@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
   wareHouseName: Yup.string().required("wareHouse Name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

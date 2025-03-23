@@ -17,7 +17,7 @@ import CreateTableRow from '../Table/CreateTableRow';
 import { getItemListForBackCalculation } from './../helper';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

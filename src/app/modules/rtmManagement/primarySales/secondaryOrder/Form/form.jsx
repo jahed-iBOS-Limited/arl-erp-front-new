@@ -42,7 +42,7 @@ const validationSchema = Yup.object().shape({
   receivedAmount: Yup.number().required("Received Amount is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -97,7 +97,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */} 
+            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="form-group row">

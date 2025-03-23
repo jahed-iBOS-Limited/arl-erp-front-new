@@ -6,7 +6,7 @@ import ReactQuill from "react-quill";
 import "./style.css";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

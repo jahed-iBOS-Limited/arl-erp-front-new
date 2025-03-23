@@ -8,7 +8,7 @@ import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 import { getBankBranchDDL_api } from '../helper';
 
-export default function _Form({
+export default function FormCmp({
   type,
   title,
   rowData,

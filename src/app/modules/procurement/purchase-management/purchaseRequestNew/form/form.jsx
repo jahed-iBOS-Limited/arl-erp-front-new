@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
       .max(100, 'Maximum 100 Characters'),
 });
 
-export default function _Form({
+export default function FormCmp({
    initData,
    btnRef,
    saveHandler,

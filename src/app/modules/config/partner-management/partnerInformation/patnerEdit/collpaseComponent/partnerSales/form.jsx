@@ -68,7 +68,7 @@ const ProductEditSchema = Yup.object().shape({
     .max(1000000000000000, "Maximum 1000000000000000 range"),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   savePartnerSales,
@@ -129,7 +129,7 @@ export default function _Form({
       const res = await Axios.get(`/fino/FinanceCommonDDL/GetMortageTypeDDL`);
       setMortageTypeDDL(res.data);
     } catch (error) {
-     
+
     }
   };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import InputField from "./../../../../_helper/_inputField";
 
-export default function _Form({ rowDto }) {
+export default function FormCmp({ rowDto }) {
   return (
     <>
       <Formik

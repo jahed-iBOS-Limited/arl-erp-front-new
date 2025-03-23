@@ -10,7 +10,7 @@ import { IInput } from "../../../../../../_helper/_input";
 
 const DataValiadtionSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveBtnRef,
   saveData,

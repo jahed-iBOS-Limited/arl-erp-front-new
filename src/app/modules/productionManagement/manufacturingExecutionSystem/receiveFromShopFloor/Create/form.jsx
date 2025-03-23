@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { getItemList_api, getRefferenceCode_api } from "../helper";
 
 const validationSchema = Yup.object().shape({});
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

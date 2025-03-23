@@ -64,7 +64,7 @@ const initValue = {
   conversionRatePcs: "",
 };
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveBtnRef,
   saveData,

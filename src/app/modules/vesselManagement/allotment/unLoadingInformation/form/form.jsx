@@ -17,7 +17,7 @@ import NewSelect from "../../../../_helper/_select";
 import { validationSchema } from "../helper";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 
-export default function _Form({
+export default function FormCmp({
   portDDL,
   rowData,
   viewType,

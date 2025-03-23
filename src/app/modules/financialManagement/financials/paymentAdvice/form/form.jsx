@@ -53,7 +53,7 @@ const validationSchema = Yup.object().shape({
   payDate: Yup.date().required("Pay Date is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   scfAdviceFormikRef,
   btnRef,

@@ -92,7 +92,7 @@ const validationSchemaEdit = Yup.object().shape({
   //   .typeError("Labor Supplier Name is required"),
   // planedLoadingTime: Yup.date().required("Planned Loading Time required"),
 });
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -15,7 +15,7 @@ const ProductEditSchema = Yup.object().shape({
     .required("Code is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveWarehouse,

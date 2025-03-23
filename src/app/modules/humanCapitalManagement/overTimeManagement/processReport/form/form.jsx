@@ -9,7 +9,7 @@ import { shallowEqual, useSelector } from "react-redux";
 
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -27,7 +27,7 @@ export default function _Form({
   const { profileData } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-  
+
 
   const singleCheckBoxHandler = (value, index) => {
     let newRowDto = [...gridData];

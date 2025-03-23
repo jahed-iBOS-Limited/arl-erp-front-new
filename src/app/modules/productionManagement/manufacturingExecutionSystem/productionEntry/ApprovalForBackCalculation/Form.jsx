@@ -11,7 +11,7 @@ import { getWarehouseDDL } from "../helper";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

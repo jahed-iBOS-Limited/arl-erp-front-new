@@ -34,7 +34,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -50,7 +50,7 @@ export default function _Form({
   businessTransactionDDL,
   setBusinessTransactionDDL
 }) {
-  
+
 
   return (
     <>
@@ -258,7 +258,7 @@ export default function _Form({
                       : ""}
                   </p>
                 </div>
-                
+
               </div>
 
               <button

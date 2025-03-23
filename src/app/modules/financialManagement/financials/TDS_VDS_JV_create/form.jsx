@@ -23,7 +23,7 @@ const initData = {
   profitCenter: '',
 };
 
-export default function _Form({ bankDDL, setDisabled, btnRef }) {
+export default function FormCmp({ bankDDL, setDisabled, btnRef }) {
   const [accountNoDDL, getAccountNoDDL, isAcconutNoDDLLoading] = useAxiosGet();
   const [
     billTypeDDL,

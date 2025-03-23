@@ -23,7 +23,7 @@ import FinalInvoice from "../invoice/finalInvoice/finalInvoice";
 import FinalInvoiceCharterer from "../invoice/finalInvoice/finalInvoiceCharterer";
 import InitialInvoice from "../invoice/initialInvoice/initialInvoice";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

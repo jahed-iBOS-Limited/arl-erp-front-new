@@ -6,7 +6,7 @@ import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

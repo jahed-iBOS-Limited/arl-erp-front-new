@@ -41,7 +41,7 @@ const editValidation = Yup.object().shape({
   ...validationSchema,
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -81,7 +81,7 @@ export default function _Form({
 }) {
   const [valid, setValid] = useState(true);
   //to get materialDDL in Edit
-  
+
 
   return (
     <>
@@ -146,7 +146,7 @@ export default function _Form({
                         disabled={true}
                         className="btn btn-primary mt-5"
                         onClick={() => {
-                         
+
                         }}
                       >
                         GO
@@ -221,7 +221,7 @@ export default function _Form({
                         value={values?.product}
                         label="Item"
                         onChange={(valueOption) => {
-                          
+
                           setFieldValue("product", valueOption);
                         }}
                         placeholder="Select Item"

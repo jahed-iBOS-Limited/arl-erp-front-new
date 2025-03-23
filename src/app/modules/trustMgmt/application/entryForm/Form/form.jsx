@@ -12,7 +12,7 @@ import { cbForAppId, cbForRegistrationId } from "./utils";
 import placeholderImg from "../../../../_helper/images/placeholderImg.png";
 import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

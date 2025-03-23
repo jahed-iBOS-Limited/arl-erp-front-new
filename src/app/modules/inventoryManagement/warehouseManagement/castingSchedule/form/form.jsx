@@ -11,7 +11,7 @@ import { removeRowData, rowDataAddHandler } from "../landing/utils";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { useParams } from "react-router-dom";
 
-export default function _Form({
+export default function FormCmp({
   btnRef,
   initData,
   saveHandler,

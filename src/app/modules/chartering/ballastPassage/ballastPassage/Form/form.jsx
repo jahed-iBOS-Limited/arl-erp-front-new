@@ -10,7 +10,7 @@ import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { getDifference } from "../../../_chartinghelper/_getDateDiff";
 import { getItemRateForBunker, validationSchema } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,
@@ -238,7 +238,7 @@ export default function _Form({
                       disabled={true}
                     />
                   </div>
-                  
+
                   <div className="col-lg-3">
                     <label>Per Day LSMGO QTY</label>
                     <FormikInput

@@ -5,7 +5,7 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
-export default function _Form({ initData, rowDto, getData }) {
+export default function FormCmp({ initData, rowDto, getData }) {
   const [unitNameDDL, getUnitNameDDL] = useAxiosGet();
 
   const generateAPI = (name, autoId = 0, typeId = 0) => {

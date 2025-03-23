@@ -10,7 +10,7 @@ import { storiedList } from "../helper";
 import IButton from "../../../../_helper/iButton";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
-export default function _Form({
+export default function FormCmp({
   viewType,
   initData,
   saveHandler,

@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 import InputField from "../../../../_helper/_inputField";
 
-export default function _Form({
+export default function FormCmp({
   saveHandler,
   tripInfoData,
   setTripInfoData,

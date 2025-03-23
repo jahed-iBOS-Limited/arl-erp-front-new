@@ -23,7 +23,7 @@ import { empAttachment_action } from '../../../../../../_helper/attachmentUpload
 import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   setEdit,

@@ -20,7 +20,7 @@ import IViewModal from "../../../_chartinghelper/_viewModal";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import ServicePO from "./servicePo";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

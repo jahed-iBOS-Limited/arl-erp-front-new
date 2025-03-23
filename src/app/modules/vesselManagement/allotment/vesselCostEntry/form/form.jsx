@@ -5,7 +5,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   type,
   title,
   history,

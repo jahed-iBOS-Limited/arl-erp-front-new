@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
     .required("Level position is required"),
 });
 
-export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
   return (
     <>
       <Formik

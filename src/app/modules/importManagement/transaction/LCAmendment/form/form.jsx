@@ -11,7 +11,7 @@ import numberWithCommas from '../../../../_helper/_numberWithCommas';
 import { toast } from 'react-toastify';
 import TextArea from '../../../../_helper/TextArea';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

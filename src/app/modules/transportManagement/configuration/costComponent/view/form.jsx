@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
   transportRouteCostComponent: Yup.string().required("Component Name required"),
 });
 
-export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
   const [valid, setValid] = useState(true);
   return (
     <>
@@ -59,7 +59,7 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
                     placeholder="General Ledger"
                     errors={errors}
                     touched={touched}
-              
+
                   />
                 </div>
               </div>

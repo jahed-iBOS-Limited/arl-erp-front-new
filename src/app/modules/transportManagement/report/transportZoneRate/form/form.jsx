@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({
   additionalAmount: Yup.string().required("Additional Amount is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   isView,

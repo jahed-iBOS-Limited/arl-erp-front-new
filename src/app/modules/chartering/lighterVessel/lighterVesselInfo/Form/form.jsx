@@ -5,7 +5,7 @@ import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { validationSchema } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

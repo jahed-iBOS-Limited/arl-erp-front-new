@@ -6,7 +6,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import ChalanInfo from "./../Form/ChalanInfo";
 import NewSelect from "./../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

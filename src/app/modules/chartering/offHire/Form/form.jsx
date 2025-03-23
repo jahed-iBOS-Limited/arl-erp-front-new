@@ -10,7 +10,7 @@ import FormikInput from "../../_chartinghelper/common/formikInput";
 import OffHireEntryFormTable from "./table";
 import IButton from "../../../_helper/iButton";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

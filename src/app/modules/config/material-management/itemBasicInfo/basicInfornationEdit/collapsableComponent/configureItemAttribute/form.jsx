@@ -24,7 +24,7 @@ const intiValue = {
   value: "",
 };
 
-export default function _Form({
+export default function FormCmp({
   isViewPage,
   data,
   saveBtnRef,

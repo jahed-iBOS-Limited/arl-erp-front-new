@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
     .required("Remarks is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   resetBtnRef,

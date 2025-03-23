@@ -12,7 +12,7 @@ import {
 } from "../helper";
 import CargoTable, { addCargoShipper } from "./cargoTable";
 
-export default function _Form({
+export default function FormCmp({
   modalData,
   title,
   setLoading,

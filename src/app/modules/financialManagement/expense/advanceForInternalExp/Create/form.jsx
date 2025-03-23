@@ -46,7 +46,7 @@ const validationSchema = Yup.object().shape({
   comments: Yup.string(),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -9,7 +9,7 @@ import {
   getSalesForceMonthlyTaDaById,
 } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   profileData,
@@ -129,7 +129,7 @@ export default function _Form({
           setValues,
         }) => (
           <>
-            
+
             <Form className="form form-label-right">
               <div className="form-group">
                 <div className="row align-items-end">

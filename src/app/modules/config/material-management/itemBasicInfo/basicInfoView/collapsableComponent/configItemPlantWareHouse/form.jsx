@@ -22,7 +22,7 @@ const DataValiadtionSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   isViewPage,
   productData,
   saveBtnRef,
@@ -422,7 +422,7 @@ export default function _Form({
                 </table>
               </div>
               </div>
-              
+
               <div className="form-group row align-content-center my-5">
                 <div className="col-12">
                   <h6>Unit of Measurement Convertion</h6>

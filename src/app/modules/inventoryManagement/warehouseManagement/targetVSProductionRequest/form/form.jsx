@@ -7,7 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
 import { toast } from "react-toastify";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   rowData,

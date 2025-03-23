@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({
   // billRegisterDate: Yup.date().required("Bill Register Date is  Required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

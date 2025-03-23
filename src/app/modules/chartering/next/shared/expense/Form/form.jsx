@@ -14,7 +14,7 @@ import { getBusinessPartnerDDL, validationSchema } from "../helper";
 import AddCostTypeForm from "./addCostType";
 import CashReceiveForm from "./cashReceive";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

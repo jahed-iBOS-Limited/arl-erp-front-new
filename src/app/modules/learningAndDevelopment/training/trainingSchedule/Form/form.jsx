@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

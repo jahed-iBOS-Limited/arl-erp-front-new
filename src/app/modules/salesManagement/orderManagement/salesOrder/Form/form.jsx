@@ -118,7 +118,7 @@ const validationSchema = Yup.object().shape({
   // }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -1192,34 +1192,34 @@ export default function _Form({
 
                     {
                       selectedBusinessUnit?.value===232 && isEdit && objDiscount?.length>0 ?
-                      
-                        
+
+
                       <div class="col-lg-6 offset-md-3">
-                     
-                  
+
+
                       <p className="my-2 text-center bg-primary">
                        {objDiscount.map((item)=>(
                          <>
-                         <strong className='text-white p-1'>{item?.commissionTypeName}: </strong>  
+                         <strong className='text-white p-1'>{item?.commissionTypeName}: </strong>
                          {" "}
                          <strong  className='bg-white p-1'>{item?.numDiscountAmount}</strong>
                          {" "}
                          </>
                        ))}
 
-                        <strong className='text-white p-1'>Grand Total: </strong>  
+                        <strong className='text-white p-1'>Grand Total: </strong>
                          {" "}
                          <strong className='bg-white p-1'>{objDiscountGrandTotal}</strong>
                          {" "}
                       </p>
-                   
-                  
+
+
                       </div>
-                   
-                        
+
+
                     :null
                     }
-                    
+
 
 
                     <div className="offset-lg-2 col-lg-5 d-flex justify-content-lg-end">

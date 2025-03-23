@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

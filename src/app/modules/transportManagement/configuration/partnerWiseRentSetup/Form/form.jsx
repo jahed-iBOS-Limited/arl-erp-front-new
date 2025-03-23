@@ -25,7 +25,7 @@ import { getDDL } from "../helper";
 //     .required("Reason is required"),
 // });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

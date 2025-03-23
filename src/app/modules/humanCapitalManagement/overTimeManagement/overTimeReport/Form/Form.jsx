@@ -12,7 +12,7 @@ import ViewModal from "./View";
 import IView from "../../../../_helper/_helperIcons/_view";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({ initData, btnRef, resetBtnRef }) {
+export default function FormCmp({ initData, btnRef, resetBtnRef }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -186,7 +186,7 @@ export default function _Form({ initData, btnRef, resetBtnRef }) {
               {/* {reports?.length > 0 && (
                 <>
                   <div className="mt-4 d-flex justify-content-end">
-                    
+
                   </div>
                 </>
               )} */}

@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
     .required("Sales Office Name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

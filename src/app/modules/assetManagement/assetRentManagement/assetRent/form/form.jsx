@@ -17,7 +17,7 @@ import {
   SaveInventoryLoanValidationSchema,
 } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   params,
   initData,
   btnRef,

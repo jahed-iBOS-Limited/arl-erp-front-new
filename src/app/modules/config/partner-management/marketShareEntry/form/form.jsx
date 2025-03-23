@@ -19,7 +19,7 @@ import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
 import AddCompanyForm from "./addCompany";
 
-export default function _Form({
+export default function FormCmp({
   rowData,
   viewType,
   initData,

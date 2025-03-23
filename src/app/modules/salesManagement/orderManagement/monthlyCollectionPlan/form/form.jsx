@@ -14,7 +14,7 @@ import { generateDataset, getMonthList } from './helper';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { YearDDL } from '../../../../_helper/_yearDDL';
 
-export default function _Form({
+export default function FormCmp({
   type,
   buId,
   accId,

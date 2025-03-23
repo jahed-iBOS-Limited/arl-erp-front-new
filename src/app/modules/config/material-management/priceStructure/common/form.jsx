@@ -32,7 +32,7 @@ const initData = {
   isMannual: false,
 };
 
-export default function _Form({ data, btnRef, saveData, resetBtnRef }) {
+export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
   const [structureType, setStructureType] = useState([]);
   const [pcDDL, setPcDDL] = useState([]);
   const [rowDto, setRowDto] = useState({
@@ -57,7 +57,7 @@ export default function _Form({ data, btnRef, saveData, resetBtnRef }) {
         }
       })
       .catch((err) => {
-       
+
       });
   }, []);
   const selectedBusinessUnit = useSelector(
@@ -85,7 +85,7 @@ export default function _Form({ data, btnRef, saveData, resetBtnRef }) {
           }
         })
         .catch((err) => {
-         
+
         });
     }
   };

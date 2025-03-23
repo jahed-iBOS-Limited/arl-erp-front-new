@@ -54,7 +54,7 @@ const editValidation = Yup.object().shape({
   ...validationSchema,
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

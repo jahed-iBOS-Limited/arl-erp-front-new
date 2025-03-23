@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
   referenceDate: Yup.date().required('Reference Date is required'),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   accountId,

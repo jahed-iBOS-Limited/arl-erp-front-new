@@ -14,7 +14,7 @@ import {
   validationSchema
 } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
   // manuSerialNumber: Yup.string().required("Manufacturer Serial Number is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -112,7 +112,7 @@ export default function _Form({
         }) => (
           <>
             {/* {disableHandler(!isValid)} */}
-            
+
             <Form className="form form-label-right">
                 <div className="form-group row global-form">
                 <div className="col-lg-3">

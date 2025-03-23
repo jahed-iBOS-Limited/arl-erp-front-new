@@ -39,7 +39,7 @@ const DataValiadtionSchema = Yup.object().shape({
 //   purchaseDescription: basicItemInfo[0]?.itemName,
 // };
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveBtnRef,
   saveData,
@@ -75,7 +75,7 @@ export default function _Form({
         orgs = null;
       }
     } catch (error) {
-     
+
     }
   };
 

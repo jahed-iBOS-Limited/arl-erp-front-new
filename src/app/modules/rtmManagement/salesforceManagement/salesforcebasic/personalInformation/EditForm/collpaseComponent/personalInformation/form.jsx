@@ -86,7 +86,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   nationalityDDL,

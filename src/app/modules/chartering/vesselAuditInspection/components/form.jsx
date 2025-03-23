@@ -16,7 +16,7 @@ import Loading from '../../_chartinghelper/loading/_loading';
 import { getAuditTypeDDL, getCategoryDDL, getVesselDDL } from '../helper';
 import CategoryCreateModal from './categoryCreateModal';
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

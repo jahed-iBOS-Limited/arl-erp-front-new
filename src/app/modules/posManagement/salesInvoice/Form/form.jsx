@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
   //   .required("Holiday group name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   resetBtnRef,
   saveHandler,
@@ -273,8 +273,8 @@ export default function _Form({
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             whName?.value,
-                            valueOption?.value, 
-                            setSingleData, 
+                            valueOption?.value,
+                            setSingleData,
                             setRowDto
                           )
                         }}
@@ -370,7 +370,7 @@ export default function _Form({
                             </td>
                             <td className="text-center">
                               {(item?.isReturn || item?.isHold || item?.itemRateDDL?.length===1)?item?.rate:
-                               <select 
+                               <select
                                   style={{ width: "100%", borderRadius: "5px" }}
                                   name="rate"
                                   defaultValue={item?.rate}
@@ -378,7 +378,7 @@ export default function _Form({
                                     setFieldValue("rate", e.target.value)
                                     updateItemRate(item?.itemRateDDL[e.target.value], index)
                                   }}
-                                > 
+                                >
                                   <option hidden disabled selected="selected">Select Rate</option>
                                   {item?.itemRateDDL.map((data, i) => {
                                     return <option key={i} value={i}>{data.label}</option>;
@@ -506,11 +506,11 @@ export default function _Form({
                   </div> */}
                   <div>
                     {voucherReprintButtonClicked && (
-                      <VoucherReprint 
-                        counter={counter} 
+                      <VoucherReprint
+                        counter={counter}
                         loadCustomerList={loadCustomerList}
                         voucherReprintData={voucherReprintData}
-                        setVoucherReprintData={setVoucherReprintData} 
+                        setVoucherReprintData={setVoucherReprintData}
                       />
                     )}
                     {holdInvoiceButtonClicked && (
@@ -534,7 +534,7 @@ export default function _Form({
                       />
                     )}
                     {salesReturnButtonClicked && (
-                      <SalesReturn 
+                      <SalesReturn
                         rowDto={salesReturnDto}
                         setVoucherCode={setVoucherCode}
                         values={values}
@@ -601,7 +601,7 @@ export default function _Form({
                       </h5>
                     </div>
                     <div className="bill-info pay-button">
-                      <h6 
+                      <h6
                         onClick={() =>{
                           if(rowDto?.length===0){
                             return toast.warning("Please Select Item")

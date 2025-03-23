@@ -12,7 +12,7 @@ import {
 import HeaderForm from "./headerForm";
 import RowForm from "./rowForm";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   customerDDL,

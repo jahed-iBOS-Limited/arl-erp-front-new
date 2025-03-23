@@ -6,7 +6,7 @@ import NewSelect from "../../../../_helper/_select";
 import { getDDL } from "../helper";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -137,7 +137,7 @@ export default function _Form({
                       disabled={
                         !values?.shipPoint ||
                         !values?.vehicle ||
-                        !values?.rent 
+                        !values?.rent
                       }
                     >
                       Add

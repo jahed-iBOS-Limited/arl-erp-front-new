@@ -8,7 +8,7 @@ import {
 } from "../helper";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -222,7 +222,7 @@ export default function _Form({
                   />
                 </div>
               </div>
-              
+
               <button
                 type="submit"
                 style={{ display: "none" }}

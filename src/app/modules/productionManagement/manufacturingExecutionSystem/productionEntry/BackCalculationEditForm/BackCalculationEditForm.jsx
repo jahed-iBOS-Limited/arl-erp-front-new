@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import CreateTableRow from "../Table/CreateTableRow";
 // import { getItemListForBackCalculation } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -40,7 +40,7 @@ const header = [
   "Rate",
   "Amount",
 ];
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

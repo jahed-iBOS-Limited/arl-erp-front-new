@@ -8,7 +8,7 @@ import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
 import { getDifference } from "../../../../_chartinghelper/_getDateDiff";
 import { validationSchema } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

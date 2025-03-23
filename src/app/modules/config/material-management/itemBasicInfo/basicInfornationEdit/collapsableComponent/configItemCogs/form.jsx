@@ -18,7 +18,7 @@ const DataValiadtionSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   fetchCostWarehouse,
   isViewPage,
   initData,
@@ -54,7 +54,7 @@ export default function _Form({
         orgs = null;
       }
     } catch (error) {
-     
+
     }
   };
   useEffect(() => {

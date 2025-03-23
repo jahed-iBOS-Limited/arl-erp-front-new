@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
     .required("Customer Group Name is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -131,7 +131,7 @@ export default function _Form({
                         valueOption?.value,
                         setCustomerDDL
                       );
-                      
+
                     }}
                     placeholder="Customer's Gender"
                     errors={errors}

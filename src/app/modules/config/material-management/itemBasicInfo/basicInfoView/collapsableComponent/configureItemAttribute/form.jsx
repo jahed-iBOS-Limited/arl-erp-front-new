@@ -24,7 +24,7 @@ const intiValue = {
   value: "",
 };
 
-export default function _Form({
+export default function FormCmp({
   isViewPage,
   data,
   saveBtnRef,
@@ -54,7 +54,7 @@ export default function _Form({
           setAttributeList(res.data);
           // setBaseUomList(res2.data);
         } catch (error) {
-         
+
         }
       };
       getInfoData();
@@ -71,7 +71,7 @@ export default function _Form({
       setFieldValue("uom", res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
     } catch (error) {
-     
+
     }
   };
 

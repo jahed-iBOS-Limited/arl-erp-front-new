@@ -12,7 +12,7 @@ import { getVoyageDDLFilter } from "../../../../chartering/helper";
 import PrintInvoiceView from "./components/printInvoiceView";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

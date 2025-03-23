@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -492,7 +492,7 @@ export default function _Form({
                     </div>
                   ) : (
                     <div key={index} className="col-lg-3">
-                      {(values?.strategicParticularType?.label === "Project" && itm?.name === "owner") ? 
+                      {(values?.strategicParticularType?.label === "Project" && itm?.name === "owner") ?
                       <div>
                         <label>Employee</label>
                       <SearchAsyncSelect
@@ -504,8 +504,8 @@ export default function _Form({
                       loadOptions={loadUserList}
                     />
                       </div>
-                      : 
-                      
+                      :
+
                       <ISelect
                         label={itm?.label}
                         options={itm?.options}
@@ -521,7 +521,7 @@ export default function _Form({
                           disabledHandler(values, itm)
                         }
                       />}
-                      
+
                     </div>
                   );
                 })}

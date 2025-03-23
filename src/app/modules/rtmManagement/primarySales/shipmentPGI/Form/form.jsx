@@ -79,7 +79,7 @@ const validationSchemaEdit = Yup.object().shape({
   ),
   // planedLoadingTime: Yup.date().required("Planned Loading Time required"),
 });
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

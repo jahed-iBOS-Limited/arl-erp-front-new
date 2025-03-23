@@ -24,7 +24,7 @@ import Loading from '../../../../../_helper/_loading';
 import NewSelect from '../../../../../_helper/_select';
 import TextArea from '../../../../../_helper/TextArea';
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   setter,

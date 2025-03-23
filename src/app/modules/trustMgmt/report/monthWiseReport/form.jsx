@@ -5,7 +5,7 @@ import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   rowDto,
   getData,
@@ -26,7 +26,7 @@ export default function _Form({
   }, []);
 
   const saveHandler = (values, cb) => {
-    
+
   }
 
   return (
@@ -88,8 +88,8 @@ export default function _Form({
                             name="toDate"
                             placeholder=""
                             type="date"
-                            min={values?.fromDate} 
-                            disabled={!values?.fromDate} 
+                            min={values?.fromDate}
+                            disabled={!values?.fromDate}
                           />
                         </div>
                       </div>
@@ -125,7 +125,7 @@ export default function _Form({
                         className="btn btn-primary"
                         disabled={!values?.fromDate || !values?.toDate}
                         onClick={() => {
-                          getData( 
+                          getData(
                             getTrustAllLanding(
                               "MonthWiseGetAllDonationApplicationList",
                               values?.unitName?.value || 4,
@@ -137,7 +137,7 @@ export default function _Form({
                       >Show Report</button>
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               </div>
             </Form>

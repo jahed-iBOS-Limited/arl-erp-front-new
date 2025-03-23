@@ -15,7 +15,7 @@ import NewSelect from "../../../../_helper/_select";
 import { validationSchema } from "../helper";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 
-export default function _Form({
+export default function FormCmp({
   accId,
   buId,
   type,

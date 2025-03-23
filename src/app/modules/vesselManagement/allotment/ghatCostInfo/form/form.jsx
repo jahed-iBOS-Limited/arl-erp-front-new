@@ -81,7 +81,7 @@ const customStyles = {
   }),
 };
 
-export default function _Form({
+export default function FormCmp({
   type,
   accId,
   buId,

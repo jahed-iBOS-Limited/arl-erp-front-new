@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
     .required("Item Group Name no is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

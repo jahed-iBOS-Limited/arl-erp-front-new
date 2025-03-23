@@ -18,7 +18,7 @@ import { _dateFormatter } from './../../../../../../_helper/_dateFormate';
 import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 //import {getDownlloadFileView_Action} from '../../../../../../_helper/_redux/Actions'
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   genderDDL,

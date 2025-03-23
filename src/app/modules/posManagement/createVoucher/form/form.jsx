@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   numAmount: Yup.number().required("Amount is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   whName,
   btnRef,

@@ -9,7 +9,7 @@ import "./extra.css";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

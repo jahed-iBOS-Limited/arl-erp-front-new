@@ -19,7 +19,7 @@ const parameterValues = (values) => {
   ];
   return agingParameters;
 };
-export default function _Form({ initData }) {
+export default function FormCmp({ initData }) {
   const [loading, setLoading] = useState(false);
   const [loadingTow, setLoadingTow] = useState(false);
   const [rowDtoLeft, setLeftRowDto] = useState([]);

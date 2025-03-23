@@ -4,7 +4,7 @@ import InputField from "../../../../../../_helper/_inputField";
 import { validationSchema } from "../helper";
 
 // Validation schema
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   //   saveHandler,

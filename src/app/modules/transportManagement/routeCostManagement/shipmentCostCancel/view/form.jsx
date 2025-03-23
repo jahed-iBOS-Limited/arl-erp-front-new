@@ -6,7 +6,7 @@ import { getComponentDDL } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 import ChalanInfo from "./../Form/ChalanInfo";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -74,7 +74,7 @@ const validationSchema = Yup.object().shape({
   challanDate: Yup.date().required("Challan Date is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

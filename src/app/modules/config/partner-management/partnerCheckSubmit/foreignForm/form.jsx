@@ -12,7 +12,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   soList,

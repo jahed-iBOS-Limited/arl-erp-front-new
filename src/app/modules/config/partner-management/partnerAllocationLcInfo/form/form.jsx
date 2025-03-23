@@ -13,7 +13,7 @@ import {
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({ initData, saveHandler, isEdit, isView, DDL }) {
+export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) {
   const { supplierCountryDDL, bankDDL, branchDDL, setbranchDDL, lcDDL } = DDL;
   const history = useHistory();
 

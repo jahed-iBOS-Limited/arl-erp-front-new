@@ -5,7 +5,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { toast } from "react-toastify";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

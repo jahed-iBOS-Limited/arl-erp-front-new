@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -627,7 +627,7 @@ export default function _Form({
                 </tbody>
               </table>
 </div>
-              
+
               {!fileObject && !id && rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

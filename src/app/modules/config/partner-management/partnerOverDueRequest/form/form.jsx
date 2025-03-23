@@ -26,7 +26,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import DetailsView from "./DetailsView";
 import TextArea from "../../../../_helper/TextArea";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   initData,

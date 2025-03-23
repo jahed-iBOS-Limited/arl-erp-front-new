@@ -19,7 +19,7 @@ const types = [
   { value: 5, label: "Government Subsidy Rate" },
 ];
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   rowData,

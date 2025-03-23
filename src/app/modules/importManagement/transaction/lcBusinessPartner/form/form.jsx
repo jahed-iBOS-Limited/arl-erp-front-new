@@ -23,7 +23,7 @@ import { useHistory } from "react-router";
 import FormikError from "../../../../_helper/_formikError";
 import { toast } from "react-toastify";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

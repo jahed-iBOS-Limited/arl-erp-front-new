@@ -9,7 +9,7 @@ import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import Loading from "../../../../_helper/_loading";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 
-export default function _Form({
+export default function FormCmp({
   show,
   title,
   rowDto,

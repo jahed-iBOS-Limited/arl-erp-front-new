@@ -21,7 +21,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls/Card";
 import { toast } from "react-toastify";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   resetBtnRef,

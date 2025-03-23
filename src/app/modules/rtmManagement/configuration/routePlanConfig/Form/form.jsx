@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   approvalStatus: Yup.boolean(),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -29,7 +29,7 @@ export default function _Form({
   profileData,
   selectedBusinessUnit,
 }) {
- 
+
 
   return (
     <>

@@ -7,7 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 // import { updateDistanceKM, updateRentVehicle } from "./helper";
 // import { useLocation } from "react-router";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

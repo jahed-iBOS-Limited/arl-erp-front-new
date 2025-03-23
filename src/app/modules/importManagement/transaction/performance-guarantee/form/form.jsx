@@ -6,7 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { _todayDate } from "../../../../_helper/_todayDate";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

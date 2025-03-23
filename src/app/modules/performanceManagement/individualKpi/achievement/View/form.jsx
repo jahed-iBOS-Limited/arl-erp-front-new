@@ -16,7 +16,7 @@ import TextArea from '../../../../_helper/TextArea';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   btnRef,
   resetBtnRef,
   initData,

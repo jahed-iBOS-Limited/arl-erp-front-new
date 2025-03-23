@@ -14,7 +14,7 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 //   .required("Received Amount is required"),
 // });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   resetBtnRef,

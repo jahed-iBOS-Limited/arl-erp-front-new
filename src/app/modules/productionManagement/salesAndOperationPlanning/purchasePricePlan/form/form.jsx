@@ -9,7 +9,7 @@ import NewSelect from '../../../../_helper/_select';
 import { getHorizonDDL } from '../helper';
 import { exportToCSV } from './utils';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -30,7 +30,7 @@ const ProductEditSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveBusinessUnit,
@@ -85,7 +85,7 @@ export default function _Form({
         setCurrency(currencyListTemp);
       }
     } catch (error) {
-     
+
     }
   };
 
@@ -113,7 +113,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-           
+
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row">

@@ -9,7 +9,7 @@ const headers = ["SL", "Dimension Type", "Weight"];
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -21,7 +21,7 @@ export default function _Form({
 }) {
   const history = useHistory();
   return (
-    
+
     <>
       <Formik
         enableReinitialize={true}

@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
   // }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -44,7 +44,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-      
+
             <Form className="form form-label-right">
               <div className="row global-form">
                 {singleProfileList?.objAttrbt?.map((itm, indx) => {

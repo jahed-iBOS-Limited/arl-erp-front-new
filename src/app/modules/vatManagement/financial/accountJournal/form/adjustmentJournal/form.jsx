@@ -12,7 +12,7 @@ import { _todayDate } from '../../../../../_helper/_todayDate';
 import { dateFormatterForInput } from '../../../../../productionManagement/msilProduction/meltingProduction/helper';
 import TextArea from '../../../../../_helper/TextArea';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

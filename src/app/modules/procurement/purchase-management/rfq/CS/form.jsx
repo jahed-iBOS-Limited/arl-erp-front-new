@@ -6,7 +6,7 @@ import toArray from "lodash/toArray";
 
 // import { useLocation } from 'react-router-dom'
 
-export default function _Form({
+export default function FormCmp({
   btnRef,
   saveHandler,
   resetBtnRef,

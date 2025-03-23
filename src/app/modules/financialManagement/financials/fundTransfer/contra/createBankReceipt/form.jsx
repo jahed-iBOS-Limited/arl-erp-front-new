@@ -61,7 +61,7 @@ import ReceiveAndPaymentsTable from '../../../../../_helper/_commonComponent';
 // Validation schema for bank transfer
 
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

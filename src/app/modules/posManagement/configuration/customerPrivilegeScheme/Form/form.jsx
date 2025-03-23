@@ -56,7 +56,7 @@ const validationSchema = Yup.object().shape({
   schemeEndDate: Yup.date().required("Scheme End Date is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -351,7 +351,7 @@ export default function _Form({
                               <td className="text-right">
                                 {item?.discountAmount}
                               </td>
-                             
+
                             </>
                           )}
                            <td>{item?.durationTypeName}</td>

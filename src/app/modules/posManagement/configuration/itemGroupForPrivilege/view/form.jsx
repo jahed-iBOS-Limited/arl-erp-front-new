@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import InputField from "./../../../../_helper/_inputField";
 
-export default function _Form({ rowDto }) {
+export default function FormCmp({ rowDto }) {
   return (
     <>
       <Formik
@@ -22,7 +22,7 @@ export default function _Form({ rowDto }) {
           <>
             <Form className="form form-label-right mt-2">
               <div className="row global-form">
-               
+
                 <div className="col-lg-3">
                   <label>Outlet Name</label>
                   <InputField

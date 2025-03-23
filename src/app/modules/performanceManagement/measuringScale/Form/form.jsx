@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
 
 const headers = ["SL", "Scale Name", "Value", "Action"];
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

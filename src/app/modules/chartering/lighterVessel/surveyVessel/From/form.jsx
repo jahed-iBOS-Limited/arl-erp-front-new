@@ -4,7 +4,7 @@ import FormikInput from "../../../_chartinghelper/common/formikInput";
 // import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import { validationSchema } from "../helper";
 
-export default function _Form({ title, initData, saveHandler, editViewTag }) {
+export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
   return (
     <>
       <Formik

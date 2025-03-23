@@ -37,7 +37,7 @@ const ProductEditSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   savePurchase,
@@ -129,7 +129,7 @@ export default function _Form({
       );
       setPriceDDL(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -140,7 +140,7 @@ export default function _Form({
       );
       setPurchaseOrgList(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -152,7 +152,7 @@ export default function _Form({
       );
       setter(res?.data);
     } catch (error) {
-     
+
     }
   };
   // const getAccruedPayableGL = async (accountId, buId, setter) => {
@@ -162,7 +162,7 @@ export default function _Form({
   //     );
   //     setter(res?.data);
   //   } catch (error) {
-  //    
+  //
   //   }
   // };
   const getAdvancePayableGL = async (accountId, buId, setter) => {
@@ -172,7 +172,7 @@ export default function _Form({
       );
       setter(res?.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -183,7 +183,7 @@ export default function _Form({
       );
       setItemCategory(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -194,7 +194,7 @@ export default function _Form({
       );
       setItemName(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -205,7 +205,7 @@ export default function _Form({
       );
       setSbuDDL(res?.data);
     } catch (error) {
-     
+
     }
   };
 

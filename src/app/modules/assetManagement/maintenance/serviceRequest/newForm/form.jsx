@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   assetDate: Yup.string().required("Date is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -48,7 +48,7 @@ export default function _Form({
         ...item,
         value: item?.value,
         assetproName: item?.label,
-        label: item?.labelCode     
+        label: item?.labelCode
       }));
       return updateList;
     });
@@ -76,7 +76,7 @@ export default function _Form({
         }) => (
           <>
             {/* {disableHandler(!isValid)} */}
-            
+
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

@@ -10,7 +10,7 @@ import InputField from "../../../../_helper/_inputField";
 import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   soDDL,
   rowData,
   initData,

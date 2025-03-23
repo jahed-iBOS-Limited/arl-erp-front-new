@@ -7,7 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 import IButton from "../../../../_helper/iButton";
 
-export default function _Form({ obj }) {
+export default function FormCmp({ obj }) {
   const {
     title,
     initData,

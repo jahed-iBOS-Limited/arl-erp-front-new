@@ -8,7 +8,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import "../paymentOnMaturity.css";
 import { _formatMoney } from './../../../../_helper/_formatMoney';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   // saveHandler,
@@ -142,7 +142,7 @@ export default function _Form({
                               </td>
                               <td className="text-center">
                                 {item?.invoicePayAmount}
-                             
+
                               </td>
                               <td className="text-center">
                                 {item?.otherCharge}{" "}
@@ -334,7 +334,7 @@ export default function _Form({
                                       );
                                     }}
                                   >
-                                    
+
                                     {item?.actualPayAmount > 0 ? "Sent" : "Save"}
                                   </button>
                                 </span>

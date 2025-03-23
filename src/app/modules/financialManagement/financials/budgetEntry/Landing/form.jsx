@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { monthDDL } from "../../../../selfService/humanResource/officialInformation/EditForm/collpaseComponent/basicEmployeeInformation/helper";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   resetBtnRef,

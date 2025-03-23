@@ -19,7 +19,7 @@ import IView from "../../../../../../_helper/_helperIcons/_view";
 // import { toast } from "react-toastify";
 import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -18,7 +18,7 @@ import {
 import BackCalculationModal from "./backCalculationModal";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

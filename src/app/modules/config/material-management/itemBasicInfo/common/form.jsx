@@ -49,7 +49,7 @@ const DataValiadtionSchema = Yup.object().shape({
   // }),
 });
 
-export default function _Form({
+export default function FormCmp({
   data,
   saveBtnRef,
   saveConfigBtnRef,

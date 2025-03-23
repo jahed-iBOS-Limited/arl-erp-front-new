@@ -18,7 +18,7 @@ const ProductEditSchema = Yup.object().shape({
     .required("Address is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveWarehouse,
@@ -53,7 +53,7 @@ export default function _Form({
         }) => (
           <>
             {/* {disableHandler(!isValid)} */}
-           
+
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-4">

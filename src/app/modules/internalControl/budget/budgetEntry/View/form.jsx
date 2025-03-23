@@ -15,7 +15,7 @@ import ButtonStyleOne from "./../../../../_helper/button/ButtonStyleOne";
 
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({ initData, saveHandler, state }) {
+export default function FormCmp({ initData, saveHandler, state }) {
   const tableHeader = (id) => {
     switch (id) {
       case 2:

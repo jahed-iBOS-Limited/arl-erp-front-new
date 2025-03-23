@@ -11,7 +11,7 @@ import {
 import { ApprovedList } from "./components/approvedList";
 import { UnApprovedList } from "./components/unApprovedList";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   rowData,

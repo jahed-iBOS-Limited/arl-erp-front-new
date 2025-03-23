@@ -5,7 +5,7 @@ import NewSelect from "../../../../../../_helper/_select";
 import InputField from "../../../../../../_helper/_inputField";
 import IConfirmModal from "../../../../../../_helper/_confirmModal";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   resetBtnRef,

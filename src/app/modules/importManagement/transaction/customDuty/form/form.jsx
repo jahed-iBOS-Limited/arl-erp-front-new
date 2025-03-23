@@ -20,7 +20,7 @@ import { validationSchema } from "../helper";
 import { debounce } from "lodash";
 import Loading from "../../../../_helper/_loading";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -174,7 +174,7 @@ export default function _Form({
                           name="boeNo"
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                         />
                       </div>
@@ -188,7 +188,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                         />
                       </div>
@@ -234,7 +234,7 @@ export default function _Form({
                           }}
                           disabled={
                             viewType === "view" ||
-                            headerDisable 
+                            headerDisable
                           }
                         />
                       </div>
@@ -353,7 +353,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) 
+                              : false)
                           }
                         />
                       </div>
@@ -377,7 +377,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) 
+                              : false)
                           }
                         />
                       </div>
@@ -404,7 +404,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) 
+                              : false)
                           }
                         />
                       </div>
@@ -420,7 +420,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "view" 
+                            viewType === "view"
                           }
                         />
                       </div>
@@ -490,7 +490,7 @@ export default function _Form({
                               );
                             }}
                             disabled={
-                              viewType === "view" 
+                              viewType === "view"
                             }
                           />
                         </div>
@@ -564,7 +564,7 @@ export default function _Form({
                             setFieldValue("paidBy", valueOption);
                           }}
                           isDisabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           errors={errors}
                           touched={touched}
@@ -583,7 +583,7 @@ export default function _Form({
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              viewType === "view" 
+                              viewType === "view"
                             }
                           />
                         </div>
@@ -600,7 +600,7 @@ export default function _Form({
                               setFieldValue("instrumentType", valueOption);
                             }}
                             isDisabled={
-                              (viewType === "view" ? true : false) 
+                              (viewType === "view" ? true : false)
                             }
                             errors={errors}
                             touched={touched}
@@ -632,7 +632,7 @@ export default function _Form({
                           type="number"
                           min={0}
                           disabled={
-                            viewType === "view" 
+                            viewType === "view"
                           }
                         />
                       </div>
@@ -643,7 +643,7 @@ export default function _Form({
                           placeholder="Custom Duty"
                           name="customDuty"
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           onChange={(e) => {
@@ -667,7 +667,7 @@ export default function _Form({
                           placeholder="Regulatory Duty"
                           name="regulatoryDuty"
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           onChange={(e) => {
@@ -691,7 +691,7 @@ export default function _Form({
                           placeholder="Supplementary Duty"
                           name="supplementaryDuty"
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           onChange={(e) => {
@@ -724,7 +724,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           min="0"
@@ -748,7 +748,7 @@ export default function _Form({
                           }}
                           name="ait"
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           min="0"
@@ -772,7 +772,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           min="0"
@@ -787,7 +787,7 @@ export default function _Form({
                           placeholder="PSI"
                           name="psi"
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           min="0"
@@ -820,7 +820,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                           type="number"
                           min="0"
@@ -891,7 +891,7 @@ export default function _Form({
                           //   );
                           // }}
                           disabled={
-                            (viewType === "view" ? true : false) 
+                            (viewType === "view" ? true : false)
                           }
                         />
                       </div>

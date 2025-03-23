@@ -19,7 +19,7 @@ import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   edit,

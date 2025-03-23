@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
     .required("Desired value is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -42,7 +42,7 @@ export default function _Form({
 }) {
   const [valid, setValid] = useState(true);
   const dispatch = useDispatch();
-  
+
   return (
     <>
       <Formik

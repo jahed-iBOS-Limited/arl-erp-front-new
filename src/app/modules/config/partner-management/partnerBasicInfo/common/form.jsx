@@ -41,7 +41,7 @@ const ProductEditSchema = Yup.object().shape({
   proprietor: Yup.string().required('Proprietor Name is required'),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveWarehouse,

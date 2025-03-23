@@ -12,7 +12,7 @@ import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { months } from "../../reports/helper";
 import { validationSchema } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

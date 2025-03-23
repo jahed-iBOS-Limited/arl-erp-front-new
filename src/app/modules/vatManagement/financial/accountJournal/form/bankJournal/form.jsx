@@ -24,7 +24,7 @@ import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

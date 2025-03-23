@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .required("Vehicle Manual No is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   disableHandler,
@@ -53,7 +53,7 @@ export default function _Form({
       );
       setVehicleCityDDL(res.data);
     } catch (error) {
-     
+
     }
   };
   const getVehicleRegistrationLetterDDL = async () => {
@@ -63,7 +63,7 @@ export default function _Form({
       );
       setVehicleRegistrationLetterDDL(res.data);
     } catch (error) {
-     
+
     }
   };
   const getVehicleRegitrationNumberDDL = async () => {
@@ -73,7 +73,7 @@ export default function _Form({
       );
       setVehicleRegistrationNumberDDL(res.data);
     } catch (error) {
-     
+
     }
   };
 

@@ -86,7 +86,7 @@ const ProductEditSchema = Yup.object().shape({
     .max(1000000000000000, 'Maximum 1000000000000000 range'),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   savePartnerSales,
@@ -134,7 +134,7 @@ export default function _Form({
   const [branchNameDDL, setBranchNameDDL] = useState([]);
   const [filterReconGLDDL, setFilterReconGLDDL] = useState([]);
   const [parnerBasicInfo, setParnerBasicInfo] = useState('');
-  
+
   // api action
   const [creditLimitApprovalData,getCreaditLimitApprovalData,getCreaditLimitApprovalDataLoading]=useAxiosGet()
 

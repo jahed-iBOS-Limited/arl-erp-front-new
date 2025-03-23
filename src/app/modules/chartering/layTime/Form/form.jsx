@@ -9,7 +9,7 @@ import CreateRowForm from "./components/createRowForm";
 import LayTimeTableBody from "./components/layTimeTableBody";
 import PrintView from "./components/printView";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

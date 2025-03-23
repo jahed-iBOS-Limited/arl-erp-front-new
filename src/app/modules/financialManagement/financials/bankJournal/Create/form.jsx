@@ -36,7 +36,7 @@ import DebitCredit from './DebitCredit';
 import TransferTable from './TransferTable';
 import ReceiveAndPaymentsTable from '../../../../_helper/_commonComponent';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

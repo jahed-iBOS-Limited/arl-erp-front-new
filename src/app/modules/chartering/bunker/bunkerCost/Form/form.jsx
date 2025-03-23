@@ -14,7 +14,7 @@ import ICustomTable from "../../../_chartinghelper/_customTable";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 
-export default function _Form({
+export default function FormCmp({
   title,
   initData,
   saveHandler,

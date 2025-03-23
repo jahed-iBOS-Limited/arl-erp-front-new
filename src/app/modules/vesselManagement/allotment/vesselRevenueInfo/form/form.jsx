@@ -7,7 +7,7 @@ import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import { BADCBCICForm } from "../../../common/components";
 
-export default function _Form({
+export default function FormCmp({
   type,
   title,
   history,
@@ -312,7 +312,7 @@ export default function _Form({
                               {_fixedPoint(itm?.surveyQty, true)}
                             </td>
                             <td>{itm?.unloadingPort?.label}</td>
-                            {/* 
+                            {/*
                               <td>
                                 {type === 'view' ? (
                                   itm?.localRateDoller

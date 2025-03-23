@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

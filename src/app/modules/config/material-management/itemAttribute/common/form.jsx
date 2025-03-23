@@ -26,7 +26,7 @@ const ProductEditSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   product,
   btnRef,
   saveWarehouse,
@@ -56,7 +56,7 @@ export default function _Form({
       );
       setUomDDL(res.data);
     } catch (error) {
-     
+
     }
   };
   //
@@ -65,7 +65,7 @@ export default function _Form({
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
     } catch (error) {
-     
+
     }
   };
 

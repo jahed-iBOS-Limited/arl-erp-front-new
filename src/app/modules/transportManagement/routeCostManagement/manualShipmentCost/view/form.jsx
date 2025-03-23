@@ -5,7 +5,7 @@ import InputField from "../../../../_helper/_inputField";
 import { getComponentDDL } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -400,7 +400,7 @@ export default function _Form({
                     {" "}
                     <h5 className="mt-1">Vehicle Rent</h5>
                   </div>
-                  
+
                   <div className="col-lg-6">
                     <table className={"table global-table"}>
                       <thead>
@@ -424,7 +424,7 @@ export default function _Form({
                     </table>
                   </div>
 
-                  
+
                   <div className="col-lg-6">
                     <table className={"table global-table"}>
                       <thead>

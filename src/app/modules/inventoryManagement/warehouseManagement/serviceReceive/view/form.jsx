@@ -20,7 +20,7 @@ const editValidationSchema = Yup.object().shape({
   comment: Yup.string().required("Comment is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

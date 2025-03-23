@@ -15,7 +15,7 @@ import InputField from './../../../../../_helper/_inputField';
 import NewSelect from './../../../../../_helper/_select';
 import { _todayDate } from "../../../../../_helper/_todayDate";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   viewType,
@@ -252,7 +252,7 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                       isDisabled={
-                        viewType 
+                        viewType
                       }
                     />
                   </div>
@@ -479,7 +479,7 @@ export default function _Form({
                 {/* last div */}
               </div>
 
-              
+
             </Form>
           </>
         )}

@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -233,7 +233,7 @@ export default function _Form({
                                   <span>
                                     <IDelete remover={remover} id={index} />
                                   </span>
-                                </div>  
+                                </div>
                               </td>
                             </tr>
                           ))}

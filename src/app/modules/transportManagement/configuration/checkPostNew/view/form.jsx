@@ -9,7 +9,7 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

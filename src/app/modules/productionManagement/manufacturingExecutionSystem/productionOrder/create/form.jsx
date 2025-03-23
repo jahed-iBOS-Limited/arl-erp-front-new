@@ -55,7 +55,7 @@ const validationSchema = Yup.object().shape({
   numOrderQty: Yup.number().required("Quantity is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

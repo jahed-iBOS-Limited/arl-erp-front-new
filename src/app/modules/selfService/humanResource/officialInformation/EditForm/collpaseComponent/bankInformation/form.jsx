@@ -17,7 +17,7 @@ import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   disableHandler,

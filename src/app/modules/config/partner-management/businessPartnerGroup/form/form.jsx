@@ -9,7 +9,7 @@ import IButton from "../../../../_helper/iButton";
 import ICustomCard from "../../../../_helper/_customCard";
 import { useHistory } from "react-router-dom";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   rowData,

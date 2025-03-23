@@ -23,7 +23,7 @@ import AddVehicleNameModal from "./addVehicleNameModal";
 import RestQtyModal from "./restQtyModal";
 import RowSection from "./rowSection";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   addRow,
@@ -193,7 +193,7 @@ export default function _Form({
                       onClick={handleSubmit}
                       disabled={rowData?.length < 1}
                     >
-                      Save 
+                      Save
                     </button>
                   </>
                 </CardHeaderToolbar>

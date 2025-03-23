@@ -19,7 +19,7 @@ import { approveOrRejectHandler } from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
 import Loading from "../../../../_helper/_loading";
 
-export default function _Form({
+export default function FormCmp({
   id,
   buId,
   accId,

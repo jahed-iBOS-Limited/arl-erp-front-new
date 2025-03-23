@@ -75,7 +75,7 @@ const validationSchema = Yup.object().shape({
 // Validation schema when copy Kpi Type is selected
 const copyKPIvalidationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

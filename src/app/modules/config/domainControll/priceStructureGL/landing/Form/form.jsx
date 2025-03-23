@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import NewSelect from "./../../../../../_helper/_select";
 import Loading from "./../../../../../_helper/_loading";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

@@ -7,7 +7,7 @@ import IButton from "../../../../../_helper/iButton";
 import { loadUserList } from "../../helper";
 
 
-export default function _Form({
+export default function FormCmp({
   accId,
   buId,
   initData,

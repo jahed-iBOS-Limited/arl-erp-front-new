@@ -7,7 +7,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

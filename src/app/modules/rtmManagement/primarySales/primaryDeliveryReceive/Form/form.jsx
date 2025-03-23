@@ -14,7 +14,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls/Card";
 import { ModalProgressBar } from "./../../../../../../_metronic/_partials/controls/ModalProgressBar";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   isLoading,

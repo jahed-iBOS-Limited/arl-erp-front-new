@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
     .required("Disbursement Center Code is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

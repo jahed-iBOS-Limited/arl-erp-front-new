@@ -12,7 +12,7 @@ import { convertKeysSpace } from "../../allReport/utility";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 // Validation schema
-export default function _Form({ mapData, setMapData, datalist, loading }) {
+export default function FormCmp({ mapData, setMapData, datalist, loading }) {
   const [sheetTypeList, setSheetTypeList] = React.useState([]); // sheet type list
   const [allSheetData, setAllSheetData] = React.useState("");
   const handleRefresh = () => {

@@ -27,7 +27,7 @@ const validationSchema = Yup.object().shape({
   assetDate: Yup.string().required("Date is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

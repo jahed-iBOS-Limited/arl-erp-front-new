@@ -10,7 +10,7 @@ import { getItemTypeData } from "../../g2gItemInfo/helper";
 import { getItemData } from "../helper";
 // import { BADCBCICForm } from "../../../common/components";
 
-export default function _Form({
+export default function FormCmp({
   buId,
   accId,
   title,

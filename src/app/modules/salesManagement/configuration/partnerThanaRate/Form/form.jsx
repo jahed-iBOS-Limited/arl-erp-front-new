@@ -44,7 +44,7 @@ const validationSchema = Yup.object().shape({
     .required("Distance KM is required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

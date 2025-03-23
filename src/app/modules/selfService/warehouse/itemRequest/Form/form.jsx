@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -209,7 +209,7 @@ export default function _Form({
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isSpecialApproval} 
+                        checked={values?.isSpecialApproval}
                       onChange={(e)=>{
                         setFieldValue("isSpecialApproval", e.target.checked);
                       }}

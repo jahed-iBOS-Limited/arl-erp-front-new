@@ -62,7 +62,7 @@ const validationSchema = Yup.object().shape({
   //   .required("Responsibilities required"),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveHandler,
   disableHandler,

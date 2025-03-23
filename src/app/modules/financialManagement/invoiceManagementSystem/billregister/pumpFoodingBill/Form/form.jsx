@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
   paymentDueDate: Yup.date().required('Payment Date is Required'),
 });
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,

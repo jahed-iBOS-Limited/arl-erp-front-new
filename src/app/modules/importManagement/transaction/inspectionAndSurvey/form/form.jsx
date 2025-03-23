@@ -5,7 +5,7 @@ import NewSelect from "../../../../_helper/_select";
 
 // Validation schema
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   //   saveHandler,

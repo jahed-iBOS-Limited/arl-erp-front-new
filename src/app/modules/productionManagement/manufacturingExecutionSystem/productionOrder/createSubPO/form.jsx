@@ -15,7 +15,7 @@ import {
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -39,7 +39,7 @@ export default function _Form({
   const [workCenter, setWorkCenter] = useState([]);
   const [bomName, setBomName] = useState([]);
   const { state } = useLocation();
-  
+
 
   // console.log("SingleData",productionId)
   // api's

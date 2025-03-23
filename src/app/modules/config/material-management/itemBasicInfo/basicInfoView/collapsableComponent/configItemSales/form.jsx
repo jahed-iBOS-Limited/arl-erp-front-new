@@ -64,7 +64,7 @@ const initValue = {
   vatItem: '',
 }
 
-export default function _Form({
+export default function FormCmp({
   initData,
   saveBtnRef,
   saveData,
@@ -313,7 +313,7 @@ export default function _Form({
                 </div>
               </div>
 
-              
+
               <button
                 type="submit"
                 style={{ display: 'none' }}

@@ -3,7 +3,7 @@ import React from "react";
 import { IInput } from "../../../../_helper/_input";
 import { editTripInfo } from "../helper";
 
-export default function _Form({
+export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
@@ -11,7 +11,7 @@ export default function _Form({
   updateRowDto,
   tripInfoData
 }) {
-  
+
   return (
     <>
       <Formik
