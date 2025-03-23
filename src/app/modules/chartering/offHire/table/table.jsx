@@ -11,7 +11,7 @@ import customStyles from '../../_chartinghelper/common/selectCustomStyle';
 import ICustomTable from '../../_chartinghelper/_customTable';
 import IView from '../../_chartinghelper/icons/_view';
 import IEdit from '../../_chartinghelper/icons/_edit';
-import { _formatMoney } from '../../_chartinghelper/_formatMoney';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 import PaginationTable from '../../_chartinghelper/_tablePagination';
 import { CharteringContext } from '../../charteringContext';
 import NewSelect from '../../../_helper/_select';
@@ -61,10 +61,8 @@ export default function OffHireTable() {
     const typeId = values?.viewType?.value;
     if (typeId === 1) {
       getLandingData(
-        `${imarineBaseUrl}/domain/OffHire/GetOffHireLanding?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${
-          values?.voyageNo?.value || 0
+        `${imarineBaseUrl}/domain/OffHire/GetOffHireLanding?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${values?.voyageNo?.value || 0
         }&VesselId=${values?.vesselName?.value || 0}`,
         (resData) => {
           setGridData(resData);
@@ -116,12 +114,9 @@ export default function OffHireTable() {
 
   const getDetails = (item) => {
     getLandingData(
-      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?AccountId=${
-        profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${
-        item?.voyageId
-      }&VesselId=${
-        item?.vesselId
+      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?AccountId=${profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${item?.voyageId
+      }&VesselId=${item?.vesselId
       }&viewOrder=asc&PageNo=${0}&PageSize=${1000}${''}`,
       (resData) => {
         if (resData?.data?.length > 0) {
@@ -138,7 +133,7 @@ export default function OffHireTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => {}}
+        onSubmit={(values) => { }}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
@@ -313,7 +308,7 @@ export default function OffHireTable() {
               <IViewModal
                 show={show}
                 onHide={() => setShow(false)}
-                // title={`Off Hire Details - ${singleItem?.vesselName}, V${singleItem?.voyageNumber}`}
+              // title={`Off Hire Details - ${singleItem?.vesselName}, V${singleItem?.voyageNumber}`}
               >
                 <OffHireDetails obj={{ gridData: detailsData, singleItem }} />
               </IViewModal>

@@ -69,35 +69,6 @@ export const validationSchema = Yup.object().shape({
   }),
   redeliveryDate: Yup.string().required('Field is required'),
 });
-
-export const getTimeCharterLandingData = async (
-  accId,
-  buId,
-  vesselId,
-  voyageId,
-  pageNo,
-  pageSize,
-  searchValue,
-  setter,
-  setLoading,
-) => {
-  setLoading(true);
-  const search = searchValue ? `&search=${searchValue}` : '';
-  const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
-  try {
-    const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
-        vesselId || 0
-      }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
-    );
-    setter(res?.data);
-    setLoading(false);
-  } catch (err) {
-    setter([]);
-    setLoading(false);
-  }
-};
-
 export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
@@ -193,7 +164,7 @@ export const getPreOffHires = async (
       0,
     );
     setter(totalOffHireDuration);
-  } catch (e) {}
+  } catch (e) { }
 };
 
 export const getTimeCharterTransaction = async (
@@ -257,11 +228,10 @@ export const GetTransactionDetails = async (
     } else {
       const prevHireList = res?.data?.previousTransaciton?.map((item) => {
         return {
-          description: `${item?.transactionName} ${
-            item?.receiveDate
+          description: `${item?.transactionName} ${item?.receiveDate
               ? `[${moment(item?.receiveDate).format('MM-DD-YYYY')}]`
               : ''
-          }`,
+            }`,
           tctransactionId: 0,
           duration: 0,
           quantity: 0,
@@ -307,9 +277,8 @@ export const GetTransactionDetails = async (
             isChecked: true,
           });
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ''
-            } ADD COM`,
+            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
+              } ADD COM`,
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
@@ -333,9 +302,8 @@ export const GetTransactionDetails = async (
           //   isChecked: true,
           // });
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ''
-            } LSFO`,
+            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
+              } LSFO`,
             tctransactionId: 0,
             duration: 0,
             quantity: item?.offHireLsfoqty,
@@ -347,9 +315,8 @@ export const GetTransactionDetails = async (
             isQty: { name: 'quantity' },
           });
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ''
-            } LSMGO`,
+            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
+              } LSMGO`,
             tctransactionId: 0,
             duration: 0,
             quantity: item?.offHireLsmgoqty || 0,
@@ -361,9 +328,8 @@ export const GetTransactionDetails = async (
             isQty: { name: 'quantity' },
           });
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ''
-            } C/V/E`,
+            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
+              } C/V/E`,
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
@@ -374,9 +340,8 @@ export const GetTransactionDetails = async (
             isChecked: true,
           });
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ''
-            } OTHERS`,
+            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
+              } OTHERS`,
             tctransactionId: 0,
             duration: 0,
             quantity: 0,
