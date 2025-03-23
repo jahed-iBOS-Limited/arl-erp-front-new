@@ -8,7 +8,7 @@ import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
 import IDelete from "../../../../_chartinghelper/icons/_delete";
 import ICustomTable from "../../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
-import { _formatMoney } from "../../../../_chartinghelper/_formatMoney";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import IViewModal from "../../../../_chartinghelper/_viewModal";
 import { getBusinessPartnerDDL, validationSchema } from "../helper";
 import AddCostTypeForm from "./addCostType";
@@ -90,11 +90,10 @@ export default function _Form({
                     type="button"
                     onClick={() => {
                       history.push({
-                        pathname: `${
-                          preData?.voyageType?.value === 1
+                        pathname: `${preData?.voyageType?.value === 1
                             ? `/chartering/next/offHire`
                             : "/chartering/layTime/layTime"
-                        }`,
+                          }`,
                         state: preData,
                       });
                     }}
@@ -315,7 +314,7 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          // disabled={true}
+                        // disabled={true}
                         />
                       </div>
 
@@ -388,7 +387,7 @@ export default function _Form({
                         {viewType !== "view" && (
                           <td
                             className="text-center d-flex justify-content-center"
-                            // style={{ maxWidth: "120px" }}
+                          // style={{ maxWidth: "120px" }}
                           >
                             {(viewType === "edit" || !viewType) && (
                               <IDelete remover={removeRow} id={index} />

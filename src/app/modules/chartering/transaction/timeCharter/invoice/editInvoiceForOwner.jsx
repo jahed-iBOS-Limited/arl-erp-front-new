@@ -2,7 +2,6 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ToWords } from 'to-words';
 import {
-  _formatMoney,
   _formatMoneyWithDoller,
 } from '../../../_chartinghelper/_formatMoney';
 import { getDifference } from '../../../_chartinghelper/_getDateDiff';
@@ -10,6 +9,7 @@ import FormikInput from '../../../_chartinghelper/common/formikInput';
 import { getOwnerBankInfoDetailsById } from '../helper';
 import { BankInfoComponent } from './bankInfoComponent';
 import './style.css';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const toWords = new ToWords({
   localeCode: 'en-US',
@@ -281,18 +281,16 @@ export default function EditInvoiceForOwner({
               <tr key={index}>
                 {/* SL */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  } text-center`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-center`}
                 >
                   {index + 1}
                 </td>
 
                 {/* Description */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  }`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    }`}
                 >
                   {item?.isDescription ? (
                     <FormikInput
@@ -320,9 +318,8 @@ export default function EditInvoiceForOwner({
 
                 {/* Duration */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  } text-center`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-center`}
                   style={{ width: '150px' }}
                 >
                   {item?.isDuration ? (
@@ -355,9 +352,8 @@ export default function EditInvoiceForOwner({
 
                 {/* Quantity */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  }`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    }`}
                   style={{ width: '150px' }}
                 >
                   {item?.isQty ? (
@@ -388,9 +384,8 @@ export default function EditInvoiceForOwner({
 
                 {/* Debit | But Debit Will be Credit for Owner */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  } text-right`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-right`}
                   style={{ width: '150px' }}
                 >
                   {item?.isCredit ? (
@@ -423,9 +418,8 @@ export default function EditInvoiceForOwner({
 
                 {/* Credit | But Credit Will be Debit For Owner */}
                 <td
-                  className={`${
-                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                  } text-right`}
+                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-right`}
                   style={{ width: '150px' }}
                 >
                   {item?.isDebit ? (
@@ -490,10 +484,10 @@ export default function EditInvoiceForOwner({
 
                   {/* Delete if new row */}
                   {item?.isDescription &&
-                  item?.isDuration &&
-                  item?.isCredit &&
-                  item?.isDebit &&
-                  item?.isQty ? (
+                    item?.isDuration &&
+                    item?.isCredit &&
+                    item?.isDebit &&
+                    item?.isQty ? (
                     <>
                       <span
                         onClick={() => {
