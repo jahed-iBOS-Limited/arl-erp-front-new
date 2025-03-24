@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { useHistory } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
@@ -7,25 +7,16 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { getRouteLanding } from "../helper";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-
-  //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, setGridData] = useState([]);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {

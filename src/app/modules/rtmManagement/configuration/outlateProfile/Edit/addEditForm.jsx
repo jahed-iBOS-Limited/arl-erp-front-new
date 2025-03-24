@@ -12,12 +12,13 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 
 import {
   getOutletProfileById,
-  GetOutletProfileTypeAttributes,
   editOutlateProfile,
   getBeatApiDDL,
   Attachment_action,
+  commonCollerCompanyDDL,
 } from "../helper";
 import Loading from "../../../../_helper/_loading";
+import { operation } from "../../../../_helper/_commonApi";
 
 const initData = {
   businessType: "",
@@ -53,56 +54,29 @@ export default function OutlateProfileEditFrom() {
   const [fileObjects, setFileObjects] = useState([]);
 
   // get user profile data from store
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
-      isCollerCompany([
-        { value: 1, label: "AFBL" },
-        { value: 2, label: "PEPSI" },
-        { value: 3, label: "COCA-COLA" },
-        { value: 4, label: "OTHERS" },
-      ]);
+      isCollerCompany(commonCollerCompanyDDL);
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const operation = async () => {
-    if (profileData.accountId && selectedBusinessUnit.value) {
-      await GetOutletProfileTypeAttributes(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        setAttributes
-      );
-    }
-
-    if (params?.id) {
-      await getOutletProfileById(params?.id, setSingleData, setOutlet);
-    }
-  };
-
-  // useEffect(() => {
-  //   if (params?.id) {
-  //     getBeatApiDDL(singleData?.routeName?.value, setBeatNameDDL);
-  //   }
-  // }, [params?.id, singleData]);
 
   useEffect(() => {
-    // if ((profileData.accountId, selectedBusinessUnit.value)) {
-    //   GetOutletProfileTypeAttributes(
-    //     profileData.accountId,
-    //     selectedBusinessUnit.value,
-    //     setAttributes
-    //   );
-    // }
-    operation();
-  }, [profileData, selectedBusinessUnit]);
+    operation({
+      profileData,
+      selectedBusinessUnit,
+      setAttributes,
+      params,
+      getOutletProfileById,
+      setSingleData,
+      setOutlet,
+    });
+  }, []);
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {

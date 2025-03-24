@@ -114,7 +114,6 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            // setRowDto([]);
           });
         }}
       >
@@ -129,11 +128,9 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-3">
-                  {/* <label>Route Name</label> */}
                   <NewSelect
                     label="Route Name"
                     name="routeName"
@@ -149,7 +146,6 @@ export default function _Form({
                   />
                 </div>
                 <div className="col-lg-3">
-                  {/* <label>Route Name</label> */}
                   <NewSelect
                     label="Market Name"
                     name="beatName"
@@ -177,7 +173,6 @@ export default function _Form({
                   />
                 </div>
                 <div className="col-lg-3">
-                  {/* <label>Business Type</label> */}
                   <NewSelect
                     label="Outlet Type"
                     name="businessType"

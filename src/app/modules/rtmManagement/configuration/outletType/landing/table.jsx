@@ -18,20 +18,13 @@ const OutletBusinessTypeLanding = () => {
 
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-  //paginationState
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
-
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     getLandingData(
@@ -106,7 +99,6 @@ const OutletBusinessTypeLanding = () => {
                             }}
                             name="isOnlyTmsAllowed"
                             checked={item?.isOnlyTmsAllowed}
-                            // className="form-control"
                             type="checkbox"
                             disabled
                           />
