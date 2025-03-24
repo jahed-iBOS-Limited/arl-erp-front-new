@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 const PrintHeader = ({ singleData }) => {
   const {
@@ -34,9 +34,8 @@ const PrintHeader = ({ singleData }) => {
       {id ? (
         <h5 className="text-center">
           {portAtName
-            ? `LAYTIME STATEMENT AT ${portAtName}${
-                berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
-              }`
+            ? `LAYTIME STATEMENT AT ${portAtName}${berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
+            }`
             : ""}
         </h5>
       ) : null}
@@ -78,9 +77,8 @@ const PrintHeader = ({ singleData }) => {
           </h6>
           <h6>
             {portAtName
-              ? `${portAtName}${
-                  berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
-                }`
+              ? `${portAtName}${berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
+              }`
               : ""}
           </h6>
           <h6>{cargo?.label || "-"} IN BULK</h6>

@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import AsyncSelect from 'react-select/async';
-import { components } from 'react-select';
-import useDebounce from './customHooks/useDebounce';
 import { Overlay, Tooltip } from 'react-bootstrap';
+import { components } from 'react-select';
+import AsyncSelect from 'react-select/async';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import { createCustomSelectStyles } from '../selectCustomStyle';
+import useDebounce from './customHooks/useDebounce';
 const SearchAsyncSelect = ({
   selectedValue,
   loadOptions,
@@ -99,7 +99,31 @@ const SearchAsyncSelect = ({
   })
 
   const debounce = useDebounce();
-
+  const commonSelectProps = {
+    menuPosition: "fixed",
+    isDisabled,
+    isClearable: true,
+    defaultOptions: true,
+    value: selectedValue,
+    getOptionLabel: (e) => e?.label,
+    getOptionValue: (e) => e?.value,
+    components: isSearchIcon && { DropdownIndicator },
+    loadOptions: () => {
+      if (isDebounce) {
+        return new Promise((resolve, reject) => {
+          debounce(() => {
+            loadOptions(inputValue, resolve, reject);
+          }, 500);
+        });
+      } else {
+        return loadOptions(inputValue);
+      }
+    },
+    onInputChange: handleInputChange,
+    onChange: (valueOption) => handleChange(valueOption),
+    styles: customStyles,
+    placeholder: placeholder ? placeholder : "Search (min 3 letter)",
+  };
   return (
     <div
       className="newSelectWrapper"
@@ -121,61 +145,9 @@ const SearchAsyncSelect = ({
         </Overlay>
       )}
       {isCreatableSelect ? (
-        <>
-          <AsyncCreatableSelect
-            menuPosition="fixed"
-            isDisabled={isDisabled}
-            isClearable={true}
-            defaultOptions
-            value={selectedValue}
-            getOptionLabel={(e) => e?.label}
-            getOptionValue={(e) => e?.value}
-            components={isSearchIcon && { DropdownIndicator }}
-            loadOptions={() => {
-              if (isDebounce) {
-                return new Promise((resolve, reject) => {
-                  debounce(() => {
-                    loadOptions(inputValue, resolve, reject);
-                  }, 500);
-                });
-              } else {
-                return loadOptions(inputValue);
-              }
-            }}
-            onInputChange={handleInputChange}
-            onChange={(valueOption) => handleChange(valueOption)}
-            styles={customStyles}
-            placeholder={placeholder ? placeholder : 'Search (min 3 letter) '}
-          />
-        </>
+        <AsyncCreatableSelect {...commonSelectProps} />
       ) : (
-        <>
-          <AsyncSelect
-            menuPosition="fixed"
-            isDisabled={isDisabled}
-            isClearable={true}
-            defaultOptions
-            value={selectedValue}
-            getOptionLabel={(e) => e?.label}
-            getOptionValue={(e) => e?.value}
-            components={isSearchIcon && { DropdownIndicator }}
-            loadOptions={() => {
-              if (isDebounce) {
-                return new Promise((resolve, reject) => {
-                  debounce(() => {
-                    loadOptions(inputValue, resolve, reject);
-                  }, 500);
-                });
-              } else {
-                return loadOptions(inputValue);
-              }
-            }}
-            onInputChange={handleInputChange}
-            onChange={(valueOption) => handleChange(valueOption)}
-            styles={customStyles}
-            placeholder={placeholder ? placeholder : 'Search (min 3 letter) '}
-          />
-        </>
+        <AsyncSelect {...commonSelectProps} />
       )}
     </div>
   );
