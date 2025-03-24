@@ -1,7 +1,6 @@
 import CryptoJS from 'crypto-js';
 import { Formik } from 'formik';
 import moment from 'moment';
-import '../expBookingList/style.css';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -14,6 +13,8 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import AirPreAlert from '../expBookingList/airPreAlart';
+import BillGenerate from '../expBookingList/bill';
 import BLModal from '../expBookingList/blModal';
 import Details from '../expBookingList/bookingDetails';
 import ChargesModal from '../expBookingList/chargesModal';
@@ -30,11 +31,10 @@ import ManifestModal from '../expBookingList/manifestModal';
 import MasterHBAWModal from '../expBookingList/masterHAWBModal';
 import MasterHBLModal from '../expBookingList/masterHBLModal';
 import ReceiveModal from '../expBookingList/receiveModal';
-import TransportModal from '../expBookingList/transportModal';
-import BillGenerate from '../expBookingList/bill';
 import SeaAirMasterBL from '../expBookingList/SeaAirMasterBl';
-import AirPreAlert from '../expBookingList/airPreAlart';
 import ShipmentOrderInvoice from '../expBookingList/shipmentOrderInvoice';
+import '../expBookingList/style.css';
+import TransportModal from '../expBookingList/transportModal';
 const validationSchema = Yup.object().shape({});
 function ImpBookingList() {
   const { profileData } = useSelector(
@@ -75,6 +75,7 @@ function ImpBookingList() {
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
       CryptoJS.enc.Utf8.parse(userID),
     );
+    // Encrypt the key using base64 encoding
     const superAdmin = CryptoJS.enc.Base64.stringify(
       CryptoJS.enc.Utf8.parse('superAdmin'),
     );
@@ -98,12 +99,9 @@ function ImpBookingList() {
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
-        searchValue || ''
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue || ''
       }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
@@ -133,7 +131,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId
+      item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -164,7 +162,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -482,7 +480,7 @@ function ImpBookingList() {
                               <tr key={i + 1}>
                                 <td>
                                   {isCompletedMasterBl ||
-                                  values?.modeOfTransport?.value === 4 ? (
+                                    values?.modeOfTransport?.value === 4 ? (
                                     <></>
                                   ) : (
                                     <>
@@ -506,9 +504,9 @@ function ImpBookingList() {
                                     </>
                                   )}
                                 </td>
-                                <td className="text-center">{i + 1}</td>
+                                <td className="text-center ">{i + 1}</td>
                                 <td className="text-left">
-                                  {item?.bookingRequestCode}
+                                  <span>{item?.bookingRequestCode}</span>
                                 </td>
                                 <td className="text-left">
                                   {item?.consigneeContact}
@@ -534,7 +532,7 @@ function ImpBookingList() {
                                 ) : (
                                   <td className="text-left">
                                     {item?.seaMasterBlCode &&
-                                    item?.airMasterBlCode ? (
+                                      item?.airMasterBlCode ? (
                                       <>
                                         {item?.seaMasterBlCode}{' '}
                                         {item?.airMasterBlCode
@@ -1186,9 +1184,8 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                  } Report`}
+                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
