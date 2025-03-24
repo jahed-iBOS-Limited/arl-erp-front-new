@@ -6,7 +6,7 @@ import AttachmentUploaderNew from '../../_helper/attachmentUploaderNew';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import { shallowEqual, useSelector } from 'react-redux';
-import { generateFileUrl } from './helper';
+import { generateFileUrl, initialStateOfEmailData, initialStateOfError } from './helper';
 
 const EmailEditorForPublicRoutes = ({
   featureName,
@@ -18,20 +18,9 @@ const EmailEditorForPublicRoutes = ({
     return state.authData;
   }, shallowEqual);
 
-  const [emailData, setEmailData] = useState({
-    toEmail: '',
-    ccEmail: '',
-    subject: '',
-    emailBody: '',
-    attachment: '',
-  });
+  const [emailData, setEmailData] = useState(initialStateOfEmailData);
 
-  const [errors, setErrors] = useState({
-    to: '',
-    cc: '',
-    subject: '',
-    body: '',
-  });
+  const [errors, setErrors] = useState(initialStateOfError);
 
   const [, onSendEmail, loader] = useAxiosPost();
 

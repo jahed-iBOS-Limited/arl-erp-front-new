@@ -166,3 +166,21 @@ export default function formatEmailsDynamically(emailArray) {
       backgroundColor: '#0056b3',
     },
   };
+
+
+  export const initialStateOfEmailData = {
+    toEmail: '',
+    ccEmail: '',
+    subject: '',
+    emailBody: '',
+    attachment: '',
+  }
+
+export const initialStateOfError = {
+  to: '',
+  cc: '',
+  subject: '',
+  body: '',
+}
+
+

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import formatEmailsDynamically, {
+  emailTemplateStyles,
   generateFileUrl,
   getEmailInfoandSendMail,
+  initialStateOfEmailData,
+  initialStateOfError,
 } from './helper';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
@@ -18,22 +21,11 @@ const DiffEmailSender = ({ emailEditorProps }) => {
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [emailData, setEmailData] = useState({
-    toEmail: '',
-    ccEmail: '',
-    subject: '',
-    emailBody: '',
-    attachment: '',
-  });
+  const [emailData, setEmailData] = useState(initialStateOfEmailData);
 
   console.log('emailData', emailData);
 
-  const [errors, setErrors] = useState({
-    to: '',
-    cc: '',
-    subject: '',
-    body: '',
-  });
+  const [errors, setErrors] = useState(initialStateOfError);
 
   const [, getEmailInfo, loading] = useAxiosPost();
   const [, onSendEmail, loader] = useAxiosPost();
@@ -200,77 +192,11 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     }
   };
 
-  const styles = {
-    container: {
-      width: '100%',
-      margin: 'auto',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif',
-    },
-    header: {
-      marginBottom: '20px',
-    },
-    field: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: '10px',
-    },
-    label: {
-      width: '70px',
-      fontSize: '14px',
-      color: '#333',
-    },
-    input: {
-      flexGrow: 1,
-      padding: '10px',
-      fontSize: '14px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-      outline: 'none',
-      transition: 'border-color 0.2s ease',
-    },
-    error: {
-      color: 'red',
-      fontSize: '12px',
-      marginLeft: '70px',
-      marginBottom: '10px',
-    },
-    bodyError: {
-      color: 'red',
-      fontSize: '12px',
-    },
-    quillContainer: {
-      marginBottom: '60px',
-    },
-    quill: {
-      height: '300px',
-      borderRadius: '5px',
-    },
-    footer: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      marginTop: '20px',
-    },
-    button: {
-      backgroundColor: '#007bff',
-      color: '#fff',
-      padding: '10px 20px',
-      fontSize: '14px',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-    },
-    buttonHover: {
-      backgroundColor: '#0056b3',
-    },
-  };
-
   return (
     <>
       {(loading || loader) && <Loading />}
-      <div style={styles.container}>
-        <div style={styles.header}>
+      <div style={emailTemplateStyles.container}>
+        <div style={emailTemplateStyles.header}>
           <div className="text-right">
             <button
               type="button"
@@ -282,8 +208,8 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               Add Email
             </button>
           </div>
-          <div style={styles.field}>
-            <label style={styles.label}>To:</label>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>To:</label>
             <input
               disabled
               type="text"
@@ -291,13 +217,13 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               // placeholder="Recipient's email (use '|' to separate multiple)"
               value={emailData.toEmail}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {errors.to && <div style={styles.error}>{errors.to}</div>}
+          {errors.to && <div style={emailTemplateStyles.error}>{errors.to}</div>}
 
-          <div style={styles.field}>
-            <label style={styles.label}>Cc:</label>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>Cc:</label>
             <input
               disabled
               type="text"
@@ -305,23 +231,23 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               // placeholder="Cc (comma-separated emails or '|' for multiple)"
               value={emailData.ccEmail}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {/* {errors.cc && <div style={styles.error}>{errors.cc}</div>} */}
+          {/* {errors.cc && <div style={emailTemplateStyles.error}>{errors.cc}</div>} */}
 
-          <div style={styles.field}>
-            <label style={styles.label}>Subject:</label>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>Subject:</label>
             <input
               type="text"
               name="subject"
               placeholder="Subject"
               value={emailData.subject}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {errors.subject && <div style={styles.error}>{errors.subject}</div>}
+          {errors.subject && <div style={emailTemplateStyles.error}>{errors.subject}</div>}
         </div>
 
         <div className="text-right mb-5">
@@ -339,17 +265,17 @@ const DiffEmailSender = ({ emailEditorProps }) => {
           />
         </div>
 
-        <div style={styles.quillContainer}>
+        <div style={emailTemplateStyles.quillContainer}>
           <ReactQuill
             value={emailData.emailBody}
             onChange={handleBodyChange}
-            style={styles.quill}
+            style={emailTemplateStyles.quill}
           />
-          {errors.body && <div style={styles.bodyError}>{errors.body}</div>}
+          {errors.body && <div style={emailTemplateStyles.bodyError}>{errors.body}</div>}
         </div>
 
-        <div style={styles.footer}>
-          <button style={styles.button} onClick={handleSend}>
+        <div style={emailTemplateStyles.footer}>
+          <button style={emailTemplateStyles.button} onClick={handleSend}>
             Send
           </button>
         </div>
