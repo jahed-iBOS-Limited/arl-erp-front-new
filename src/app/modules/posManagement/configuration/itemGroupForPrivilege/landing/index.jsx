@@ -22,8 +22,8 @@ const initData = {
 function ItemGroupForPrivilege() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const history = useHistory();
   const [rowDto, setRowDto] = useState([]);
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [WareHouseDDL, setWareHouseDDL] = useState([]);
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
@@ -73,9 +73,8 @@ function ItemGroupForPrivilege() {
   const acitveOnclickFunc = (values) => {
     const status = values?.status?.value ? false : true;
     let confirmObject = {
-      title: `Are you sure "${
-        values?.status?.value ? "Active" : "In-Active"
-      }"?`,
+      title: `Are you sure "${values?.status?.value ? "Active" : "In-Active"
+        }"?`,
       yesAlertFunc: () => {
         updateItemGroupById_api(
           values?.id,
@@ -85,7 +84,7 @@ function ItemGroupForPrivilege() {
           values
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -103,7 +102,7 @@ function ItemGroupForPrivilege() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,

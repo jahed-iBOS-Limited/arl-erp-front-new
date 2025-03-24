@@ -7,7 +7,7 @@ import * as Yup from "yup";
 // import {
 //   getAssetAssignReportData,
 // } from "../helper";
-import { businessUnitPlant_api, getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
+import { businessUnitPlant_api, getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getSBU, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
 import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
@@ -19,7 +19,6 @@ import IViewModal from "../../../../_helper/_viewModal";
 import { downloadFile } from "../../../../_helper/downloadFile";
 import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  getSBUList,
   inventoryStatement_api,
 } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
@@ -72,7 +71,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSbuList
