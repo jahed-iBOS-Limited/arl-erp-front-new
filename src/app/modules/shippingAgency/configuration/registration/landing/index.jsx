@@ -113,12 +113,12 @@ const RegistrationLanding = () => {
 
                 <div className='col-lg-3'>
                   <NewSelect
+                    name='voyageNo'
+                    label='Voyage No'
+                    placeholder='Voyage No'
                     value={values?.voyageNo || ""}
                     isSearchable={true}
                     options={voyageNoDDLApi || []}
-                    name='voyageNo'
-                    placeholder='Voyage No'
-                    label='Voyage No'
                     onChange={(valueOption) => {
                       setFieldValue("voyageNo", valueOption);
                       setGridData([]);
@@ -129,10 +129,10 @@ const RegistrationLanding = () => {
                 </div>
                 <div className='col d-flex align-items-end justify-content-end'>
                   <button
-                    className='btn btn-primary mt-3'
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
+                    className='btn btn-primary mt-3'
                   >
                     View
                   </button>
@@ -140,10 +140,10 @@ const RegistrationLanding = () => {
               </div>
               <LandingTable
                 obj={{
-                  gridData,
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
+                  gridData,
                 }}
               />
 

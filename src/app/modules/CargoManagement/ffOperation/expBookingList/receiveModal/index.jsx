@@ -23,9 +23,7 @@ function ReceiveModal({ rowClickData, CB }) {
   const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
   const [rowsData, setRowsData] = React.useState([]);
   const bookingRequestId = rowClickData?.bookingRequestId;
-  // const { profileData, selectedBusinessUnit } = useSelector((state) => {
-  //   return state.authData;
-  // }, shallowEqual);
+
   const formikRef = React.useRef(null);
   const [
     shipBookingRequestGetById,
@@ -113,7 +111,7 @@ function ReceiveModal({ rowClickData, CB }) {
         }}
         innerRef={formikRef}
       >
-        {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
+        {({ errors, touched, setFieldValue, values }) => (
           <>
             <Form className="form form-label-right">
               <div className="">

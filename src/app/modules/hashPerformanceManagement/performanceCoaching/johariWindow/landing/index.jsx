@@ -21,6 +21,7 @@ import image from './../assets/johariWindow-02.jpg';
 import JohariChip from './chip';
 import './JohariWindow.css';
 import PDFVIEW from './pdf';
+import { pdfExport } from '../../growModel/landing/table';
 
 const initData = {
   employee: '',
@@ -173,29 +174,6 @@ export default function JohariWindowLanding() {
       true,
     );
   };
-
-  const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
-
-    var clonedElement = element.cloneNode(true);
-    clonedElement.classList.add('d-block');
-
-    var opt = {
-      margin: 20,
-      filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: {
-        unit: 'px',
-        hotfixes: ['px_scaling'],
-        orientation: 'portrait',
-      },
-    };
-    html2pdf().set(opt).from(clonedElement).save();
-  };
-
-  // console.log("rowwwww", rowData);
-  // console.log("chiplist", chipList);
 
   return (
     <Formik

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import GridTable from "./table";
-import { Formik, Form } from "formik";
-import Loading from "./../../../../_helper/_loading";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   GetItemGroupLanding_api,
   getWareHouseDDL,
   updateItemGroupById_api,
 } from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
-import ICustomCard from "./../../../../_helper/_customCard";
-import NewSelect from "./../../../../_helper/_select";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
+import ICustomCard from "./../../../../_helper/_customCard";
+import Loading from "./../../../../_helper/_loading";
+import NewSelect from "./../../../../_helper/_select";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import GridTable from "./table";
 
 const initData = {
   outletName: "",
@@ -22,8 +22,8 @@ const initData = {
 function ItemGroupForPrivilege() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const history = useHistory();
   const [rowDto, setRowDto] = useState([]);
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [WareHouseDDL, setWareHouseDDL] = useState([]);
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
@@ -73,9 +73,8 @@ function ItemGroupForPrivilege() {
   const acitveOnclickFunc = (values) => {
     const status = values?.status?.value ? false : true;
     let confirmObject = {
-      title: `Are you sure "${
-        values?.status?.value ? "Active" : "In-Active"
-      }"?`,
+      title: `Are you sure "${values?.status?.value ? "Active" : "In-Active"
+        }"?`,
       yesAlertFunc: () => {
         updateItemGroupById_api(
           values?.id,
@@ -85,7 +84,7 @@ function ItemGroupForPrivilege() {
           values
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -103,7 +102,7 @@ function ItemGroupForPrivilege() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        // onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
@@ -170,8 +169,8 @@ function ItemGroupForPrivilege() {
                 />
                 {rowDto?.data?.length > 0 && (
                   <PaginationTable
-                    count={rowDto?.totalCount}
                     values={values}
+                    count={rowDto?.totalCount}
                     setPositionHandler={setPositionHandler}
                     paginationState={{
                       pageNo,

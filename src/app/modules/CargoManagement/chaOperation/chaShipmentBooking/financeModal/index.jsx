@@ -6,9 +6,9 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../../App';
 import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import NewSelect from '../../../../_helper/_select';
 import TextArea from '../../../../_helper/TextArea';
 const validationSchema = Yup.object().shape({
   narration: Yup.string(),
@@ -376,7 +376,7 @@ const BillCmp = ({
           </thead>
           <tbody>
             {billingDataFilterData?.map((row, index) => (
-              <tr key={index}>
+              <tr key={index + 1}>
                 <td style={{ textAlign: 'right' }}> {index + 1} </td>
                 <td className="align-middle">
                   <label>{row?.headOfCharges}</label>

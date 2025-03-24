@@ -91,14 +91,14 @@ export default function OutletWiseDueReport() {
       {
         text: "Department",
         textFormat: "text",
-        alignment: "center:middle",
         key: "strDepatrment",
+        alignment: "center:middle",
       },
       {
         text: "Designation",
         textFormat: "text",
-        alignment: "center:middle",
         key: "strdesignation",
+        alignment: "center:middle",
       },
       {
         text: "Due Amount",
@@ -123,7 +123,7 @@ export default function OutletWiseDueReport() {
         enableReinitialize={true}
         initialValues={initData}
         //validationSchema={validationSchema}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ setFieldValue, values }) => (
           <>

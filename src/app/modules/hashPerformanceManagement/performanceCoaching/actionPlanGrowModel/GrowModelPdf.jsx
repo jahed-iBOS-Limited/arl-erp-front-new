@@ -1,12 +1,12 @@
 import React from 'react';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-const GrowModelPdf = ({ pdfData }) => {
+const GrowModelPdf = ({ pdfData, title }) => {
    const { rowData } = pdfData;
    return (
       <>
          <h4 className="texr-secondary text-center mb-5 mt-5">
-            Action Plan Grow Model
+            {title || "Action Plan Grow Model"}
          </h4>
          <div className="row">
             <div className="col-lg-4 ml-3">

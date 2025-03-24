@@ -74,6 +74,7 @@ function AirOpsBookingList() {
     const encryptedToken = CryptoJS.enc.Base64.stringify(
       CryptoJS.enc.Utf8.parse(token),
     );
+    // Encrypt the token and userID using base64 encoding
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
       CryptoJS.enc.Utf8.parse(userID),
     );

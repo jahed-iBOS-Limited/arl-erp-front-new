@@ -570,13 +570,13 @@ const EstimatePDACreate = () => {
               <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} widthOutModfifyRowDto={widthOutModfifyRowDto} />
 
               <DropzoneDialogBase
+                open={open}
                 filesLimit={1}
                 acceptedFiles={['image/*', 'application/pdf']}
                 fileObjects={fileObjects}
                 cancelButtonText={'cancel'}
                 submitButtonText={'submit'}
                 maxFileSize={1000000}
-                open={open}
                 onAdd={(newFileObjs) => {
                   setFileObjects([].concat(newFileObjs));
                 }}
@@ -591,8 +591,8 @@ const EstimatePDACreate = () => {
                   setOpen(false);
                   attachment_action(fileObjects, setFieldValue, setLoading);
                 }}
-                showPreviews={true}
                 showFileNamesInPreview={true}
+                showPreviews={true}
               />
             </ICustomCard>
           </>

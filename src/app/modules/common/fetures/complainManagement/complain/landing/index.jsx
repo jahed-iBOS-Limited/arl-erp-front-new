@@ -130,7 +130,7 @@ const ComplainLanding = (featureName) => {
                 <div className='col-lg-3'>
                   <NewSelect
                     name='respondentBusinessUnit'
-                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    options={[{ value: 0, label: "All" }, ...businessUnitDDL] || []}
                     value={values?.respondentBusinessUnit}
                     label='Respondent Business Unit'
                     onChange={(valueOption) => {
@@ -138,8 +138,8 @@ const ComplainLanding = (featureName) => {
                         "respondentBusinessUnit",
                         valueOption || ""
                       );
-                     
-                    }}                   
+
+                    }}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -188,9 +188,9 @@ const ComplainLanding = (featureName) => {
                 </div>
                 <div className='col-lg-3'>
                   <InputField
+                    name='fromDate'
                     value={values?.fromDate}
                     label='From Date'
-                    name='fromDate'
                     type='date'
                     onChange={(e) => {
                       setFieldValue("fromDate", e.target.value);
@@ -201,9 +201,9 @@ const ComplainLanding = (featureName) => {
 
                 <div className='col-lg-3'>
                   <InputField
+                    name='toDate'
                     value={values?.toDate}
                     label='To Date'
-                    name='toDate'
                     type='date'
                     onChange={(e) => {
                       setFieldValue("toDate", e.target.value);
@@ -246,8 +246,8 @@ const ComplainLanding = (featureName) => {
                   setPositionHandler={(pageNo, pageSize) => {
                     commonGridData(pageNo, pageSize, values);
                   }}
-                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   values={values}
+                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                 />
               )}
             </ICustomCard>

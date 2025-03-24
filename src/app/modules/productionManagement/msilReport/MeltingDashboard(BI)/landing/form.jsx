@@ -151,8 +151,8 @@ const MeltingDashboardReport = () => {
                           settings: {
                             panes: {
                               filters: {
-                                expanded: false,
                                 visible: false,
+                                expanded: false,
                               },
                             },
                             background: models.BackgroundType.Transparent,
@@ -162,19 +162,19 @@ const MeltingDashboardReport = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],

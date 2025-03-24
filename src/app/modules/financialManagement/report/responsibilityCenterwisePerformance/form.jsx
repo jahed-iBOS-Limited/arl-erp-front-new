@@ -7,9 +7,9 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, CardHeader, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { SetPowerBiAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../_helper/_loading";
 
 import "./style.css";
 
@@ -143,6 +143,7 @@ const ResponsibilityCenterwisePerformanceReportRDLC = () => {
                           id: localStorageData?.reportId,
                           embedUrl: localStorageData?.embedUrl,
                           accessToken: localStorageData?.generateToken,
+                          //
                           tokenType: models.TokenType.Embed,
                           settings: {
                             panes: {
@@ -158,19 +159,19 @@ const ResponsibilityCenterwisePerformanceReportRDLC = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],
