@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
-import { getGridData } from '../helper';
-import IEdit from '../../../../_helper/_helperIcons/_edit';
-
-import ICustomCard from '../../../../_helper/_customCard';
-import Loading from '../../../../_helper/_loading';
-import PaginationTable from '../../../../_helper/_tablePagination';
-// import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getGridData } from "../helper";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import ICustomCard from "../../../../_helper/_customCard";
+import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
 
 export function TableRow() {
-  const [gridData, setGridData] = useState({});
   const history = useHistory();
+  const [gridData, setGridData] = useState({});
   const [loading, setLoading] = useState(false);
-  // const [values, setValues] = useState({});
-  //paginationState
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -37,11 +27,11 @@ export function TableRow() {
         setGridData,
         setLoading,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBusinessUnit, profileData]);
+  }, []);
 
   // setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -51,7 +41,7 @@ export function TableRow() {
       setGridData,
       setLoading,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
   return (
@@ -66,7 +56,7 @@ export function TableRow() {
             onClick={() =>
               history.push({
                 pathname:
-                  '/rtm-management/configuration/routePlanConfig/create',
+                  "/rtm-management/configuration/routePlanConfig/create",
               })
             }
           >
@@ -94,7 +84,7 @@ export function TableRow() {
                     <td className="text-center"> {item?.sl}</td>
                     <td>
                       <div className="pr-2 text-right">
-                        {' '}
+                        {" "}
                         {item?.lastRoutePlanEntryDay}
                       </div>
                     </td>
@@ -119,7 +109,7 @@ export function TableRow() {
                           className="edit"
                           onClick={() => {
                             history.push(
-                              `/rtm-management/configuration/routePlanConfig/edit/${item.autoId}`,
+                              `/rtm-management/configuration/routePlanConfig/edit/${item.autoId}`
                             );
                           }}
                         >
