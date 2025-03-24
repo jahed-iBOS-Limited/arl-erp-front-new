@@ -571,19 +571,6 @@ export default function _Form({
                             valueOption || ""
                           );
                         }}
-                        // styles={{
-                        //   ...customStyles,
-                        //   control: (provided, state) => ({
-                        //     ...provided,
-                        //     minHeight: "30px",
-                        //     height: "auto",
-                        //   }),
-                        //   valueContainer: (provided, state) => ({
-                        //     ...provided,
-                        //     height: "auto",
-                        //     padding: "0 6px",
-                        //   }),
-                        // }}
                         styles={createCustomSelectStyles({
                           isAutoHeight: true,
                           minHeight: "30px"
