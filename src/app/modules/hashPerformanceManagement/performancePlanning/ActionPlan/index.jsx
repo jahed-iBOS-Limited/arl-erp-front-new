@@ -93,13 +93,13 @@ export default function ActionPlan() {
     const rowList = rowData?.row?.map((data) => {
       return {
         rowId: data?.rowId || 0,
+        actionBy: userId,
         actionPlanHeaderId: data?.actionPlanHeaderId || 0,
         activity: data?.activity,
         stardDate: data?.stardDate,
         endDate: data?.endDate,
         isActive: true,
         actionDate: _dateFormatter(new Date()),
-        actionBy: userId,
       };
     });
 
