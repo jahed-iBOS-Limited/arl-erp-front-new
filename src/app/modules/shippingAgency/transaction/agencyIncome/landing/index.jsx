@@ -82,8 +82,8 @@ const AgencyIncomeLanding = () => {
                     name='fromDate'
                     type='date'
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
                       setGridData([]);
+                      setFieldValue("fromDate", e.target.value);
                     }}
                   />
                 </div>
@@ -95,8 +95,8 @@ const AgencyIncomeLanding = () => {
                     name='toDate'
                     type='date'
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
                       setGridData([]);
+                      setFieldValue("toDate", e.target.value);
                     }}
                   />
                 </div>
@@ -125,8 +125,8 @@ const AgencyIncomeLanding = () => {
                       customerName: item?.customerName,
                       vesselId: item?.vesselId,
                       vesselName: item?.vesselName,
-                      voyageNo: item?.voyageNo,
                       amount: item?.totalBill,
+                      voyageNo: item?.voyageNo,
                       fromDate: values?.fromDate,
                       toDate: values?.toDate,
                       vasselTypeId: values?.type?.value,

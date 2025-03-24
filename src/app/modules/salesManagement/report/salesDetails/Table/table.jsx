@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { getItemCategoryDDLByTypeId_api } from "../../../../config/material-management/itemBasicInfo/helper";
-import {
-  getItemTypeListDDL_api,
-  ItemSubCategory_api,
-} from "../../../../inventoryManagement/reports/inventoryStock/helper";
+
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
@@ -17,6 +14,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import ICustomTable from "../../../../_helper/_customTable";
 import Loading from "../../../../_helper/_loading";
+import { getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 
 const reports = [
   { value: 1, label: "Sales Details Report" },
@@ -125,10 +123,10 @@ export default function SalesDetailsTable({ saveHandler }) {
     empLevelId === 5
       ? regionId || 0
       : empLevelId === 6
-      ? areaId || 0
-      : empLevelId === 7
-      ? territoryInfoId || 0
-      : 0;
+        ? areaId || 0
+        : empLevelId === 7
+          ? territoryInfoId || 0
+          : 0;
 
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -161,34 +159,34 @@ export default function SalesDetailsTable({ saveHandler }) {
     return id === 1
       ? `14d2263a-c732-48f9-9b6c-ce80556f8e85`
       : id === 2
-      ? `9797b99a-9d50-4ed8-91ff-ee5e93558c6b`
-      : id === 3
-      ? `e4f0b500-db98-41e9-a932-eb4ad1f9ad8e`
-      : id === 4
-      ? `39ced584-8519-4e78-aa2b-0e6a37886992`
-      : id === 5
-      ? `2da2a02d-bc20-46a1-86fe-9b2aae43a50f`
-      : id === 6
-      ? `1258397d-84f6-4079-b9ef-35ce50a501c6`
-      : id === 7
-      ? `bbabf651-9f58-41cb-91c8-c6524256b404`
-      : id === 8
-      ? `0fdc584e-859d-44e2-9066-b675c6fa61f6`
-      : id === 9
-      ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
-      : id === 10
-      ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
-      : id === 12
-      ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
-      : id === 13
-      ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
-      : id === 14
-      ? `c5252df3-b81e-431c-8395-86de88f52f11`
-      : id === 15
-      ? `41d38697-8e3f-453d-bea1-e3d0f0b49ec2`
-      : id === 16
-      ? `fe886d74-87ab-42e5-8695-b4be96e51aca`
-      : "";
+        ? `9797b99a-9d50-4ed8-91ff-ee5e93558c6b`
+        : id === 3
+          ? `e4f0b500-db98-41e9-a932-eb4ad1f9ad8e`
+          : id === 4
+            ? `39ced584-8519-4e78-aa2b-0e6a37886992`
+            : id === 5
+              ? `2da2a02d-bc20-46a1-86fe-9b2aae43a50f`
+              : id === 6
+                ? `1258397d-84f6-4079-b9ef-35ce50a501c6`
+                : id === 7
+                  ? `bbabf651-9f58-41cb-91c8-c6524256b404`
+                  : id === 8
+                    ? `0fdc584e-859d-44e2-9066-b675c6fa61f6`
+                    : id === 9
+                      ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
+                      : id === 10
+                        ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
+                        : id === 12
+                          ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
+                          : id === 13
+                            ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
+                            : id === 14
+                              ? `c5252df3-b81e-431c-8395-86de88f52f11`
+                              : id === 15
+                                ? `41d38697-8e3f-453d-bea1-e3d0f0b49ec2`
+                                : id === 16
+                                  ? `fe886d74-87ab-42e5-8695-b4be96e51aca`
+                                  : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 
@@ -208,15 +206,13 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "intSoldToPartnerId", value: `${values?.partner?.value}` },
       {
         name: "strProductType",
-        value: `${
-          values?.productType?.value === 0 ? "All" : values?.productType?.value
-        }`,
+        value: `${values?.productType?.value === 0 ? "All" : values?.productType?.value
+          }`,
       },
       {
         name: "subGroup",
-        value: `${
-          values?.subGroup?.value === 0 ? "All" : values?.subGroup?.value
-        }`,
+        value: `${values?.subGroup?.value === 0 ? "All" : values?.subGroup?.value
+          }`,
       },
       { name: "FromDate", value: `${values?.fromDate}` },
       { name: "ToDate", value: `${values?.toDate}` },
@@ -351,39 +347,39 @@ export default function SalesDetailsTable({ saveHandler }) {
     return id === 1
       ? paramsForSalesDetails
       : id === 2
-      ? paramsForCategoryBaseItem
-      : id === 3
-      ? paramsForPriceRate
-      : id === 4
-      ? fourthParams
-      : id === 5
-      ? fifthParams
-      : id === 6
-      ? sixthParams
-      : id === 7
-      ? [1, 3].includes(values?.reportType?.value)
-        ? [
-            ...seventhParams,
-            { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
-          ]
-        : seventhParams
-      : id === 8
-      ? eightParams
-      : id === 9
-      ? nineParams
-      : id === 10
-      ? tenParams
-      : id === 12
-      ? twelveParams
-      : id === 13
-      ? thirteenParams
-      : id === 14
-      ? fourteenParams
-      : id === 15
-      ? fifteenParams
-      : id === 16
-      ? shiftWisePackerInformation
-      : [];
+        ? paramsForCategoryBaseItem
+        : id === 3
+          ? paramsForPriceRate
+          : id === 4
+            ? fourthParams
+            : id === 5
+              ? fifthParams
+              : id === 6
+                ? sixthParams
+                : id === 7
+                  ? [1, 3].includes(values?.reportType?.value)
+                    ? [
+                      ...seventhParams,
+                      { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
+                    ]
+                    : seventhParams
+                  : id === 8
+                    ? eightParams
+                    : id === 9
+                      ? nineParams
+                      : id === 10
+                        ? tenParams
+                        : id === 12
+                          ? twelveParams
+                          : id === 13
+                            ? thirteenParams
+                            : id === 14
+                              ? fourteenParams
+                              : id === 15
+                                ? fifteenParams
+                                : id === 16
+                                  ? shiftWisePackerInformation
+                                  : [];
   };
 
   const getLandingData = (values) => {
@@ -497,53 +493,53 @@ export default function SalesDetailsTable({ saveHandler }) {
                         {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15].includes(
                           values?.report?.value
                         ) && (
-                          <RATForm
-                            obj={{
-                              values,
-                              setFieldValue,
-                              region: [5, 6, 7, 8, 13].includes(
-                                values?.report?.value
-                              ),
-                              area: [5, 6, 7, 8, 13].includes(
-                                values?.report?.value
-                              ),
-                              territory: [5, 6, 7, 8, 13].includes(
-                                values?.report?.value
-                              ),
-                              columnSize: "col-lg-2",
-                              onChange: (allValues, keyName) => {
-                                setShowReport(false);
-                                if (keyName === "channel" && buId === 144) {
-                                  getSoldToPartnerDDL(
-                                    `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}&channelId=${allValues?.channel?.value}`
-                                  );
-                                }
-                              },
-                            }}
-                          />
-                        )}
+                            <RATForm
+                              obj={{
+                                values,
+                                setFieldValue,
+                                region: [5, 6, 7, 8, 13].includes(
+                                  values?.report?.value
+                                ),
+                                area: [5, 6, 7, 8, 13].includes(
+                                  values?.report?.value
+                                ),
+                                territory: [5, 6, 7, 8, 13].includes(
+                                  values?.report?.value
+                                ),
+                                columnSize: "col-lg-2",
+                                onChange: (allValues, keyName) => {
+                                  setShowReport(false);
+                                  if (keyName === "channel" && buId === 144) {
+                                    getSoldToPartnerDDL(
+                                      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}&channelId=${allValues?.channel?.value}`
+                                    );
+                                  }
+                                },
+                              }}
+                            />
+                          )}
                         {[2, 3, 8, 9, 10, 13].includes(
                           values?.report?.value
                         ) && (
-                          <div className="col-lg-2">
-                            <NewSelect
-                              name="partner"
-                              options={[
-                                { value: 0, label: "All" },
-                                ...soldToPartnerDDL,
-                              ]}
-                              value={values?.partner}
-                              label="Sold to Partner"
-                              onChange={(valueOption) => {
-                                setFieldValue("partner", valueOption);
-                                setShowReport(false);
-                              }}
-                              placeholder="Sold to Partner"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                        )}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name="partner"
+                                options={[
+                                  { value: 0, label: "All" },
+                                  ...soldToPartnerDDL,
+                                ]}
+                                value={values?.partner}
+                                label="Sold to Partner"
+                                onChange={(valueOption) => {
+                                  setFieldValue("partner", valueOption);
+                                  setShowReport(false);
+                                }}
+                                placeholder="Sold to Partner"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          )}
                         {[2].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
@@ -612,28 +608,28 @@ export default function SalesDetailsTable({ saveHandler }) {
                         {[3, 10, 11, 13, 15].includes(
                           values?.report?.value
                         ) && (
-                          <>
-                            <div className="col-lg-2">
-                              <NewSelect
-                                name="salesOrg"
-                                options={salesOrgs || []}
-                                value={values?.salesOrg}
-                                label="Sales Organization"
-                                onChange={(valueOption) => {
-                                  setFieldValue("salesOrg", valueOption);
-                                  getItems(
-                                    `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${valueOption?.value}`
-                                  );
-                                  setShowReport(false);
-                                }}
-                                placeholder="Sales Organization"
-                                errors={errors}
-                                touched={touched}
-                                isDisabled={!values?.channel}
-                              />
-                            </div>
-                          </>
-                        )}
+                            <>
+                              <div className="col-lg-2">
+                                <NewSelect
+                                  name="salesOrg"
+                                  options={salesOrgs || []}
+                                  value={values?.salesOrg}
+                                  label="Sales Organization"
+                                  onChange={(valueOption) => {
+                                    setFieldValue("salesOrg", valueOption);
+                                    getItems(
+                                      `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${valueOption?.value}`
+                                    );
+                                    setShowReport(false);
+                                  }}
+                                  placeholder="Sales Organization"
+                                  errors={errors}
+                                  touched={touched}
+                                  isDisabled={!values?.channel}
+                                />
+                              </div>
+                            </>
+                          )}
                         {[3, 10, 11].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">

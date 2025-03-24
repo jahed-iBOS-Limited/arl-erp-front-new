@@ -184,8 +184,8 @@ const TestReport = () => {
                     <>
                       <PowerBIEmbed
                         embedConfig={{
-                          type: "report",
                           id: localStorageData?.reportId,
+                          type: "report",
                           embedUrl: localStorageData?.embedUrl,
                           accessToken: localStorageData?.generateToken,
                           tokenType: models.TokenType.Embed,
@@ -203,28 +203,29 @@ const TestReport = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],
                           ])
                         }
-                        cssClassName={"powerbi-report-style-class"}
                         getEmbeddedComponent={(embeddedReport) => {
                           window.report = embeddedReport;
                         }}
+                        cssClassName={"powerbi-report-style-class"}
+
                       />
                     </>
                   )}

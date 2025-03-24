@@ -5,64 +5,6 @@ import AsyncSelect from 'react-select/async';
 import { createCustomSelectStyles } from '../selectCustomStyle';
 // { value, onChange, loadOptionsAction, inputValue, setInputValue }
 
-// export const customStylesSelectMulti = {
-//   control: (provided, state) => ({
-//     ...provided,
-//     minHeight: '22px',
-//     // height: "22px",
-//   }),
-
-//   valueContainer: (provided, state) => ({
-//     ...provided,
-//     // height: "22px",
-//     padding: '0 6px',
-//   }),
-
-//   input: (provided, state) => ({
-//     ...provided,
-//     margin: '0px',
-//   }),
-//   indicatorSeparator: (state) => ({
-//     display: 'none',
-//   }),
-//   indicatorsContainer: (provided, state) => ({
-//     ...provided,
-//     // height: "22px",
-//   }),
-//   clearIndicator: (provided, state) => ({
-//     ...provided,
-//     paddingRight: 2,
-//   }),
-//   dropdownIndicator: (provided, state) => ({
-//     ...provided,
-//     paddingLeft: 0,
-//   }),
-//   option: (provided, state) => ({
-//     ...provided,
-//     padding: 1,
-//     fontSize: 12.5,
-//     paddingLeft: 7,
-//     zIndex: 99999999,
-//   }),
-//   placeholder: (provided, state) => ({
-//     ...provided,
-//     fontSize: 11.5,
-//     textOverflow: 'ellipsis',
-//     maxWidth: '95%',
-//     whiteSpace: 'nowrap',
-//     overflow: 'hidden',
-//   }),
-//   menu: (provided, state) => ({
-//     ...provided,
-//     backgroundColor: '#ffffff',
-//     minWidth: 'max-content',
-//     width: '100%',
-//     borderRadius: '2px',
-//     zIndex: 99999999999999,
-//   }),
-// };
-
-
 const customStylesSelectMulti = {
   ...createCustomSelectStyles({
     isOptionPaddingRight: false,

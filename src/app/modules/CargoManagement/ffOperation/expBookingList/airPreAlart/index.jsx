@@ -75,8 +75,8 @@ export default function AirPreAlert({ rowClickData }) {
           fontSize: 11,
           fontWeight: 400,
           display: 'flex',
-          flexDirection: 'column',
           gap: 10,
+          flexDirection: 'column',
         }}
         ref={componentRef}
       >
@@ -166,8 +166,8 @@ const CommonHeaderInfo = ({
           {transportPlanningMode === 1
             ? 'AIR'
             : transportPlanningMode === 2
-            ? 'SEA'
-            : 'Land'}{' '}
+              ? 'SEA'
+              : 'Land'}{' '}
           {bookingData?.tradeTypeId === 1 ? 'Export ' : 'Import '}
           Pre Alert{' '}
         </div>

@@ -1,7 +1,7 @@
 import { default as axios } from 'axios';
 import { toast } from 'react-toastify';
-import { _dateFormatter } from './_dateFormate';
 import { imarineBaseUrl } from '../../../App';
+import { _dateFormatter } from './_dateFormate';
 
 export const getImageuploadStatus = (accountId) => {
   return axios.get(`/fino/Image/getImageuploadStatus?accountId=${accountId}`);
@@ -15,7 +15,7 @@ export const getSBU = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBankAc = async (accId, BuId, setter) => {
@@ -26,7 +26,7 @@ export const getBankAc = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const changeChequeBookSave = async (id, chequeNo, cb) => {
@@ -123,7 +123,7 @@ export const getPartner = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export function getPartnerDDL(accId, buId) {
@@ -140,7 +140,7 @@ export const getPartnerDetailsDDL = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBusinessTransactionDDL = async (accId, BuId, setter) => {
@@ -151,7 +151,7 @@ export const getBusinessTransactionDDL = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBusTransDDLForExpense = async (accId, BuId, setter) => {
@@ -162,7 +162,7 @@ export const getBusTransDDLForExpense = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getInstrumentType = async (setter) => {
@@ -171,7 +171,7 @@ export const getInstrumentType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
@@ -182,7 +182,7 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const approvalApi = async (
@@ -222,8 +222,7 @@ export const getItemGridData = async (
     setLoading(true);
     const res = await axios.get(
       // `/procurement/Approval/GetItemRequestListForApproval?BusinessUnitId=${buId}&UserId=${userId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${
-        pageNo || 1
+      `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${pageNo || 1
       }&PageSize=${pageSize}${Search}&plantId=${plantId}`,
     );
     if (res.status === 200 && res?.data) {
@@ -267,7 +266,7 @@ export const saveBankJournal = async (
       const obj = {
         title: 'Bank Journal Code',
         message: res?.data?.code,
-        noAlertFunc: () => {},
+        noAlertFunc: () => { },
       };
       IConfirmModal(obj);
     }
@@ -370,11 +369,11 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                  value: item?.objHeader?.businessPartnerId || 0,
-                  label: item?.objHeader?.businessPartnerName || '',
-                  businessPartnerCode:
-                    item?.objHeader?.businessPartnerCode || '',
-                }
+                value: item?.objHeader?.businessPartnerId || 0,
+                label: item?.objHeader?.businessPartnerName || '',
+                businessPartnerCode:
+                  item?.objHeader?.businessPartnerCode || '',
+              }
               : '',
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
@@ -483,11 +482,11 @@ export const singleDataById = async (id, type, setter) => {
             },
             partner: item?.objHeader?.businessPartnerId
               ? {
-                  value: item?.objHeader?.businessPartnerId || 0,
-                  label: item?.objHeader?.businessPartnerName || '',
-                  businessPartnerCode:
-                    item?.objHeader?.businessPartnerCode || '',
-                }
+                value: item?.objHeader?.businessPartnerId || 0,
+                label: item?.objHeader?.businessPartnerName || '',
+                businessPartnerCode:
+                  item?.objHeader?.businessPartnerCode || '',
+              }
               : '',
             isCheck: item?.objHeader?.businessPartnerId ? false : true,
             // partnerType: item?.objHeader?.businessPartnerTypeId
@@ -598,19 +597,19 @@ export const singleDataById = async (id, type, setter) => {
             sendToGLBank:
               item?.objHeader?.transferTo === 'Cash'
                 ? {
-                    value: item?.objRow?.[0]?.generalLedgerId,
-                    label: item?.objRow?.[0]?.generalLedgerName,
-                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                  }
+                  value: item?.objRow?.[0]?.generalLedgerId,
+                  label: item?.objRow?.[0]?.generalLedgerName,
+                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                }
                 : {
-                    value: item?.objRow?.[0]?.bankAccountId,
-                    // label: item?.objRow?.[0]?.bankAccNo,
-                    label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
-                    bankAccNo: item?.objRow?.[0]?.bankAccNo,
-                    generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
-                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-                    generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
-                  },
+                  value: item?.objRow?.[0]?.bankAccountId,
+                  // label: item?.objRow?.[0]?.bankAccNo,
+                  label: `${item?.objRow?.[0]?.bankShortName}: ${item?.objRow?.[0]?.bankAccNo}`,
+                  bankAccNo: item?.objRow?.[0]?.bankAccNo,
+                  generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
+                  generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                  generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
+                },
             transaction: '',
             // amount is for bank receive and bank payment row
             amount: '',
@@ -634,7 +633,7 @@ export const singleDataById = async (id, type, setter) => {
         setter(data);
       }
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
   try {
@@ -644,7 +643,7 @@ export const getBusinessPartnerSalesDDLAction = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBusinessPartnerPurchaseDDLAction = async (
@@ -659,7 +658,7 @@ export const getBusinessPartnerPurchaseDDLAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getOthersPartner = async (accId, buId, setter) => {
   try {
@@ -669,7 +668,7 @@ export const getOthersPartner = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getPartnerTypeDDL = async (setter) => {
   try {
@@ -677,7 +676,7 @@ export const getPartnerTypeDDL = async (setter) => {
       '/fino/AccountingConfig/GetAccTransectionTypeDDL',
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getProfitCenterDDL = async (buId, setter) => {
   try {
@@ -690,7 +689,7 @@ export const getProfitCenterDDL = async (buId, setter) => {
       label: item?.profitCenterName,
     }));
     setter(modifiedData);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getCostElementDDL = async (UnitId, AccountId, setter) => {
   try {
@@ -698,7 +697,7 @@ export const getCostElementDDL = async (UnitId, AccountId, setter) => {
       `/procurement/PurchaseOrder/CostElement?AccountId=${AccountId}&UnitId=${UnitId}`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
   try {
@@ -706,7 +705,7 @@ export const getCostCenterDDL = async (UnitId, AccountId, setter) => {
       `/procurement/PurchaseOrder/CostCenter?AccountId=${AccountId}&UnitId=${UnitId}`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getRevenueElementListDDL = async (businessUnitId, setter) => {
   try {
@@ -714,7 +713,7 @@ export const getRevenueElementListDDL = async (businessUnitId, setter) => {
       `/fino/AccountingConfig/GetRevenueElementList?businessUnitId=${businessUnitId}`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
   try {
@@ -722,7 +721,7 @@ export const getRevenueCenterListDDL = async (businessUnitId, setter) => {
       `/fino/AccountingConfig/GetRevenueCenterList?businessUnitId=${businessUnitId}`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getNextBankCheque = async (
   accId,
@@ -810,7 +809,7 @@ export const getCostElementByCostCenterDDL = async (
       `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`,
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getBankAccountDDL_api = async (accId, buId, setter) => {
@@ -821,7 +820,7 @@ export const getBankAccountDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getShipByDDL = async (setter) => {
   try {
@@ -829,7 +828,7 @@ export const getShipByDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetLighterCNFDDL = async (setter) => {
@@ -917,8 +916,7 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${
-        vesselId || 0
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId || 0
       }${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
     setter(res?.data);
@@ -937,7 +935,7 @@ export const GetBranchDDL = async (accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getDeliveryChallanInfoById = async ({
@@ -1046,8 +1044,7 @@ export const getVoyageDDLNew = async ({
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=${accId}&BusinessUnitId=${buId}&vesselId=${id}&VoyageTypeId=${
-        voyageTypeId || 0
+      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=${accId}&BusinessUnitId=${buId}&vesselId=${id}&VoyageTypeId=${voyageTypeId || 0
       }&ReturnType=${isComplete || 0}&HireTypeId=${hireType || 0}`,
     );
     setter(res?.data);
@@ -1220,4 +1217,64 @@ export const operation = async ({
     await getOutletProfileById(params?.id, setSingleData, setOutlet);
     cb && cb()
   }
+};
+export const businessUnitPlant_api = async (
+  accId,
+  buId,
+  userId,
+  plantId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=${plantId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+
+export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/WmsReport/GetItemSubCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemCategoryId=${caId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const getItemTypeListDDL_api = async (setter) => {
+  try {
+    const res = await axios.get(`/wms/WmsReport/GetItemTypeListDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
+export const getItemCategoryDDLByTypeId_api = async (
+  accId,
+  buId,
+  itemTypeId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemTypeId=${itemTypeId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res.data);
+    }
+  } catch (error) { }
 };

@@ -377,8 +377,8 @@ function HBLFormatAirItem({
                       <p className="textTitle ">Flight/Date</p>
                       {transportPlanningAir?.estimatedTimeOfDepart
                         ? moment(
-                            transportPlanningAir?.estimatedTimeOfDepart,
-                          ).format('DD.MM.YYYY')
+                          transportPlanningAir?.estimatedTimeOfDepart,
+                        ).format('DD.MM.YYYY')
                         : ''}
                     </div>
                     <div className="" style={{ width: '50%' }}>
@@ -387,8 +387,8 @@ function HBLFormatAirItem({
                       <p className="medium-font">
                         {transportPlanningAir?.arrivalDateTime
                           ? moment(
-                              transportPlanningAir?.arrivalDateTime,
-                            ).format('DD.MM.YYYY')
+                            transportPlanningAir?.arrivalDateTime,
+                          ).format('DD.MM.YYYY')
                           : ''}
                       </p>
                     </div>
@@ -605,14 +605,13 @@ function HBLFormatAirItem({
                     {bookingData?.infoType === 'lc'
                       ? 'LC No'
                       : bookingData?.infoType === 'tt'
-                      ? 'TT No'
-                      : 'S/C No'}
+                        ? 'TT No'
+                        : 'S/C No'}
                     :{' '}
                     {bookingData?.objPurchase?.map((item, index) => {
                       return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
-                        index < bookingData?.objPurchase?.length - 1 ? ',' : ''
-                      }`;
+                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                        }`;
                     })}
                   </p>
                   <p>
@@ -686,39 +685,39 @@ function HBLFormatAirItem({
                       {!['cif', 'cpt', 'cfr'].includes(
                         bookingData?.incoterms,
                       ) && (
-                        <>
-                          {isPrintView ? (
-                            <>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    htmlContent?.weightChargeCollect || '',
-                                }}
-                              ></div>
-                            </>
-                          ) : (
-                            <>
-                              <ReactQuill
-                                value={htmlContent?.weightChargeCollect || ''}
-                                onChange={(value) => {
-                                  changeHandelar &&
-                                    changeHandelar({
-                                      key: 'weightChargeCollect',
-                                      value,
-                                    });
-                                }}
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />{' '}
-                            </>
-                          )}
-                        </>
-                      )}
+                          <>
+                            {isPrintView ? (
+                              <>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html:
+                                      htmlContent?.weightChargeCollect || '',
+                                  }}
+                                ></div>
+                              </>
+                            ) : (
+                              <>
+                                <ReactQuill
+                                  value={htmlContent?.weightChargeCollect || ''}
+                                  onChange={(value) => {
+                                    changeHandelar &&
+                                      changeHandelar({
+                                        key: 'weightChargeCollect',
+                                        value,
+                                      });
+                                  }}
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />{' '}
+                              </>
+                            )}
+                          </>
+                        )}
                     </p>
                   </div>
                 </div>
@@ -751,18 +750,17 @@ function HBLFormatAirItem({
                       {['cif', 'cpt', 'cfr'].includes(
                         bookingData?.incoterms,
                       ) && (
-                        <>
-                          {isPrintView ? (
-                            <>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    htmlContent?.valuationChargePrepaid || '',
-                                }}
-                              ></div>
-                            </>
-                          ) : (
-                            <>
+                          <>
+                            {isPrintView ? (
+                              <>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html:
+                                      htmlContent?.valuationChargePrepaid || '',
+                                  }}
+                                ></div>
+                              </>
+                            ) : (
                               <ReactQuill
                                 value={
                                   htmlContent?.valuationChargePrepaid || ''
@@ -773,6 +771,7 @@ function HBLFormatAirItem({
                                       key: 'valuationChargePrepaid',
                                       value,
                                     });
+                                  //   console.log('valuationChargePrepaid', value);
                                 }}
                                 modules={{
                                   toolbar: false,
@@ -781,11 +780,10 @@ function HBLFormatAirItem({
                                   padding: 0,
                                   margin: 0,
                                 }}
-                              />{' '}
-                            </>
-                          )}
-                        </>
-                      )}
+                              />
+                            )}
+                          </>
+                        )}
                     </p>
                   </div>
                   <div className="collectChartRight">
@@ -793,41 +791,41 @@ function HBLFormatAirItem({
                       {!['cif', 'cpt', 'cfr'].includes(
                         bookingData?.incoterms,
                       ) && (
-                        <>
-                          {isPrintView ? (
-                            <>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html:
-                                    htmlContent?.valuationChargeCollect || '',
-                                }}
-                              ></div>
-                            </>
-                          ) : (
-                            <>
-                              <ReactQuill
-                                value={
-                                  htmlContent?.valuationChargeCollect || ''
-                                }
-                                onChange={(value) => {
-                                  changeHandelar &&
-                                    changeHandelar({
-                                      key: 'valuationChargeCollect',
-                                      value,
-                                    });
-                                }}
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />{' '}
-                            </>
-                          )}
-                        </>
-                      )}
+                          <>
+                            {isPrintView ? (
+                              <>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html:
+                                      htmlContent?.valuationChargeCollect || '',
+                                  }}
+                                ></div>
+                              </>
+                            ) : (
+                              <>
+                                <ReactQuill
+                                  value={
+                                    htmlContent?.valuationChargeCollect || ''
+                                  }
+                                  onChange={(value) => {
+                                    changeHandelar &&
+                                      changeHandelar({
+                                        key: 'valuationChargeCollect',
+                                        value,
+                                      });
+                                  }}
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />{' '}
+                              </>
+                            )}
+                          </>
+                        )}
                     </p>
                   </div>
                 </div>
@@ -860,38 +858,38 @@ function HBLFormatAirItem({
                       {['cif', 'cpt', 'cfr'].includes(
                         bookingData?.incoterms,
                       ) && (
-                        <>
-                          {isPrintView ? (
-                            <>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: htmlContent?.taxPrepaid || '',
-                                }}
-                              ></div>
-                            </>
-                          ) : (
-                            <>
-                              <ReactQuill
-                                value={htmlContent?.taxPrepaid || ''}
-                                onChange={(value) => {
-                                  changeHandelar &&
-                                    changeHandelar({
-                                      key: 'taxPrepaid',
-                                      value,
-                                    });
-                                }}
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />{' '}
-                            </>
-                          )}
-                        </>
-                      )}
+                          <>
+                            {isPrintView ? (
+                              <>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: htmlContent?.taxPrepaid || '',
+                                  }}
+                                ></div>
+                              </>
+                            ) : (
+                              <>
+                                <ReactQuill
+                                  value={htmlContent?.taxPrepaid || ''}
+                                  onChange={(value) => {
+                                    changeHandelar &&
+                                      changeHandelar({
+                                        key: 'taxPrepaid',
+                                        value,
+                                      });
+                                  }}
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />{' '}
+                              </>
+                            )}
+                          </>
+                        )}
                     </p>
                   </div>
                   <div className="collectChartRight">
@@ -899,38 +897,38 @@ function HBLFormatAirItem({
                       {!['cif', 'cpt', 'cfr'].includes(
                         bookingData?.incoterms,
                       ) && (
-                        <>
-                          {isPrintView ? (
-                            <>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: htmlContent?.taxCollect || '',
-                                }}
-                              ></div>
-                            </>
-                          ) : (
-                            <>
-                              <ReactQuill
-                                value={htmlContent?.taxCollect || ''}
-                                onChange={(value) => {
-                                  changeHandelar &&
-                                    changeHandelar({
-                                      key: 'taxCollect',
-                                      value,
-                                    });
-                                }}
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />{' '}
-                            </>
-                          )}
-                        </>
-                      )}
+                          <>
+                            {isPrintView ? (
+                              <>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: htmlContent?.taxCollect || '',
+                                  }}
+                                ></div>
+                              </>
+                            ) : (
+                              <>
+                                <ReactQuill
+                                  value={htmlContent?.taxCollect || ''}
+                                  onChange={(value) => {
+                                    changeHandelar &&
+                                      changeHandelar({
+                                        key: 'taxCollect',
+                                        value,
+                                      });
+                                  }}
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />{' '}
+                              </>
+                            )}
+                          </>
+                        )}
                     </p>
                   </div>
                 </div>
@@ -968,43 +966,43 @@ function HBLFormatAirItem({
                           {['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDagentPrepaid ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDagentPrepaid ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDagentPrepaid ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totOtherChargesDagentPrepaid',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totOtherChargesDagentPrepaid',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                       <div className="collectChartRight">
@@ -1012,43 +1010,43 @@ function HBLFormatAirItem({
                           {!['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDagentCollect ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDagentCollect ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDagentCollect ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totOtherChargesDagentCollect',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totOtherChargesDagentCollect',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                     </div>
@@ -1074,43 +1072,43 @@ function HBLFormatAirItem({
                           {['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDcarrierPrepaid ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDcarrierPrepaid ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDcarrierPrepaid ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totOtherChargesDcarrierPrepaid',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totOtherChargesDcarrierPrepaid',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                       <div className="collectChartRight">
@@ -1118,43 +1116,43 @@ function HBLFormatAirItem({
                           {!['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDcarrierCollect ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDcarrierCollect ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDcarrierCollect ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totOtherChargesDcarrierCollect',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totOtherChargesDcarrierCollect',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                     </div>
@@ -1168,44 +1166,44 @@ function HBLFormatAirItem({
                           {['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDcarrierPrepaid2 ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDcarrierPrepaid2 ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDcarrierPrepaid2 ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key:
-                                            'totOtherChargesDcarrierPrepaid2',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key:
+                                              'totOtherChargesDcarrierPrepaid2',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                       <div className="collectChartRight">
@@ -1213,44 +1211,44 @@ function HBLFormatAirItem({
                           {!['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          htmlContent?.totOtherChargesDcarrierCollect2 ||
+                                          '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={
                                         htmlContent?.totOtherChargesDcarrierCollect2 ||
-                                        '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={
-                                      htmlContent?.totOtherChargesDcarrierCollect2 ||
-                                      ''
-                                    }
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key:
-                                            'totOtherChargesDcarrierCollect2',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                                        ''
+                                      }
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key:
+                                              'totOtherChargesDcarrierCollect2',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                     </div>
@@ -1320,38 +1318,38 @@ function HBLFormatAirItem({
                           {['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: htmlContent?.totalPrepaid || '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={htmlContent?.totalPrepaid || ''}
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totalPrepaid',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: htmlContent?.totalPrepaid || '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={htmlContent?.totalPrepaid || ''}
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totalPrepaid',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                       <div className="collectChartRight">
@@ -1359,38 +1357,38 @@ function HBLFormatAirItem({
                           {!['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           ) && (
-                            <>
-                              {isPrintView ? (
-                                <>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: htmlContent?.totalCollect || '',
-                                    }}
-                                  ></div>
-                                </>
-                              ) : (
-                                <>
-                                  <ReactQuill
-                                    value={htmlContent?.totalCollect || ''}
-                                    onChange={(value) => {
-                                      changeHandelar &&
-                                        changeHandelar({
-                                          key: 'totalCollect',
-                                          value,
-                                        });
-                                    }}
-                                    modules={{
-                                      toolbar: false,
-                                    }}
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  />{' '}
-                                </>
-                              )}
-                            </>
-                          )}
+                              <>
+                                {isPrintView ? (
+                                  <>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: htmlContent?.totalCollect || '',
+                                      }}
+                                    ></div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <ReactQuill
+                                      value={htmlContent?.totalCollect || ''}
+                                      onChange={(value) => {
+                                        changeHandelar &&
+                                          changeHandelar({
+                                            key: 'totalCollect',
+                                            value,
+                                          });
+                                      }}
+                                      modules={{
+                                        toolbar: false,
+                                      }}
+                                      style={{
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    />{' '}
+                                  </>
+                                )}
+                              </>
+                            )}
                         </p>
                       </div>
                     </div>
@@ -1633,8 +1631,8 @@ const HAWBBackSide = () => {
                             content.title === ''
                               ? '0px'
                               : i === 0
-                              ? '10px'
-                              : '20px',
+                                ? '10px'
+                                : '20px',
                         }}
                       >
                         {' '}
@@ -1688,8 +1686,8 @@ const HAWBBackSide = () => {
                             content.title === ''
                               ? '0px'
                               : i === 0
-                              ? '5px'
-                              : '20px',
+                                ? '5px'
+                                : '20px',
                         }}
                       >
                         {' '}

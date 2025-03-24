@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -392,6 +392,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                 open={open}
                 onAdd={(newFileObjs) => {
                   setFileObjects([].concat(newFileObjs));
+                  // console.log(newFileObjs);
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects?.filter(

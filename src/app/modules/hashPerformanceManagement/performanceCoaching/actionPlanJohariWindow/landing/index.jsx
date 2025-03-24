@@ -1,7 +1,8 @@
 import { Formik } from 'formik';
-import React, { useEffect } from 'react';
 import html2pdf from 'html2pdf.js';
-import './styles.css';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
@@ -9,18 +10,17 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IClose from '../../../../_helper/_helperIcons/_close';
-import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
-import { quaterDDL } from '../../../hashPerformanceCommon';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { toast } from 'react-toastify';
-import JohariWindowPdfFile from '../JohariWindowPdfFile';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { quaterDDL } from '../../../hashPerformanceCommon';
+import GrowModelPdf from '../../actionPlanGrowModel/GrowModelPdf';
+import './styles.css';
 const initData = {
   year: '',
   quater: '',
@@ -197,7 +197,7 @@ export default function JohariWindowActionPlan() {
             label: 'Johari Window',
           },
         }}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue, errors, touched }) => (
           <>
@@ -298,7 +298,7 @@ export default function JohariWindowActionPlan() {
                       options={[]}
                       value={values?.type}
                       label="Type"
-                      onChange={(valueOption) => {}}
+                      onChange={(valueOption) => { }}
                       placeholder="Type"
                       errors={errors}
                       isDisabled={true}
@@ -419,84 +419,9 @@ export default function JohariWindowActionPlan() {
                 </div>
 
                 <div id="pdf-section" className="actionplan-pdf-section d-none">
-                  <JohariWindowPdfFile pdfData={pdfData} />
+                  <GrowModelPdf pdfData={pdfData} title={'Action Plan Johari Window'} />
                 </div>
-                {/* <section
-                  id="pdf-section"
-                  className="actionplan-pdf-section d-none"
-                  componentRef={printRef}
-                  ref={printRef}
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
-                  <h4 className="texr-secondary text-center mb-5 mt-5">
-                    Action Plan/Initiative Form
-                  </h4>
-                  <h6 className="mt-2">Employee Name: {employeeFullName}</h6>
-                  <h6>Employee Id: {employeeId}</h6>
-                  <table style={{ width: "100%" }}>
-                    <tr>
-                      <th colSpan={4} className="text-center">
-                        GOAL/OBJECTIVE/KPI/BEHAVIOUR
-                      </th>
-                    </tr>
-                    <tr>
-                      <td className="text-center" colSpan={4}>
-                        {rowData.typeReference}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th
-                        colSpan={2}
-                        className="text-center"
-                        style={{
-                          width: "50%",
-                        }}
-                      >
-                        CURRENT RESULT
-                      </th>
-                      <th colSpan={2} className="text-center">
-                        DESIRED RESULT
-                      </th>
-                    </tr>
-                    <tr>
-                      <td colSpan={2} className="text-center">
-                        {rowData.currentResult}
-                      </td>
-                      <td colSpan={2} className="text-center">
-                        {rowData.desiredResult}
-                      </td>
-                    </tr>
 
-                    <tr>
-                      <th className="text-center">SN</th>
-                      <th className="text-center">LIST OF TASK</th>
-                      <th className="text-center">START DATE</th>
-                      <th className="text-center">END DATE</th>
-                    </tr>
-                    {rowData?.row?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td>{item.activity}</td>
-                          <td className="text-center">
-                            {_dateFormatter(item.stardDate)}
-                          </td>
-                          <td className="text-center">
-                            {_dateFormatter(item.endDate)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </table>
-
-                  <div style={{ marginTop: "45px" }}>
-                    <h6 style={{ textAlign: "right", marginRight: "25px" }}>
-                      DATE & SIGN
-                    </h6>
-                  </div>
-                </section> */}
               </CardBody>
             </Card>
           </>

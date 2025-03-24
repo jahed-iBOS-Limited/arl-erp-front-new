@@ -1,6 +1,8 @@
+import axios from "axios";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { wearhouse_api } from "../../../_helper/_commonApi";
 import ICustomCard from "../../../_helper/_customCard";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -9,22 +11,20 @@ import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIRepor
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
-import axios from "axios";
+import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
 import MotherVesselInventoryReportTable from "./MVInventoryTable";
+import BufferStockvsDelivery from "./bufferStockvsDelivery";
 import ChallanWiseSalesReport from "./challanWiseSalesTable";
+import G2GinventoryChart from "./g2ginventoryChart";
 import {
   GetDomesticPortDDLWMS,
   GetShipPointDDL,
   getGodownDDL,
   getMotherVesselDDL,
-  wearhouse_api,
 } from "./helper";
-import WareHouseInventoryReportTable from "./wareHouseInventoryReportTable";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import ItemVsWarehouse from "./itemVsWarehouse";
 import ItemVsMotherVessel from "./itemVsMotherVessel";
-import G2GinventoryChart from "./g2ginventoryChart";
-import BufferStockvsDelivery from "./bufferStockvsDelivery";
+import ItemVsWarehouse from "./itemVsWarehouse";
+import WareHouseInventoryReportTable from "./wareHouseInventoryReportTable";
 
 const types = [
   { value: 5, label: "Mother Vessel Inventory Report" },
@@ -110,28 +110,24 @@ const InventoryG2GReportRDLC = () => {
     const urlOne = `/tms/LigterLoadUnload/G2GChallanWiseSalesReport?accountId=${accId}&businessUnitId=${buId}${search}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
     // Mother Vessel Inventory Report
-    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${
-      values?.fromDate
-    }&dteToDate=${values?.toDate}&intPlantId=${
-      values?.plant?.value
-    }&intItemTypeId=${typeId}&intItemId=${values?.motherVessel?.value ||
+    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate
+      }&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value
+      }&intItemTypeId=${typeId}&intItemId=${values?.motherVessel?.value ||
       0}&intWareHouseId=${values?.wh?.value}&intG2GItemId=${values?.intG2GItemId
-      ?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+        ?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
     const urlThree = `/tms/InternalTransport/GetG2GBufferAllotmentVsChllan?intPartid=10&intMotherVesselid=${values
-      ?.motherVessel?.value || 0}&intshiptopartnerid=${
-      values?.bufferName?.value
-    }&intShippingPointId=${values?.shipPoint?.value}&dteFromDate=${
-      values?.fromDate
-    }&dteToDate=${values?.toDate}`;
+      ?.motherVessel?.value || 0}&intshiptopartnerid=${values?.bufferName?.value
+      }&intShippingPointId=${values?.shipPoint?.value}&dteFromDate=${values?.fromDate
+      }&dteToDate=${values?.toDate}`;
 
     const URL = [4].includes(typeId)
       ? urlOne
       : [5, 6, 7, 8, 9].includes(typeId)
-      ? urlTwo
-      : [10].includes(typeId)
-      ? urlThree
-      : "";
+        ? urlTwo
+        : [10].includes(typeId)
+          ? urlThree
+          : "";
 
     getRowData(URL);
   };
@@ -478,7 +474,7 @@ const InventoryG2GReportRDLC = () => {
                               ...res?.data,
                             ]);
                         }}
-                        // isDisabled={type}
+                      // isDisabled={type}
                       />
                     </div>
                   </>

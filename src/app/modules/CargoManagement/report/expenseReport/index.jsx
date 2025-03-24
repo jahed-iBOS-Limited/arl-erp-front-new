@@ -58,6 +58,7 @@ export default function ExpenseReport() {
                       type="date"
                       onChange={(e) =>
                         setFieldValue('fromDate', e.target.value)
+                        // console.log('fromDate', e.target.value)
                       }
                     />
                   </div>
@@ -71,7 +72,6 @@ export default function ExpenseReport() {
                     />
                   </div>
                   <div className="pt-4">
-                    {/* Search */}
                     <button type="submit" className="btn btn-primary mt-2">
                       View
                     </button>

@@ -14,8 +14,7 @@ export const getShippointDDL = async (accId, buId, setter) => {
 export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
-        portId || 0
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId || 0
       }`,
     );
     setter(res.data);
@@ -54,7 +53,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const GetCarrierDDL = async (accId, buId, port, setter) => {
@@ -81,17 +80,6 @@ export const GetDomesticPortDDLWMS = async (setter) => {
   }
 };
 
-//Wearhouse_api Api call
-export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
-  try {
-    const res = await axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 // ddl
 export const GetShipPointDDL = async (accId, buId, setter) => {
   setter([]);
