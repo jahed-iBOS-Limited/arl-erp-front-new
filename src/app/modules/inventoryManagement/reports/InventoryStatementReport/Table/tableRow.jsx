@@ -16,7 +16,6 @@ import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   businessUnitPlant_api,
-  getItemCategoryDDLByTypeId_api,
   getSBUList,
   inventoryStatement_api,
   wearhouse_api,
@@ -29,7 +28,7 @@ import TableForINVInOut from "./TableForINVInOut";
 import DetailsModal from "./detailsModal";
 import DetailsModalNew from "./detailsModalNew";
 import RegisterNewTable from "./registerNewTable";
-import { getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
+import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 
 const validationSchema = Yup.object().shape({});
 

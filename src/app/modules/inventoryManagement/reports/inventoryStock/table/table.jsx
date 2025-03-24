@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getItemTypeListDDL_api, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
+import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
 import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
@@ -10,7 +10,6 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import { SetReportsInventoryStockAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   businessUnitPlant_api,
-  getItemCategoryDDLByTypeId_api,
   inventoryStatement_api,
 } from "../helper";
 import "../style.css";

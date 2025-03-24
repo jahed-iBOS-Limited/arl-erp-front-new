@@ -82,28 +82,3 @@ export const InventoryLedger_api = async (
     setLoading(false);
   }
 };
-
-
-
-
-export const getItemCategoryDDLByTypeId_api = async (
-  accId,
-  buId,
-  itemTypeId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemTypeId=${itemTypeId}`
-    );
-    if (res.status === 200 && res?.data) {
-      // const modifiedData = res?.data?.map((item) => ({
-      //   value: item.itemCategoryId,
-      //   label: item.itemCategoryName,
-      // }));
-      // const DDLData = [{ value: 0, label: "All" }, ...modifiedData];
-
-      setter(res.data);
-    }
-  } catch (error) { }
-};

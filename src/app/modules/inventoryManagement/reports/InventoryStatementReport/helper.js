@@ -168,23 +168,6 @@ export const InventoryLedger_api_new = async (
   }
 };
 
-
-export const getItemCategoryDDLByTypeId_api = async (
-  accId,
-  buId,
-  itemTypeId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemTypeId=${itemTypeId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res.data);
-    }
-  } catch (error) { }
-};
-
 export const getSBUList = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(

@@ -1112,3 +1112,18 @@ export const getItemTypeListDDL_api = async (setter) => {
     }
   } catch (error) { }
 };
+export const getItemCategoryDDLByTypeId_api = async (
+  accId,
+  buId,
+  itemTypeId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemTypeId=${itemTypeId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res.data);
+    }
+  } catch (error) { }
+};
