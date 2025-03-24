@@ -276,7 +276,7 @@ const SingleItem = ({
               </div>
               <div className="secondRow borderBottom textTitle">
                 <div className="firstColumn borderRight">
-                  <p>Marks &amp; Numbers</p>
+                  <p><span>Marks &amp; Numbers</span></p>
                   <p>Container &amp; Seal Numbers</p>
                 </div>
                 <div className="secondColumn">
@@ -409,16 +409,15 @@ const SingleItem = ({
                       {bookingData?.infoType === 'lc'
                         ? 'LC No'
                         : bookingData?.infoType === 'tt'
-                        ? 'TT No'
-                        : 'S/C No'}
+                          ? 'TT No'
+                          : 'S/C No'}
                       :{' '}
                       {bookingData?.objPurchase?.map((item, index) => {
                         return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
-                          index < bookingData?.objPurchase?.length - 1
+                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1
                             ? ','
                             : ''
-                        }`;
+                          }`;
                       })}
                     </p>
                     <p>
@@ -644,31 +643,30 @@ const HBLBackSide = () => {
               gap: '2px',
             }}
           >
-            {data.content.slice(0, 19).map((item, index) => (
+            {data?.content?.slice(0, 19).map((item, index) => (
               <div key={index}>
                 <div
                   style={{
                     display: 'flex',
                     gap: '2px',
-                    // paddingBottom: '2px',
                   }}
                 >
                   <span>{item?.serial}</span>
                   <span>{item?.title}</span>
                 </div>
 
-                {item.content.map((content, i) => (
+                {item?.content?.map((content, i) => (
                   <div
                     key={i}
                     style={{
                       display: 'grid',
                       gridTemplateColumns: '1fr 11fr',
-                      // paddingBottom: '2px',
                       paddingLeft: '20px',
+                      gap: 0
                     }}
                   >
-                    <span> {content.title}</span>
-                    <span>{content.text}</span>
+                    <span> {content?.title}</span>
+                    <span>{content?.text}</span>
                   </div>
                 ))}
               </div>
@@ -710,8 +708,8 @@ const HBLBackSide = () => {
                     style={{
                       display: 'grid',
                       gridTemplateColumns: '1fr 11fr',
-                      // paddingBottom: '2px',
                       paddingLeft: '20px',
+                      gap: 0
                     }}
                   >
                     <span> {content.title}</span>
@@ -745,7 +743,7 @@ const data = {
       content: [
         {
           title: '1.1.',
-          text: ` Notwithstanding the heading Combined Transport Bill of Lading the provisions set out and referred to in this document shall also apply when the transport as described on the face of the Bill of Lading is performed by one mode of transport onlyPick-up delivery and transshipment operations caned out in the performance of the one mode transport and incident to such transport do not constitute Mecent mode of transport for the purposes of this Bill of LadingLINE is the person by whom or for whom this Bill of Lading a signed`,
+          text: `Notwithstanding the heading Combined Transport Bill of Lading the provisions set out and referred to in this document shall also apply when the transport as described on the face of the Bill of Lading is performed by one mode of transport onlyPick-up delivery and transshipment operations caned out in the performance of the one mode transport and incident to such transport do not constitute Mecent mode of transport for the purposes of this Bill of LadingLINE is the person by whom or for whom this Bill of Lading a signed`,
         },
         {
           title: '1.2.',
@@ -753,7 +751,7 @@ const data = {
         },
         {
           title: '1.3.',
-          text: `The LINE is not a common camer and reserves the right to accept or refuse containers) and/or Goods for camage at as sole dicreation`,
+          text: `The LINE is not a common camer  and reserves the right to accept or refuse containers) and/or Goods for camage at as sole dicreation`,
         },
       ],
     },
@@ -763,7 +761,7 @@ const data = {
       content: [
         {
           title: '2.1',
-          text: `By the issue of this Bit of Lading the LINE undertones o perform or to procure the performance of the entire transport from the place at which the Goods are taken in charge (place of acceptance to the place designated for delivery in this Bit of Lading and assumes lability as set out in these conditions`,
+          text: `By the issue of this Bit of Lading the LINE undertones  o perform or to procure the performance of the entire transport from the place at which the Goods are taken in charge (place of acceptance to the place designated for delivery in this Bit of Lading and assumes lability as set out in these conditions`,
         },
         {
           title: '2.2.1',
@@ -771,7 +769,7 @@ const data = {
         },
         {
           title: 'a)',
-          text: ` carry the Goods by any means of transport and any route or in anidirection whatsoever, whether within or out of the most direct or advertised or customary route and proceed beyond the port and/or place of discharge or in a direction contrary thereto or return to the onginal place and/or port of Departure`,
+          text: ` carry the Goods by any means of transport and any route  or in anidirection whatsoever, whether within or out of the most direct or advertised or customary route and proceed beyond the port and/or place of discharge or in a direction contrary thereto or return to the onginal place and/or port of Departure`,
         },
         {
           title: 'b)',
@@ -779,7 +777,7 @@ const data = {
         },
         {
           title: '2.2.2',
-          text: ` The rights set cut under 2.21 may be invoked by the LINE for any purpose whatsoever including repairs, towing or being towed saling with or without pilots adjusting equipment or instruments, dry docking and assisting vessels in all situations Anything done in accordance with clause 2.2.1 or any delay arising therefrom is within the contractual camage and not a deviation`,
+          text: ` The rights set cut under 2.21 may be  invoked by the LINE for any purpose whatsoever including repairs, towing or being towed saling with or without pilots adjusting equipment or instruments, dry docking and assisting vessels in all situations Anything done in accordance with clause 2.2.1 or any delay arising therefrom is within the contractual camage and not a deviation`,
         },
       ],
     },
@@ -789,11 +787,11 @@ const data = {
       content: [
         {
           title: 'i)',
-          text: `The LINE shall be discharged of all ability under this Document unless suit is brought within nine months after the delivery of the Goods or`,
+          text: `The LINE shall be  discharged of all ability under this Document unless suit is brought within nine months after the delivery of the Goods or`,
         },
         {
           title: 'ii)',
-          text: `the date when the Goods should have been delivernd`,
+          text: `The date when the Goods should have been delivernd`,
         },
       ],
     },
@@ -807,17 +805,17 @@ const data = {
         },
         {
           title: '4.2',
-          text: ` No proceedings may be brought before other courts unless the pates axpressly agree on both the choice of another court or arbitration tribunal and the law to be then applicable`,
+          text: `No proceedings may be brought before other courts unless the pates axpressly agree on both the choice of another court or arbitration tribunal and the law to be then applicable`,
         },
       ],
     },
     {
       serial: '5.',
-      title: 'Negotiability an Tite to the Goods',
+      title: 'Negotiability an Tite to the Goods ',
       content: [
         {
           title: '5.1',
-          text: `This Bill of Lading shall be deemed to the negotiable unless marked non negable"`,
+          text: `This Bill of Lading shall be deemed to the negotiable unless marked non negotiable"`,
         },
         {
           title: '5.2',
@@ -845,7 +843,7 @@ const data = {
         },
         {
           title: '6.2',
-          text: `The LINE reserves the iberty to determine whether Goods and livestock shall be camed on deck on an open lorry, on an open trailer or any open railway wagon Goods (not being Goods slowed in containers other than flats or pallets) which are stated herein to be carried on deck or on open lomes, traders or railway wagons and livestock may be camed on deck, on an open lorty, on an open trailer or an open railway wagon, and if camed so are carried without responsibility on the part of the LINE for loss or damage of whatsoever nature whether caused by unseaworthiness of negligence or any other cause whatsoever`,
+          text: `The LINE reserves the iberty to determine whether Goods and livestock shall be camed on deck on an open lorry,on an open trailer or any open railway wagon Goods (not being Goods slowed in containers other than flats or pallets) which are stated herein to be carried on deck or on open lomes, traders or railway wagons and livestock may be camed on deck, on an open lorty, on an open trailer or an open railway wagon, and if camed so are carried without responsibility on the part of the LINE for loss or damage of whatsoever nature whether caused by unseaworthiness of negligence or any other cause whatsoever`,
         },
       ],
     },
@@ -855,11 +853,11 @@ const data = {
       content: [
         {
           title: 'a)',
-          text: `When collection or delivery takes place at the consignor's or consignee's premises, the place of collectio delivery shall be the usual place of loading or unloading the Goods into or from the vehicle and the LINE shall not be under any obligation to provide any plant, power or labour which may be required for the loading or unloading at such. `,
+          text: `When collection or delivery takes place at the consignor's or consignee's premises, the place of collection delivery shall be the usual place of loading or unloading the Goods into or from the vehicle and the LINE shall not be under any obligation to provide any plant, power or labour which may be required for the loading or unloading at such. `,
         },
         {
           title: 'b)',
-          text: `premises. This shall be the responsibility of the consignor or consignee at his own risk and expenseany assistance given by the LINE additional to the foregoing is given entrely at the conrsigness’s as the damage to or loss of Goods or injury to persons.`,
+          text: `premises. This shall be the responsibility of the consignor or consignee at his own risk and expense any assistance given by the LINE additional to the foregoing is given entrely at the conrsigness’s as the damage to or loss of Goods or injury to persons.`,
         },
       ],
     },
@@ -891,7 +889,7 @@ const data = {
       content: [
         {
           title: '9.1',
-          text: ` The LINE shall used reasonable endeavors to complete the transport and to delivery the Goods at the placa designated for delivery`,
+          text: ` The LINE shall used reasonable endeavors to complete the transport and to delivery the Goods at the place a designated for delivery`,
         },
         {
           title: '9.2',
@@ -899,11 +897,11 @@ const data = {
         },
         {
           title: 'a)',
-          text: ` test the performance of this contract as terminated and place the Goods at the Merchant's disposal at any deem sale and convenient or place which the LINE shal`,
+          text: ` Test the performance of this contract as terminated and place the Goods at the Merchant's disposal at any deem sale and convenient or place which the LINE shal`,
         },
         {
           title: 'b)',
-          text: `deliver the Goods at the place designested for delivery in any event the LINE shall be entitled to full freight for Goods received for transpiration and additional compensation for extra costs resulting from the circumstances referred to above/`,
+          text: `Deliver the Goods at the place designested for delivery in any event the LINE shall be entitled to full freight for Goods received for transpiration and additional compensation for extra costs resulting from the circumstances referred to above/`,
         },
       ],
     },
@@ -959,7 +957,7 @@ const data = {
       content: [
         {
           title: '',
-          text: ` This Document shall be prime faces evidence of the taking in charge by the LINE of the Goods as therein described in respect of the particulars which had reasonable means of checking Proof to the contrary shall not be admissible when thus Document is issued in negotiable from and has been transferred to a third party acting in good faith`,
+          text: `This Document shall be prime faces evidence of the taking in charge by the LINE of the Goods as therein described in respect of the particulars which had reasonable means of checking Proof to the contrary shall not be admissible when thus Document is issued in negotiable from and has been transferred to a third party acting in good faith`,
         },
       ],
     },
@@ -1031,7 +1029,7 @@ const data = {
         },
         {
           title: '(1)',
-          text: ` When the camage called for by this Document is a Port to Port shipment, then during any time when the LINE has any responsibility by law or otherwise with respect to the Goods, the ability of the LINE for loss of or damage to the Goods will be determined in accordance with any national law making the Hague Rules, compulsory applicable to this Hill of Lading including the UK Camage of Goods by Sea Act, 1924, the `,
+          text: ` When the Camage called for by this Document is a Port to Port shipment, then during any time when the LINE has any responsibility by law or otherwise with respect to the Goods, the ability of the LINE for loss of or damage to the Goods will be determined in accordance with any national law making the Hague Rules, compulsory applicable to this Hill of Lading including the UK Camage of Goods by Sea Act, 1924, the `,
         },
         {
           title: '1.2.',
