@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { getItemCategoryDDLByTypeId_api } from "../../../../config/material-management/itemBasicInfo/helper";
-import {
-  getItemTypeListDDL_api,
-} from "../../../../inventoryManagement/reports/inventoryStock/helper";
+
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
@@ -16,7 +14,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import ICustomTable from "../../../../_helper/_customTable";
 import Loading from "../../../../_helper/_loading";
-import { ItemSubCategory_api } from "../../../../_helper/_commonApi";
+import { getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 
 const reports = [
   { value: 1, label: "Sales Details Report" },

@@ -1104,3 +1104,11 @@ export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
     }
   } catch (error) { }
 };
+export const getItemTypeListDDL_api = async (setter) => {
+  try {
+    const res = await axios.get(`/wms/WmsReport/GetItemTypeListDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};

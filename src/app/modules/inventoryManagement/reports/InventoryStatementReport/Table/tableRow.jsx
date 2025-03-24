@@ -17,7 +17,6 @@ import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxFor
 import {
   businessUnitPlant_api,
   getItemCategoryDDLByTypeId_api,
-  getItemTypeListDDL_api,
   getSBUList,
   inventoryStatement_api,
   wearhouse_api,
@@ -30,7 +29,7 @@ import TableForINVInOut from "./TableForINVInOut";
 import DetailsModal from "./detailsModal";
 import DetailsModalNew from "./detailsModalNew";
 import RegisterNewTable from "./registerNewTable";
-import { ItemSubCategory_api } from "../../../../_helper/_commonApi";
+import { getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 
 const validationSchema = Yup.object().shape({});
 
