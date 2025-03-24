@@ -16,15 +16,15 @@ import SalesInvoiceDetails from "../invoice/salesInvoiceDetails"
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 
 const initData = {
-  counter:'',
+  counter: '',
   fromDate: _todayDate(),
   toDate: _todayDate()
 }
 
 export default function VoucherReprint({
-  counter, 
-  loadCustomerList, 
-  voucherReprintData, 
+  counter,
+  loadCustomerList,
+  voucherReprintData,
   setVoucherReprintData
 }) {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export default function VoucherReprint({
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const [showSalesInvoiceModal, setShowSalesInvoiceModal] = React.useState(false);
-  
+
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -74,7 +74,7 @@ export default function VoucherReprint({
       {loading && <Loading />}
       <Formik
         initialValues={initData}
-        onSubmit={(values, { setSubmitting }) => {}}
+        onSubmit={(values, { setSubmitting }) => { }}
       >
         {({
           handleSubmit,
@@ -88,8 +88,8 @@ export default function VoucherReprint({
         }) => (
           <>
             <Form>
-              <div className="row global-form" 
-                style={{ width:'100%', padding:"0px 0px 8px 0px", marginBottom:"0px"}}
+              <div className="row global-form"
+                style={{ width: '100%', padding: "0px 0px 8px 0px", marginBottom: "0px" }}
               >
                 <div className="col-lg-3">
                   <label>Customer</label>
@@ -108,8 +108,8 @@ export default function VoucherReprint({
                   <InputField
                     value={values?.fromDate}
                     name="fromDate"
-                    placeholder="From Date"
                     type="date"
+                    placeholder="From Date"
                   />
                 </div>
                 <div className="col-lg-3">
@@ -139,67 +139,67 @@ export default function VoucherReprint({
                   {voucherReprintData.length >= 0 && (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Shipping Point</th>
-                          <th>Customer Name</th>
-                          <th>
-                            Delivery Quantity
-                          </th>
-                          <th>Delivery Code</th>
-                          <th>Delivery Date</th>
-                          <th style={{ width: "60px" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {voucherReprintData.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center"> {td.sl} </td>
-                            <td>
-                              <div className="pl-2">{td.shipPointName} </div>
-                            </td>
-                            <td className="text-center">
-                              {td.shipToPartnerName}
-                            </td>
-                            <td className="text-center">
-                              {td.totalDeliveryQuantity}
-                            </td>
-                            <td> {td.deliveryCode} </td>
-                            <td> {_dateFormatter(td.deliveryDate)} </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span className="view">
-                                  <IView
-                                    clickHandler={async () => {
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Shipping Point</th>
+                            <th>Customer Name</th>
+                            <th>
+                              Delivery Quantity
+                            </th>
+                            <th>Delivery Code</th>
+                            <th>Delivery Date</th>
+                            <th style={{ width: "60px" }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {voucherReprintData.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center"> {td.sl} </td>
+                              <td>
+                                <div className="pl-2">{td.shipPointName} </div>
+                              </td>
+                              <td className="text-center">
+                                {td.shipToPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {td.totalDeliveryQuantity}
+                              </td>
+                              <td> {td.deliveryCode} </td>
+                              <td> {_dateFormatter(td.deliveryDate)} </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span className="view">
+                                    <IView
+                                      clickHandler={async () => {
+                                        await getSalesDataById(
+                                          td?.deliveryId,
+                                          setHeader,
+                                          setRowData
+                                        )
+                                        setShowSalesInvoiceModal(true)
+                                      }}
+                                    />
+                                  </span>
+                                  <span
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={async () => {
                                       await getSalesDataById(
-                                        td?.deliveryId, 
-                                        setHeader, 
+                                        td?.deliveryId,
+                                        setHeader,
                                         setRowData
                                       )
-                                      setShowSalesInvoiceModal(true)
+                                      handlePrint()
                                     }}
-                                  />
-                                </span>
-                                <span
-                                  style={{cursor:'pointer'}}
-                                  onClick={async () => {
-                                    await getSalesDataById(
-                                      td?.deliveryId, 
-                                      setHeader, 
-                                      setRowData
-                                    )
-                                    handlePrint()
-                                  }}
-                                >
-                                  <img src={printIcon} height="18px" alt="Print" />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                                  >
+                                    <img src={printIcon} height="18px" alt="Print" />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
@@ -218,17 +218,17 @@ export default function VoucherReprint({
                 )}
               </div>
             </Form>
-            <SalesInvoicePrint 
-              printRef={printRef} 
-              header={header} 
-              rowDto={rowData} 
+            <SalesInvoicePrint
+              printRef={printRef}
+              header={header}
+              rowDto={rowData}
               selectedBusinessUnit={selectedBusinessUnit}
               profileData={profileData}
               counter={counter}
             />
             <SalesInvoiceDetails
               show={showSalesInvoiceModal}
-              onHide={()=> setShowSalesInvoiceModal(false)}
+              onHide={() => setShowSalesInvoiceModal(false)}
               header={header}
               rowData={rowData}
             />

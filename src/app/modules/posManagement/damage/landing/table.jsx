@@ -17,6 +17,9 @@ import PaginationSearch from "../../../_helper/_search";
 
 const DamageEntryLanding = () => {
   const history = useHistory();
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
 
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
@@ -25,10 +28,6 @@ const DamageEntryLanding = () => {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;

@@ -61,7 +61,7 @@ export default function SalesProfit() {
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, setWhNameDDL)
     }
   }, [profileData, selectedBusinessUnit])
@@ -78,11 +78,11 @@ export default function SalesProfit() {
       setRowDto
     )
   };
-  
+
   let totalAmount = 0;
   let totalCostAmount = 0;
   let totalProfitAmount = 0;
-  
+
   return (
     <Formik>
       <>
@@ -108,11 +108,7 @@ export default function SalesProfit() {
                 enableReinitialize={true}
                 initialValues={initData}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  // saveHandler(values, () => {
-                  //   resetForm(initData);
-                  // });
-                }}
+
               >
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
@@ -122,8 +118,8 @@ export default function SalesProfit() {
                           <NewSelect
                             name="whName"
                             options={whNameDDL}
-                            value={values?.whName}
                             label="Outlet Name"
+                            value={values?.whName}
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setFieldValue("whName", valueOption)
@@ -137,8 +133,8 @@ export default function SalesProfit() {
                           <IInput
                             value={values?.fromDate}
                             label="From date"
-                            name="fromDate"
                             type="date"
+                            name="fromDate"
                             onChange={(e) => {
                               setFieldValue("fromDate", e?.target?.value);
                             }}
@@ -187,16 +183,16 @@ export default function SalesProfit() {
                     </Form>
                     {loading && <Loading />}
                     <div className=" my-5">
-                    {values?.reportType?.value===1 && 
+                      {values?.reportType?.value === 1 &&
                         <ICustomTable ths={challanBaseHeader}>
                           {rowDto.map((itm, i) => {
                             totalAmount += +itm?.totalAmount;
-                            totalCostAmount +=itm?.costAmount;
-                            totalProfitAmount +=itm?.profit;
+                            totalCostAmount += itm?.costAmount;
+                            totalProfitAmount += itm?.profit;
 
                             return (
                               <tr key={i}>
-                                <td className="text-center"> {i+1}</td>
+                                <td className="text-center"> {i + 1}</td>
                                 <td className="text-left"> {itm.itemName}</td>
                                 <td> {itm.deliveryCode}</td>
                                 <td className="text-center"> {_dateFormatter(itm.deliveryDate)}</td>
@@ -209,22 +205,22 @@ export default function SalesProfit() {
                           })}
                           <tr>
                             <td className="text-center" colSpan={5}>Total</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}> {totalAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}> {totalCostAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}> {totalProfitAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalCostAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalProfitAmount.toFixed(2)}</td>
                           </tr>
                         </ICustomTable>
                       }
-                      {values?.reportType?.value===2 && 
+                      {values?.reportType?.value === 2 &&
                         <ICustomTable ths={itemBaseHeader}>
                           {rowDto.map((itm, i) => {
                             totalAmount += +itm?.totalAmount;
-                            totalCostAmount +=itm?.costAmount;
-                            totalProfitAmount +=itm?.profit;
+                            totalCostAmount += itm?.costAmount;
+                            totalProfitAmount += itm?.profit;
 
                             return (
                               <tr key={i}>
-                                <td className="text-center"> {i+1}</td>
+                                <td className="text-center"> {i + 1}</td>
                                 <td className="text-center"> {itm.itemName}</td>
                                 <td className="text-right"> {itm.totalQuantity}</td>
                                 <td className="text-right"> {itm.totalAmount}</td>
@@ -233,11 +229,11 @@ export default function SalesProfit() {
                               </tr>
                             );
                           })}
-                           <tr>
+                          <tr>
                             <td className="text-center" colSpan={3}>Total</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}>{totalAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}> {totalCostAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{fontWeight: "bold"}}> {totalProfitAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>{totalAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalCostAmount.toFixed(2)}</td>
+                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalProfitAmount.toFixed(2)}</td>
                           </tr>
                         </ICustomTable>
                       }
@@ -245,7 +241,7 @@ export default function SalesProfit() {
                   </>
                 )}
               </Formik>
-              
+
               {rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

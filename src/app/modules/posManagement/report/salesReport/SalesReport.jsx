@@ -136,7 +136,7 @@ export default function SalesReport() {
 
   let totalCreditAmount = 0;
   let totalCashAmount = 0;
-  let grandTotalNetAmount=0;
+  let grandTotalNetAmount = 0;
   let grandTotalCashAmount = 0;
   let grandTotalCreditAmount = 0;
 
@@ -195,8 +195,8 @@ export default function SalesReport() {
                           <IInput
                             value={values?.fromDate}
                             label="From date"
-                            name="fromDate"
                             type="date"
+                            name="fromDate"
                             onChange={(e) => {
                               setFieldValue("fromDate", e?.target?.value);
                             }}
@@ -205,10 +205,10 @@ export default function SalesReport() {
 
                         <div className="col-lg-2">
                           <IInput
+                            type="date"
                             value={values?.toDate}
                             label="To date"
                             name="toDate"
-                            type="date"
                             onChange={(e) => {
                               setFieldValue("toDate", e?.target?.value);
                             }}
@@ -253,7 +253,7 @@ export default function SalesReport() {
                       {values?.reportType?.value === 1 && (
                         <ICustomTable ths={challanBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount+= +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -288,10 +288,10 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="8" style={{fontWeight: "bold" }}>
-                             Grand Total
+                            <td className="text-center" colspan="8" style={{ fontWeight: "bold" }}>
+                              Grand Total
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -300,9 +300,9 @@ export default function SalesReport() {
                       {values?.reportType?.value === 2 && (
                         <ICustomTable ths={partnerBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount+= +itm?.numTotalNetValue
-                            grandTotalCashAmount+= +itm?.numCashAmount || 0
-                            grandTotalCreditAmount+= +itm?.numCreditAmount || 0
+                            grandTotalNetAmount += +itm?.numTotalNetValue
+                            grandTotalCashAmount += +itm?.numCashAmount || 0
+                            grandTotalCreditAmount += +itm?.numCreditAmount || 0
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -325,16 +325,16 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="3" style={{fontWeight: "bold" }}>
-                             Grand Total
+                            <td className="text-center" colspan="3" style={{ fontWeight: "bold" }}>
+                              Grand Total
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalCashAmount.toFixed(2)}
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalCreditAmount.toFixed(2)}
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -343,7 +343,7 @@ export default function SalesReport() {
                       {values?.reportType?.value === 3 && (
                         <ICustomTable ths={dateBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount+= +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -367,10 +367,10 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="4" style={{fontWeight: "bold" }}>
-                             Grand Total
+                            <td className="text-center" colspan="4" style={{ fontWeight: "bold" }}>
+                              Grand Total
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -379,7 +379,7 @@ export default function SalesReport() {
                       {values?.reportType?.value === 4 && (
                         <ICustomTable ths={itemBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount+= +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -401,10 +401,10 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="5" style={{fontWeight: "bold" }}>
-                             Grand Total
+                            <td className="text-center" colspan="5" style={{ fontWeight: "bold" }}>
+                              Grand Total
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -413,7 +413,7 @@ export default function SalesReport() {
                       {values?.reportType?.value === 5 && (
                         <ICustomTable ths={itemandDateBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount+= +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -439,10 +439,10 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="6" style={{fontWeight: "bold" }}>
-                             Grand Total
+                            <td className="text-center" colspan="6" style={{ fontWeight: "bold" }}>
+                              Grand Total
                             </td>
-                            <td className="text-right" style={{fontWeight: "bold" }}>
+                            <td className="text-right" style={{ fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -499,7 +499,7 @@ export default function SalesReport() {
                               <b>
                                 {(totalCashAmount +
                                   totalCreditAmount
-                                  ).toFixed(2)}
+                                ).toFixed(2)}
                               </b>
                             </td>
                           </tr>
