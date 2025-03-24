@@ -16,12 +16,12 @@ import { _todayDate } from "./../../../_helper/_todayDate";
 
 
 const initData = {
-  counter:'',
+  counter: '',
   fromDate: _todayDate(),
   toDate: _todayDate()
 }
 
-export default function InvoiceList({show, onHide, shippointDDL, gridData, setGridData}) {
+export default function InvoiceList({ show, onHide, shippointDDL, gridData, setGridData }) {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   //paginationState
@@ -57,17 +57,17 @@ export default function InvoiceList({show, onHide, shippointDDL, gridData, setGr
 
   return (
     <IViewModal
-        show={show}
-        onHide={onHide}
-        isShow={false}
-        title="Invoice List"
-        style={{ fontSize: "1.2rem !important" }}
+      show={show}
+      onHide={onHide}
+      isShow={false}
+      title="Invoice List"
+      style={{ fontSize: "1.2rem !important" }}
     >
       {/* Table Start */}
       {loading && <Loading />}
       <Formik
         initialValues={initData}
-        onSubmit={(values, { setSubmitting }) => {}}
+        onSubmit={(values, { setSubmitting }) => { }}
       >
         {({
           handleSubmit,
@@ -99,8 +99,8 @@ export default function InvoiceList({show, onHide, shippointDDL, gridData, setGr
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
-                    value={values?.fromDate}
                     name="fromDate"
+                    value={values?.fromDate}
                     placeholder="From Date"
                     type="date"
                   />
@@ -130,67 +130,67 @@ export default function InvoiceList({show, onHide, shippointDDL, gridData, setGr
               <div className="row">
                 <div className="col-lg-12">
                   {gridData?.data?.length >= 0 && (
-                  <div className="table-responsive">
+                    <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Shipping Point</th>
-                          <th>Customer Name</th>
-                          <th>
-                            Delivery Quantity
-                          </th>
-                          <th>Delivery Code</th>
-                          <th>Delivery Date</th>
-                          <th style={{ width: "60px" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center"> {td.sl} </td>
-                            <td>
-                              <div className="pl-2">{td.shipPointName} </div>
-                            </td>
-                            <td className="text-center">
-                              {td.shipToPartnerName}
-                            </td>
-                            <td className="text-center">
-                              {td.totalDeliveryQuantity}
-                            </td>
-                            <td> {td.deliveryCode} </td>
-                            <td> {_dateFormatter(td.deliveryDate)} </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span className="view">
-                                  <IView
-                                    clickHandler={() => {
-                                      setSalesId(td?.deliveryId)
-                                      setShowInvoiceModal(true);
-                                    }}
-                                  />
-                                </span>
-                                {!values?.status?.value && (
-                                  <span
-                                    className="edit"
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/pos-management/sales/sales-invoice/edit/${td.deliveryId}`,
-                                        state: td,
-                                      });
-                                      onHide()
-                                    }}
-                                  >
-                                    <IEdit />
-                                  </span>
-                                )}
-                              </div>
-                            </td>
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Shipping Point</th>
+                            <th>Customer Name</th>
+                            <th>
+                              Delivery Quantity
+                            </th>
+                            <th>Delivery Code</th>
+                            <th>Delivery Date</th>
+                            <th style={{ width: "60px" }}>Actions</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center"> {td.sl} </td>
+                              <td>
+                                <div className="pl-2">{td.shipPointName} </div>
+                              </td>
+                              <td className="text-center">
+                                {td.shipToPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {td.totalDeliveryQuantity}
+                              </td>
+                              <td> {td.deliveryCode} </td>
+                              <td> {_dateFormatter(td.deliveryDate)} </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span className="view">
+                                    <IView
+                                      clickHandler={() => {
+                                        setSalesId(td?.deliveryId)
+                                        setShowInvoiceModal(true);
+                                      }}
+                                    />
+                                  </span>
+                                  {!values?.status?.value && (
+                                    <span
+                                      className="edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/pos-management/sales/sales-invoice/edit/${td.deliveryId}`,
+                                          state: td,
+                                        });
+                                        onHide()
+                                      }}
+                                    >
+                                      <IEdit />
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
                 {gridData?.data?.length > 0 && (

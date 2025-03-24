@@ -29,7 +29,26 @@ const initData = {
   options: '',
   wayForward: '',
 };
+export const pdfExport = (fileName) => {
+  var element = document.getElementById('pdf-section');
 
+  var clonedElement = element.cloneNode(true);
+
+  clonedElement.classList.add('d-block');
+
+  var opt = {
+    margin: 20,
+    filename: `${fileName}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 5, dpi: 300, letterRendering: true },
+    jsPDF: {
+      unit: 'px',
+      hotfixes: ['px_scaling'],
+      orientation: 'portrait',
+    },
+  };
+  html2pdf().set(opt).from(clonedElement).save();
+};
 const GrowModel = () => {
   const [yearDDL, setYearDDL] = useState([]);
   const [loading, setLoading] = useState(null);
@@ -97,26 +116,7 @@ const GrowModel = () => {
     createGrowModel(payload, setLoading);
   };
 
-  const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
 
-    var clonedElement = element.cloneNode(true);
-
-    clonedElement.classList.add('d-block');
-
-    var opt = {
-      margin: 20,
-      filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: {
-        unit: 'px',
-        hotfixes: ['px_scaling'],
-        orientation: 'portrait',
-      },
-    };
-    html2pdf().set(opt).from(clonedElement).save();
-  };
   const editData = (name, value) => {
     const data = { ...rowDto };
     data[name] = value;

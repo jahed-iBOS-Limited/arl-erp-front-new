@@ -1,7 +1,8 @@
 import { Formik } from 'formik';
-import React, { useEffect, useRef } from 'react';
 import html2pdf from 'html2pdf.js';
-import './styles.css';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
@@ -9,18 +10,17 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IClose from '../../../../_helper/_helperIcons/_close';
-import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
-import { quaterDDL } from '../../../hashPerformanceCommon';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { quaterDDL } from '../../../hashPerformanceCommon';
 import GrowModelPdf from '../GrowModelPdf';
+import './styles.css';
 const initData = {
   year: '',
   quater: '',
@@ -54,11 +54,11 @@ export default function GrowModelActionPlan() {
         rowId: data?.rowId || 0,
         actionPlanHeaderId: data?.actionPlanHeaderId || 0,
         activity: data?.activity,
-        stardDate: data?.stardDate,
-        endDate: data?.endDate,
         isActive: true,
         actionDate: _dateFormatter(new Date()),
         actionBy: userId,
+        stardDate: data?.stardDate,
+        endDate: data?.endDate,
       };
     });
 
@@ -68,15 +68,15 @@ export default function GrowModelActionPlan() {
       employeeName: employeeFullName,
       designationId: designationId,
       businessUnitId: selectedBusinessUnit,
-      workplaceGroupId: values?.workplaceGroupId || 0,
       typeId: rowData?.typeId || 1,
+      workplaceGroupId: values?.workplaceGroupId || 0,
       type: rowData?.type || 'Grow Model',
       typeReferenceId:
         rowData?.typeReferenceId || values?.typeReference?.growModelId,
       typeReference: rowData?.typeReference || values?.typeReference?.label,
       yearId: values?.year?.value,
-      year: values?.year?.label,
       quarterId: values?.quater?.value || 1,
+      year: values?.year?.label,
       quarter: values?.quater?.label || '',
       currentResult: values?.currentResult,
       desiredResult: values?.desiredResult,
@@ -104,8 +104,8 @@ export default function GrowModelActionPlan() {
           const modifiedData = [...rowData?.row];
           modifiedData.push({
             rowId: 0,
-            actionPlanHeaderId: rowData?.actionPlanHeaderId || 0,
             activity: values?.activity,
+            actionPlanHeaderId: rowData?.actionPlanHeaderId || 0,
             stardDate: values?.stardDate,
             endDate: values?.endDate,
             isActive: true,
@@ -244,8 +244,8 @@ export default function GrowModelActionPlan() {
                       <span>{rowData?.designation || ''}</span>
                     </div>
                     <div>
-                      <strong>Location</strong>:{' '}
-                      <span>{rowData?.workplaceGroup || ''}</span>
+                      <strong>Location</strong>:
+                      <span>{' '}{rowData?.workplaceGroup || ''}</span>
                     </div>
                   </div>
                 </div>
@@ -276,8 +276,8 @@ export default function GrowModelActionPlan() {
                     </div>
                     <div className="col-lg-2">
                       <NewSelect
-                        name="Quater"
                         options={quaterDDL}
+                        name="Quater"
                         value={values?.quater}
                         label="Quater"
                         onChange={(valueOption) => {
@@ -329,7 +329,7 @@ export default function GrowModelActionPlan() {
                       options={[]}
                       value={values?.type}
                       label="Type"
-                      onChange={(valueOption) => {}}
+                      onChange={(valueOption) => { }}
                       placeholder="type"
                       errors={errors}
                       isDisabled={true}
@@ -435,14 +435,14 @@ export default function GrowModelActionPlan() {
                       <tbody>
                         {rowData?.row?.map((item, index) => {
                           return (
-                            <tr key={index}>
+                            <tr key={index + 1}>
                               <td>{index + 1}</td>
                               <td>{item.activity}</td>
                               <td className="text-center">
                                 {_dateFormatter(item.stardDate)}
                               </td>
                               <td className="text-center">
-                                {_dateFormatter(item.endDate)}
+                                {_dateFormatter(item.endDate)} {" "}
                               </td>
                               <td className="text-center">
                                 {rowData?.row?.length > 1 ? (

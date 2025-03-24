@@ -151,6 +151,7 @@ const RollingQualityMainReportRDLC = () => {
                                 visible: false,
                               },
                             },
+                            //
                             background: models.BackgroundType.Transparent,
                           },
                         }}
@@ -158,19 +159,19 @@ const RollingQualityMainReportRDLC = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],

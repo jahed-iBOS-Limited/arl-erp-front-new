@@ -16,7 +16,6 @@ const TableAssetRegister = ({
             <th>SL</th>
             <th>Item Name</th>
             <th>Location</th>
-            {/* <th>Bin No</th> */}
             <th>Open Qty</th>
             <th>Open Value</th>
             <th>Qty</th>
@@ -30,7 +29,7 @@ const TableAssetRegister = ({
           {inventoryStatement?.length > 0 &&
             inventoryStatement?.map((item, index) => {
               return (
-                <tr key={index}>
+                <tr key={index + 1}>
                   <td style={{ width: "30px" }} className="text-center">
                     {item?.sl}
                   </td>
@@ -40,26 +39,24 @@ const TableAssetRegister = ({
                   <td>
                     <span className="pl-2">{item?.strInventoryLocationName}</span>
                   </td>
-                  {/* <td>
-                    <span className="pl-2">{item?.strBinNo}</span>
-                  </td> */}
+
                   <td className="text-right">
                     <span>{item?.openQty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.openValue || 0).toFixed(2))}</span>
+                    <span>{numberWithCommas((item?.openValue || 0).toFixed(2))}</span>
                   </td>
                   <td className="text-right">
                     <span>{item?.qty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.value || 0).toFixed(2))}</span>
+                    <span>{numberWithCommas((item?.value || 0).toFixed(2))}</span>
                   </td>
                   <td className="text-right">
                     <span>{item?.clossingQty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.clossingValue || 0).toFixed(2))}</span>
+                    <span>{numberWithCommas((item?.clossingValue || 0).toFixed(2))}</span>
                   </td>
                   <td className="text-center">
                     <InfoCircle

@@ -11,11 +11,11 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import {
   getCancledMRRLanding,
   getPlantList,
-  getSBUList,
   getWhList,
 } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import { InventoryTransactionReportViewTableRow } from "../../warehouseManagement/mrrCancel/report/tableRow";
+import { getSBU } from "../../../_helper/_commonApi";
 
 let initData = {
   wh: "",
@@ -47,7 +47,7 @@ function CancledMRR() {
   // get ddl
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSbuList
@@ -93,7 +93,7 @@ function CancledMRR() {
           <Formik
             enableReinitialize={true}
             initialValues={{ ...initData }}
-            onSubmit={(values, { setSubmitting, resetForm }) => {}}
+            onSubmit={(values, { setSubmitting, resetForm }) => { }}
           >
             {({
               handleSubmit,

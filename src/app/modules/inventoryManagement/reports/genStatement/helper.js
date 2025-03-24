@@ -14,7 +14,7 @@ export const getAssetReceiveReportData = async (
   setLoading(true);
   try {
     const res = await Axios.get(`/asset/Asset/GetAssetReportForEmployee?AccountId=${accId}&UnitId=${buId}&ActionBy=${userId}&Type=${value}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`)
-    if (res.status === 200 && res?.data) {     
+    if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
@@ -30,7 +30,7 @@ export const getPurchaseOrgList = async (accId, buId, setter) => {
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getTransactionGroupList = async (setter) => {
@@ -39,7 +39,7 @@ export const getTransactionGroupList = async (setter) => {
       `/wms/InventoryTransaction/GetTransectionGroupDDL`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantList = async (userId, accId, buId, setter) => {
@@ -48,7 +48,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWhList = async (userId, accId, buId, plantId, setter) => {
@@ -57,7 +57,7 @@ export const getWhList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -75,7 +75,7 @@ export const getGRNStatementLanding = async (
   pageNo,
   pageSize,
   search
-) => { 
+) => {
   setLoading(true);
   const searchPath = search ? `search=${search}&` : "";
   try {
@@ -84,7 +84,7 @@ export const getGRNStatementLanding = async (
     //   );
     const res = await Axios.get(
       `/wms/GrnStatement/newGrnStatementReport?${searchPath}PurchaseOrganization=${orId}&SbuId=${sbu}&PlantId=${plantId}&WarehouseId=${whId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
-      );
+    );
     setLoading(false);
     setter(res?.data);
   } catch (error) {
@@ -93,11 +93,11 @@ export const getGRNStatementLanding = async (
 };
 
 
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
+// export const getSBUList = async (accId, buId, setter) => {
+//   try {
+//     const res = await Axios.get(
+//       `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+//     );
+//     setter(res?.data);
+//   } catch (error) {}
+// };

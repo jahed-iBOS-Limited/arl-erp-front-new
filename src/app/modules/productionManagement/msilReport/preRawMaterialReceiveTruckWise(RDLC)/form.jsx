@@ -154,23 +154,24 @@ const PreRawMaterialReceiveTruckWiseReportRDLC = () => {
                             background: models.BackgroundType.Transparent,
                           },
                         }}
+                        //
                         eventHandlers={
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],

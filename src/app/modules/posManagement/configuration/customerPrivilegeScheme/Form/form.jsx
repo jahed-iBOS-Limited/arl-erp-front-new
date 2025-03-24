@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import { useSelector, shallowEqual } from "react-redux";
 import {
-  getWareHouseDDL,
   conditionTypeOnChangeHandler,
-  GetConditionTypeDDL_api,
-  valuesEmptyFunc,
-  GetSalesWiseItem_api,
   customersPurchaseTypeDDL,
+  GetConditionTypeDDL_api,
+  GetSalesWiseItem_api,
+  getWareHouseDDL,
   offerBasedOnDDL,
   schemeTypeDDL,
+  valuesEmptyFunc,
 } from "../helper";
-import InputField from "./../../../../_helper/_inputField";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
 import RowAddForm from "./rowAddForm";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -130,8 +130,8 @@ export default function _Form({
                     placeholder="Outlet Name"
                     errors={errors}
                     touched={touched}
-                    // isMulti
-                    // closeMenuOnSelect={false}
+                  // isMulti
+                  // closeMenuOnSelect={false}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -351,10 +351,10 @@ export default function _Form({
                               <td className="text-right">
                                 {item?.discountAmount}
                               </td>
-                             
+
                             </>
                           )}
-                           <td>{item?.durationTypeName}</td>
+                          <td>{item?.durationTypeName}</td>
                           {/* if duration Type -  widthouts One Time*/}
                           {![1].includes(values?.durationType?.value) &&
                             values?.durationType?.value && (
@@ -383,8 +383,8 @@ export default function _Form({
                 </table>
               </div>
               <button
-                type="submit"
                 style={{ display: "none" }}
+                type="submit"
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

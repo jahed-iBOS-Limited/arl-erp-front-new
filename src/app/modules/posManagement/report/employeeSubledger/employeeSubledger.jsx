@@ -88,10 +88,10 @@ export default function EmployeeSubledgerReport() {
                     <div className="col-lg-3">
                       <label>To Date</label>
                       <InputField
+                        type="date"
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To Date"
-                        type="date"
                       />
                     </div>
 

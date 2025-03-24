@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import { saveItemGroupForPrivilege_api } from "../helper";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 import { isUniq } from "./../../../../_helper/uniqChecker";
-import { saveItemGroupForPrivilege_api } from "../helper";
-import { toast } from "react-toastify";
+import Form from "./form";
 const initData = {
   id: undefined,
   outletName: "",
@@ -15,7 +15,6 @@ const initData = {
 };
 
 export default function ItemGroupForPrivilegeForm({
-  history,
   match: {
     params: { id },
   },
@@ -24,7 +23,6 @@ export default function ItemGroupForPrivilegeForm({
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
 
-  // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -38,8 +36,8 @@ export default function ItemGroupForPrivilegeForm({
             itemGroupName: values?.itemGroupName || "",
             actionById: profileData?.userId || 0,
             actionByName: profileData?.userName || "",
-            createUserDate: _todayDate(),
             createServerDate: _todayDate(),
+            createUserDate: _todayDate(),
             isActive: true,
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
@@ -83,15 +81,15 @@ export default function ItemGroupForPrivilegeForm({
 
   return (
     <IForm
-      title={"Create Item Group For Privilege		"}
       getProps={setObjprops}
+      title={"Create Item Group For Privilege"}
       isDisabled={isDisabled}
     >
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={initData}
         saveHandler={saveHandler}
+        initData={initData}
         rowDto={rowDto}
         setter={setter}
         remover={remover}

@@ -15,11 +15,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  ItemSubCategory_api,
   businessUnitPlant_api,
-  getItemCategoryDDLByTypeId_api,
-  getItemTypeListDDL_api,
-  getSBUList,
   inventoryStatement_api,
   wearhouse_api,
 } from "../helper";
@@ -31,6 +27,7 @@ import TableForINVInOut from "./TableForINVInOut";
 import DetailsModal from "./detailsModal";
 import DetailsModalNew from "./detailsModalNew";
 import RegisterNewTable from "./registerNewTable";
+import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getSBU, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 
 const validationSchema = Yup.object().shape({});
 
@@ -74,7 +71,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSbuList
@@ -377,7 +374,7 @@ export function TableRow(props) {
           };
         });
         generateJsonToExcel(
-           [5,6].includes(values?.type?.value) ? registerNewHeader : header,
+          [5, 6].includes(values?.type?.value) ? registerNewHeader : header,
           _data
         );
       },
@@ -765,7 +762,7 @@ export function TableRow(props) {
                         inventoryStatement={inventoryStatement}
                         setIsShowModal={setIsShowModal}
                       />
-                    ) :  [5,6].includes(values?.type?.value) ? (
+                    ) : [5, 6].includes(values?.type?.value) ? (
                       <RegisterNewTable
                         setTableItem={setTableItem}
                         inventoryStatement={inventoryStatement}

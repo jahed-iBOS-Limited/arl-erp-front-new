@@ -329,8 +329,8 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                   fileObjects={fileObjects}
                   cancelButtonText={'cancel'}
                   submitButtonText={'submit'}
-                  maxFileSize={1000000}
                   open={open}
+                  maxFileSize={1000000}
                   onAdd={(newFileObjs) => {
                     setFileObjects([].concat(newFileObjs));
                   }}
