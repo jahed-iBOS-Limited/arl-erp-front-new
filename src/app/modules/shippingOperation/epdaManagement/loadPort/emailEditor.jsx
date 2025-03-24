@@ -14,8 +14,6 @@ const EmailEditor = ({ emailEditorProps }) => {
 
   const [emailData, setEmailData] = useState(initialStateOfEmailData);
 
-  console.log('emailData', emailData);
-
   const [errors, setErrors] = useState(initialStateOfError);
 
   const [, getEmailInfo, loading] = useAxiosPost();

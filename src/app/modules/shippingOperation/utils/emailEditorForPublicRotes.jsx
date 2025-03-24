@@ -6,7 +6,7 @@ import AttachmentUploaderNew from '../../_helper/attachmentUploaderNew';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import { shallowEqual, useSelector } from 'react-redux';
-import { generateFileUrl, initialStateOfEmailData, initialStateOfError } from './helper';
+import { emailTemplateStyles, generateFileUrl, initialStateOfEmailData, initialStateOfError } from './helper';
 
 const EmailEditorForPublicRoutes = ({
   featureName,
@@ -169,115 +169,49 @@ const EmailEditorForPublicRoutes = ({
     }
   };
 
-  const styles = {
-    container: {
-      width: '100%',
-      margin: 'auto',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif',
-    },
-    header: {
-      marginBottom: '20px',
-    },
-    field: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: '10px',
-    },
-    label: {
-      width: '70px',
-      fontSize: '14px',
-      color: '#333',
-    },
-    input: {
-      flexGrow: 1,
-      padding: '10px',
-      fontSize: '14px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-      outline: 'none',
-      transition: 'border-color 0.2s ease',
-    },
-    error: {
-      color: 'red',
-      fontSize: '12px',
-      marginLeft: '70px',
-      marginBottom: '10px',
-    },
-    bodyError: {
-      color: 'red',
-      fontSize: '12px',
-    },
-    quillContainer: {
-      marginBottom: '60px',
-    },
-    quill: {
-      height: '300px',
-      borderRadius: '5px',
-    },
-    footer: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      marginTop: '20px',
-    },
-    button: {
-      backgroundColor: '#007bff',
-      color: '#fff',
-      padding: '10px 20px',
-      fontSize: '14px',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-    },
-    buttonHover: {
-      backgroundColor: '#0056b3',
-    },
-  };
-
   return (
     <>
       {loader && <Loading />}
-      <div style={styles.container}>
-        <div style={styles.header}>
-          <div style={styles.field}>
-            <label style={styles.label}>To:</label>
+      <div style={emailTemplateStyles.container}>
+        <div style={emailTemplateStyles.header}>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>To:</label>
             <input
               type="email"
               name="toEmail"
               placeholder="Recipient's email"
               value={emailData.toEmail}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {errors.to && <div style={styles.error}>{errors.to}</div>}
+          {errors.to && <div style={emailTemplateStyles.error}>{errors.to}</div>}
 
-          <div style={styles.field}>
-            <label style={styles.label}>Cc:</label>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>Cc:</label>
             <input
               type="text"
               name="ccEmail"
               placeholder="Cc (comma-separated emails or single email)"
               value={emailData.ccEmail}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {errors.cc && <div style={styles.error}>{errors.cc}</div>}
+          {errors.cc && <div style={emailTemplateStyles.error}>{errors.cc}</div>}
 
-          <div style={styles.field}>
-            <label style={styles.label}>Subject:</label>
+          <div style={emailTemplateStyles.field}>
+            <label style={emailTemplateStyles.label}>Subject:</label>
             <input
               type="text"
               name="subject"
               placeholder="Subject"
               value={emailData.subject}
               onChange={handleInputChange}
-              style={styles.input}
+              style={emailTemplateStyles.input}
             />
           </div>
-          {errors.subject && <div style={styles.error}>{errors.subject}</div>}
+          {errors.subject && <div style={emailTemplateStyles.error}>{errors.subject}</div>}
         </div>
 
         <div className="text-right mb-5">
@@ -295,26 +229,26 @@ const EmailEditorForPublicRoutes = ({
           />
         </div>
 
-        <div style={styles.quillContainer}>
+        <div style={emailTemplateStyles.quillContainer}>
           <ReactQuill
             value={emailData.emailBody}
             onChange={handleBodyChange}
-            style={styles.quill}
+            style={emailTemplateStyles.quill}
             placeholder="Write here..."
           />
         </div>
-        {errors.body && <div style={styles.bodyError}>{errors.body}</div>}
+        {errors.body && <div style={emailTemplateStyles.bodyError}>{errors.body}</div>}
 
-        <div className="" style={styles.footer}>
+        <div className="" style={emailTemplateStyles.footer}>
           <button
             className="btn btn-primary"
             onClick={handleSend}
             onMouseOver={(e) =>
             (e.target.style.backgroundColor =
-              styles.buttonHover.backgroundColor)
+              emailTemplateStyles.buttonHover.backgroundColor)
             }
             onMouseOut={(e) =>
-              (e.target.style.backgroundColor = styles.button.backgroundColor)
+              (e.target.style.backgroundColor = emailTemplateStyles.button.backgroundColor)
             }
           >
             Send
