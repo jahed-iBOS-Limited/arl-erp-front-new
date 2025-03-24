@@ -104,8 +104,8 @@ export default function GrowModelActionPlan() {
           const modifiedData = [...rowData?.row];
           modifiedData.push({
             rowId: 0,
-            actionPlanHeaderId: rowData?.actionPlanHeaderId || 0,
             activity: values?.activity,
+            actionPlanHeaderId: rowData?.actionPlanHeaderId || 0,
             stardDate: values?.stardDate,
             endDate: values?.endDate,
             isActive: true,
@@ -244,8 +244,8 @@ export default function GrowModelActionPlan() {
                       <span>{rowData?.designation || ''}</span>
                     </div>
                     <div>
-                      <strong>Location</strong>:{' '}
-                      <span>{rowData?.workplaceGroup || ''}</span>
+                      <strong>Location</strong>:
+                      <span>{' '}{rowData?.workplaceGroup || ''}</span>
                     </div>
                   </div>
                 </div>
@@ -276,8 +276,8 @@ export default function GrowModelActionPlan() {
                     </div>
                     <div className="col-lg-2">
                       <NewSelect
-                        name="Quater"
                         options={quaterDDL}
+                        name="Quater"
                         value={values?.quater}
                         label="Quater"
                         onChange={(valueOption) => {
