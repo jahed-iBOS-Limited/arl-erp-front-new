@@ -16,12 +16,12 @@ const initData = {
 };
 
 function CustomerGroupForPrivilege() {
+  const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const history = useHistory();
   const [rowDto, setRowDto] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [WareHouseDDL, setWareHouseDDL] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
