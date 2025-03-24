@@ -73,17 +73,6 @@ export const InventoryLedger_api = async (
   }
 };
 
-//item category Api call
-export const ItemCategory_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
 
 //ItemSubCategory_api Api call
 export const ItemSubCategory_api = async (accId, buId, caId, setter) => {

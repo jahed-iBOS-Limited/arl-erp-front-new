@@ -52,8 +52,7 @@ const InventoryStockTable = () => {
         setPlantDDL
       );
       getItemTypeListDDL_api(setItemTypeOption);
-      // ItemCategory_api(profileData?.accountId,
-      //   selectedBusinessUnit?.value,setItemCategoryDDL)
+
     }
   }, [selectedBusinessUnit, profileData]);
 
