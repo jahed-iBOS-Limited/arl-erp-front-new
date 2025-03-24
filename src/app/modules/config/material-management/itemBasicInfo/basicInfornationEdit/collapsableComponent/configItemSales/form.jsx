@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
 import Select from "react-select";
-import customStyles from "../../../../../../selectCustomStyle";
+import customStyles, { createCustomSelectStyles } from "../../../../../../selectCustomStyle";
 import NewSelect from "./../../../../../../_helper/_select";
 
 const DataValiadtionSchema = Yup.object().shape({
@@ -571,19 +571,23 @@ export default function _Form({
                             valueOption || ""
                           );
                         }}
-                        styles={{
-                          ...customStyles,
-                          control: (provided, state) => ({
-                            ...provided,
-                            minHeight: "30px",
-                            height: "auto",
-                          }),
-                          valueContainer: (provided, state) => ({
-                            ...provided,
-                            height: "auto",
-                            padding: "0 6px",
-                          }),
-                        }}
+                        // styles={{
+                        //   ...customStyles,
+                        //   control: (provided, state) => ({
+                        //     ...provided,
+                        //     minHeight: "30px",
+                        //     height: "auto",
+                        //   }),
+                        //   valueContainer: (provided, state) => ({
+                        //     ...provided,
+                        //     height: "auto",
+                        //     padding: "0 6px",
+                        //   }),
+                        // }}
+                        styles={createCustomSelectStyles({
+                          isAutoHeight: true,
+                          minHeight: "30px"
+                        })}
                         name="distributionChannel"
                         isDisabled={!distributionChannelDDL}
                         isMulti
