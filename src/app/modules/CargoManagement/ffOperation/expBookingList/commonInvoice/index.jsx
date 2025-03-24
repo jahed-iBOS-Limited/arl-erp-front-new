@@ -1,9 +1,9 @@
 import { Form, Formik } from 'formik';
 import moment from 'moment';
-import * as Yup from 'yup';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
+import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../../App';
 import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
 import Loading from '../../../../_helper/_loading';
@@ -305,6 +305,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
             <div
               style={{
                 display: 'grid',
+                gap: 0,
                 gridTemplateColumns: '1fr 2fr',
               }}
             >
@@ -321,7 +322,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                   textAlign: 'right',
                 }}
               >
-                <span style={{ fontSize: 14, fontWeight: 600 }}>
+                <span style={{ fontWeight: 600, fontSize: 14 }}>
                   {selectedBusinessUnit?.label}
                 </span>
                 <br />
@@ -560,6 +561,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 <div
                   style={{
                     display: 'grid',
+                    gap: 0,
                     gridTemplateColumns: '1fr 2fr 1fr 1fr ',
                   }}
                 >
