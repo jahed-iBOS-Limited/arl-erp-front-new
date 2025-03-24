@@ -135,22 +135,22 @@ export default function WorkPlanLanding() {
   };
 
   const saveHandler = (values, cb, confirm) => {
+    const rowList = planList?.row?.map((data) => {
+      return {
+        rowId: data?.rowId,
+        workPlanHeaderId: data?.workPlanHeaderId || 0,
+        activity: data?.activity,
+        frequencyId: data?.frequencyId,
+        frequency: data?.frequency,
+        priorityId: data?.priorityId,
+        priority: data?.priority,
+        comments: data?.comments,
+        isActive: true,
+        actionDate: _todayDate(),
+        actionBy: userId,
+      };
+    });
     if (confirm) {
-      const rowList = planList?.row?.map((data) => {
-        return {
-          rowId: data?.rowId,
-          workPlanHeaderId: data?.workPlanHeaderId || 0,
-          activity: data?.activity,
-          frequencyId: data?.frequencyId,
-          frequency: data?.frequency,
-          priorityId: data?.priorityId,
-          priority: data?.priority,
-          comments: data?.comments,
-          isActive: true,
-          actionDate: _todayDate(),
-          actionBy: userId,
-        };
-      });
       const payload = {
         sl: 0,
         workPlanHeaderId:
@@ -184,32 +184,16 @@ export default function WorkPlanLanding() {
         setDisabled,
       );
     } else {
-      const rowList = planList?.row?.map((data) => {
-        return {
-          rowId: data?.rowId,
-          workPlanHeaderId: data?.workPlanHeaderId || 0,
-          activity: data?.activity,
-          frequencyId: data?.frequencyId,
-          frequency: data?.frequency,
-          priorityId: data?.priorityId,
-          priority: data?.priority,
-          comments: data?.comments,
-          isActive: true,
-          actionDate: _todayDate(),
-          actionBy: userId,
-        };
-      });
       const payload = {
         sl: 0,
-        workPlanHeaderId:
-          planList?.workPlanHeaderId > 0 ? planList?.workPlanHeaderId : 0,
+        workPlanHeaderId: planList?.workPlanHeaderId > 0 ? planList?.workPlanHeaderId : 0,
+        workplaceGroupId: 0,
+        yearId: Number(values?.yearDDLgroup?.value),
+        year: values?.yearDDLgroup?.label,
         employeeId: Number(employeeId),
         employeeName: userName,
         designationId: Number(designationId),
         businessUnitId: Number(defaultBusinessUnit),
-        workplaceGroupId: 0,
-        yearId: Number(values?.yearDDLgroup?.value),
-        year: values?.yearDDLgroup?.label,
         quarterId: Number(values?.quarterDDLgroup?.value),
         quarter: values?.quarterDDLgroup?.label,
         isActive: true,
