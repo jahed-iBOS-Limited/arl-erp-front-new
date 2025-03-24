@@ -1,4 +1,15 @@
-import React, { useState } from 'react';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { quaterDDL } from '../../../hashPerformanceCommon';
+import { addWorkPlan, commonYearDDL, workPlan_landing_api } from '../../helper';
 import {
   Card,
   CardBody,
@@ -7,24 +18,12 @@ import {
   Input,
   ModalProgressBar,
 } from './../../../../../../_metronic/_partials/controls';
-import { Field, Form, Formik } from 'formik';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import NewSelect from '../../../../_helper/_select';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import { quaterDDL } from '../../../hashPerformanceCommon';
-import { addWorkPlan, commonYearDDL, workPlan_landing_api } from '../../helper';
-import { WorkPlanTable } from './WorkPlanTable';
-import './workplantable.css';
-import IClose from '../../../../_helper/_helperIcons/_close';
-import InputField from '../../../../_helper/_inputField';
-import IEdit from '../../../../_helper/_helperIcons/_edit';
 import image from './assets/workplanImage.jpg';
 import ImageViewer from './staticImageViewerModal';
+import { WorkPlanTable } from './WorkPlanTable';
+import './workplantable.css';
 
-import html2pdf from 'html2pdf.js';
+import { pdfExport } from '../../../performanceCoaching/growModel/landing/table';
 const initData = {
   activityName: '',
   frequencyDDL: {
@@ -232,26 +231,6 @@ export default function WorkPlanLanding() {
         setDisabled,
       );
     }
-  };
-
-  const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
-
-    var clonedElement = element.cloneNode(true);
-    clonedElement.classList.add('d-block');
-
-    var opt = {
-      margin: 20,
-      filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: {
-        unit: 'px',
-        hotfixes: ['px_scaling'],
-        orientation: 'portrait',
-      },
-    };
-    html2pdf().set(opt).from(clonedElement).save();
   };
 
   return (
@@ -510,11 +489,11 @@ export default function WorkPlanLanding() {
                       className="btn btn-primary"
                       disabled={
                         !values?.activityName ||
-                        !values?.frequencyDDL?.label ||
-                        !values?.priorityDDL?.label ||
-                        !values?.quarterDDLgroup?.label ||
-                        !values?.yearDDLgroup?.label ||
-                        planList?.isConfirm
+                          !values?.frequencyDDL?.label ||
+                          !values?.priorityDDL?.label ||
+                          !values?.quarterDDLgroup?.label ||
+                          !values?.yearDDLgroup?.label ||
+                          planList?.isConfirm
                           ? true
                           : false
                       }
