@@ -7,9 +7,9 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import { categoryDDL, getExpenseParticularsLandingApi } from "../helper";
 import LandingTable from "./table";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
   category: "",
@@ -109,7 +109,6 @@ const ExpenseParticularsLanding = () => {
 
                 <div className='col d-flex align-items-end justify-content-end'>
                   <button
-                    className='btn btn-primary mt-3'
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
@@ -117,6 +116,7 @@ const ExpenseParticularsLanding = () => {
                       !values?.fromDate ||
                       !values?.toDate
                     }
+                    className='btn btn-primary mt-3'
                   >
                     View
                   </button>
@@ -124,19 +124,19 @@ const ExpenseParticularsLanding = () => {
               </div>
               <LandingTable
                 obj={{
-                  gridData,
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
+                  gridData,
                 }}
               />
 
               {gridData?.data?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
                   setPositionHandler={(pageNo, pageSize) => {
                     commonGridData(pageNo, pageSize, values);
                   }}
+                  count={gridData?.totalCount}
                   paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   values={values}
                 />
