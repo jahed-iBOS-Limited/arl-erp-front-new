@@ -1,34 +1,4 @@
 import Axios from "axios";
-// import { toast } from "react-toastify";
-
-//businessUnitPlant_api Api call
-export const businessUnitPlant_api = async (
-  accId,
-  buId,
-  userId,
-  plantId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=${plantId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
-//Wearhouse_api Api call
-export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
 
 //InventoryStatement_api Api call
 export const inventoryStatement_api = async (
@@ -53,11 +23,11 @@ export const inventoryStatement_api = async (
   setLoading(true);
 
   let api;
-  if(type?.value === 2){
+  if (type?.value === 2) {
     // api = `/wms/WmsReport/InventoryStatementNew?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     api = `/wms/WmsReport/InventoryStatementDetail?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
   } else {
-    
+
     api = `/wms/WmsReport/InventoryRegister?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
   }
 
@@ -164,7 +134,7 @@ export const getSBUList = async (accId, buId, setter) => {
       `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 

@@ -13,11 +13,10 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  businessUnitPlant_api,
   generateExcel,
   getInventoryAgingLanding,
-  wearhouse_api,
 } from "../helper";
+import { businessUnitPlant_api, wearhouse_api } from "../../../../_helper/_commonApi";
 const initData = {
   plant: "",
   wh: "",

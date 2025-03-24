@@ -17,20 +17,7 @@ export const businessUnitPlant_api = async (
       setter(res?.data);
     }
   } catch (error) {
-    
-  }
-};
-//Wearhouse_api Api call
-export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    
+
   }
 };
 
@@ -91,7 +78,7 @@ export const InventoryLedger_api = async (
       setLoading(false);
     }
   } catch (error) {
-    
+
     setLoading(false);
   }
 };
@@ -107,12 +94,12 @@ export const ItemCategory_api = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
 //ItemSubCategory_api Api call
-export const ItemSubCategory_api = async (accId, buId,caId, setter) => {
+export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
   try {
     const res = await Axios.get(
       `/wms/WmsReport/GetItemSubCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemCategoryId=${caId}`
@@ -121,7 +108,7 @@ export const ItemSubCategory_api = async (accId, buId,caId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
@@ -132,7 +119,7 @@ export const getItemTypeListDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -155,5 +142,5 @@ export const getItemCategoryDDLByTypeId_api = async (
 
       setter(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };

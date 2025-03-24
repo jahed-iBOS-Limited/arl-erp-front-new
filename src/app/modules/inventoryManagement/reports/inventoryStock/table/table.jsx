@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { wearhouse_api } from "../../../../_helper/_commonApi";
+import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
-import { Formik, Form } from "formik";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { useDispatch, useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import "../style.css";
+import { SetReportsInventoryStockAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   businessUnitPlant_api,
-  wearhouse_api,
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
   inventoryStatement_api,
   ItemSubCategory_api,
-  getItemTypeListDDL_api,
-  getItemCategoryDDLByTypeId_api,
 } from "../helper";
+import "../style.css";
 import CustomPaginationActionsTable from "./pagination";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import Loading from "../../../../_helper/_loading";
-import { SetReportsInventoryStockAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 
 
 const InventoryStockTable = () => {
@@ -73,17 +72,17 @@ const InventoryStockTable = () => {
     );
   };
 
-const {reportsInventoryStock} = useSelector(state => state?.localStorage)
+  const { reportsInventoryStock } = useSelector(state => state?.localStorage)
 
   const initData = {
     plant: reportsInventoryStock?.plant || "",
-    wh: reportsInventoryStock?.wh ||  "",
-    itemCategory: reportsInventoryStock?.itemCategory ||  "",
-    itemSubCategory: reportsInventoryStock?.itemSubCategory ||  "",
-    fromDate: reportsInventoryStock?.fromDate ||  _todayDate(),
-    fromTime: reportsInventoryStock?.fromTime ||  _currentTime(),
-    toDate: reportsInventoryStock?.toDate ||  _todayDate(),
-    toTime: reportsInventoryStock?.toTime ||  _currentTime(),
+    wh: reportsInventoryStock?.wh || "",
+    itemCategory: reportsInventoryStock?.itemCategory || "",
+    itemSubCategory: reportsInventoryStock?.itemSubCategory || "",
+    fromDate: reportsInventoryStock?.fromDate || _todayDate(),
+    fromTime: reportsInventoryStock?.fromTime || _currentTime(),
+    toDate: reportsInventoryStock?.toDate || _todayDate(),
+    toTime: reportsInventoryStock?.toTime || _currentTime(),
     itemType: reportsInventoryStock?.itemType || "",
   };
 
@@ -94,7 +93,7 @@ const {reportsInventoryStock} = useSelector(state => state?.localStorage)
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
@@ -261,7 +260,7 @@ const {reportsInventoryStock} = useSelector(state => state?.localStorage)
                 // setIsShowModal={setIsShowModal}
                 setInventoryStatement={setInventoryStatement}
                 inventoryStatementAllData={inventoryStatementAllData}
-                // setTableItem={setTableItem}
+              // setTableItem={setTableItem}
               />
             </Form>
           </>
