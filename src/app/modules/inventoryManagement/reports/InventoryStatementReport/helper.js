@@ -168,12 +168,3 @@ export const InventoryLedger_api_new = async (
   }
 };
 
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
