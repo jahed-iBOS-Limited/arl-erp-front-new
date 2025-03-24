@@ -1094,3 +1094,13 @@ export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
     }
   } catch (error) { }
 };
+export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/WmsReport/GetItemSubCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemCategoryId=${caId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
