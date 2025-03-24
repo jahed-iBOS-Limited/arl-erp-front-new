@@ -2,12 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import {
-  getRouteDDL,
-  getBeatDDL,
-  getMonthDDL,
-  getCategoryDDL,
-  getSubCategoryDDL,
-  getItemDDL,
   getLandingData,
   editBillProcess,
 } from "../helper";
@@ -24,6 +18,7 @@ import NewSelect from "./../../../../_helper/_select";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import { toast } from "react-toastify";
 import { _formatMoney } from "./../../../../_helper/_formatMoney";
+import { getBeatDDL, getCategoryDDL, getItemDDL, getMonthDDL, getRouteDDL, getSubCategoryDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   route: "",
@@ -69,11 +64,6 @@ const OutletBillProcessLanding = () => {
       setRouteDDL
     );
     getMonthDDL(setMonthDDL);
-    getRouteDDL(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setRouteDDL
-    );
     getCategoryDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,

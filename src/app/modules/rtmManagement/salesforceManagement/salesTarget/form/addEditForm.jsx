@@ -4,12 +4,12 @@ import Form from "./form";
 import { useSelector, shallowEqual } from "react-redux";
 import Loading from "../../../../_helper/_loading";
 import IForm from "./../../../../_helper/_form";
-import { getMonthDDL } from "./../../../accountReceivable/outletBillProcess/helper";
 import { editSalesTargetSetup, getTerritoryTypeDDL } from "./../helper";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 import { createSalesTargetSetup } from "./../helper";
 import { YearDDL } from "../../../../_helper/_yearDDL";
+import { getMonthDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   territoryType: "",

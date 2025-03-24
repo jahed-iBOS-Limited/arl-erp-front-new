@@ -68,11 +68,3 @@ export const getRouteDDL = async (accId, buId, setter) => {
   }
 };
 
-export const getBeatDDL = async (routeId, setter) => {
-  try {
-    let res = await axios.get(`/rtm/RTMDDL/BeatNameDDL?RouteId=${routeId}`);
-    setter(res?.data);
-  } catch (err) {
-    toast.warning(err?.response?.data?.message);
-  }
-};
