@@ -1167,3 +1167,57 @@ export const getItemDDL = async (catId, subId, accId, setter) => {
     }
   }
 };
+
+
+export const GetOutletProfileTypeAttributes = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/rtm/OutletProfileType/GetOutletProfileTypeInfo?AccountId=${accId}&BusinsessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      const attributes = res?.data.map((item) => {
+        if (item.objAttribute.uicontrolType === "DDL") {
+          const attributeValue = item.objAttributeValue.map((attr) => ({
+            ...attr,
+            value: attr.attributeValueId,
+            label: attr.outletAttributeValueName,
+            type: item.objAttribute.uicontrolType,
+          }));
+
+          return {
+            ...item,
+            objAttributeValue: attributeValue,
+          };
+        } else {
+          return item;
+        }
+      });
+      setter(attributes);
+    }
+  } catch (error) {}
+};
+
+
+export const operation = async ({
+  profileData,
+  selectedBusinessUnit,
+  setAttributes,
+  params,
+  getOutletProfileById,
+  setSingleData,
+  setOutlet,
+  cb
+}) => {
+  if (profileData.accountId && selectedBusinessUnit.value) {
+    await GetOutletProfileTypeAttributes(
+      profileData.accountId,
+      selectedBusinessUnit.value,
+      setAttributes
+    );
+  }
+
+  if (params?.id) {
+    await getOutletProfileById(params?.id, setSingleData, setOutlet);
+    cb && cb()
+  }
+};

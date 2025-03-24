@@ -181,34 +181,6 @@ export const editOutlateProfile = async (payload, setLoading) => {
   }
 };
 
-export const GetOutletProfileTypeAttributes = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/rtm/OutletProfileType/GetOutletProfileTypeInfo?AccountId=${accId}&BusinsessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const attributes = res?.data.map((item) => {
-        if (item.objAttribute.uicontrolType === "DDL") {
-          const attributeValue = item.objAttributeValue.map((attr) => ({
-            ...attr,
-            value: attr.attributeValueId,
-            label: attr.outletAttributeValueName,
-            type: item.objAttribute.uicontrolType,
-          }));
-
-          return {
-            ...item,
-            objAttributeValue: attributeValue,
-          };
-        } else {
-          return item;
-        }
-      });
-      setter(attributes);
-    }
-  } catch (error) {}
-};
-
 export const getBeatApiDDL = async (RoId, setter) => {
   try {
     let res = await Axios.get(`/rtm/RTMDDL/BeatNameDDL?RouteId=${RoId}`);
@@ -322,3 +294,11 @@ export const getFileListDDL = async (outletId, setter) => {
     }
   } catch (error) {}
 };
+
+export const commonCollerCompanyDDL = [
+  { value: 1, label: "AFBL" },
+  { value: 2, label: "PEPSI" },
+  { value: 3, label: "COCA-COLA" },
+  { value: 4, label: "OTHERS" },
+];
+
