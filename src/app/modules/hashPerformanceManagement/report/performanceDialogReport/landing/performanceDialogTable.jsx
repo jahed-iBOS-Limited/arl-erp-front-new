@@ -1,14 +1,12 @@
 import html2pdf from 'html2pdf.js';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import IViewModal from '../../../../_helper/_viewModal';
-import JohariWindowPdfFile from '../../../performanceCoaching/actionPlanJohariWindow/JohariWindowPdfFile';
+import GrowModelPdf2 from '../../../performanceCoaching/actionPlanGrowModel/GrowModelPdf';
 import GrowModelPdf from '../../../performanceCoaching/growModel/landing/pdfFile';
 import PDFVIEW from '../../../performanceCoaching/johariWindow/landing/pdf';
 import ActionPlanPdfFile from '../../../performancePlanning/ActionPlan/ActionPlanPdfFile';
 import EisenHowerPdfFile from '../../../performancePlanning/eisenhowerMatrix/landing/pdfFile';
 import { WorkPlanTable } from '../../../performancePlanning/workPlan/landing/WorkPlanTable';
-
 const PerformanceDialogTable = ({ rowDto }) => {
   const [show, setShow] = useState(false);
   const [singleData, setSingleData] = useState(null);
@@ -175,13 +173,14 @@ const PerformanceDialogTable = ({ rowDto }) => {
               />
             )}
             {singleData?.reportTypename === 'Action Plan Johari Window' && (
-              <JohariWindowPdfFile
+              <GrowModelPdf2
                 pdfData={{
                   rowData: {
                     ...singleData,
                     row: singleData?.actionPlan,
                   },
                 }}
+                title={'Action Plan Johari Window'}
               />
             )}
           </div>

@@ -4,12 +4,12 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../../App';
+import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
 const validationSchema = Yup.object().shape({});
 export default function IOU({ clickRowDto, CB }) {
   const formikRef = useRef(null);
@@ -324,10 +324,10 @@ export default function IOU({ clickRowDto, CB }) {
                       <hr style={{ margin: '3px 0px' }} />
                       <span>
                         Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                      </span>{' '}
+                      </span>
                       <hr style={{ margin: '3px 0px' }} />
-                      <span>Phone: 08000555777</span> <br />
                       <span>Mobile No: 01332500859</span> <br />
+                      <span>Phone: 08000555777</span> <br />
                       <hr style={{ margin: '3px 0px' }} />
                       <span>Email ID: N/A</span> <br />
                       <hr style={{ margin: '3px 0px' }} />
@@ -446,11 +446,11 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="3" style={cellStyle}>
                     {singleChaShipmentBooking?.modeOfTransportName ===
                       'Sea' && (
-                      <>
-                        Container quantity:{' '}
-                        {singleChaShipmentBooking?.containerQty}
-                      </>
-                    )}
+                        <>
+                          Container quantity:{' '}
+                          {singleChaShipmentBooking?.containerQty}
+                        </>
+                      )}
                   </td>
                 </tr>
                 <tr>

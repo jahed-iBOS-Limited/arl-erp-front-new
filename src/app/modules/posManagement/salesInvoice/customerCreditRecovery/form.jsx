@@ -36,9 +36,9 @@ function _Form({
   const loadCustomerList = (v) => {
     if (v?.length < 3) return [];
     return axios
-    .get(
-      `/partner/Pos/GetCustomerNameDDL?SearchTerm=${v}&AccountId=${accountId}&BusinessUnitId=${bussinessUnitId}&WarehouseId=${warehouseId}`
-    )
+      .get(
+        `/partner/Pos/GetCustomerNameDDL?SearchTerm=${v}&AccountId=${accountId}&BusinessUnitId=${bussinessUnitId}&WarehouseId=${warehouseId}`
+      )
       .then((res) => res?.data);
   };
 
@@ -69,7 +69,7 @@ function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileObject]);
-  
+
   return (
     <>
       <Formik
@@ -87,147 +87,146 @@ function _Form({
           errors,
           touched,
           setFieldValue,
-          setValues,
           isValid,
         }) => (
-            <Form className="form form-label-right">
-              <div className="global-form">
-                <div className="row">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="whName"
-                      options={whNameDDL}
-                      value={values?.whName}
-                      onChange={(valueOption) => {
-                        setFieldValue("whName", valueOption);
-                        setWarehouseId(valueOption?.value)
+          <Form className="form form-label-right">
+            <div className="global-form">
+              <div className="row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="whName"
+                    options={whNameDDL}
+                    value={values?.whName}
+                    onChange={(valueOption) => {
+                      setFieldValue("whName", valueOption);
+                      setWarehouseId(valueOption?.value)
+                    }}
+                    placeholder="Outlet Name"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <div>
+                    <label>Customer</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.customer}
+                      name="customer"
+                      handleChange={(valueOption) => {
+                        setFieldValue("customer", valueOption);
                       }}
-                      placeholder="Outlet Name"
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <div>
-                      <label>Customer</label>
-                      <SearchAsyncSelect
-                        selectedValue={values?.customer}
-                        name="customer"
-                        handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
-                        }}
-                        placeholder="Search By Mobile Number"
-                        loadOptions={loadCustomerList}
-                      />
-                    </div>
-                  </div>
-                  <div style={{ marginTop: "18px" }} className="col-lg-1">
-                    <button
-                      disabled={!values?.whName}
-                      className="btn btn-primary"
-                      onClick={() => {
-                        getCustomers(values?.whName?.value, values?.customer?.value || 0, setRowDto);
-                      }}
-                      type="button"
-                    >
-                      View
-                    </button>
-                  </div>
-                  <div className="col-lg-2">
-
-                  </div>
-                  <div className="col-lg-3">
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleClick}
-                      type="button"
-                      style={{
-                        marginLeft: "10px",
-                        marginTop: "18px",
-                        float: "right"
-                      }}
-                    >
-                      Import Excel
-                    </button>
-                    <input
-                      type="file"
-                      onChange={(e) => {
-                        setFileObject(e.target.files[0]);
-                        e.target.value = "";
-                      }}
-                      ref={hiddenFileInput}
-                      style={{ display: "none" }}
-                    />
-                    <ReactHTMLTableToExcel
-                      id="test-table-xls-button"
-                      className="btn btn-primary sales_invoice_btn customer-export-excel"
-                      table="table-to-xlsx"
-                      filename="customerCreditRecovery"
-                      sheet="tablexls"
-                      buttonText="Export Excel"
+                      placeholder="Search By Mobile Number"
+                      loadOptions={loadCustomerList}
                     />
                   </div>
                 </div>
+                <div style={{ marginTop: "18px" }} className="col-lg-1">
+                  <button
+                    className="btn btn-primary"
+                    disabled={!values?.whName}
+                    onClick={() => {
+                      getCustomers(values?.whName?.value, values?.customer?.value || 0, setRowDto);
+                    }}
+                    type="button"
+                  >
+                    View
+                  </button>
+                </div>
+                <div className="col-lg-2">
+
+                </div>
+                <div className="col-lg-3">
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleClick}
+                    type="button"
+                    style={{
+                      marginLeft: "10px",
+                      marginTop: "18px",
+                      float: "right"
+                    }}
+                  >
+                    Import Excel
+                  </button>
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      setFileObject(e.target.files[0]);
+                      e.target.value = "";
+                    }}
+                    ref={hiddenFileInput}
+                    style={{ display: "none" }}
+                  />
+                  <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="btn btn-primary sales_invoice_btn customer-export-excel"
+                    table="table-to-xlsx"
+                    filename="customerCreditRecovery"
+                    sheet="tablexls"
+                    buttonText="Export Excel"
+                  />
+                </div>
               </div>
-              <div className="row">
-                <div className="col-md-12">
-                  {/* RowDto */}
-                  <table className="table table-striped table-bordered global-table" id="table-to-xlsx">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Customer Name</th>
-                        <th>Customer Enroll</th>
-                        <th>Employeement Info</th>
-                        <th>Customer's Due Amount</th>
-                        <th style={{width:'120px'}}>Recover Amount</th>
-                        {/* <th style={{width:'60px'}}>Action</th> */}
-                      </tr>
-                    </thead>
-                    <tbody className="itemList">
-                      {rowDto?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-left">{item?.customerName}</td>
-                          <td className="text-left">{item?.customerHR_Code}</td>
-                          <td>{item?.employementInfo}</td>
-                          <td className="text-center">{item?.customerDueAmount}</td>
-                          <td className="text-center">
-                            <input 
-                              style={{width:'120px', borderRadius: "5px"}}
-                              type="number" 
-                              name="recoverAmount"
-                              defaultValue={item?.recoverAmount}
-                              value={values?.recoverAmount}
-                              onChange={(e)=>{
-                                updateRecoverAmount(e.target.value, index)
-                              }}
-                            /> 
-                          </td>
-                          {/* <td className="text-right" style={{display: 'flex', justifyContent: 'space-around'}}>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                {/* RowDto */}
+                <table className="table table-striped table-bordered global-table" id="table-to-xlsx">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Customer Name</th>
+                      <th>Customer Enroll</th>
+                      <th>Employeement Info</th>
+                      <th>Customer's Due Amount</th>
+                      <th style={{ width: '120px' }}>Recover Amount</th>
+                      {/* <th style={{width:'60px'}}>Action</th> */}
+                    </tr>
+                  </thead>
+                  <tbody className="itemList">
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td className="text-left">{item?.customerName}</td>
+                        <td className="text-left">{item?.customerHR_Code}</td>
+                        <td>{item?.employementInfo}</td>
+                        <td className="text-center">{item?.customerDueAmount}</td>
+                        <td className="text-center">
+                          <input
+                            style={{ width: '120px', borderRadius: "5px" }}
+                            type="number"
+                            name="recoverAmount"
+                            defaultValue={item?.recoverAmount}
+                            value={values?.recoverAmount}
+                            onChange={(e) => {
+                              updateRecoverAmount(e.target.value, index)
+                            }}
+                          />
+                        </td>
+                        {/* <td className="text-right" style={{display: 'flex', justifyContent: 'space-around'}}>
                             <IDelete remover={remover} id={item?.itemName} />
                           </td> */}
-                        </tr>
-                      ))}
-                      
-                    </tbody>
-                  </table>
-                </div>
+                      </tr>
+                    ))}
+
+                  </tbody>
+                </table>
               </div>
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button>
-            </Form>
-            
+            </div>
+            <button
+              type="submit"
+              style={{ display: "none" }}
+              ref={btnRef}
+              onSubmit={() => handleSubmit()}
+            ></button>
+            <button
+              type="reset"
+              style={{ display: "none" }}
+              ref={resetBtnRef}
+              onSubmit={() => resetForm(initData)}
+            ></button>
+          </Form>
+
         )}
       </Formik>
     </>

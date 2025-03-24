@@ -17,7 +17,7 @@ import {
 import LandingTable from "./table";
 
 const initData = {
-  
+
   sbu: "",
   vesselName: "",
   voyageNo: "",
@@ -94,8 +94,8 @@ const EstimatePDALanding = () => {
                       setGridData([]);
                     }}
                     placeholder='SBU'
-                    value={values?.sbu}
                     errors={errors}
+                    value={values?.sbu}
                     touched={touched}
                   />
                 </div>
@@ -105,8 +105,8 @@ const EstimatePDALanding = () => {
                     isSearchable={true}
                     options={vesselDDL || []}
                     name='vesselName'
-                    placeholder='Vessel Name'
                     label='Vessel Name'
+                    placeholder='Vessel Name'
                     onChange={(valueOption) => {
                       setFieldValue("vesselName", valueOption);
                       setGridData([]);
@@ -117,10 +117,10 @@ const EstimatePDALanding = () => {
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
+                    name='voyageNo'
                     value={values?.voyageNo || ""}
                     isSearchable={true}
                     options={voyageNoDDLApi || []}
-                    name='voyageNo'
                     placeholder='Voyage No'
                     label='Voyage No'
                     onChange={(valueOption) => {
@@ -164,7 +164,7 @@ const EstimatePDALanding = () => {
                     }}
                     disabled={
                       !values?.fromDate ||
-                      !values?.toDate 
+                      !values?.toDate
                     }
                   >
                     View
@@ -172,13 +172,7 @@ const EstimatePDALanding = () => {
                 </div>
               </div>
 
-              {/* <PaginationSearch
-                placeholder='Search By Issue, Code, Name'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, values, searchValue);
-                }}
-                values={values}
-              /> */}
+
               <LandingTable
                 obj={{
                   gridData,
@@ -190,12 +184,12 @@ const EstimatePDALanding = () => {
 
               {gridData?.data?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
                   setPositionHandler={(pageNo, pageSize) => {
                     commonGridData(pageNo, pageSize, values);
                   }}
                   paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   values={values}
+                  count={gridData?.totalCount}
                 />
               )}
             </ICustomCard>

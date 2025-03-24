@@ -144,9 +144,9 @@ const ProductionBreakdownReport = () => {
                       <PowerBIEmbed
                         embedConfig={{
                           type: "report",
+                          accessToken: localStorageData?.generateToken,
                           id: localStorageData?.reportId,
                           embedUrl: localStorageData?.embedUrl,
-                          accessToken: localStorageData?.generateToken,
                           tokenType: models.TokenType.Embed,
                           settings: {
                             panes: {
@@ -162,19 +162,19 @@ const ProductionBreakdownReport = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],

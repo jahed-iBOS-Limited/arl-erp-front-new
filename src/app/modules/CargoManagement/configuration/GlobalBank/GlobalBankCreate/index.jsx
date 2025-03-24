@@ -129,15 +129,15 @@ function GlobalBankCreate() {
             primaryAddress: data?.primaryAddress || '',
             country: data?.country
               ? {
-                  value: data?.countryId || 0,
-                  label: data?.country || '',
-                }
+                value: data?.countryId || 0,
+                label: data?.country || '',
+              }
               : '',
             city: data?.city
               ? {
-                  value: 0,
-                  label: data?.city || '',
-                }
+                value: 0,
+                label: data?.city || '',
+              }
               : '',
             phoneNo: data?.phoneNo || '',
             email: data?.email || '',
@@ -192,7 +192,7 @@ function GlobalBankCreate() {
         }}
         innerRef={formikRef}
       >
-        {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
+        {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             {/* <h1>
                             {JSON.stringify(errors)}

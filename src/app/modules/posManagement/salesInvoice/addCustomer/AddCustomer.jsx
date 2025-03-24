@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
 import Axios from "axios";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import Select from "react-select";
-import { useSelector, shallowEqual } from "react-redux";
+import * as Yup from "yup";
 import { Input } from "../../../../../_metronic/_partials/controls";
 import customStyles from "../../../selectCustomStyle";
-import IViewModal from "./../../../_helper/_viewModal";
 import { createPartnerBasic_api } from "../helper";
+import IViewModal from "./../../../_helper/_viewModal";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -122,11 +122,11 @@ export default function AddCustomerForm({ show, onHide, product }) {
             enableReinitialize={true}
             initialValues={initProduct}
             validationSchema={ProductEditSchema}
-            // onSubmit={(values, { setSubmitting, resetForm }) => {
-            //     saveBussinessPartner(values, () => {
-            //        resetForm(product);
-            //     });
-            // }}
+          // onSubmit={(values, { setSubmitting, resetForm }) => {
+          //     saveBussinessPartner(values, () => {
+          //        resetForm(product);
+          //     });
+          // }}
           >
             {({
               handleSubmit,
@@ -191,14 +191,14 @@ export default function AddCustomerForm({ show, onHide, product }) {
                           value={values.contactNumber || ""}
                           name="contactNumber"
                           component={Input}
-                          placeholder="Contact Number"
                           label="Contact Number"
+                          placeholder="Contact Number"
                         />
                       </div>
                       <div className="col-lg-4">
                         <Field
-                          value={values.email || ""}
                           name="email"
+                          value={values.email || ""}
                           component={Input}
                           placeholder="Email"
                           label="Email (Optional)"

@@ -1,42 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ICard from "../../../_helper/_card";
 import ICustomTable from "../../../_helper/_customTable";
 
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { _todayDate } from "../../../_helper/_todayDate";
 
-import NewSelect from "../../../_helper/_select";
 import * as Yup from "yup";
 import { IInput } from "../../../_helper/_input";
+import NewSelect from "../../../_helper/_select";
 
+import Loading from "../../../_helper/_loading";
+import numberWithCommas from "../../../_helper/_numberWithCommas";
 import {
   getDamageReportData,
   getWareHouseDDL
 } from "../helper";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
 
 const ths = ["Sl", "Warehouse", "Narration", "Damage Date", "Product Code", "Product Name", "UoM", " Damage QTY", "Damage Amount"];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   fromDate: Yup.date().required("From Date is required"),
-
   toDate: Yup.date().required("To Date is required"),
-
   reportType: Yup.object().shape({
     label: Yup.string().required("Report Type is required"),
     value: Yup.string().required("Report Type is required"),
   }),
-  shippointDDL: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
-  }),
   customerNameDDL: Yup.object().shape({
     label: Yup.string().required("Customer Name is required"),
     value: Yup.string().required("Customer Name is required"),
+  }),
+  shippointDDL: Yup.object().shape({
+    label: Yup.string().required("Ship Point is required"),
+    value: Yup.string().required("Ship Point is required"),
   }),
 });
 
@@ -79,13 +77,13 @@ export default function DamageReport() {
   };
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, setWhNameDDL)
     }
   }, [profileData, selectedBusinessUnit])
 
-  
-  
+
+
   let totalAmount = 0;
   let totalProductQTY = 0;
   return (
@@ -113,11 +111,6 @@ export default function DamageReport() {
                 enableReinitialize={true}
                 initialValues={initData}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  // saveHandler(values, () => {
-                  //   resetForm(initData);
-                  // });
-                }}
               >
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
@@ -126,6 +119,7 @@ export default function DamageReport() {
                         <div className="col-lg-2">
                           <NewSelect
                             name="whName"
+                            placeholder="Outlet Name"
                             options={whNameDDL}
                             value={values?.whName}
                             label="Outlet Name"
@@ -133,7 +127,6 @@ export default function DamageReport() {
                               setRowDto([]);
                               setFieldValue("whName", valueOption)
                             }}
-                            placeholder="Outlet Name"
                             errors={errors}
                             touched={touched}
                           />
@@ -152,9 +145,9 @@ export default function DamageReport() {
 
                         <div className="col-lg-2">
                           <IInput
+                            name="toDate"
                             value={values?.toDate}
                             label="To date"
-                            name="toDate"
                             type="date"
                             onChange={(e) => {
                               setFieldValue("toDate", e?.target?.value);
@@ -182,11 +175,11 @@ export default function DamageReport() {
               <div className=" my-5">
                 <ICustomTable ths={ths}>
                   {rowDto.map((itm, i) => {
-                     totalAmount += +itm.damageAmount;
-                     totalProductQTY += +itm.damageQty;
+                    totalAmount += +itm.damageAmount;
+                    totalProductQTY += +itm.damageQty;
                     return (
                       <tr key={i}>
-                        <td className="text-center"> {i+1}</td>
+                        <td className="text-center"> {i + 1}</td>
                         <td> {itm.wareHouse}</td>
                         <td> {itm.narration}</td>
                         <td> {moment(itm.damageDate).format('L')}</td>

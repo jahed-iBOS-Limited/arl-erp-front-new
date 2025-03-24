@@ -2,12 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { imarineBaseUrl } from '../../../../../App';
+import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import logisticsLogo from './logisticsLogo.png';
 import './ViewInvoice.css';
-import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
 
 export default function ViewInvoice({ clickRowDto }) {
   const { selectedBusinessUnit } = useSelector(
@@ -115,7 +115,7 @@ export default function ViewInvoice({ clickRowDto }) {
                   <hr style={{ margin: '3px 0px' }} />
                   <span>
                     Address: House - 5, Road - 6, Sector 1, Uttara, Dhaka
-                  </span>{' '}
+                  </span>
                   <hr style={{ margin: '3px 0px' }} />
                   <span>Phone: 08000555777</span> <br />
                   <span>Mobile No: 01332500859</span> <br />

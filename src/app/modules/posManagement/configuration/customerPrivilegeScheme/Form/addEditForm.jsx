@@ -34,14 +34,13 @@ const initData = {
 };
 
 export default function CustomerPrivilegeSchemeForm({
-  history,
   match: {
     params: { id },
   },
 }) {
-  const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
+  const [isDisabled, setDisabled] = useState(false);
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -77,7 +76,7 @@ export default function CustomerPrivilegeSchemeForm({
           toast.warn("Please select at least one item");
           return false;
         }
-       postPrivilegeScheme_api(payload, cb, setDisabled);
+        postPrivilegeScheme_api(payload, cb, setDisabled);
       }
     } else {
       setDisabled(false);
