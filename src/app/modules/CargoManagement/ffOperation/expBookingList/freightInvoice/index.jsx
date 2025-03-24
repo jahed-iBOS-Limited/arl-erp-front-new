@@ -150,11 +150,13 @@ const FreightInvoice = ({ rowClickData }) => {
             style={{
               height: 25,
               width: 150,
+              position: 'relative',
             }}
           />
           <div
             style={{
               textAlign: 'right',
+              fontSize: 14,
             }}
           >
             <span style={{ fontSize: 14, fontWeight: 600 }}>
@@ -389,13 +391,14 @@ const FreightInvoice = ({ rowClickData }) => {
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr 1fr 1fr ',
+                gap: 0
               }}
             >
               <div
                 style={{
                   fontWeight: 600,
                   padding: 2,
-                  borderRight: '1px solid #000000',
+                  borderRight: '1px solid #000',
                 }}
               >
                 <span>Shipper</span>
@@ -412,7 +415,6 @@ const FreightInvoice = ({ rowClickData }) => {
                 <br />
                 {bookingData?.modeOfTransportId !== 4 && (
                   <>
-                    {' '}
                     <span>Master Number</span>
                     <br />
                   </>
@@ -425,7 +427,6 @@ const FreightInvoice = ({ rowClickData }) => {
                   </>
                 ) : (
                   <>
-                    {' '}
                     <span>House Number</span>
                     <br />
                   </>
@@ -437,7 +438,8 @@ const FreightInvoice = ({ rowClickData }) => {
                 style={{
                   textTransform: 'uppercase',
                   padding: 2,
-                  borderRight: '1px solid #000000',
+                  borderRight: '1px solid #000',
+                  borderLeft: "none"
                 }}
               >
                 <span>{bookingData?.shipperName}</span>
@@ -460,7 +462,7 @@ const FreightInvoice = ({ rowClickData }) => {
                 {bookingData?.modeOfTransportId !== 4 && (
                   <>
                     {bookingData?.seaMasterBlCode &&
-                    bookingData?.airMasterBlCode ? (
+                      bookingData?.airMasterBlCode ? (
                       <>
                         {bookingData?.seaMasterBlCode}{' '}
                         {bookingData?.airMasterBlCode
@@ -480,16 +482,17 @@ const FreightInvoice = ({ rowClickData }) => {
                 <span>
                   {bookingData?.arrivalDateTime
                     ? moment(bookingData?.arrivalDateTime).format(
-                        'YYYY-MM-DD HH:mm A',
-                      )
+                      'YYYY-MM-DD HH:mm A',
+                    )
                     : 'N/A'}
                 </span>
               </div>
               <div
                 style={{
                   fontWeight: 600,
+                  borderLeft: 'none',
                   padding: 2,
-                  borderRight: '1px solid #000000',
+                  borderRight: '1px solid #000',
                 }}
               >
                 <span>LC No.</span>
@@ -545,7 +548,7 @@ const FreightInvoice = ({ rowClickData }) => {
                   <>
                     <span>
                       {bookingData?.seaMasterBlCode &&
-                      bookingData?.airMasterBlCode ? (
+                        bookingData?.airMasterBlCode ? (
                         <>
                           {bookingData?.seaMasterBlDate &&
                             moment(bookingData?.seaMasterBlDate).format(
@@ -561,7 +564,7 @@ const FreightInvoice = ({ rowClickData }) => {
                         bookingData?.airMasterBlDate ? (
                         moment(
                           bookingData?.seaMasterBlDate ||
-                            bookingData?.airMasterBlDate,
+                          bookingData?.airMasterBlDate,
                         ).format('YYYY-MM-DD')
                       ) : (
                         ''
