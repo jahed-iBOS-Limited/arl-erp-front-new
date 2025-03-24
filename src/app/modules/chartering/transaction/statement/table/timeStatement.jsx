@@ -1,8 +1,8 @@
 import moment from "moment";
 import React from "react";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 
 export default function TimeCharterStatement({
   printRef,
@@ -408,8 +408,8 @@ export default function TimeCharterStatement({
                 className="text-center align-middle"
                 rowSpan={
                   additionalCostList?.length +
-                    !additionalCostList?.filter((e) => e?.costId === 14)
-                      .length ?? 1
+                  !additionalCostList?.filter((e) => e?.costId === 14)
+                    .length ?? 1
                 }
               >
                 10
@@ -418,8 +418,8 @@ export default function TimeCharterStatement({
                 className="text-center align-middle"
                 rowSpan={
                   additionalCostList?.length +
-                    !additionalCostList?.filter((e) => e?.costId === 14)
-                      .length ?? 1
+                  !additionalCostList?.filter((e) => e?.costId === 14)
+                    .length ?? 1
                 }
               >
                 Expense
