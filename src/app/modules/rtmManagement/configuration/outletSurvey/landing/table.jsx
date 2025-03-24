@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getLandingData } from "../helper";
@@ -15,7 +15,7 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 import InputField from "../../../../_helper/_inputField";
 import { Formik } from "formik";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
   outletName: "", // DDL
@@ -28,33 +28,13 @@ const OutletSurveyLanding = () => {
 
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-  //paginationState
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
-
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  // useEffect(() => {
-  //   getLandingData(
-  //     profileData?.accountId,
-  //     selectedBusinessUnit?.value,
-  //     isContinue,
-  //     fromDate,
-  //     setIsLoading,
-  //     setGridData,
-  //     pageNo,
-  //     pageSize
-  //   );
-  // }, []);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -157,7 +137,11 @@ const OutletSurveyLanding = () => {
                           <tr>
                             <td className="text-center">{index + 1}</td>
                             <td>{item?.surveyName}</td>
-                            <td className="text-center">{item?.valiedTo ? _dateFormatter(item?.valiedTo) : "-"}</td>
+                            <td className="text-center">
+                              {item?.valiedTo
+                                ? _dateFormatter(item?.valiedTo)
+                                : "-"}
+                            </td>
                             <td>
                               <div className="text-center">
                                 <button

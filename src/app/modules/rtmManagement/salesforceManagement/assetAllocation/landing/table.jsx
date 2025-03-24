@@ -13,13 +13,13 @@ import NewSelect from "./../../../../_helper/_select";
 import {
   getTerritoryDDL,
   getRouteDDL,
-  getBeatDDL,
   updateAllocation,
 } from "../helper";
 import { ModalProgressBar } from "./../../../../../../_metronic/_partials/controls/ModalProgressBar";
 import { getLandingData } from "../helper";
 import ICheckout from "./../../../../_helper/_helperIcons/_checkout";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import { getBeatDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   territory: "",
