@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import GridTable from "./table";
-import { Formik, Form } from "formik";
-import Loading from "./../../../../_helper/_loading";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   GetItemGroupLanding_api,
   getWareHouseDDL,
   updateItemGroupById_api,
 } from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
-import ICustomCard from "./../../../../_helper/_customCard";
-import NewSelect from "./../../../../_helper/_select";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
+import ICustomCard from "./../../../../_helper/_customCard";
+import Loading from "./../../../../_helper/_loading";
+import NewSelect from "./../../../../_helper/_select";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import GridTable from "./table";
 
 const initData = {
   outletName: "",
@@ -102,7 +102,7 @@ function ItemGroupForPrivilege() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        // onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
@@ -169,8 +169,8 @@ function ItemGroupForPrivilege() {
                 />
                 {rowDto?.data?.length > 0 && (
                   <PaginationTable
-                    count={rowDto?.totalCount}
                     values={values}
+                    count={rowDto?.totalCount}
                     setPositionHandler={setPositionHandler}
                     paginationState={{
                       pageNo,
