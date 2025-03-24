@@ -11,75 +11,93 @@ import NewSelect from "../../../../_helper/_select";
 import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import IButton from "../../../../_helper/iButton";
 import Select from "react-select";
+import { createCustomSelectStyles } from "../../../../selectCustomStyle";
 
 // there are some import issue thats why i write the code here
-const customStyles = {
+// const customStyles = {
+//   control: (provided, state) => ({
+//     ...provided,
+//     minHeight: "30px",
+//     height: "30px",
+//   }),
+
+//   valueContainer: (provided, state) => ({
+//     ...provided,
+//     height: "30px",
+//     padding: "0 6px",
+//   }),
+
+//   input: (provided, state) => ({
+//     ...provided,
+//     margin: "0px",
+//   }),
+//   indicatorSeparator: (state) => ({
+//     display: "none",
+//   }),
+//   indicatorsContainer: (provided, state) => ({
+//     ...provided,
+//     height: "26px",
+//   }),
+//   clearIndicator: (provided, state) => ({
+//     ...provided,
+//     paddingRight: 2,
+//   }),
+//   dropdownIndicator: (provided, state) => ({
+//     ...provided,
+//     paddingLeft: 0,
+//   }),
+//   option: (provided, state) => ({
+//     ...provided,
+//     padding: 1,
+//     fontSize: 12.5,
+//     paddingLeft: 7,
+//     zIndex: 99999999,
+//     paddingRight: 7,
+//   }),
+//   multiValue: (provided, state) => ({
+//     ...provided,
+//     height: "18px",
+//     marginTop: "1px",
+//     paddingRight: "6px",
+//   }),
+//   multiValueRemove: (provided, state) => ({
+//     ...provided,
+//     paddingTop: "2px",
+//   }),
+//   placeholder: (provided, state) => ({
+//     ...provided,
+//     fontSize: 11.5,
+//     textOverflow: "ellipsis",
+//     maxWidth: "95%",
+//     whiteSpace: "nowrap",
+//     overflow: "hidden",
+//   }),
+//   menu: (provided, state) => ({
+//     ...provided,
+//     backgroundColor: "#ffffff",
+//     minWidth: "max-content",
+//     width: "100%",
+//     borderRadius: "2px",
+//     zIndex: 99999999999999,
+//   }),
+// };
+
+const customStyles = createCustomSelectStyles({
   control: (provided, state) => ({
     ...provided,
     minHeight: "30px",
-    height: "30px",
+    height: "auto",
   }),
-
   valueContainer: (provided, state) => ({
     ...provided,
-    height: "30px",
+    height: "auto",
     padding: "0 6px",
-  }),
-
-  input: (provided, state) => ({
-    ...provided,
-    margin: "0px",
-  }),
-  indicatorSeparator: (state) => ({
-    display: "none",
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
     height: "26px",
   }),
-  clearIndicator: (provided, state) => ({
-    ...provided,
-    paddingRight: 2,
-  }),
-  dropdownIndicator: (provided, state) => ({
-    ...provided,
-    paddingLeft: 0,
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    padding: 1,
-    fontSize: 12.5,
-    paddingLeft: 7,
-    zIndex: 99999999,
-    paddingRight: 7,
-  }),
-  multiValue: (provided, state) => ({
-    ...provided,
-    height: "18px",
-    marginTop: "1px",
-    paddingRight: "6px",
-  }),
-  multiValueRemove: (provided, state) => ({
-    ...provided,
-    paddingTop: "2px",
-  }),
-  placeholder: (provided, state) => ({
-    ...provided,
-    fontSize: 11.5,
-    textOverflow: "ellipsis",
-    maxWidth: "95%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-  }),
-  menu: (provided, state) => ({
-    ...provided,
-    backgroundColor: "#ffffff",
-    minWidth: "max-content",
-    width: "100%",
-    borderRadius: "2px",
-    zIndex: 99999999999999,
-  }),
-};
+})
 
 export default function _Form({
   type,
@@ -338,19 +356,7 @@ export default function _Form({
                             onChange={(valueOption) => {
                               setFieldValue("supplier", valueOption);
                             }}
-                            styles={{
-                              ...customStyles,
-                              control: (provided, state) => ({
-                                ...provided,
-                                minHeight: "30px",
-                                height: "auto",
-                              }),
-                              valueContainer: (provided, state) => ({
-                                ...provided,
-                                height: "auto",
-                                padding: "0 6px",
-                              }),
-                            }}
+                            styles={customStyles}
                             name="supplier"
                             isMulti
                           />

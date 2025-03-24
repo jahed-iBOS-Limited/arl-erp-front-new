@@ -9,7 +9,7 @@ import Loading from '../../../_helper/_loading';
 import CommonTable from '../../../_helper/commonTable';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import customStyles from '../../../selectCustomStyle';
+import customStyles, { createCustomSelectStyles } from '../../../selectCustomStyle';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
@@ -439,19 +439,23 @@ export default function CreateApprovePartner() {
                               setFieldValue('sbu', valueOption);
                             }}
                             // isSearchable={true}
-                            styles={{
-                              ...customStyles,
-                              control: (provided, state) => ({
-                                ...provided,
-                                minHeight: '30px',
-                                height: 'auto',
-                              }),
-                              valueContainer: (provided, state) => ({
-                                ...provided,
-                                height: 'auto',
-                                padding: '0 6px',
-                              }),
-                            }}
+                            // styles={{
+                            //   ...customStyles,
+                            //   control: (provided, state) => ({
+                            //     ...provided,
+                            //     minHeight: '30px',
+                            //     height: 'auto',
+                            //   }),
+                            //   valueContainer: (provided, state) => ({
+                            //     ...provided,
+                            //     height: 'auto',
+                            //     padding: '0 6px',
+                            //   }),
+                            // }}
+                            styles={createCustomSelectStyles({
+                              isAutoHeight: true,
+                              minHeight: "30px"
+                            })}
                             isMulti
                           />
                         )}
@@ -496,19 +500,23 @@ export default function CreateApprovePartner() {
                               setFieldValue('supplyOrg', valueOption);
                             }}
                             // isSearchable={true}
-                            styles={{
-                              ...customStyles,
-                              control: (provided, state) => ({
-                                ...provided,
-                                minHeight: '30px',
-                                height: 'auto',
-                              }),
-                              valueContainer: (provided, state) => ({
-                                ...provided,
-                                height: 'auto',
-                                padding: '0 6px',
-                              }),
-                            }}
+                            // styles={{
+                            //   ...customStyles,
+                            //   control: (provided, state) => ({
+                            //     ...provided,
+                            //     minHeight: '30px',
+                            //     height: 'auto',
+                            //   }),
+                            //   valueContainer: (provided, state) => ({
+                            //     ...provided,
+                            //     height: 'auto',
+                            //     padding: '0 6px',
+                            //   }),
+                            // }}
+                            styles={createCustomSelectStyles({
+                              isAutoHeight: true,
+                              minHeight: "30px"
+                            })}
                           // isMulti
                           />
                         )}
