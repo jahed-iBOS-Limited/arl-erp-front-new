@@ -99,8 +99,6 @@ function CustomerPrivilegeScheme() {
           initialValues={initData}
         >
           {({
-            handleSubmit,
-            resetForm,
             values,
             errors,
             touched,
@@ -191,8 +189,8 @@ function CustomerPrivilegeScheme() {
                     paginationState={{
                       pageNo,
                       setPageNo,
-                      pageSize,
                       setPageSize,
+                      pageSize,
                     }}
                   />
                 )}

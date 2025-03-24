@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import GridTable from "./table";
-import { Formik, Form } from "formik";
-import Loading from "./../../../../_helper/_loading";
-import { getWareHouseDDL } from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
-import ICustomCard from "./../../../../_helper/_customCard";
-import NewSelect from "./../../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { getWareHouseDDL } from "../helper";
+import ICustomCard from "./../../../../_helper/_customCard";
+import Loading from "./../../../../_helper/_loading";
+import NewSelect from "./../../../../_helper/_select";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { getCustomerGroupLandingPasignation } from "./../helper";
+import GridTable from "./table";
 
 const initData = {
   outletName: "",
@@ -70,7 +70,6 @@ function CustomerGroupForPrivilege() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -103,13 +102,13 @@ function CustomerGroupForPrivilege() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="status"
+                      label="Status"
                       options={[
                         { value: 3, label: "All" },
                         { value: true, label: "Active " },
                         { value: false, label: "In-Active " },
                       ]}
                       value={values?.status}
-                      label="Status"
                       onChange={(valueOption) => {
                         setFieldValue("status", valueOption);
                         setRowDto([])
@@ -121,8 +120,8 @@ function CustomerGroupForPrivilege() {
                   </div>
                   <div className="col d-flex justify-content-end align-items-end">
                     <button
-                      type="button"
                       className="btn btn-primary"
+                      type="button"
                       onClick={() => {
                         setRowDto([])
                         commonGridFunc(pageNo, pageSize, values);
@@ -137,8 +136,8 @@ function CustomerGroupForPrivilege() {
                   rowDto={rowDto}
                   values={values}
                   commonGridFunc={commonGridFunc}
-                  pageSize={pageSize}
                   pageNo={pageNo}
+                  pageSize={pageSize}
                 />
                 {rowDto?.data?.length > 0 && (
                   <PaginationTable
