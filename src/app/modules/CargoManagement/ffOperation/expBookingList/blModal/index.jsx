@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
@@ -130,7 +130,6 @@ function BLModal({ rowClickData, CB }) {
           <>
             <Form className="form form-label-right">
               <div className="">
-                {/* Save button add */}
                 <div className="d-flex justify-content-end my-1">
                   <button type="submit" className="btn btn-primary">
                     Save
@@ -236,6 +235,7 @@ function BLModal({ rowClickData, CB }) {
                 setOpen(false);
                 empAttachment_action(fileObjects).then((data) => {
                   const documentFileId = data?.[0]?.id;
+                  // console.log('documentFileId', documentFileId);
                   setFieldValue('documentFileId', documentFileId || '');
                 });
               }}
