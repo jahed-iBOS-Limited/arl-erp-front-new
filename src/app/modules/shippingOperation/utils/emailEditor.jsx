@@ -3,7 +3,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
 import EmailTemplate from './emailTemplate';
-import { generateFileUrl, getEmailInfoandSendMail } from './helper';
+import { generateFileUrl, getEmailInfoandSendMail, initialStateOfEmailData, initialStateOfError } from './helper';
 
 const EmailEditor = ({ emailEditorProps }) => {
   const { profileData } = useSelector((state) => {
@@ -11,22 +11,9 @@ const EmailEditor = ({ emailEditorProps }) => {
   }, shallowEqual);
   const { intId, singleRowData, cb } = emailEditorProps;
 
-  const [emailData, setEmailData] = useState({
-    toEmail: '',
-    ccEmail: '',
-    subject: '',
-    emailBody: '',
-    attachment: '',
-  });
+  const [emailData, setEmailData] = useState(initialStateOfEmailData);
 
-  console.log('emailData', emailData);
-
-  const [errors, setErrors] = useState({
-    to: '',
-    cc: '',
-    subject: '',
-    body: '',
-  });
+  const [errors, setErrors] = useState(initialStateOfError);
 
   const [, getEmailInfo, loading] = useAxiosPost();
   const [, onSendEmail, loader] = useAxiosPost();
