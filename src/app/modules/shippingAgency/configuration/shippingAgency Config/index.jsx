@@ -36,7 +36,7 @@ export default function ShippingAgencyLanding() {
     businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const history = useHistory();
   const commonGridData = (_pageNo = pageNo, _pageSize = pageSize, values) => {
     getLandingData(
@@ -133,7 +133,6 @@ export default function ShippingAgencyLanding() {
                     onChange={(valueOption) => {
                       setFieldValue("vesselType", valueOption);
                     }}
-                    // isDisabled={!values?.sbu}
                     errors={errors}
                     touched={touched}
                   />
@@ -147,7 +146,6 @@ export default function ShippingAgencyLanding() {
                     onChange={(valueOption) => {
                       setFieldValue("vessel", valueOption);
                     }}
-                    // isDisabled={!values?.vesselType}
                     errors={errors}
                     touched={touched}
                   />
