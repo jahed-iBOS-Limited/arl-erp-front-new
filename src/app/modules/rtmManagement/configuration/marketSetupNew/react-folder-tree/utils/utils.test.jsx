@@ -19,6 +19,12 @@ import {
   addNode,
 } from './utils';
 
+const commonChildrenData=[
+  { checked: 0, _id: 11 },
+  { checked: 1, _id: 18 },
+  { checked: 0, _id: 84 },
+]
+
 describe('initStateWithUniqIds', () => {
   it('add uniq ids to all nodes', () => {
     expect(initStateWithUniqIds(testData)).toEqual(testDataWithId);
@@ -798,11 +804,7 @@ describe('addNode', () => {
         }, {
           checked: 0.5,
           _id: 9,
-          children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
-          ],
+          children: [...commonChildrenData],
         },
       ],
     };
@@ -823,9 +825,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+          ...commonChildrenData
           ],
         },
       ],
@@ -849,9 +849,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+         ...commonChildrenData
           ],
         },
       ],
@@ -878,9 +876,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+          ...commonChildrenData
           ],
         },
       ],
@@ -903,9 +899,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+       ...commonChildrenData
           ],
         },
       ],
@@ -930,9 +924,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+            ...commonChildrenData
           ],
         },
       ],
@@ -959,9 +951,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+          ...commonChildrenData
           ],
         },
       ],
@@ -984,9 +974,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+           ...commonChildrenData
           ],
         },
       ],
@@ -1011,9 +999,7 @@ describe('addNode', () => {
           checked: 0.5,
           _id: 9,
           children: [
-            { checked: 0, _id: 11 },
-            { checked: 1, _id: 18 },
-            { checked: 0, _id: 84 },
+      ...commonChildrenData
           ],
         },
       ],

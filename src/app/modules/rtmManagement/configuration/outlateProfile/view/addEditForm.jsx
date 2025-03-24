@@ -9,9 +9,9 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   createOutlateProfile,
   getOutletProfileById,
-  GetOutletProfileTypeAttributes,
   editOutlateProfile,
   getFileListDDL,
+  commonCollerCompanyDDL,
 } from "../helper";
 import ICustomCard from "../../../../_helper/_customCard";
 
@@ -46,52 +46,32 @@ export default function ViewOutletProfile() {
   const [collerCompanyDDL, isCollerCompany] = useState([]);
 
   // get user profile data from store
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
-      isCollerCompany([
-        { value: 1, label: "AFBL" },
-        { value: 2, label: "PEPSI" },
-        { value: 3, label: "COCA-COLA" },
-        { value: 4, label: "OTHERS" },
-      ]);
+      isCollerCompany(commonCollerCompanyDDL);
     }
   }, [profileData, selectedBusinessUnit]);
 
+
   useEffect(() => {
-    if (params?.id) {
-      // getOutletProfileById(params?.id, setSingleData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    operation({
+      profileData,
+      selectedBusinessUnit,
+      setAttributes,
+      params,
+      getOutletProfileById,
+      setSingleData,
+      setOutlet,
+      cb: function () {
+        getFileListDDL(params?.id, setImageDTO);
+      },
+    });
   }, []);
-
-  const operation = async () => {
-    if (profileData.accountId && selectedBusinessUnit.value) {
-      await GetOutletProfileTypeAttributes(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        setAttributes
-      );
-    }
-
-    if (params?.id) {
-      await getOutletProfileById(params?.id, setSingleData, setOutlet);
-      getFileListDDL(params?.id, setImageDTO);
-    }
-  };
-
-  useEffect(() => {
-    operation();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
