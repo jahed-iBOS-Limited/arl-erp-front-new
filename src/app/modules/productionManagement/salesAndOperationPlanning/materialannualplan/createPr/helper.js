@@ -261,7 +261,6 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
     const res = await Axios.get(
       `/procurement/PurchaseRequest/GetPurchaseRequestInformationByRequestId?RequestId=${prId}`
     );
-    console.log(res);
     const {
       purchaseRequestTypeId,
       purchaseRequestTypeName,

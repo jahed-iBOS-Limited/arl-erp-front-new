@@ -318,9 +318,9 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
             value: purchaseRequestTypeId,
             label: purchaseRequestTypeName,
          },
+         bom: '',
          supplyingWh: '',
          requestDate: _dateFormatter(requestDate),
-         bom: '',
          controllingUnit: {
             value: costControlingUnitId,
             label: costControlingUnitName,
@@ -336,8 +336,8 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
          requiredDate: _dateFormatter(requiredDate),
          itemName: '',
          quantity: '',
-         row: res?.data[0]?.getPurchaseRequestRow,
          plantId,
+         row: res?.data[0]?.getPurchaseRequestRow,
          warehouseId,
          purchaseOrganizationId,
       };
@@ -361,12 +361,6 @@ export const getReportListPurchaseReq = async (prId, buId, setter, cb) => {
 
 export const sendEmailPostApi = async (dataObj, cb) => {
    let formData = new FormData();
-   // formData.append("to", dataObj?.toMail);
-   // formData.append("cc", dataObj?.toCC);
-   // formData.append("bcc", dataObj?.toBCC);
-   // formData.append("subject", dataObj?.subject);
-   // formData.append("body", dataObj?.message);
-   // formData.append("file", dataObj?.attachment);
    if (!dataObj?.toMail) {
       return toast.warning('To Mail Address is required');
    } else if (!dataObj?.attachment) {
