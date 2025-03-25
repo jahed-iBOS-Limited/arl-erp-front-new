@@ -24,6 +24,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar
 } from '../../../../../../_metronic/_partials/controls';
 import IWarningModal from '../../../../_helper/_warningModal';
 import FormikError from './../../../../_helper/_formikError';
