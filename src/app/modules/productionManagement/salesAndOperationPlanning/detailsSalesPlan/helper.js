@@ -21,7 +21,7 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
     );
     const yearData = await uniqueData(res?.data);
     setter(yearData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSalesPlanLanding = async (
@@ -45,17 +45,6 @@ export const getSalesPlanLanding = async (
   }
 };
 
-export const getLandingPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      // `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 export const editSalesPlanning = async (data) => {
   try {
@@ -69,50 +58,6 @@ export const editSalesPlanning = async (data) => {
   }
 };
 
-export const getPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
-export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetSalesPlanHeaderLogDDL?AccountId=${accId}&BusinessunitId=${buId}&SalesPlanId=${salesPlanId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
-// year ddl for create page
-export const getYearDDL = async (accId, buId, plantId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
-// horizon ddl
-export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
-    );
-    let newData = res?.data;
-    setter(
-      newData.sort(function(a, b) {
-        return new Date(a.startdatetime) - new Date(b.enddatetime);
-      })
-    );
-  } catch (error) {}
-};
 
 // Plant Item DDL
 export const getItemListSalesPlanDDL = async (
@@ -134,7 +79,7 @@ export const getItemListSalesPlanDDL = async (
         "";
     });
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // create
@@ -222,7 +167,7 @@ export const getSalesPlanById = async (
 
     setterHeader(newHeader);
     setterRow(newRowData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const createProductionEntry = async (data, cb) => {
@@ -287,16 +232,4 @@ export const getProductionPlanning = async (
   }
 };
 
-export const getVersionGridData = async (planId, logId, setter, setLoading) => {
-  setLoading(true);
-  try {
-    const res = await axios.get(
-      `/mes/SalesPlanning/GetSalesPlanLogById?SalesPlanId=${planId}&Logid=${logId}`
-    );
-    setLoading(false);
-    setter(res?.data?.objRow);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
+

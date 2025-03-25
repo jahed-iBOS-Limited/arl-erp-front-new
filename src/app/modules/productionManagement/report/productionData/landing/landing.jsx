@@ -14,9 +14,9 @@ import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   GetProductionDataReport,
   getItemNameDDL,
-  getPlantNameDDL_api,
   getShopfloorDDL,
 } from "../helper";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -121,7 +121,7 @@ function ProductionDataLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shopFloor"
-                      options={[{value:0,label:"All"},...shopFloor]}
+                      options={[{ value: 0, label: "All" }, ...shopFloor]}
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
@@ -301,15 +301,15 @@ function ProductionDataLanding() {
                               <td className="text-center">
                                 {item?.productionDate
                                   ? moment(item?.productionDate).format(
-                                      "YYYY-MM-DD HH:mm A"
-                                    )
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
                                   : ""}
                               </td>
                               <td className="text-center">
                                 {item?.approveProductionDate
                                   ? moment(item?.approveProductionDate).format(
-                                      "YYYY-MM-DD HH:mm A"
-                                    )
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
                                   : ""}
                               </td>
                             </tr>

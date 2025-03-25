@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import {
   editSalesPlanning,
-  getPlantDDL,
   getSalesPlanById,
   saveItemRequest,
 } from "../helper";
 import Loading from "./../../../../_helper/_loading";
 import Form from "./form";
+import { getPlantDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",

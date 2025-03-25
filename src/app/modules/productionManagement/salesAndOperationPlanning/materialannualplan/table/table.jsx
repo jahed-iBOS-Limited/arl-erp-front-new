@@ -3,7 +3,6 @@ import ICustomCard from "../../../../_helper/_customCard";
 import IViewModal from "../../../../_helper/_viewModal";
 import { useSelector, shallowEqual } from "react-redux";
 import {
-  getPlantDDL,
   getLandingData,
   getYearDDL,
   getHorizonDDLView,
@@ -23,6 +22,7 @@ import "./style.css";
 import PRCreateForm from "../createPr/addEditForm";
 import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
 import DetailsView from "./detailsView";
+import { getPlantDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -92,7 +92,7 @@ const MaterialReqPlanLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
@@ -372,13 +372,13 @@ const MaterialReqPlanLanding = () => {
                         {gridData?.objList?.map((item, index) => {
                           const total = isNaN(
                             item?.numItemQty01 +
-                              item?.numItemQty02 +
-                              item?.numItemQty03
+                            item?.numItemQty02 +
+                            item?.numItemQty03
                           )
                             ? 0
                             : item?.numItemQty01 +
-                              item?.numItemQty02 +
-                              item?.numItemQty03;
+                            item?.numItemQty02 +
+                            item?.numItemQty03;
                           return (
                             <tr key={index + 1}>
                               <td>{index + 1}</td>
@@ -393,9 +393,8 @@ const MaterialReqPlanLanding = () => {
                               <td className="text-right">
                                 {numberWithCommas(item?.numItemQty03)}
                               </td>
-                              <td className="text-right">{`${
-                                isNaN(total) ? 0 : numberWithCommas(total)
-                              }`}</td>
+                              <td className="text-right">{`${isNaN(total) ? 0 : numberWithCommas(total)
+                                }`}</td>
                               <td className="text-center printSectionNone">
                                 <span
                                   className="extend"

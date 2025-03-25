@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import ProductionEntryViewForm from "./ViewForm";
@@ -8,7 +6,6 @@ import ProductionEntryViewForm from "./ViewForm";
 export default function BackCalculationPEViewModal({ data, show, onHide }) {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    // setShow(true);
     setTimeout(() => {
       setLoading(false);
     }, 300);
@@ -18,11 +15,10 @@ export default function BackCalculationPEViewModal({ data, show, onHide }) {
       <Modal
         show={show}
         onHide={onHide}
-        size="xl"
         aria-labelledby="example-modal-sizes-title-xl"
+        size="xl"
       >
         {isLoading && <ModalProgressBar variant="query" />}
-
         <Modal.Header>
           <Modal.Title className="mt-3">View Production Entry</Modal.Title>
         </Modal.Header>
@@ -30,16 +26,13 @@ export default function BackCalculationPEViewModal({ data, show, onHide }) {
           <ProductionEntryViewForm data={data} />
         </Modal.Body>
         <Modal.Footer>
-          <div>
-            <button
-              type="button"
-              onClick={() => onHide()}
-              className="btn btn-light btn-elevate"
-            >
-              Cancel
-            </button>
-            <> </>
-          </div>
+          <button
+            type="button"
+            onClick={() => onHide()}
+            className="btn btn-light btn-elevate"
+          >
+            Cancel
+          </button>
         </Modal.Footer>
       </Modal>
     </div>

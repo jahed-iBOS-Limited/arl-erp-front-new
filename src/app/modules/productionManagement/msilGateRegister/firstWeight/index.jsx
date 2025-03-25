@@ -20,7 +20,7 @@ import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
-import QcViewModal from "./qcViewModal";
+import QcViewModal from "../qualityCheck/qcViewModal";
 
 const initData = {
   date: "",
@@ -65,10 +65,8 @@ function FirstWeight() {
       (data) => {
         initData.shipPoint = data[0];
         getRowData(
-          `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
-            profileData?.accountId
-          }&BusinessUnitId=${initData.businessUnit?.value}&shipPointId=${
-            initData?.shipPoint?.value
+          `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
+          }&BusinessUnitId=${initData.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value
           }&WeightDate=${""}&WeightTypeId=1&Status=1`
         );
       }
@@ -78,13 +76,10 @@ function FirstWeight() {
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
-        profileData?.accountId
-      }&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${
-        initData?.shipPoint?.value
+      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
+      }&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value
       }&WeightDate=${values?.date ||
-        ""}&WeightTypeId=1&search=${searchValue}&Status=${
-        values?.status?.value
+      ""}&WeightTypeId=1&search=${searchValue}&Status=${values?.status?.value
       }`
     );
   };
@@ -108,7 +103,7 @@ function FirstWeight() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -202,15 +197,11 @@ function FirstWeight() {
                         disabled={!values?.status}
                         onClick={() => {
                           getRowData(
-                            `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
-                              profileData?.accountId
-                            }&BusinessUnitId=${
-                              values?.businessUnit?.value
-                            }&shipPointId=${
-                              values?.shipPoint?.value
+                            `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
+                            }&BusinessUnitId=${values?.businessUnit?.value
+                            }&shipPointId=${values?.shipPoint?.value
                             }&WeightDate=${values?.date ||
-                              ""}&WeightTypeId=1&Status=${
-                              values?.status?.value
+                            ""}&WeightTypeId=1&Status=${values?.status?.value
                             }`
                           );
                         }}
@@ -247,7 +238,7 @@ function FirstWeight() {
                             <th>Packer Name</th>
 
                             {selectedBusinessUnit?.value === 171 ||
-                            selectedBusinessUnit?.value === 224 ? (
+                              selectedBusinessUnit?.value === 224 ? (
                               <>
                                 <th style={{ width: "110px" }}>
                                   Quality Checked
@@ -293,7 +284,7 @@ function FirstWeight() {
                                   {item?.strPackerName}
                                 </td>
                                 {selectedBusinessUnit?.value === 171 ||
-                                selectedBusinessUnit?.value === 224 ? (
+                                  selectedBusinessUnit?.value === 224 ? (
                                   <>
                                     {item?.intClientTypeId === 1 ? (
                                       <td
