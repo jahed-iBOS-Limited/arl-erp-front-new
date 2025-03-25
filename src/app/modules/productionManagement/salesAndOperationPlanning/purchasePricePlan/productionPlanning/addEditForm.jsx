@@ -6,8 +6,9 @@ import Form from "./form";
 import IForm from "../../../../_helper/_form";
 import { useLocation, useParams } from "react-router-dom";
 import Loading from "./../../../../_helper/_loading";
-import { getPlantDDL, createProductionEntry, getProductionPlanning } from "../helper";
+import { createProductionEntry, getProductionPlanning } from "../helper";
 import { toast } from "react-toastify";
+import { getPlantDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -40,7 +41,7 @@ export default function PurchasePlanningForm({
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
 
-  
+
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -104,21 +105,21 @@ export default function PurchasePlanningForm({
   };
 
   useEffect(() => {
-    var rowData=[];
-    for(let i=0; i<rowDto.length; i++){
+    var rowData = [];
+    for (let i = 0; i < rowDto.length; i++) {
       rowData.push({
-        "itemId":rowDto[i].itemId,
-        "itemName":rowDto[i].itemName,
-        "uoMid":rowDto[i].uoMid,
+        "itemId": rowDto[i].itemId,
+        "itemName": rowDto[i].itemName,
+        "uoMid": rowDto[i].uoMid,
         "productionPlanQty": +rowDto[i].itemPlanQty,
         "rate": 0,
         "isActive": true
-    })
+      })
     }
     setGridData(rowData)
   }, [rowDto]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getProductionPlanning(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -152,7 +153,7 @@ export default function PurchasePlanningForm({
       setRowDto([...rowDto, rowDataValues]);
     }
   };
- 
+
   return (
     <IForm
       title={params?.id ? "Production Plan Edit" : "Production Plan Create"}

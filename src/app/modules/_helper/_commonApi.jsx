@@ -1296,3 +1296,12 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+
+export const getPlantDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
