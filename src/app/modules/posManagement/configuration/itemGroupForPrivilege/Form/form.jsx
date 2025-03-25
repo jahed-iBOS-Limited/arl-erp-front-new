@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import { useSelector, shallowEqual } from "react-redux";
-import { getWareHouseDDL, GetSalesWiseItem_api } from "../helper";
-import InputField from "./../../../../_helper/_inputField";
+import { GetSalesWiseItem_api, getWareHouseDDL } from "../helper";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
 // Validation schema
 const validationSchema = Yup.object().shape({
   outletName: Yup.object().shape({
@@ -70,7 +70,6 @@ export default function FormCmp({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right mt-2">
@@ -78,15 +77,15 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <NewSelect
                     name="outletName"
+                    label="Outlet Name"
                     options={WareHouseDDL || []}
                     value={values?.outletName}
-                    label="Outlet Name"
                     onChange={(valueOption) => {
                       setFieldValue("outletName", valueOption);
                     }}
                     placeholder="Outlet Name"
-                    errors={errors}
                     touched={touched}
+                    errors={errors}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -104,8 +103,8 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <NewSelect
                     name="item"
-                    options={itemDDL || []}
                     value={values?.item}
+                    options={itemDDL || []}
                     label="Item "
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
@@ -143,7 +142,7 @@ export default function FormCmp({
                     {rowDto?.length >= 0 &&
                       rowDto?.map((item, idx) => (
                         <tr key={idx}>
-                          <td>{idx +1}</td>
+                          <td>{idx + 1}</td>
                           <td>{item?.itemName}</td>
                           <td>{item?.uomName}</td>
                           <td>{item?.itemCategoryName}</td>

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 export const attachmentUpload = async (attachment, setLoading) => {
   let formData = new FormData();
   Array.from(attachment)?.forEach((file) => {
-    formData?.append('files', file);
+    formData.append('files', file?.file ||file);
   });
   try {
     setLoading && setLoading(true);

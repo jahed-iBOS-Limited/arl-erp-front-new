@@ -8,25 +8,12 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
+import { getItemListSalesPlanDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
+import { getHorizonDDL } from "../../../../_helper/_commonApi";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }),
-  year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
-  }),
-  horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
-  }),
-});
 
 export default function FormCmp({
   initData,
@@ -48,9 +35,7 @@ export default function FormCmp({
   id,
   dataHandler,
   removeItem,
-  // setNumItemPlanQty,
-  // setQuantityIndex,
-  // updateItemQuantity,
+
 }) {
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
@@ -119,7 +104,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={salesAndOperationPlaningValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -165,12 +150,7 @@ export default function FormCmp({
                             setYearDDL(data);
                           }
                         );
-                        // getYearDDL(
-                        //   profileData?.accountId,
-                        //   selectedBusinessUnit?.value,
-                        //   valueOption?.value,
-                        //   setYearDDL
-                        // );
+
                         if (values?.year?.value) {
                           getHorizonDDL(
                             profileData?.accountId,

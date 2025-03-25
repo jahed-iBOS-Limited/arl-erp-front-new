@@ -1,15 +1,5 @@
 import axios from "axios";
 
-export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -19,7 +9,7 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getStockReportData = async (

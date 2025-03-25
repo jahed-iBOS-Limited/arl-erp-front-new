@@ -24,8 +24,8 @@ export default function PDFVIEW({ chipList, rowData }) {
             </div>
             <div className="col-lg-4">
               <div>
-                <strong>Designation</strong>:{" "}
-                <span>{rowData?.designation || ""}</span>
+                <strong>Designation</strong>:
+                <span>{" "}{rowData?.designation || ""}</span>
               </div>
               <div>
                 <strong>Location</strong>:{" "}

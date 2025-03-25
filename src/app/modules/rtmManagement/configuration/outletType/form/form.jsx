@@ -24,12 +24,9 @@ function _Form({
   isEdit,
 }) {
   const [gridData, setGridData] = useState();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-  //paginationState
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
-
-  // Get Landing Data
   useEffect(() => {
     getLandingData(
       profileData?.accountId,
@@ -41,7 +38,7 @@ function _Form({
       _todayDate(),
       profileData?.userId
     );
-  }, [profileData?.accountId, selectedBusinessUnit?.value]);
+  }, []);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {

@@ -88,7 +88,6 @@ export default function FormCmp({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right mt-2">
@@ -97,8 +96,8 @@ export default function FormCmp({
                   <NewSelect
                     name="outletName"
                     options={WareHouseDDL || []}
-                    value={values?.outletName}
                     label="Outlet Name"
+                    value={values?.outletName}
                     onChange={(valueOption) => {
                       setFieldValue("outletName", valueOption);
                     }}
@@ -169,7 +168,7 @@ export default function FormCmp({
                       setFieldValue("customer", "");
                       setRowDto([])
                     }}
-                    // disabled={allFeatureDisabled}
+                  // disabled={allFeatureDisabled}
                   />
                 </div>
                 <div className="col-lg-3 d-flex  align-items-end">

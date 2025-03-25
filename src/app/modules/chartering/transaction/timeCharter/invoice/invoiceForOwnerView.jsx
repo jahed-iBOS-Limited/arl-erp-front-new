@@ -5,7 +5,6 @@ import { ToWords } from "to-words";
 // import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
 import Loading from "../../../../_helper/_loading";
 import {
-  _formatMoney,
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
 // import akijResourceLogo from "../../../_chartinghelper/assets/images/logos/akij-resource.png";
@@ -20,6 +19,7 @@ import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
 import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -229,7 +229,7 @@ export default function InvoiceForOwnerView({
               >
                 <h5
                   className="text-center uppercase mb-4 statementTitle"
-                  // style={{ marginTop: "120px" }}
+                // style={{ marginTop: "120px" }}
                 >
                   {values?.transactionName?.label ||
                     invoiceHireData?.transactionName}{" "}
@@ -269,7 +269,7 @@ export default function InvoiceForOwnerView({
                       <div className="headerValue">
                         {moment(
                           invoiceHireData?.reDeliveryDate ||
-                            invoiceHireData?.dteReDeliveryDate
+                          invoiceHireData?.dteReDeliveryDate
                         ).format("DD-MMM-YYYY HH:mm A")}
                       </div>
                     </div>

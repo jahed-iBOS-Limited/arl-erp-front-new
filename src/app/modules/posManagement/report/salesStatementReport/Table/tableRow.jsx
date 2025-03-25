@@ -1,36 +1,30 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
 // import {
 //   getAssetAssignReportData,
 // } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import {
-  businessUnitPlant_api,
-  wearhouse_api,
-  inventoryStatement_api,
-  ItemSubCategory_api,
-  getItemTypeListDDL_api,
-  getItemCategoryDDLByTypeId_api,
-  getSBUList,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { businessUnitPlant_api, getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getSBU, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
 import { _currentTime } from "../../../../_helper/_currentTime";
+import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
-import DetailsModal from "./detailsModal";
-import TableForSummary from "./TableForSummary";
-import TableForDetail from "./TableForDetail";
 import { downloadFile } from "../../../../_helper/downloadFile";
-import TableAssetRegister from "./TableAssetRegister";
 import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  inventoryStatement_api,
+} from "../helper";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import DetailsModal from "./detailsModal";
+import TableAssetRegister from "./TableAssetRegister";
+import TableForDetail from "./TableForDetail";
 
 const validationSchema = Yup.object().shape({});
 
@@ -77,7 +71,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSbuList
@@ -90,8 +84,6 @@ export function TableRow(props) {
         setPlantDDL
       );
       getItemTypeListDDL_api(setItemTypeOption);
-      // ItemCategory_api(profileData?.accountId,
-      //   selectedBusinessUnit?.value,setItemCategoryDDL)
     }
   }, [selectedBusinessUnit, profileData]);
 
@@ -128,29 +120,19 @@ export function TableRow(props) {
     let api;
     if (values?.type?.value === 2) {
       // api = `/wms/WmsReport/InventoryStatementNewDownload?${searchPath}AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value}&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&Itemtype=${values?.itemType?.value}&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${values?.itemSubCategory?.value}&PageNo=${1}&PageSize=${10000}&viewOrder=desc`
-      api = `/wms/WmsReport/InventoryStatementDetailDownload?${searchPath}AccountId=${
-        profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${
-        values?.wh?.value
-      }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${
-        values?.toDate
-      }&Itemtype=${values?.itemType?.value}&ItemCategory=${
-        values?.itemCategory?.value
-      }&itemSubCategory=${
-        values?.itemSubCategory?.value
-      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+      api = `/wms/WmsReport/InventoryStatementDetailDownload?${searchPath}AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value
+        }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate
+        }&Itemtype=${values?.itemType?.value}&ItemCategory=${values?.itemCategory?.value
+        }&itemSubCategory=${values?.itemSubCategory?.value
+        }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
     } else {
-      api = `/wms/WmsReport/InventoryRegisterDownload?AccountId=${
-        profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${
-        values?.wh?.value
-      }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${
-        values?.toDate
-      }&type=${values?.type?.value}&Itemtype=${
-        values?.itemType?.value
-      }&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${
-        values?.itemSubCategory?.value
-      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+      api = `/wms/WmsReport/InventoryRegisterDownload?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value
+        }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate
+        }&type=${values?.type?.value}&Itemtype=${values?.itemType?.value
+        }&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${values?.itemSubCategory?.value
+        }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
     }
 
     downloadFile(api, "Inventory Statement", "xlsx", setLoading);
@@ -164,7 +146,7 @@ export function TableRow(props) {
             enableReinitialize={true}
             initialValues={initData}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => {}}
+            onSubmit={(values, { setSubmitting, resetForm }) => { }}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
@@ -335,7 +317,7 @@ export function TableRow(props) {
                               name="fromDate"
                               placeholder="From date"
                               type="date"
-                              onChange={(e)=>{
+                              onChange={(e) => {
                                 dispatch(
                                   SetReportsInventoryStatementAction({
                                     ...values,
@@ -354,7 +336,7 @@ export function TableRow(props) {
                               name="toDate"
                               placeholder="To date"
                               type="date"
-                              onChange={(e)=>{
+                              onChange={(e) => {
                                 dispatch(
                                   SetReportsInventoryStatementAction({
                                     ...values,

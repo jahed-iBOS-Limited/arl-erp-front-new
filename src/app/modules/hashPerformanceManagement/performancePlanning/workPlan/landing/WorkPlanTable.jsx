@@ -21,8 +21,8 @@ export const WorkPlanTable = ({
         </div>
         <div className="col-lg-4">
           <div>
-            <strong>Designation</strong>:{' '}
-            <span>{planList?.designation || ''}</span>
+            <strong>Designation</strong>:
+            <span>{' '}{planList?.designation || ''}</span>
           </div>
           <div>
             <strong>Location</strong>:{' '}

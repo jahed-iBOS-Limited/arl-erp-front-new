@@ -12,7 +12,7 @@ import Axios from 'axios';
 import shortid from 'shortid';
 import { toast } from 'react-toastify';
 import Loading from '../../../../_helper/_loading';
-import { getPurchaseOrgList } from '../../../../procurement/purchase-management/purchaseRequestNew/helper';
+import { getPurchaseOrganizationDDL } from '../../../../_helper/_commonApi';
 
 const data = {
   id: undefined,
@@ -53,7 +53,7 @@ export default function AddForm({
   const isWorkable = businessUnitId === 138 || businessUnitId === 186;
 
   useEffect(() => {
-    getPurchaseOrgList(profileData?.accountId, 4, setPurchaseOrg);
+    getPurchaseOrganizationDDL(profileData?.accountId, 4, setPurchaseOrg);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

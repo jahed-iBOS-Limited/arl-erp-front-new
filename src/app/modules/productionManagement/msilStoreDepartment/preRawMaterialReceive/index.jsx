@@ -37,7 +37,6 @@ export default function PreRawMaterialReceive() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,

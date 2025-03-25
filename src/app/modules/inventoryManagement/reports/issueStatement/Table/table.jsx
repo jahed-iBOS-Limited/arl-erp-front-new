@@ -1,29 +1,23 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
-import PaginationSearch from "./../../../../_helper/_search";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
-import {
-  getSBUList,
-  getPlantList,
-  //getPurchaseOrgList,
-  getWhList,
-  getIssueStatementLanding,
-  getItemCategoryDDLByTypeId_api,
-  ItemSubCategory_api,
-  getItemTypeListDDL_api,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import ILoader from "../../../../_helper/loader/_loader";
+import {
+  getIssueStatementLanding,
+} from "../helper";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import PaginationSearch from "./../../../../_helper/_search";
 // import { downloadFile } from '../../../../_helper/downloadFile';
+import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getPlantList, getSBU, getWhList, ItemSubCategory_api } from "../../../../_helper/_commonApi";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -71,7 +65,7 @@ const IssueReportTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -285,7 +279,7 @@ const IssueReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,

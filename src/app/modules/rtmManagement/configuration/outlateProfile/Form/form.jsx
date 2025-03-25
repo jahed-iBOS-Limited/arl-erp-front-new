@@ -81,7 +81,6 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            // setRowDto([]);
           });
         }}
       >
@@ -96,11 +95,9 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-3">
-                  {/* <label>Route Name</label> */}
                   <NewSelect
                     label="Route Name"
                     name="routeName"
@@ -116,8 +113,7 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
-                  {/* <label>Route Name</label> */}
+                <div className="col-lg-3">  
                   <NewSelect
                     label="Market Name"
                     name="beatName"
@@ -144,7 +140,6 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3">
-                  {/* <label>Business Type</label> */}
                   <NewSelect
                     label="Outlet Type"
                     name="businessType"

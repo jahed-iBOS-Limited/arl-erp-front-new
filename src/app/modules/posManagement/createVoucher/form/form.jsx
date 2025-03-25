@@ -177,12 +177,13 @@ export default function FormCmp({
                                   ? "image-upload-box with-img"
                                   : "image-upload-box"
                               }
-                              onClick={onButtonAttachmentClick}
                               style={{
                                 cursor: "pointer",
                                 position: "relative",
                                 height: "35px",
                               }}
+                              onClick={onButtonAttachmentClick}
+
                             >
                               <input
                                 onChange={(e) => {
@@ -216,8 +217,8 @@ export default function FormCmp({
                                   <p
                                     style={{
                                       fontSize: "12px",
-                                      fontWeight: "500",
                                       color: "#0072E5",
+                                      fontWeight: "500",
                                       cursor: "pointer",
                                       margin: "0px",
                                     }}

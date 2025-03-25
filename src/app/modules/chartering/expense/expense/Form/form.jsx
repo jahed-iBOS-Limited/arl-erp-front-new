@@ -1,23 +1,23 @@
-import React, { useState } from "react";
 import { Formik } from "formik";
+import React, { useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import ICustomTable from "../../../_chartinghelper/_customTable";
+import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import IViewModal from "../../../_chartinghelper/_viewModal";
+import FormikInput from "../../../_chartinghelper/common/formikInput";
+import FormikSelect from "../../../_chartinghelper/common/formikSelect";
+import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
+import IDelete from "../../../_chartinghelper/icons/_delete";
+import { getVoyageDDLNew } from "../../../helper";
 import {
   getBusinessPartnerDDL,
   getCostTypeDDL,
   validationSchema,
 } from "../helper";
-import { useHistory } from "react-router-dom";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import AddCostTypeForm from "./addCostType";
 import CashReceiveForm from "./cashReceive";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getVoyageDDLNew } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
-import IDelete from "../../../_chartinghelper/icons/_delete";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import ServicePO from "./servicePo";
 
 export default function FormCmp({
@@ -282,24 +282,24 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          // onChange={(e) => {
-                          //   setFieldValue("advanceAmount", e?.target?.value);
-                          //   setFieldValue(
-                          //     "dueAmount",
-                          //     Number(values?.totalAmount) -
-                          //       Number(e?.target?.value)
-                          //   );
-                          // }}
-                          // onBlur={(e) => {
-                          //   if (
-                          //     Number(e?.target?.value) >
-                          //     Number(values?.totalAmount)
-                          //   ) {
-                          //     toast.warn(
-                          //       "Advance amount cannot be greater than final amount"
-                          //     );
-                          //   }
-                          // }}
+                        // onChange={(e) => {
+                        //   setFieldValue("advanceAmount", e?.target?.value);
+                        //   setFieldValue(
+                        //     "dueAmount",
+                        //     Number(values?.totalAmount) -
+                        //       Number(e?.target?.value)
+                        //   );
+                        // }}
+                        // onBlur={(e) => {
+                        //   if (
+                        //     Number(e?.target?.value) >
+                        //     Number(values?.totalAmount)
+                        //   ) {
+                        //     toast.warn(
+                        //       "Advance amount cannot be greater than final amount"
+                        //     );
+                        //   }
+                        // }}
                         />
                       </div>
                       {/* {(values?.costType?.value === 15 ||
@@ -367,7 +367,7 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          // disabled={true}
+                        // disabled={true}
                         />
                       </div>
 
@@ -462,10 +462,10 @@ export default function FormCmp({
                         {viewType !== "view" && (
                           <td
                             className="text-center d-flex justify-content-center"
-                            // style={{ maxWidth: "120px" }}
+                          // style={{ maxWidth: "120px" }}
                           >
                             {(viewType === "edit" || !viewType) &&
-                            !item?.purchaseOrderNo ? (
+                              !item?.purchaseOrderNo ? (
                               <div>
                                 <IDelete remover={removeRow} id={index} />
                               </div>

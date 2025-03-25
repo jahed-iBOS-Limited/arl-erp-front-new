@@ -144,10 +144,10 @@ const RollingProductionNWastageDashboardReport = () => {
                       <PowerBIEmbed
                         embedConfig={{
                           type: "report",
-                          id: localStorageData?.reportId,
                           embedUrl: localStorageData?.embedUrl,
-                          accessToken: localStorageData?.generateToken,
                           tokenType: models.TokenType.Embed,
+                          id: localStorageData?.reportId,
+                          accessToken: localStorageData?.generateToken,
                           settings: {
                             panes: {
                               filters: {
@@ -162,19 +162,19 @@ const RollingProductionNWastageDashboardReport = () => {
                           new Map([
                             [
                               "loaded",
-                              function() {
+                              function () {
                                 console.log("Report loaded");
                               },
                             ],
                             [
                               "rendered",
-                              function() {
+                              function () {
                                 console.log("Report rendered");
                               },
                             ],
                             [
                               "error",
-                              function(event) {
+                              function (event) {
                                 console.log(event.detail);
                               },
                             ],

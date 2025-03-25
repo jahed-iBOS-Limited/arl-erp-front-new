@@ -3,9 +3,9 @@ import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ICustomCard from "../../../../_helper/_customCard";
-import { getLogVersionDDL, getVersionGridData } from "../helper";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import { getLogVersionDDL, getVersionGridData } from "../../../../_helper/_commonApi";
 
 const initData = {
   log: "",
@@ -18,8 +18,8 @@ const VersionModal = ({ versionModalData }) => {
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
-      profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
+      profileData: state.authData.profileData,
     };
   });
 
@@ -39,7 +39,7 @@ const VersionModal = ({ versionModalData }) => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,

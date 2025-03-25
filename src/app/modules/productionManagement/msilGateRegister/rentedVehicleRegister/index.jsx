@@ -38,10 +38,9 @@ function RentedVehicleRegisterLanding() {
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${
-        selectedBusinessUnit?.value
+      `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value
       }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
-        ""}`
+      ""}`
     );
   };
 
@@ -55,7 +54,7 @@ function RentedVehicleRegisterLanding() {
         enableReinitialize={true}
         initialValues={{}}
         //validationSchema={{}}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -89,7 +88,6 @@ function RentedVehicleRegisterLanding() {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("date", e.target.value);
-                          //setDate(e.target.value);
                         }}
                       />
                     </div>
@@ -100,10 +98,8 @@ function RentedVehicleRegisterLanding() {
                         disabled={false}
                         onClick={() => {
                           getRowData(
-                            `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${
-                              selectedBusinessUnit?.value
-                            }&pageNo=${pageNo}&pageSize=${pageSize}&search=${""}&date=${
-                              values?.date
+                            `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value
+                            }&pageNo=${pageNo}&pageSize=${pageSize}&search=${""}&date=${values?.date
                             }`
                           );
                         }}

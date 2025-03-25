@@ -10,10 +10,11 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getPlantList, getSBUList, getWhList } from "../helper";
+import { getPlantList } from "../helper";
 import SummarySheet from "./SummarySheet";
 import ItemWise from "./itemWise";
 import SupplierWise from "./supplierWise";
+import { getSBU, getWhList } from "../../../../_helper/_commonApi";
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
     label: Yup.string().required("Responsible Person is required"),
@@ -61,7 +62,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         selectedBusinessUnit?.value,
         setPlantList
       );
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSBUDDL
@@ -117,14 +118,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           options={
                             buId === 144 || buId === 188 || buId === 189
                               ? [
-                                  { value: 1, label: "Item Wise" },
-                                  { value: 2, label: "Supplier Wise" },
-                                  { value: 3, label: "Paddy Purchase Summary" },
-                                ]
+                                { value: 1, label: "Item Wise" },
+                                { value: 2, label: "Supplier Wise" },
+                                { value: 3, label: "Paddy Purchase Summary" },
+                              ]
                               : [
-                                  { value: 1, label: "Item Wise" },
-                                  { value: 2, label: "Supplier Wise" },
-                                ]
+                                { value: 1, label: "Item Wise" },
+                                { value: 2, label: "Supplier Wise" },
+                              ]
                           }
                           value={values?.reportType}
                           label="ReportType"
@@ -146,7 +147,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           value={values?.plant}
                           label="Plant"
                           onChange={(valueOption) => {
-                            if(valueOption){
+                            if (valueOption) {
                               getWhList(
                                 profileData?.userId,
                                 profileData?.accountId,
@@ -155,14 +156,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                                 setWhList
                               );
                               setFieldValue("plant", valueOption);
-                             
-                            }else{
+
+                            } else {
                               setFieldValue("plant", "");
-                            } 
+                            }
                             setFieldValue("wh", "");
-                            setFieldValue("itemName","")
-                            setGridData([]);                           
-                           
+                            setFieldValue("itemName", "")
+                            setGridData([]);
+
                           }}
                           placeholder="Plant"
                           errors={errors}

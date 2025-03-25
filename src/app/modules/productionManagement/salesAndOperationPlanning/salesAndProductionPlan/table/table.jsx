@@ -5,7 +5,7 @@ import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getLandingPlantDDL, getSalesPlanLanding } from "../helper";
+import { getSalesPlanLanding } from "../helper";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -13,6 +13,7 @@ import Loading from "../../../../_helper/_loading";
 import VersionModal from "./versionModal";
 import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getLandingPlantDDL } from "../../../../_helper/_commonApi";
 
 const SalesAndProductionTable = () => {
   const [, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();

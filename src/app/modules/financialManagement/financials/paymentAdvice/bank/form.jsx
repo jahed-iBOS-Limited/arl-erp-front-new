@@ -1,37 +1,13 @@
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import * as Yup from "yup";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import { generateAdviceNo, getBankAc, getBusinessPartnerSalesDDLAction, getBusinessTransactionDDL, getInstrumentType, getNextBankCheque, getSendToGLBank } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { IInput } from "../../../../_helper/_input";
-import { PaymentValidationSchema, TransferValidationSchema } from "../../../../_helper/_validationSchema";
+import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from "../../../../_helper/_validationSchema";
 import customStyles from "../../../../selectCustomStyle";
-
-
-// Validation schema for bank receive
-const ReceiveValidationSchema = Yup.object().shape({
-  bankAcc: Yup.object().shape({
-    label: Yup.string().required("Bank Account is required"),
-    value: Yup.string().required("Bank Account is required"),
-  }),
-  // partner: Yup.object().shape({
-  //   label: Yup.string().required("Partner is required"),
-  //   value: Yup.string().required("Partner is required"),
-  // }),
-  receiveFrom: Yup.string().required("Receive from is required"),
-  instrumentType: Yup.object().shape({
-    label: Yup.string().required("Instrument type is required"),
-    value: Yup.string().required("Instrument type is required"),
-  }),
-  instrumentNo: Yup.string().required("Instrument no is required"),
-  instrumentDate: Yup.string().required("Instrument date is required"),
-  headerNarration: Yup.string().required("Narration is required"),
-  placingDate: Yup.string().required("Placing date is required"),
-});
-
 
 
 export default function FormCmp({

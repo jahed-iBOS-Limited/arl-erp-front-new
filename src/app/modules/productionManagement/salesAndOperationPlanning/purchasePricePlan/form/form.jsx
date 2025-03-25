@@ -6,8 +6,8 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
-import { getHorizonDDL } from '../helper';
 import { exportToCSV } from './utils';
+import { getHorizonDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,

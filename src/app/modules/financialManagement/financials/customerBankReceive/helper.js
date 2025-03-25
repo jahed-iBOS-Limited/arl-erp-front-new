@@ -7,21 +7,8 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
-
-export const getWhList = async (userId, accId, buId, plantId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
-// /fino/BankBranch/GetUnReconcileList?BusinessUnitId=8&AccountNo=9&FromDate=2021-07-01&ToDate=2021-08-07&viewOrder=desc&PageNo=0&PageSize=200&search=
-
-// /fino/BankBranch/GetUnReconcileList?search=20502130100096513&BusinessUnitId=8&AccountNo=9&FromDate=2021-1-1&ToDate=2021-8-1
 
 export const getCustomerBankRecLanding = async (
   buId,
@@ -89,7 +76,7 @@ export const getInvoiceByPartnerApi = async (buId, setter, selectedItem, setLoad
       res?.data?.map((data) => ({
         ...data,
         dueAmount: (+data?.actualAmount || 0) - (data?.receviedAmount || 0),
-        advanceAmount: data?.invoiceNumber ? 0 : totalAmount ,
+        advanceAmount: data?.invoiceNumber ? 0 : totalAmount,
         receviedAmount: data?.receviedAmount || 0,
       }))
     );

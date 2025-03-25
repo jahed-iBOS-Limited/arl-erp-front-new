@@ -6,11 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getSBUList,
-  getPlantList,
-  getPurchaseOrgList,
   getTransactionGroupList,
-  getWhList,
   getGRNStatementLanding,
 } from "../helper";
 import ILoader from "../../../../_helper/loader/_loader";
@@ -26,6 +22,7 @@ import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { downloadFile } from "../../../../_helper/downloadFile";
 import IViewModal from "../../../../_helper/_viewModal";
 import { InventoryTransactionReportViewTableRow } from "../../../warehouseManagement/invTransaction/report/tableRow";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
 
 const validationSchema = Yup.object().shape({
   // toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -79,7 +76,7 @@ const IssueReportTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -106,7 +103,7 @@ const IssueReportTable = () => {
         GRNStatementLanding
       );
     }
-    getPurchaseOrgList(
+    getPurchaseOrganizationDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setPoList
@@ -168,13 +165,10 @@ const IssueReportTable = () => {
   };
 
   const downloadExcelFile = (values) => {
-    let api = `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${
-      values?.purchaseOrg?.value
-    }&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${
-      values?.wh?.value
-    }&FromDate=${values?.fromDate}&Todate=${
-      values?.toDate
-    }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+    let api = `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${values?.purchaseOrg?.value
+      }&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wh?.value
+      }&FromDate=${values?.fromDate}&Todate=${values?.toDate
+      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
     downloadFile(api, "GRN Statement", "xlsx", setLoading);
   };
 
@@ -186,7 +180,7 @@ const IssueReportTable = () => {
           validationSchema={validationSchema}
           initialValues={{ ...initData, ...GRNStatementLanding }}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,

@@ -4,7 +4,6 @@ import { ToWords } from "to-words";
 import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import {
-  _formatMoney,
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
 import { getDifference } from "../../../_chartinghelper/_getDateDiff";
@@ -13,6 +12,7 @@ import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -328,18 +328,16 @@ export default function InvoiceForOwner({
                 <tr key={index}>
                   {/* SL */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-center`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      } text-center`}
                   >
                     {index + 1}
                   </td>
 
                   {/* Description */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    }`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      }`}
                   >
                     {item?.isDescription ? (
                       <FormikInput
@@ -367,9 +365,8 @@ export default function InvoiceForOwner({
 
                   {/* Duration */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-center`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      } text-center`}
                     style={{ width: "130px" }}
                   >
                     {item?.isDuration ? (
@@ -402,9 +399,8 @@ export default function InvoiceForOwner({
 
                   {/* Quantity */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    }`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      }`}
                     style={{ width: "130px" }}
                   >
                     {item?.isQty ? (
@@ -435,9 +431,8 @@ export default function InvoiceForOwner({
 
                   {/* Debit | But Debit Will be Credit for Owner */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-right`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      } text-right`}
                     style={{ width: "130px" }}
                   >
                     {item?.isCredit ? (
@@ -470,9 +465,8 @@ export default function InvoiceForOwner({
 
                   {/* Credit | But Credit Will be Debit For Owner */}
                   <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-right`}
+                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                      } text-right`}
                     style={{ width: "130px" }}
                   >
                     {item?.isDebit ? (
@@ -537,10 +531,10 @@ export default function InvoiceForOwner({
 
                     {/* Delete if new row */}
                     {item?.isDescription &&
-                    item?.isDuration &&
-                    item?.isCredit &&
-                    item?.isDebit &&
-                    item?.isQty ? (
+                      item?.isDuration &&
+                      item?.isCredit &&
+                      item?.isDebit &&
+                      item?.isQty ? (
                       <>
                         <span
                           onClick={() => {

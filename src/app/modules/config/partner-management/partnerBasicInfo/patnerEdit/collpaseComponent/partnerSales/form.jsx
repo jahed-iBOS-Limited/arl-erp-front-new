@@ -1,27 +1,27 @@
 /* eslint-disable eqeqeq */
 import Axios from 'axios';
 import { Form, Formik } from 'formik';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { ToWords } from 'to-words';
 import * as Yup from 'yup';
+import { LayoutSplashScreen } from '../../../../../../../../_metronic/layout';
 import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
 import IDelete from '../../../../../../_helper/_helperIcons/_delete';
 import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../../../_helper/_select';
 import { _todayDate } from '../../../../../../_helper/_todayDate';
+import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
 import InputField from './../../../../../../_helper/_inputField';
+import { getSalesTerrioryDDLAction } from './_redux/Actions';
 import {
   getBankNameDDL_api,
   getBranchNameDDL_api,
   getBusinessPartnerBasicinfoAction,
 } from './helper';
-import { getSalesTerrioryDDLAction } from './_redux/Actions';
-import { attachmentUpload } from "../../../../../../_helper/attachmentUpload";
-import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
-import { LayoutSplashScreen } from '../../../../../../../../_metronic/layout';
 
 
 // Validation schema
@@ -136,7 +136,7 @@ export default function FormCmp({
   const [parnerBasicInfo, setParnerBasicInfo] = useState('');
 
   // api action
-  const [creditLimitApprovalData,getCreaditLimitApprovalData,getCreaditLimitApprovalDataLoading]=useAxiosGet()
+  const [creditLimitApprovalData, getCreaditLimitApprovalData, getCreaditLimitApprovalDataLoading] = useAxiosGet()
 
   // Credit Limit File Attachment
   const [fileObjects, setFileObjects] = useState([]);
@@ -219,14 +219,14 @@ export default function FormCmp({
   }, [profileData, selectedBusinessUnit, id, product]);
 
   // is loading
-  const isLoading=getCreaditLimitApprovalDataLoading
+  const isLoading = getCreaditLimitApprovalDataLoading
 
   // has permission to access credit limit approval
-  const hasPermissionOfCreditLimitApproval=creditLimitApprovalData?.permission
+  const hasPermissionOfCreditLimitApproval = creditLimitApprovalData?.permission
 
   return (
     <>
-      {isLoading && <LayoutSplashScreen/> }
+      {isLoading && <LayoutSplashScreen />}
 
       <Formik
         enableReinitialize={true}
@@ -1205,144 +1205,144 @@ export default function FormCmp({
                   </div>
                 </div>
 
-                      {hasPermissionOfCreditLimitApproval?
-                <div className="col-lg-12 p-0">
-                  <div className="row">
-                    <div className="col-lg-4">
-                      <div
-                        role="group"
-                        aria-labelledby="my-radio-group"
-                        className="d-flex align-items-center mt-1"
-                      >
-                        <label className="mr-3">
-                          <input
-                            type="radio"
-                            name="limitType"
-                            checked={values.limitType === 'dayesLimit'}
-                            className="mr-1 pointer"
-                            onChange={(e) => {
-                              if (values.daysLimitBtnDisabled) {
-                                return toast.warning(
-                                  'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
-                                );
-                              }
-                              setFieldValue('limitType', 'dayesLimit');
-                              setFieldValue('creditLimitAmount', '');
-                              setFieldValue('daysCreditLimitAmount', '');
-                              setFieldValue('numberOfDays', '');
-                              setCreditRowDto([]);
-                            }}
-                          // disabled={values.daysLimitBtnDisabled}
-                          />
-                          Days Limit
-                        </label>
-                        <label className="mr-3">
-                          <input
-                            type="radio"
-                            name="limitType"
-                            checked={values.limitType === 'creditLimit'}
-                            className="mr-1 pointer"
-                            onChange={(e) => {
-                              if (values.daysLimitBtnDisabled) {
-                                return toast.warning(
-                                  'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
-                                );
-                              }
-                              if (
-                                +values?.numberOfDays > 0 ||
-                                +values?.creditLimitAmount > 0
-                              ) {
-                                toast.warning('Credit Limit must be "0"');
-                              } else {
-                                setFieldValue('limitType', 'creditLimit');
+                {hasPermissionOfCreditLimitApproval ?
+                  <div className="col-lg-12 p-0">
+                    <div className="row">
+                      <div className="col-lg-4">
+                        <div
+                          role="group"
+                          aria-labelledby="my-radio-group"
+                          className="d-flex align-items-center mt-1"
+                        >
+                          <label className="mr-3">
+                            <input
+                              type="radio"
+                              name="limitType"
+                              checked={values.limitType === 'dayesLimit'}
+                              className="mr-1 pointer"
+                              onChange={(e) => {
+                                if (values.daysLimitBtnDisabled) {
+                                  return toast.warning(
+                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
+                                  );
+                                }
+                                setFieldValue('limitType', 'dayesLimit');
                                 setFieldValue('creditLimitAmount', '');
                                 setFieldValue('daysCreditLimitAmount', '');
                                 setFieldValue('numberOfDays', '');
                                 setCreditRowDto([]);
-                              }
-                            }}
-                          />
-                          Credit Limit
-                        </label>
-                        <label className="pr-0">
-                          <input
-                            type="radio"
-                            name="limitType"
-                            checked={values.limitType === 'both'}
-                            className="mr-1 pointer"
-                            onChange={(e) => {
-                              setFieldValue('limitType', 'both');
-                            }}
-                          />
-                          Both
-                        </label>
+                              }}
+                            // disabled={values.daysLimitBtnDisabled}
+                            />
+                            Days Limit
+                          </label>
+                          <label className="mr-3">
+                            <input
+                              type="radio"
+                              name="limitType"
+                              checked={values.limitType === 'creditLimit'}
+                              className="mr-1 pointer"
+                              onChange={(e) => {
+                                if (values.daysLimitBtnDisabled) {
+                                  return toast.warning(
+                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
+                                  );
+                                }
+                                if (
+                                  +values?.numberOfDays > 0 ||
+                                  +values?.creditLimitAmount > 0
+                                ) {
+                                  toast.warning('Credit Limit must be "0"');
+                                } else {
+                                  setFieldValue('limitType', 'creditLimit');
+                                  setFieldValue('creditLimitAmount', '');
+                                  setFieldValue('daysCreditLimitAmount', '');
+                                  setFieldValue('numberOfDays', '');
+                                  setCreditRowDto([]);
+                                }
+                              }}
+                            />
+                            Credit Limit
+                          </label>
+                          <label className="pr-0">
+                            <input
+                              type="radio"
+                              name="limitType"
+                              checked={values.limitType === 'both'}
+                              className="mr-1 pointer"
+                              onChange={(e) => {
+                                setFieldValue('limitType', 'both');
+                              }}
+                            />
+                            Both
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {(values.limitType === "dayesLimit" ||
-                    values.limitType === "both") && (
-                      <div className="row global-form">
-                        <div className="col-lg-3">
-                          <label>Number Of Days</label>
-                          <InputField
-                            value={values?.numberOfDays}
-                            name="numberOfDays"
-                            placeholder="Number Of Days"
-                            type="number"
-                            min={0}
-                            onChange={(e) => {
-                              setFieldValue("numberOfDays", e.target.value);
-                              const currentValues = {
-                                ...values,
-                                numberOfDays: +e.target.value,
-                              };
-                              numberOfDaysChangeHandler(currentValues);
+                    {(values.limitType === "dayesLimit" ||
+                      values.limitType === "both") && (
+                        <div className="row global-form">
+                          <div className="col-lg-3">
+                            <label>Number Of Days</label>
+                            <InputField
+                              value={values?.numberOfDays}
+                              name="numberOfDays"
+                              placeholder="Number Of Days"
+                              type="number"
+                              min={0}
+                              onChange={(e) => {
+                                setFieldValue("numberOfDays", e.target.value);
+                                const currentValues = {
+                                  ...values,
+                                  numberOfDays: +e.target.value,
+                                };
+                                numberOfDaysChangeHandler(currentValues);
 
-                              if (e?.target?.value > 0) {
-                                const toDate = new Date();
-                                toDate.setDate(
-                                  toDate.getDate() + +e?.target?.value - 1
-                                );
-                                setFieldValue("creditValidFrom", _todayDate());
+                                if (e?.target?.value > 0) {
+                                  const toDate = new Date();
+                                  toDate.setDate(
+                                    toDate.getDate() + +e?.target?.value - 1
+                                  );
+                                  setFieldValue("creditValidFrom", _todayDate());
+                                  setFieldValue(
+                                    "creditValidTo",
+                                    _dateFormatter(toDate)
+                                  );
+                                } else {
+                                  setFieldValue("creditValidFrom", "");
+                                  setFieldValue("creditValidTo", "");
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <label>Credit Limit</label>
+                            <InputField
+                              value={values?.daysCreditLimitAmount}
+                              name="daysCreditLimitAmount"
+                              placeholder="Credit Limit"
+                              min="0"
+                              type="number"
+                              onChange={(e) => {
                                 setFieldValue(
-                                  "creditValidTo",
-                                  _dateFormatter(toDate)
+                                  "daysCreditLimitAmount",
+                                  e.target.value
                                 );
-                              } else {
-                                setFieldValue("creditValidFrom", "");
-                                setFieldValue("creditValidTo", "");
-                              }
-                            }}
-                          />
+                                const curentVaues = {
+                                  ...values,
+                                  daysCreditLimitAmount: +e.target.value,
+                                };
+                                numberOfDaysChangeHandler(curentVaues);
+                              }}
+                            />
+                          </div>
                         </div>
-                        <div className="col-lg-3">
-                          <label>Credit Limit</label>
-                          <InputField
-                            value={values?.daysCreditLimitAmount}
-                            name="daysCreditLimitAmount"
-                            placeholder="Credit Limit"
-                            min="0"
-                            type="number"
-                            onChange={(e) => {
-                              setFieldValue(
-                                "daysCreditLimitAmount",
-                                e.target.value
-                              );
-                              const curentVaues = {
-                                ...values,
-                                daysCreditLimitAmount: +e.target.value,
-                              };
-                              numberOfDaysChangeHandler(curentVaues);
-                            }}
-                          />
-                        </div>
-                      </div>
-                    )}
-                </div>
+                      )}
+                  </div>
 
-                :<></>}
+                  : <></>}
 
-                {hasPermissionOfCreditLimitApproval&&(values.limitType === "creditLimit" ||
+                {hasPermissionOfCreditLimitApproval && (values.limitType === "creditLimit" ||
                   values.limitType === "both") && (
                     <div className="col-lg-12 p-0">
                       <h6
@@ -1459,7 +1459,7 @@ export default function FormCmp({
 
                               if (fileObjects?.length > 0) {
                                 // attachmentLink add
-                                attachmentUpload(fileObjects).then((data) => {
+                                empAttachment_action(fileObjects).then((data) => {
                                   obj["uploadFile"] = data[0]?.id || "";
                                   setFileObjects([]);
                                 });

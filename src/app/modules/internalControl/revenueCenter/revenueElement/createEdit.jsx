@@ -206,58 +206,7 @@ export default function RevenueElementCreateEdit() {
                                         isDisabled={id}
                                     />
                                 </div>
-                                {/* <div className="col-lg-12">
-                                    <label>Select Revenue Center</label>
-                                    <Field
-                                        name="revenueCenter"
-                                        component={() => (
-                                            <Select
-                                                options={revenueCenterDDL}
-                                                placeholder="Select Cost Center"
-                                                value={values.revenueCenter || ""}
-                                                onChange={(valueOption) => {
-                                                    setFieldValue(
-                                                        "revenueCenter",
-                                                        valueOption || ""
-                                                    );
-                                                }}
-                                                styles={{
-                                                    control: (provided, state) => ({
-                                                        ...provided,
-                                                        minHeight: "30px",
-                                                        height: "auto",
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        height: "auto",
-                                                        padding: "0 6px",
-                                                    }),
-                                                }}
-                                                name="costCenter"
-                                                isDisabled={!values?.controllingUnit}
-                                                isMulti
-                                            />
-                                        )}
-                                        placeholder="Select Cost Center"
-                                        label="Select Cost Center"
-                                    />
-                                    <p
-                                        style={{
-                                            fontSize: "0.9rem",
-                                            fontWeight: 400,
-                                            width: "100%",
-                                            marginTop: "0.25rem",
-                                        }}
-                                        className="text-danger"
-                                    >
-                                        {errors &&
-                                            errors.costCenter &&
-                                            touched &&
-                                            touched.org
-                                            ? errors.costCenter
-                                            : ""}
-                                    </p>
-                                </div> */}
+                                
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="revenueCenter"

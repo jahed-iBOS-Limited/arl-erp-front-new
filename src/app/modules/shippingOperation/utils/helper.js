@@ -99,3 +99,88 @@ export default function formatEmailsDynamically(emailArray) {
 
   return result;
 }
+
+
+ export const emailTemplateStyles = {
+    container: {
+      width: '100%',
+      margin: 'auto',
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif',
+    },
+    header: {
+      marginBottom: '20px',
+    },
+    field: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '10px',
+    },
+    label: {
+      width: '70px',
+      fontSize: '14px',
+      color: '#333',
+    },
+    input: {
+      flexGrow: 1,
+      padding: '10px',
+      fontSize: '14px',
+      borderRadius: '5px',
+      border: '1px solid #ccc',
+      outline: 'none',
+      transition: 'border-color 0.2s ease',
+    },
+    error: {
+      color: 'red',
+      fontSize: '12px',
+      marginLeft: '70px',
+      marginBottom: '10px',
+    },
+    bodyError: {
+      color: 'red',
+      fontSize: '12px',
+    },
+    quillContainer: {
+      marginBottom: '60px',
+    },
+    quill: {
+      height: '300px',
+      borderRadius: '5px',
+    },
+    footer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      marginTop: '20px',
+    },
+    button: {
+      backgroundColor: '#007bff',
+      color: '#fff',
+      padding: '10px 20px',
+      fontSize: '14px',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+    },
+    buttonHover: {
+      backgroundColor: '#0056b3',
+    },
+  };
+
+
+  export const initialStateOfEmailData = {
+    toEmail: '',
+    ccEmail: '',
+    subject: '',
+    emailBody: '',
+    attachment: '',
+  }
+
+export const initialStateOfError = {
+  to: '',
+  cc: '',
+  subject: '',
+  body: '',
+}
+
+
