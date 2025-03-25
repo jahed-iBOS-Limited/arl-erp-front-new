@@ -15,10 +15,10 @@ import IViewModal from "../../../../_helper/_viewModal";
 import DetailsModal from "./detailsModal";
 
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
   getShopfloorIssueReportLandingData,
 } from "../helper";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -139,7 +139,7 @@ function ShopFloorIssueReportLanding() {
                       type="date"
                     />
                   </div>
-                  <div  style={{ marginTop: "18px" }} className="col-lg-1">
+                  <div style={{ marginTop: "18px" }} className="col-lg-1">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -190,62 +190,62 @@ function ShopFloorIssueReportLanding() {
               </div>
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                            <div className="table-responsive">
-<table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM Name</th>
-                        <th>Request Quantity</th>
-                        <th>Issue Quantity</th>
-                        <th className="printSectionNone">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-center">
-                            <span className="pr-2">{item?.itemCode}</span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">{item?.itemName}</span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">{item?.uoMName}</span>
-                          </td>
-                          <td className="text-center">
-                            <span className="pl-2">{item?.requestQuantity}</span>
-                          </td>
-                          <td className="text-center">
-                            <span className="pr-2">
-                              {Math.abs(item?.issueQuantity)}
-                            </span>
-                          </td>
-                          <td className="text-center printSectionNone">
-                            <button
-                              onClick={() => {
-                                setModalData({
-                                  item,
-                                  values,
-                                  profileData,
-                                  selectedBusinessUnit,
-                                });
-                                setShowModal(true);
-                              }}
-                              className="btn btn-primary py-1 px-2"
-                            >
-                              Details
-                            </button>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM Name</th>
+                          <th>Request Quantity</th>
+                          <th>Issue Quantity</th>
+                          <th className="printSectionNone">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-</div>
-                  
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">
+                              <span className="pr-2">{item?.itemCode}</span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">{item?.itemName}</span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">{item?.uoMName}</span>
+                            </td>
+                            <td className="text-center">
+                              <span className="pl-2">{item?.requestQuantity}</span>
+                            </td>
+                            <td className="text-center">
+                              <span className="pr-2">
+                                {Math.abs(item?.issueQuantity)}
+                              </span>
+                            </td>
+                            <td className="text-center printSectionNone">
+                              <button
+                                onClick={() => {
+                                  setModalData({
+                                    item,
+                                    values,
+                                    profileData,
+                                    selectedBusinessUnit,
+                                  });
+                                  setShowModal(true);
+                                }}
+                                className="btn btn-primary py-1 px-2"
+                              >
+                                Details
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                 </div>
               )}
 

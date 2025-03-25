@@ -2,17 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getSingleData = async (id, setter, setRowDto) => {
   try {
     const res = await Axios.get(
@@ -89,7 +78,7 @@ export const getSingleData = async (id, setter, setRowDto) => {
       setter(header);
       setRowDto(row);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // shop floor ddl
@@ -101,7 +90,7 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // shop floor transaction ddl
@@ -111,7 +100,7 @@ export const getShopFloorTransactionTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // shop floor code ddl
@@ -128,7 +117,7 @@ export const getShopFloorReferenceCodeDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Shop Floor Transfer DDL
@@ -145,7 +134,7 @@ export const getShopFloorTransferDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Item type DDL
@@ -160,7 +149,7 @@ export const getShopFloorItemDDL = async (
     const res = await Axios.get(
       `/mes/MesDDL/GetShoopFloorItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}`
     );
-    
+
     if (res.status === 200 && res?.data) {
       setter(
         res?.data?.map((item) => {
@@ -178,7 +167,7 @@ export const getShopFloorItemDDL = async (
 };
 
 // Item type DDL
-export const getShopFloorFGItemDDL = async (accId, buId, plantId, shopFloorId,setter) => {
+export const getShopFloorFGItemDDL = async (accId, buId, plantId, shopFloorId, setter) => {
   try {
     const res = await Axios.get(
       `/mes/MesDDL/GetShoopFloorFGItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopfloorId=${shopFloorId}`
@@ -212,7 +201,7 @@ export const getInventoryTransactionData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // create

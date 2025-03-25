@@ -12,12 +12,12 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
-  getBOMItemDDL,
   getBOMReport,
 } from "../helper";
 import axios from "axios";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+import { getBOMItemDDL } from "../../poStatusReport/helper";
 
 const initData = {
   plant: "",
@@ -193,12 +193,10 @@ function BomReportLanding() {
                       onClick={() => {
                         if (backCalculationId?.backcalculationId === 2) {
                           getBomReportBasedOnBackCalculationId(
-                            `/mes/MESReport/BomReportDependOnBackCalculation?plantId=${
-                              values?.plant?.value
-                            }&ShopFloorId=${values?.shopFloor?.value}${
-                              values?.item
-                                ? `&itemId=${values?.item?.value}`
-                                : values?.rawItem
+                            `/mes/MESReport/BomReportDependOnBackCalculation?plantId=${values?.plant?.value
+                            }&ShopFloorId=${values?.shopFloor?.value}${values?.item
+                              ? `&itemId=${values?.item?.value}`
+                              : values?.rawItem
                                 ? `&itemRawMaterialId=${values?.rawItem?.value}`
                                 : ""
                             }`
@@ -234,7 +232,7 @@ function BomReportLanding() {
                       </span>
                     </div>
                     {gridData?.length > 0 ||
-                    bomReportBasedOnBackCalculationId?.length > 0 ? (
+                      bomReportBasedOnBackCalculationId?.length > 0 ? (
                       <div className=" d-flex justify-content-end align-items-center">
                         <ReactToPrint
                           trigger={() => (
@@ -269,7 +267,7 @@ function BomReportLanding() {
               </Form>
 
               {gridData?.length > 0 &&
-              backCalculationId?.backcalculationId !== 2 ? (
+                backCalculationId?.backcalculationId !== 2 ? (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
                   <div className="table-responsive">
                     <table
@@ -296,25 +294,25 @@ function BomReportLanding() {
                               item?.parentItemid,
                               gridData[index - 1]?.parentItemid
                             ) && (
-                              <>
-                                <tr>
-                                  <td
-                                    colSpan={6}
-                                    align="left"
-                                    style={{ backgroundColor: "#FEF3C7" }}
-                                  >
-                                    <div className="text-left pl-2">
-                                      {yellowMaker(
-                                        item?.itemLv,
-                                        index,
-                                        item?.parentItemid,
-                                        gridData[index - 1]?.parentItemid
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              </>
-                            )}
+                                <>
+                                  <tr>
+                                    <td
+                                      colSpan={6}
+                                      align="left"
+                                      style={{ backgroundColor: "#FEF3C7" }}
+                                    >
+                                      <div className="text-left pl-2">
+                                        {yellowMaker(
+                                          item?.itemLv,
+                                          index,
+                                          item?.parentItemid,
+                                          gridData[index - 1]?.parentItemid
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </>
+                              )}
 
                             <tr key={index}>
                               <td className="text-center">
@@ -355,7 +353,7 @@ function BomReportLanding() {
                 <></>
               )}
               {backCalculationId?.backcalculationId === 2 &&
-              bomReportBasedOnBackCalculationId?.length > 0 ? (
+                bomReportBasedOnBackCalculationId?.length > 0 ? (
                 <>
                   <div ref={printRef} className="col-lg-12 pr-0 pl-0">
                     <div className="table-responsive">

@@ -15,10 +15,10 @@ import IViewModal from "../../../../_helper/_viewModal";
 import DetailsModal from "./detailsModal";
 
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
   getStockReportData,
 } from "../helper";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
