@@ -69,16 +69,6 @@ export const editSalesPlanning = async (data) => {
   }
 };
 
-export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetSalesPlanHeaderLogDDL?AccountId=${accId}&BusinessunitId=${buId}&SalesPlanId=${salesPlanId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
 
 // year ddl for create page
 export const getYearDDL = async (accId, buId, plantId, setter) => {

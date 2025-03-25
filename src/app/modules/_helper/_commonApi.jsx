@@ -1305,3 +1305,15 @@ export const getPlantDDL = async (accId, buId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+
+
+export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetSalesPlanHeaderLogDDL?AccountId=${accId}&BusinessunitId=${buId}&SalesPlanId=${salesPlanId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
