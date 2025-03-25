@@ -26,7 +26,6 @@ export default function CreateSubPOForm({
   productionId,
   plantName,
 }) {
-  // console.log(productionOrderSFG,"productionOrderSFG")
 
   const [isDisabled, setDisabled] = useState(false);
   const [gridData, setGridData] = useState([]);
@@ -34,7 +33,6 @@ export default function CreateSubPOForm({
   const [objProps, setObjprops] = useState({});
   const params = useParams();
   const history = useHistory();
-  // console.log(gridData,"gridData")
   const storeData = useSelector((state) => {
     return {
       profileData: state?.authData?.profileData,
@@ -70,7 +68,6 @@ export default function CreateSubPOForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
 
-  // set data to rowDto dynamically
 
   const rowDtoHandler = (name, value, index, item) => {
     console.log(name, value, index);
@@ -120,9 +117,9 @@ export default function CreateSubPOForm({
         accountId={profileData?.accountId}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
-        singleData={singleData}
         setSingleData={setSingleData}
         isEdit={params?.id || false}
+        singleData={singleData}
         gridData={params?.id ? gridData : productionOrderSFG}
         setGridData={setGridData}
         history={history}

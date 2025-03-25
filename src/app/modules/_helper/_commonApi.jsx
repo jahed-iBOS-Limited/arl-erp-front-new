@@ -1296,3 +1296,85 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+
+export const getPlantDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
+
+
+export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetSalesPlanHeaderLogDDL?AccountId=${accId}&BusinessunitId=${buId}&SalesPlanId=${salesPlanId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const getLandingPlantDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getYearDDL = async (accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
+
+export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
+    );
+    let newData = res?.data;
+    setter(
+      newData.sort(function (a, b) {
+        return new Date(a.startdatetime) - new Date(b.enddatetime);
+      })
+    );
+  } catch (error) { }
+};
+
+export const getVersionGridData = async (planId, logId, setter, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/mes/SalesPlanning/GetSalesPlanLogById?SalesPlanId=${planId}&Logid=${logId}`
+    );
+    setLoading(false);
+    setter(res?.data?.objRow);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
+export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter([]);
+  }
+};

@@ -1,17 +1,6 @@
 import axios from "axios";
 
-export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
+
 
 export const getBOMItemDDL = async (accId, buId, pId, sfId, setter) => {
   try {

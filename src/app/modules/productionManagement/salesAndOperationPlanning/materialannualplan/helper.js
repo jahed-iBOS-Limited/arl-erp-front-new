@@ -1,19 +1,6 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
 
-// Get Landing Plant DDL
-export const getPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      // `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 // horizon ddl
 export const getHorizonDDLView = async (
   accId,
@@ -28,11 +15,11 @@ export const getHorizonDDLView = async (
     );
     let newData = res?.data;
     setter(
-      newData.sort(function(a, b) {
+      newData.sort(function (a, b) {
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getHorizonDDLCreate = async (
@@ -48,11 +35,11 @@ export const getHorizonDDLCreate = async (
     );
     let newData = res?.data;
     setter(
-      newData.sort(function(a, b) {
+      newData.sort(function (a, b) {
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Plant Item DDL
@@ -72,7 +59,7 @@ export const getItemListSalesPlanDDL = async (
       item["itemPlanQty"] = "";
     });
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const uniqueData = (data) => {

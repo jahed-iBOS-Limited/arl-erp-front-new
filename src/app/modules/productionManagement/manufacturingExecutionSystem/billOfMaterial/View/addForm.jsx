@@ -182,7 +182,6 @@ export default function BillofMaretialViewForm() {
           itemCode: item?.material?.code || item?.rowItemCode,
           itemName: item?.material?.label,
           quantity: item?.quantity,
-          // uomid: +item?.material?.baseUomid,
           uomid: +item?.material?.baseUomid || +item?.uoMid,
           isActive: true,
         }));
@@ -193,11 +192,9 @@ export default function BillofMaretialViewForm() {
             boMItemVersionName: values?.bomVersion,
             itemId: +values?.product?.value,
             itemCode: values?.product?.code || singleData?.itemCode,
-            // itemCode: values?.product?.code,
             itemName: values?.product?.label,
             lotSize: +values?.lotSize,
             boMuoMid: +values?.product?.baseUomid || values?.billOfMaterialId,
-            // boMuoMid: +values?.product?.baseUomid,
             numWastagePercentage: +values?.wastage,
             accountId: +profileData?.accountId,
             businessUnitId: +selectedBusinessUnit?.value,
@@ -213,7 +210,6 @@ export default function BillofMaretialViewForm() {
           toast.warning("Please add material");
         } else {
           saveBillofMaterial(payload, cb, setDisabled);
-          // console.log(" payload", payload);
         }
       }
     } else {
@@ -267,7 +263,7 @@ export default function BillofMaretialViewForm() {
       backHandler={() => {
         history.goBack();
       }}
-      renderProps={() => {}}
+      renderProps={() => { }}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

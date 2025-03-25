@@ -10,7 +10,6 @@ import ReactToPrint from "react-to-print";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import PaginationSearch from "./../../../../_helper/_search";
 import {
-  getPlantNameDDL_api,
   getProductionReportData,
   getShopfloorDDL,
 } from "../helper";
@@ -18,6 +17,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import InputField from "../../../../_helper/_inputField";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -299,8 +299,8 @@ function ProductionReportLanding() {
                           <th>Item Name</th>
                           {(selectedBusinessUnit?.value === 171 ||
                             selectedBusinessUnit?.value === 224) && (
-                            <th>By Product Name</th>
-                          )}
+                              <th>By Product Name</th>
+                            )}
                           <th>UoM</th>
                           <th>Production Qty</th>
                           <th>Wastage/By Product Qty</th>
@@ -330,7 +330,7 @@ function ProductionReportLanding() {
                               <span className="pr-2">{item?.strItemCode}</span>
                             </td>
                             {selectedBusinessUnit?.value === 171 ||
-                            selectedBusinessUnit?.value === 224 ? (
+                              selectedBusinessUnit?.value === 224 ? (
                               <>
                                 <td className="text-left">
                                   <span className="pr-2">
@@ -359,7 +359,7 @@ function ProductionReportLanding() {
                               <span className="pr-2">{item?.strUOMName}</span>
                             </td>
                             {selectedBusinessUnit?.value === 171 ||
-                            selectedBusinessUnit?.value === 224 ? (
+                              selectedBusinessUnit?.value === 224 ? (
                               <>
                                 <td className="text-right">
                                   <span className="pr-2">

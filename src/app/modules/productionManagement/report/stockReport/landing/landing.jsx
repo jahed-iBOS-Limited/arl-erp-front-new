@@ -10,10 +10,10 @@ import ReactToPrint from "react-to-print";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import PaginationSearch from "./../../../../_helper/_search";
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
   getStockReportData,
 } from "../helper";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",

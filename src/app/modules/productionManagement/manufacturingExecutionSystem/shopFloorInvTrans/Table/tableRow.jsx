@@ -8,7 +8,6 @@ import ICustomCard from "../../../../_helper/_customCard";
 import IView from "../../../../_helper/_helperIcons/_view";
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
   getShopFloorTransactionTypeDDL,
   ShopFloorTransactionLandingAction,
@@ -18,6 +17,7 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { SetShopFloorInventoryTransactionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import IViewModal from "../../../../_helper/_viewModal";
 import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 export function TableRow() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -199,11 +199,11 @@ export function TableRow() {
                     <th>Transaction Quantity</th>
                     {(selectedTransactionType?.value === 2 ||
                       selectedTransactionType?.value === 3) && (
-                      <>
-                        <th>Reference Code</th>
-                        <th>Receive From</th>
-                      </>
-                    )}
+                        <>
+                          <th>Reference Code</th>
+                          <th>Receive From</th>
+                        </>
+                      )}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -229,27 +229,27 @@ export function TableRow() {
 
                       {(selectedTransactionType?.value === 2 ||
                         selectedTransactionType?.value === 3) && (
-                        <>
-                          <td>
-                            <div className="text-center">
-                              {/* {item?.referenceCode} */}
-                              <span
-                                className="text-primary font-weight-bold cursor-pointer mr-2"
-                                style={{ textDecoration: "underline" }}
-                                onClick={() => {
-                                  setCurrentRowData(item);
-                                  setIsShowModal(true);
-                                }}
-                              >
-                                {item?.referenceCode ? item?.referenceCode : ""}
-                              </span>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.receiveFrom}</div>
-                          </td>
-                        </>
-                      )}
+                          <>
+                            <td>
+                              <div className="text-center">
+                                {/* {item?.referenceCode} */}
+                                <span
+                                  className="text-primary font-weight-bold cursor-pointer mr-2"
+                                  style={{ textDecoration: "underline" }}
+                                  onClick={() => {
+                                    setCurrentRowData(item);
+                                    setIsShowModal(true);
+                                  }}
+                                >
+                                  {item?.referenceCode ? item?.referenceCode : ""}
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.receiveFrom}</div>
+                            </td>
+                          </>
+                        )}
 
                       <td>
                         <div className="d-flex justify-content-around">

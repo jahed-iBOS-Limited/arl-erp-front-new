@@ -6,23 +6,11 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
+import { getItemListSalesPlanDDL } from "../helper";
+import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
+import { getHorizonDDL, getYearDDL } from "../../../../_helper/_commonApi";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }),
-  year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
-  }),
-  horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
-  }),
-});
+
 
 export default function _Form({
   initData,
@@ -102,7 +90,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={salesAndOperationPlaningValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -213,9 +201,9 @@ export default function _Form({
                   <div className="col-lg-4">
                     <label>Start Date</label>
                     <InputField
+                      type="text"
                       value={values?.startDate}
                       name="startDate"
-                      type="text"
                       disabled
                     />
                   </div>
@@ -240,11 +228,9 @@ export default function _Form({
                       <th>UoM Name</th>
                       <th style={{ width: "150px" }}>Sales Plan Quantity</th>
                       <th style={{ width: "150px" }}>Rate</th>
-                      {/* <th>Action</th> */}
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {console.log(rowDto)} */}
                     {rowDto?.data?.map((item, index) => (
                       <tr key={index}>
                         <td className="text-center">{index + 1}</td>

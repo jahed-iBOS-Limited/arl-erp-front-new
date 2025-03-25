@@ -137,29 +137,28 @@ export function TableRow() {
       )}
     >
       <Formik>
+        {loading && <Loading />}
         <>
-          {loading && <Loading />}
           <div className="global-form">
             <div className="row">
               <div className="col-lg-4">
                 <label>Plant</label>
                 <Select
                   onChange={(valueOption) => {
-                    // dispatch(setBomLandingAction(valueOption));
                     setSelectedDDLItem(valueOption);
                     setselectedDDLShop("");
                     dispatch(
                       SetManufactureBOMTableLandingAction({
-                        plant: valueOption,
                         shopfloor: "",
+                        plant: valueOption,
                       })
                     );
                   }}
                   value={selectedDDLItem}
                   options={plantDDL || []}
+                  name={plantDDL}
                   isSearchable={true}
                   styles={customStyles}
-                  name={plantDDL}
                 />
               </div>
               <div className="col-lg-4">
@@ -174,9 +173,9 @@ export function TableRow() {
                       profileData?.accountId,
                       selectedBusinessUnit?.value,
                       selectedDDLItem?.value,
-                      valueOption?.value,
                       setLoading,
                       setGridData,
+                      valueOption?.value,
                       pageNo,
                       pageSize
                     );
@@ -211,7 +210,6 @@ export function TableRow() {
                       {[144, 189, 188].includes(
                         selectedBusinessUnit?.value
                       ) && <th>BOM Type</th>}
-                      {/* <th style={{ width: "50px" }}>BOM Code</th> */}
                       <th style={{ width: "60px" }}>Lot Size</th>
                       <th style={{ width: "90px" }}>UoM</th>
                       <th style={{ width: "90px" }}>Status</th>
@@ -223,7 +221,6 @@ export function TableRow() {
                     {gridData?.data?.length > 0 &&
                       gridData?.data?.map((item, index) => (
                         <tr key={index}>
-                          {/* key={item.businessUnitId} */}
                           <td>{item?.sl}</td>
                           <td>
                             <div className="text-center">{item?.itemCode}</div>
@@ -233,14 +230,6 @@ export function TableRow() {
                           {[144, 189, 188].includes(
                             selectedBusinessUnit?.value
                           ) && <td>{item?.billOfMaterialTypeName}</td>}
-                          {/* <td>
-                      <div className="text-center">
-                        {item.billOfMaterialCode}
-                      </div>
-                    </td> */}
-                          {/* <td>
-                      <div className="text-left pl-2">{item.plantName}</div>
-                    </td> */}
                           <td>
                             <div className="text-center">{item?.lotSize}</div>
                           </td>
@@ -304,7 +293,6 @@ export function TableRow() {
                                   clickHandler={() => {
                                     setisShowModalForCostView(true);
                                     setItem(item);
-                                    console.log("item: ", item);
                                   }}
                                 />
                               </span>

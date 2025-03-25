@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import {
   editSalesPlanning,
-  getPlantDDL,
   getSalesPlanById,
   saveItemRequest,
 } from "../helper";
@@ -15,6 +14,7 @@ import Loading from "./../../../../_helper/_loading";
 import Form from "./form";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { getPlantDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -231,20 +231,20 @@ export default function DetailsSalesPlanEntry() {
           location?.state?.detailsItem?.intDetailSalesPlanId
             ? singleData
             : {
-                ...initData,
-                ...location?.state?.monthlyValues,
-                horizon: {
-                  value: location?.state?.monthlyItem?.horizonId,
-                  monthId: location?.state?.monthlyItem?.monthId,
-                  label: location?.state?.monthlyItem?.horizonName,
-                  planningHorizonRowId:
-                    location?.state?.monthlyItem?.planningHorizonRowId,
-                },
-                startDate: _dateFormatter(
-                  location?.state?.monthlyItem?.startDate
-                ),
-                endDate: _dateFormatter(location?.state?.monthlyItem?.endDate),
-              }
+              ...initData,
+              ...location?.state?.monthlyValues,
+              horizon: {
+                value: location?.state?.monthlyItem?.horizonId,
+                monthId: location?.state?.monthlyItem?.monthId,
+                label: location?.state?.monthlyItem?.horizonName,
+                planningHorizonRowId:
+                  location?.state?.monthlyItem?.planningHorizonRowId,
+              },
+              startDate: _dateFormatter(
+                location?.state?.monthlyItem?.startDate
+              ),
+              endDate: _dateFormatter(location?.state?.monthlyItem?.endDate),
+            }
         }
         saveHandler={saveHandler}
         profileData={profileData}
