@@ -5,7 +5,6 @@ import InputField from "../../../../_helper/_inputField";
 import { Formik, Form } from "formik";
 import { useSelector } from "react-redux";
 import {
-  getSBUList,
   getPlantList,
   getPurchaseOrgList,
   getWhList,
@@ -21,6 +20,7 @@ import * as Yup from "yup";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { useHistory } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { getSBU } from "../../../../_helper/_commonApi";
 const statusData = [
   { label: "Approved", value: true },
   { label: "Pending", value: false },
@@ -74,7 +74,7 @@ const POReportTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -187,7 +187,7 @@ const POReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,

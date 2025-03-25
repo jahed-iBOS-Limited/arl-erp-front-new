@@ -29,7 +29,7 @@ export const getWhList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantList = async (userId, accId, buId, setter) => {
@@ -37,8 +37,8 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-    setter([{value:0, label: 'All'}, ...res?.data]);
-  } catch (error) {}
+    setter([{ value: 0, label: 'All' }, ...res?.data]);
+  } catch (error) { }
 };
 export const getRequestTypeList = async (setter) => {
   try {
@@ -50,7 +50,7 @@ export const getRequestTypeList = async (setter) => {
       label: item?.purchaseRequestTypeName,
     }));
     setter(data);
-  } catch (error) {}
+  } catch (error) { }
 };
 // export const GetPurchaseInfoByItem_api = async (
 //   itemId,
@@ -105,15 +105,6 @@ export const getPurchaseOrganizationData = async (accountId, buId, setter) => {
   } catch (error) {
     setter([]);
   }
-};
-
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) { }
 };
 
 

@@ -7,7 +7,6 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getSBUList,
   getPlantList,
   getWhList,
   getPOPrGRNLanding,
@@ -22,6 +21,7 @@ import ReactToPrint from "react-to-print";
 import "../prpogrn.css";
 import { SetReportPrPoGrnAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { getTotalAmount } from "./utils";
+import { getSBU } from "../../../../_helper/_commonApi";
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
@@ -74,7 +74,7 @@ const POPRGRNTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -151,7 +151,7 @@ const POPRGRNTable = () => {
   };
 
 
-  console.log("total",total)
+  console.log("total", total)
   return (
     <ICustomCard
       title="PR PO GRN"
@@ -188,7 +188,7 @@ const POPRGRNTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
@@ -268,12 +268,12 @@ const POPRGRNTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                      style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
-                        onChange={(e) => { 
+                        onChange={(e) => {
                           dispatch(SetReportPrPoGrnAction({ ...values, fromDate: e?.target?.value }));
                         }}
                       />
@@ -283,12 +283,12 @@ const POPRGRNTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                      style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To Date"
                         type="date"
-                        onChange={(e) => { 
+                        onChange={(e) => {
                           dispatch(SetReportPrPoGrnAction({ ...values, toDate: e?.target?.value }));
                         }}
                       />
@@ -320,27 +320,27 @@ const POPRGRNTable = () => {
                       {values?.type?.value === 1
                         ? "Purchase Request Code"
                         : values?.type?.value === 2
-                        ? "Purchase Order Code"
-                        : values?.type?.value === 3
-                        ? "Transaction Code"
-                        : "Item"}
+                          ? "Purchase Order Code"
+                          : values?.type?.value === 3
+                            ? "Transaction Code"
+                            : "Item"}
                     </label>
                     <div className="d-flex">
                       <InputField
-                      style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
                           values?.type?.value === 1
                             ? "Purchase Request Code"
                             : values?.type?.value === 2
-                            ? "Purchase Order Code"
-                            : values?.type?.value === 3
-                            ? "Transaction Code"
-                            : "Item"
+                              ? "Purchase Order Code"
+                              : values?.type?.value === 3
+                                ? "Transaction Code"
+                                : "Item"
                         }
                         type="text"
-                        onChange={(e) => { 
+                        onChange={(e) => {
                           dispatch(SetReportPrPoGrnAction({ ...values, typeCode: e?.target?.value }));
                         }}
                       />
@@ -385,49 +385,49 @@ const POPRGRNTable = () => {
                     values={values}
                   /> */}
                     <div className="table-responsive">
-                    <table className="table table-striped table-bordered global-table table-font-size-sm" id="table-to-xlsx">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>PR Code</th>
-                          <th>PR Date</th>
-                          <th>PR Quantity</th>
-                          <th>PO Quantity</th>
-                          <th>Receive Quantity</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      {loading ? (
-                        <ILoader />
-                      ) : (
-                        <tbody>
-                          {landing?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.sl}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.itemCode}</td>
-                              <td>{item?.purchaseRequestCode}</td>
-                              <td>{_dateFormatter(item?.requestDate)}</td>
-                              <td>{item?.prQty}</td>
-                              <td>{item?.poQty}</td>
-                              <td>{item?.invQty}</td>
-                              <td>{item?.remarks}</td>
-                            </tr>
-                          ))}
-                          {landing?.length ? (
-                            <tr>
-                              <td colSpan="5" className="text-right font-weight-bold">Total</td>
-                              <td className="text-center font-weight-bold">{total?.prTotal}</td>
-                              <td className="text-center font-weight-bold">{total?.poTotal}</td>
-                              <td className="text-center font-weight-bold">{total?.invTotal}</td>
-                              <td></td>
-                            </tr>
-                          ):null}
-                        </tbody>
-                      )}
-                    </table>
+                      <table className="table table-striped table-bordered global-table table-font-size-sm" id="table-to-xlsx">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>PR Code</th>
+                            <th>PR Date</th>
+                            <th>PR Quantity</th>
+                            <th>PO Quantity</th>
+                            <th>Receive Quantity</th>
+                            <th>Remarks</th>
+                          </tr>
+                        </thead>
+                        {loading ? (
+                          <ILoader />
+                        ) : (
+                          <tbody>
+                            {landing?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item?.sl}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.itemCode}</td>
+                                <td>{item?.purchaseRequestCode}</td>
+                                <td>{_dateFormatter(item?.requestDate)}</td>
+                                <td>{item?.prQty}</td>
+                                <td>{item?.poQty}</td>
+                                <td>{item?.invQty}</td>
+                                <td>{item?.remarks}</td>
+                              </tr>
+                            ))}
+                            {landing?.length ? (
+                              <tr>
+                                <td colSpan="5" className="text-right font-weight-bold">Total</td>
+                                <td className="text-center font-weight-bold">{total?.prTotal}</td>
+                                <td className="text-center font-weight-bold">{total?.poTotal}</td>
+                                <td className="text-center font-weight-bold">{total?.invTotal}</td>
+                                <td></td>
+                              </tr>
+                            ) : null}
+                          </tbody>
+                        )}
+                      </table>
                     </div>
                   </div>
                 </div>

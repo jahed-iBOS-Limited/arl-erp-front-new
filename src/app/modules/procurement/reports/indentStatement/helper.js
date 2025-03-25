@@ -31,7 +31,7 @@ export const getPurchaseOrgList = async (accId, buId, setter) => {
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantList = async (userId, accId, buId, setter) => {
@@ -40,7 +40,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWhList = async (userId, accId, buId, plantId, setter) => {
@@ -49,7 +49,7 @@ export const getWhList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPurchaseRequestLanding = async (
@@ -83,14 +83,7 @@ export const getPurchaseRequestLanding = async (
   }
 };
 
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
+
 export const getItemCategoryDDLByTypeApi = async (
   accId,
   buId,
@@ -109,7 +102,7 @@ export const getItemCategoryDDLByTypeApi = async (
       };
     });
     setter(dataMapping);
-  } catch (error) {}
+  } catch (error) { }
 };
 export const getItemTypeListDDL_api = async (setter) => {
   try {
@@ -117,5 +110,5 @@ export const getItemTypeListDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };

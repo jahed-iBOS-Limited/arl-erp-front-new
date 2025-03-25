@@ -4,7 +4,6 @@ import InputField from "../../../../_helper/_inputField";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getSBUList,
   getPlantList,
   getPurchaseOrgList,
   getWhList,
@@ -18,6 +17,7 @@ import * as Yup from "yup";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { SetReportPoRegisterAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { getSBU } from "../../../../_helper/_commonApi";
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
@@ -70,7 +70,7 @@ const PORegisterTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -160,7 +160,7 @@ const PORegisterTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
@@ -284,7 +284,7 @@ const PORegisterTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                       style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -352,24 +352,24 @@ const PORegisterTable = () => {
                       {values?.type?.value === 1
                         ? "Purchase Request Code"
                         : values?.type?.value === 2
-                        ? "Purchase Order Code"
-                        : values?.type?.value === 3
-                        ? "Transaction Code"
-                        : "Item"}
+                          ? "Purchase Order Code"
+                          : values?.type?.value === 3
+                            ? "Transaction Code"
+                            : "Item"}
                     </label>
                     <div className="d-flex">
                       <InputField
-                      style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
                           values?.type?.value === 1
                             ? "Purchase Request Code"
                             : values?.type?.value === 2
-                            ? "Purchase Order Code"
-                            : values?.type?.value === 3
-                            ? "Transaction Code"
-                            : "Item"
+                              ? "Purchase Order Code"
+                              : values?.type?.value === 3
+                                ? "Transaction Code"
+                                : "Item"
                         }
                         type="text"
                         onChange={(e) => {

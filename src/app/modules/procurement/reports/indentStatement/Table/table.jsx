@@ -1,29 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import PaginationSearch from "./../../../../_helper/_search";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { setIndentStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getSBUList,
-  getPlantList,
-  getPurchaseOrgList,
-  getWhList,
-  getPurchaseRequestLanding,
-  getItemTypeListDDL_api,
-  getItemCategoryDDLByTypeApi,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
 import * as Yup from "yup";
+import { getSBU } from "../../../../_helper/_commonApi";
+import ICustomCard from "../../../../_helper/_customCard";
 import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
+import ILoader from "../../../../_helper/loader/_loader";
+import { setIndentStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
+import {
+  getItemCategoryDDLByTypeApi,
+  getItemTypeListDDL_api,
+  getPlantList,
+  getPurchaseOrgList,
+  getPurchaseRequestLanding,
+  getWhList,
+} from "../helper";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import PaginationSearch from "./../../../../_helper/_search";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -93,7 +93,7 @@ const PurchaseRequestReportTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -233,7 +233,7 @@ const PurchaseRequestReportTable = () => {
           validationSchema={validationSchema}
           initialValues={indentStatement || initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
