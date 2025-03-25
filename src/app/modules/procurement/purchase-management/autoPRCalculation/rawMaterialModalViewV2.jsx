@@ -59,79 +59,118 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
 
           <>
             <div className='text-right mr-2 mt-2'>
-              <button onClick={() => {
-                const postiveClosingBalanceList = autoRawMaterialData?.filter(item => item?.closingBlance > 0);
-                if (postiveClosingBalanceList?.length === 0) {
-                  return toast.warning('No available stock to create PR')
-                }
-                IConfirmModal({
-                  title: `Purchase Request`,
-                  message: `Are you sure you want to create Purchase Request?`,
-                  yesAlertFunc: () => {
-                    
-                    const payload = {
-                      "createPurchaseRequestHeader": {
-                        "purchaseRequestCode": "",
-                        "reffNo": "123456",
-                        "purchaseRequestTypeId": 2,
-                        "purchaseRequestTypeName": "Standard PR",
-                        "accountId": 1,
-                        "accountName": "Akij Resource Limited",
-                        "businessUnitId": postiveClosingBalanceList[0]?.businessUnitId || 0,
-                        "businessUnitName": postiveClosingBalanceList[0]?.businessUnitName || "",
-                        "sbuid": postiveClosingBalanceList[0]?.sbuId || 0,
-                        "sbuname": postiveClosingBalanceList[0]?.sbuName || "",
-                        "purchaseOrganizationId": postiveClosingBalanceList[0]?.intPurchaseOrganizationId || 0,
-                        "purchaseOrganizationName": postiveClosingBalanceList[0]?.strPurchaseOrganizationName || "",
-                        "plantId": postiveClosingBalanceList[0]?.plantId || 0,
-                        "plantName": postiveClosingBalanceList[0]?.plantName || "",
-                        "warehouseId": postiveClosingBalanceList[0]?.warehouseId || 0,
-                        "warehouseName": postiveClosingBalanceList[0]?.warehouseName || "",
-                        "deliveryAddress": postiveClosingBalanceList[0]?.deliveryAddress || "",
-                        "supplyingWarehouseId": postiveClosingBalanceList[0]?.warehouseId || 0,
-                        "supplyingWarehouseName": postiveClosingBalanceList[0]?.warehouseName || "",
-                        "requestDate": _todayDate(),
-                        "actionBy": profileData?.userId,
-                        "costControlingUnitId": 0,
-                        "costControlingUnitName": "",
-                        "requiredDate": _todayDate(),
-                        "strPurpose": "Requirment for Production"
-                      },
-                      "createPurchaseRequestRow": postiveClosingBalanceList?.map(item => {
-                        return {
-                          "itemId": item?.itemId,
-                          "uoMid": item?.uoMid,
-                          "uoMname": item?.uomName,
-                          "numRequestQuantity": item?.closingBlance,
-                          "dteRequiredDate": _todayDate(),
-                          "billOfMaterialId": 0,
-                          "remarks": "Requirment for Production"
-                        }
-                      })
-                    }
-                    onCreatePr(
-                      '/procurement/PurchaseRequest/CreatePurchaseRequestInfo',
-                      payload,
-                      (res) => {
-                        confirmAlert({
-                              // title: title,
-                              message: res?.message,
-                              buttons: [
-                                {
-                                  label: "Ok",
-                                  onClick: () => {},
-                                },
-                              ],
-                            })
-                        getData();
-                      },
-                      true,
-                    );
-                  },
-                  noAlertFunc: () => { },
-                });
+              <button
+                onClick={async () => {
+                  const positiveClosingBalanceList = autoRawMaterialData?.filter(
+                    (item) => item?.closingBlance > 0
+                  );
 
-              }} className='btn btn-primary'>Create PR</button>
+                  if (!positiveClosingBalanceList?.length) {
+                    return toast.warning("No available stock to create PR");
+                  }
+
+                  const localPrList = positiveClosingBalanceList.filter(
+                    (item) => item?.intPurchaseOrganizationId === 11
+                  );
+                  const forignPrList = positiveClosingBalanceList.filter(
+                    (item) => item?.intPurchaseOrganizationId === 12
+                  );
+
+                  const createPayload = (prList) => ({
+                    createPurchaseRequestHeader: {
+                      purchaseRequestCode: "",
+                      reffNo: "123456",
+                      purchaseRequestTypeId: 2,
+                      purchaseRequestTypeName: "Standard PR",
+                      accountId: 1,
+                      accountName: "Akij Resource Limited",
+                      businessUnitId: prList[0]?.businessUnitId || 0,
+                      businessUnitName: prList[0]?.businessUnitName || "",
+                      sbuid: prList[0]?.sbuId || 0,
+                      sbuname: prList[0]?.sbuName || "",
+                      purchaseOrganizationId: prList[0]?.intPurchaseOrganizationId || 0,
+                      purchaseOrganizationName: prList[0]?.strPurchaseOrganizationName || "",
+                      plantId: prList[0]?.plantId || 0,
+                      plantName: prList[0]?.plantName || "",
+                      warehouseId: prList[0]?.warehouseId || 0,
+                      warehouseName: prList[0]?.warehouseName || "",
+                      deliveryAddress: prList[0]?.deliveryAddress || "",
+                      supplyingWarehouseId: prList[0]?.warehouseId || 0,
+                      supplyingWarehouseName: prList[0]?.warehouseName || "",
+                      requestDate: _todayDate(),
+                      actionBy: profileData?.userId,
+                      costControlingUnitId: 0,
+                      costControlingUnitName: "",
+                      requiredDate: _todayDate(),
+                      strPurpose: "Generate by MRP",
+                    },
+                    createPurchaseRequestRow: prList.map((item) => ({
+                      itemId: item?.itemId,
+                      uoMid: item?.uoMid,
+                      uoMname: item?.uomName,
+                      numRequestQuantity: item?.closingBlance,
+                      dteRequiredDate: _todayDate(),
+                      billOfMaterialId: 0,
+                      remarks: "Requirement for Production",
+                    })),
+                  });
+
+                  const localPrPayload = createPayload(localPrList);
+                  const forignPrPayload = createPayload(forignPrList);
+
+                  const onCreatePrPromise = (payload) => {
+                    return new Promise((resolve, reject) => {
+                      onCreatePr(
+                        "/procurement/PurchaseRequest/CreatePurchaseRequestInfo",
+                        payload,
+                        (res) => {
+                          if (res?.message) {
+                            resolve(res.message);
+                          } else {
+                            reject("Failed to create PR");
+                          }
+                        },
+                        true
+                      );
+                    });
+                  };
+
+                  IConfirmModal({
+                    title: "Purchase Request",
+                    message: "Are you sure you want to create Purchase Request?",
+                    yesAlertFunc: async () => {
+                      let messages = [];
+
+                      try {
+                        if (localPrList?.length > 0) {
+                          const localMessage = await onCreatePrPromise(localPrPayload);
+                          messages.push(localMessage);
+                        }
+                        if (forignPrList?.length > 0) {
+                          const foreignMessage = await onCreatePrPromise(forignPrPayload);
+                          messages.push(foreignMessage);
+                        }
+
+                        confirmAlert({
+                          message: messages.join("\n"), // Use new line instead of space
+                          buttons: [{ label: "Ok", onClick: () => { } }],
+                        });
+
+                        getData();
+                      } catch (error) {
+                        console.error("Error during PR creation process:", error);
+                        toast.error("Failed to create Purchase Request");
+                      }
+                    },
+                    noAlertFunc: () => { },
+                  });
+                }}
+                className="btn btn-primary"
+              >
+                Create PR
+              </button>
+
+
             </div>
             <div className="table-responsive">
               <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
