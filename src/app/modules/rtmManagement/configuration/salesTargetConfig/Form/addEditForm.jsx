@@ -19,20 +19,16 @@ const initData = {
 };
 
 export default function SalesTargetConfigForm() {
+  const params = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const params = useParams();
   const [singleData, setSingleData] = useState("");
 
   // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+   const { profileData, selectedBusinessUnit } = useSelector(
+      (state) => state?.authData,
+      shallowEqual
+    );
 
   useEffect(() => {
     if (params?.id) {
