@@ -11,14 +11,6 @@ export const getPlantList = async (userId, accId, buId, setter) => {
    } catch (error) { }
 };
 
-export const getWhList = async (userId, accId, buId, plantId, setter) => {
-   try {
-      const res = await Axios.get(
-         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
-      );
-      setter(res?.data);
-   } catch (error) { }
-};
 
 export const getPurchaseRequestSearchLanding = async (
    accId,
