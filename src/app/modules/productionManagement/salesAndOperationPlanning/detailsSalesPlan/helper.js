@@ -69,15 +69,6 @@ export const editSalesPlanning = async (data) => {
   }
 };
 
-export const getPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
   try {
     const res = await axios.get(

@@ -7,12 +7,12 @@ import IForm from "../../../../_helper/_form";
 import { useLocation, useParams } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
 import {
-  getPlantDDL,
   getSalesPlanById,
   editSalesPlanning,
   saveItemRequest,
 } from "../helper";
 import { toast } from "react-toastify";
+import { getPlantDDL } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",

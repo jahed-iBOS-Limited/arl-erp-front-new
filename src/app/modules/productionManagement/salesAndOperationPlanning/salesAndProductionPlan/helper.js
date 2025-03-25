@@ -2,14 +2,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const getPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
 
 export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
   try {
