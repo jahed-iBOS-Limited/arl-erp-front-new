@@ -23,16 +23,6 @@ export const getAssetReceiveReportData = async (
   }
 };
 
-
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getTransactionGroupList = async (setter) => {
   try {
     const res = await Axios.get(
@@ -46,15 +36,6 @@ export const getPlantList = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
-export const getWhList = async (userId, accId, buId, plantId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
   } catch (error) { }

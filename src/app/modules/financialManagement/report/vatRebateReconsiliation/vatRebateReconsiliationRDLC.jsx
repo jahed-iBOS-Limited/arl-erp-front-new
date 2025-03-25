@@ -1,36 +1,33 @@
-import React from 'react';
-import { PowerBIEmbed } from 'powerbi-client-react';
-import { models } from 'powerbi-client';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import './styles.css';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import { SetPowerBiAction } from '../../../_helper/reduxForLocalStorage/Actions';
-import Loading from '../../../_helper/_loading';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
    Card,
    CardBody,
    CardHeader,
    ModalProgressBar,
 } from '../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import './styles.css';
 
 const VatRebateReconciliationRDLCReport = () => {
    const dispatch = useDispatch();
-   const [, getRowData, isLoading] = useAxiosGet();
    const { powerApi: localStorageData } = useSelector(
       state => state.localStorage
    );
-
+   const [, setSeconds] = useState(0);
+   const [, getRowData, isLoading] = useAxiosGet();
    const { selectedBusinessUnit } = useSelector(
       state => state?.authData,
       shallowEqual
    );
 
-   const [, setSeconds] = useState(0);
 
    const getData = () => {
       // 1st api
@@ -62,8 +59,8 @@ const VatRebateReconciliationRDLCReport = () => {
                   if (resGenerateToken?.data) {
                      dispatch(
                         SetPowerBiAction({
-                           testReportToken: data,
                            reportId: res?.data?.id,
+                           testReportToken: data,
                            datasetId: res?.data?.datasetId,
                            generateToken: resGenerateToken?.data?.token,
                            embedUrl: res?.data?.embedUrl,
@@ -134,13 +131,13 @@ const VatRebateReconciliationRDLCReport = () => {
          {true && <ModalProgressBar />}
          <CardHeader title={"VAT Rebate Reconciliation"}></CardHeader>
          <CardBody>
+            {isLoading && <Loading />}
             <div>
-               {isLoading && <Loading />}
-               {localStorageData?.generateToken ? (
+               {localStorageData?.generateToken && (
                   <PowerBIEmbed
                      embedConfig={{
-                        type: 'report',
                         id: localStorageData?.reportId,
+                        type: 'report',
                         embedUrl: localStorageData?.embedUrl,
                         accessToken: localStorageData?.generateToken,
                         tokenType: models.TokenType.Embed,
@@ -162,19 +159,19 @@ const VatRebateReconciliationRDLCReport = () => {
                         new Map([
                            [
                               'loaded',
-                              function() {
+                              function () {
                                  console.log('Report loaded');
                               },
                            ],
                            [
                               'rendered',
-                              function() {
+                              function () {
                                  console.log('Report rendered');
                               },
                            ],
                            [
                               'error',
-                              function(event) {
+                              function (event) {
                                  console.log(event.detail);
                               },
                            ],
@@ -185,7 +182,7 @@ const VatRebateReconciliationRDLCReport = () => {
                         window.report = embeddedReport;
                      }}
                   />
-               ) : null}
+               )}
             </div>
          </CardBody>
       </Card>

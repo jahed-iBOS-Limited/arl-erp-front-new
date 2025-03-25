@@ -139,8 +139,8 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                     <td className="text-center">
                       <InputField
                         value={item?.rate || 0}
-                        type="number"
                         onChange={(e) => handleRateChange(i, +e.target.value)}
+                        type="number"
                       />
                     </td>
                     <td className="text-center">
@@ -161,8 +161,8 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                 <td className="text-center">
                   <InputField
                     value={damageChange || ''}
-                    type="number"
                     onChange={(e) => setDamageChange(+e.target.value)}
+                    type="number"
                   />
                 </td>
               </tr>

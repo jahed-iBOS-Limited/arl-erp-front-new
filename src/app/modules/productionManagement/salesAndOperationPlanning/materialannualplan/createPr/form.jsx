@@ -1,23 +1,20 @@
+import Axios from "axios";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../_helper/_formikError";
 import {
   getControllingUnitList,
-  getRequestTypeList,
   getCostCenterList,
   getCostElementList,
+  getRequestTypeList,
   getUOMList,
-  getWhList,
-  getSBUList,
-  getPlantList,
-  getPurchaseOrgList,
 } from "./helper";
-import Axios from "axios";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -86,7 +83,7 @@ export default function _Form({
   const [whList, setWhList] = useState("");
 
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -101,7 +98,7 @@ export default function _Form({
         selectedBusinessUnit?.value,
         setCUList
       );
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
@@ -114,8 +111,8 @@ export default function _Form({
       initData?.requestType?.label === "Asset PR"
         ? 9
         : initData?.requestType?.label === "Service PR"
-        ? 8
-        : initData?.requestType?.label === "Standard PR" && 2;
+          ? 8
+          : initData?.requestType?.label === "Standard PR" && 2;
 
     if (prId) {
       setItemTypeId(itemType);
@@ -255,8 +252,8 @@ export default function _Form({
                               prId
                                 ? true
                                 : values?.requestType?.label === "Service PR"
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                             }
                             value={values?.controllingUnit}
                             label="Controlling Unit"
@@ -291,8 +288,8 @@ export default function _Form({
                               prId
                                 ? true
                                 : values?.requestType?.label === "Service PR"
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                             }
                             label="Cost Center"
                             onChange={(valueOption) => {
@@ -314,8 +311,8 @@ export default function _Form({
                               prId
                                 ? true
                                 : values?.requestType?.label === "Service PR"
-                                ? false
-                                : true
+                                  ? false
+                                  : true
                             }
                             label="Cost Element"
                             onChange={(valueOption) => {

@@ -845,7 +845,7 @@ export const GetLighterCNFDDL = async (setter) => {
 export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
-    const res = await Axios.get(
+    const res = await axios.get(
       `/wms/FertilizerOperation/GetMVesselProgramDet?PortId=${portId}&MotherVesselId=${vesselId}`,
     );
     cb && cb(res?.data);
@@ -858,7 +858,7 @@ export const getMotherVesselInfo = async (vesselId, portId, setLoading, cb) => {
 
 export const getMotherVesselDDL = async (accId, buId, setter) => {
   try {
-    const res = await Axios.get(
+    const res = await axios.get(
       `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     setter(res.data);
@@ -869,7 +869,7 @@ export const getMotherVesselDDL = async (accId, buId, setter) => {
 
 export const getPartnerTypeDDLAction = async (setPartnerTypeDDL) => {
   try {
-    const res = await Axios.get(
+    const res = await axios.get(
       '/fino/AccountingConfig/GetAccTransectionTypeDDL',
     );
     setPartnerTypeDDL(res?.data);
@@ -1016,6 +1016,7 @@ export const getPurchaseOrganizationDDL = async (accId, buId, setter) => {
     toast.error(error?.response?.data?.message);
   }
 };
+
 
 export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
   try {
@@ -1191,7 +1192,7 @@ export const GetOutletProfileTypeAttributes = async (accId, buId, setter) => {
       });
       setter(attributes);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -1245,6 +1246,14 @@ export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
     }
   } catch (error) { }
 };
+export const getWhList = async (userId, accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};
 export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
   try {
     const res = await axios.get(
@@ -1276,5 +1285,14 @@ export const getItemCategoryDDLByTypeId_api = async (
     if (res.status === 200 && res?.data) {
       setter(res.data);
     }
+  } catch (error) { }
+};
+
+export const getPlantList = async (userId, accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    setter(res?.data);
   } catch (error) { }
 };

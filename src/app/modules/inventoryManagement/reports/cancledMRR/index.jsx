@@ -10,12 +10,10 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import {
   getCancledMRRLanding,
-  getPlantList,
-  getWhList,
 } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import { InventoryTransactionReportViewTableRow } from "../../warehouseManagement/mrrCancel/report/tableRow";
-import { getSBU } from "../../../_helper/_commonApi";
+import { getPlantList, getSBU, getWhList } from "../../../_helper/_commonApi";
 
 let initData = {
   wh: "",
