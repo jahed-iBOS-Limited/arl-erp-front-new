@@ -19,7 +19,7 @@ import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { InventoryTransactionReportViewTableRow } from '../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
 import { PurchaseOrderViewTableRow } from '../../../procurement/purchase-management/purchaseOrder/report/tableRow';
-import QcViewModal from '../firstWeight/qcViewModal';
+import QcViewModal from '../qualityCheck/qcViewModal';
 // import AttachmentView from "./POview";
 
 function RowMaterialAutoPR() {
@@ -39,8 +39,7 @@ function RowMaterialAutoPR() {
 
   useEffect(() => {
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
-        selectedBusinessUnit?.value
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
       }&Status=${0}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,10 +49,9 @@ function RowMaterialAutoPR() {
     let fromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : '';
     let toDate = values?.toDate ? `&ToDate=${values?.toDate}` : '';
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
-        selectedBusinessUnit?.value
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
       }${fromDate}${toDate}&Status=${values?.status?.value ||
-        0}&Search=${searchValue}`,
+      0}&Search=${searchValue}`,
     );
   };
 
@@ -88,7 +86,7 @@ function RowMaterialAutoPR() {
           // fromDate: _todayDate(),
           // toDate: _todayDate()
         }}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -264,10 +262,10 @@ function RowMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.strInventoryTransactionCode?.length > 0
                                     ? renderCommaSeparatedItems(
-                                        item?.strInventoryTransactionCode,
-                                        index,
-                                        item,
-                                      )
+                                      item?.strInventoryTransactionCode,
+                                      index,
+                                      item,
+                                    )
                                     : ''}
                                 </td>
 
