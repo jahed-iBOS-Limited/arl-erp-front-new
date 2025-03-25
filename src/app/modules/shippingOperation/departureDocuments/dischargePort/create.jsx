@@ -49,11 +49,7 @@ export default function CreateDischargePort() {
   const [, onSave, loader] = useAxiosPost();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
-  const [
-    vesselNominationData,
-    getVesselNominationData,
-    loading,
-  ] = useAxiosGet();
+  const [vesselNominationData, getVesselNominationData, loading] = useAxiosGet();
 
   useEffect(() => {
     if (paramId) {
@@ -242,41 +238,7 @@ export default function CreateDischargePort() {
                     errors={errors}
                   />
                 </div>
-                {/* Vessel Name */}
-                {/* <div className="col-lg-2">
-                  <NewSelect
-                    name="strVesselName"
-                    options={vesselDDL}
-                    value={values.strVesselName}
-                    label="Vessel Name"
-                    onChange={(valueOption) => {
-                      setFieldValue("strVesselName", valueOption);
-                      setFieldValue("strVoyageNo", "");
-                      setVoyageDDL([]);
-                      if (valueOption) {
-                        getVoyageDDL(
-                          `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=1&BusinessUnitId=${buId}&vesselId=${valueOption?.value}&VoyageTypeId=0&ReturnType=0&HireTypeId=0`
-                        );
-                      }
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-
-                <div className="col-lg-2">
-                  <NewSelect
-                    name="strVoyageNo"
-                    options={voyageDDL}
-                    value={values.strVoyageNo}
-                    label="Voyage No"
-                    onChange={(valueOption) =>
-                      setFieldValue("strVoyageNo", valueOption)
-                    }
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
+               
                 <div className="col-lg-2">
                   <InputField
                     value={values.strNameOfVessel}
