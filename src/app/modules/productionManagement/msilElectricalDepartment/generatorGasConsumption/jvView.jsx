@@ -22,11 +22,11 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       )?.format('M')}&YearId=${moment(values?.toDate).format(
         'YYYY',
       )}&BusinessUnitId=${buId}`,
-      (data) => {
+      (res) => {
         const modifyData = [
           {
-            totalFuelQuantity: data,
             rate: 0,
+            totalFuelQuantity: res,
             totalValue: 0,
             particulars: 'Fuel Consumption',
             fuelType: 'Gas',
@@ -85,8 +85,8 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       rmscivsrent: rmscivsrent,
       vatamt: ((item.totalValue + damageChange) * 5) / 100,
       businessUnitId: buId,
-      monthId: new Date(values.fromDate).getMonth() + 1,
       yearId: new Date(values.fromDate).getFullYear(),
+      monthId: new Date(values.fromDate).getMonth() + 1,
       isActive: true,
       dteCreatedAt: new Date().toISOString(),
       createdBy: profileData?.userId,
@@ -130,7 +130,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
               </tr>
               {gridData?.length > 0 &&
                 gridData.map((item, i) => (
-                  <tr key={i}>
+                  <tr key={i + 1}>
                     {i === 0 && (
                       <td rowSpan={gridData.length}>{item?.particulars}</td>
                     )}
@@ -138,8 +138,8 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                     <td className="text-center">{item?.totalFuelQuantity}</td>
                     <td className="text-center">
                       <InputField
-                        value={item?.rate || 0}
                         type="number"
+                        value={item?.rate || 0}
                         onChange={(e) => handleRateChange(i, +e.target.value)}
                       />
                     </td>
@@ -160,8 +160,8 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                 <td colSpan={4}>Demand Change</td>
                 <td className="text-center">
                   <InputField
-                    value={damageChange || ''}
                     type="number"
+                    value={damageChange || ''}
                     onChange={(e) => setDamageChange(+e.target.value)}
                   />
                 </td>
@@ -191,7 +191,6 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                 </td>
               </tr>
             </thead>
-            <tbody></tbody>
           </table>
         </div>
       </div>
