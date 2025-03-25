@@ -4,7 +4,6 @@ import InputField from "../../../../_helper/_inputField";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getWhList,
   getPORegisterLanding,
 } from "../helper";
 import ILoader from "../../../../_helper/loader/_loader";
@@ -15,7 +14,7 @@ import * as Yup from "yup";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { SetReportPoRegisterAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },

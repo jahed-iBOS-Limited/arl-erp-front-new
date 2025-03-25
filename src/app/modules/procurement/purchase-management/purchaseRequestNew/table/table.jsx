@@ -16,7 +16,6 @@ import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalSt
 import {
   completePoHandlerAction,
   getPurchaseRequestLanding,
-  getWhList,
   postPurchaseReqCancelAction,
 } from "../helper";
 import { PurchaseRequestReportModal } from "../report/purchaseRequestReportModal";
@@ -25,7 +24,7 @@ import IConfirmModal from "./../../../../_helper/_confirmModal";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import PaginationSearch from "./../../../../_helper/_search";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
 
 const statusData = [
   { label: "Approved", value: true },

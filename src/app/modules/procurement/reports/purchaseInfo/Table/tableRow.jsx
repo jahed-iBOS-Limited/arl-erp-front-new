@@ -10,11 +10,11 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getPlantList, getWhList } from "../helper";
+import { getPlantList } from "../helper";
 import SummarySheet from "./SummarySheet";
 import ItemWise from "./itemWise";
 import SupplierWise from "./supplierWise";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getSBU, getWhList } from "../../../../_helper/_commonApi";
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
     label: Yup.string().required("Responsible Person is required"),
