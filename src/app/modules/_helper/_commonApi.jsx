@@ -1317,3 +1317,23 @@ export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
     setter([]);
   }
 };
+
+export const getLandingPlantDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getYearDDL = async (accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};

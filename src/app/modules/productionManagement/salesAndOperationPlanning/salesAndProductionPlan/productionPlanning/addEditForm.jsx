@@ -67,7 +67,6 @@ export default function ProductionPlanningForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    // getYearDDL(setYearDDL);
   }, []);
 
   const inputHandler = (item, value, name, rowDto, setRowDto) => {

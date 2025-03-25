@@ -7,16 +7,16 @@ export const getYearDDL = async (accId, buId, plantId, setter) => {
       `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const getPlantDDL = async (accId,userId, buId, setter) => {
+export const getPlantDDL = async (accId, userId, buId, setter) => {
   try {
     const res = await axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
@@ -26,11 +26,11 @@ export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
     );
     let newData = res?.data;
     setter(
-      newData.sort(function(a, b) {
+      newData.sort(function (a, b) {
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const monthData = [

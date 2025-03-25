@@ -149,12 +149,7 @@ export default function _Form({
                             setYearDDL(data);
                           }
                         );
-                        // getYearDDL(
-                        //   profileData?.accountId,
-                        //   selectedBusinessUnit?.value,
-                        //   valueOption?.value,
-                        //   setYearDDL
-                        // );
+
                         if (values?.year?.value) {
                           getHorizonDDL(
                             profileData?.accountId,

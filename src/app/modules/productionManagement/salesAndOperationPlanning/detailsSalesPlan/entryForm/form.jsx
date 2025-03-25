@@ -6,12 +6,13 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
+import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
 import { toast } from "react-toastify";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewModal from "../viewModal";
+import { getYearDDL } from "../../../../_helper/_commonApi";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -308,7 +309,7 @@ export default function _Form({
                           setFieldValue("territory", "");
                           getRegionDDL(
                             `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value ||
-                              0}`,
+                            0}`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
                                 ...item,
@@ -347,8 +348,7 @@ export default function _Form({
                           setFieldValue("area", "");
                           setFieldValue("territory", "");
                           getAreaDDL(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
-                              values?.channel?.value
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value
                             }&regionId=${valueOption?.value || 0}`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
@@ -385,10 +385,8 @@ export default function _Form({
                           setFieldValue("area", valueOption);
                           setFieldValue("territory", "");
                           getTerritoryDDL(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
-                              values?.channel?.value
-                            }&regionId=${
-                              values?.region?.value
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value
+                            }&regionId=${values?.region?.value
                             }&areaId=${valueOption?.value || 0}`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
@@ -503,68 +501,108 @@ export default function _Form({
               </div>
 
               <div className="table-responsive">
-<table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>Item Code</th>
-                    <th>BOM</th>
-                    <th>UoM Name</th>
-                    <th>Sales Plan Quantity</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                    {/* <th>Action</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.data?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="pl-2">{item?.itemName}</td>
-                      <td className="pl-2">{item?.itemCode}</td>
-                      <td style={{ width: "180px" }}>
-                        {id ? (
-                          item?.bomname || ""
-                        ) : (
-                          <>
-                            {item?.isMultiple ? (
-                              <NewSelect
-                                name={`bom${index + 1}`}
-                                options={item?.objBOMList}
-                                value={item?.bom}
-                                onChange={(valueOption) => {
-                                  dataHandler(
-                                    "bom",
-                                    item,
-                                    valueOption,
-                                    setRowDto,
-                                    rowDto
-                                  );
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isDisabled={id ? true : false}
-                              />
-                            ) : (
-                              item?.bomname
-                            )}
-                          </>
-                        )}
-                      </td>
-                      <td className="text-center">{item?.uomName}</td>
-                      <td style={{ width: "150px" }} className="text-center">
-                        {id ? (
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>Item Code</th>
+                      <th>BOM</th>
+                      <th>UoM Name</th>
+                      <th>Sales Plan Quantity</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                      {/* <th>Action</th> */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="pl-2">{item?.itemName}</td>
+                        <td className="pl-2">{item?.itemCode}</td>
+                        <td style={{ width: "180px" }}>
+                          {id ? (
+                            item?.bomname || ""
+                          ) : (
+                            <>
+                              {item?.isMultiple ? (
+                                <NewSelect
+                                  name={`bom${index + 1}`}
+                                  options={item?.objBOMList}
+                                  value={item?.bom}
+                                  onChange={(valueOption) => {
+                                    dataHandler(
+                                      "bom",
+                                      item,
+                                      valueOption,
+                                      setRowDto,
+                                      rowDto
+                                    );
+                                  }}
+                                  errors={errors}
+                                  touched={touched}
+                                  isDisabled={id ? true : false}
+                                />
+                              ) : (
+                                item?.bomname
+                              )}
+                            </>
+                          )}
+                        </td>
+                        <td className="text-center">{item?.uomName}</td>
+                        <td style={{ width: "150px" }} className="text-center">
+                          {id ? (
+                            <input
+                              type="number"
+                              name="entryItemPlanQty"
+                              value={+item?.entryItemPlanQty || ""}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) {
+                                  return;
+                                }
+                                dataHandler(
+                                  "entryItemPlanQty",
+                                  item,
+                                  +e.target.value,
+                                  setRowDto,
+                                  rowDto
+                                );
+                              }}
+                              className="quantity-field form-control"
+                            />
+                          ) : (
+                            <input
+                              type="number"
+                              name="itemPlanQty"
+                              value={+item?.itemPlanQty || ""}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) {
+                                  return;
+                                }
+                                dataHandler(
+                                  "itemPlanQty",
+                                  item,
+                                  +e.target.value,
+                                  setRowDto,
+                                  rowDto
+                                );
+                              }}
+                              className="quantity-field form-control"
+                            />
+                          )}
+                        </td>
+                        <td style={{ width: "150px" }} className="text-center">
                           <input
                             type="number"
-                            name="entryItemPlanQty"
-                            value={+item?.entryItemPlanQty || ""}
+                            name="rate"
+                            value={+item?.rate || ""}
                             onChange={(e) => {
                               if (+e.target.value < 0) {
                                 return;
                               }
                               dataHandler(
-                                "entryItemPlanQty",
+                                "rate",
                                 item,
                                 +e.target.value,
                                 setRowDto,
@@ -573,61 +611,21 @@ export default function _Form({
                             }}
                             className="quantity-field form-control"
                           />
-                        ) : (
-                          <input
-                            type="number"
-                            name="itemPlanQty"
-                            value={+item?.itemPlanQty || ""}
-                            onChange={(e) => {
-                              if (+e.target.value < 0) {
-                                return;
-                              }
-                              dataHandler(
-                                "itemPlanQty",
-                                item,
-                                +e.target.value,
-                                setRowDto,
-                                rowDto
-                              );
-                            }}
-                            className="quantity-field form-control"
-                          />
-                        )}
-                      </td>
-                      <td style={{ width: "150px" }} className="text-center">
-                        <input
-                          type="number"
-                          name="rate"
-                          value={+item?.rate || ""}
-                          onChange={(e) => {
-                            if (+e.target.value < 0) {
-                              return;
-                            }
-                            dataHandler(
-                              "rate",
-                              item,
-                              +e.target.value,
-                              setRowDto,
-                              rowDto
-                            );
-                          }}
-                          className="quantity-field form-control"
-                        />
-                      </td>
-                      <td className="text-center">
-                        {id
-                          ? (+item?.entryItemPlanQty || 0) * (+item?.rate || 0)
-                          : (+item?.itemPlanQty || 0) * (+item?.rate || 0)}
-                      </td>
-                      {/* <td className="text-center">
+                        </td>
+                        <td className="text-center">
+                          {id
+                            ? (+item?.entryItemPlanQty || 0) * (+item?.rate || 0)
+                            : (+item?.itemPlanQty || 0) * (+item?.rate || 0)}
+                        </td>
+                        {/* <td className="text-center">
                         <IDelete id={index} remover={() => remover(index)} />
                       </td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-</div>
-              
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               {!fileObject && !id && rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

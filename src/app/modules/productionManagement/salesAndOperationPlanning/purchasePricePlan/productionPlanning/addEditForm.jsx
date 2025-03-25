@@ -65,7 +65,6 @@ export default function PurchasePlanningForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    // getYearDDL(setYearDDL);
   }, []);
 
   const inputHandler = (item, value, name, rowDto, setRowDto) => {

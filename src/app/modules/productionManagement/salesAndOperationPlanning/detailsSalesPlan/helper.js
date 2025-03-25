@@ -45,17 +45,6 @@ export const getSalesPlanLanding = async (
   }
 };
 
-export const getLandingPlantDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      // `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 export const editSalesPlanning = async (data) => {
   try {
@@ -71,14 +60,7 @@ export const editSalesPlanning = async (data) => {
 
 
 // year ddl for create page
-export const getYearDDL = async (accId, buId, plantId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
+
 
 // horizon ddl
 export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {

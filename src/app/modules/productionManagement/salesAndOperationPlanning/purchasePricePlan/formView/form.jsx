@@ -6,7 +6,8 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
+import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
+import { getYearDDL } from "../../../../_helper/_commonApi";
 
 // Validation schema
 export const salesAndOperationPlaningValidationSchema = Yup.object().shape({
