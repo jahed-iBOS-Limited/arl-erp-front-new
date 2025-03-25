@@ -1337,3 +1337,17 @@ export const getYearDDL = async (accId, buId, plantId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+
+export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
+    );
+    let newData = res?.data;
+    setter(
+      newData.sort(function (a, b) {
+        return new Date(a.startdatetime) - new Date(b.enddatetime);
+      })
+    );
+  } catch (error) { }
+};

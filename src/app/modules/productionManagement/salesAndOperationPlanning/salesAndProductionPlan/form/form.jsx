@@ -8,10 +8,11 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
+import { getItemListSalesPlanDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
 import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
+import { getHorizonDDL } from "../../../../_helper/_commonApi";
 
 
 export default function _Form({

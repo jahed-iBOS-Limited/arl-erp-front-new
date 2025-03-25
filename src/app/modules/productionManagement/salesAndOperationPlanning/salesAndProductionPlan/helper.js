@@ -4,19 +4,7 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 
 // horizon ddl
-export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
-    );
-    let newData = res?.data;
-    setter(
-      newData.sort(function (a, b) {
-        return new Date(a.startdatetime) - new Date(b.enddatetime);
-      })
-    );
-  } catch (error) { }
-};
+
 
 // Plant Item DDL
 export const getItemListSalesPlanDDL = async (
