@@ -1017,6 +1017,7 @@ export const getPurchaseOrganizationDDL = async (accId, buId, setter) => {
   }
 };
 
+
 export const getOrderCompleteInfo = async (accId, buId, orderId, setter) => {
   try {
     let res = await axios.get(
@@ -1191,7 +1192,7 @@ export const GetOutletProfileTypeAttributes = async (accId, buId, setter) => {
       });
       setter(attributes);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
@@ -1276,5 +1277,14 @@ export const getItemCategoryDDLByTypeId_api = async (
     if (res.status === 200 && res?.data) {
       setter(res.data);
     }
+  } catch (error) { }
+};
+
+export const getPlantList = async (userId, accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    setter(res?.data);
   } catch (error) { }
 };

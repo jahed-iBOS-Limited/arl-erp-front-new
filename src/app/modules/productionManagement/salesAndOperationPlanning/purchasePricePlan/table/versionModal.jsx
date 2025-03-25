@@ -18,8 +18,8 @@ const VersionModal = ({ versionModalData }) => {
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
-      profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
+      profileData: state.authData.profileData,
     };
   });
 
@@ -39,7 +39,7 @@ const VersionModal = ({ versionModalData }) => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,

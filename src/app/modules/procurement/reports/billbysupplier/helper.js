@@ -1,14 +1,5 @@
 import Axios from "axios";
 
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getissuerList = async (buId, orId, setter) => {
   try {
     const res = await Axios.get(
@@ -58,12 +49,3 @@ export const getbillbysupplierLanding = async (
   }
 };
 
-
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
