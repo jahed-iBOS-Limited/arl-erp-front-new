@@ -48,8 +48,8 @@ export default function PurchasePlanCreateFormView({
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
 
-  const [numItemPlanQty, setNumItemPlanQty] = useState(0);
   const [quantityIndex, setQuantityIndex] = useState(0);
+  const [numItemPlanQty, setNumItemPlanQty] = useState(0);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -108,8 +108,8 @@ export default function PurchasePlanCreateFormView({
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
             yearId: values?.year?.value,
+            version: "",
             monthId: values?.horizon?.value,
-            version: "string",
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             plantId: values?.plant?.value,

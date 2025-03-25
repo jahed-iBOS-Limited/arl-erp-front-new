@@ -24,8 +24,7 @@ function QcViewModal({ weightmentId }) {
       <Formik
         enableReinitialize={true}
         initialValues={{}}
-        // validationSchema={{}}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values }) => (
           <>
@@ -33,18 +32,6 @@ function QcViewModal({ weightmentId }) {
               {true && <ModalProgressBar />}
               <CardHeader title={"QC View"}>
                 <CardHeaderToolbar>
-                  {/* <button
-                    onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                        state: values,
-                      });
-                    }}
-                    className="btn btn-primary ml-2"
-                    type="button"
-                  >
-                    Create
-                  </button> */}
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>

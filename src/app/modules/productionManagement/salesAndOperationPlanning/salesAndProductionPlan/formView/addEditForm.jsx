@@ -153,6 +153,10 @@ export default function SalesAndProductionPlanCreateFormView({
       setRowDto([...rowDto, rowDataValues]);
     }
   };
+  const dataHandler = (name, item, value, setRowDto, rowDto) => {
+    item[name] = value;
+    setRowDto({ ...rowDto });
+  };
 
   useEffect(() => {
     var rowData = [];
@@ -169,10 +173,6 @@ export default function SalesAndProductionPlanCreateFormView({
     setSalesPlanData(rowData);
   }, [rowDto?.length]);
 
-  const dataHandler = (name, item, value, setRowDto, rowDto) => {
-    item[name] = value;
-    setRowDto({ ...rowDto });
-  };
 
   return (
     <IForm

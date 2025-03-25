@@ -264,7 +264,7 @@ export default function CreateEditProductAnalysis() {
       backHandler={() => {
         history.goBack();
       }}
-      renderProps={() => {}}
+      renderProps={() => { }}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
@@ -274,8 +274,8 @@ export default function CreateEditProductAnalysis() {
         initData={singleData || initData}
         saveHandler={saveHandler}
         remover={remover}
-        rowDto={rowDto}
         setter={setter}
+        rowDto={rowDto}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
         plant={plant}
@@ -299,7 +299,6 @@ export default function CreateEditProductAnalysis() {
         UOMDDL={UOMDDL}
         setUOMDDL={setUOMDDL}
         setDisabled={setDisabled}
-        // Cost Element Props
         costElementDDL={costElementDDL}
         costElementRowData={costElementRowData}
         setCostElementRowData={setCostElementRowData}
