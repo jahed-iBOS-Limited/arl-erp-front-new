@@ -1,21 +1,13 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-// eslint-disable-next-line no-unused-vars
-import FormikError from "./../../../../_helper/_formikError";
 import InputField from "./../../../../_helper/_inputField";
-import {} from "../helper";
-// eslint-disable-next-line no-unused-vars
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  entryDay: Yup.number()
-    .required("Entry Day is Required")
-    .max(30),
-  editedDay: Yup.number()
-    .required("Edit Day is Required")
-    .max(30),
+  entryDay: Yup.number().required("Entry Day is Required").max(30),
+  editedDay: Yup.number().required("Edit Day is Required").max(30),
 });
 
 export default function _Form({
@@ -23,14 +15,8 @@ export default function _Form({
   btnRef,
   saveHandler,
   resetBtnRef,
-
   setRowDto,
-  profileData,
-  selectedBusinessUnit,
-  disableHandler
 }) {
- 
-
   return (
     <>
       <Formik
@@ -44,16 +30,8 @@ export default function _Form({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ handleSubmit, resetForm, values }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="row global-form">
                 <div className="col-lg-3 pl pr-1 mb-1">
@@ -64,7 +42,6 @@ export default function _Form({
                     placeholder="Entry Day"
                     type="number"
                     min="0"
-                    // disabled={isEdit}
                   />
                 </div>
 
@@ -76,7 +53,6 @@ export default function _Form({
                     placeholder="Edited Day"
                     type="number"
                     min="0"
-                    // disabled={isEdit}
                   />
                 </div>
               </div>

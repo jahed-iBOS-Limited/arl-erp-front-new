@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
-import TablePagination from '@mui/material/TablePagination';
-import React from 'react';
-import TablePaginationActions from '../../../../_helper/_tablePagination';
+import TablePagination from "@mui/material/TablePagination";
+import React from "react";
+import TablePaginationActions from "../../../../_helper/_tablePagination";
 export default function CustomPaginationActionsTable({
   inventoryStatement,
   setIsShowModal,
@@ -9,16 +9,15 @@ export default function CustomPaginationActionsTable({
   inventoryStatementAllData,
   setTableItem,
 }) {
-  //   const classes = useStyles2();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(+event.target.value, 10);
     setPage(0);
   };
 
@@ -53,9 +52,9 @@ export default function CustomPaginationActionsTable({
         <tbody>
           {(rowsPerPage > 0
             ? inventoryStatement?.slice(
-              page * rowsPerPage,
-              page * rowsPerPage + rowsPerPage,
-            )
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
             : inventoryStatement
           )?.map((row, index) => (
             <tr>
@@ -108,7 +107,7 @@ export default function CustomPaginationActionsTable({
           rowsPerPage={rowsPerPage}
           page={page}
           SelectProps={{
-            inputProps: { 'aria-label': 'rows per page' },
+            inputProps: { "aria-label": "rows per page" },
             native: true,
           }}
           onChangePage={handleChangePage}
