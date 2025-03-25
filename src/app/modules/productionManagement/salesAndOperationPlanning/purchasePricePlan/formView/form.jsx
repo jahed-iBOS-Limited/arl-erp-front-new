@@ -9,7 +9,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 
 // Validation schema
-const validationSchema = Yup.object().shape({
+export const salesAndOperationPlaningValidationSchema = Yup.object().shape({
   plant: Yup.object().shape({
     value: Yup.string().required("Plant Name is required"),
     label: Yup.string().required("Plant Name is required"),
@@ -102,8 +102,8 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        validationSchema={salesAndOperationPlaningValidationSchema}
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
             setRowDto([]);
@@ -241,11 +241,9 @@ export default function _Form({
                       <th>UoM Name</th>
                       <th style={{ width: "150px" }}>Plan Quantity</th>
                       <th style={{ width: "150px" }}>Rate</th>
-                      {/* <th>Action</th> */}
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {console.log(rowDto)} */}
                     {rowDto?.data?.map((item, index) => (
                       <tr key={index}>
                         <td className="text-center">{index + 1}</td>

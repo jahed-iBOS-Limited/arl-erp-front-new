@@ -6,22 +6,8 @@ import NewSelect from "../../../../_helper/_select";
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }),
-  year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
-  }),
-  horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
-  }),
-});
 
 export default function _Form({
   initData,
@@ -50,7 +36,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={salesAndOperationPlaningValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

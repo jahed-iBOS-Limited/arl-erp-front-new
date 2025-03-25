@@ -11,22 +11,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }),
-  year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
-  }),
-  horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
-  }),
-});
 
 export default function _Form({
   initData,
@@ -48,9 +34,7 @@ export default function _Form({
   id,
   dataHandler,
   removeItem,
-  // setNumItemPlanQty,
-  // setQuantityIndex,
-  // updateItemQuantity,
+
 }) {
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
@@ -119,7 +103,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={salesAndOperationPlaningValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
