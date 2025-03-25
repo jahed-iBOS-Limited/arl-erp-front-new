@@ -15,10 +15,7 @@ import ILoader from "../../../../_helper/loader/_loader";
 import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   completePoHandlerAction,
-  getPlantList,
-  getPurchaseOrgList,
   getPurchaseRequestLanding,
-  getSBUList,
   getWhList,
   postPurchaseReqCancelAction,
 } from "../helper";
@@ -28,6 +25,7 @@ import IConfirmModal from "./../../../../_helper/_confirmModal";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import PaginationSearch from "./../../../../_helper/_search";
 import PaginationTable from "./../../../../_helper/_tablePagination";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 
 const statusData = [
   { label: "Approved", value: true },
@@ -81,7 +79,7 @@ const PurchaseRequestTable = () => {
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
@@ -112,7 +110,7 @@ const PurchaseRequestTable = () => {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getLandingPageDataFunc(pageNo, pageSize);
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
@@ -193,13 +191,13 @@ const PurchaseRequestTable = () => {
           getLandingPageDataFunc(pageNo, pageSize)
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isShowPurchaseRequestReportModal,setShowPurchaseRequestReportModal] = useState(false)
+  const [isShowPurchaseRequestReportModal, setShowPurchaseRequestReportModal] = useState(false)
   const [currentRowData, setCurrentRowData] = useState("");
   const itemCompleteHandler = (reqId, userId, values) => {
     let confirmObject = {
@@ -210,7 +208,7 @@ const PurchaseRequestTable = () => {
           viewPurchaseOrderData(values)
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -242,7 +240,7 @@ const PurchaseRequestTable = () => {
     560964,
     561496])
 
-    const userHasPermission=poCompleteBtnPermission.has(profileData?.userId)
+  const userHasPermission = poCompleteBtnPermission.has(profileData?.userId)
 
   return (
     <ICustomCard title="Purchase Request">
@@ -468,31 +466,31 @@ const PurchaseRequestTable = () => {
                                   </span>
 
                                   <span>
-                                   
+
                                     {
-                                      selectedBusinessUnit?.value === 102 && (values?.plant?.value >= 91 && values?.plant?.value <=100) ? 
-                                      <IView
-                                      classes={
-                                        prTableIndex === item?.purchaseRequestId
-                                          ? "text-primary"
-                                          : ""
-                                      }
-                                      clickHandler={() => {
-                                        setCurrentRowData(item);
-                                        setShowPurchaseRequestReportModal(true);
-                                      }}
-                                    />
-                                      : <IView
-                                      classes={
-                                        prTableIndex === item?.purchaseRequestId
-                                          ? "text-primary"
-                                          : ""
-                                      }
-                                      clickHandler={() => {
-                                        setCurrentRowData(item);
-                                        setIsShowModal(true);
-                                      }}
-                                    />
+                                      selectedBusinessUnit?.value === 102 && (values?.plant?.value >= 91 && values?.plant?.value <= 100) ?
+                                        <IView
+                                          classes={
+                                            prTableIndex === item?.purchaseRequestId
+                                              ? "text-primary"
+                                              : ""
+                                          }
+                                          clickHandler={() => {
+                                            setCurrentRowData(item);
+                                            setShowPurchaseRequestReportModal(true);
+                                          }}
+                                        />
+                                        : <IView
+                                          classes={
+                                            prTableIndex === item?.purchaseRequestId
+                                              ? "text-primary"
+                                              : ""
+                                          }
+                                          clickHandler={() => {
+                                            setCurrentRowData(item);
+                                            setIsShowModal(true);
+                                          }}
+                                        />
                                     }
                                     {" "}
                                   </span>

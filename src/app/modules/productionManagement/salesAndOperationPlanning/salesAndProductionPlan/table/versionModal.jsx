@@ -13,8 +13,8 @@ const initData = {
 
 const VersionModal = ({ versionModalData }) => {
   const [loading, setLoading] = useState(false);
-  const [logDDL, setLogDDL] = useState([]);
   const [gridData, setGridData] = useState();
+  const [logDDL, setLogDDL] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -32,18 +32,17 @@ const VersionModal = ({ versionModalData }) => {
         setLogDDL
       );
     }
-  }, [profileData, selectedBusinessUnit, versionModalData?.salesPlanId]);
+  }, [selectedBusinessUnit, versionModalData?.salesPlanId, profileData]);
 
   return (
     <ICustomCard title="View Log Version">
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
-          resetForm,
           values,
           errors,
           touched,
@@ -56,11 +55,11 @@ const VersionModal = ({ versionModalData }) => {
             <div className="global-form row">
               <div className="col-lg-3">
                 <NewSelect
+                  isSearchable={true}
                   isHiddenToolTip
                   name="log"
                   options={logDDL}
                   value={values?.log}
-                  isSearchable={true}
                   label="Log Version"
                   placeholder="Log Version"
                   onChange={(valueOption) => {

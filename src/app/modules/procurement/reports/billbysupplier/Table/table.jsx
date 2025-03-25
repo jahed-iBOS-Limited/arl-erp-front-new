@@ -15,8 +15,6 @@ import * as Yup from "yup";
 import NewSelect from "../../../../_helper/_select";
 import ILoader from "../../../../_helper/loader/_loader";
 import {
-  getPurchaseOrgList,
-  getSBUList,
   getbillbysupplierLanding,
   getissuerList,
 } from "../helper";
@@ -25,6 +23,7 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 // import IView from '../../../../_helper/_helperIcons/_view';
 import axios from "axios";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IView from "../../../../_helper/_helperIcons/_view";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
@@ -117,12 +116,12 @@ const BillbySupplierReportTable = () => {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSBUList(
+      getSBU(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setSbuList
       );
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
@@ -280,7 +279,7 @@ const BillbySupplierReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                      style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -300,7 +299,7 @@ const BillbySupplierReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                       style={{ width: "100%" }}
+                        style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
@@ -410,87 +409,87 @@ const BillbySupplierReportTable = () => {
                 {/* {loading && <Loading />} */}
 
                 <div className="col-lg-12">
-                <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Bill Register No</th>
-                        <th>Bill Type</th>
-                        <th>Po No</th>
-                        <th>Supplier Code</th>
-                        <th>Supplier Name</th>
-                        <th>Bill No</th>
-                        <th>Bill Date</th>
-                        <th>Bill Amount</th>
-                        <th>PO Date</th>
-                        <th>Approve Amount</th>
-                        <th>Pay Amount</th>
-                        <th>Pay Date</th>
-                        <th>Paid Date</th>
-                        <th>Is Advice</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <ILoader />
-                    ) : (
-                      <tbody>
-                        {landing?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.sl}</td>
-                            <td>{item?.strBillRegisterCode}</td>
-                            <td>{item?.strbillType}</td>
-                            <td>{item?.strPoNo}</td>
-                            <td>{item?.strBusinessPartnerCode}</td>
-                            <td>{item?.strBusinessPartnerName}</td>
-                            <td>{item?.strBillRef}</td>
-                            <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
-                            <td>
-                              {numberWithCommas(
-                                (item?.monTotalAmount || 0).toFixed(2)
-                              )}
-                            </td>
-                            <td>
-                              {_dateFormatter(item?.dtePurchaseOrderDate)}
-                            </td>
-                            <td>
-                              {numberWithCommas(
-                                (item?.monApproveAmount || 0).toFixed(2)
-                              )}
-                            </td>
-                            <td>
-                              {numberWithCommas(
-                                (item?.numPayAmount || 0).toFixed(2)
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dtePaymentRequestDate)}
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dtePayComplete)}
-                            </td>
-                            <td className="text-center">
-                              {item?.isAdvicePrint ? "Yes" : "No"}
-                            </td>
-                            <td className="text-center">
-                              <IView
-                                //classes="text-muted"
-                                clickHandler={() => {
-                                  setModalShow(true);
-                                  setGridItem({
-                                    ...item,
-                                    billRegisterId: item?.intBillRegisterId,
-                                    billType: item?.intBillType,
-                                  });
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Bill Register No</th>
+                          <th>Bill Type</th>
+                          <th>Po No</th>
+                          <th>Supplier Code</th>
+                          <th>Supplier Name</th>
+                          <th>Bill No</th>
+                          <th>Bill Date</th>
+                          <th>Bill Amount</th>
+                          <th>PO Date</th>
+                          <th>Approve Amount</th>
+                          <th>Pay Amount</th>
+                          <th>Pay Date</th>
+                          <th>Paid Date</th>
+                          <th>Is Advice</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {loading ? (
+                        <ILoader />
+                      ) : (
+                        <tbody>
+                          {landing?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.sl}</td>
+                              <td>{item?.strBillRegisterCode}</td>
+                              <td>{item?.strbillType}</td>
+                              <td>{item?.strPoNo}</td>
+                              <td>{item?.strBusinessPartnerCode}</td>
+                              <td>{item?.strBusinessPartnerName}</td>
+                              <td>{item?.strBillRef}</td>
+                              <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.monTotalAmount || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td>
+                                {_dateFormatter(item?.dtePurchaseOrderDate)}
+                              </td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.monApproveAmount || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.numPayAmount || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dtePaymentRequestDate)}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dtePayComplete)}
+                              </td>
+                              <td className="text-center">
+                                {item?.isAdvicePrint ? "Yes" : "No"}
+                              </td>
+                              <td className="text-center">
+                                <IView
+                                  //classes="text-muted"
+                                  clickHandler={() => {
+                                    setModalShow(true);
+                                    setGridItem({
+                                      ...item,
+                                      billRegisterId: item?.intBillRegisterId,
+                                      billType: item?.intBillType,
+                                    });
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
+                    </table>
                   </div>
                 </div>
                 <>
@@ -498,7 +497,7 @@ const BillbySupplierReportTable = () => {
                     show={mdalShow}
                     onHide={() => setModalShow(false)}
                   >
-                    {[1].includes(gridItem?.billType ) && (
+                    {[1].includes(gridItem?.billType) && (
                       <SupplerInvoiceView
                         gridItem={gridItem}
                         laingValues={values}
