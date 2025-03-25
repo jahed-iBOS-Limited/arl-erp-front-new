@@ -1351,3 +1351,30 @@ export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
     );
   } catch (error) { }
 };
+
+export const getVersionGridData = async (planId, logId, setter, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/mes/SalesPlanning/GetSalesPlanLogById?SalesPlanId=${planId}&Logid=${logId}`
+    );
+    setLoading(false);
+    setter(res?.data?.objRow);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
+export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter([]);
+  }
+};

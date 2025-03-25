@@ -186,16 +186,4 @@ export const getProductionPlanning = async (
   }
 };
 
-export const getVersionGridData = async (planId, logId, setter, setLoading) => {
-  setLoading(true);
-  try {
-    const res = await Axios.get(
-      `/mes/SalesPlanning/GetSalesPlanLogById?SalesPlanId=${planId}&Logid=${logId}`
-    );
-    setLoading(false);
-    setter(res?.data?.objRow);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
+
