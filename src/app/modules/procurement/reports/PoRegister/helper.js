@@ -1,15 +1,6 @@
 import Axios from "axios";
 
 
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(

@@ -2,7 +2,7 @@ import Axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
@@ -13,7 +13,6 @@ import {
   getCostCenterList,
   getCostElementList,
   getPlantList,
-  getPurchaseOrgList,
   getRequestTypeList,
   getUOMList,
   getWhList,
@@ -101,7 +100,7 @@ export default function _Form({
         selectedBusinessUnit?.value,
         setCUList
       );
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList

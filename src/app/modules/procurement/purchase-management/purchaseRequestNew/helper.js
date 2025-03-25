@@ -2,15 +2,6 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-   try {
-      const res = await Axios.get(
-         `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-      );
-      setter(res?.data);
-   } catch (error) { }
-};
-
 export const getPlantList = async (userId, accId, buId, setter) => {
    try {
       const res = await Axios.get(

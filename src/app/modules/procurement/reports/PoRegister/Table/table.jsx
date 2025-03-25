@@ -5,7 +5,6 @@ import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPlantList,
-  getPurchaseOrgList,
   getWhList,
   getPORegisterLanding,
 } from "../helper";
@@ -17,7 +16,7 @@ import * as Yup from "yup";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { SetReportPoRegisterAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
@@ -84,7 +83,7 @@ const PORegisterTable = () => {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // getLandingPageDataFunc(pageNo, pageSize)
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList

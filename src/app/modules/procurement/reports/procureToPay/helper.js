@@ -3,15 +3,6 @@ import { downloadFile } from "../../../_helper/downloadFile";
 import { createFile } from "../../../_helper/excel";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getissuerList = async (buId, orId, setter) => {
   try {
     const res = await Axios.get(

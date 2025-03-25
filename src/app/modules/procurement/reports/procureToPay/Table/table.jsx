@@ -7,15 +7,14 @@ import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import // setIndentStatementAction,
 
-//setIndentTableIndexAction
-"../../../../_helper/reduxForLocalStorage/Actions";
+  //setIndentTableIndexAction
+  "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   // getProcureToPayReportXMLDownload,
   generateExcel,
   getPlantList,
   getProcureToPayExcelReport,
   getProcureToPayReport,
-  getPurchaseOrgList,
   getWarehouseList,
 } from "../helper";
 
@@ -35,6 +34,7 @@ import { InventoryTransactionReportViewTableRow } from "../../../../inventoryMan
 import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
 import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
 import "../style.css";
+import { getPurchaseOrganizationDDL } from "../../../../_helper/_commonApi";
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
     if (fromDate) return Schema.required("To date is required");
@@ -104,7 +104,7 @@ const ProcureToPayReportTable = () => {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
@@ -177,7 +177,7 @@ const ProcureToPayReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,

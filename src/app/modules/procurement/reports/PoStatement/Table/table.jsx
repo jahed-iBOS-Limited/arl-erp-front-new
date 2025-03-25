@@ -6,7 +6,6 @@ import { Formik, Form } from "formik";
 import { useSelector } from "react-redux";
 import {
   getPlantList,
-  getPurchaseOrgList,
   getWhList,
   getPOStatementLanding,
   getOrderTypeList,
@@ -20,7 +19,7 @@ import * as Yup from "yup";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { useHistory } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 const statusData = [
   { label: "Approved", value: true },
   { label: "Pending", value: false },
@@ -106,7 +105,7 @@ const POReportTable = () => {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // getLandingPageDataFunc(pageNo, pageSize)
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList

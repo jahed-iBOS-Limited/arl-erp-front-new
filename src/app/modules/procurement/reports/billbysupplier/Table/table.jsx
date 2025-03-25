@@ -15,7 +15,6 @@ import * as Yup from "yup";
 import NewSelect from "../../../../_helper/_select";
 import ILoader from "../../../../_helper/loader/_loader";
 import {
-  getPurchaseOrgList,
   getbillbysupplierLanding,
   getissuerList,
 } from "../helper";
@@ -24,7 +23,7 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 // import IView from '../../../../_helper/_helperIcons/_view';
 import axios from "axios";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 import FormikError from "../../../../_helper/_formikError";
 import IView from "../../../../_helper/_helperIcons/_view";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
@@ -122,7 +121,7 @@ const BillbySupplierReportTable = () => {
         selectedBusinessUnit?.value,
         setSbuList
       );
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList

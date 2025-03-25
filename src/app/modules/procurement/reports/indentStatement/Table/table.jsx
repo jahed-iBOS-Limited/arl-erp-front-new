@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 import ICustomCard from "../../../../_helper/_customCard";
 import IView from "../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../_helper/_inputField";
@@ -17,7 +17,6 @@ import {
   getItemCategoryDDLByTypeApi,
   getItemTypeListDDL_api,
   getPlantList,
-  getPurchaseOrgList,
   getPurchaseRequestLanding,
   getWhList,
 } from "../helper";
@@ -147,7 +146,7 @@ const PurchaseRequestReportTable = () => {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // getLandingPageDataFunc(pageNo, pageSize)
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList

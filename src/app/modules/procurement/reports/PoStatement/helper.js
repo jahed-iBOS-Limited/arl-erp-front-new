@@ -23,16 +23,6 @@ export const getAssetReceiveReportData = async (
   }
 };
 
-
-export const getPurchaseOrgList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
-
 export const getOrderTypeList = async (setter) => {
   try {
     const res = await Axios.get(

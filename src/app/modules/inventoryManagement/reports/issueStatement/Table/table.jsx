@@ -11,7 +11,6 @@ import ILoader from "../../../../_helper/loader/_loader";
 import {
   getIssueStatementLanding,
   getPlantList,
-  //getPurchaseOrgList,
   getWhList,
 } from "../helper";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";

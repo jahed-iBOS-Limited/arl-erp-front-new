@@ -16,7 +16,6 @@ import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalSt
 import {
   completePoHandlerAction,
   getPlantList,
-  getPurchaseOrgList,
   getPurchaseRequestLanding,
   getWhList,
   postPurchaseReqCancelAction,
@@ -27,7 +26,7 @@ import IConfirmModal from "./../../../../_helper/_confirmModal";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import PaginationSearch from "./../../../../_helper/_search";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 
 const statusData = [
   { label: "Approved", value: true },
@@ -112,7 +111,7 @@ const PurchaseRequestTable = () => {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getLandingPageDataFunc(pageNo, pageSize);
-      getPurchaseOrgList(
+      getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
