@@ -5,7 +5,6 @@ import InputField from "../../../../_helper/_inputField";
 import { Formik, Form } from "formik";
 import { useSelector } from "react-redux";
 import {
-  getPlantList,
   getWhList,
   getPOStatementLanding,
   getOrderTypeList,
@@ -19,7 +18,7 @@ import * as Yup from "yup";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { useHistory } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 const statusData = [
   { label: "Approved", value: true },
   { label: "Pending", value: false },

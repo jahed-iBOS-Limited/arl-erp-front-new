@@ -12,7 +12,6 @@ import // setIndentStatementAction,
 import {
   // getProcureToPayReportXMLDownload,
   generateExcel,
-  getPlantList,
   getProcureToPayExcelReport,
   getProcureToPayReport,
   getWarehouseList,
@@ -34,7 +33,7 @@ import { InventoryTransactionReportViewTableRow } from "../../../../inventoryMan
 import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
 import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
 import "../style.css";
-import { getPurchaseOrganizationDDL } from "../../../../_helper/_commonApi";
+import { getPlantList, getPurchaseOrganizationDDL } from "../../../../_helper/_commonApi";
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
     if (fromDate) return Schema.required("To date is required");

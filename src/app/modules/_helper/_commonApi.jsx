@@ -1279,3 +1279,12 @@ export const getItemCategoryDDLByTypeId_api = async (
     }
   } catch (error) { }
 };
+
+export const getPlantList = async (userId, accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    setter(res?.data);
+  } catch (error) { }
+};

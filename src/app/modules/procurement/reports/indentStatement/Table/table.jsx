@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
+import { getPlantList, getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
 import ICustomCard from "../../../../_helper/_customCard";
 import IView from "../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../_helper/_inputField";
@@ -16,7 +16,6 @@ import { ItemReqViewTableRow } from "../../../purchase-management/purchaseReques
 import {
   getItemCategoryDDLByTypeApi,
   getItemTypeListDDL_api,
-  getPlantList,
   getPurchaseRequestLanding,
   getWhList,
 } from "../helper";

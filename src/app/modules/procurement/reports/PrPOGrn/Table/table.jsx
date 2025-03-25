@@ -7,7 +7,6 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { Formik, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getPlantList,
   getWhList,
   getPOPrGRNLanding,
 } from "../helper";
@@ -21,7 +20,7 @@ import ReactToPrint from "react-to-print";
 import "../prpogrn.css";
 import { SetReportPrPoGrnAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { getTotalAmount } from "./utils";
-import { getSBU } from "../../../../_helper/_commonApi";
+import { getPlantList, getSBU } from "../../../../_helper/_commonApi";
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
