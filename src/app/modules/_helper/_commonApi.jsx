@@ -1191,7 +1191,7 @@ export const GetOutletProfileTypeAttributes = async (accId, buId, setter) => {
       });
       setter(attributes);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
