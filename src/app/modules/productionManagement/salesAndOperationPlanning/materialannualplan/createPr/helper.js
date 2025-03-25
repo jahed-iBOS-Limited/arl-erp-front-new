@@ -2,22 +2,13 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-export const getSBUList = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
 export const getPurchaseOrgList = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantList = async (userId, accId, buId, setter) => {
@@ -26,7 +17,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWhList = async (userId, accId, buId, plantId, setter) => {
@@ -35,7 +26,7 @@ export const getWhList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPurchaseRequestSearchLanding = async (
@@ -97,33 +88,33 @@ export const getPurchaseRequestLanding = async (
   const requestUrl =
     status !== undefined && fromDate && toDate
       ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
+      0}&WearHouse=${whId ||
+      0}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       : fromDate && toDate
-      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      : fromDate
-      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
+        ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
+        0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
+        0}&WearHouse=${whId ||
+        0}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        : fromDate
+          ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
           0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
           0}&WearHouse=${whId ||
           0}&fromDate=${fromDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      : toDate
-      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      : status !== undefined
-      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&status=${status}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      : `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
+          : toDate
+            ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
+            0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
+            0}&WearHouse=${whId ||
+            0}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+            : status !== undefined
+              ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
+              0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
+              0}&WearHouse=${whId ||
+              0}&status=${status}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+              : `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
+              0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
+              0}&WearHouse=${whId ||
+              0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
 
   try {
     const res = await Axios.get(requestUrl);
@@ -144,7 +135,7 @@ export const getRequestTypeList = async (setter) => {
       label: item?.purchaseRequestTypeName,
     }));
     setter(data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getControllingUnitList = async (accId, buId, setter) => {
@@ -153,7 +144,7 @@ export const getControllingUnitList = async (accId, buId, setter) => {
       `/procurement/PurchaseOrder/GetControllingUnit?AccountId=${accId}&UnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCostCenterList = async (accId, buId, cuId, setter) => {
@@ -163,7 +154,7 @@ export const getCostCenterList = async (accId, buId, cuId, setter) => {
     );
 
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getCostElementList = async (
@@ -178,7 +169,7 @@ export const getCostElementList = async (
     );
 
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getItemList = async (
@@ -210,7 +201,7 @@ export const getItemList = async (
       }
       setter(arrayData);
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getUOMList = async (
@@ -236,7 +227,7 @@ export const getUOMList = async (
       value: res?.data?.value,
       label: res?.data?.label,
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const savePurchaseRequest = async (
@@ -255,7 +246,7 @@ export const savePurchaseRequest = async (
     const obj = {
       title: res.data?.message,
       // code: "00987",
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(obj);
     // toast.success(res?.data?.message || "Submitted successfully");
@@ -355,7 +346,7 @@ export const getReportListPurchaseReq = async (prId, buId, setter) => {
       `/procurement/PurchaseRequest/GetPurchaseRequestInformationByRequestIdPrint?RequestId=${prId}&BusinessUnitId=${buId}`
     );
     setter(res?.data[0]);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const sendEmailPostApi = async (dataObj, cb) => {
