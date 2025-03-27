@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 import NewSelect from "../../../../_helper/_select";
 import IButton from "../../../../_helper/iButton";

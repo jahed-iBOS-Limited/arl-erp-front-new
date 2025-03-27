@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 

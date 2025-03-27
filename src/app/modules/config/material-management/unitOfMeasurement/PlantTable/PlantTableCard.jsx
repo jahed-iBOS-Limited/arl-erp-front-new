@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import Axios from "axios";
@@ -35,7 +35,7 @@ export function PlantTable() {
       setProducts(res?.data);
       setLoading(false);
     } catch (error) {
-     
+
       setLoading(false);
     }
   };

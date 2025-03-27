@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 // import PaginationSearch from './../../../../_helper/_search'
 import ICustomCard from "../../../../_helper/_customCard";

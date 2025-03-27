@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";

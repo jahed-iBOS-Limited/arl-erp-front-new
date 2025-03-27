@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form as FormikForm } from 'formik';
 import { _formatMoney } from '../../../../_helper/_formatMoney';

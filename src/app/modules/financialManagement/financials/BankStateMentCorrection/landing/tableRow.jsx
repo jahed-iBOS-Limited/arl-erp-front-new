@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
@@ -112,7 +112,7 @@ const TableRow = () => {
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    
+
     getBankStatementData(pageNo, pageSize, values);
   };
 

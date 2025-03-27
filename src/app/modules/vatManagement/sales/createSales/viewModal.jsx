@@ -26,8 +26,8 @@ export default function SalesInvoiceModel({
   };
 
   const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
-    var opt = {
+    const element = document.getElementById('pdf-section');
+    const opt = {
       margin: 1,
       filename: `${fileName}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },

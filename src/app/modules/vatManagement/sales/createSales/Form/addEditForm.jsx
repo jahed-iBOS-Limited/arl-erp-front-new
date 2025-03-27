@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -52,7 +50,7 @@ export default function SalesForm() {
 
   const location = useLocation();
 
-  // eslint-disable-next-line no-unused-vars
+   
 
   // get user profile data from store
   const storeData = useSelector((state) => {

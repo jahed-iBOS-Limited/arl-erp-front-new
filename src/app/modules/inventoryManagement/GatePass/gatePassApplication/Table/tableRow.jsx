@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import IView from "../../../../_helper/_helperIcons/_view";
 // import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";

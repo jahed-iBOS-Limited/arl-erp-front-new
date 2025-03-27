@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useRef } from "react";
 import {
   Card,
@@ -60,7 +60,7 @@ export default function AddForm({
         setDisabled(false);
       }
     } else {
-      
+
     }
   };
 

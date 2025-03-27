@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import { Form, Formik } from 'formik';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';

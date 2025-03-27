@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { Formik, Form as FormikForm } from "formik";
@@ -111,7 +111,7 @@ export default function TableRow({ gridDataId }) {
                 setIsShowModal(true);
                 setSubject(`Gate Pass Code: ${initDataForEdit?.gatePassCode}`);
                 setMessage(`Dear
-                        A Gate pass application has been sent from  Gate pass code: ${initDataForEdit?.gatePassCode}. 
+                        A Gate pass application has been sent from  Gate pass code: ${initDataForEdit?.gatePassCode}.
                         Requested Date: ${initDataForEdit?.date}
                         Please take the necessary action`);
               }}

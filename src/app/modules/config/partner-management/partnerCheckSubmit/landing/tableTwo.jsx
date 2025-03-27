@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";

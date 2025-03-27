@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React,{ useState } from "react";
 import { sendEmailPostApi } from "../helper"
 
@@ -15,9 +15,9 @@ export default function ViewForm({
   // const [data, setData] = useState([]);
   const [toCC, settoCC] = useState("");
   const [toBCC, settoBCC] = useState("");
-  
+
   const [attachment, setAttachment] = useState("");
-  
+
 
   function sendEmail(e) {
     sendEmailPostApi({toMail,toCC,toBCC,subject,message,attachment}).then(()=>{
@@ -50,13 +50,13 @@ export default function ViewForm({
               placeholder="CC" name="cc" />
             </div>
             <div className="col-8 form-group mx-auto">
-              <input type="text" 
+              <input type="text"
               onChange={e => settoBCC(e.target.value)}
               value={toBCC}
               className="form-control" placeholder="BCC" name="bcc" />
             </div>
             <div className="col-8 form-group pt-2 mx-auto">
-              <input type="text" 
+              <input type="text"
                onChange={e => setSubject(e.target.value)}
                value={subject}
               className="form-control" placeholder="Subject" name="subject" />
@@ -68,7 +68,7 @@ export default function ViewForm({
               id="" cols="30" rows="8" placeholder="Your message" name="message"></textarea>
             </div>
             <div className="col-8 form-group mx-auto">
-              <input type="file" 
+              <input type="file"
               onChange={e => setAttachment(e.target.files[0])}
               className="form-control" name="my_file" />
             </div>

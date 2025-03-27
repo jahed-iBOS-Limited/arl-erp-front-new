@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useCallback, useState } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -141,8 +141,8 @@ export default function CashJournaEditForm({
       subGLTypeId: item?.partnerType?.reffPrtTypeId,
       subGLTypeName: item?.partnerType?.label,
     }));
-    const isRevenue = (headerData?.accountingJournalTypeId === 1 && values?.revenueCenter && values?.revenueElement) 
-    const isCostCenter = (headerData?.accountingJournalTypeId !== 1 && values?.costCenter && values?.costElement) 
+    const isRevenue = (headerData?.accountingJournalTypeId === 1 && values?.revenueCenter && values?.revenueElement)
+    const isCostCenter = (headerData?.accountingJournalTypeId !== 1 && values?.costCenter && values?.costElement)
     const payload = {
       objHeader: {
         cashJournalId: singleData?.objHeader?.cashJournalId || 0,

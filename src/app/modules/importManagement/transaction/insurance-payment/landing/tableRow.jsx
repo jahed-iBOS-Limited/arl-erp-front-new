@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState } from "react";
 import { getGridData } from "../helper";
 import Loading from "../../../../_helper/_loading";
@@ -173,15 +173,15 @@ export default function TableRow() {
                         label="Plant"
                         onChange={(valueOption) => {
                           setFieldValue("plant", valueOption);
-                       
+
                         }}
                         placeholder="Plant"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    
-                    
+
+
                     <div className="col-lg-2">
                       <label>To Date</label>
                       <InputField
@@ -197,7 +197,7 @@ export default function TableRow() {
                         // disabled={}
                         type="button"
                         onClick={() => {
-                       
+
                         }}
                       >
                         View

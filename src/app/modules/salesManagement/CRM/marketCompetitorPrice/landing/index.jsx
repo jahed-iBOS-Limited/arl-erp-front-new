@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -46,7 +46,7 @@ const MarketCompetitorPriceLanding = () => {
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
       setDDLChannelList(`/oms/CompetitorChannel/GetDDLCompetitorChannelList`);
-     
+
       commonGridData(pageNo, pageSize, initData);
     }
   }, [accId, buId]);
@@ -118,7 +118,7 @@ const MarketCompetitorPriceLanding = () => {
                     touched={touched}
                   />
                 </div>
-                
+
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField

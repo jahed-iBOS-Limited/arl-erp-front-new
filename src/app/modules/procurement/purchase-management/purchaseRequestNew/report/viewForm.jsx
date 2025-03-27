@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React,{ useState , useRef} from "react";
 import { sendEmailPostApi } from "../helper"
 
@@ -14,10 +14,10 @@ export default function ViewForm({
   const [toMail, settoMail] = useState("");
   const [toCC, settoCC] = useState("");
   const [toBCC, settoBCC] = useState("");
-  
+
   const [attachment, setAttachment] = useState("");
   const imageInputRef = useRef();
-  
+
   let cb =() =>{
     settoMail("");
       settoCC("");
@@ -52,13 +52,13 @@ export default function ViewForm({
               placeholder="CC" name="cc" />
             </div>
             <div className="col-8 form-group mx-auto mt-2 ">
-              <input type="text" 
+              <input type="text"
               onChange={e => settoBCC(e.target.value)}
               value={toBCC}
               className="form-control" placeholder="BCC" name="bcc" />
             </div>
             <div className="col-8 form-group pt-2 mx-auto">
-              <input type="text" 
+              <input type="text"
                onChange={e => setSubject(e.target.value)}
                value={subject}
               className="form-control" placeholder="Subject" name="subject" />
@@ -70,8 +70,8 @@ export default function ViewForm({
               id="" cols="30" rows="8" placeholder="Your message" name="message"></textarea>
             </div>
             <div className="col-8 form-group mx-auto mt-2">
-              <input type="file" 
-              ref={imageInputRef} 
+              <input type="file"
+              ref={imageInputRef}
               onChange={e => setAttachment(e.target.files[0])}
               className="form-control" name="my_file" />
             </div>

@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
@@ -70,7 +70,7 @@ export default function CostCenterTypeForm({
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
-    
+
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -99,7 +99,7 @@ export default function CostCenterTypeForm({
       }
     } else {
       setDisabled(false);
-      
+
     }
   };
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useRef } from "react";
 import {
   Card,
@@ -39,7 +39,7 @@ export default function InventoryLocationAddForm({
   }, shallowEqual);
 
   const saveBusinessUnit = async (values, cb) => {
-    
+
     if (!id && values) {
       const businessData = {
         inventoryLocationName: values.inventoryLocationName,
@@ -68,7 +68,7 @@ export default function InventoryLocationAddForm({
         setDisabled(false);
       }
     } else {
-      
+
     }
   };
 

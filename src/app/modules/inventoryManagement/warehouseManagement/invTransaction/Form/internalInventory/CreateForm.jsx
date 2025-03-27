@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { validationSchema, initData } from "./helper";
@@ -35,7 +35,7 @@ export default function CreateForm({
 }) {
   const [rowDto, setRowDto] = useState([]);
   const dispatch = useDispatch();
-  
+
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
 
@@ -52,7 +52,7 @@ export default function CreateForm({
   const [attachment, setAttachment] = useState("");
   // const [attachError, setAttachError] = useState(false);
 
-  
+
   const [currentLocationsDDL, setCurrentLocationsDDL] = useState([]);
   const [toLocationsDDL, setToLocationsDDL] = useState([]);
 
@@ -104,7 +104,7 @@ export default function CreateForm({
       dispatch(slice.setItemDDL([]))
       dispatch(slice.setreferenceTypeDDL([]))
       dispatch(slice.setTransactionTypeDDL([]));
-    } 
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
@@ -372,13 +372,13 @@ export default function CreateForm({
                   <SearchAsyncSelect
                     selectedValue={values.item}
                     handleChange={(valueOption) => {
-                      setFieldValue('item', valueOption)                     
+                      setFieldValue('item', valueOption)
                       onChangeForItem(valueOption);
                       setFieldValue("locaStock", "");
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 3) return []
-                      return axios.get(                      
+                      return axios.get(
                         `/wms/InventoryTransaction/GetItemForInternalTransferInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
                       ).then((res) => {
                         const updateList = res?.data.map(item => ({
@@ -416,7 +416,7 @@ export default function CreateForm({
                     touched={touched}
                   />
                 </div> */}
-               
+
                 <div className="col-lg-2">
                   <ISelect
                     label={
@@ -435,7 +435,7 @@ export default function CreateForm({
                    // isDisabled={true}
                     errors={errors}
                     touched={touched}
-                  /> 
+                  />
                 </div>
                 <div className="col-lg-2">
                   <ISelect
@@ -475,8 +475,8 @@ export default function CreateForm({
                     name="quantity"
                   />
                 </div>
-                
-                
+
+
                 <div className="col-lg-1">
                   <button
                     type="button"

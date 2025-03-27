@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -132,7 +132,7 @@ const InsuranceAmendmentLanding = () => {
                             setType({
                               ...item, type: 'view'
                             })
-                            
+
                             // setSingleItem({
                             //   ...item,
                             //   lcAmendment: {

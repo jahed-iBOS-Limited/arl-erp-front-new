@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -34,7 +34,7 @@ export function ItemSubCategoryTable() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-     
+
     }
   };
 
@@ -87,7 +87,7 @@ export function ItemSubCategoryTable() {
       formatter: (cellContent, row) => {
         return (
           <span
-            className="d-flex align-items-center justify-content-center"           
+            className="d-flex align-items-center justify-content-center"
           >
             <OverlayTrigger
               overlay={

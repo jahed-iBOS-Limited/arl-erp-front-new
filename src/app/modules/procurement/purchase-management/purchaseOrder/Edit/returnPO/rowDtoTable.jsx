@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 import IView from "../../../../../_helper/_helperIcons/_view";
@@ -90,7 +90,7 @@ const RowDtoTable = ({
                         let validNum = validateDigit(e.target.value);
 
                         // let condition = item?.restofQty - item?.invReturnQty
-                          
+
 
                         // if (validNum > condition) {
                         //   alert(
@@ -115,7 +115,7 @@ const RowDtoTable = ({
                             }`
                           );
                           validNum = !item?.newItem ? item?.initOrderQty : 0;
-                        } 
+                        }
 
                         rowDtoHandler("orderQty", validNum, index);
                         // updatePriceStructure(
@@ -153,7 +153,7 @@ const RowDtoTable = ({
                   </td>
                   <td className="text-center align-middle"
                    style={{ width: "100px" }}
-                  > 
+                  >
                     <IInput
                         value={rowDto[index]?.vat}
                         name="vat"

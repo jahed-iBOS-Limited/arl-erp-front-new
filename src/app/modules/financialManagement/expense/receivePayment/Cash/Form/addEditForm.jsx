@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -294,7 +294,7 @@ export default function RecivePaymentCashForm({
       }
     } else {
       setDisabled(false);
-      
+
     }
   };
 

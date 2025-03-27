@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react'
 import { Formik, Form } from 'formik'
 import ReactHTMLTableToExcel from "react-html-table-to-excel";

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ export default function SalesContractView({ contactId }) {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-  
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);

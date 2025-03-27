@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 // import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";

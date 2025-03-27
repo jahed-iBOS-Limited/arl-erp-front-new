@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import {
@@ -578,7 +578,7 @@ const TableRow = () => {
                                 ))}
                             </tbody>
                           </table>}
-                          
+
                         </div>
                       </div>
                     </div>

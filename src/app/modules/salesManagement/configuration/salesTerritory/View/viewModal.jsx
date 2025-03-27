@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 /*
  * Change: Last change assign by Ikbal Hossain
  * Des: Remove Country, District, Division, Thana from create, edit, view

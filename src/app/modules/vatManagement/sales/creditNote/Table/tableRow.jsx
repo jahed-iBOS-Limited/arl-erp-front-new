@@ -126,7 +126,7 @@ export function TableRow() {
                       });
                     }}
                   >
-                    Create new
+                    Create new
                   </button>
                 </CardHeaderToolbar>
               </CardHeader>

@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
+
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { getSingleDataForEdit } from '../helper/Actions';

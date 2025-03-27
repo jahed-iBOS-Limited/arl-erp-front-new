@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import {

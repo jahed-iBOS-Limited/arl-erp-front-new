@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 // import { monthDDL } from "../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";

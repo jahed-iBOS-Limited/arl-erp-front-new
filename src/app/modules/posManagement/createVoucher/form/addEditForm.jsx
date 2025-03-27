@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -33,14 +33,14 @@ export default function CreateVoucherForm() {
 
   const [whName, setWhName] = useState([])
 
-  const setterForCnfAgency = (values) => { 
+  const setterForCnfAgency = (values) => {
       const obj =  {...values,numFromAmount:values?.from,numToAmount:values.to,numRate:values.rate}
       const data = [...cnfRowDto]
       data.push(obj)
       if(Array.isArray(data)){
         setCnfRow(data);
       }
-     
+
   };
 
 
@@ -55,7 +55,7 @@ export default function CreateVoucherForm() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-  
+
   useEffect(()=>{
     if(id){
       getVoucherById(id, setSingleData)
@@ -86,7 +86,7 @@ export default function CreateVoucherForm() {
           getVoucherById(id, setSingleData)
         }
       })
-    }  
+    }
   };
 
 

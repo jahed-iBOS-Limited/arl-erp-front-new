@@ -1,5 +1,5 @@
 /* eslint-disable no-unreachable */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import Form from "./form";
 import { useSelector } from "react-redux";

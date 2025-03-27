@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect, useRef } from "react";
 import Loading from "../../../../_helper/_loading";
 import { getStockReportDetailsData } from "../helper";

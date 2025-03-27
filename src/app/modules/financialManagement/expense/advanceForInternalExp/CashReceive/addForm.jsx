@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -26,7 +26,7 @@ export default function CashReceiveForm() {
   const location = useLocation();
   const params = useParams();
 
-  
+
 
   const storeData = useSelector((state) => {
     return {
@@ -47,7 +47,7 @@ export default function CashReceiveForm() {
     }
   }, [params]);
 
- 
+
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
@@ -71,7 +71,7 @@ export default function CashReceiveForm() {
         };
 
         dispatch(saveCashReceiveData_Action({ data: payload, cb }));
-      
+
     } else {
       setDisabled(false);
     }
@@ -93,7 +93,7 @@ export default function CashReceiveForm() {
 
   return (
     <IForm
-      
+
       title="Repayment for Advance Internal Expense"
       getProps={setObjprops}
       isDisabled={isDisabled}

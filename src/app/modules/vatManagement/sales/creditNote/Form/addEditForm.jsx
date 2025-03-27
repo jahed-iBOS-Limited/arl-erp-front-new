@@ -1,4 +1,4 @@
-// /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+//
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -6,7 +6,7 @@ import {
   editCreditNote,
   GetCreditNoteSingleData,
   getFiscalYearDDL_api,
-  // eslint-disable-next-line no-unused-vars
+
   getItemNameDDL_api,
   getPartnerNameDDL_api,
   // getSalesInvoiceByBranchIdDDL_api,
@@ -62,7 +62,7 @@ export default function CreditNoteCreateForm({
       selectedBusinessUnit?.value,
       setPartnerNameDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   //SingleData to view
@@ -75,7 +75,7 @@ export default function CreditNoteCreateForm({
         setRowDto,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.id]);
 
   // Fiscal Year
@@ -98,7 +98,7 @@ export default function CreditNoteCreateForm({
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (+params?.id) {
-        // eslint-disable-next-line array-callback-return
+
         const editRowDto = rowDto?.map((item, index) => ({
           rowId: item?.rowId || 0,
           taxSalesHeaderId: +params?.id,
@@ -195,13 +195,11 @@ export default function CreditNoteCreateForm({
         saveHandler={saveHandler}
         //disableHandler={disableHandler}
         accountId={profileData?.accountId}
-        selectedBusinessUnit={selectedBusinessUnit?.value}
         isEdit={id || false}
         rowDto={rowDto}
         remover={remover}
         setRowDto={setRowDto}
         profileData={profileData}
-        // eslint-disable-next-line react/jsx-no-duplicate-props
         selectedBusinessUnit={selectedBusinessUnit}
         fiscalYear={fiscalYear}
         rowDtoHandler={rowDtoHandler}

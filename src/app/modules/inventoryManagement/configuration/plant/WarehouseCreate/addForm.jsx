@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useRef } from "react";
 import {
   Card,
@@ -38,7 +38,7 @@ export default function AddFormPlant({
   }, shallowEqual);
 
   const saveWarehouse = async (values, cb) => {
-    
+
     if (!id && values) {
       const plantData = {
         accountId: profileData.accountId,

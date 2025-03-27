@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 import { Formik } from "formik";
 import {
@@ -151,7 +151,7 @@ const CalculationForm = ({ initData }) => {
                     disabled
                   />
                 </div>
-         
+
                 <div className="d-flex">
                   <span style={{ width: "11rem" }}>Stamp</span>
                   <InputField
@@ -163,7 +163,7 @@ const CalculationForm = ({ initData }) => {
                   />
                 </div>
 
-             
+
                 <div className="d-flex my-2">
                   <span style={{ width: "11rem" }}>VAT</span>
                   <InputField

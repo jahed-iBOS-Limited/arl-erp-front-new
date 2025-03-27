@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
@@ -54,10 +54,10 @@ export default function SalesTerritoryTypeForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  
+
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      
+
     }
   }, [selectedBusinessUnit, profileData]);
 
@@ -82,7 +82,7 @@ export default function SalesTerritoryTypeForm({
         dispatch(saveSalesTerritoryType({ data: payload, cb },setDisabled));
       }
     } else {
-      
+
     }
   };
 

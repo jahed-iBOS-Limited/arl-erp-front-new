@@ -19,7 +19,7 @@ export function SBUInitiativeForm({
     params: { id },
   },
 }) {
-  /* eslint-disable no-unused-vars */
+
   const [isDisabled, setDisabled] = useState(false);
   const [sbuDDL, setSbuDDL] = useState([]);
   const [year, setYear] = useState([]);

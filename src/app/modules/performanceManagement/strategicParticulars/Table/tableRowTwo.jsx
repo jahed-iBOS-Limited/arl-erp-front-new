@@ -35,7 +35,7 @@ const TableRowTwo = () => {
   const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
   const [categoryDDL, setCategoryDDL] = useState([]);
-  /* eslint-disable no-unused-vars */
+
   const [corporateDepDDL, setCorporateDepDDL] = useState([]);
   const [type, setType] = useState({value:0, label:"All"});
   const [department, setDepartment] = useState("");
@@ -445,7 +445,7 @@ const TableRowTwo = () => {
                pageSize,
                setPageSize,
              }}
-           />           
+           />
           )}
     </div>
   );

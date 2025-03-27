@@ -21,7 +21,7 @@ export function CorporateInitiativeForm({
     params: { id },
   },
 }) {
-  /* eslint-disable no-unused-vars */
+
   const [isDisabled, setDisabled] = useState(false);
   const [corporateDDL, setCorporateDDL] = useState([]);
   const [year, setYear] = useState([]);
@@ -45,7 +45,7 @@ export function CorporateInitiativeForm({
     getCategoryDDL(setCategory);
   }, []);
 
-  
+
 
   const saveHandler = async (values, cb) => {};
 

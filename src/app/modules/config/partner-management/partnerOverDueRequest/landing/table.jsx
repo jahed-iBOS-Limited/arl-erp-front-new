@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -48,7 +48,7 @@ const getHearderList=(buId)=>{
     "Commitment",
     "Action",
   ];
-  
+
   const readyMixHeader = [
     "SL",
     "Customer Name",
@@ -71,7 +71,7 @@ const getHearderList=(buId)=>{
     "Commitment",
     "Action",
   ];
-  
+
   const mainHeader = [175].includes(buId) ? readyMixHeader : header;
 
   return mainHeader;

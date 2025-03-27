@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import moment from "moment";
 import React, { useState } from "react";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
@@ -24,7 +24,7 @@ const headers = [
 
 export default function OffHireDetails({ obj }) {
   const { gridData, singleItem } = obj;
-   
+
 
   const [loading, setLoading] = useState(false);
 

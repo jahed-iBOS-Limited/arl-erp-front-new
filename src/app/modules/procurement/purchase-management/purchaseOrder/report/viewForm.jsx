@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useRef } from "react";
 import { sendEmailPostApi } from "../helper"
 import * as Yup from "yup";
@@ -15,7 +15,7 @@ export default function ViewForm({
   initData
 }) {
 
-  
+
   const imageInputRef = useRef();
 
   function saveHandler(values, cb) {

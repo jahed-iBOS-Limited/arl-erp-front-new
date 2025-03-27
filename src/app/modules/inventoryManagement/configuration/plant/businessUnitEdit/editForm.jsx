@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
@@ -55,7 +55,7 @@ export default function EditForm({
 
   // save business unit data to DB
   const saveWarehouse = async (values, cb) => {
-    
+
     setDisabled(true);
     const warehouseData = {
       plantId: +id,
@@ -79,7 +79,7 @@ export default function EditForm({
       toast.success("Save successfully", { toastId: shortid() });
       backToWarehouseList();
     } catch (error) {
-     
+
       setDisabled(false);
       toast.error(error?.response?.data?.message, { toastId: shortid() });
     }

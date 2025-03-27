@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";

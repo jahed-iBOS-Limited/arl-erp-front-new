@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import "./rgl.css";
 import { getReportAction } from "./_redux/Actions";

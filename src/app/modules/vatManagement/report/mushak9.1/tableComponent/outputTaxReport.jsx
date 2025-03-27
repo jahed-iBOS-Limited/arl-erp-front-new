@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-pascal-case */
+
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import OutputTaxModal from "../outputTaxModal/outputTaxModal";

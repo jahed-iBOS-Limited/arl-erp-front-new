@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -54,7 +54,7 @@ export default function TransportRouteForm({
     }
   }, [singleData]);
   const dispatch = useDispatch();
-  
+
   //Dispatch single data action and empty single data for create
   useEffect(() => {
     if (id) {

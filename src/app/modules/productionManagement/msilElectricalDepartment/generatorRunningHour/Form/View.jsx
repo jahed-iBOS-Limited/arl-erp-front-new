@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef } from "react";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";

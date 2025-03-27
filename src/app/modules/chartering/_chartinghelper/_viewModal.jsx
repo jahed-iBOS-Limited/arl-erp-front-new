@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import ISpinner from "../../_helper/_spinner";

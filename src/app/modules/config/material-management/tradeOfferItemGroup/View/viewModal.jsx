@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect } from "react";
 import IViewModal from "../../../../_helper/_viewModal";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";

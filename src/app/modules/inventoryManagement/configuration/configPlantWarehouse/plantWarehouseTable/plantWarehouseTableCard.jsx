@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useSelector, shallowEqual } from "react-redux";

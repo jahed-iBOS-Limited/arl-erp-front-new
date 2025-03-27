@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from "yup";
@@ -33,7 +33,7 @@ function _Form({
   setEditQuantity,
   isEdit,
 }) {
-  
+
   return (
     <>
       <Formik
@@ -95,7 +95,7 @@ function _Form({
                   </div>
                 </div>
               </div>
-              <div className="global-form">  
+              <div className="global-form">
                 <div className="row">
                   <div className="col-lg-2">
                     <NewSelect
@@ -112,7 +112,7 @@ function _Form({
                     />
                   </div>
                   {
-                    values?.item?.mrp> -1 && 
+                    values?.item?.mrp> -1 &&
                     <div className="col-lg-2">
                       <label>M.R.P</label>
                       <InputField
@@ -203,9 +203,9 @@ function _Form({
                           <td className="text-center">{item?.numDamageRate}</td>
                           {editQuantity?
                             <td className="text-center">
-                              <input 
+                              <input
                                 style={{width:'120px'}}
-                                type="number" 
+                                type="number"
                                 name="quantity"
                                 defaultValue={item?.numDamageQty}
                                 value={values?.numDamageQty}
@@ -217,19 +217,19 @@ function _Form({
                                     setEditQuantity(false)
                                   }
                                 }}
-                              /> 
+                              />
                             </td>:
                             <td className="text-center">{item?.numDamageQty}</td>
                           }
                           <td className="text-right" style={{display: 'flex', justifyContent: 'space-around'}}>
                             <IDelete remover={remover} id={item?.itemName} />
                             {isEdit?
-                              <button 
+                              <button
                                 style={{padding:0, border:0}}
                                 onClick={(e)=>{
                                   e.preventDefault();
                                   setEditQuantity(true);
-                                }} 
+                                }}
                               >
                                 <IEdit />
                               </button>
@@ -237,7 +237,7 @@ function _Form({
                           </td>
                         </tr>
                       ))}
-                      
+
                     </tbody>
                   </table>
                 </div>
@@ -256,7 +256,7 @@ function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
-            
+
         )}
       </Formik>
     </>

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { put, takeLatest } from "redux-saga/effects";

@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useEffect, useState } from "react";
 import { Formik, Field, Form } from 'formik'
 import * as Yup from 'yup'
@@ -107,7 +107,7 @@ export function TableRow(props) {
                             onChangeForAssetReceiveReport(e.target.value)
                             setEmpType(+e.target.value)
                           }}
-                          
+
                           value="1" />
                          Assign By
                       </label>

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import ICustomCard from "../../../../_helper/_customCard";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
@@ -112,7 +112,7 @@ const LeaveApprovalLanding = () => {
         }
       },
       noAlertFunc: () => {
-      
+
       },
     };
     IConfirmModal(confirmObject);
@@ -173,7 +173,7 @@ const LeaveApprovalLanding = () => {
         });
       },
       noAlertFunc: () => {
-        
+
       },
     };
     IConfirmModal(confirmObject);

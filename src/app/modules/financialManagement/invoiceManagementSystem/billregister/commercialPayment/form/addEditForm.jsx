@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -40,7 +40,7 @@ export function CommercialPayment() {
   const [objProps] = useState({});
   const [totalCount, setTotalCount] = useState("");
   const { state } = useLocation();
-  
+
 
   const [supplierDDL, setSupplierDDL] = useState([]);
 

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
@@ -194,7 +194,7 @@ export default function ExportPaymentPostingForm({
           ? payloadForApprove
           : {};
 
-      
+
 
       editExportPaymentPosting(payload, setLoading, () => {
         getData(landingFormValues);

@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useEffect } from 'react';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';

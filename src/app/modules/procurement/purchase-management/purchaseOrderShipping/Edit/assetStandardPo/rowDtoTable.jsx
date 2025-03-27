@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import Select from "react-select";
 import customStyles from "../../../../../selectCustomStyle";
@@ -272,7 +272,7 @@ const RowDtoTable = ({
                     )}
                   </tr>
                   </>
-                  
+
                 ))}
               </tbody>
             </table>

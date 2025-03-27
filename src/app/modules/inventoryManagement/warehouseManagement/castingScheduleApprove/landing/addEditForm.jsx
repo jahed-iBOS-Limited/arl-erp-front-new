@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";

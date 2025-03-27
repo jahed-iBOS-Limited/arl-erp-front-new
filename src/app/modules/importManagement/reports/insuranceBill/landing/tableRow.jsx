@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { Formik } from "formik";
@@ -22,119 +22,119 @@ const TableRow = () => {
 
   const header = [
   {
-    name: 
+    name:
     "SL",
     style: {
       minWidth: "50px",
     },
   },
   {
-    name: 
+    name:
     "LC Number",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Date",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "PO No",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Cover Note No",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "CN Date",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Policy No",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Date",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Invoice Amt.",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Currency",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Insured BDT",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Premium  VAT Stamp",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Total  Discount",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Billing  Store",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Bill ID",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Payment,",
     style: {
       minWidth: "100px",
     },
   },
   {
-    name: 
+    name:
     "Discount Rcv.",
     style: {
       minWidth: "100px",

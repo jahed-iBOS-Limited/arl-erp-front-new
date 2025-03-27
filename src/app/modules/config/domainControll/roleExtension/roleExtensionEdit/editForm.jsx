@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
@@ -44,7 +44,7 @@ export default function RoleEditForm({
   }, shallowEqual);
 
   const setRowdataListFromChild = (data) => {
-   
+
     // var uniq = uniqBy([...rowdataList, data], function(itm) {
     //   return itm.organizationUnitReffName;
     // });
@@ -55,10 +55,10 @@ export default function RoleEditForm({
     //   return ""
     // }
     setRowdataList([...rowdataList, data]);
-   
-    
+
+
   };
-  
+
   const deleteFromChild = (payload) => {
     let deleteItem = rowdataList.filter(
       (p) => p.organizationUnitReffName !== payload

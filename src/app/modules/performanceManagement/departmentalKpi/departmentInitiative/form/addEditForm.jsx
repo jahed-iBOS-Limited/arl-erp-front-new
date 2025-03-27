@@ -22,7 +22,7 @@ export function DepartmentInitiativeForm({
     params: { id },
   },
 }) {
-  /* eslint-disable no-unused-vars */
+
   const [isDisabled, setDisabled] = useState(false);
   const [departmentDDL, setDepartmentDDL] = useState([]);
   const [year, setYear] = useState([]);
@@ -46,7 +46,7 @@ export function DepartmentInitiativeForm({
     getCategoryDDL(setCategory);
   }, []);
 
-  
+
 
   const saveHandler = async (values, cb) => {};
 

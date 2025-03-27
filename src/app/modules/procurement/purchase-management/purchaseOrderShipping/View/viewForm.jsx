@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import ICustomTable from "../../../../_helper/_customTable";
 import { IInput } from "../../../../_helper/_input";

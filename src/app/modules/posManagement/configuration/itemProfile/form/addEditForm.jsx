@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import Form from "./form";
 import { useSelector, shallowEqual } from "react-redux";
@@ -49,7 +49,7 @@ const ItemProfileForm = () => {
       setRowDto([])
     }
   }
-  
+
 
   const remover = (itemName) => {
     const filterData= rowDto.filter(item => item.itemName !== itemName)
@@ -61,7 +61,7 @@ const ItemProfileForm = () => {
     rowData[index].mrp = parseFloat(value)
     rowData[index].isUpdated = true
     setRowDto(rowData)
-  }  
+  }
 
   const updateRate = (value, index) => {
     const rowData=[...rowDto]
@@ -75,14 +75,14 @@ const ItemProfileForm = () => {
     rowData[index].barCode = value
     rowData[index].isUpdated = true
     setRowDto(rowData)
-  }  
+  }
 
   const updateExpiredDate = (value, index) => {
     const rowData=[...rowDto]
     rowData[index].expiredDate = value
     rowData[index].isUpdated = true
     setRowDto(rowData)
-  }  
+  }
 
   return (
     <>

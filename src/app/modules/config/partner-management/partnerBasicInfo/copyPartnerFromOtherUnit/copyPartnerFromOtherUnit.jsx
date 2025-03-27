@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -145,7 +145,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <th>Bank Account Number</th>
                           <th>Bank Name</th>
                           <th>Branch Name</th>
-                         
+
                           <th style={{ width: "60px" }}>Actions</th>
                         </tr>
                       </thead>
@@ -158,24 +158,24 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           </td>
                           <td>
                             <div className="pl-2">{td?.businessPartnerCode} </div>
-                          </td>                            
+                          </td>
                           <td>
                             <div className="pl-2">{td?.businessPartnerName} </div>
-                          </td>    
-                          <td> {td?.adress} </td>                        
+                          </td>
+                          <td> {td?.adress} </td>
                           <td>
                             <div className="pl-2">{td?.bankAccountName} </div>
-                          </td>                            
+                          </td>
                           <td>
                             <div className="pl-2">{td?.bankAccountNo} </div>
-                          </td>                            
+                          </td>
                           <td>
                             <div className="pl-2">{td?.bankName} </div>
-                          </td>                            
+                          </td>
                           <td>
                             <div className="pl-2">{td?.branchName} </div>
-                          </td>                            
-                          
+                          </td>
+
                           <td>
                             <div className="d-flex justify-content-around">
                               <span
@@ -210,10 +210,10 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                   />
                 )}
               </div>
-              {/* <Invoice 
+              {/* <Invoice
                 title="Invoice Recept"
-                show={showInvoceModal} 
-                onHide={()=> setShowInvoiceModal(false)} 
+                show={showInvoceModal}
+                onHide={()=> setShowInvoiceModal(false)}
                 salesId={salesId}
               /> */}
             </Form>

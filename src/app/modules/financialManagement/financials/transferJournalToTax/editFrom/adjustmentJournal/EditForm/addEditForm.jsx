@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual} from "react-redux";
 import Form from "./form";
@@ -91,7 +91,7 @@ export default function AdjustmentJournalCreateForm({journalId, viewData, sbu, s
     }))
 
     commonTransferJournal({row:payload},  ()=>{setShow(false)});
-    
+
   };
 
   const rowDtoHandler = (index, name, value) => {

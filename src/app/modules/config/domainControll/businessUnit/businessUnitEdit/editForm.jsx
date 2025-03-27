@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
@@ -120,7 +120,7 @@ export default function EditForm({
         backHandler();
         setData(initData);
       } catch (error) {
-       
+
         toast.error(error?.response?.data?.message, { toastId: shortid() });
         setDisabled(false);
       }

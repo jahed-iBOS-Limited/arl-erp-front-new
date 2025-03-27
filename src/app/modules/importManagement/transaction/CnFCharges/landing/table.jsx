@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -80,7 +80,7 @@ const CnFChargesLanding = () => {
         <CardBody>
           {isloading && <Loading />}
           <ICustomTable ths={header}>
-    
+
             <tr>
               <td style={{ width: "30px" }} className="text-center">
                 1

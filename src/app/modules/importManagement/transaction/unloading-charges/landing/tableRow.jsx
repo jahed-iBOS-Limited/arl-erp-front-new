@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState } from "react";
 import { getGridData } from "../helper";
 import Loading from "../../../../_helper/_loading";

@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 
-/* 
+
+/*
 
 Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
@@ -69,14 +69,14 @@ export default function BackCalculationForm() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
- 
+
 
   useEffect(() => {}, []);
 
   const saveHandler = (values, cb) => {
     if(!values?.bomName) return toast.warn("Bom Name is required")
     if(!values?.goodQty) return toast.warn("Good Quantity is required")
-    
+
     if (values && profileData?.accountId && selectedBusinessUnit) {
       if (params?.id) {
         const objRowData = rowData?.map((item, index) => {

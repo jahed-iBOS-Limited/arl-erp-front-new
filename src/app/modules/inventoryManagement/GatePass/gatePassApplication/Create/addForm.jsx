@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -68,7 +68,7 @@ export default function AddEditFrom({
         item: values?.item,
         uom: values?.uom,
         quantity: values?.quantity,
-        returnable: values?.returnable ? true : false,        
+        returnable: values?.returnable ? true : false,
         strRemarks: values?.rowRemarks || ""
       };
       setRowDto([...rowDto, newValue]);

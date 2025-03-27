@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -182,7 +182,7 @@ export default function AddEditForm() {
   const saveHandler = async (values, cb) => {
     if (!uploadImage[0]?.id && !values?.attachment) {
       return toast.error("Please upload a document");
-    } 
+    }
     if (values?.lcMarginValue > 0 && !values?.lcMarginDueDate) {
       return toast.warn("LC Margine Due Date is required");
     }

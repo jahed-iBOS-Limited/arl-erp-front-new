@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { Fragment } from "react";
 import moment from "moment";
 import { colorList } from "./helper";

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
@@ -94,7 +94,7 @@ export default function EmailViewForm({
                );
             }
          // }
-         
+
       });
 
       // const promiseAdvice = new Promise((resolve, reject) => {
@@ -213,8 +213,8 @@ export default function EmailViewForm({
                            {errors.message && touched.message && errors.message}
                         </div>
                         <div className="col-8 form-group mx-auto mt-2">
-                           {/* <input type="file" 
-              ref={imageInputRef} 
+                           {/* <input type="file"
+              ref={imageInputRef}
               onChange={e => setAttachment(e.target.files[0])}
               className="form-control" name="file" /> */}
                         </div>
@@ -262,7 +262,7 @@ export default function EmailViewForm({
                                        style={{ display: 'none' }}
                                     />
                                  </div>
-                                 {headerAttachment && 
+                                 {headerAttachment &&
                                   <div className='mt-5 ml-5'>
                                     <IView
                                       title={'Attachment'}

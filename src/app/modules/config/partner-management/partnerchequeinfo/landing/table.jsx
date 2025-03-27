@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from "react";
 import { useDispatch } from "react-redux";
 import { _dateTimeFormatter } from "../../../../_helper/_dateFormate";

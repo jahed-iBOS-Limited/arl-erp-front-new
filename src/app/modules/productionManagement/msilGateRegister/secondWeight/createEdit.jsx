@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -914,7 +914,7 @@ export default function SecondWeightCreateEdit({ weight }) {
           >
             <Report weightmentId={weightmentId} />
           </IViewModal>
-          
+
         </div>
       </>
     </IForm>

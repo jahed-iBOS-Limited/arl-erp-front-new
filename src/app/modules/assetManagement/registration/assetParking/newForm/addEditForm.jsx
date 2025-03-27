@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -95,7 +95,7 @@ export default function AssetParkingCreateForm({
   const [uomList, setUOMList] = useState([]);
   const [brtaList, setbrtaList] = useState([]);
   const [categoryDDL, setCategoryDDL] = useState([])
-  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet() 
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet()
 
   useEffect(() => {
     getDepartmenttDDL(
@@ -171,8 +171,8 @@ export default function AssetParkingCreateForm({
   };
 
   const saveHandler = async (values, cb) => {
-    
-    
+
+
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
         assetId:0,

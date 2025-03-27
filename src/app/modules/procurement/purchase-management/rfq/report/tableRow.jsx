@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { Formik, Form as FormikForm } from "formik";
@@ -109,7 +109,7 @@ export function TableRow({ prId }) {
                             style={{ width: "25px", paddingRight: "5px" }}
                             src={printIcon}
                             alt="print-icon"
-                          /> 
+                          />
                           Print
                 </button>
               )}
@@ -224,7 +224,7 @@ export function TableRow({ prId }) {
                               onClick={() => {
                                 setIsShowModal(true)
                                 setSubject(`Request for Quotation Code: ${singleData?.objHeader?.requestForQuotationCode}`)
-                                setMessage(`Dear 
+                                setMessage(`Dear
                                        A Request for Quotation has been sent from  Request for Quotation Code: ${singleData?.objHeader?.requestForQuotationCode}
                                    Please Take the necessary action`)
                                 settoMail(td?.email)
@@ -237,7 +237,7 @@ export function TableRow({ prId }) {
                         );
                       })}
                     </ICustomTable>
-            
+
 
                   <div>
                     <IViewModal

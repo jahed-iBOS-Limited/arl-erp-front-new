@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useState, useRef, useEffect } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import ReactToPrint from "react-to-print";
@@ -76,8 +76,8 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                       <div className="my-3 d-flex justify-content-between">
                         <div style={{transform: "translateY(21px)"}}>
                           <span className="font-weight-bold mr-2">
-                          Reference :  <IView 
-                                            title="View Attachment" 
+                          Reference :  <IView
+                                            title="View Attachment"
                                             clickHandler={() => {
                                               setIsModal(true)
                                             }} />
@@ -196,7 +196,7 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
           )}
         </Formik>
       </ICustomCard>
-      <IViewModal 
+      <IViewModal
         show={isModal}
         onHide={() => setIsModal(false)}
       >

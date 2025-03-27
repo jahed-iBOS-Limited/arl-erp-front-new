@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';

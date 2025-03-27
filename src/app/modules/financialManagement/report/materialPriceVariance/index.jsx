@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -129,7 +129,7 @@ function MaterialPriceVariance() {
                       </tbody>
                     </table>
 </div>
-                  
+
                   </div>
                 </div>
               </CardBody>

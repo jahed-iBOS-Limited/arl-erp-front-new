@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import ICustomCard from "../../../../_helper/_customCard";
 import { useSelector, shallowEqual } from "react-redux";

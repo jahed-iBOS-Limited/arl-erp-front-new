@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -121,7 +121,7 @@ export default function TransportRouteForm({
     let ccdata = rowDto.filter((itm) => itm.transportZoneId !== id);
     setRowDto(ccdata);
   };
-  
+
   return (
     <IForm
       title={id ? "Edit Transport Route" : "Create Transport Route"}

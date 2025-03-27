@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { isNaN, toArray } from "lodash";
 import React, { useState } from "react";
 import ReactSpeedometer from "react-d3-speedometer";

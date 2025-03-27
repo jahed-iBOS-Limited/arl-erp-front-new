@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import ReactToPrint from "react-to-print";

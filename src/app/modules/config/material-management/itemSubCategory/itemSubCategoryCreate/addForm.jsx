@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useRef } from "react";
 import {
   Card,
@@ -40,7 +40,7 @@ export default function ItemSubCategoryAddForm({
 
   const saveSubItemCategory = async (values, cb) => {
     setDisabled(true);
-    // 
+    //
     if (!id && values) {
       // const businessData = {
       //   accountId: profileData.accountId,
@@ -52,7 +52,7 @@ export default function ItemSubCategoryAddForm({
       //   lastActionDateTime: "2020-07-08T09:19:27.446Z",
       // };
       const itemSubCategoryPayload = {
-        sl: 0,        
+        sl: 0,
         itemMasterubCategoryId: 0,
         accountId: profileData?.accountId,
         itemMasterSubCategoryCode: "",

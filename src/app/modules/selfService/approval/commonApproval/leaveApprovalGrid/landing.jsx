@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -154,7 +154,7 @@ const LeaveApprovalGrid = () => {
     //
   };
 
-  
+
 
   useEffect(() => {
     getNewApplicationData(

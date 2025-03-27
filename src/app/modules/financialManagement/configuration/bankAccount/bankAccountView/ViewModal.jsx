@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { getViewModalData } from "../_redux/Actions";

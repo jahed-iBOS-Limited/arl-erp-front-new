@@ -35,6 +35,9 @@ export default tseslint.config(
       'no-undef': 'off',
       'no-constant-condition': 'off',
       'jsx-a11y/no-distracting-elements': 'off',
+      'no-empty': 'off',
+      'no-var': 'off',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 );

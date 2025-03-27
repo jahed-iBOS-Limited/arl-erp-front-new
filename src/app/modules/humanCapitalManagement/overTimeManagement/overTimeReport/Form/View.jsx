@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useSelector } from "react-redux";

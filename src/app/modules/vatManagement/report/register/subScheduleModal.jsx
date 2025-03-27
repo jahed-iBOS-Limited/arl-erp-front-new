@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';

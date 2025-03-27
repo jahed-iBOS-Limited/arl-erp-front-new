@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import NewSelect from './../../../../_helper/_select';
 import InputField from './../../../../_helper/_inputField';

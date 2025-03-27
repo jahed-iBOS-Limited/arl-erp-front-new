@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -40,7 +40,7 @@ const DamageCategoryLanding = () => {
 
   useEffect(() => {
     if(profileData?.accountId && selectedBusinessUnit?.value){
-    getDamageTypeDDL(profileData?.accountId, selectedBusinessUnit?.value, setDamageTypeDDL)         
+    getDamageTypeDDL(profileData?.accountId, selectedBusinessUnit?.value, setDamageTypeDDL)
   }
   }, [profileData?.accountId, selectedBusinessUnit?.value])
 

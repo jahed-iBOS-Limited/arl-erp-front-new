@@ -442,7 +442,6 @@ export default function FormCmp({
                                 type='number'
                                 name='returnSd'
                                 placeholder='Return SD'
-                                // eslint-disable-next-line react/jsx-no-duplicate-props
                                 value={item?.returnSd}
                                 step='any'
                                 max={item?.salesSd}

@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -69,7 +69,7 @@ export default function TransportZoneForm({
         dispatch(saveTransportZone({ data: payload, cb },setDisabled));
       }
     } else {
-      
+
     }
   };
   // const disableHandler = (cond) => {

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -36,7 +36,7 @@ export default function CertificateNameTable() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-  
+
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
     shallowEqual

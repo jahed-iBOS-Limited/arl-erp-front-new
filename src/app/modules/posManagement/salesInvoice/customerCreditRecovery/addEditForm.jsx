@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import Form from "./form";
 import { useSelector, shallowEqual } from "react-redux";
@@ -42,7 +42,7 @@ const CustomerCreditRecoveryForm = () => {
     await customerCreditRecovery(rowDto)
     setRowDto([])
   }
-  
+
   const remover = (itemName) => {
     const filterData= rowDto.filter(item => item.itemName !== itemName)
     setRowDto(filterData);
@@ -52,7 +52,7 @@ const CustomerCreditRecoveryForm = () => {
     const rowData=rowDto
     rowData[index].recoverAmount = parseInt(value)
     setRowDto(rowData)
-  }  
+  }
 
   return (
     <>

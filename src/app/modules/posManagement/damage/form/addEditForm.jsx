@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import Form from "./form";
 import { useSelector, shallowEqual } from "react-redux";
@@ -83,7 +83,7 @@ const DamageEntryForm = () => {
     }
 
   }
-  
+
   const setter = (payload) => {
     if (isUniq("itemName", payload.itemName, rowDto)) {
       setRowDto([...rowDto, payload]);
@@ -99,7 +99,7 @@ const DamageEntryForm = () => {
     const rowData=rowDto
     rowData[index].numDamageQty = parseInt(value)
     setRowDto(rowData)
-  }  
+  }
 
   return (
     <>

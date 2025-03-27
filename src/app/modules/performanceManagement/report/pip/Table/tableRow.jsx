@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -102,7 +102,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, yearDDL]);
-  
+
 
   const backHandler = () => {
     history.goBack();

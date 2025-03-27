@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
@@ -172,7 +172,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                       />
                     </div>
 
-                    
+
                     {[5, 7].includes(registerTypeId) && (
                       <div className="col-md-3 col-lg-2">
                         <InputField
@@ -226,7 +226,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                         />
                       </div>
                     )}
-                    
+
                     <div className="col-lg-1">
                       <ButtonStyleOne
                         label="View"

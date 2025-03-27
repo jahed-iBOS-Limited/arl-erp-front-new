@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import { Form, Formik } from "formik";
 import React from "react";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";

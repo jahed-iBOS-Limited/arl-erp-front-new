@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { Formik } from "formik";
@@ -160,7 +160,7 @@ const TableRow = () => {
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
-              
+
               <Form className="form form-label-right">
                 <div className="row global-form">
                   <div className="col-lg-3">

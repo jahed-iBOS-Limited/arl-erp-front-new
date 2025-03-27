@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import Loading from '../../../../../_helper/_loading';

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from 'react'
 import { TableRow } from './tableRow'
 import { ITable } from '../../../../_helper/_table'

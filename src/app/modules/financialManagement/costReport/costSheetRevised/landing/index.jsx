@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import { Form, Formik } from "formik";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -207,7 +207,7 @@ function CostSheetRevisedLanding() {
                             </td>
                             <td>
                               <div className="text-right">
-                              {_formatMoney(item?.numAmount,0)}     
+                              {_formatMoney(item?.numAmount,0)}
                               </div>
                             </td>
                           </tr>
@@ -217,19 +217,19 @@ function CostSheetRevisedLanding() {
                           <td></td>
                           <td>
                           <div className="text-right">
-                              {gridData?.reduce((acc, curr) => acc + curr?.numQty, 0)}     
+                              {gridData?.reduce((acc, curr) => acc + curr?.numQty, 0)}
                             </div>
                           </td>
                           <td>
                             <div className="text-right">
-                              {_formatMoney(gridData?.reduce((acc, curr) => acc + curr?.numAmount, 0),2)}     
+                              {_formatMoney(gridData?.reduce((acc, curr) => acc + curr?.numAmount, 0),2)}
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
           </div>
-                    
+
                   </div>
                 )}
               </Form>

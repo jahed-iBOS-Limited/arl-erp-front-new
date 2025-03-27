@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
@@ -96,7 +96,7 @@ const RowDtoTable = ({
                         let validNum = validateDigit(e.target.value);
 
                         let condition = item?.restofQty - item?.invReturnQty
-                          
+
 
                         if (validNum > condition) {
                           alert(

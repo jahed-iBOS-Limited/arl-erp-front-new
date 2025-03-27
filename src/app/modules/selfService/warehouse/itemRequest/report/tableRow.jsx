@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { Formik, Form as FormikForm } from "formik";
@@ -121,7 +121,7 @@ export function ItemReqViewTableRow({ IrId }) {
                               ?.strItemRequestCode
                           }
                         </span>{" "}
-                        
+
                         Request Date:
                         <sapn className='font-weight-bold mr-2 ml-1'>
                           {_dateFormatter(
@@ -156,7 +156,7 @@ export function ItemReqViewTableRow({ IrId }) {
                           </tr>
                         </thead>
                         <tbody>
-                          
+
                           {itemReqReport?.objRow?.map(
                             (data, i) => (
                               <tr>
@@ -167,7 +167,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                 <td className='text-right'>
                                   {data?.requestQuantity.toFixed(4)}
                                 </td>
-                                
+
                                 <td className='text-right'>
                                   {data?.issueQty}
                                 </td>
@@ -185,7 +185,7 @@ export function ItemReqViewTableRow({ IrId }) {
                               itemReqReport?.objHeader
                                 ?.actionByNameDesignationDept
                             }{" "}
-                           
+
                           </p>
                         </div>
                         <div className='d-flex'>
@@ -195,14 +195,14 @@ export function ItemReqViewTableRow({ IrId }) {
                               itemReqReport?.objHeader
                                 ?.approveByName
                             }{" "}
-                            
+
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                   
+
                   </div>
                 </div>
               </FormikForm>

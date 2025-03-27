@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useState, useRef } from "react";
 import {
   Card,
@@ -54,7 +54,7 @@ export default function ItemCategoryAddForm({
       // };
 
       const itemCategoryCreatePayload = {
-        sl: 0,          
+        sl: 0,
         itemMasterCategoryId: 0,
         accountId: profileData?.accountId,
         itemMasterCategoryCode: "",

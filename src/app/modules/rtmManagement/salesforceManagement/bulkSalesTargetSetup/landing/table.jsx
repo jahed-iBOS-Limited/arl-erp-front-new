@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-imports */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState } from 'react';
 import {
   Card,

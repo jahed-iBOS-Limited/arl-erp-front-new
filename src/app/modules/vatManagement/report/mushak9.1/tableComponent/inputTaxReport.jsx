@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {

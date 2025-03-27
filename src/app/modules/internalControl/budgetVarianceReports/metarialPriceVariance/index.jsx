@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Formik } from "formik";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -102,7 +102,7 @@ function MaterialPriceVariance() {
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast} 
+                        checked={values?.isForecast}
                       onChange={(e)=>{
                         setFieldValue("isForecast", e.target.checked);
                       }}

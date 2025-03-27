@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -69,7 +69,7 @@ function TripCostReportReport() {
         ? vehicleEfficiencyDetails
         : typeId === 4
         ? bridgeTollReport
-        : typeId === 5 
+        : typeId === 5
         ? vehicleStatusReport
         : "";
     return report_id;

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -143,7 +143,7 @@ export default function AchievementTable() {
       return findWeight(dataOne)
 
     }
-    
+
   }
 
   //userRole Permission end

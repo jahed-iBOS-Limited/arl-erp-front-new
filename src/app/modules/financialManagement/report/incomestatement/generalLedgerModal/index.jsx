@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ICustomCard from "../../../../_helper/_customCard";
 import ReactToPrint from "react-to-print";

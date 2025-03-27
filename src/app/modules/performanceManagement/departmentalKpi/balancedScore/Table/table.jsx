@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import Select from "react-select";
@@ -331,7 +331,7 @@ export default function BalancedTable() {
                 to: to,
                 year,
                 reportIndex:item?.flatIndex
-              }))                             
+              }))
               window.open(
                 `${process.env.PUBLIC_URL}/departmental-balanced-scorecard`,
                 "_blank"

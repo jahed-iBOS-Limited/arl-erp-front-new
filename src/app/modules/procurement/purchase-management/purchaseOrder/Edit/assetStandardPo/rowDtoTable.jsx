@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import Select from "react-select";
 import customStyles from "../../../../../selectCustomStyle";
@@ -143,7 +143,7 @@ const RowDtoTable = ({
                             }`
                           );
                           validNum = !item?.newItem ? item?.initOrderQty : 0;
-                        }             
+                        }
                         rowDtoDynamicHandler("orderQty", validNum, index,
                           rowDto,
                           setRowDto);
