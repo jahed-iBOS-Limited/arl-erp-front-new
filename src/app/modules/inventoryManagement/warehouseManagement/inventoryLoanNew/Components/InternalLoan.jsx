@@ -11,6 +11,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { debounce } from "lodash";
 
 const initData = {
   sbu: "",
@@ -45,6 +46,8 @@ export default function InternalLoan({ loanType }) {
   const [partnerDDL, getpartnerDDl, partnerDDLloader] = useAxiosGet();
   const [referenceDDl, getReferenceDDL, referenceDDLloader] = useAxiosGet();
   const [availableStock, getAvailableStock] = useAxiosGet();
+  const [isDisabled, setDisabled] = useState(false);
+
 
   const saveHandler = (values, cb) => {
     if (transactionType === 1) {
@@ -189,13 +192,24 @@ export default function InternalLoan({ loanType }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setDisabled(true);
+        debounceHandelar({
+          setLoading: setDisabled,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -209,7 +223,7 @@ export default function InternalLoan({ loanType }) {
         touched,
       }) => (
         <>
-          {(plantDDLloader ||
+          {(isDisabled || plantDDLloader ||
             warehouseDDLloader ||
             saveDataLoader ||
             sbuDDLloader ||
