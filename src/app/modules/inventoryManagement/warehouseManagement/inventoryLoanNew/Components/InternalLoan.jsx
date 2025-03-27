@@ -100,8 +100,8 @@ export default function InternalLoan({ loanType }) {
         strItemCode: values?.item?.code,
         strUomName: values?.uom?.label,
         numItemQty: +values?.quantity,
-        numItemRate: +values?.itemRate || 0,
-        numItemAmount: +values?.itemRate * +values?.quantity || 0,
+        numItemRate: parseFloat((values?.itemRate || 0).toFixed(4)),
+        numItemAmount: parseFloat(((values?.itemRate || 0) * (values?.quantity || 0)).toFixed(4)),
         strNarration: values?.remarks,
         intActionBy: profileData?.userId,
         intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
@@ -510,10 +510,11 @@ export default function InternalLoan({ loanType }) {
                         onChange={(valueOption) => {
                           console.log("valueOption", valueOption);
                           setFieldValue("reference", valueOption);
-                          setFieldValue(
-                            "quantity",
-                            Math.abs(valueOption?.itemQty)
-                          );
+                          // setFieldValue(
+                          //   "quantity",
+                          //   Math.abs(valueOption?.itemQty)
+                          // );
+                          setFieldValue("quantity", valueOption?.itemQty || 0);
                         }}
                         errors={errors}
                         touched={touched}
