@@ -3,20 +3,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-export const employeEnroll_Api = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modify = res?.data?.map((itm) => ({
-        value: itm.value,
-        label: `${itm.label} (${itm.value})`,
-      }));
-      setter(modify);
-    }
-  } catch (error) { }
-};
+
 export const getComplainStatus = async (buId, setter) => {
   try {
     const res = await axios.get(
@@ -186,21 +173,7 @@ export const updateComplain = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
-export const investigateComplainApi = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.put(
-      `/oms/CustomerPoint/InvestigateComplain`,
-      payload
-    );
-    cb && cb();
-    toast.success(res?.data?.message);
-    setLoading(false);
-  } catch (err) {
-    toast.error(err?.response?.data?.message);
-    setLoading(false);
-  }
-};
+
 export const customerListDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
@@ -249,7 +222,7 @@ export const getItemSalesByChanneldDDLApi = async (
       `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
     );
     setter(res?.data || []);
-  } catch (error) {
+  } catch (e) {
     setter([]);
   }
 };

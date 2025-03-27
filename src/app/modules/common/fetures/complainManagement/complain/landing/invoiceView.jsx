@@ -20,7 +20,7 @@ function InvoiceView({ clickRowData }) {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   useEffect(() => {
     if (clickRowData?.complainId) {
@@ -70,10 +70,10 @@ function InvoiceView({ clickRowData }) {
                       clickRowData?.status === "Open"
                         ? "red"
                         : clickRowData?.status === "Delegate"
-                        ? "blue"
-                        : clickRowData?.status === "Investigate"
-                        ? "orrage"
-                        : "green",
+                          ? "blue"
+                          : clickRowData?.status === "Investigate"
+                            ? "orrage"
+                            : "green",
                   }}
                 >
                   {clickRowData?.status}
@@ -171,7 +171,7 @@ function InvoiceView({ clickRowData }) {
                   <b>Delegate To:</b> {singleData?.delegateToName}
                 </p>
                 <p>
-                  <b> Remarks:</b> {singleData?.statusRemarks}
+                  <b> Remarks:</b> {singleData?.statusRemarks || ""}
                 </p>
                 {singleData?.respondentTypeName === "Employee" && (
                   <p>
@@ -181,7 +181,7 @@ function InvoiceView({ clickRowData }) {
                 {singleData?.respondentTypeName === "End User" && (
                   <>
                     <p>
-                      <b>Territory Name:</b> {singleData?.territoryName}
+                      <b>Territory Name:</b> {singleData?.territoryName || ""}
                     </p>
                     <p>
                       <b>Area Name:</b> {singleData?.areaName}

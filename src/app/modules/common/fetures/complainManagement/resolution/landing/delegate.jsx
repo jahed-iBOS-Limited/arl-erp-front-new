@@ -158,22 +158,23 @@ function DelegateForm({ clickRowData, landingCB }) {
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
+                gap: 0,
                 justifyContent: 'space-between',
               }}
             >
               <div>
                 <p>
-                  <b>Issue Id:</b> {singleData?.complainNo}
+                  <b>Issue Id:</b> {singleData?.complainNo || ''}
                 </p>
                 <p>
-                  <b>Issue Type:</b> {singleData?.complainCategoryName}
+                  <b>Issue Type:</b> {singleData?.complainCategoryName || ''}
                 </p>
                 <p>
                   <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
                 </p>
                 <p>
                   <b>Occurrence Date Time: </b>{' '}
-                  {singleData?.requestDateTime &&
+                  {moment(singleData?.requestDateTime).isValid() &&
                     moment(singleData?.requestDateTime).format(
                       'YYYY-MM-DD',
                     )}{' '}
@@ -184,10 +185,10 @@ function DelegateForm({ clickRowData, landingCB }) {
                 </p>
 
                 <p>
-                  <b>Issue Details:</b> {singleData?.description}
+                  <b>Issue Details:</b> {singleData?.description || ''}
                 </p>
                 <p>
-                  <b>Respondent Type:</b> {singleData?.respondentTypeName}
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName || ''}
                 </p>
                 <p>
                   <b>Respondent Name:</b> {singleData?.respondentType}
@@ -197,7 +198,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                 </p>
                 <p>
                   <b>Business Unit:</b>{' '}
-                  {singleData?.respondentBusinessUnitIdName}
+                  {singleData?.respondentBusinessUnitIdName || ''}
                 </p>
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
@@ -223,7 +224,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                 </p>
                 {singleData?.respondentTypeName === 'Employee' && (
                   <p>
-                    <b> Work Place:</b> {singleData?.workPlace}
+                    <b> Work Place:</b> {singleData?.workPlace || ''}
                   </p>
                 )}
                 {singleData?.respondentTypeName === 'End User' && (
@@ -380,11 +381,11 @@ function DelegateForm({ clickRowData, landingCB }) {
                     handleChange={(valueOption) => {
                       setFieldValue('investigationPerson', valueOption || '');
                     }}
-                    loadOptions={(v) => {
-                      if (v?.length < 2) return [];
+                    loadOptions={(search) => {
+                      if (search?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${search}`,
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -392,7 +393,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                             label: `${itm?.level} [${itm?.employeeCode}]`,
                           }));
                         })
-                        .catch((err) => []);
+                        .catch((e) => []);
                     }}
                     placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
@@ -542,12 +543,12 @@ function DelegateForm({ clickRowData, landingCB }) {
               filesLimit={1}
               acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={'cancel'}
-              submitButtonText={'submit'}
+              cancelButtonText={'Cancel'}
+              submitButtonText={'Submit'}
               maxFileSize={1000000}
               open={open}
-              onAdd={(newFileObjs) => {
-                setFileObjects([].concat(newFileObjs));
+              onAdd={(newFileObj) => {
+                setFileObjects([].concat(newFileObj));
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(

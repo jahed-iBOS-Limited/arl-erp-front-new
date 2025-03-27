@@ -105,7 +105,7 @@ export default function ComplainAssignConfigCreateEdit() {
       saveComplaintAssign(
         `/oms/CustomerPoint/CreateComplaintAssign`,
         payload,
-        () => {},
+        () => { },
         true
       );
     }
@@ -216,7 +216,7 @@ export default function ComplainAssignConfigCreateEdit() {
                     value={values?.businessUnit}
                     label="Assign Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue("businessUnit", valueOption || "");
                     }}
                     errors={errors}
                     touched={touched}
@@ -232,7 +232,7 @@ export default function ComplainAssignConfigCreateEdit() {
                     value={values?.issueType}
                     label="Issue Type"
                     onChange={(valueOption) => {
-                      setFieldValue("issueType", valueOption);
+                      setFieldValue("issueType", valueOption || "");
                     }}
                     errors={errors}
                     touched={touched}
@@ -311,7 +311,7 @@ export default function ComplainAssignConfigCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: "none", padding: 0 }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

@@ -59,8 +59,8 @@ const LandingTable = ({ obj }) => {
               const investigateItem = matchEmployeeId
                 ? matchEmployeeId
                 : isDelegatePage
-                ? item?.investigatorAssignByName?.[0]
-                : null;
+                  ? item?.investigatorAssignByName?.[0]
+                  : null;
               return (
                 <tr key={index}>
                   <td className="text-center"> {index + 1}</td>
@@ -85,7 +85,7 @@ const LandingTable = ({ obj }) => {
                       overlay={
                         <Tooltip className="mytooltip" id="info-tooltip">
                           <>
-                            {item?.investigatorAssignByName?.map((itm, idx) => (
+                            {item?.investigatorAssignByName?.map((itm) => (
                               <div
                                 style={{
                                   display: 'flex',
@@ -93,8 +93,7 @@ const LandingTable = ({ obj }) => {
                                 }}
                               >
                                 <p>
-                                  <b> </b>
-                                  {itm?.investigatorName}
+                                  {itm?.investigatorName || ""}
                                   {itm?.investigationDueDate && (
                                     <>
                                       , Due:
@@ -144,7 +143,7 @@ const LandingTable = ({ obj }) => {
                               >
                                 <p>
                                   <b>Investigation: </b>
-                                  {itm?.investigatorName}
+                                  {itm?.investigatorName || ""}
                                   {itm?.investigationDueDate && (
                                     <>
                                       , Due:
@@ -189,10 +188,10 @@ const LandingTable = ({ obj }) => {
                           item?.status === 'Open'
                             ? 'red'
                             : item?.status === 'Delegate'
-                            ? 'blue'
-                            : item?.status === 'Investigate'
-                            ? 'orange'
-                            : 'green',
+                              ? 'blue'
+                              : item?.status === 'Investigate'
+                                ? 'orange'
+                                : 'green',
                       }}
                     >
                       {item?.status}
@@ -219,26 +218,26 @@ const LandingTable = ({ obj }) => {
 
                       {(item?.status === 'Open' ||
                         item?.status === 'Delegate') && (
-                        <>
-                          <span>
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
-                            >
-                              <span
-                                onClick={() => {
-                                  setDelegatModalShow(true);
-                                  setClickRowData(item);
-                                }}
+                          <>
+                            <span>
+                              <OverlayTrigger
+                                overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
                               >
-                                <i
-                                  class="fa fa-user-plus pointer"
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </span>
-                        </>
-                      )}
+                                <span
+                                  onClick={() => {
+                                    setDelegatModalShow(true);
+                                    setClickRowData(item);
+                                  }}
+                                >
+                                  <i
+                                    class="fa fa-user-plus pointer"
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            </span>
+                          </>
+                        )}
 
                       {item?.status === 'Investigate' && matchEmployeeId && (
                         <>
