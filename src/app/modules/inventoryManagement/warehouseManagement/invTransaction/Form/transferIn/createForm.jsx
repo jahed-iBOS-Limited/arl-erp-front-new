@@ -30,6 +30,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import './style.css';
+import { debounce } from 'lodash';
 
 const { actions: slice } = invTransactionSlice;
 
@@ -355,6 +356,11 @@ export default function TransferInForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -363,10 +369,17 @@ export default function TransferInForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setAttachmentFile('');
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setAttachmentFile('');
+              });
+            },
           });
+          
         }}
       >
         {({

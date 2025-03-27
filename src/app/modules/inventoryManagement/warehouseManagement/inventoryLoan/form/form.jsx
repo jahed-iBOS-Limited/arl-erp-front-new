@@ -14,6 +14,7 @@ import {
   getSBUListDDL_api,
   getShipmentDDL,
 } from "../helper";
+import { debounce } from "lodash";
 
 export default function _Form({
   initData,
@@ -30,6 +31,8 @@ export default function _Form({
   const [, getItemRate, itemRateLoader] = useAxiosGet();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL, , setWarehouseDDL] = useAxiosGet();
+    const [isDisabled, setDisabled] = useState(false);
+  
 
   const polcList = (v) => {
     if (v?.length < 3) return [];
@@ -56,6 +59,11 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       <Formik
@@ -63,8 +71,14 @@ export default function _Form({
         initialValues={initData}
         validationSchema={SaveInventoryLoanValidationSchema}
         onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -78,7 +92,7 @@ export default function _Form({
           setValues,
         }) => (
           <>
-            {itemRateLoader && <Loading />}
+            {(itemRateLoader || isDisabled) && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row mb-2">
