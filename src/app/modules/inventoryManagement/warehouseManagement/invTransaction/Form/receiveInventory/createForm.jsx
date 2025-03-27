@@ -30,6 +30,7 @@ import { getSupplierDDL, initData, validationSchema } from './helper';
 import RowDtoTable from './rowDtoTable';
 import { getForeignPurchaseDDL } from '../../../itemQualityCheck/helper';
 import { uploadAttachment } from '../../../../../_helper/attachmentUpload';
+import { debounce } from 'lodash';
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -528,6 +529,11 @@ export default function ReceiveInvCreateForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -537,9 +543,15 @@ export default function ReceiveInvCreateForm({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           disableHandler(true)
-          saveHandler(values, () => {
-            disableHandler(false)
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                disableHandler(false)
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

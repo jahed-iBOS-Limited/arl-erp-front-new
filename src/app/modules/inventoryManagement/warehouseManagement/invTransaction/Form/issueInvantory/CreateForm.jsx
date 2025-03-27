@@ -29,6 +29,7 @@ import { invTransactionSlice } from '../../_redux/Slice';
 import Loading from '../../../../../_helper/_loading';
 import { useMemo } from 'react';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { debounce } from 'lodash';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -370,6 +371,12 @@ export default function CreateForm({
   }, [transTypeDDLNotIsProductionOrder]);
 
   const [projectDDL, getProjectDDL] = useAxiosGet();
+
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -378,8 +385,14 @@ export default function CreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

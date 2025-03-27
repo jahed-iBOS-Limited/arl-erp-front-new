@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-
-import { getGridData } from '../helper';
-import IEdit from '../../../../_helper/_helperIcons/_edit';
-import ICustomCard from '../../../../_helper/_customCard';
-import Loading from '../../../../_helper/_loading';
-import PaginationTable from '../../../../_helper/_tablePagination';
+import React, { useEffect, useState } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getGridData } from "../helper";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import ICustomCard from "../../../../_helper/_customCard";
+import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
 // import Loading from "../../../../_helper/_loading";
 
 export function TableRow() {
   const [gridData, setGridData] = useState({});
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-
-  //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -36,7 +29,7 @@ export function TableRow() {
         setGridData,
         setLoading,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
 
@@ -50,7 +43,7 @@ export function TableRow() {
       setGridData,
       setLoading,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 
@@ -66,7 +59,7 @@ export function TableRow() {
             onClick={() =>
               history.push({
                 pathname:
-                  '/rtm-management/configuration/salesTargetConfig/create',
+                  "/rtm-management/configuration/salesTargetConfig/create",
               })
             }
           >
@@ -94,7 +87,7 @@ export function TableRow() {
                     <td className="text-center"> {item.sl}</td>
                     <td>
                       <div className="pr-2 text-right">
-                        {' '}
+                        {" "}
                         {item.lastTargetEntryDay}
                       </div>
                     </td>
@@ -119,7 +112,7 @@ export function TableRow() {
                           className="edit"
                           onClick={() => {
                             history.push(
-                              `/rtm-management/configuration/salesTargetConfig/edit/${item.autoId}`,
+                              `/rtm-management/configuration/salesTargetConfig/edit/${item.autoId}`
                             );
                           }}
                         >

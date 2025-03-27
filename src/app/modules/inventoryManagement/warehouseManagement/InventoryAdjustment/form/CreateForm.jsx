@@ -27,6 +27,7 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { useLocation } from 'react-router-dom';
 import NewSelect from '../../../../_helper/_select';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import { debounce } from 'lodash';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -285,6 +286,11 @@ export default function CreateForm({
 
   const location = useLocation();
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -294,9 +300,15 @@ export default function CreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setFileObjects([]);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setFileObjects([]);
+              });
+            },
           });
         }}
       >
