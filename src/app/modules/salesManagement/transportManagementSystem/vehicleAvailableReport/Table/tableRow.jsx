@@ -64,16 +64,7 @@ export function TableRow(props) {
 
   // UI Context
   const uIContext = useUIContext();
-  const uIProps = useMemo(() => {
-    return {
-      ids: ids,
-      setIds: setIds,
-      queryParams: queryParams,
-      setQueryParams: setQueryParams,
-      openEditPage: openEditPage,
-      openViewDialog: openViewDialog,
-    };
-  }, [uIContext]);
+
 
   // Table columns
   const columns = [

@@ -5,6 +5,13 @@ import Form from './form';
 import {
   createEmployeePersonalInformation,
   employeePersonalInformation_api,
+  getBloodGroupDDL,
+  getEmpIdentificationTypeDDL,
+  getEmpPersonalInfoById_api,
+  getGenderDDL,
+  getMeritalStatusDDL_api,
+  getNationalityDDL,
+  religionDDL_api,
 } from './helper';
 import { _todayDate } from './../../../../../../../_helper/_todayDate';
 import { empAttachment_action } from '../../../../../../../_helper/attachmentUpload';

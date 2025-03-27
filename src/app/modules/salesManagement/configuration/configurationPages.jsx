@@ -36,6 +36,7 @@ import TransportRouteForm from './transportRoute/Form/addEditForm';
 import { TransportZone } from './transportZone';
 import TransportZoneForm from './transportZone/Form/addEditForm';
 import ComplainAssignConfigCreateEdit from '../../common/fetures/complainManagement/complaintAssignConfig/addEditForm';
+import ComplainAssignConfigLanding from '../../common/fetures/complainManagement/complaintAssignConfig';
 
 export function SalesConfigurationPages() {
   const userRole = useSelector(

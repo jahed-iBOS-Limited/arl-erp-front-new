@@ -9,6 +9,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import IView from './../../../../../../_helper/_helperIcons/_view';

@@ -232,4 +232,4 @@ function FormCmp({  initData,
   )
 }
 
-export default _Form
+export default FormCmp

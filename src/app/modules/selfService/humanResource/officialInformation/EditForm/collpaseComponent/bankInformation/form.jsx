@@ -8,6 +8,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import { getBankBranchDDL_api, getBankDDL_api, getCountryDDL } from './helper';
 import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';

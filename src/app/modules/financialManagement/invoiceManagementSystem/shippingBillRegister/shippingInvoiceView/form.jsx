@@ -567,4 +567,4 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   );
 }
 
-export default _Form;
+export default FormCmp;

@@ -10,6 +10,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import {
   getEmployeeEducationDegreeDDL_api,

@@ -26,7 +26,6 @@ export const excelFileToJSON = (file) => {
 function createObject(keys, values) {
   let obj = {};
   for (let index = 0; index < keys.length; index++) {
-     eqeqeq
     if (keys[index] != null && keys[index] != undefined) {
       obj[keys[index]] = values[index];
     }
