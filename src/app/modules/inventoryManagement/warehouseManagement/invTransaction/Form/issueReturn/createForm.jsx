@@ -386,6 +386,11 @@ export default function ReceiveInvCreateForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -394,8 +399,14 @@ export default function ReceiveInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

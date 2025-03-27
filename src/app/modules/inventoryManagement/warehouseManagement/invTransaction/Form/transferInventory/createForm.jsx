@@ -338,6 +338,11 @@ export default function TransferInvCreateForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -346,9 +351,15 @@ export default function TransferInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setAttachmentFile("");
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setAttachmentFile("");
+              });
+            },
           });
         }}
       >
