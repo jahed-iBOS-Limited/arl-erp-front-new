@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import Loading from '../../../_helper/_loading';
@@ -61,7 +61,7 @@ export default function ApprovalView({
                       );
                     },
                   });
-                  
+
                 },
                 noAlertFunc: () => {},
               });
