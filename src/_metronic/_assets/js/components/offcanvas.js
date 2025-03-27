@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+
 "use strict";
 
 import { KTUtil } from "./util";
@@ -68,7 +70,7 @@ var KTOffcanvas = function(elementId, options) {
                     });
                 } else if (the.options.toggleBy && the.options.toggleBy[0]) {
                     if (the.options.toggleBy[0].target) {
-                        for (var i in the.options.toggleBy) {
+                        for (var j in the.options.toggleBy) {
                             KTUtil.addEvent(KTUtil.getById(the.options.toggleBy[i].target), 'click', function(e) {
                                 e.preventDefault();
                                 the.target = this;
@@ -297,9 +299,5 @@ var KTOffcanvas = function(elementId, options) {
     return the;
 };
 
-// webpack support
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    // module.exports = KTOffcanvas;
-}
 
 export default KTOffcanvas;

@@ -1,3 +1,8 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-redeclare */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/no-this-alias */
 'use strict';
 
 import PerfectScrollbar from 'perfect-scrollbar';

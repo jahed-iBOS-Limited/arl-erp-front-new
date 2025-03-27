@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 
 "use strict";
 
@@ -516,7 +517,8 @@ var KTMenu = function(elementId, options) {
          */
         hideSubmenuDropdowns: function() {
             var items;
-            if ( items = element.querySelectorAll('.menu-item-submenu.menu-item-hover:not(.menu-item-tabs):not([data-menu-toggle="tab"])') ) {
+            items = element.querySelectorAll('.menu-item-submenu.menu-item-hover:not(.menu-item-tabs):not([data-menu-toggle="tab"])');
+            if (items) {
                 for (var j = 0, cnt = items.length; j < cnt; j++) {
                     Plugin.hideSubmenuDropdown(items[j], true);
                 }
@@ -632,8 +634,8 @@ var KTMenu = function(elementId, options) {
 
             // close open submenus
             if ( the.options.accordion.expandAll === false ) {
-                if ( list = element.querySelectorAll('.menu-item-open') ) {
-                    for (var i = 0, len = list.length; i < len; i++) {
+                if ((list = element.querySelectorAll('.menu-item-open')) !== null) {
+                    for (var j = 0, innerLen = list.length; j < innerLen; j++) {
                         KTUtil.removeClass(parents[0], 'menu-item-open');
                     }
                 }
@@ -867,16 +869,12 @@ var KTMenu = function(elementId, options) {
     return the;
 };
 
-// webpack support
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    // module.exports = KTMenu;
-}
-
 // Plugin global lazy initialization
 document.addEventListener("click", function (e) {
     var body = KTUtil.getByTagName('body')[0];
     var query;
-    if ( query = body.querySelectorAll('.menu-nav .menu-item.menu-item-submenu.menu-item-hover:not(.menu-item-tabs)[data-menu-toggle="click"]') ) {
+    query = body.querySelectorAll('.menu-nav .menu-item.menu-item-submenu.menu-item-hover:not(.menu-item-tabs)[data-menu-toggle="click"]');
+    if (query && query.length > 0) {
         for (var i = 0, len = query.length; i < len; i++) {
             var element = query[i].closest('.menu-nav').parentNode;
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 "use strict";
 // DOCS: https://javascript.info/cookie
 
@@ -28,6 +29,7 @@ export var KTCookie = function() {
       var updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
 
       for (var optionKey in options) {
+        // eslint-disable-next-line no-prototype-builtins
         if (!options.hasOwnProperty(optionKey)) {
           continue;
         }
@@ -42,14 +44,9 @@ export var KTCookie = function() {
     },
     // To delete a cookie, we can call it with a negative expiration date:
     deleteCookie: function(name) {
-      setCookie(name, "", {
+      this.setCookie(name, "", {
         'max-age': -1
       })
     }
   }
 }();
-
-// webpack support
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  // module.exports = KTCookie;
-}

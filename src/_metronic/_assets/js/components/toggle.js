@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 "use strict";
 
 import { KTUtil } from "./util";
@@ -238,9 +239,5 @@ var KTToggle = function(elementId, options) {
     return the;
 };
 
-// webpack support
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    // module.exports = KTToggle;
-}
 
 export default KTToggle;

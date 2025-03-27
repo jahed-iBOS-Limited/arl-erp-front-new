@@ -30,7 +30,7 @@ export const getEmployeesByDepartmentId = async (
     if (res.status === 200 && res?.data) {
       const addVanceDDL = res?.data.map((item) => {
         return {
-          label: `${item.label} (${item.value}) `,
+          label: `${item.label} (${item.value})`,
           value: item.value,
         };
       });
