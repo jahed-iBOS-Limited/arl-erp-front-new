@@ -90,7 +90,7 @@ function GateOutDelivary({ item, date }) {
                         getShipPoint(
                           `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                           (data) => {
-                            if (data === [])
+                            if (Array.isArray(data) && data?.length === 0)
                               return toast.warn("No Ship Point Found");
                             setFieldValue("shipPoint", data[0]);
                           }

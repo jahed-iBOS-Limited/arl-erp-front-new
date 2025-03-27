@@ -49,7 +49,7 @@ const AdministrationForWeighment = () => {
       getShipPointDDL(
         `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${theBusinessUnit?.value}&AutoId=${profileData?.userId}`,
         (data) => {
-          if (data === []) return toast.warn("No Ship Point Found");
+          if (Array.isArray(data) && data?.length === 0) return toast.warn("No Ship Point Found");
           initialValues.shipPoint = data[0];
           onGetRowDataOfQcAndWeighment({
             accountId: profileData?.accountId,
@@ -110,7 +110,7 @@ const AdministrationForWeighment = () => {
                               getShipPointDDL(
                                 `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                                 (data) => {
-                                  if (data === [])
+                                  if (data?.length === 0)
                                     return toast.warn("No Ship Point Found");
                                   setFieldValue("shipPoint", data[0]);
                                 }
