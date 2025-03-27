@@ -1,7 +1,6 @@
 
 'use strict';
 
-import $ from 'jquery';
 
 import { KTUtil } from './../../components/util';
 import KTOffcanvas from './../../components/offcanvas';
@@ -82,16 +81,6 @@ var KTLayoutQuickPanel = (function () {
         return _getContentHeight();
       },
     });
-  };
-
-  var _updateScrollbars = function () {
-    $(_element)
-      .find('a[data-toggle="tab"]')
-      .on('shown.bs.tab', function (e) {
-        KTUtil.scrollUpdate(_notificationsElement);
-        KTUtil.scrollUpdate(_logsElement);
-        KTUtil.scrollUpdate(_settingsElement);
-      });
   };
 
   // Public methods
