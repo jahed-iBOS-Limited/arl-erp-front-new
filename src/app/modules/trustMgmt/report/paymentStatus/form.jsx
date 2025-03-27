@@ -1,9 +1,9 @@
+import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 export default function FormCmp({ initData, rowDto, getData }) {
   const [unitNameDDL, getUnitNameDDL] = useAxiosGet();
@@ -28,13 +28,12 @@ export default function FormCmp({ initData, rowDto, getData }) {
 
   }, []);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        // validationSchema={validationSchema}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -47,10 +46,8 @@ export default function FormCmp({ initData, rowDto, getData }) {
           resetForm,
           values,
           setFieldValue,
-          isValid,
           errors,
           touched,
-          setValues,
         }) => (
           <>
             <Form className="form form-label-right">
@@ -161,7 +158,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                           <InputField
                             value={values?.toDate}
                             name="toDate"
-                            placeholder=""
+                            placeholder={" "}
                             type="date"
                             min={values?.fromDate}
                             disabled={!values?.fromDate}
@@ -200,7 +197,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                               )
                             );
                           }}
-                          // disabled={!values?.fromDate || !values?.toDate}
+                        // disabled={!values?.fromDate || !values?.toDate}
                         >
                           Show Report
                         </button>

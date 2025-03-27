@@ -54,8 +54,7 @@ const PaymentPrepare = () => {
   useEffect(() => {
     getUnitNameDDL(generateAPI("UnitDDL"));
     getBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${
-        profileData?.accountId
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId
       }&BusinssUnitId=${4}`
     );
     getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
@@ -115,14 +114,14 @@ const PaymentPrepare = () => {
           }
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
     //
   };
 
   return (
-    <>
+    <React.Fragment>
       {loading && <Loading />}
       <Formik
         enableReinitialize={true}
@@ -422,7 +421,7 @@ const PaymentPrepare = () => {
           </>
         )}
       </Formik>
-    </>
+    </React.Fragment>
   );
 };
 

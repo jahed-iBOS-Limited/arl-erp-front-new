@@ -33,29 +33,24 @@ export default function FormCmp({
     <>
       <Formik
         enableReinitialize={true}
-        // validationSchema={validationSchema}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
           });
         }}
       >
         {({
-          handleSubmit,
-          resetForm,
           values,
           setFieldValue,
-          isValid,
           errors,
           touched,
-          setValues,
         }) => (
           <>
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-8">
-                    <div className="form-group row global-form">
+                  <div className="form-group row global-form">
                     <div className="col-lg-2 mb-2">
                       <div className="d-flex align-items-center h-100">
                         From Date
@@ -68,7 +63,7 @@ export default function FormCmp({
                           <InputField
                             value={values?.fromDate}
                             name="fromDate"
-                            placeholder=""
+                            placeholder={""}
                             type="date"
                           />
                         </div>
@@ -120,21 +115,21 @@ export default function FormCmp({
                     <div className="col-lg-6">
                       <div className="text-right">
                         <button
-                        type="button"
-                        style={{fontSize: "12px"}}
-                        className="btn btn-primary"
-                        disabled={!values?.fromDate || !values?.toDate}
-                        onClick={() => {
-                          getData(
-                            getTrustAllLanding(
-                              "MonthWiseGetAllDonationApplicationList",
-                              values?.unitName?.value || 4,
-                              values?.fromDate,
-                              values?.toDate,
+                          type="button"
+                          style={{ fontSize: "12px" }}
+                          className="btn btn-primary"
+                          disabled={!values?.fromDate || !values?.toDate}
+                          onClick={() => {
+                            getData(
+                              getTrustAllLanding(
+                                "MonthWiseGetAllDonationApplicationList",
+                                values?.unitName?.value || 4,
+                                values?.fromDate,
+                                values?.toDate,
+                              )
                             )
-                          )
-                        }}
-                      >Show Report</button>
+                          }}
+                        >Show Report</button>
                       </div>
                     </div>
                   </div>
