@@ -32,7 +32,7 @@ export default function FormCmp({
   setMotherVesselDDL,
 }) {
   const history = useHistory();
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, getGridData, loading] = useAxiosGet();
   const [rowDto, setRowDto] = useState([]);
   const [itemTypeDDL, setItemTypeDDL] = useState([]);
@@ -49,7 +49,7 @@ export default function FormCmp({
   useEffect(() => {
     setShipPoint();
     getItemTypeData(accId, buId, setItemTypeDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [pageNo, setPageNo] = useState(0);
@@ -104,7 +104,7 @@ export default function FormCmp({
       const url = `tms/LigterLoadUnload/GetG2GItemInfoById?IntId=${id}`;
       getSingleDataEdit(url, setEditedItem);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   if (id) {

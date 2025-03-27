@@ -93,7 +93,7 @@ function ShippingQuotationEntry() {
       ),
     );
     dispatch(getOrderTypeListDDLAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -120,7 +120,7 @@ function ShippingQuotationEntry() {
         }`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

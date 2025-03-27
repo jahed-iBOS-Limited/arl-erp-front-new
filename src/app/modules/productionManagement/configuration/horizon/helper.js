@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-concat */
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -102,7 +102,7 @@ export const getHorizonTypeDDL = async (setter) => {
 
 export const getDaysInMonth = (months, year) => {
   var yearsData = [];
-  // eslint-disable-next-line array-callback-return
+
   months.map((data) => {
     var dteStartDateTime = new Date(`${year}, ${data.intSubHorizonId}, 01`);
     var dteEndDateTime = new Date(year, data.intSubHorizonId, 0);

@@ -125,7 +125,7 @@ export default function SBuKpiEntryForm({ isView, data }) {
       );
       dispatch(getPMSFrequencyDDLAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {

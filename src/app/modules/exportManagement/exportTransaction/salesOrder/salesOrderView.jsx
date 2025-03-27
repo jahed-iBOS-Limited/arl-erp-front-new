@@ -43,7 +43,7 @@ export default function SalesOrderView({ salesQuotationId }) {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, salesQuotationId]);
 
   const totalFOBValue = (soRow, type) => {

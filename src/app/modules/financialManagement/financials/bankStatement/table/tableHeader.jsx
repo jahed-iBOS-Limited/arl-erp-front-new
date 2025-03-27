@@ -52,7 +52,7 @@ const BankStatement = () => {
   };
 
   // ref
-  // eslint-disable-next-line no-unused-vars
+
   const printRef = useRef();
   const [open, setOpen] = useState(false);
 
@@ -61,11 +61,11 @@ const BankStatement = () => {
   // const hiddenFileInput = React.useRef(null);
   const [isUpload, setIsUpload] = useState(false);
   const [bankAccountNoDDL, setBankAccountNoDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [bankAccountOthetInfoNoDDL, setBankAccountOtherInfoNoDDL] = useState(
     [],
   );
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   //storingData
   const [fileData, setFileData] = useState([]);

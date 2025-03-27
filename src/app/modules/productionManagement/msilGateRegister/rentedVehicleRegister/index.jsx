@@ -33,7 +33,7 @@ function RentedVehicleRegisterLanding() {
     getRowData(
       `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

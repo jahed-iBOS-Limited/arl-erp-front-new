@@ -20,13 +20,13 @@ const initData = {
   negotiationRate: '',
 };
 export default function ShippingCsDetails() {
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState([]);
   const location = useLocation();
   const [
     csDetailsList,
     getCsDetailsList,
-    // eslint-disable-next-line no-unused-vars
+
     getLoading,
     setCsDetailsList,
   ] = useAxiosGet([]);
@@ -49,7 +49,7 @@ export default function ShippingCsDetails() {
     getCsDetailsList(
       `/procurement/ShipRequestForQuotation/GetComparativeStatementShipById?AccountId=${profileData?.accountId}&BusinessId=${selectedBusinessUnit?.value}&SBUId=80&RequestForQuatationId=${location?.state?.intRequestForQuotationId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   const saveHandler = async (values, cb) => {};

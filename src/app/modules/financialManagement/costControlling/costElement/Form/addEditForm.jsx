@@ -73,7 +73,7 @@ export default function CostElementForm({
     } else {
       dispatch(setCostElementSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(()=> {
@@ -92,7 +92,7 @@ export default function CostElementForm({
         setBusinessTransactionDDL
       )
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[singleData, profileData, selectedBusinessUnit])
 
   // Dispatch action for ddl
@@ -111,7 +111,7 @@ export default function CostElementForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const controllUniIdFunc = (cuId) => {

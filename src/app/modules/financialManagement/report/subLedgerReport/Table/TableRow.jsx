@@ -33,7 +33,7 @@ const initDataFuction = (reportSubLedgerReport) => {
 
 export function TableRow() {
   const { reportSubLedgerReport } = useSelector((state) => state?.localStorage);
-  
+
   const dispatch = useDispatch();
   const formikRef = React.useRef(null);
 
@@ -70,7 +70,7 @@ export function TableRow() {
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const debitTotal = subLedgerReportData.reduce((total, data) => {
@@ -84,7 +84,7 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{}} 
+        initialValues={{}}
         innerRef={formikRef}
         onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
@@ -324,7 +324,7 @@ export function TableRow() {
                           </tbody>
                         </table>
           </div>
-                       
+
                       </div>
                     )}
                   </div>

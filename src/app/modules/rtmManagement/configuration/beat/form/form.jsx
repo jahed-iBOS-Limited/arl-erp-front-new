@@ -21,8 +21,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   profileData,

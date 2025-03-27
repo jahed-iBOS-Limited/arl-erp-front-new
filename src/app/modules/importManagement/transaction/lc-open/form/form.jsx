@@ -69,7 +69,7 @@ export default function FormCmp({
     );
     GetBankDDL(setBankDDL, profileData?.accountId, selectedBusinessUnit?.value);
     currencyTypeDDLAction(setCurrencyDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function FormCmp({
         `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.bankId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location?.state?.bankId]);
 
   return (

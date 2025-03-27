@@ -12,7 +12,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
   const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
   const dispatch = useDispatch();
-  
+
 
   // get profile data from redux store
   const {
@@ -26,7 +26,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
     getGridData(
       `/tms/LigterLoadUnload/GetTruckNLabourSupplierByBillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}&billTypeId=21`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

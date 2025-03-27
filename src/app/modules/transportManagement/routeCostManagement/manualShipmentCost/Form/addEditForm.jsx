@@ -63,7 +63,7 @@ const initData = {
 
 export default function ManualShipmentCostForm() {
   const [isDisabled, setDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [fuleCost, setFuleCost] = useState([]);
@@ -103,7 +103,7 @@ export default function ManualShipmentCostForm() {
         setEntryStatus
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const totalStandardCost_TotalActualCalFunc = (arry) => {
@@ -150,7 +150,7 @@ export default function ManualShipmentCostForm() {
         setDownTripData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [vehicleId]);
 
   useEffect(() => {

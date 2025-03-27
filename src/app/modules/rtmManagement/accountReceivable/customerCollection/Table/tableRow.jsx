@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 
-// eslint-disable-next-line no-unused-vars
+
 import { getGridData, createCustomerCollection } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { SearchForm } from "./form";
@@ -32,7 +32,7 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

@@ -29,7 +29,7 @@ export default function ShopFloorInvTransCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState("");
   const location = useLocation();
   const params = useParams();

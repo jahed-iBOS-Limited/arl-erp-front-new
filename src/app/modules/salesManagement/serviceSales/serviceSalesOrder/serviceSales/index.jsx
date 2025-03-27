@@ -41,12 +41,12 @@ export default function ServiceSalesLanding() {
     getItemDDL(
       `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {};

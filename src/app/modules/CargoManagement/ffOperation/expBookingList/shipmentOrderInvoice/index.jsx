@@ -39,7 +39,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   return (

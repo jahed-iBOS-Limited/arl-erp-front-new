@@ -190,7 +190,7 @@ var b = [
 
 
 // this is lakh and crore format, not in million format.
-/* eslint-disable eqeqeq */
+
 export const inWords = (num) => {
   if ((num = num.toString()).length > 9) return "overflow";
   let n = ("000000000" + num)

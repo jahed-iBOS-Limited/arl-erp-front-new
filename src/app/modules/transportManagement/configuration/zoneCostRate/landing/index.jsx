@@ -20,7 +20,7 @@ const initData = {
 };
 
 export function ZoneCostRateLanding() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -44,7 +44,7 @@ export function ZoneCostRateLanding() {
       selectedBusinessUnit?.value,
       setShipPointDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -102,7 +102,7 @@ export function ZoneCostRateLanding() {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shipPointDDL[0], profileData?.accountId, selectedBusinessUnit?.value]);
 
   return (

@@ -43,13 +43,13 @@ const ProductToRM = () => {
         setRowData(data?.materialMappings || []);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
     const materialMappings = [];
 
-    // eslint-disable-next-line no-unused-expressions
+
     rowData?.forEach((data) => {
       if (data?.materialItemName && data?.materialItemId) {
         materialMappings.push({

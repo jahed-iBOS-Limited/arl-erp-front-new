@@ -17,7 +17,7 @@ export function QuotationEntryDetails({ currentItem, isHiddenBackBtn }) {
    }, shallowEqual);
 
    // get selected business unit from store
-   // eslint-disable-next-line no-unused-vars
+
    const selectedBusinessUnit = useSelector(state => {
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
@@ -93,7 +93,7 @@ export function QuotationEntryDetails({ currentItem, isHiddenBackBtn }) {
                                        <th>SL.</th>
                                        <th>Item Code</th>
                                        <th>Item Name</th>
-                                       {rowDto?.objRow[0]?.intItemCategoryId === 624 ? 
+                                       {rowDto?.objRow[0]?.intItemCategoryId === 624 ?
                                        <>
                                           <th>Part No</th>
                                           <th>Drawing No</th>
@@ -126,7 +126,7 @@ export function QuotationEntryDetails({ currentItem, isHiddenBackBtn }) {
                                                 </td>
                                                 <td>{data?.strItemCode}</td>
                                                 <td>{data?.strItemName}</td>
-                                                {data?.intItemCategoryId === 624 ? 
+                                                {data?.intItemCategoryId === 624 ?
                                                 <>
                                                    <td>{data?.strPartNo}</td>
                                                    <td>{data?.strDrawingNo}</td>
@@ -157,7 +157,7 @@ export function QuotationEntryDetails({ currentItem, isHiddenBackBtn }) {
                                        <td
                                           colSpan={rowDto?.objRow[0]?.intItemCategoryId === 624 ? 10 : 8}
                                           className="text-right font-weight-bold "
-                                          
+
                                        >
                                           Sub Total
                                        </td>

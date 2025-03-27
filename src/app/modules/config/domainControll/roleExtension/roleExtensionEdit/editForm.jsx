@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 
 import React, { useEffect, useState, useRef } from "react";
 import {
@@ -69,7 +69,7 @@ export default function RoleEditForm({
     if (profileData && id && profileData.accountId) {
       getDataById(id, profileData.accountId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const getDataById = async (id, accId) => {

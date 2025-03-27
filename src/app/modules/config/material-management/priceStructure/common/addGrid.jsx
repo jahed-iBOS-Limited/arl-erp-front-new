@@ -81,7 +81,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   //call nodeAjuster
   useEffect(() => {
     nodeAjuster();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [row]);
 
   // Get component type ddl from server

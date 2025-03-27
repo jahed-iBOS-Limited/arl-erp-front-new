@@ -87,7 +87,7 @@ export default function DryDocCreateEdit() {
     if (id) {
       modifyDataFromApi();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = (values, cb) => {
@@ -126,7 +126,7 @@ export default function DryDocCreateEdit() {
       // `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const deleteRowDto = (index) => {

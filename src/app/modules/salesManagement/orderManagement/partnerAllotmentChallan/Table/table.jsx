@@ -71,7 +71,7 @@ export default function PartnerAllotmentChallan() {
     if (accId && buId && partnerAllotmentChallanLading?.reportType?.value) {
       getGridData(partnerAllotmentChallanLading, pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

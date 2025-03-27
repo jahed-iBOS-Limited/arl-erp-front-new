@@ -84,7 +84,7 @@ export function TableRow({ prId }) {
     if (prId && selectedBusinessUnit.value && profileData.accountId) {
       dispatch(getDataById(prId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, prId, usersDDL]);
 
   const printRef = useRef();

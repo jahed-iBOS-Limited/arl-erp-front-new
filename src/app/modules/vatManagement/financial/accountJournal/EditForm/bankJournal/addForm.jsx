@@ -1,5 +1,5 @@
 
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -69,7 +69,7 @@ export default function BankJournalEdit() {
      //const row = data?.filter((item) => item?.subGLTypeId!==6)
       setRowDto(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
@@ -221,7 +221,7 @@ export default function BankJournalEdit() {
 
   useEffect(() => {
     // if not id, that means this is for create form, then we will check this..
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [objProps, setObjprops] = useState({});

@@ -30,13 +30,13 @@ function BLModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
       : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetDocumentsByMasterBL(modeOfTransportId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [rowClickData]);
 
   const commonGetDocumentsByMasterBL = (modeOfTransportId) => {

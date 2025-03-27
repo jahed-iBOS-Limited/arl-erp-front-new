@@ -34,7 +34,7 @@ export default function ManagementDashboard() {
     if (initData?.vesselName) {
       getVoyageDDL(initData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [])
 
   const getVoyageDDL = (values) => {

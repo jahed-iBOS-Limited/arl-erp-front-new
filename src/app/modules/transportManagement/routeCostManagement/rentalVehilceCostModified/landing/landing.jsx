@@ -51,7 +51,7 @@ const initData = {
 const colSpan = {
   Pending: 11,
   Complete: 10,
-  // eslint-disable-next-line no-useless-computed-key
+
   ["Bill Submit"]: 10,
 };
 const RentalVehilceCostModifiedLanding = () => {
@@ -130,7 +130,7 @@ const RentalVehilceCostModifiedLanding = () => {
                 setBillSubmitBtn
               );
             } else {
-              
+
             }
           } else {
             toast.warning("Item not selected");
@@ -184,7 +184,7 @@ const RentalVehilceCostModifiedLanding = () => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       gridDataFunc(rentalVehilceCostLanding, setIntItemLists, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const loadOptions = async (v) => {
@@ -283,7 +283,7 @@ const RentalVehilceCostModifiedLanding = () => {
                         onChange={(valueOption) => {
                           setFieldValue("shipPoint", valueOption);
                           setFieldValue("itemLists", []);
-                    
+
                         }}
                         placeholder="Shippoint"
                         errors={errors}
@@ -320,7 +320,7 @@ const RentalVehilceCostModifiedLanding = () => {
                       onChange={(valueOption) => {
                         setFieldValue("itemLists", []);
                         setFieldValue("reportTypeOne", valueOption);
-                  
+
                       }}
                       errors={errors}
                       touched={touched}
@@ -339,14 +339,14 @@ const RentalVehilceCostModifiedLanding = () => {
                         onChange={(valueOption) => {
                           setFieldValue("itemLists", []);
                           setFieldValue("reportType", valueOption);
-                     
+
                         }}
                         placeholder="Type"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    
+
                     <div className="col-lg-3">
                       <label>From Date</label>
                       <InputField

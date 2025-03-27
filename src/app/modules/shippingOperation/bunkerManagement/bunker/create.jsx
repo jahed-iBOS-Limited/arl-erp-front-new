@@ -241,7 +241,7 @@ export default function BunkerManagementCreate() {
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [landingData]);
 
   useEffect(() => {
@@ -249,7 +249,7 @@ export default function BunkerManagementCreate() {
 `);
     getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {

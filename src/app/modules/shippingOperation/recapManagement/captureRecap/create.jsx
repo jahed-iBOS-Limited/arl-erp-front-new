@@ -151,7 +151,7 @@ export default function RecapCreate() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [viewId]);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export default function RecapCreate() {
     getshipperNameList(
       `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

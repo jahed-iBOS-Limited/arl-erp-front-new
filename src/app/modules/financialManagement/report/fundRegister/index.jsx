@@ -124,7 +124,7 @@ function FundRegisterLanding() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);

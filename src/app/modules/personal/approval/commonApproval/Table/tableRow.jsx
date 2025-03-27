@@ -120,7 +120,7 @@ export function TableRow(props) {
     ) {
       commonBillOfMaterialGridFunc(pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, activityName]);
 
   //setPositionHandler
@@ -145,7 +145,7 @@ export function TableRow(props) {
       getActivityDDL(activity?.moduleName?.value, setActivity);
       setSelectedPlant(activity?.selectedPlant || '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -317,7 +317,7 @@ export function TableRow(props) {
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

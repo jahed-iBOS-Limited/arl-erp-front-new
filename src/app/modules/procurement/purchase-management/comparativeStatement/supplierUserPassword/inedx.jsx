@@ -31,7 +31,7 @@ const SupplierUserPassword = () => {
     getRowData(
       `/hcm/Report/GetSupplierCredential?AccountId=${profileData?.accountId}&BusinessUnitId=102&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   //setPositionHandler

@@ -31,7 +31,7 @@ export function SBUTable() {
       pageNo,
       pageSize,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context

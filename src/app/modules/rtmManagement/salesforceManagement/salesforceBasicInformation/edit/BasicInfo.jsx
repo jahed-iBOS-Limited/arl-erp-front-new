@@ -37,7 +37,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
       getHrPostionDDL(setHrPostionDDL);
       // Employee Lavel DDL is static
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId && selectedBusinessUnit?.value]);
 
   return (

@@ -15,7 +15,7 @@ const IndividualSubmissionModal = ({ currentUserMarks, assesment }) => {
         getQuestionsList(
             `/hcm/Training/GetTrainingAssesmentQuestionAnswerById?intScheduleId=${currentUserMarks?.intScheduleId}&EmployeeId=${currentUserMarks?.intEmployeeId}&RequsitionId=${currentUserMarks?.intRequisitionId}&isPreAssessment=${assesment}`
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const saveHandler = (values) => {
@@ -25,7 +25,7 @@ const IndividualSubmissionModal = ({ currentUserMarks, assesment }) => {
     return (
         <IForm
             customTitle={
-                `Total Marks: 
+                `Total Marks:
                     ${questionsList?.reduce((a, b) => a + b?.numMarks, 0)}`
             }
             // customTitle={assesment ? "Pre-Assessment Submission Form" : "Post-Assessment Submission Form"}

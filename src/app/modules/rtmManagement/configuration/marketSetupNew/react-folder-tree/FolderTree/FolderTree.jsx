@@ -73,7 +73,7 @@ const FolderTree = ({
     }
 
     handleTreeStateChange(initState);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [data, initCheckedStatus]);
 
   const handleCheck = (path, status) => {
@@ -119,7 +119,7 @@ const FolderTree = ({
     <div className='FolderTree'>
       <ConfigContext.Provider
         value={ configs }
-      > 
+      >
         <TreeNode
           key={ treeState._id}
           path={ [] }

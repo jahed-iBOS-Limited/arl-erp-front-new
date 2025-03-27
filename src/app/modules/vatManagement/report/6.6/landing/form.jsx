@@ -75,7 +75,7 @@ export function SearchForm({
         setPartnerDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   return (

@@ -111,7 +111,7 @@ export default function FormCmp({
         setProfitCenterList(result);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

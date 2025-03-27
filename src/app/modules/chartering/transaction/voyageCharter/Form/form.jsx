@@ -66,12 +66,12 @@ export default function FormCmp({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
     getAccDDL(profileData?.accountId, selectedBusinessUnit?.value, setAccNoDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   return (

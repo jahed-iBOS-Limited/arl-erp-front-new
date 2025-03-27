@@ -13,8 +13,7 @@ const validationSchema = Yup.object().shape({
   isOnlyTmsAllowed: Yup.bool().required("Tms Allowed is required"),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

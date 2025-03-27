@@ -60,7 +60,7 @@ function ReceiveModal({ rowClickData, CB }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   const saveHandler = (values, resetForm) => {
@@ -92,7 +92,7 @@ function ReceiveModal({ rowClickData, CB }) {
 
   useEffect(() => {
     getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <div className="confirmModal">

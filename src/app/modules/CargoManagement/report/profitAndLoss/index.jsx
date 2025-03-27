@@ -49,7 +49,7 @@ function ProfitAndLoss() {
 
   useEffect(() => {
     modeOfTransportHandelar(initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getLandingData = (masterBlId, values) => {

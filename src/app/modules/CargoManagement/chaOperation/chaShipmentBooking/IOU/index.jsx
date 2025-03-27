@@ -78,7 +78,7 @@ export default function IOU({ clickRowDto, CB }) {
       );
       commonGetShippingHeadOfCharges();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowDto]);
   const commonGetShippingHeadOfCharges = () => {
     getShippingHeadOfCharges(
@@ -232,7 +232,7 @@ export default function IOU({ clickRowDto, CB }) {
       advanceAmount,
       grandTotal,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shippingHeadOfCharges, prviousShippingHeadOfCharges]);
 
   if (singleChaShipmentBookingLoading) {

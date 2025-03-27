@@ -43,7 +43,7 @@ const validationSchema = Yup.object().shape({
       return this.parent.approveAmountMax >= value;
     }),
 });
-function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
+function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);

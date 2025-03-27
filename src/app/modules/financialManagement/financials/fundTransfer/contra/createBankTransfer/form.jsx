@@ -99,7 +99,7 @@ export default function FormCmp({
         setSendToGLBank,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function FormCmp({
         `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
 
   return (

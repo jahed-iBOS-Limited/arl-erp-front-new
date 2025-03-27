@@ -32,7 +32,7 @@ export default function VesselCostEntryForm() {
     if (id) {
       commonGetByIdFunc();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const saveHandler = async (values) => {

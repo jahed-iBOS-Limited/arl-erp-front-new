@@ -37,7 +37,7 @@ function Commands({ listening, transcript, resetTranscript }) {
       },
       ...menuList,
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [menu]);
 
   const history = useHistory();
@@ -52,7 +52,7 @@ function Commands({ listening, transcript, resetTranscript }) {
         resetTranscript();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [listening, transcript]);
   return (
     <span className='pr-2'>

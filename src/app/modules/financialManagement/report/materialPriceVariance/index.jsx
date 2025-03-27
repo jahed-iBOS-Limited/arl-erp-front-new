@@ -46,7 +46,7 @@ function MaterialPriceVariance() {
     if (selectedBusinessUnit?.value && initData?.monthYear) {
       getData(initData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   return (

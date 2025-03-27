@@ -36,22 +36,22 @@ export default function RentalVehicleEditForm({
   const [tripInfoData, setTripInfoData] = useState([]);
 
 
-  
+
   // get initial data
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value && id) {
       GetTripInfoByTripCode(
-        profileData?.accountId, 
-        selectedBusinessUnit?.value, 
-        id, 
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        id,
         setTripInfoData
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
-  
-  
+
+
   const saveHandler = async () => {
 
   };
@@ -65,7 +65,7 @@ export default function RentalVehicleEditForm({
     setTripInfoData(data);
   };
 
- 
+
   return (
     <IForm
       title=" Trip Info"

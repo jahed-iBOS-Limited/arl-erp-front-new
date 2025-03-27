@@ -47,7 +47,7 @@ export default function SalesContractView({ contactId }) {
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [contactId]);
 
   return (

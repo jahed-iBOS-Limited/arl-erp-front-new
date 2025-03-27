@@ -39,7 +39,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     if (bookingRequestId) {
       commonGetByIdHandler();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
   const saveHandler = (values) => {
     createHblFcrNumber(

@@ -145,7 +145,7 @@ export default function MasterItemExpend() {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <Formik
@@ -271,7 +271,7 @@ export default function MasterItemExpend() {
                         if(e.target.value < 0) return
                         setFieldValue("stdPurchaseRate", e.target.value);
                       }}
-                    />    
+                    />
                   </div>
 
                   <div className="col-lg-3">
@@ -290,7 +290,7 @@ export default function MasterItemExpend() {
                   </>
                 )}
 
-                      
+
 
                 {(values?.businessUnit?.value === 138 ||
                   values?.businessUnit?.value === 186) && (

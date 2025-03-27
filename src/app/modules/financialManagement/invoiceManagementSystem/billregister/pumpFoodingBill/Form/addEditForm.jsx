@@ -63,7 +63,7 @@ export default function PumpFoodingBillForm() {
         setWareHouseDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, headerData]);
 
   const getRows = (values, cb) => {

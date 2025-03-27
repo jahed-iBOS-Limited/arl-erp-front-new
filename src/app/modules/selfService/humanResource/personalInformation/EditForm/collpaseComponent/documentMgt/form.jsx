@@ -15,7 +15,7 @@ import IView from './../../../../../../_helper/_helperIcons/_view';
 import IDelete from './../../../../../../_helper/_helperIcons/_delete';
 import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
 import { getDocumentTypeDDL } from './helper';
-// eslint-disable-next-line no-unused-vars
+
 import { TrainOutlined } from '@mui/icons-material';
 import InputField from '../../../../../../_helper/_inputField';
 import { useDispatch } from 'react-redux';
@@ -60,7 +60,7 @@ export default function FormCmp({
   const [DocTypeDDL, setDocTypeDDL] = useState('');
   useEffect(() => {
     getDocumentTypeDDL(accountId, setDocTypeDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   return (

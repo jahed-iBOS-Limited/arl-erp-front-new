@@ -42,7 +42,7 @@ export default function KPIConfigureExtendForm({
   useEffect(() => {
     // if (id) ExtendPartnerById(id, setSingleData);
     getSingleKPIConfigureForExtend(id, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const addItemToTheGrid = (values) => {

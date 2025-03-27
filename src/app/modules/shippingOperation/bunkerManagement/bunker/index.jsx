@@ -88,7 +88,7 @@ export default function BunkerCalculatorLanding() {
 
   useEffect(() => {
     getGridData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getVoyageDDL = (values) => {

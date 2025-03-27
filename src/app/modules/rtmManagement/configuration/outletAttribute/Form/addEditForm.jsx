@@ -44,7 +44,7 @@ export default function OutletAttributeForm({
     if (id) {
       getOutletAttributeSigleData(id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   // Show when in edit mode, rowData
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function OutletAttributeForm({
     } else {
       setRowDto([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {

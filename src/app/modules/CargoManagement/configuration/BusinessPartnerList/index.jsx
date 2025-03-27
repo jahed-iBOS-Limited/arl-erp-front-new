@@ -32,7 +32,7 @@ export default function BusinessPartnerList() {
 
   React.useEffect(() => {
     commonLandingApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const commonLandingApi = (
     searchValue,

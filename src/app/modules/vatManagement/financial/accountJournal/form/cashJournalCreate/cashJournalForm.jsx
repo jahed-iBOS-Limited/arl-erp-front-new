@@ -49,7 +49,7 @@ export default function CashJournalForm({
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
     [rowDto]
@@ -140,7 +140,7 @@ export default function CashJournalForm({
           isTransfer: false,
           numAmount: +netAmount,
           debit: location?.state?.accountingJournalTypeId === 1 ? +netAmount : 0,
-          credit: location?.state?.accountingJournalTypeId !== 1 ? 1 * -+netAmount : 0, 
+          credit: location?.state?.accountingJournalTypeId !== 1 ? 1 * -+netAmount : 0,
         })
         saveAccountingJournal({
           payload: {row:objRow},

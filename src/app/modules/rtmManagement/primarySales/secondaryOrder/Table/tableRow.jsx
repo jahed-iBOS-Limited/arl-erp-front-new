@@ -7,7 +7,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { getSecondaryOrderLanding } from "../helper";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -39,7 +39,7 @@ export function TableRow() {
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

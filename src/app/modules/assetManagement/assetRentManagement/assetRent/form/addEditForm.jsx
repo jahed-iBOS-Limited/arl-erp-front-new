@@ -20,7 +20,7 @@ const initData = {
 };
 
 export default function CreateAssetRentForm() {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [assetSingleData, setAssetSingleData] = useState("");

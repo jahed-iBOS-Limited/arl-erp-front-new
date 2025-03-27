@@ -9,8 +9,7 @@ import NewSelect from './../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({});
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

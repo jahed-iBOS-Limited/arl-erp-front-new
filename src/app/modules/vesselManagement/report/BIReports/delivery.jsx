@@ -61,7 +61,7 @@ const DeliveryReportRDLC = () => {
   useEffect(() => {
     getShippointDDL(accId, buId, setShippointDDL);
     // getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (
@@ -69,7 +69,7 @@ const DeliveryReportRDLC = () => {
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue }) => (
           <ICustomCard title="Delivery Report">
-            
+
             <form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

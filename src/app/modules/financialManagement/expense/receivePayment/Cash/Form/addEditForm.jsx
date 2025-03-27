@@ -76,7 +76,7 @@ export default function RecivePaymentCashForm({
       selectedBusinessUnit.value,
       setBusinessTransactionDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getPaymentOrReceiveByIdFunc = () => {
@@ -99,7 +99,7 @@ export default function RecivePaymentCashForm({
     if (cash) {
       getPaymentOrReceiveByIdFunc();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [cash]);
 
   const saveHandler = async (values, cb) => {

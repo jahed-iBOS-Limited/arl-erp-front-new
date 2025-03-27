@@ -126,7 +126,7 @@ export default function CorporateKpiEntryForm({ isView, data }) {
       );
       dispatch(getPMSFrequencyDDLAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {

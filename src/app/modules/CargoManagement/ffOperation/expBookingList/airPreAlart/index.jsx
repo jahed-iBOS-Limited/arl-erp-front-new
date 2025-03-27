@@ -54,7 +54,7 @@ export default function AirPreAlert({ rowClickData }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   return (

@@ -51,7 +51,7 @@ export default function FormCmp({
 
   useEffect(() => {
     getCostCenterDDL(`/procurement/PurchaseOrder/CostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId, selectedBusinessUnit]);
 
   return (

@@ -23,7 +23,7 @@ function DocumentModal({ rowClickData, CB }) {
     if (bookingRequestId) {
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function DocumentModal({ rowClickData, CB }) {
         );
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {
     const commonPaylaod = commonBookingRequestStatusUpdate(rowClickData);

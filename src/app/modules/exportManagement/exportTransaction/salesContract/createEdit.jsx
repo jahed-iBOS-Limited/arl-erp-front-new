@@ -211,7 +211,7 @@ export default function SalesContractCreateEdit() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -229,7 +229,7 @@ export default function SalesContractCreateEdit() {
       `/oms/SalesOffice/GetSalesOfficeDDLbyId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     getDestinationDDL(`/oms/TerritoryInfo/GetCountryDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getNetWeight = (values, cb) => {

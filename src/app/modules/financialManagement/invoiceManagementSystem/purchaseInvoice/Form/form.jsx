@@ -20,7 +20,7 @@ import { GetAdvanceForSupplierById } from './../helper';
 
 // Validation schema
 
-// eslint-disable-next-line no-useless-escape
+ no-useless-escape
 //const digitsOnly = (value) => /^\d*[\.{1}\d*]\d*$/.test(value) || value.length === 0;
 
 const validationSchema = Yup.object().shape({
@@ -104,7 +104,7 @@ export default function FormCmp({
         setgrnDDLData,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, initData]);
   return (
     <>

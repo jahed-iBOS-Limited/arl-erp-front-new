@@ -88,7 +88,7 @@ const LoadUnloadBill = () => {
     if (buId !== 4) {
       getData(initData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const shipPointList = (values) => {

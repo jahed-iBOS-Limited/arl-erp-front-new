@@ -188,7 +188,7 @@ export default function CashJournalLanding() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const remover = (id, journalTypeValue) => {

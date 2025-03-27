@@ -46,7 +46,7 @@ export function TableRow({ saveHandler }) {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -64,7 +64,7 @@ export function TableRow({ saveHandler }) {
 
   //singleApprovalndler
   const singleApprovalndler = (index, values) => {
-    
+
     const copyGridData = [...gridData?.landingData];
     copyGridData[index].activeStatus = !copyGridData[index].activeStatus;
     // setGridData(copyGridData);

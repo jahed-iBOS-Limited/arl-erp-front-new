@@ -143,7 +143,7 @@ function LiftingEntry({ title, viewType }) {
       }
     });
     setRowDto([...gridData]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [gridData]);
 
   const disableHandler = (values) => {
@@ -389,7 +389,7 @@ function LiftingEntry({ title, viewType }) {
                               );
                             })}
                             <th>OPC</th>
-                            <th>PCC</th>  
+                            <th>PCC</th>
                             <th>Total</th>
                           </tr> */}
                         </thead>

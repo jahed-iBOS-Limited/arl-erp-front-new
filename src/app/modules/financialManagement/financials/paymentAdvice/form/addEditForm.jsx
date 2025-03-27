@@ -28,10 +28,10 @@ export default function PaymentAdviceForm({
   },
 }) {
   //
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [objProps, setObjprops] = useState({});
   const [allSelect, setAllSelect] = useState(false);
 
@@ -96,7 +96,7 @@ export default function PaymentAdviceForm({
     if (profileData?.userId && profileData?.accountId) {
       getBuUnitDDL(profileData?.userId, profileData?.accountId, setUnitDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {

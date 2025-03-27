@@ -154,14 +154,14 @@ const CompleteConfirmation = ({
   };
 
   for (let key in checkList) {
-    if (checkList?.hasOwnProperty(key) && checkList[key] > 0) {
+    if (Object.prototype.hasOwnProperty.call(checkList, key) && checkList[key] > 0) {
       completed.push({
         checked: checkList[key],
         title: getTitle(key),
         [key]: checkList[key],
         date: getDate(key),
       });
-    } else if (checkList?.hasOwnProperty(key) && checkList[key] === 0) {
+    } else if (Object.prototype.hasOwnProperty.call(checkList, key) && checkList[key] === 0) {
       notCompleted.push({
         checked: checkList[key],
         title: getTitle(key),

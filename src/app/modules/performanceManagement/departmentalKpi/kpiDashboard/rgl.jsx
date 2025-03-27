@@ -100,7 +100,7 @@ const ShowcaseLayout = ({ values }) => {
       ...state,
       layouts: { lg: initialLayout },
     });
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [reports]);
 
   return (

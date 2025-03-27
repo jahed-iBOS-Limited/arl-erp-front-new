@@ -56,7 +56,7 @@ const initData = {
 
 export default function ShipmentCostForm() {
   const [isDisabled, setDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [fuleCost, setFuleCost] = useState([]);
@@ -115,7 +115,7 @@ export default function ShipmentCostForm() {
         landingData,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //netPayableCalculatorFunc

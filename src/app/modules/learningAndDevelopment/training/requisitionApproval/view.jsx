@@ -26,7 +26,7 @@ export default function RequisitionApprovalView() {
         setAllData(data);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.viewId]);
 
   return (

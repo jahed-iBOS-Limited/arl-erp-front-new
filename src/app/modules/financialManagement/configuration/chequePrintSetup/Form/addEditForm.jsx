@@ -40,7 +40,7 @@ export default function ChequePrintSetupForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       getBankDDl(setBankDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   //Dispatch single data action and empty single data for create
@@ -50,7 +50,7 @@ export default function ChequePrintSetupForm({
   //   } else {
   //     dispatch(setBankAccountSingleEmpty());
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [id]);
 
   const saveHandler = async (values, cb) => {

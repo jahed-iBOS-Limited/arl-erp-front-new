@@ -56,7 +56,7 @@ function CostOfProduction() {
 
   useEffect(() => {
     getData(initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

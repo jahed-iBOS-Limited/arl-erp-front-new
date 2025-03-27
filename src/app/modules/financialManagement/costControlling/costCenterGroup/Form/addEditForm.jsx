@@ -62,7 +62,7 @@ export default function CostCenterGroupForm({
     } else {
       dispatch(setCostCenterGroupSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //call groupParentDDL for edit
@@ -89,7 +89,7 @@ export default function CostCenterGroupForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

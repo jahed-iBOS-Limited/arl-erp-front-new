@@ -114,7 +114,7 @@ export default function ProjectedFinancialStatement() {
     getEnterpriseDivisionDDL(
       `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function ProjectedFinancialStatement() {
         setBuDDL(newData);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

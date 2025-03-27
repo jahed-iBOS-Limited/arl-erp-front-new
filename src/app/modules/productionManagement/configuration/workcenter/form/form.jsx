@@ -47,7 +47,7 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleRowData]);
 
   const rowDataAddHandler = (values) => {

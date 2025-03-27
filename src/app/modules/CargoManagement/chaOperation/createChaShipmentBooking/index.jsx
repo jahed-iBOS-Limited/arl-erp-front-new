@@ -245,7 +245,7 @@ function CreateChaShipmentBooking() {
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -400,7 +400,7 @@ function CreateChaShipmentBooking() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   return (

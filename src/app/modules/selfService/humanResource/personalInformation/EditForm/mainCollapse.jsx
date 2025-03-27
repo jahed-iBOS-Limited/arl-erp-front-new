@@ -65,7 +65,7 @@ export default function PersonalInfoCollapsePanel() {
     } else if (state?.checkbox === 'nomineeInformation') {
       setExpanded('panel9');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   const backHandler = () => {

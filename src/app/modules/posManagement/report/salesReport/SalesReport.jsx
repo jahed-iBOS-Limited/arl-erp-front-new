@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-concat */
+
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import ICard from "../../../_helper/_card";

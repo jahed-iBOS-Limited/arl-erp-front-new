@@ -70,11 +70,11 @@ export default function OEECapacityConfigurationLanding() {
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, userId, accId]);
   useEffect(() => {
     setPositionHandler(pageNo, pageSize, initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
 
   return (

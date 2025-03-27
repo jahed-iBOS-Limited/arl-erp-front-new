@@ -52,7 +52,7 @@ export function CustomerSalesTargetForm({
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   const [isDisabled, setDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [generalLedgerRowDto, setGeneralLedgerRowDto] = useState([]);
   const [singleData, setSingleData] = useState("");
   const [singleRowData, setSingleRowData] = useState([]);
@@ -122,7 +122,7 @@ export function CustomerSalesTargetForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, singleData]);
 
   // get user profile data from store
@@ -137,7 +137,7 @@ export function CustomerSalesTargetForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, approveid]);
 
   // useEffect(() => {
@@ -147,7 +147,7 @@ export function CustomerSalesTargetForm({
   //     selectedBusinessUnit?.value,
   //     4
   //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [getItemNameDDL]);
 
   const saveHandler = async (values, rowDto, cb) => {
@@ -309,7 +309,7 @@ export function CustomerSalesTargetForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, location]);
 
   const intValues = id ? singleData : approveid ? singleData : initData;

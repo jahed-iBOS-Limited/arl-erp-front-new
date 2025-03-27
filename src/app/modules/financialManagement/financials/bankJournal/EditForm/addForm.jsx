@@ -265,7 +265,7 @@ export default function BankJournalEditForm({
       singleDataById(id, type, setSingleData);
     } else {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, type]);
 
   useEffect(() => {
@@ -273,7 +273,7 @@ export default function BankJournalEditForm({
       setRowDto(singleData.objRow);
     } else {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);

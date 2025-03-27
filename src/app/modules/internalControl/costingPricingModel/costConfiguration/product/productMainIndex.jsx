@@ -34,14 +34,14 @@ const ProductMainIndex = ({
 
   useEffect(() => {
     commonLandingApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
     getUomDDL(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const commonLandingApi = (PageNo = pageNo, PageSize = pageSize) => {

@@ -62,7 +62,7 @@ export default function ItemRateUpdate() {
     getPlantList(
       `/wms/Plant/GetPlantDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {};
   const dispatch = useDispatch();

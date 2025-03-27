@@ -22,7 +22,7 @@ const CertificateManagementReport = () => {
   const getLanding = (values) => {};
   useEffect(() => {
     getLanding();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {}, []);

@@ -69,7 +69,7 @@ export default function ZoneCostRateForm() {
         setDisabled
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function ZoneCostRateForm() {
     getZoneDDL(accId, buId, setZoneDDL);
     getShipPointDDL(accId, buId, setShipPointDDL);
     getIsAmountOrDistanceBase(buId, setIsAmountOrDistanceBase);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const addRows = (values, setFieldValue) => {

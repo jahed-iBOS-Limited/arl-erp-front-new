@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 
 
 import React, { useState, useEffect } from "react";

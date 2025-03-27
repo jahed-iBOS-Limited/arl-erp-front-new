@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   ModalProgressBar,
@@ -53,7 +53,7 @@ export default function AccountClass() {
       dispatch(getGroupDDLAction());
       dispatch(getAccountClassPagination_action(profileData?.accountId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // delete singleData from row

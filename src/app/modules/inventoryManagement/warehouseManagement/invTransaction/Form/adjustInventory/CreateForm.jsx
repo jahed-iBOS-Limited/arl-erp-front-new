@@ -26,7 +26,7 @@ export default function CreateForm({
 }) {
   const [rowDto, setRowDto] = useState([]);
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -85,7 +85,7 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {

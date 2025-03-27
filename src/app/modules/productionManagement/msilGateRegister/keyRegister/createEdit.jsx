@@ -49,7 +49,7 @@ export default function KeyRegisterCreateEdit() {
     getKeyProviderDDL(
       `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

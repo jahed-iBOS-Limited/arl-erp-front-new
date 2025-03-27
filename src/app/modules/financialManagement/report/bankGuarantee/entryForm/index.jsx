@@ -36,7 +36,7 @@ export default function BankGuaranteeEntry() {
         `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function BankGuaranteeEntry() {
     getSbuDDL(
       `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {

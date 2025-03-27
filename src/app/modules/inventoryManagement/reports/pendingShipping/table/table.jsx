@@ -83,7 +83,7 @@ const PendingShippingReportTable = () => {
         GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getGridDataHandler = (values) => {
@@ -393,7 +393,7 @@ const PendingShippingReportTable = () => {
                     buttonText="Export Excel"
                   />
                   </div>
-                  
+
                 </div>
               </div>
             </form>

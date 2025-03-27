@@ -114,7 +114,7 @@ export default function ViewEditCashMargin() {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   const saveHandler = (values, cb) => {
@@ -202,7 +202,7 @@ export default function ViewEditCashMargin() {
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   return (
     <Formik

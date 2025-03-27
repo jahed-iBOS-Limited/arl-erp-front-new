@@ -115,7 +115,7 @@ export default function FormCmp({
   //     categoryApiCaller(data.itemTypeId);
   //     subcategoryApiCaller(data.itemCategoryId, data.itemTypeId);
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [accountId, selectedBusinessUnit]);
 
   return (

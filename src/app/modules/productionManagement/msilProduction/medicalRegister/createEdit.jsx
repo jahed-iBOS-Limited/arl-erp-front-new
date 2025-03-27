@@ -63,7 +63,7 @@ export default function MedicalRegisterCreate() {
     getServiceReasonDDL(
       `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${0}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const loadEnrollList = (v) => {
@@ -456,7 +456,7 @@ export default function MedicalRegisterCreate() {
                         <span>Medicine Name</span>
                         <span>
                           {selectedItem &&
-                            ` Stock: 
+                            ` Stock:
                           ${selectedItem?.numCurrentStock || 0}`}
                         </span>
                       </label>

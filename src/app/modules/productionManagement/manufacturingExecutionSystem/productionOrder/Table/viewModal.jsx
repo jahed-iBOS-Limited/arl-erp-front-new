@@ -136,7 +136,7 @@ export default function ProductionOrderViewFormModel({
         setSBUDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [landingTableRow]);
 
   // Quantity Handler

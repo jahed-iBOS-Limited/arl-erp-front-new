@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-// eslint-disable-next-line no-unused-vars
+
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
@@ -119,7 +119,7 @@ export default function RevenueElementCreateEdit() {
                 }));
                 setGeneralLedgerDDL(modifyData);
             })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
     return (
         <Formik
@@ -206,7 +206,7 @@ export default function RevenueElementCreateEdit() {
                                         isDisabled={id}
                                     />
                                 </div>
-                                
+
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="revenueCenter"

@@ -50,7 +50,7 @@ function MedicalRegisterLanding() {
       // `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessunitId=${selectedBusinessUnit?.value}`
       `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

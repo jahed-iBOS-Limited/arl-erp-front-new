@@ -28,10 +28,10 @@ const initData = {
 const HorizonLanding = () => {
   const history = useHistory();
 
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [isloading, setIsLoading] = useState(false);
 
   //ddl

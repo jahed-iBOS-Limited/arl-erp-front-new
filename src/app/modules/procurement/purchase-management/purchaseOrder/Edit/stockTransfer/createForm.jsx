@@ -214,7 +214,7 @@ export default function StockTransferPOCreateForm({
     //   0
     // );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const {

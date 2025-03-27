@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
@@ -50,14 +50,14 @@ export default function CorporatePerformanceForm({
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   const saveHandler = async (values, cb) => {

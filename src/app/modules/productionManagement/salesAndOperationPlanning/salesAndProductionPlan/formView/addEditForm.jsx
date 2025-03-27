@@ -33,12 +33,12 @@ export default function SalesAndProductionPlanCreateFormView({
     params: { viewId: id },
   },
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [salesPlanData, setSalesPlanData] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
 
@@ -91,7 +91,7 @@ export default function SalesAndProductionPlanCreateFormView({
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.viewId) {
-        // eslint-disable-next-line no-unused-vars
+
 
         const payload = {
           header: {

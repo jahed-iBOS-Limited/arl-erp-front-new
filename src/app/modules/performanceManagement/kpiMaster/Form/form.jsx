@@ -39,7 +39,7 @@ export default function FormCmp({
 
   useEffect(() => {
     getBscPerspectiveDDL(`/pms/CommonDDL/BSCPerspectiveDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

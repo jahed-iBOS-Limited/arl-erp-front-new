@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
       return this.parent.approveAmountMax >= value;
     }),
 });
-function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
+function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -52,7 +52,7 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
         setSingleData,
         setDisabled
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, gridItem]);
 
   const saveHandler = (values) => {

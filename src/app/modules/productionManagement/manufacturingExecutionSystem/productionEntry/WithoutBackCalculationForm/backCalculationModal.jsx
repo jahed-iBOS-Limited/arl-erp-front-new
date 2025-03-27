@@ -88,7 +88,7 @@ console.log("calculateTotalValue", calculateTotalValue)
         );
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [productionOrderId, wareHouseId, goodQty, values?.dteProductionDate]);
 
   return (

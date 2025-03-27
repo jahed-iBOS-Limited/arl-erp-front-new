@@ -63,11 +63,11 @@ export default function CashJournalEditForm({
       const data = singleItem.filter((item ,index ) => index !== 0)
       setRowDto(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleItem]);
 
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
     [rowDto]

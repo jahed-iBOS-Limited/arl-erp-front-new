@@ -187,7 +187,7 @@ export default function ReceiveModal() {
     getLocationDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, userId]);
 
   return (
@@ -243,7 +243,7 @@ export default function ReceiveModal() {
                     touched={touched}
                   />
                 </div>
-                
+
                 {values?.receiveType?.value === 1 ? (
                   <div className="col-md-3">
                     <label>Document No</label>

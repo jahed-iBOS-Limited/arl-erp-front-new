@@ -10,7 +10,7 @@ export default function ViewForm({ id, show, onHide }) {
     if (id) {
       dispatch(getShippingPointById(id));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // get view modal data from store

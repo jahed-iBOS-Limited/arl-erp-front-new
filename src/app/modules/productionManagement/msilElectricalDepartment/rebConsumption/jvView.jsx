@@ -17,7 +17,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     getGridData(
       `mes/MSIL/GetRebconsumptionMonthEnding?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const grandTotalValue = useMemo(() => {

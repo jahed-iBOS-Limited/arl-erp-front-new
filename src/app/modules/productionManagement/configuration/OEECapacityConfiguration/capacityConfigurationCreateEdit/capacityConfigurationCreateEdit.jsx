@@ -59,7 +59,7 @@ export default function CapacityConfigurationCreateEdit() {
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId, userId]);
 
   const loadItemNameDDL = (searchText, PlantId) => {

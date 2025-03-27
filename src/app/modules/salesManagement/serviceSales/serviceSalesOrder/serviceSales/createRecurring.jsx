@@ -113,7 +113,7 @@ export default function ServiceSalesCreateRecurring({
     getAccountManagerList(
       `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

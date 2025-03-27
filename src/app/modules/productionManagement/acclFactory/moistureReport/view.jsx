@@ -53,7 +53,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
       shift: { value: viewShift, label: viewShift },
       remarks: viewRemarks,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -36,7 +36,7 @@ export default function FuelConsumption() {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorFuelConsumptionLanding?BusinessUnitId=${selectedBusinessUnit.value}&FromDate=${rebConsumptionLanding?.fromDate}&ToDate=${rebConsumptionLanding?.toDate}&Shift=${rebConsumptionLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

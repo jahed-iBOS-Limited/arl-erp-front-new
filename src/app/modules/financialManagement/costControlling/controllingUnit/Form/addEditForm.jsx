@@ -55,7 +55,7 @@ export default function CostControllingForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -66,7 +66,7 @@ export default function CostControllingForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

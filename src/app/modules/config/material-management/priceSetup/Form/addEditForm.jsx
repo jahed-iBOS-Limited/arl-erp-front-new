@@ -1,5 +1,5 @@
 
-/* eslint-disable no-lone-blocks */
+
 
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
@@ -95,7 +95,7 @@ export default function PriceSetupForm({
     } else {
       dispatch(setPriceSetupEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get all initiaal dropdown action
@@ -108,7 +108,7 @@ export default function PriceSetupForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {

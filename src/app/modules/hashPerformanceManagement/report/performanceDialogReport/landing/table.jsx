@@ -52,7 +52,7 @@ const PerformanceDialogReport = () => {
     return state.authData;
   }, shallowEqual);
 
-  // eslint-disable-next-line no-unused-vars
+
   const { accountId, employeeId } = profileData;
 
   const [yearDDL, setYearDDL] = useState([]);
@@ -61,7 +61,7 @@ const PerformanceDialogReport = () => {
 
   useEffect(() => {
     getYearDDL(accountId, setYearDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const { handleSubmit, setFieldValue, values, errors } = useFormik({
@@ -123,7 +123,7 @@ const PerformanceDialogReport = () => {
                   errors={errors}
                 />
               </div>
-              {values?.reportTypeDDL?.value !== 4 && 
+              {values?.reportTypeDDL?.value !== 4 &&
                 <div className="col-md-3">
                   <NewSelect
                     name="quarterDDLgroup"
@@ -150,8 +150,8 @@ const PerformanceDialogReport = () => {
                 </div>
               }
               <div className="col-md-3 pt-5">
-                <button 
-                className="btn btn-primary" 
+                <button
+                className="btn btn-primary"
                 type="button"
                 onClick={ ()=>{
                   getPerformanceDialogReport(

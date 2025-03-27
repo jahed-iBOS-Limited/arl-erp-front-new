@@ -10,7 +10,7 @@ export default function PlanDownModalShow({ values, singleData }) {
     getRowData(
       `/asset/AssetMaintanance/GetPlanDownTimeListByDate?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopFloor?.value}&MachineId=${singleData?.intMachineId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values]);
 
   // total time initial value

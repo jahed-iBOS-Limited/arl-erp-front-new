@@ -13,7 +13,7 @@ const AuditPlanViewAndPrint = () => {
   const { state: auditReportData } = useLocation();
 
   // state
-  // eslint-disable-next-line no-unused-vars
+
   const [objProps, setObjprops] = useState({});
 
   // print audit plan
@@ -32,7 +32,7 @@ const AuditPlanViewAndPrint = () => {
         auditReportData?.intAuditScheduleId,
         getAuditReportDataById,
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

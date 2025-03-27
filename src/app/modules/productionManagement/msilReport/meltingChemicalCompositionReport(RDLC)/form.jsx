@@ -25,7 +25,7 @@ const MeltingChemicalCompositionReportRDLC = () => {
 
   useEffect(() => {
     getTestNameList(`/mes/MesDDL/GetTestNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[]);
 
   const parameterValues = (values) => {

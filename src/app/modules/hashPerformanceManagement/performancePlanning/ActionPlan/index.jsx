@@ -210,7 +210,7 @@ export default function ActionPlan() {
     getYearData(
       `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId, selectedBusinessUnit]);
 
   const pdfData = { rowData };

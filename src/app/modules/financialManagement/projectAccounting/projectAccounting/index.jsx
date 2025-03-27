@@ -36,7 +36,7 @@ export default function ProjectAccounting() {
       );
     }
 
-    // eslint-disable-next-line
+
   }, [project, profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function ProjectAccounting() {
       setIsEdit(true);
       setProject(location.state.project);
     }
-    // eslint-disable-next-line
+
   }, []);
 
   const history = useHistory();

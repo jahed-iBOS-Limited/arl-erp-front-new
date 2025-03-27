@@ -40,7 +40,7 @@ const GeneratorGasConsumptionLanding = () => {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorFuelConsumptionLanding?BusinessUnitId=${selectedBusinessUnit.value}&FromDate=${initData.fromDate}&ToDate=${initData.toDate}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

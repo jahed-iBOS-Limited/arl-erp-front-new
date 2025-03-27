@@ -85,7 +85,7 @@ const HologramBaseDeliveryForm = () => {
     if (id) {
       dispatch(getDeliveryById(id));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   const barcodeHandler = (soCode, values, setFieldValue) => {

@@ -75,7 +75,7 @@ export default function MonthlyVoyageStatement() {
   useEffect(() => {
     getRowData(initData);
     getSBUListDDL(accId, buId, setSBUList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const JournalPost = (values, item, index, journalType) => {

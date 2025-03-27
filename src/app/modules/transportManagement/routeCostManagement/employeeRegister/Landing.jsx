@@ -80,7 +80,7 @@ const EmployeeRegisterLanding = () => {
     if(employeeRegisterLanding?.driverName?.value){
       gridDataFunc(pageNo, pageSize, employeeRegisterLanding)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [employeeRegisterLanding])
   return (
     <ICustomCard title='Employee Register'>

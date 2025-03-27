@@ -121,7 +121,7 @@ const ReconciliationJournal = () => {
   };
 
   // ref
-  // eslint-disable-next-line no-unused-vars
+
   const [open, setOpen] = useState(false);
 
   // states
@@ -129,9 +129,9 @@ const ReconciliationJournal = () => {
   const [fileObject, setFileObject] = useState('');
   const [sbuDDL, setSbuDDL] = useState([]);
   const [typeDDL] = useState(getType());
-  // eslint-disable-next-line no-unused-vars
 
-  // eslint-disable-next-line no-unused-vars
+
+
   const [loading, setLoading] = useState(false);
   //storingData
   const [jounalLedgerData, setJounalLedgerData] = useState([]);

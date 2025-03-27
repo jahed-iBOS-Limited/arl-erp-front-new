@@ -54,10 +54,10 @@ const LoanRegisterLanding = () => {
   };
   const [historyData, getHistory, loadingHistory] = useAxiosGet();
   // ref
-  // eslint-disable-next-line no-unused-vars
+
   const printRef = useRef();
 
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
@@ -120,7 +120,7 @@ const LoanRegisterLanding = () => {
       handleInvoicePrint();
       setShowModal(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleItem]);
 
   const {
@@ -137,7 +137,7 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -152,7 +152,7 @@ const LoanRegisterLanding = () => {
       setLoading,
       0,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   //setPositionHandler

@@ -37,7 +37,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
     getRfqDetailsData(
       `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipById?RequestForQuotationId=${intRequestForQuotationId}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [intRequestForQuotationId, profileData, selectedBusinessUnit]);
 
   const printRef = useRef();

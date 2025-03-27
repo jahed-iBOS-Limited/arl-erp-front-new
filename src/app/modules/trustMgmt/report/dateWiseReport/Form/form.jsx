@@ -45,7 +45,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
   useEffect(() => {
     getUnits(generateAPI("UnitDDL"));
     getDonationPurpose(generateAPI("DonationPurpose"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -187,7 +187,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     type="text"
                   />
                 </div>
-                
+
                 <div className="col-lg-3">
                   <NewSelect
                     label="Payment Type"
@@ -247,7 +247,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     sheet={"Date Wise Report"}
                     buttonText="Export To Excel"
                   />
-                </div>              
+                </div>
               </div>
             </Form>
           </>

@@ -20,9 +20,9 @@ const RowDtoTable = ({
   values,
 }) => {
   const [isShowModal, setIsShowModal] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [currentRowData, setCurrentRowData] = useState("");
-  // eslint-disable-next-line no-unused-vars
+
   const [currentIndex, setCurrentIndex] = useState(null);
 
   return (

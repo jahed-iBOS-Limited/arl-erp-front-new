@@ -34,7 +34,7 @@ export default function AutoPRCalculation() {
       });
       setItemTypeList(modData);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

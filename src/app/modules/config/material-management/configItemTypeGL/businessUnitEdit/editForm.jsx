@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
@@ -45,7 +45,7 @@ export default function ConfigItemTypeGLEditForm({
       selectedBusinessUnit?.value,
       id
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getBusinessUnitById = async (accId, buId, id) => {
@@ -71,7 +71,7 @@ export default function ConfigItemTypeGLEditForm({
 
   // save business unit data to DB
   const saveBusinessUnit = async (values, cb) => {
-    
+
     const businessData = {
       configId: +id,
       itemCategoryId: values?.itemCategoryName.value,

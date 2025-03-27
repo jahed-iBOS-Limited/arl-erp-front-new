@@ -17,7 +17,7 @@ export default function DetailsModal({ clickedRow, previousLandingValues }) {
         `/fino/Report/GetCostOfProductionDetail?businessUnitId=${previousLandingValues?.businessUnit?.value}&itemId=${clickedRow?.intItemId}&BudCOGS=${clickedRow?.numBudCOGS}&ActCOGS=${clickedRow?.numActCOGS}&fromDate=${previousLandingValues?.fromDate}&toDate=${previousLandingValues?.toDate}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickedRow]);
 
   return (

@@ -45,7 +45,7 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
 
   useEffect(() => {
     cb()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange])
 
   let cb = () => {

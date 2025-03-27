@@ -29,7 +29,7 @@ export default function AssessmentSubmissionForm() {
     getQuestionsList(
       `/hcm/Training/GetTrainingAssesmentQuestionByScheduleId?intScheduleId=${viewId}&isPreAssessment=${location.state?.isPreAssesment}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
 

@@ -133,12 +133,12 @@ export default function CorporateKpiEditForm({ isView, data }) {
       );
       dispatch(getPMSFrequencyDDLAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     dispatch(getKpiEditedSingleDataAction(id, 3));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -207,7 +207,7 @@ export default function CorporateKpiEditForm({ isView, data }) {
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -221,7 +221,7 @@ export default function CorporateKpiEditForm({ isView, data }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const disableHandler = (cond) => {
@@ -238,7 +238,7 @@ export default function CorporateKpiEditForm({ isView, data }) {
     if (id) {
       dispatch(getKpiEntryById(+id, 3));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -246,7 +246,7 @@ export default function CorporateKpiEditForm({ isView, data }) {
       dispatch(setKpiTargetSingleEmpty());
       dispatch(SetEmployeeBasicInfoEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -263,7 +263,7 @@ export default function CorporateKpiEditForm({ isView, data }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, editedSingleData, id]);
 
   // dipatch getStrategicParticularsGridAction

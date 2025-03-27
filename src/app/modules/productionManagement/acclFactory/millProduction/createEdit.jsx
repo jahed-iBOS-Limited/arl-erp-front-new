@@ -69,7 +69,7 @@ export default function MillProductionCreateEdit() {
     getShiftDDL(
       `/mes/MesDDL/GetProductionShiftDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [userId, accountId, selectedBusinessUnit?.value]);
   const saveHandler = (values, cb) => {
     const payload = {
@@ -659,7 +659,7 @@ export default function MillProductionCreateEdit() {
                     </tbody>
                   </table>
 </div>
-                
+
                 </div>
               </div>
               <button

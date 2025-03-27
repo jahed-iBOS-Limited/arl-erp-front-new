@@ -163,7 +163,7 @@ export default function JohariWindowActionPlan() {
     getYearData(
       `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const pdfExport = (fileName) => {

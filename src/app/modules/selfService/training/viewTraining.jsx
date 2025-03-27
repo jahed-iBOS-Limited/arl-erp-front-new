@@ -26,7 +26,7 @@ const ViewTraining = () => {
         getQuestionsList(
             `/hcm/Training/GetTrainingAssesmentQuestionByScheduleId?intScheduleId=${id}&isPreAssessment=${location.state?.isPreAssesment}`
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const rowDtoHandler = (index, i) => {

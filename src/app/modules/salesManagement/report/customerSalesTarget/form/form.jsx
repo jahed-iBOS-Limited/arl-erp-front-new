@@ -65,7 +65,7 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleRowData]);
 
   const removeHandler = (index) => {
@@ -82,7 +82,7 @@ export default function FormCmp({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     if (itemListByPartner.length > 0 && !isEdit) {
@@ -99,7 +99,7 @@ export default function FormCmp({
       }));
       setRowDto(modifiedData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [itemListByPartner]);
 
   const rowDtoHandler = (e, sl) => {
@@ -142,7 +142,7 @@ export default function FormCmp({
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [fileObject]);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export default function FormCmp({
         setItemDDL,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isEdit]);
 
   return (

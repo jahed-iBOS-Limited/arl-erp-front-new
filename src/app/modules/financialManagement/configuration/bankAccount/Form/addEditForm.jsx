@@ -52,7 +52,7 @@ export default function BankAccountForm({
       dispatch(getBankDDLAction());
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // get bankAccountType ddl from store
@@ -66,7 +66,7 @@ export default function BankAccountForm({
       dispatch(getBankAccountTypeDDLAction());
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // get single vehicleUnit from store
@@ -83,7 +83,7 @@ export default function BankAccountForm({
     } else {
       dispatch(setBankAccountSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

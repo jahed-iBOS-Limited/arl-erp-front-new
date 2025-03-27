@@ -31,14 +31,14 @@ const TerritorySetupForm = ({
   //   if (params?.id) {
   //     GetbyId(params?.id, setSingleData);
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [params]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     // if (profileData?.accountId && selectedBusinessUnit?.value) {
     //   if (params?.id) {
-    //     // eslint-disable-next-line no-unused-vars
+    //
     //     const payload = {
     //       intLabelAutoId: +params?.id,
     //       strLabelName: values?.labelName,
@@ -53,7 +53,7 @@ const TerritorySetupForm = ({
     //     };
     //     saveEditedSalesforeclabel(payload, setDisabled, cb);
     //   } else {
-    //     // eslint-disable-next-line no-unused-vars
+    //
     //     const payload = {
     //       strLabelName: values?.labelName,
     //       intAccountId: profileData?.accountId,

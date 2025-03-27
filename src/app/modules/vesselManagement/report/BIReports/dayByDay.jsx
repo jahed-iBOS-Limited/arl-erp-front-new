@@ -58,7 +58,7 @@ const DayByDayUnloadAndDelivery = () => {
   useEffect(() => {
     getShippointDDL(accId, buId, setShippointDDL);
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

@@ -45,7 +45,7 @@ export default function BalancerReportTable() {
         setLoading,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const pdfExport = (fileName) => {

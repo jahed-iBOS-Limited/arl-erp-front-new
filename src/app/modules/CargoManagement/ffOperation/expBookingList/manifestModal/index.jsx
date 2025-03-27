@@ -42,7 +42,7 @@ export default function ManifestModal({ rowClickData }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

@@ -63,7 +63,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
     if (yearDDL?.length > 0) {
       dispatch(getMonthDDLAction(yearDDL?.[0]?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   const commonGridDataFunc = (
@@ -100,7 +100,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         : "";
       commonGridDataFunc(obj?.label, obj?.value, yearId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, yearDDL]);
 
 

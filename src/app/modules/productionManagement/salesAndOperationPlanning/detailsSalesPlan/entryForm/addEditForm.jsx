@@ -35,7 +35,7 @@ const initData = {
   profitCenter: "",
 };
 export default function DetailsSalesPlanEntry() {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
@@ -43,7 +43,7 @@ export default function DetailsSalesPlanEntry() {
 
   console.log("actionType", actionType);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
 
@@ -140,7 +140,7 @@ export default function DetailsSalesPlanEntry() {
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (location?.state?.detailsItem?.intDetailSalesPlanId) {
-        // eslint-disable-next-line no-unused-vars
+
 
         const payload = {
           header: {

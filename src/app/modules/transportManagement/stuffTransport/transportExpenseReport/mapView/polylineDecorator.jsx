@@ -26,7 +26,7 @@ const PolylineDecorator = (props) => {
       ],
     }).addTo(map);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [props?.positions]);
   return (
     <>

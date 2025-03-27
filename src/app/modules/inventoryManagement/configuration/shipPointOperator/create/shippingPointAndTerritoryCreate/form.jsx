@@ -65,14 +65,14 @@ const ShippingPointAndTerritoryCreateForm = () => {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   useEffect(() => {
     getShipPointDDL(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   const saveHandler = (values, cb) => {

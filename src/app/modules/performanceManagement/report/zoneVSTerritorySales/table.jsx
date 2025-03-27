@@ -45,7 +45,7 @@ const ZoneVSTerritorySalesReport = () => {
     getSoldToPartnerDDL(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";

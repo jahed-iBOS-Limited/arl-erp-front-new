@@ -16,13 +16,13 @@ const validationSchema = Yup.object().shape({});
 // this component is used from multiple place, do not change existing props name and existing code which is related to this props,
 export function NegotiationSupplierDetails({ currentItem, isHiddenBackBtn }) {
 
-  // eslint-disable-next-line no-unused-vars
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   // get selected business unit from store
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -98,8 +98,8 @@ export function NegotiationSupplierDetails({ currentItem, isHiddenBackBtn }) {
                             <th>Supplier Name</th>
                             <th>Supplier Address</th>
                             <th>Contact No</th>
-                            <th>Email</th>                           
-                            <th>Action</th>                           
+                            <th>Email</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody className="tableHead">

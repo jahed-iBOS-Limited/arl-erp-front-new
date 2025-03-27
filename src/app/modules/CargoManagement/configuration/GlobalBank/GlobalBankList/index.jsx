@@ -22,7 +22,7 @@ export default function GlobalBankList() {
 
   React.useEffect(() => {
     commonLandingApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const commonLandingApi = (
     searchValue,

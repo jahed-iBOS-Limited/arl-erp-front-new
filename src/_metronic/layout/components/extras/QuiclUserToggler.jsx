@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-imports */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
+
 import objectPath from 'object-path';
 import React, { useMemo } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';

@@ -67,7 +67,7 @@ export function DateWiseSalesReport() {
         setSalesOrgDDl
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const printRef = useRef();

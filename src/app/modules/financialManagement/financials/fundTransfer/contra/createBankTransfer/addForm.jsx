@@ -50,7 +50,7 @@ export default function BankJournalCreateFormContra() {
     if (intRequestToUnitId) {
       getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestToUnitId}&Status=true`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [intRequestToUnitId])
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);

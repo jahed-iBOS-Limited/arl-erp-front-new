@@ -31,7 +31,7 @@ export default function RevenueElement() {
     getTableData(
       `/costmgmt/Revenue/GetRevenueElementLandingPaging?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik

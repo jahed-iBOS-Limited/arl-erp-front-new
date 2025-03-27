@@ -112,7 +112,7 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
     } else {
       dispatch(setSalesOrderSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [createSaveData]);
 
   // get single sales order  unit from store
@@ -143,7 +143,7 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
         getCreditLimitForInternalUser_action(createSaveData.soldToPartnerId)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [createSaveData]);
 
   //total amount calculation
@@ -166,7 +166,7 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
       setRowDto([]);
       dispatch(setSalesOrderSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <div>

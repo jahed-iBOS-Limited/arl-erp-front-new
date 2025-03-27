@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
-// eslint-disable-next-line no-unused-vars
+
 import { getGridDataSingleInvoice, getGenaratedGridData } from "../helper";
 import { SearchForm } from "./form";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -29,7 +29,7 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -61,7 +61,7 @@ export function TableRow() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [taxBranchDDL]);
 
   const onSubmitHandler = (values, setModal) => {
@@ -78,8 +78,8 @@ export function TableRow() {
         pageSize
       );
     } else {
-      /* 
-       viewType (Single Partner)  = 2 
+      /*
+       viewType (Single Partner)  = 2
       */
       if (values?.viewType?.value === 2) {
         getGridDataSingleInvoice(

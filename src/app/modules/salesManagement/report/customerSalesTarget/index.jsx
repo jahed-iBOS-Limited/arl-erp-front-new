@@ -56,7 +56,7 @@ const CustomerSalesTarget = () => {
         selectedBusinessUnit?.value
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   const customerSalesLanding = useSelector((state) => {
     return state.localStorage.customerSalesLanding;
@@ -85,7 +85,7 @@ const CustomerSalesTarget = () => {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, customerSalesLanding]);
 
   const targetEntry = (values) => {

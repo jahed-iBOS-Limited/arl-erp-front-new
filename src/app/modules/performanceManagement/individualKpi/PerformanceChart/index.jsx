@@ -46,7 +46,7 @@ export default function PerformanceChart({ values }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values]);
 
   const callGetReportAction = () => {

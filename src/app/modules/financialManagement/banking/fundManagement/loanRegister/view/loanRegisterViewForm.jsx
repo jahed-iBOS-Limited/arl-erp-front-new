@@ -76,7 +76,7 @@ export default function LoanRegisterViewForm({
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ export default function LoanRegisterViewForm({
       fetchBankAccountDDL();
       fetchFacilityDDL();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
 
   useEffect(() => {

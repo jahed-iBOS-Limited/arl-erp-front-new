@@ -41,7 +41,7 @@ export default function FormCmp({
     if (selectedBusinessUnit && profileData) {
       getAccountCategoryDDL(profileData?.accountId, setAccountCategoryDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -90,24 +90,24 @@ export default function FormCmp({
               <div className="global-form">
                 <div className="form-group row">
                   <div className="col-lg-4 ">
-                     <label>FS Component Standard Name</label>               
+                    <label>FS Component Standard Name</label>
                     <InputField
                       value={locationData?.fscomponentName}
                       name="fsComponent"
                       placeholder="FS Component Standard Name"
                       disabled
                     />
-                                      
+
                   </div>
                   <div className="col-lg-4 ">
-                     <label>FS Component Coustomize Name</label>               
+                    <label>FS Component Coustomize Name</label>
                     <InputField
                       value={values?.fsComponentName}
                       name="fsComponentName"
                       placeholder="FS Component Coustomize Name"
                       //disabled={generalLedgerRowDto.length > 0 ? true : false}
                     />
-                                 
+
                   </div>
                 </div>
                 <div className="form-group row">
@@ -130,10 +130,10 @@ export default function FormCmp({
                       errors={errors}
                       touched={touched}
                     />
-                               
+
                   </div>
                   <div className="col-lg-3">
-                     <label>General Ledger</label>               
+                    <label>General Ledger</label>
                     <NewSelect
                       name="generalLedger"
                       options={generalLedgerDDL || []}
@@ -226,7 +226,7 @@ export default function FormCmp({
                   </table>
                 </div>
               )}
-                                              
+
               <button
                 type="submit"
                 style={{ display: "none" }}

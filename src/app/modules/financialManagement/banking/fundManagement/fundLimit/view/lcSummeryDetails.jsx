@@ -84,7 +84,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
       setHeaderInfo
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const printRef = useRef();

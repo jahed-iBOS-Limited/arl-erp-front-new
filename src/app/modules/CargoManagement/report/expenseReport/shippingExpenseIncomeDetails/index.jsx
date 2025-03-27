@@ -12,7 +12,7 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
         `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeDetails?bookingId=${bookingId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingId]);
   return (
     <div>

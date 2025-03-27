@@ -41,7 +41,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
     setBankAccDDL(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   return (

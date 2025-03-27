@@ -35,7 +35,7 @@ export default function DailySalesSetupBase() {
             `/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accountId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`
 
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [buId]);
 
     const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;

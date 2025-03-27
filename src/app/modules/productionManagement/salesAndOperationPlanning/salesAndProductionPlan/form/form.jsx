@@ -75,12 +75,12 @@ export default function FormCmp({
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [fileObject]);
 
   useEffect(() => {
     setRowDto(itemNameDDL.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [itemNameDDL]);
 
   const handleClick = (event) => {

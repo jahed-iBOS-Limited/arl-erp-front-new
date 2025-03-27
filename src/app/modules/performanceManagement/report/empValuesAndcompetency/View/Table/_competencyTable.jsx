@@ -34,7 +34,7 @@ export default function CompetencyTable({
         ..._data.competency,
       });
     }
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [_data]);
 
   return (

@@ -144,7 +144,7 @@ export default function CreateEditProductAnalysis() {
         setMaterial
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {

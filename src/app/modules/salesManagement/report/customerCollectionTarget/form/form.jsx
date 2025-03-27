@@ -64,7 +64,7 @@ export default function FormCmp({
         label: "regionName",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isEdit]);
 
   return (

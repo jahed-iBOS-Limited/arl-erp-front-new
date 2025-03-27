@@ -58,7 +58,7 @@ const VesselCostInfo = () => {
     GetDomesticPortDDL(setPortDDL);
     getSupplierDDL(accId, buId, setSupplierDDL);
     GetCarrierDDL(accId, buId, 0, setCarrierDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

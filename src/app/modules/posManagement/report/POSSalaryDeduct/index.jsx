@@ -16,7 +16,7 @@ const POSSalaryDeduct = () => {
     const [fairPriceDDL, getFairPriceDDL, fairPriceDDLloader] = useAxiosGet();
     const [rowData, getRowData, rowDataLoader] = useAxiosGet();
     const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData, shallowEqual)
-    // eslint-disable-next-line no-unused-vars
+
     const [objProps, setObjprops] = useState({});
     const totalPaidAmount = useMemo(
       () =>
@@ -31,7 +31,7 @@ const POSSalaryDeduct = () => {
     useEffect(() => {
         // getFairPriceDDL(`/wms/Warehouse/GetFairPriceShopDDL`);
         getFairPriceDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=68&OrgUnitTypeId=8`);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [selectedBusinessUnit,profileData?.userId]);
     return (
       <IForm

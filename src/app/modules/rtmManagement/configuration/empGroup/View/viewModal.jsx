@@ -11,7 +11,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls";
 
 export default function EmployeeGroupViewForm() {
-  // eslint-disable-next-line no-unused-vars
+
   const history = useHistory();
   const params = useParams();
   const [singleData, setSingleData] = useState("");

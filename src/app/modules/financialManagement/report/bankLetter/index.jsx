@@ -81,7 +81,7 @@ export default function BankLetter() {
 
   useEffect(() => {
     getBankList(`/hcm/HCMDDL/GetBankDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function BankLetter() {
       handleInvoicePrint();
       setShowModal(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleRowItem]);
 
   const saveHandler = (values, cb) => {

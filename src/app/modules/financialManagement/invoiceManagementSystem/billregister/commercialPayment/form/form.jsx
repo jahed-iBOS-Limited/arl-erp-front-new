@@ -60,7 +60,7 @@ export default function FormCmp({
     getChargeTypeDDL(
       `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const loadPoLcList = (v) => {

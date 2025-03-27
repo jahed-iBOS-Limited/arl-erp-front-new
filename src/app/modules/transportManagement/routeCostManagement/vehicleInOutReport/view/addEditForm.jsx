@@ -42,7 +42,7 @@ export default function ShipmentCostViewForm({ id }) {
     if (id) {
       getShipmentByID(id, setSingleData, setRowDto);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

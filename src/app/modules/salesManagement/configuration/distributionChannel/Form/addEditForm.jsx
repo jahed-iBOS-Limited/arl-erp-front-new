@@ -56,7 +56,7 @@ export default function DistributionChannelForm({
     } else {
       dispatch(setDistributionChannelSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -67,7 +67,7 @@ export default function DistributionChannelForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

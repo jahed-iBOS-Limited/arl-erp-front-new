@@ -41,7 +41,7 @@ export default function VesselShipPointChange() {
     GetDomesticPortDDL(setDomesticPortDDL);
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const setLandingData = (values) => {

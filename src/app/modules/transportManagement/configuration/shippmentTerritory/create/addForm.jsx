@@ -39,7 +39,7 @@ export default function ShippmentTerritoryForm() {
     );
     getAreaDDL(accId, buId, setAreaDDL);
     getShipPointDDL(accId, buId, setShipPointDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {

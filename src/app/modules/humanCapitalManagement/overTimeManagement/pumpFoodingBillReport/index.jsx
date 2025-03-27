@@ -33,7 +33,7 @@ export default function PumpFoodingBillReport() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();

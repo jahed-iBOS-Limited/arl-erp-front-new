@@ -34,7 +34,7 @@ export default function ViewForm({ currentItem }) {
 
   useEffect(() => {
     getTarget();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [kpiId, frId, year]);
 
   useEffect(() => {

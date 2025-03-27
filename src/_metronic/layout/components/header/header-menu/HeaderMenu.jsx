@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
+
 import React from "react";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
@@ -18,7 +18,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
       {...layoutProps.headerMenuAttributes}
     >
       <div className="d-flex">
-        
+
         {/* <button
                 className="btn btn-light-primary btn-bold"
                 onClick={() => window.location.reload()}

@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useEffect } from "react";
 import IForm from "../../../../_helper/_form";
 import IssueInvantory from "./issueInvantory/CreateForm";
@@ -178,7 +178,7 @@ export function ForminvTrans() {
         setTitle("Create Receive Inventory");
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [potype, objProps, lastInvData]);
 
   return (

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 import { Paper, Tab, Tabs } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { SaveOutlined } from '@mui/icons-material';
@@ -167,7 +167,7 @@ function DeliveryScheduleplanReport() {
     getDeliveryStatusDDL(
       `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const handleChange = (newValue, values) => {

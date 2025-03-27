@@ -19,7 +19,7 @@ const SalesOrderRowTable = ({
   // const [currentIndex] = useState(null);
   // const [orderQtyCheck, setOrderQtyCheck] = useState(false);
   // const [basicPriceCheck, setBasicPriceCheck] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch()
 
@@ -145,7 +145,7 @@ const SalesOrderRowTable = ({
                 <th style={{ width: "150px", fontSize: "10px" }}>Ship To Party</th>
                 <th style={{ fontSize: "10px" }}>Item Code</th>
                 <th style={{ fontSize: "10px" }}>Item Name</th>
-                <th style={{ fontSize: "10px" }}>Customer Item Name</th>               
+                <th style={{ fontSize: "10px" }}>Customer Item Name</th>
                 <th style={{ fontSize: "10px" }}>UOM</th>
                 <th style={{ fontSize: "10px" }}>Is Free</th>
                 <th style={{ fontSize: "10px" }}>Quantity</th>
@@ -343,7 +343,7 @@ const SalesOrderRowTable = ({
                         }}
                       />
                     </td>
-                    
+
                     <td
                       className="disabled-feedback disable-border"
                       style={{ width: "100px" }}

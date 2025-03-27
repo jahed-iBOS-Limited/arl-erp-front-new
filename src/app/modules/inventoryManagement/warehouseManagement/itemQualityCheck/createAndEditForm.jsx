@@ -452,7 +452,7 @@ export default function QualityCheckCreateForm() {
     getPoDDL(
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   return (
     <Formik

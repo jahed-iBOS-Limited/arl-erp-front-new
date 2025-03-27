@@ -44,7 +44,7 @@ export const OthersInfo = ({ values, setFieldValue, errors, touched }) => {
         },
       ]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId && selectedBusinessUnit?.value]);
   return (
     <div className="global-form form form-label-right">

@@ -10,7 +10,7 @@ export default function ProjectedPlannedFundRequirement({ rowData, values }) {
   });
 
   const [financialCostOne, setFinancialCostOne] = useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [financialCostTwo, setFinancialCostTwo] = useState(0);
   console.log({ values });
 

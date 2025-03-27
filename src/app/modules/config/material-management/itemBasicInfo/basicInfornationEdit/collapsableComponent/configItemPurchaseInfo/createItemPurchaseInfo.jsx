@@ -66,7 +66,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
     if (itemId && selectedBusinessUnit.value && profileData.accountId) {
       getDataById(itemId, profileData.accountId, selectedBusinessUnit.value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [itemId, profileData, selectedBusinessUnit]);
 
   // Remove duplicate from alternateuom list

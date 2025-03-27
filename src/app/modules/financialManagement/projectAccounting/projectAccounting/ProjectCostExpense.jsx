@@ -30,7 +30,7 @@ const ProjectExpense = ({
   projectCostingExpense = [],
   isEdit = false,
 }) => {
-  // eslint-disable-next-line
+
   // DDL
   const [costDDL, setCostDDL] = useState([]);
   const [profitDDL, setProfitDDL] = useState([]);
@@ -74,7 +74,7 @@ const ProjectExpense = ({
       }));
       setExpenseData(modifiedData);
     }
-    // eslint-disable-next-line
+
   }, [isEdit, projectCostingExpense]);
 
   // cost DDL
@@ -87,7 +87,7 @@ const ProjectExpense = ({
       },
     );
 
-    // eslint-disable-next-line
+
   }, [selectedBusinessUnit?.value, profileData?.accountId, profileData?.sbuId]);
 
   // responsible DDL
@@ -103,7 +103,7 @@ const ProjectExpense = ({
           setResponsibleDDL(res);
         },
       );
-    // eslint-disable-next-line
+
   }, [selectedBusinessUnit?.value, profileData?.accountId, project]);
 
   // remove team member method

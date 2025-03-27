@@ -12,7 +12,7 @@ const AelReportLanding = () => {
     getRowData(
       `/hcm/Training/AelEventLanding`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

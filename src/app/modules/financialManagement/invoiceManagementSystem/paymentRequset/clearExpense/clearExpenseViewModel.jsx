@@ -100,7 +100,7 @@ export default function ClearExpenseViewModel({
                         </div>
                         {/* date */}
                         <div className="col-lg-6 pl pr-1 mb-1">
-                            
+
                           <IInput
                             value={_dateFormatter(values?.expenseFrom)}
                             label="From"
@@ -108,7 +108,7 @@ export default function ClearExpenseViewModel({
                             type="date"
                             disabled={true}
                           />
-                                     
+
                         </div>
                         <div className="col-lg-6 pl pr-1 mb-1">
                           <IInput
@@ -118,7 +118,7 @@ export default function ClearExpenseViewModel({
                             type="date"
                             disabled={true}
                           />
-                                           
+
                         </div>
                         <div className="col-lg-6 pr pl-1 mb-1">
                           <label>Project Name</label>

@@ -31,7 +31,7 @@ function StockInfo({ values }) {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   console.log(rowDto);

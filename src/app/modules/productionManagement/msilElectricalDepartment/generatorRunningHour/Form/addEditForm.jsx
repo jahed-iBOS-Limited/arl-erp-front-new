@@ -69,7 +69,7 @@ export default function GeneratorRunningHourCreate() {
 
    useEffect(() => {
       getGeneratorNameDDL(`/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`)
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+
    }, [selectedBusinessUnit]);
 
 

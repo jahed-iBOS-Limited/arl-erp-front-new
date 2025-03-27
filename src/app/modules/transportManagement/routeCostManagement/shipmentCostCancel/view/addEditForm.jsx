@@ -69,7 +69,7 @@ export default function ShipmentCostViewForm({ id, values }) {
         getShipmentByID(id, setSingleData, null, setDisabled);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // if Report type panding
@@ -87,7 +87,7 @@ export default function ShipmentCostViewForm({ id, values }) {
       };
       setRowDto([obj]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buMilage, singleData]);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function ShipmentCostViewForm({ id, values }) {
   }, [singleData]);
 
   return (
-    <div> 
+    <div>
       {isDisabled && <Loading />}
     <Form
       initData={id ? singleData : initData}
@@ -119,7 +119,7 @@ export default function ShipmentCostViewForm({ id, values }) {
       vehicleReant={vehicleReant}
       distanceKM={distanceKM}
       shipmentId={singleData?.shipmentId}
-    
+
     />
     </div>
   );

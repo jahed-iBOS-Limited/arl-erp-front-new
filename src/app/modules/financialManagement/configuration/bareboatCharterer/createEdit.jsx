@@ -288,7 +288,7 @@ export default function BareboatChartererConfigCreateEdit() {
         setTransferBusinessUnitDDL(newData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, selectedBusinessUnit, profileData]);
 
   const [objProps, setObjprops] = useState({});

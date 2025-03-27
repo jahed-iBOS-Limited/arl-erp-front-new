@@ -365,7 +365,7 @@ function TransportModal({ rowClickData, CB }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -382,7 +382,7 @@ function TransportModal({ rowClickData, CB }) {
       },
     );
     getTruckSize(`${imarineBaseUrl}/domain/ShippingService/GetTruckSize`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const GetAirServiceProviderDDLFunc = (
     shipperOrshipperId,

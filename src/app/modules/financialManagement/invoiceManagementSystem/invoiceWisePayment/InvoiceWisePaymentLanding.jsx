@@ -68,7 +68,7 @@ const InvoiceWisePaymentLanding = () => {
 
       getTableData(url);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location?.state?.rowData?.customerId, location]);
 
   return (

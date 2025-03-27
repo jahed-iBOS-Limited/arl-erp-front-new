@@ -42,7 +42,7 @@ export default function PhysicalTestForm() {
         }
         getMachineList(`/hcm/QCTest/GetTransactionMachineNameDDL?BusinessUnitId=${location?.state?.businessUnitId || selectedBusinessUnit?.value}`)
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [selectedBusinessUnit])
 
     useEffect(() => {
@@ -60,7 +60,7 @@ export default function PhysicalTestForm() {
             })
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [location?.state?.qcTransactionHeaderId])
 
     const saveHandler = (values, cb) => {

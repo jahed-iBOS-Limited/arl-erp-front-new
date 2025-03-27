@@ -13,7 +13,7 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
       // getData(`/tms/Vehicle/GetLoadingSlip?ShipPointId=${intLoadingId}`)
       getData(`/tms/Vehicle/GetLoadingSlipById?LoadingId=${intLoadingId}`)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [])
   return (
     <Formik
@@ -45,15 +45,15 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
             <Form>
               <div className="row">
                 <div className="col-lg-4">
-                  <h5>Entry Code: {viewData?.strGateEntryCode}</h5>                
+                  <h5>Entry Code: {viewData?.strGateEntryCode}</h5>
                 </div>
                 <div className="col-lg-4">
                   <h5>Ship Point: {viewData?.shipPointName}</h5>
                 </div>
-                <div className="col-lg-4">                 
+                <div className="col-lg-4">
                   <h5>Vehicle No: {viewData?.strVehicleName}</h5>
                 </div>
-                <div className="col-lg-4">        
+                <div className="col-lg-4">
                   <h5>Driver Name: {viewData?.driverName}</h5>
                 </div>
                 <div className="col-lg-4">

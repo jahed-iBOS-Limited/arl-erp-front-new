@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports */
+
 import TablePagination from '@mui/material/TablePagination';
 import React from 'react';
 import TablePaginationActions from '../../../../_helper/_tablePagination';

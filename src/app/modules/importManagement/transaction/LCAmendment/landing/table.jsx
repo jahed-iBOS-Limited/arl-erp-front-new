@@ -60,7 +60,7 @@ const LCAmendmentLanding = () => {
         // values?.lcNo?.label
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location?.state?.lcnumber]);
 
   //setPositionHandler

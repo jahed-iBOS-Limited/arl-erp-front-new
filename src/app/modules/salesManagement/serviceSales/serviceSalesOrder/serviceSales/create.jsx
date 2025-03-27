@@ -91,7 +91,7 @@ export default function ServiceSalesCreate({
         }&PaymentTypeId=${0}&FromDate=${'2021-01-01'}&ToDate=${_todayDate()}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isView]);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function ServiceSalesCreate({
     getAccountManagerList(
       `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {

@@ -35,7 +35,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
   const [rowDto, setRowDto] = useState([]);
   const [, setSpecRowDto] = useState([]);
   const [specTableData, setSpecTableData] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [objTerms, setObjTerms] = useState([]);
   const [total, setTotal] = useState({ totalQty: 0, totalAmount: 0 });
 
@@ -67,7 +67,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // single data Specification set
@@ -78,7 +78,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
       setSpecTableData(singleData?.objSpec);
       setObjTerms(singleData?.objTerms || [])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   //Total Qty & Total Amount calculation
@@ -99,7 +99,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     return () => {
       dispatch(setSalesQuotationSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

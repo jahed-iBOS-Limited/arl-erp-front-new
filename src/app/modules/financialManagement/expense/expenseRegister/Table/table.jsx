@@ -268,7 +268,7 @@ const ExpenseRegisterLanding = () => {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [sbu, country, currency]);
 
   return (

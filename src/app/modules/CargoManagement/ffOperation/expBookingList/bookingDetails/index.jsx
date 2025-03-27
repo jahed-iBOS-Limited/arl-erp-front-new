@@ -35,7 +35,7 @@ function Details({ rowClickData, isAirOperation }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

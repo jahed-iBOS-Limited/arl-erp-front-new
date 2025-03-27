@@ -115,7 +115,7 @@ export default function SalesQuotationReadyMixForm({
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // single data Specification set
@@ -125,7 +125,7 @@ export default function SalesQuotationReadyMixForm({
       setSpecRowDto(singleData?.objSpec);
       setSpecTableData(singleData?.objSpec);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const salesOfficeDDLDispatcher = (salesOrgId) => {

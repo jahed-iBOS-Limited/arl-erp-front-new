@@ -51,7 +51,7 @@ export default function CustomerBalanceDaysNLimit() {
       setData(resData);
     });
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   useEffect(() => {

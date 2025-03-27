@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import IForm from "../../../../_helper/_form";
@@ -75,7 +75,7 @@ export function POEditFormByOrderType() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, singleData]);
 
   useEffect(() => {
@@ -88,13 +88,13 @@ export function POEditFormByOrderType() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getIncoTermsListDDLAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export function POEditFormByOrderType() {
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   let singlereturnCB = () => {
@@ -118,7 +118,7 @@ export function POEditFormByOrderType() {
   };
 
   const saveHandler = async (values, rowDto, cb) => {
-    if (+singleData?.objHeaderDTO?.purchaseOrganizationId === 12 && 
+    if (+singleData?.objHeaderDTO?.purchaseOrganizationId === 12 &&
         !values?.incoterms
       ) {
       return toast.warn("Incoterm is required");
@@ -495,7 +495,7 @@ export function POEditFormByOrderType() {
         setTitle("");
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData, objProps]);
 
   return (

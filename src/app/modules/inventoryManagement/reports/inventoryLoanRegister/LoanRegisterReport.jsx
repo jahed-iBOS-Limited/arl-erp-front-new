@@ -67,7 +67,7 @@ export function LoanRegisterReport() {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   let totalAmount = 0;

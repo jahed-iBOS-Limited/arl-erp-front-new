@@ -48,7 +48,7 @@ const EstimatePDALanding = () => {
       commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const commonGridData = (

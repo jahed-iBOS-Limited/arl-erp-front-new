@@ -24,7 +24,7 @@ export default function ViewStopageDetails({ modalInfo }) {
     getStopageDetailsByEngine(
       `/mes/ShopFloor/GetStoppageDetailsByEngine?FromDate=${fromDate}&ToDate=${toDate}&BuId=${buId}&EngineName=${engineName}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [fromDate, toDate, engineName, buId]);
 
   return (

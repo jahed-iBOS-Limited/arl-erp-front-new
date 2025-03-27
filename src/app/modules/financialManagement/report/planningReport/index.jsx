@@ -35,7 +35,7 @@ export default function PlanningReport() {
       `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
     getYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const [subDivisionDDL, getSubDivisionDDL, ,] = useAxiosGet([]);

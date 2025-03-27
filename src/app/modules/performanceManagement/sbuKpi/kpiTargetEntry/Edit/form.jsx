@@ -208,7 +208,7 @@ export default function FormCmp({
       });
       setObjRowTargetAchivment(tempObj);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
 
   useEffect(() => {
@@ -227,7 +227,7 @@ export default function FormCmp({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allValue]);
 
   return (

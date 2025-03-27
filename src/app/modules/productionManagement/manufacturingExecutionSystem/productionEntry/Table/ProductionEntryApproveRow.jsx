@@ -62,7 +62,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       selectedBusinessUnit.value,
       setPlant,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   //setPositionHandler
@@ -114,7 +114,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
         selectPlant?.value,
         setShopFloorDDL,
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

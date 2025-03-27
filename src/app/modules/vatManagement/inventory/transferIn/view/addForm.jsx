@@ -64,7 +64,7 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
         setCreatePageGrid
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, singleData]);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
         setRowDto([]);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const backHandler = () => {

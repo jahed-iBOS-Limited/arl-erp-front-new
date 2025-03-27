@@ -38,7 +38,7 @@ export default function AssetLiabilityPlan() {
         setBuDDL(newData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();

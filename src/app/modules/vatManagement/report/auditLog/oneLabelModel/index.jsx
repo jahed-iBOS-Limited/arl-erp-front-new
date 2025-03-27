@@ -4,7 +4,7 @@ import PurchaseModel from "./purchaseModel";
 import DebitNoteModel from "./debitNoteModel";
 import {
   GetPurchaseLog_api,
-  GetDebitNoteLog_api, 
+  GetDebitNoteLog_api,
   GetSalesLog_api,
   GetCreditNoteLog_api,
   GetTreasuryDepositLog_api
@@ -65,7 +65,7 @@ function OneLabelModel({ onHide, show, values, parentRowClickData }) {
         setOneLabelModelLoding
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [parentRowClickData]);
 
   return (

@@ -140,7 +140,7 @@ export default function ManualShipmentCreate() {
     getUom(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

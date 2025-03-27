@@ -56,7 +56,7 @@ export default function FinishProductionCreate() {
 
   useEffect(() => {
     getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function FinishProductionCreate() {
         rodQuantityKgs: location?.state?.numOddCutRodQtyKgs,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {

@@ -15,7 +15,7 @@ export default function AttachmentView({ attachmentModalInfo }) {
     getRowData(
       `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${purchaseOrderId}&OrderTypeId=${orderTypeId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

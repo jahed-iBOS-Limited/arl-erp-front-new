@@ -56,7 +56,7 @@ export default function InvoiceForOwnerView({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [invoiceHireData]);
 
   let totalCredit = 0;
@@ -400,7 +400,7 @@ export default function InvoiceForOwnerView({
                                 ? `${+item?.quantity} MT`
                                 : ""}
                             </td>
-                            {/* 
+                            {/*
                   N.B: Debit Will be Credit & Credit will be Debit For Owner View
                   */}
                             <td className={`text-right`}>

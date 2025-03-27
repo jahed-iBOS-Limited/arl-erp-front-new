@@ -286,12 +286,12 @@ export default function StrategicParticularsForm({
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // dipatch getStrategicParticularsGridAction
@@ -319,7 +319,7 @@ export default function StrategicParticularsForm({
     } else {
       dispatch(getStrategicParticularsSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [strId]);
 
   useEffect(() => {

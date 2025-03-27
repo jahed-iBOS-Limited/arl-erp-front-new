@@ -41,7 +41,7 @@ export function PartnerTerritoryUpdate({ value }) {
       setTerritoryDDL
     );
     getGridData("", 0, 15000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const updatePartnerTerritory = (item) => {

@@ -18,8 +18,7 @@ import {
   GetSectionDDL_api,
 } from "../helper";
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -96,7 +95,7 @@ function _Form({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

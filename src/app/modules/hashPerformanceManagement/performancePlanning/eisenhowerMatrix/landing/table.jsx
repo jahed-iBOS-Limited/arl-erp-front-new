@@ -50,7 +50,7 @@ const EisenhowerMatrix = () => {
 
   useEffect(() => {
     getYearDDL(accountId, setYearDDl);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const singleData = {

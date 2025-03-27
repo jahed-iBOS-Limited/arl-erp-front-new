@@ -19,7 +19,7 @@ const PortDistanceReport = () => {
   useEffect(() => {
     getFromPortDDL(`/imp/ImportReport/GetFormPortDDL`);
     getToPortDDL(`/imp/ImportReport/GetToPortDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

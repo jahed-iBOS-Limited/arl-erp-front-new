@@ -227,7 +227,7 @@ export default function FormCmp({
         setKpiTargetEntry(tempObj);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [strategicParticularsGrid]);
 
   useEffect(() => {
@@ -249,7 +249,7 @@ export default function FormCmp({
         setKpiTargetEntry(tempObj);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [objListRow]);
 
   useEffect(() => {
@@ -270,7 +270,7 @@ export default function FormCmp({
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allValue]);
 
   useEffect(() => {
@@ -289,7 +289,7 @@ export default function FormCmp({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allValue]);
 
   const disabledHandler = (values, itm) => {

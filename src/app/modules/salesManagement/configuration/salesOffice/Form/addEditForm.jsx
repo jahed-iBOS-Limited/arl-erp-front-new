@@ -56,7 +56,7 @@ export default function SalesOfficeForm({
     } else {
       dispatch(setSalesOfficeSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get SOlist action for get SOlist ddl
@@ -67,7 +67,7 @@ export default function SalesOfficeForm({
       );
       getSalesOrgDDL(profileData.accountId, selectedBusinessUnit.value,setOrgDDL)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

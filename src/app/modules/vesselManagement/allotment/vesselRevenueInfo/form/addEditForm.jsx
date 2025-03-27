@@ -39,10 +39,10 @@ export default function VesselRevenueInfoForm() {
     if (id) {
       commonGetByIdFunc();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
-  
+
 
   const saveHandler = async (values) => {
     if (values?.rowType?.value === 2) {

@@ -269,7 +269,7 @@ const MasterHBAWModal = ({
           //
           const iatacode = [];
 
-          // eslint-disable-next-line no-unused-expressions
+
           hbawRestData?.forEach((item, index) => {
             const transportPlanningAir =
               item?.transportPlanning?.find((i) => {
@@ -479,14 +479,14 @@ const MasterHBAWModal = ({
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   React.useEffect(() => {
     getMasterBLDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=1&tradeTypeId=${tradeTypeId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

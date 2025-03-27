@@ -33,7 +33,7 @@ export default function ItemCategorySales({ saveHandler }) {
 
     useEffect(() => {
         getPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [buId, userId, accountId]);
 
 

@@ -61,7 +61,7 @@ export default function LiftingPlanReport() {
 
   useEffect(() => {
     viewHandler(initData, setGridData, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

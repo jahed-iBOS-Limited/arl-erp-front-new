@@ -63,7 +63,7 @@ const LoanApprovalGrid = () => {
         setLoader
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const singleLoanApproveHandler = (

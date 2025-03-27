@@ -27,7 +27,7 @@ export function TableRow() {
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

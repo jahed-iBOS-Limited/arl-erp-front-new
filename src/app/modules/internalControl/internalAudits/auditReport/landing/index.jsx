@@ -17,7 +17,7 @@ const AuditReportPage = () => {
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  
+
   // hook
   useEffect(() => {
     // get audit report data initially
@@ -27,7 +27,7 @@ const AuditReportPage = () => {
       pageSize,
       getAuditReportData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // state

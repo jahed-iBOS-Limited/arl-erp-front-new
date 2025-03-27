@@ -92,7 +92,7 @@ export function IncomeStatementReport() {
       }
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const pdfExport = (fileName) => {
@@ -121,7 +121,7 @@ export function IncomeStatementReport() {
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
-    // eslint-disable-next-line no-unused-vars
+
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 

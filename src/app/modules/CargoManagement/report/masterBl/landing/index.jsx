@@ -45,7 +45,7 @@ function MasterBLLanding() {
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {

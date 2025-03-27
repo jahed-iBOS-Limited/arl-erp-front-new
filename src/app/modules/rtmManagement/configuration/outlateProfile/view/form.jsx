@@ -3,12 +3,12 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Field } from "formik";
 
-// eslint-disable-next-line no-unused-vars
+
 import FormikError from "../../../../_helper/_formikError";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
 import { getBusinessTypeDDL, getRouteNameDDL } from "../helper";
-// eslint-disable-next-line no-unused-vars
+
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
@@ -28,7 +28,7 @@ export default function FormCmp({
   imageDTO,
   collerCompanyDDL,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
 
   const [businessTypeDDL, setBusinessDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);

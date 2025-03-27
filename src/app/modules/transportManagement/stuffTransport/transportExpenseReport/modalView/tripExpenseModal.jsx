@@ -12,7 +12,7 @@ export default function TripExpenseModal({ item, values }) {
     getTripExpense(
       `/mes/VehicleLog/GetVehicleUserWiseTripExpense?vehicleUserEnroll=${vehicelUserEnroll}&fromDate=${fromDate}&todate=${toDate}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [vehicelUserEnroll, fromDate, toDate]);
   let grandTotal = 0;
   return (
@@ -39,7 +39,7 @@ export default function TripExpenseModal({ item, values }) {
           </p>
         </div>
         <div>
-          
+
           <p>
             <strong>
               Designation : {tripExpense[0]?.vehicleUserDesignation}

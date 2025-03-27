@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
+
 import { getGridData } from '../helper';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 
@@ -37,7 +37,7 @@ export function TableRow() {
         setGridData,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

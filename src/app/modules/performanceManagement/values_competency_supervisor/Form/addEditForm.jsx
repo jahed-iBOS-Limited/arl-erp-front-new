@@ -78,7 +78,7 @@ export default function ValuesAndCompetencyPage() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {

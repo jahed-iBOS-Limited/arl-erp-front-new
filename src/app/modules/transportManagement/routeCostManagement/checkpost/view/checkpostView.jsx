@@ -12,7 +12,7 @@ export default function CheckPostInOutView({ id }) {
     if (id) {
       getcheckPostItemView(id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   return (

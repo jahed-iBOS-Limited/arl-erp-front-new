@@ -299,7 +299,7 @@ function CreateCustomerLeadGeneration() {
     getItemDDL(
       `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // get by id for edit
@@ -405,7 +405,7 @@ function CreateCustomerLeadGeneration() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <ICustomCard

@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -39,7 +39,7 @@ export default function ReceiveInvCreateForm({
   landingData,
   isEdit,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [, setQuantity] = useState(0);
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ export default function ReceiveInvCreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp, setFieldValue) => {

@@ -59,7 +59,7 @@ export default function FormCmp({
     if (buId && accId) {
       GetBillTypeDDL(setBillTypeDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

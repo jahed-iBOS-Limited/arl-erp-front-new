@@ -93,7 +93,7 @@ export default function BusinessUnitForm({
         setSingleData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {

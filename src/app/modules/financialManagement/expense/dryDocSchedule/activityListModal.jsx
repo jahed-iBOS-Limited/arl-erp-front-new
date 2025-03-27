@@ -17,7 +17,7 @@ export default function ActivityListModal({ clickedItem }) {
         `/fino/Expense/GetDocScheduleBudgetList?DocScheduleId=${clickedItem?.intDocScheduleId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {};
 

@@ -37,7 +37,7 @@ export default function RMPRItemList() {
 
   useEffect(() => {
     getRowData(`/mes/WeightBridge/GetAllQCRawMaterialListForPR`, modifyItem);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

@@ -27,7 +27,7 @@ export default function FormCmp({ mapData, setMapData, datalist, loading }) {
     } catch (error) {
       console.log(error);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [datalist]);
 
   const sheetTypeListSetFunc = (datalist) => {

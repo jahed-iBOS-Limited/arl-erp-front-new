@@ -1,4 +1,4 @@
-/* eslint-disable no-mixed-operators */
+
 
 
 import React, { useState, useRef, useEffect } from "react";

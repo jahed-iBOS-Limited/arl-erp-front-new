@@ -146,7 +146,7 @@ export default function FormCmp({
       });
       setRowDto(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allSelect]);
 
   // All Activity Checkbox
@@ -177,7 +177,7 @@ export default function FormCmp({
       });
       setRowDto(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allActivities]);
 
   const paginationSearchHandler = (value, values) => {

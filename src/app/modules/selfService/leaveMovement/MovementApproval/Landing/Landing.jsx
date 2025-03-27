@@ -38,7 +38,7 @@ const MovementApprovalLanding = () => {
     return state.authData;
   }, shallowEqual);
 
-  // eslint-disable-next-line no-unused-vars
+
   const params = useParams();
 
   useEffect(() => {
@@ -330,7 +330,7 @@ const MovementApprovalLanding = () => {
                       <th style={{ width: "40px" }}>Total Days</th>
                       <th style={{ width: "120px" }}>Address</th>
                       <th>Reason</th>
-                      
+
                       {/* {values?.applicationType?.value === 1 ? (
                         <th>Actions</th>
                       ) : null} */}

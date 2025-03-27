@@ -118,7 +118,7 @@ export default function FormCmp({
       setItemTypeId(itemType);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
 
   const loadItemList = (v, values) => {

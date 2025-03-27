@@ -35,7 +35,7 @@ export default function REBConsumption() {
     getLandingData(
       `/mes/MSIL/GetElectricalRebconsumptionLanding?FromDate=${rebConsumptionLanding?.fromDate}&ToDate=${rebConsumptionLanding?.toDate}&Shift=${rebConsumptionLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

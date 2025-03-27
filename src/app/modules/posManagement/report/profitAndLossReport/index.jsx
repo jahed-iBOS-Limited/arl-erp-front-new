@@ -30,7 +30,7 @@ const ProfitAndLossReport = () => {
     getFairPriceDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=68&OrgUnitTypeId=8`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData?.userId]);
 
   const getGridData = (values, pageNo = 0, pageSize = 15, searchText = "") => {

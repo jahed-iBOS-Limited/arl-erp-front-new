@@ -30,7 +30,7 @@ const initData = {
 
 const PaymentPrepare = () => {
   const [rowDto, getData, loading, setRowDto] = useAxiosGet();
-  // eslint-disable-next-line no-unused-vars
+
   const [data, getApproveData, getLoading, setData] = useAxiosPost();
   const [voucherBtn, setVoucherBtn] = useState(true);
   const [filterData, setFilterData] = useState("");
@@ -43,7 +43,7 @@ const PaymentPrepare = () => {
     return `/hcm/TrustManagement/GetTrustAllDDL?PartName=${name}&AutoId=${autoId}&TypeId=${typeId}`;
   };
 
-  // eslint-disable-next-line no-unused-vars
+
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
       return state?.authData;
@@ -59,7 +59,7 @@ const PaymentPrepare = () => {
       }&BusinssUnitId=${4}`
     );
     getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getTrustAllLanding = (

@@ -78,7 +78,7 @@ export default function ProductionForm({ viewClick }) {
     if (taxPurId) {
       GetProductionView(taxPurId, setSingleData, setRowDto);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [taxPurId]);
 
   const saveHandler = async (values, cb) => {

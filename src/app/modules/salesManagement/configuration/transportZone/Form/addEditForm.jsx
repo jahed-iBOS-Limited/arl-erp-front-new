@@ -47,7 +47,7 @@ export default function TransportZoneForm({
     } else {
       dispatch(setTransportZoneSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

@@ -16,7 +16,7 @@ export default function ViewModal({ singleData, values }) {
     getRowData(
       `/fino/Report/GetCostOfProductionDetail?businessUnitId=${values?.currentBusinessUnit?.value}&itemId=${singleData?.intItemId}&BudCOGS=${singleData?.numBudTotalCost}&ActCOGS=${singleData?.numActTotalCost}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values, singleData]);
   return (
     <div>

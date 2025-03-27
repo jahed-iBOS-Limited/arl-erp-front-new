@@ -55,7 +55,7 @@ export function UsersTable() {
     dispatch(
       actions.UserPageData(profileData.accountId, setLoading, pageNo, pageSize)
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [dispatch])
 
   const columns = [

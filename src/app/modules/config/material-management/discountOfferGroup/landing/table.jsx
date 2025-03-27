@@ -42,7 +42,7 @@ const DiscountOfferGroupLandingTable = () => {
 
   useEffect(() => {
     setLandingData(initData, pageNo, pageSize, "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize) => {

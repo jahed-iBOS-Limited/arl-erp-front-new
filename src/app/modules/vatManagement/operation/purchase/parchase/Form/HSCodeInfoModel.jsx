@@ -20,7 +20,7 @@ function HSCodeInfoModel({ rowClickData }) {
       setTarrifScheduleInfoTwo,
       setLoading
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [rowClickData]);
   return (
     <>

@@ -20,7 +20,7 @@ const SalesAndProductionTable = () => {
   const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const SalesAndProductionTable = () => {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {

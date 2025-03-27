@@ -43,7 +43,7 @@ export default function GeneratorRunningHour() {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorRunningHourLanding?FromDate=${generatorRunningHourLanding?.fromDate}&ToDate=${generatorRunningHourLanding?.toDate}&Shift=${generatorRunningHourLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

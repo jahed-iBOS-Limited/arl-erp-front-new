@@ -39,7 +39,7 @@ const VoucherModal = ({
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [subGeneralLedgerRow?.intsubglid]);
 
   const [voucherRow, setVoucherRow] = useState(null);

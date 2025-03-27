@@ -36,7 +36,7 @@ export default function TransferInvCreateForm({
   const [rowDto, setRowDto] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
   const [warehouseDDL, setWrehouseDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -95,7 +95,7 @@ export default function TransferInvCreateForm({
     );
     onChaneForRefType({ value: 11, label: "NA (Without Reference)" });
     return () => dispatch(slice.setItemDDL([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const onChaneForRefType = (refTyp) => {
@@ -216,7 +216,7 @@ export default function TransferInvCreateForm({
   };
 
   const saveHandler = async (values, cb) => {
-    
+
     if (rowDto.length === 0) {
       toast.error("Please Add Item");
     } else {

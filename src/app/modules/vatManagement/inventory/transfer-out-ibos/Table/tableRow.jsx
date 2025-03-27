@@ -50,7 +50,7 @@ export function TableRow() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
 
-  // eslint-disable-next-line no-unused-vars
+
   const transferoutLandingInitData = useSelector(
     (state) => state.localStorage.transferOutTaxbranchDDL
   );

@@ -51,8 +51,7 @@ const validationSchema = Yup.object().shape({
   contactNumber: Yup.string().required("Contact Number is required"),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

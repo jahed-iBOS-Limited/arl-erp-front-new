@@ -44,7 +44,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
         formikRef.current.setValues(generateEditInitData(location));
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // save handler

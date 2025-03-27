@@ -94,7 +94,7 @@ export default function PartnerRegApproval() {
       handleGetRowData(initData, pageNo, pageSize);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // const paginationSearchHandler = (searchValue, values) => {

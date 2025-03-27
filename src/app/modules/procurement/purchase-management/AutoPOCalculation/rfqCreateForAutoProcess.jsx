@@ -143,7 +143,6 @@ export default function RFQCreateForAutoProcess() {
         itemName: item?.itemName,
         uoMid: item?.uoMid,
         uoMname: item?.uoMname,
-        //@ts-ignore
         rfqquantity: item?.rfqquantity,
         referenceQuantity: item?.approvedQuantity,
         description: item?.description || '',
@@ -342,7 +341,7 @@ export default function RFQCreateForAutoProcess() {
       // );
       // setModifiedData(viewData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     if (!id) {
@@ -370,7 +369,7 @@ export default function RFQCreateForAutoProcess() {
       //   `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
       // );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {

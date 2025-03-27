@@ -38,7 +38,7 @@ export default function SalesTargetConfigForm() {
     if (params?.id) {
       getSingleSalesTargetConfig(params?.id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

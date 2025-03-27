@@ -12,7 +12,7 @@ export default function MasterBlList() {
 
   React.useEffect(() => {
     commonGetData('', pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const commonGetData = (search, pageNo, pageSize) => {

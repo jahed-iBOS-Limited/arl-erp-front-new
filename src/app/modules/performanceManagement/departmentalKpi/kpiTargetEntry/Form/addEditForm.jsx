@@ -125,7 +125,7 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
       );
       dispatch(getPMSFrequencyDDLAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -187,7 +187,7 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const disableHandler = (cond) => {
@@ -199,7 +199,7 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
     if (id) {
       dispatch(getKpiEntryById(+id, 2));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -207,7 +207,7 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
       dispatch(setKpiTargetSingleEmpty());
       dispatch(SetEmployeeBasicInfoEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [report, setReport] = useState({});

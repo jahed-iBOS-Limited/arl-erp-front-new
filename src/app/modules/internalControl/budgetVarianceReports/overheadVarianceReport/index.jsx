@@ -84,7 +84,7 @@ export default function OverheadVarianceReport() {
         });
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {};
@@ -212,7 +212,7 @@ export default function OverheadVarianceReport() {
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast} 
+                        checked={values?.isForecast}
                       onChange={(e)=>{
                         setFieldValue("isForecast", e.target.checked);
                       }}

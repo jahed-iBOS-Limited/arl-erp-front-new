@@ -74,7 +74,7 @@ export default function JohariWindowLanding() {
       data['unknown'] = [...data?.unknown, ...rowData?.unknown];
       setChipList(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [rowData]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function JohariWindowLanding() {
     getEmployeeDDL(
       `/pms/PerformanceMgmt/GetEmployeeWithSupervisorStatusDDL?intEmployeeId=${employeeId}&strEmployeeName=${employeeFullName}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const addChipHandler = (name, valueOption) => {

@@ -47,7 +47,7 @@ const EditableName = ({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const handleChange=(value)=>{
@@ -78,7 +78,7 @@ const EditableName = ({
     onNameChange(inputVal);
     setIsEditing(false);
   };
-  
+
   const editingName = (
     <span className='editingName'>
       <input
@@ -86,11 +86,11 @@ const EditableName = ({
         value={ inputVal }
         onChange={ onInputChange }
       />
-      <select 
-        name="cars" 
-        id="cars" 
-        style={{marginLeft: 10, height: 25, width: 150 }} 
-        onChange={(e)=>{ 
+      <select
+        name="cars"
+        id="cars"
+        style={{marginLeft: 10, height: 25, width: 150 }}
+        onChange={(e)=>{
           setTerritoryTypeId(e.target.value)
         }}
       >
@@ -118,7 +118,7 @@ const EditableName = ({
       onClick={()=>{
         handleChange(name)
         }
-      } 
+      }
     >
       { name }
     </span>

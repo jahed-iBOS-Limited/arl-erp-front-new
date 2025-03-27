@@ -27,7 +27,7 @@ function ItemBomCost() {
     getRowData(
       `/fino/Report/GetBOMCost?intUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>
@@ -133,7 +133,7 @@ function ItemBomCost() {
                       </tbody>
                     </table>
 </div>
-                  
+
                   </div>
                 </div>
               </CardBody>

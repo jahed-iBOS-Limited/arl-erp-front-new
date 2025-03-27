@@ -12,7 +12,7 @@ export default function ViewForm({ id, show, onHide }) {
     } else {
       dispatch(setCompetencyEmpty());
     }
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // get view modal data from store

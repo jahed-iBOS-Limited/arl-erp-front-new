@@ -98,7 +98,7 @@ export default function ErpComparativeStatementLanding() {
         setPlantListDDL([{ value: 0, label: 'All' }, ...data]);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {};

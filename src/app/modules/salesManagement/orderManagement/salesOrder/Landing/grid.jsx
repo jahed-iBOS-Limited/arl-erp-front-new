@@ -51,7 +51,7 @@ const GridData = ({
       `/oms/SalesOrder/SalesOrderEditPermission?UserId=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
       (resData) => { }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue) => {

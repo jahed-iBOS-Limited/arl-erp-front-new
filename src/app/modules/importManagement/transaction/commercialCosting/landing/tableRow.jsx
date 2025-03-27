@@ -66,7 +66,6 @@ export default function TableRow() {
     getBusinessDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-    //   eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
 
   const getGrid = ({ pageNo, pageSize, values, searchValue }) => {

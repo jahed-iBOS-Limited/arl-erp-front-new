@@ -36,7 +36,7 @@ export default function AssetLiabilityPlanCreateEdit() {
         });
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearId, buId]);
 
   return (

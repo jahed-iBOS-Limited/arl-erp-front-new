@@ -29,7 +29,7 @@ const QuotationHistoryReport = () => {
       getRowData(
          `/procurement/ShipRequestForQuotation/GetShipSupplierWiseClosedRFQ?UserId=${profileData?.userId}&PageNo=${pageNo}&PageSize=${pageSize}`
       );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
    }, [profileData]);
 
    const setPositionHandler = (pageNo, pageSize, searchValue) => {

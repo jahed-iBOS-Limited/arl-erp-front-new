@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import IForm from "../../../../_helper/_form";
@@ -75,7 +75,7 @@ export function POEditFormByOrderTypeShipping() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, singleData]);
 
   useEffect(() => {
@@ -88,13 +88,13 @@ export function POEditFormByOrderTypeShipping() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getIncoTermsListDDLAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export function POEditFormByOrderTypeShipping() {
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   let singlereturnCB = () => {
@@ -502,7 +502,7 @@ export function POEditFormByOrderTypeShipping() {
         setTitle("");
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData, objProps]);
 
   return (

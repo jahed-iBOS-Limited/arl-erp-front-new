@@ -173,7 +173,7 @@ export default function SalaryJvConfigCreateEdit() {
         setSalaryComponentDDL(newData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
   return (
     <Formik

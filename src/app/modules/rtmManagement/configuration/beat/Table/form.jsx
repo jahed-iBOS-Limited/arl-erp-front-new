@@ -59,7 +59,7 @@ export default function HeaderForm({ createHandler }) {
       girdDataFunc(0, 0, pageNo, pageSize);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -87,7 +87,7 @@ export default function HeaderForm({ createHandler }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData && selectedBusinessUnit]);
   return (
     <>

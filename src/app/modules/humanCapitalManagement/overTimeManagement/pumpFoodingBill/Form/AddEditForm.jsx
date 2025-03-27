@@ -56,7 +56,7 @@ export function PumpFoodingBill() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, userId]);
 
   const addHandler = (values, cb) => {
@@ -97,7 +97,7 @@ export function PumpFoodingBill() {
       }
       // custom validation for warehouse
       const warehouseLabel = values?.warehouse?.label;
-      const warehouseValue = values?.warehouse?.value;      
+      const warehouseValue = values?.warehouse?.value;
       if (!warehouseLabel || !warehouseValue)
         return toast.warn("Please select warehouse");
 

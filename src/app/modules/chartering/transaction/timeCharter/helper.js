@@ -254,7 +254,7 @@ export const GetTransactionDetails = async (
       setOffHireDuration(totalOffHireDuration);
 
       if (offHireArr.length > 0) {
-        // eslint-disable-next-line no-unused-expressions
+
         offHireArr?.forEach((item, index) => {
           hireIdList.push(item?.hireId);
           finalArr.push({

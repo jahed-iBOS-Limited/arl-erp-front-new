@@ -42,7 +42,7 @@ const validationSchema = Yup.object().shape({
     // .min(0, "Minimum 0 number")
     // .required("Net amount required"),
 });
-function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
+function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -73,7 +73,7 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       setter: setExpanseBillDetail,
       setLoading: setDisabled,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, gridItem]);
 
   const saveHandler = (values) => {

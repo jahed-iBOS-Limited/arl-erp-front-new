@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";

@@ -124,7 +124,7 @@ export default function FormCmp({ bankDDL, setDisabled, btnRef }) {
         fetchCostCenterDDL(sbuId);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   //Load ddsl
@@ -138,7 +138,7 @@ export default function FormCmp({ bankDDL, setDisabled, btnRef }) {
       setBillTypeDDL(filterData);
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   //const prepare payload for save

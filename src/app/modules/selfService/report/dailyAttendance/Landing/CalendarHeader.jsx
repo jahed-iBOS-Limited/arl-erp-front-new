@@ -52,7 +52,7 @@ function CalendarHeader({ value, setValue, allDayList }) {
         allDayList
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allDayList]); // This dependancy must need for change the date and fetch next or prev month day's data
 
   return (

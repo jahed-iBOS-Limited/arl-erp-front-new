@@ -16,7 +16,7 @@ export default function AttachmentViewModal({ singleData }) {
     getAttachmentData(
       `/mes/VehicleLog/GetStuffTripExpenseAttachmentList?tripId=${singleData?.intTripId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

@@ -81,7 +81,7 @@ export default function FormCmp({
         setShipingCargoTypeDDL(filterData || []);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getInfoData = async () => {
@@ -106,7 +106,7 @@ export default function FormCmp({
         itemTypes.push(items);
       });
     setItemTypeOption(itemTypes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [itemTypeList]);
 
   const isAkijLogisticsBUI = [225].includes(selectedBusinessUnit?.value);

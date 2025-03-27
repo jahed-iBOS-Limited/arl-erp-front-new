@@ -34,7 +34,7 @@ export default function RenewalBillForm() {
     getCodeDDL(
       `/asset/LandingView/GetRenewalRegistrationList?typeId=3&UnitId=${selectedBusinessUnit?.value}&PlantId=0&RenewalServiceId=0&AssetId=0&statusId=4&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const confirmToApprove = (values) => {

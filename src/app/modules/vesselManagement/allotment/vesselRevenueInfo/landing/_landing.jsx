@@ -88,7 +88,7 @@ const VesselRevenueLanding = () => {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const createJV = (values) => {

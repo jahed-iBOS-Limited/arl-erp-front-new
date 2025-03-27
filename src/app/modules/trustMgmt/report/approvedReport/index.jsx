@@ -36,7 +36,7 @@ const ApprovedReport = () => {
 
   useEffect(() => {
     getUnitNameDDL(generateAPI("UnitDDL"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // landing
@@ -64,7 +64,7 @@ const ApprovedReport = () => {
         0
       )
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

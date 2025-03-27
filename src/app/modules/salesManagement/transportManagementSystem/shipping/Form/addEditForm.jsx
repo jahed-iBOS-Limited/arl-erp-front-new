@@ -157,7 +157,7 @@ export default function ShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value, id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -206,7 +206,7 @@ export default function ShipmentForm({
       );
 
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const vehicleSingeDataView = (id, accId, buId, setter) => {
@@ -401,14 +401,14 @@ export default function ShipmentForm({
     if (id) {
       setRowDto(singleData?.shipmentRowList);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

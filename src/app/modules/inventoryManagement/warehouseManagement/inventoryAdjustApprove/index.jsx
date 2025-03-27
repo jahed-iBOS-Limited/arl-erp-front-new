@@ -21,7 +21,7 @@ export default function InventoryAdjustApprove() {
     getRowData(
       `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};

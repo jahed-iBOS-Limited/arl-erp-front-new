@@ -31,7 +31,7 @@ export default function CreateForm({
 }) {
   const [rowDto, setRowDto] = useState([]);
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
 
   const [fileObjects, setFileObjects] = useState([]);
@@ -81,7 +81,7 @@ export default function CreateForm({
       ),
     );
     return () => dispatch(slice.setItemDDL([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {

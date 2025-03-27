@@ -9,7 +9,7 @@ export default function ViewModal({ id, show, onHide }) {
     return () => {
       dispatch(setTargetEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

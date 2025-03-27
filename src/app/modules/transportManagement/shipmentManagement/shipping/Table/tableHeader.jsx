@@ -49,7 +49,7 @@ export function ShipmentTable() {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function ShipmentTable() {
 
     setRowDto(modifyGridData);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [gridData]);
 
 

@@ -42,7 +42,7 @@ export default function EditForm({
     if (profileData && profileData.accountId) {
       getBusinessUnitById(id, profileData.accountId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const getBusinessUnitById = async (id, accId) => {

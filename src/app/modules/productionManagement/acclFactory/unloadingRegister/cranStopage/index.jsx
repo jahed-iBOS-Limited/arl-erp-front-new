@@ -101,7 +101,7 @@ const CranStopage = () => {
       pageSize: filterObj?.pageSize,
       search: filterObj?.search,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

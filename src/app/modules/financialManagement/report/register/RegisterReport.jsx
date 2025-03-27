@@ -108,7 +108,7 @@ export function RegisterReport({
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const ths = ['SL', 'Partner', 'Partner Code', 'Debit', 'Credit', 'Action'];

@@ -80,7 +80,7 @@ export default function RFQAutoProcess() {
       });
       setItemTypeList(modData);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {

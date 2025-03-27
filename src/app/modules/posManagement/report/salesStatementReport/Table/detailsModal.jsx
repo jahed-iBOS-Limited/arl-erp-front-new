@@ -46,7 +46,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
       setInventoryLedger,
       setLoading
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [tableItem]);
 
   const printRef = useRef();

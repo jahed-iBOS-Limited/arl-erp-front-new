@@ -83,7 +83,7 @@ export default function BareboatAndInsurancelanding() {
     getVesselAssetDDL(
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const itemSlectedHandler = (value, index) => {
     const mainData = gridData;

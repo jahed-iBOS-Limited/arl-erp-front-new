@@ -58,7 +58,7 @@ export default function AddVehicleNameModal({
   const [objProps, setObjprops] = useState({});
   // const [vehicheCityDDL, getVehicleCityDDL] = useAxiosGet();
   // const [vehicleAddress, setVehicleAddress] = useState("");
-  // eslint-disable-next-line no-unused-vars
+
   const [isLoading, setIsLoading] = useState(false);
   // const [
   //   vehicleRegistrationLetterDDL,
@@ -90,7 +90,7 @@ export default function AddVehicleNameModal({
     // );
     getVehicleTypeDDL(`/tms/Vehicle/GetVehicleTypeDDL`);
     getCapacityDDL(`/tms/TransportMgtDDL/GetVehicleCapacityDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

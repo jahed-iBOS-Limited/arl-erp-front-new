@@ -42,7 +42,7 @@ const initData = {
 
 const AdvanceForInternalExpLanding = () => {
   const [sbu, setSbu] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [emp, setEmp] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
   const [currency, setCurrency] = useState([]);
@@ -91,7 +91,7 @@ const AdvanceForInternalExpLanding = () => {
         setPlantDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const viewHandler = (values, approval, pageNo, pageSize) => {
@@ -132,7 +132,7 @@ const AdvanceForInternalExpLanding = () => {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -426,7 +426,7 @@ const AdvanceForInternalExpLanding = () => {
                             <td className="text-center">
                               <div> {_formatMoney(item?.approvedAmount)}</div>
                             </td>
-                            
+
                             <td className="text-center">
                               <div> {item?.billCode}</div>
                             </td>

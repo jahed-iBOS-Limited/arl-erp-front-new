@@ -50,7 +50,7 @@ function ShippingComparativeStatement() {
         selectedBusinessUnit?.value
       }&SBUId=80&RequestTypeId=1&PurchaseOrganizationId=11&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&PlantId=${0}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

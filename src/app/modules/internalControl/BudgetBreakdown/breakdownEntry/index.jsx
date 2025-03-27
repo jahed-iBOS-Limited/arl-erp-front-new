@@ -113,7 +113,7 @@ export default function BreakdownEntry() {
     getGLList(
       `/fino/FinanceCommonDDL/GetGeneralLedegerForBudgetDDL?accountId=${profileData?.accountId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const getLastDateOfMonth = (year, month) => {

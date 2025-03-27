@@ -115,7 +115,7 @@ export default function TenderSubmissionCreateEditForm() {
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, mopRowsData, tenderId, cb) => {

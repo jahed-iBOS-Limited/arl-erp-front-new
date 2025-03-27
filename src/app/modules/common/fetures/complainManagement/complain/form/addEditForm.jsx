@@ -127,7 +127,7 @@ function ComplainForm() {
       const id = edit || view;
       getComplainById(id, accId, buId, setLoading, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [edit, view]);
   const isLoader = loading;
 

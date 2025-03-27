@@ -35,7 +35,7 @@ export default function ViewInvTransactionForm({
   useEffect(() => {
     dispatch(getSingleDataAction(id));
     return () => dispatch(slice.setSingleDDL([]))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
 

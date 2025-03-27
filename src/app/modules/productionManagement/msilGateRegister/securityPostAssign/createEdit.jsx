@@ -50,7 +50,7 @@ export default function MSILSecurityPostAssignCreate() {
     setNameDDL(
       `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function MSILSecurityPostAssignCreate() {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, location]);
 
   const saveHandler = async (values, cb) => {

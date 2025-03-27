@@ -21,13 +21,13 @@ const initData = {
   negotiationRate: '',
 };
 export default function CommonCSDetails() {
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState([]);
   const location = useLocation();
   const [
     csDetailsList,
     getCsDetailsList,
-    // eslint-disable-next-line no-unused-vars
+
     getLoading,
     setCsDetailsList,
   ] = useAxiosGet([]);
@@ -47,7 +47,7 @@ export default function CommonCSDetails() {
     getCsDetailsList(
       `/procurement/RequestForQuotation/GetComparativeStatement?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=0&RequestForQuotationId=${location?.state?.transectionId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   const saveHandler = async (values, cb) => {};

@@ -132,7 +132,7 @@ export default function ShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, id, refetch]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -159,7 +159,7 @@ export default function ShipmentForm({
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   const vehicleSingeDataView = (id, setter) => {
@@ -476,14 +476,14 @@ export default function ShipmentForm({
       if (singleData?.shipmentHeader?.Vehicle?.value)
         vehicleSingeDataView(singleData?.shipmentHeader?.Vehicle?.value, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -499,7 +499,7 @@ export default function ShipmentForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [headerData]);
   return (
     <IForm

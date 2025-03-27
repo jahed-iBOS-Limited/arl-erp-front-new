@@ -24,7 +24,7 @@ export default function TdsVdsJvDataTable({
       values?.profitCenter?.value &&
       values?.accountNo?.value;
     setDisabled(!activeStatus);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

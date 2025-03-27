@@ -89,7 +89,7 @@ export default function ServicePO({
     dispatch(getPurchaseOrgDDLAction(accountId, buId));
     dispatch(getPlantListDDLAction(profileData?.userId, accountId, buId));
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
   // const location = useLocation();
 
@@ -184,7 +184,7 @@ export default function ServicePO({
 
     getProfitCenterList(buId, setProfitCenterListTwo, setLoading);
     dispatch(getUomDDLAction(accountId, buId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, buId]);
 
   const getItemDDL = (values, supplierId, refType, referenceNo) => {
@@ -223,7 +223,7 @@ export default function ServicePO({
     );
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getCurrencyDDLAction(accountId, 11, buId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
   const getIsDisabledAddBtn = (values) => {
     if (values.isTransfer) {

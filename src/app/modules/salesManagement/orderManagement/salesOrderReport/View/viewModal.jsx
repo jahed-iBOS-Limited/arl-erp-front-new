@@ -64,7 +64,7 @@ export default function ViewForm({ id, show, onHide }) {
       dispatch(SetAvailableBalanceEmpty_Action());
       dispatch(SetUndeliveryValuesEmpty_Action());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   let salesOrderData = useSelector(
@@ -103,7 +103,7 @@ export default function ViewForm({ id, show, onHide }) {
       );
     } else {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // get single sales order  unit from store
@@ -142,7 +142,7 @@ export default function ViewForm({ id, show, onHide }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, singleData]);
 
   //total amount calculation

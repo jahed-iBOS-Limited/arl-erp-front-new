@@ -217,13 +217,11 @@ export default function AddJustmentJournalLanding() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const onChangeCheckHandler = (type) => {
-    if (type === "notComplated") {
-    } else if (type === "notComplated") {
-    }
+
   };
 
   const remover = (id) => {

@@ -77,7 +77,7 @@ const Total = ({ running,total }) => {
     //   );
     //   setTotal(dataSixtotal);
     // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   // }, [data, type, report]);
 
   return (

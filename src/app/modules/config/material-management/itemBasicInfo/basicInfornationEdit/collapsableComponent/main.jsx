@@ -76,7 +76,7 @@ export default function MainCollapsePanel() {
     } else if (state?.checkBox === 'itemWareHouseCostStatus') {
       setExpanded(6);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   const components = [

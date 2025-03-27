@@ -33,12 +33,12 @@ export default function SalesAndProductionPlanCreateForm({
     params: { id },
   },
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   // const [salesPlanData, setSalesPlanData] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
 
@@ -127,7 +127,7 @@ export default function SalesAndProductionPlanCreateForm({
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.id) {
-        // eslint-disable-next-line no-unused-vars
+
         const payload = {
           header: {
             salesPlanId: params?.id,

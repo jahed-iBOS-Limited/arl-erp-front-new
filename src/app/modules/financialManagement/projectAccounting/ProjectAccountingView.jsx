@@ -29,7 +29,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
         (data) => setRes(data)
       );
     }
-    // eslint-disable-next-line
+
   }, [id]);
 
   // setting new Property variance
@@ -54,7 +54,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
         };
       })
     );
-    // eslint-disable-next-line
+
   }, [projectCostingExpense, projectCostingInventory]);
   // console.log(inventoryVariance);
   return (

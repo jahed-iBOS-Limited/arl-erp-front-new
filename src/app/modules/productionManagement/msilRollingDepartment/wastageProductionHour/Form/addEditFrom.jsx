@@ -71,7 +71,7 @@ export default function WastageProductionCreate() {
         `/mes/MSIL/GetRollingWastageAndProductionHourById?HeaderId=${params?.id}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.id]);
 
   useEffect(() => {
@@ -118,13 +118,13 @@ export default function WastageProductionCreate() {
           }))
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editData?.header?.intWastageAndProductionHourHeaderId]);
 
   useEffect(() => {
     getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
     getOtherProductDDL(`/mes/MSIL/GetAllMSIL?PartName=OthersItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const addHandler = (values, setFieldValue) => {

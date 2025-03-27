@@ -101,7 +101,7 @@ export default function SalesTerritoryForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ export default function SalesTerritoryForm({
       // );
       dispatch(getCountryDDLLAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export default function SalesTerritoryForm({
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, singleData]);
 
   const saveHandler = async (values, cb) => {

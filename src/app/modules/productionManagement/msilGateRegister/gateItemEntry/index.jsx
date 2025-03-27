@@ -78,7 +78,7 @@ function GateItemEntry() {
         );
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
@@ -206,7 +206,7 @@ function GateItemEntry() {
                         !values?.businessUnit ||
                         !values?.shipPoint ||
                         !values?.fromDate ||
-                        !values?.toDate 
+                        !values?.toDate
                       }
                       onClick={(e) => {
                         landingData(values);

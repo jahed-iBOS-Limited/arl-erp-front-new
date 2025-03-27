@@ -74,13 +74,13 @@ export default function SCFRegisterViewForm({
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(()=>{
 
     if(initData?.bank?.value){
-      
+
       const fetchBankAccountDDL = () => {
         getBankAccountDDLByBankId(
           profileData?.accountId,
@@ -90,7 +90,7 @@ export default function SCFRegisterViewForm({
           setLoading
         );
       };
-    
+
       const fetchFacilityDDL = () => {
         getFacilityDLL(
           selectedBusinessUnit?.value,
@@ -111,11 +111,11 @@ export default function SCFRegisterViewForm({
           setLoading
         );
       };
-    
+
       fetchBankAccountDDL();
       fetchFacilityDDL();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[initData])
 
   useEffect(() => {

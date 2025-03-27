@@ -34,20 +34,12 @@ export default function CustomerRefundModal({ billRegisterId }) {
     getSbu(
       `/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [billRegisterId, profileData, selectedBusinessUnit]);
   return (
     <>
       <Formik enableReinitialize={true}>
-        {({
-          // handleSubmit,
-          // resetForm,
-          // values,
-          // errors,
-          // touched,
-          // setFieldValue,
-          // isValid,
-        }) => (
+        {() => (
           <div className="">
             {loadingSingleData && <Loading />}
             <Card>

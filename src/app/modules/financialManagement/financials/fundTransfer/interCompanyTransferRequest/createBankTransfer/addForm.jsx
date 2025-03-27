@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -274,7 +274,7 @@ export default function BankJournalCreateForm() {
     if (!location?.state && !params?.id) {
       // history.push("/financial-management/financials/bank");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [objProps, setObjprops] = useState({});

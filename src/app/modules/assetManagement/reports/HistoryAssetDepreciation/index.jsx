@@ -29,7 +29,7 @@ export default function HistoryAssetDepreciation() {
       getRowData(
          `/asset/Asset/GetAssetDepreciationLanding?FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}&BusinessUnit=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=ASC`
       );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
    }, []);
 
    const setPositionHandler = (pageNo, pageSize, values, searchValue) => {
@@ -40,7 +40,7 @@ export default function HistoryAssetDepreciation() {
 
 //    const [id, setId] = useState('');
 //    const [show, setShow] = useState(false);
-   // eslint-disable-next-line no-unused-vars
+
    const [objProps, setObjprops] = useState({});
    return (
       <IForm

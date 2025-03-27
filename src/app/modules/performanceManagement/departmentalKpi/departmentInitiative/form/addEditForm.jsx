@@ -39,7 +39,7 @@ export function DepartmentInitiativeForm({
       setDepartmentDDL
     );
     getYearDDL(profileData?.accountId, selectedBusinessUnit?.value, setYear);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

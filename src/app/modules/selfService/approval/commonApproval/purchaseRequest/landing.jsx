@@ -46,7 +46,7 @@ const PurchaseRequestApprovalGrid = ({
 
   useEffect(() => {
     cb();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange]);
 
   let cb = () => {

@@ -80,7 +80,7 @@ const InputFields = ({ obj }) => {
         `/costmgmt/BankAccount/GetAdviceFormatByBankId?bankId=${values?.bankAccountNo?.bankId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values?.bankAccountNo]);
 
   useEffect(() => {

@@ -45,7 +45,7 @@ export default function SCFLimitCreateEditPage() {
         `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=0`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function SCFLimitCreateEditPage() {
         remarks: landingState?.remarks || "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // submit handler

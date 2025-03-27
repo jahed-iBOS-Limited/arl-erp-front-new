@@ -38,7 +38,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
       `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   return (

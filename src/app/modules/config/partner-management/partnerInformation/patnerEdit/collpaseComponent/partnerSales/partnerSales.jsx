@@ -85,7 +85,7 @@ export default function PartnerSales() {
         getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
   // get salesOrganaization ddl from store
   const salesOrganaizationDDL = useSelector((state) => {
@@ -100,7 +100,7 @@ export default function PartnerSales() {
         sbuId
       )
     )
-  }     
+  }
   // get distributionChannel ddl from store
   const distributionChannelDDL = useSelector((state) => {
     return state?.partnerSales?.distributionChannelDDL
@@ -115,7 +115,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
   // get salesTerriory ddl from store
   const salesTerrioryDDL = useSelector((state) => {
@@ -131,7 +131,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
   // get transportZoneDDL ddl from store
   const transportZoneDDL = useSelector((state) => {
@@ -147,7 +147,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
   // recon gl ddl and alternante gl ddl
   const GeneralLedgerDDL = useSelector((state) => {
@@ -172,7 +172,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   // get shippingPointDDL ddl from store
@@ -190,7 +190,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   // get alternateShippingPointDDL ddl from store
@@ -222,7 +222,7 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   // get priceStructureDDL ddl from store
@@ -240,12 +240,12 @@ export default function PartnerSales() {
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   useEffect(() => {
     getBusinessPartnerSalesByPartnerId(id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id])
 
   const getBusinessPartnerSalesByPartnerId = async (id) => {
@@ -467,7 +467,7 @@ export default function PartnerSales() {
           objListCrLimit: objCreditRow,
           objListBPShippingAddr: rowDtoTwo,
         }
-     
+
         try {
           if (objRow?.length > 0) {
             if (rowDtoTwo?.length > 0) {

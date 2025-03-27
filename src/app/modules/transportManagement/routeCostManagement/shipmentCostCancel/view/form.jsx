@@ -20,7 +20,7 @@ export default function FormCmp({
   distanceKM,
   shipmentId,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [componentDDL, setComponentDDL] = useState([]);
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   useEffect(() => {

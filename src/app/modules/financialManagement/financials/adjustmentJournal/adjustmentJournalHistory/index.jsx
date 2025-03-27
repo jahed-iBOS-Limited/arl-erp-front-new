@@ -25,7 +25,7 @@ export default function HistoryModal({ adjustmentJournalId, landingItem }) {
                 })
 
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [adjustmentJournalId]);
     const saveHandler = (values, cb) => { };
     return (

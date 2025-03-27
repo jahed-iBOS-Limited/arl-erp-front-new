@@ -18,7 +18,7 @@ const QuotationCreateRowDtoTable = ({
 
    const dispatch = useDispatch();
    const inputCVFile = useRef(null);
-   // eslint-disable-next-line no-unused-vars
+
    const [attachmentFile, setAttachmentFile] = useState('');
    // const [attachmentFileName, setAttachmentFileName] = useState("");
    const onButtonCVClick = e => {

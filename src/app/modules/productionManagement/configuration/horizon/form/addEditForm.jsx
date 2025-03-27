@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 
 import React, { useEffect, useState } from "react";
 import Form from "./form";
@@ -41,9 +41,9 @@ const yearDetails = [
 
 const HorizonForm = () => {
   const { id } = useParams();
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState("");
 
   // All DDL
@@ -106,7 +106,7 @@ const HorizonForm = () => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // Create
       if (!id) {
-        // eslint-disable-next-line no-unused-vars
+
         let payload = {
           objHeader: {
             intHorizonTypeId: values?.horizon.value,
@@ -125,7 +125,7 @@ const HorizonForm = () => {
       }
       // Edit
       else {
-        // eslint-disable-next-line no-unused-vars
+
         let payload = {
           beatId: +id,
           beatCode: values?.beatCode,

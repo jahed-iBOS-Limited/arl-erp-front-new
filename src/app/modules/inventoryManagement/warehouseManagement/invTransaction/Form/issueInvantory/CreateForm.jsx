@@ -116,7 +116,7 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -366,7 +366,7 @@ export default function CreateForm({
   );
   const transTypeDDLObjectForProject = useMemo(() => {
     return transactionTypeDDL?.filter((itm) => itm?.value === 11)[0];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [transTypeDDLNotIsProductionOrder]);
 
   const [projectDDL, getProjectDDL] = useAxiosGet();

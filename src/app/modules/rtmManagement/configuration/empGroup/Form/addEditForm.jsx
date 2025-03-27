@@ -11,7 +11,7 @@ let initData = {
 
 export default function EmpGroupCreateForm() {
   const { id } = useParams();
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [objProps, setObjprops] = useState({});

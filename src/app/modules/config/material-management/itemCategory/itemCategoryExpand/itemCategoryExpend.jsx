@@ -162,7 +162,7 @@ export default function ItemCategoryExpend() {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getGeneralLedgerDDL_api = async (groupId, buId) => {

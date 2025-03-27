@@ -16,7 +16,7 @@ export default function ReceiveInvCreateForm({
   history,
   isEdit,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(true);
   // const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
@@ -64,7 +64,7 @@ export default function ReceiveInvCreateForm({
   //       landingData?.warehouse?.value
   //     )
   //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [profileData.accountId, selectedBusinessUnit.value]);
 
   // const onChaneForRefType = (refTyp) => {

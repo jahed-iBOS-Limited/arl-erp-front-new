@@ -61,7 +61,7 @@ export default function ShippingPointForm({
     } else {
       dispatch(setShippingPointSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [extendId]);
 
   //Dispatch Get selectedBusinessUnit action for get selectedBusinessUnit ddl
@@ -71,7 +71,7 @@ export default function ShippingPointForm({
         getWarehouseDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const backToWarehouseList = () => {

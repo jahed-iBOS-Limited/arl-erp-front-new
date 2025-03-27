@@ -39,7 +39,7 @@ export function TableRow() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

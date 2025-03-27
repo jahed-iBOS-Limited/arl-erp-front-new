@@ -31,7 +31,7 @@ export default function CreateForm({
   landingData,
 }) {
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
@@ -82,7 +82,7 @@ export default function CreateForm({
       ),
     );
     return () => dispatch(slice.setItemDDL([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {

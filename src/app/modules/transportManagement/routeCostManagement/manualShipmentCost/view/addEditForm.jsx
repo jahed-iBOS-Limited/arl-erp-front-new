@@ -45,7 +45,7 @@ export default function ShipmentCostViewForm({ id, values }) {
   }, shallowEqual);
 
   const { profileData, selectedBusinessUnit } = storeData;
-  
+
 
   useEffect(() => {
     if (id) {
@@ -59,7 +59,7 @@ export default function ShipmentCostViewForm({ id, values }) {
       // }
       getShipmentByID(id, setSingleData, setRowDto, setDisabled, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
 

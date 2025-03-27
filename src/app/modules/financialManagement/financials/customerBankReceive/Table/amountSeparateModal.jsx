@@ -82,7 +82,7 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedItem]);
 
   const saveHandler = () => {

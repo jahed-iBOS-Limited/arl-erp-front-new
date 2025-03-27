@@ -64,7 +64,7 @@ export function TableRow(props) {
       selectedBusinessUnit.value,
       setDistributionChannelDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
 

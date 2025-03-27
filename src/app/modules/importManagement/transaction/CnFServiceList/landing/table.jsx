@@ -53,7 +53,7 @@ const CnFServiceList = () => {
         pageSize
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   //setPositionHandler

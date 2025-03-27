@@ -222,7 +222,7 @@ export default function FormCmp({
       });
       setObjRowTargetAchivment(tempObj);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [strategicParticularsGrid]);
 
   useEffect(() => {

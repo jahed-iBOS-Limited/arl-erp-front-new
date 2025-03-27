@@ -40,7 +40,7 @@ const PowerConsumptionAllsbu = () => {
     getRowData(
       `/mes/MSIL/GetPowerCosumptionAllSBULanding?BusinessUnitId=${selectedBusinessUnit?.value}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}&Shift=${initData?.strShift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

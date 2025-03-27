@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -103,7 +103,7 @@ export default function HeaderForm({
     }
 
     return () => dispatch(EmptyBankJournalGridData());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     setTypeStatus(initData?.type);

@@ -47,7 +47,7 @@ export default function SurveyVesselForm({
         quantity: singleData?.blqty,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editViewTag]);
 
   const saveHandler = (values, cb) => {

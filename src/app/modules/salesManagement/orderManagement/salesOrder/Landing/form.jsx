@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -123,9 +123,9 @@ export default function HeaderForm({ loading, setLoading }) {
     return state.localStorage.salesOrderLanding;
   });
   //paginationState
-  // eslint-disable-next-line no-unused-vars
+
   const [pageNo, setPageNo] = React.useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [pageSize, setPageSize] = React.useState(100);
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
@@ -154,7 +154,7 @@ export default function HeaderForm({ loading, setLoading }) {
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -377,7 +377,7 @@ export default function HeaderForm({ loading, setLoading }) {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

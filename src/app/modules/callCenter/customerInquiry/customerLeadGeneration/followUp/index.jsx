@@ -21,7 +21,7 @@ export default function FollowUp() {
         `/oms/SalesQuotation/GetCustomerAcquisitionById?customerAcquisitionId=${id}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <ICustomCard

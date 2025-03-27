@@ -66,7 +66,7 @@ export default function ShippingRFQCreate() {
       setReferenceNoDDL
       )
       getSupplierNameDDLAction(profileData?.accountId, selectedBusinessUnit?.value, location?.state?.sbu?.value, setsupplierNameDDL)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value, ]);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function ShippingRFQCreate() {
 
     if(rowDto?.length < 1) return toast.warn("Please add Item")
     if(rowDtoTwo?.length < 1) return toast.warn("Please add Supplier name")
-    
+
       if (id) {
         const objRow = rowDto.map((itm) => {
           return {
@@ -162,7 +162,7 @@ export default function ShippingRFQCreate() {
         }
 
         updateRFQ(payload, modifyData?.strStatus, id ? "" : cb, setLoading)
-        
+
       } else {
         const objRow = rowDto.map((itm) => {
           return {
@@ -247,7 +247,7 @@ export default function ShippingRFQCreate() {
         }
         saveData(`/procurement/ShipRequestForQuotation/CreateRequestForQuotationShip`,payload, cb, true)
       }
-    } 
+    }
 
 
   const addRowDtoData = (data, values) => {
@@ -287,11 +287,11 @@ export default function ShippingRFQCreate() {
 
       const modData = [...newData, ...rowDto];
         const sortedItems = modData?.sort((a, b) => {
-          const subHeadA = a?.strShippingItemSubHead || ''; 
-          const subHeadB = b?.strShippingItemSubHead || ''; 
+          const subHeadA = a?.strShippingItemSubHead || '';
+          const subHeadB = b?.strShippingItemSubHead || '';
           return subHeadA.localeCompare(subHeadB);
-      }); 
-      setRowDto(sortedItems);  
+      });
+      setRowDto(sortedItems);
     } else {
       // if reference, can't add same reference and same item multiple
       // if not reference, can't add multiple item
@@ -327,10 +327,10 @@ export default function ShippingRFQCreate() {
 
         const modData = [...rowDto, newData];
         const sortedItems = modData?.sort((a, b) => {
-          const subHeadA = a?.strShippingItemSubHead || ''; 
-          const subHeadB = b?.strShippingItemSubHead || ''; 
+          const subHeadA = a?.strShippingItemSubHead || '';
+          const subHeadB = b?.strShippingItemSubHead || '';
           return subHeadA.localeCompare(subHeadB);
-      });      
+      });
         setRowDto(sortedItems);
       }
     }
@@ -350,7 +350,7 @@ export default function ShippingRFQCreate() {
     }
   }
 
-  
+
   const removeHandler = (deleteItemId) => {
     const data = rowDto?.filter((item) => item?.intItemId !== deleteItemId);
     setRowDto([...data]);
@@ -395,7 +395,7 @@ export default function ShippingRFQCreate() {
           }) => (
             <>
               <Form className="form form-label-right">
-                
+
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-3">
@@ -522,7 +522,7 @@ export default function ShippingRFQCreate() {
                               valueOption?.value,
                               valueOption?.label,
                               setRfqItemDDL
-                            ) 
+                            )
                             //getAttachmentId(valueOption?.label, 0, setLoading, null, setAttachmentItemList)
                             setRowDto([])
                             setFieldValue("itemName", "");
@@ -601,9 +601,9 @@ export default function ShippingRFQCreate() {
                           addRowDtoData(rfqItemDDL, values);
                         }}
                         className="btn btn-primary"
-                        disabled={ 
-                          (!values.isAllItem ? !values.itemName : false) 
-                          ? (!values.referenceNo || !values.itemName) 
+                        disabled={
+                          (!values.isAllItem ? !values.itemName : false)
+                          ? (!values.referenceNo || !values.itemName)
                           : (!values.referenceNo || modifyData?.strStatus === "Open" || modifyData?.strStatus === "Closed") }
                       >
                         ADD
@@ -613,12 +613,12 @@ export default function ShippingRFQCreate() {
                 </div>
 
                 <div className="row">
-                  {(modifyData?.strStatus !== "Open" && modifyData?.strStatus !== "Closed") && 
+                  {(modifyData?.strStatus !== "Open" && modifyData?.strStatus !== "Closed") &&
                     <div className="col-lg-12">
                       <RowDtoTable
                         removeHandler={removeHandler}
                         rowDto={rowDto}
-                        setRowDto={setRowDto}            
+                        setRowDto={setRowDto}
                         values={values}
                         id={id}
                         selectedBusinessUnit={selectedBusinessUnit}
@@ -681,12 +681,12 @@ export default function ShippingRFQCreate() {
                   </div>
                 </div>
                 <div className="row">
-                  {(modifyData?.strStatus !== "Open" && modifyData?.strStatus !== "Closed") && 
+                  {(modifyData?.strStatus !== "Open" && modifyData?.strStatus !== "Closed") &&
                     <div className="col-lg-12">
                       <SupplierRowTable
                         removerTwo={removerTwo}
                         rowDtoTwo={rowDtoTwo}
-                        setRowDtoTwo={setRowDtoTwo}              
+                        setRowDtoTwo={setRowDtoTwo}
                         values={values}
                         selectedBusinessUnit={selectedBusinessUnit}
                         profileData={profileData}

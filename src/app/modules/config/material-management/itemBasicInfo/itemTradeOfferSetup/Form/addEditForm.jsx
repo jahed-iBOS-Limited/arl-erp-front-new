@@ -52,7 +52,7 @@ export default function ItemTradeOfferSetupForm() {
         setOfferTypes(modified);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {

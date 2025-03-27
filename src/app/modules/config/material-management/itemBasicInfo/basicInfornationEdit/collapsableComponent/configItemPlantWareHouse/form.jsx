@@ -57,7 +57,7 @@ export default function FormCmp({
       );
       getItemUOMDDL(accountId, selectedBusinessUnit?.value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function FormCmp({
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [baseUomList, productData]);
 
   return (

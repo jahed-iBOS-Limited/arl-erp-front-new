@@ -35,7 +35,7 @@ export default function RenewalBillForm({ headerData }) {
     getEmployeeDDL(
       `/asset/LandingView/GetRenewalRegistrationList?typeId=99&dteFrom=${_todayDate()}&dteTo=${_todayDate()}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function RenewalBillForm({ headerData }) {
 
   useEffect(() => {
     getLandingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const confirmToApprove = (values) => {

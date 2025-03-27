@@ -57,7 +57,7 @@ function CustomerPrivilegeScheme() {
       );
       GetConditionTypeDDL_api(setConditionTypeDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

@@ -33,7 +33,7 @@ export default function RouteSetupConfigForm() {
     if (params?.id) {
       getRouteConfigById(params?.id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

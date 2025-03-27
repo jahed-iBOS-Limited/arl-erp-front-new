@@ -29,7 +29,7 @@ export default function WarehouseWiseStockReport() {
 
   useEffect(() => {
     getItemTypeDDL(`/wms/WmsReport/GetItemTypeListDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getLandingData = (values, pageNo, pageSize) => {

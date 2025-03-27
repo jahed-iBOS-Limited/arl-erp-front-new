@@ -60,7 +60,7 @@ export default function ProfitCenterGroupFrom({
     } else {
       dispatch(setProfitCenterGroupDataSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -73,7 +73,7 @@ export default function ProfitCenterGroupFrom({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

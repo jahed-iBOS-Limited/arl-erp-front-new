@@ -1,9 +1,7 @@
-/* eslint-disable no-undef */
-//
 import React from "react";
 import { Formik, Form } from "formik";
 // import * as Yup from "yup";
-// eslint-disable-next-line no-unused-vars
+
 // import Axios from "axios";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -29,7 +27,7 @@ export default function FormCmp({
   remover,
   rowDto,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   // const [rateForm, setRateForm] = useState("");
 
   return (

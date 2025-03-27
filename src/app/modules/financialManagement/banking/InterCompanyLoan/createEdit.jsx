@@ -60,7 +60,7 @@ export default function InterCompanyLoanCreate() {
         inRate: location?.state?.interestRate,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function InterCompanyLoanCreate() {
     getFromBankAccountDDL(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const { id } = useParams();

@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 'use strict';
 
 import KTScrolltop from './../../components/scrolltop';

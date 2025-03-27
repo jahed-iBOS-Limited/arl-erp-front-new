@@ -219,7 +219,7 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
     if (bookingRequestId) {
       commonGetByIdHandler();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

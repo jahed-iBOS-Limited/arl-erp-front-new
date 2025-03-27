@@ -207,7 +207,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     getShipingCargoTypeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

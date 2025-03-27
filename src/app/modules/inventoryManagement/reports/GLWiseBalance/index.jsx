@@ -31,7 +31,7 @@ export default function GLWiseBalance() {
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {};
 

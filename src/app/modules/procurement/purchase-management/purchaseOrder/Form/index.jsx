@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import IForm from "../../../../_helper/_form";
@@ -84,7 +84,7 @@ export function POFormByOrderType() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -97,13 +97,13 @@ export function POFormByOrderType() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   useEffect(() => {
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getIncoTermsListDDLAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const IConfirmModal = (props) => {
@@ -470,7 +470,7 @@ export function POFormByOrderType() {
         setTitle("Create Purchase Order (Asset PO)");
         break;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [potype, objProps, lastPo]);
 
   return (

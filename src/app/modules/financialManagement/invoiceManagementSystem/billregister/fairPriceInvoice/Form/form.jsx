@@ -60,7 +60,7 @@ export default function FormCmp({
   const [PONumberDDL, setPoNumberDDL] = useState([]);
   const [totalGrnAmount, setTotalGrnAmount] = useState(0);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [supplierAmountInfo, setSupplierAmountInfo] = React.useState('');
   const dispatch = useDispatch();
 

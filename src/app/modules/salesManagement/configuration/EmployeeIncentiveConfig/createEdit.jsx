@@ -128,7 +128,7 @@ export default function KeyRegisterLanding() {
     getDistributionChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

@@ -27,7 +27,7 @@ export default function RecivePaymentLanding() {
       selectedBusinessUnit?.value,
       SetEmployeeDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

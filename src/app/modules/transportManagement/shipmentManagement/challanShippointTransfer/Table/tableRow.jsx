@@ -52,7 +52,7 @@ export function TableRow({
       itemCheck: false,
     }));
     setIncompleteRowDto(modifyGridData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [incompleteGridData]);
 
   //viewClickHandler
@@ -82,7 +82,7 @@ export function TableRow({
   //   ) {
   //     viewBtnClickHandler(pageNo, pageSize, shipmentlanding);
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function TableRow({
       setIncompleteRowDto([]);
       dispatch(setGridEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

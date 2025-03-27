@@ -31,9 +31,9 @@ export default function RouteForm({
   const [objProps, setObjprops] = useState({});
 
   const [territoryNameDDL, setTerritoryNameDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [startOutlateNameDDL, setStartOutlateNameDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [endOutlateNameDDL, setEndOutlateNameDDL] = useState([]);
   const [territoryTypeDDL, setTerritoryTypeDDL] = useState([]);
 
@@ -50,7 +50,7 @@ export default function RouteForm({
   }, shallowEqual);
 
   //SingleData to view
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState("");
 
   useEffect(() => {
@@ -79,14 +79,14 @@ export default function RouteForm({
     if (params?.id) {
       GetRouteId(params?.id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-        // eslint-disable-next-line no-unused-vars
+
         const payload = {
           routeId: +id,
           routeName: values?.routeName,
@@ -99,7 +99,7 @@ export default function RouteForm({
         };
         saveEditedRoute(payload, cb, setDisabled);
       } else {
-        // eslint-disable-next-line no-unused-vars
+
         const payload = {
           routeCode: "string",
           routeName: values?.routeName,

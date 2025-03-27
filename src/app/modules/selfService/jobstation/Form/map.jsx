@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+
 import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 // import { FullscreenControl } from "react-leaflet-fullscreen";
@@ -33,7 +33,7 @@ function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
         console.log('else');
       }
     }, 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   // const options = {
   //   position: "topleft",

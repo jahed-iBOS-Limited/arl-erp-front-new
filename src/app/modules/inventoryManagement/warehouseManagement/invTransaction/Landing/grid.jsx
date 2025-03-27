@@ -40,7 +40,7 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
 
-  // eslint-disable-next-line no-unused-vars
+
   const cancelPopUp = (td) => {
     let confirmObject = {
       title: "Are you sure?",

@@ -118,13 +118,13 @@ export default function LoanCreate({ singleData }) {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

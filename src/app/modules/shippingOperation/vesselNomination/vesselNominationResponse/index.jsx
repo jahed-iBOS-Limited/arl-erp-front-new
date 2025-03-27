@@ -13,7 +13,7 @@ export default function VesselNominationAccept() {
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik

@@ -110,7 +110,7 @@ export default function MasterHBLModal({
           const strPortOfLoading = [];
           const strOceanVessel = [];
 
-          // eslint-disable-next-line no-unused-expressions
+
           hblRestData?.forEach((item, index) => {
             const transportPlanningSea =
               item?.transportPlanning?.find((i) => {
@@ -309,7 +309,7 @@ export default function MasterHBLModal({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -383,7 +383,7 @@ export default function MasterHBLModal({
     getMasterBLDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2&tradeTypeId=${tradeTypeId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

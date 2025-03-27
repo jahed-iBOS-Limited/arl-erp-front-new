@@ -42,7 +42,7 @@ const BankJournalModal = ({ id, headerData }) => {
         headerData,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, headerData, selectedBusinessUnit]);
 
   useEffect(() => {

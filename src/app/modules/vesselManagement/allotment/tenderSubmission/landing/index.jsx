@@ -56,7 +56,7 @@ export default function TenderSubmissionLanding() {
   useEffect(() => {
     // Fetch sumitted tender data
     // fetchSubmittedTenderData(pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Set paginations
@@ -338,7 +338,7 @@ export default function TenderSubmissionLanding() {
   );
 }
 
-// eslint-disable-next-line no-lone-blocks
+
 {
   /* <div ref={printRef} className="tender-print-preview">
   <div style={{ margin: "-13px 50px 51px 50px" }}>

@@ -52,7 +52,7 @@ export default function FormCmp({
         setPrtNumber
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, singleData || productionId]);
   useEffect(() => {
     getRoutingToWorkCenterDDL(
@@ -62,7 +62,7 @@ export default function FormCmp({
       setWorkCenter
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

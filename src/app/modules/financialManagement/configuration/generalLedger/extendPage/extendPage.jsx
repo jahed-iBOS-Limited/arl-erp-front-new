@@ -45,12 +45,12 @@ export default function GeneralLedgerExtendPage({
       const { accountId } = profileData;
       dispatch(getBUDDLAction(accountId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
     id && dispatch(getGeneralLedgeExtendById(id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   const saveHandler = async (values, cb) => {
     setDisabled(true);
@@ -71,7 +71,7 @@ export default function GeneralLedgerExtendPage({
       }
     } else {
       setDisabled(false);
-      
+
     }
   };
 
@@ -93,7 +93,7 @@ export default function GeneralLedgerExtendPage({
     if (extendData.objRow && extendData.objRow.length) {
       setRowDto([...extendData.objRow]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [extendData]);
   return (
     <IForm

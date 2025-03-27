@@ -34,7 +34,7 @@ function VisitorRegisterLanding() {
     getRowData(
       `/mes/MSIL/GetAllVisitorRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

@@ -20,7 +20,7 @@ const MyAsset = () => {
 
   useEffect(() => {
     getRowData(`/asset/Asset/GetAssignedAssetOfEmployee?empId=${employeeId}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

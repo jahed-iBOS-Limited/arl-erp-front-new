@@ -28,7 +28,7 @@ export default function POPreview({ estimatePDAList }) {
         }
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId]);
 
   useEffect(() => {

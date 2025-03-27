@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
@@ -33,7 +33,7 @@ export default function UserGroupViewFrom({
 
   useEffect(() => {
     getBusinessUnitById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getBusinessUnitById = async (id, accountId) => {
@@ -48,8 +48,8 @@ export default function UserGroupViewFrom({
   };
 
   // Check duplicate for show warning
- 
- 
+
+
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -72,7 +72,7 @@ export default function UserGroupViewFrom({
     history.push(`/config/domain-controll/user-group/`);
   };
 
- 
+
   return (
     <Card>
       {true && <ModalProgressBar />}

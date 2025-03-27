@@ -19,7 +19,7 @@ export default function SalaryJvConfigLanding() {
     getLandingData(
       `/fino/AdjustmentJournal/GetAllDebitCreditGLConfig?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -44,7 +44,7 @@ export default function CHAReport() {
 
   useEffect(() => {
     commonGetApi(initialValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

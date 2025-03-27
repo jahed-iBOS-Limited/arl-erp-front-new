@@ -9,7 +9,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { IQueryParser } from "../../_helper/_queryParser";
 import IViewModal from "../../_helper/_viewModal";
-import customStyles from "../../selectCustomStyle"; 
+import customStyles from "../../selectCustomStyle";
 
 export default function ViewModal({ show, onHide, history, children }) {
   const location = useLocation();
@@ -47,7 +47,7 @@ export default function ViewModal({ show, onHide, history, children }) {
     if (!modalData) {
       history.push("/performance-management/employee-entry");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [modalData]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function ViewModal({ show, onHide, history, children }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [modalData]);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function ViewModal({ show, onHide, history, children }) {
     if (valuesOrComId && typeId === 3) {
       dispatch(getCompetencyPopUpAction(valuesOrComId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [valuesOrComId, typeId]);
 
   return (

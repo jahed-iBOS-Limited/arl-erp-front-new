@@ -45,7 +45,7 @@ export default function G2GItemInfo() {
 
   useEffect(() => {
     setLandingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const deleteHandler = (id, values) => {

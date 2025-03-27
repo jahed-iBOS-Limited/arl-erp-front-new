@@ -31,7 +31,7 @@ export default function RfqModalForView({
         `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${rfqId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [rfqId]);
 
   return (

@@ -22,7 +22,7 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
         }&unitId=${selectedBusinessUnit?.value}&fromDate=${landingValues?.fromDate || _todayDate()}&toDate=${landingValues?.toDate || _todayDate()}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, currentRowData]);
 
   const totalAmount = useMemo(() => dataById.reduce((acc, item) => acc + (item?.numAmount || 0), 0), [dataById]);

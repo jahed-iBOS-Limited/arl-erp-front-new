@@ -34,7 +34,7 @@ export default function ItemSubCategoryEditForm({
   const [crncConfigId, setCrncgConfigId] = useState("");
   useEffect(() => {
     getBusinessUnitById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getBusinessUnitById = async (id, accountId) => {

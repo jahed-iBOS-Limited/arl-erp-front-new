@@ -152,7 +152,7 @@ const PurchaseRequestReportTable = () => {
 
       getItemTypeListDDL_api(setItemTypeOption);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // //setPositionHandler

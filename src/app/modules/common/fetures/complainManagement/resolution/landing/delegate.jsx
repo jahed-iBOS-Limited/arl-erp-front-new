@@ -121,7 +121,7 @@ function DelegateForm({ clickRowData, landingCB }) {
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowData]);
   return (
     <>

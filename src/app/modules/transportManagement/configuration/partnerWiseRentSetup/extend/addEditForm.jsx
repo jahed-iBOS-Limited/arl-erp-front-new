@@ -52,7 +52,7 @@ export default function PartnerWiseRentSetupExtendForm({
       setRowDto,
       setDisabled
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const addItemToTheGrid = (values) => {

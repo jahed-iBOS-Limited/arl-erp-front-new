@@ -57,7 +57,7 @@ const initData = {
 const colSpan = {
   Pending: 13,
   Complete: 12,
-  // eslint-disable-next-line no-useless-computed-key
+
   ["Bill Submit"]: 10,
 };
 const RentalVehilceCostLanding = () => {
@@ -201,7 +201,7 @@ const RentalVehilceCostLanding = () => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       gridDataFunc(rentalVehilceCostLanding, setIntItemLists, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const loadOptions = async (v) => {

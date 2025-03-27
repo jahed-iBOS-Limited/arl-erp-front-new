@@ -23,7 +23,7 @@ export default function ChallanPrintModal({
     if (deliveryId) {
       getChallanData(deliveryId, setChallanData, setChallanPrintModalShow);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [deliveryId]);
 
   const printRef = useRef();

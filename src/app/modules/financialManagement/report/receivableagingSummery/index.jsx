@@ -31,7 +31,7 @@ function Receivableagingsummery() {
     getRowData(
       `/oms/SalesInformation/GetReceiveableAgingSummery?unitID=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

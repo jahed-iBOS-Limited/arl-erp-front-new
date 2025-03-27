@@ -102,7 +102,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
       dispatch(SetPartnerledgerGridDataEmptyAction());
       dispatch(SetBusinessPartnerDetailsEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

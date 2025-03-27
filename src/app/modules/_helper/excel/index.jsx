@@ -11,14 +11,14 @@ export const createFile = (excel, adviceBlobData, fileName) => {
   const workbook = getWorkBook(excel);
 
   //generate sheets
-  // eslint-disable-next-line no-unused-expressions
+
   excel?.sheets?.forEach((sheet) => {
     //create worksheet
 
     const _sheet = workbook.addWorksheet(sheet?.name ?? '', {
       views: [
         {
-          showGridLines: sheet?.hasOwnProperty('gridLine')
+          showGridLines: Object.prototype.hasOwnProperty.call(sheet, 'gridLine')
             ? sheet.gridLine
             : true,
         },
@@ -36,13 +36,13 @@ export const createFile = (excel, adviceBlobData, fileName) => {
     }
 
     // generate rows
-    // eslint-disable-next-line no-unused-expressions
+
     sheet?.rows?.forEach((row, rowIndex) => {
       // preprocess row
       const _row = [];
 
       let lastCellIndex = 0;
-      // eslint-disable-next-line no-unused-expressions
+
       row?.forEach((cell, index) => {
         if (cell === null) {
           cell = '';

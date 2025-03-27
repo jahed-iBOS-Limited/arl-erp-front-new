@@ -44,7 +44,7 @@ export default function SecondWeightCreateEdit({ weight }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowShippingNoteView, setIsShowShippingNoteView] = useState(false);
   const [weightmentId, setWeightmentId] = useState(null);
-  // eslint-disable-next-line no-unused-vars
+
   const [allDataForEntry, getAllDataForEntry, getAllDataLoader] = useAxiosGet();
   const [customerDDL, getCustomerDDL, , setCustomerDDL] = useAxiosGet();
   const [gateEntryItemListId, setGateEntryItemListId] = useState(0);
@@ -55,9 +55,9 @@ export default function SecondWeightCreateEdit({ weight }) {
     setReportData,
   ] = useAxiosGet();
 
-  // eslint-disable-next-line no-unused-vars
+
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
-  // eslint-disable-next-line no-unused-vars
+
   const [regData, getRegData, regDataLoader] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
@@ -79,7 +79,7 @@ export default function SecondWeightCreateEdit({ weight }) {
     getVehicleDDL(
       `/mes/WeightBridge/GetAllWeightBridgeVehicleDDL?PartName=LastWeight&BusinessUnitId=${initData?.businessUnit?.value}&WeightementId=0`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

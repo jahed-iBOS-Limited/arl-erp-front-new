@@ -107,7 +107,7 @@ export default function DeliveryForm({
     } else {
       dispatch(setDeliverySingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //initial Load ShipPointDDL & DeliveryType dispatch
@@ -121,7 +121,7 @@ export default function DeliveryForm({
       }
       dispatch(GetSalesConfigurationBalanceCheck_acion(profileData?.accountId, selectedBusinessUnit?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const responseDataCB = (deliveryCode) => {
@@ -325,7 +325,7 @@ export default function DeliveryForm({
       const orderIdList = singleData?.objListDeliveryRowDetailsDTO?.map((itm) => itm?.salesOrderId);
       dispatch(getAvailableBalance_Action(soldToPartnerId, orderIdList, 2));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, singleData]);
 
   //Add rowdto handler with oder no
@@ -402,7 +402,7 @@ export default function DeliveryForm({
       dispatch(SetUndeliveryValuesEmpty_Action());
       dispatch(setDeliverySingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -426,7 +426,7 @@ export default function DeliveryForm({
         history.push("/inventory-management/warehouse-management/delivery");
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [headerData]);
 
   return (

@@ -33,7 +33,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
     if (clickedItem) {
       handleGetPaymentDetailsData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickedItem]);
 
   const handleChangeAmountById = (autoId, amount) => {

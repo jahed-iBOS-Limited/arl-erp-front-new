@@ -27,7 +27,7 @@ export default function CashMarginLanding() {
 
   useEffect(() => {
     commonGridData(pageNo, pageSize, initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   //setPositionHandler

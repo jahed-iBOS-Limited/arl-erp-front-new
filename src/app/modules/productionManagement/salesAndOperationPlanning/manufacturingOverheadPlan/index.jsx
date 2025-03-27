@@ -44,7 +44,7 @@ export default function ManufacturingOverheadPlanLanding() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
@@ -61,7 +61,7 @@ export default function ManufacturingOverheadPlanLanding() {
     getProfitCenterDDL(
       `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const commonGridDataLoad = (values) => {

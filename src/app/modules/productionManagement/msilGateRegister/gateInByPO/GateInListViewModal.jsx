@@ -10,7 +10,7 @@ export default function GateInListViewModal({ data }) {
     if (data) {
       getData(`/mes/MSIL/GetAllGateInByPOByDriver?gateInByPOHeaderId=${data?.intGateInByPoid}&PONumber=${data?.intPonumber}`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [data]);
   return (
     <>

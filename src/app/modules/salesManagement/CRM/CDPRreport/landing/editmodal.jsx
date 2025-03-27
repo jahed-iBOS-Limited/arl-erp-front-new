@@ -150,7 +150,7 @@ function EditModal({ clickedRow, landingCB }) {
           : '',
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

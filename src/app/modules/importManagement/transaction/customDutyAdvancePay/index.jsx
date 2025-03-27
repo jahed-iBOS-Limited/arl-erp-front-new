@@ -47,7 +47,7 @@ const { profileData, selectedBusinessUnit } = useSelector((state) => {
 
 useEffect(() => {
    getLandingData()
-// eslint-disable-next-line react-hooks/exhaustive-deps
+
 }, [profileData, selectedBusinessUnit]);
 
    // Get PO List DDL

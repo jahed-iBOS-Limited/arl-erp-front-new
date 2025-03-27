@@ -50,7 +50,7 @@ export default function FormCmp({
         setWareHouseDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const genderDDL = [

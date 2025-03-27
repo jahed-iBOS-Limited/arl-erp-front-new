@@ -94,7 +94,7 @@ export default function ChemicalCompositionCreate() {
         `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state?.intAutoId, buId, id]);
 
   return (

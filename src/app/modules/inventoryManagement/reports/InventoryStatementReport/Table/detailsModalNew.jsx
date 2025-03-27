@@ -32,7 +32,7 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
       setLoading,
       type
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [tableItem]);
 
   const printRef = useRef();

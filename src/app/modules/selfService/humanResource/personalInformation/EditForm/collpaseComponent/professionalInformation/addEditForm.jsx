@@ -147,7 +147,7 @@ export default function ProfessionalInformation() {
       setUploadImage("");
     }
 
-    
+
   };
   // const rowDataAddHandler = (payload) => {
   //   if (
@@ -192,7 +192,7 @@ export default function ProfessionalInformation() {
 
   useEffect(() => {
     employeeProfessionalInfoId_api(headerData?.employeeId, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

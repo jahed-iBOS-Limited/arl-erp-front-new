@@ -64,7 +64,7 @@ export function TableRow() {
     if (selectedBusinessUnit && profileData) {
       setPositionHandler(pageNo, pageSize, null, salesQuotationLanding);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, salesQuotationLanding]);
   return (
     <>

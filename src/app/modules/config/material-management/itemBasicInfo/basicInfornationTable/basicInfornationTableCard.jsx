@@ -23,7 +23,7 @@ import { setItemBasicInfoInitDataAction } from "../../../../_helper/reduxForLoca
 const validationSchema = Yup.object().shape({});
 
 export function BasicInfornationTable() {
-  
+
   const initData = useSelector((state) => {
     return state.localStorage.itemBasicInfoInitData;
   }, shallowEqual);
@@ -96,7 +96,7 @@ export function BasicInfornationTable() {
         `/wms/Plant/GetPlantDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   //setPositionHandler

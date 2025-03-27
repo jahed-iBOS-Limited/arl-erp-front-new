@@ -63,7 +63,7 @@ export default function RouteSetupApproveForm({
         setWeeklyRowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   //  all day

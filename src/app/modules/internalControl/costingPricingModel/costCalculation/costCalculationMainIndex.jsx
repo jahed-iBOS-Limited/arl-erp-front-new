@@ -29,7 +29,7 @@ function CostCalculationLanding() {
     getRowData(
       `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

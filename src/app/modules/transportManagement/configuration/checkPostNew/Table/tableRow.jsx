@@ -12,7 +12,7 @@ import CheckPostNewViewForm from "../view/addForm";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -21,13 +21,13 @@ export function TableRow() {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState("");
 
-  // eslint-disable-next-line no-unused-vars
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   // get selected business unit from store
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -46,7 +46,7 @@ export function TableRow() {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const setPositionHandler = (pageNo, pageSize) => {

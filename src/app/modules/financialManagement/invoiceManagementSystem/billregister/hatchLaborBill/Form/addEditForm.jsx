@@ -41,7 +41,7 @@ export default function HatchLaborBill() {
     getVesselDDL(
       `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}&businessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getData = (values) => {

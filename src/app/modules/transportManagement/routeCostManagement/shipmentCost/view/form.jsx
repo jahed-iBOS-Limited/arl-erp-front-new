@@ -21,7 +21,7 @@ export default function FormCmp({
   shipmentId,
   landingValues,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [componentDDL, setComponentDDL] = useState([]);
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   useEffect(() => {

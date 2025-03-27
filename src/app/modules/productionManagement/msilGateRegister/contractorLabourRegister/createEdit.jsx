@@ -41,7 +41,7 @@ export default function ContractorLabourRegisterCreate() {
 
   useEffect(() => {
     setWorkingSectionDDL(`/mes/MesDDL/GetWorkingSectionDDL?BusinessunitId=${selectedBusinessUnit?.value}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[])
 
   useEffect(() => {
@@ -177,14 +177,14 @@ export default function ContractorLabourRegisterCreate() {
                         type="text"
                       />
                     </div>
-                    <div className="col-lg-3">                      
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.workPlace}
                         label="কাজের স্থান"
                         name="workPlace"
                         type="text"
                       />
-                    </div>                
+                    </div>
                     <div className="col-lg-3">
                       <InputField
                         value={values?.comments}
@@ -193,7 +193,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="text"
                       />
                     </div>
-                  </div>                  
+                  </div>
                 </div>
 
                 <button

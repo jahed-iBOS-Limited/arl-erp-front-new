@@ -53,7 +53,7 @@ const ProjectInventoryCost = ({
       }));
       setItemList(modifiedList);
     }
-    // eslint-disable-next-line
+
   }, [isEdit, inventoryItemList, profileData]);
 
   return (

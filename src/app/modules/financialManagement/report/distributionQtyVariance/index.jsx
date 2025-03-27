@@ -41,7 +41,7 @@ export default function DistributionQtyVariance() {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getData = (values) => {

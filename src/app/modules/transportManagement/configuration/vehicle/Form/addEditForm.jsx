@@ -107,7 +107,7 @@ export default function VehicleForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // get single vehicleUnit from store
@@ -126,7 +126,7 @@ export default function VehicleForm({
     } else {
       dispatch(setVehicleUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

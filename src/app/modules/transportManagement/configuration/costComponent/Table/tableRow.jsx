@@ -11,20 +11,20 @@ import { getTransportrouteCCPagination } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const history = useHistory();
   // get user profile data from store
-  // eslint-disable-next-line no-unused-vars
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   // get selected business unit from store
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -39,7 +39,7 @@ export function TableRow() {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const setPositionHandler = (pageNo, pageSize, searchValue) => {

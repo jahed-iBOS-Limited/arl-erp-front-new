@@ -43,7 +43,7 @@ export default function InvoiceReportTable({
         setDisabled
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [show]);
 
   const printRef = useRef();

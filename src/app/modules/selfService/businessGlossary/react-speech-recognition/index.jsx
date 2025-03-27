@@ -70,7 +70,7 @@ function TranscriptSet({
       resetTranscript();
       searchHandlerCB(transcript);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [listening, transcript]);
 
   return <></>;

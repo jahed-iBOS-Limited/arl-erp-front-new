@@ -41,7 +41,7 @@ export default function SCFLimitLandingPage() {
       selectedBusinessUnit,
       getScfLimitLandingData,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // submit handler

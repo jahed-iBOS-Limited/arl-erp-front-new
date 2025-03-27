@@ -59,7 +59,7 @@ const DeliveryInquiryLanding = () => {
         toDate: _todayDate(),
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {

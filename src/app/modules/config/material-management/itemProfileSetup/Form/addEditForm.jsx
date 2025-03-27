@@ -118,7 +118,7 @@ export default function ItemProfileSetupForm({
         setDisabled
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, id]);
 
   const setter = (obj) => {

@@ -66,7 +66,7 @@ const ProjectAccountingComplete = () => {
           setInventoryItemList(modifiedInventoryItemList);
         }
       );
-    // eslint-disable-next-line
+
   }, [location?.state?.projectId]);
 
   return (
@@ -463,7 +463,7 @@ export default ProjectAccountingComplete;
 //   getWarehouseDDL(
 //     `/wms/ItemPlantWarehouse/GetPlantItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
 //   );
-//   // eslint-disable-next-line
+//
 // }, [selectedBusinessUnit?.value, profileData?.accountId]);
 // console.log(inventoryItemList);
 /* <div className="d-flex align-items-center justify-content-center">

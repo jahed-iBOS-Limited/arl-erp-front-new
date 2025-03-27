@@ -10,7 +10,7 @@ export const AwaitingAuditModal = ({
   filterObj,
   setAwaitingAuditState,
 }) => {
-  // eslint-disable-next-line no-unused-vars
+
   const [landingData, getApproveData] = useAxiosGet();
   const [, saveData] = useAxiosGet();
 

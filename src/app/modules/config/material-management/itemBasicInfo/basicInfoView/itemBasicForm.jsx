@@ -55,7 +55,7 @@ export default function ItemForm({
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -121,7 +121,7 @@ export default function ItemForm({
       categoryApiCaller(data.itemTypeId);
       subcategoryApiCaller(data.itemCategoryId, data.itemTypeId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId, selectedBusinessUnit]);
 
   return (
@@ -168,7 +168,7 @@ export default function ItemForm({
                   <div>{values.itemSubCategory.label || "......."}</div>
                 </div>
               </div>
-              
+
               <button
                 type="submit"
                 style={{ display: "none" }}

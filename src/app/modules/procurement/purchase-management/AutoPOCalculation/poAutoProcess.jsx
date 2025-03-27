@@ -78,7 +78,7 @@ export default function POAutoProcess() {
       });
       setItemTypeList(modData);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {
@@ -126,7 +126,7 @@ export default function POAutoProcess() {
       };
     });
     setAutoPOData(poauto);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [allSelect]);
 
   const payloadMapping = (data) => {

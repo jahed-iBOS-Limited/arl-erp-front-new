@@ -11,11 +11,11 @@ const AssetDepreciationHistoryView = () => {
    const [rowData, getRowData, lodar] = useAxiosGet();
    const { id } = useParams();
    const history= useHistory()
-   // eslint-disable-next-line no-unused-vars
+
    const [objProps, setObjprops] = useState({});
    useEffect(() => {
       getRowData(`/asset/Asset/GetAssetDepreciation?IntDepreciationId=${id}`);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
    }, []);
 
    const totalDepreciation = rowData?.reduce(
@@ -47,7 +47,7 @@ const AssetDepreciationHistoryView = () => {
              sheet='tablexls'
              buttonText='Export Excel'
            />
-           
+
          </>
        )}
       >

@@ -54,7 +54,7 @@ export default function CreateEditPumpInformation() {
             }
             setModifyData(data)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [])
 
     const saveHandler = (values, cb) => {

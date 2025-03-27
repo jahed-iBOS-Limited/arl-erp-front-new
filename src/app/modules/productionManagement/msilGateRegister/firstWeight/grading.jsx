@@ -39,7 +39,7 @@ export default function GradingCreate() {
         setRowData(modifyData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const isLessQuantityRow = (index) => {
@@ -144,7 +144,7 @@ export default function GradingCreate() {
       setRowData(modifyData);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [lessQuantity]);
 
   return (

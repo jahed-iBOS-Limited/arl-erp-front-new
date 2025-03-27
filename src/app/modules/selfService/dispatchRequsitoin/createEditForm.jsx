@@ -155,7 +155,7 @@ export default function DispatchRequisitionCreateEdit() {
     getPlantListddl(
       `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   useEffect(() => {
@@ -164,7 +164,7 @@ export default function DispatchRequisitionCreateEdit() {
         `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -232,7 +232,7 @@ export default function DispatchRequisitionCreateEdit() {
       }));
       setRowData(modifyRowDate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [header, row]);
 
   return (

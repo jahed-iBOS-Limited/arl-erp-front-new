@@ -50,7 +50,7 @@ export default function PurchaseView({ viewClick, singleData, setSingleData }) {
         setDisabled,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

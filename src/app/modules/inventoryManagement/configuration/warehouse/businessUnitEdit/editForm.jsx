@@ -96,7 +96,7 @@ export default function EditForm({
     if (id) {
       getWarehouseById_api(id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <Card>

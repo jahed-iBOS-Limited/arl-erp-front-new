@@ -26,7 +26,7 @@ function SecurityPostAssignDetailsView({ shiftList }) {
         selectedBusinessUnit?.value
       }`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

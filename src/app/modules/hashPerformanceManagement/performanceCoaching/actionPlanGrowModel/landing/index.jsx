@@ -160,7 +160,7 @@ export default function GrowModelActionPlan() {
     getYearData(
       `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId, selectedBusinessUnit]);
 
   const pdfExport = (fileName) => {

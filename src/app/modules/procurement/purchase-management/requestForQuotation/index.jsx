@@ -73,7 +73,7 @@ export default function RequestForQuotationLanding() {
     getPurchaseOrgListDDL(
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getData = (values, pageNo, pageSize, searchValue = '') => {

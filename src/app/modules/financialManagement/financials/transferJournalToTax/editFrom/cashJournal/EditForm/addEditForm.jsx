@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useCallback, useState } from "react";
 import { useSelector, shallowEqual} from "react-redux";
 import Form from "./form";
@@ -51,7 +51,7 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
 
   const saveHandler = async (values, cb) => {
 
-    
+
     const payload =  rowDto?.map((item)=>({
       accountId:  +profileData?.accountId,
       businessUnitId: +selectedBusinessUnit?.value,
@@ -71,7 +71,7 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
       actionBy:  profileData?.userId,
       isTransfer: true,
       narration: values?.headerNarration,
-      // start below 
+      // start below
       generalLedgerId: item?.gl?.value,
       generalLedgerCode:  item?.gl?.code,
       generalLedgerName: item?.gl?.label,
@@ -97,14 +97,14 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
         setSingleData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, headerData]);
 
   useEffect(() => {
     if (singleData?.objRow?.length > 0) {
       setRowDto(singleData?.objRow);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const setter = (values) => {

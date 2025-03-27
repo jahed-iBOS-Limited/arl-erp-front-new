@@ -40,14 +40,14 @@ const ProductToFG = () => {
         setRowData(data?.finishGoodMappings || []);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
     const finishGoodMappings = [];
 
     // Use forEach instead of map for side effects (pushing data)
-    // eslint-disable-next-line no-unused-expressions
+
     rowData?.forEach((data) => {
       if (data?.fgItemName && data?.fgItemId) {
         finishGoodMappings.push({

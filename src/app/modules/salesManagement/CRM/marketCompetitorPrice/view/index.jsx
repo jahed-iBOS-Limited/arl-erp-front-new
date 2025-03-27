@@ -18,7 +18,7 @@ function MarketCompetitorPriceView({ clickedRow }) {
         (resData) => {}
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickedRow?.intCompetitorPriceHeaderId]);
 
   const {

@@ -54,7 +54,7 @@ export default function PreRawMaterialReceiveCreate() {
     getSupplierDDLDDL(
       `/mes/MSIL/GetAllMSIL?PartName=PreRawMaterialSupplierDDL&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function PreRawMaterialReceiveCreate() {
         `/mes/MSIL/GetPreRawMaterialReceiveById?IntPreRawMaterialReceiveId=${id}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const { profileData } = useSelector((state) => {
@@ -98,7 +98,7 @@ export default function PreRawMaterialReceiveCreate() {
 
       setItemList(data || []);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editData]);
 
   const saveHandler = async (values, cb) => {

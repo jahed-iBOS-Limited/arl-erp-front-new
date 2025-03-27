@@ -40,7 +40,7 @@ export default function ExclusivePartnerInfo() {
     getSales(
       `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accountId]);
 
   return (

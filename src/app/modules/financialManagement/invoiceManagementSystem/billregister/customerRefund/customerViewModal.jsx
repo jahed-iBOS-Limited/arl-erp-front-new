@@ -36,7 +36,7 @@ export default function CustomerViewModal({
     getSingleData(
       `/fino/OthersBillEntry/CustomerRefundGetById?billId=${gridItem?.billRegisterId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [gridItem]);
   return (
     <>

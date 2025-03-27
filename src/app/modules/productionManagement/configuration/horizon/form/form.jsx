@@ -9,8 +9,7 @@ const validationSchema = Yup.object().shape({
   year: Yup.string().required("Year is required"),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -74,7 +73,7 @@ function _Form({
                   label="Year"
                   onChange={(valueOption) => {
                       setFieldValue("year", valueOption);
-                    
+
                   }}
                   errors={errors}
                   touched={touched}

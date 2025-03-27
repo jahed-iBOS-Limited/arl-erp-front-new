@@ -67,7 +67,7 @@ export default function AssetStandardPOCreateForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function AssetStandardPOCreateForm({
       0,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   // add single item to row or add all item to row
@@ -249,7 +249,7 @@ export default function AssetStandardPOCreateForm({
 
   useEffect(() => {
     getRefNoDDL();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier

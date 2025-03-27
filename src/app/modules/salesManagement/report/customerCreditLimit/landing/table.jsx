@@ -97,7 +97,7 @@ export default function CustomerCreditLimitReport() {
         setDistributionChannelDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {

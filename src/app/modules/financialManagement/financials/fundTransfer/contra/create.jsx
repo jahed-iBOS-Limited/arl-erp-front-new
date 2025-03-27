@@ -76,7 +76,7 @@ export default function ContraCreate() {
     useEffect(() => {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [selectedBusinessUnit])
 
     const saveHandler = (values, cb) => {

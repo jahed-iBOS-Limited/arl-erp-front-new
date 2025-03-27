@@ -49,7 +49,7 @@ export default function LogisticEquipmentEntry() {
     if (location?.state?.item) {
       setFormList([{ ...location?.state?.item }]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {

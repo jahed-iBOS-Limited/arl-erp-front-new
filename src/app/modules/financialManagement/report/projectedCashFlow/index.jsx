@@ -22,7 +22,7 @@ function ProjectedCashFlowLanding() {
     getRowData(
       `/mes/MSIL/GetRentalVehicleRegister?pageNo=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

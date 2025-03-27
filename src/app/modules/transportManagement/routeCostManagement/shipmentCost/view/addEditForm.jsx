@@ -79,7 +79,7 @@ export default function ShipmentCostViewForm({ id, values }) {
         setDisabled,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // if Report type panding
@@ -97,7 +97,7 @@ export default function ShipmentCostViewForm({ id, values }) {
   //     };
   //     setRowDto([obj]);
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [buMilage, singleData]);
 
   useEffect(() => {

@@ -94,7 +94,7 @@ function Form() {
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   useEffect(() => {
@@ -177,7 +177,7 @@ function Form() {
         `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   const history = useHistory();
 

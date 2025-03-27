@@ -26,7 +26,7 @@ function GateInByPO({ item, date }) {
         item?.dtePurchaseOrderDate
       ) || date}&BusinessunitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

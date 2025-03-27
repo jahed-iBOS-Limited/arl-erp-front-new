@@ -16,7 +16,7 @@ export default function SubmittedRow({ code }) {
     getGridList(
       `/asset/LandingView/GetRenewalInfoByRenewalCode?RenewalCode=${code?.renewalCode}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>

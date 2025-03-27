@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-imports */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
+
 import React, {forwardRef} from "react";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";

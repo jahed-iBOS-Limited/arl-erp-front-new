@@ -229,7 +229,7 @@ export default function FormCmp({
       getDistributionChannel(selectedBusinessUnit.value, accountId);
       getTaxItemGroupDDL_api(accountId, selectedBusinessUnit.value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, accountId]);
 
   return (

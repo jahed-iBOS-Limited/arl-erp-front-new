@@ -43,7 +43,7 @@ export default function LCSummaryCollapsePanel() {
     } else if (state?.checkbox === 'shipmentWisePolicy') {
       setExpanded('panel3');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   return (

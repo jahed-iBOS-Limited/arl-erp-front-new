@@ -38,7 +38,7 @@ const ExpenseParticularsCreate = () => {
   useEffect(() => {
     if (accId && buId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const history = useHistory();
@@ -66,7 +66,7 @@ const ExpenseParticularsCreate = () => {
     if (editId) {
       commonGetById();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editId]);
 
   const commonGetById = async () => {

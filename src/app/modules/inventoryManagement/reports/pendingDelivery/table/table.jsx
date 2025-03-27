@@ -94,7 +94,7 @@ const PendingDeliveryReportTable = () => {
         GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getGridDataHandler = (values) => {
@@ -147,7 +147,7 @@ const PendingDeliveryReportTable = () => {
     if (pendingDeliveryReportLanding?.sbu) {
       getGridDataHandler(pendingDeliveryReportLanding);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -203,7 +203,7 @@ const PendingDeliveryReportTable = () => {
           setSoldToPartyDDL
         );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

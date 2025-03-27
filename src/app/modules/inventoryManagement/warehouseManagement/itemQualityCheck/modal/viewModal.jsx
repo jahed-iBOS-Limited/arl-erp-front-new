@@ -16,7 +16,7 @@ export default function QualityCheckViewModal({ singleData }) {
     getModalData(
       `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
   return (
     <div>

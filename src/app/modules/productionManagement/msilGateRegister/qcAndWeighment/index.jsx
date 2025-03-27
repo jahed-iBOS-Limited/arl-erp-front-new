@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React from "react";
 import { useMemo } from "react";
 import { Tab, Tabs } from "react-bootstrap";

@@ -58,7 +58,7 @@ const CustomerCollectionTarget = () => {
       getBusinessUnitDDL(setSbuDDL, accId, buId);
       getData(initData, pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

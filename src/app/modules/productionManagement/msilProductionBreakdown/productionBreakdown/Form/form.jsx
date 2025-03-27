@@ -32,7 +32,7 @@ export default function ProductionBreakdownForm({
     getShopFloorDDL(
       `/mes/MSIL/GetAllMSIL?PartName=ShopFloorDDLByBusinessUnitId&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value]);
 
   return (

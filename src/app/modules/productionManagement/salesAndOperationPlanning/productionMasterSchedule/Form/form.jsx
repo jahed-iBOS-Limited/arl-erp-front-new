@@ -94,7 +94,7 @@ export default function FormCmp({
         setItemsDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [plant, year, month]);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ export default function FormCmp({
         setUomId
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [plant, year, month, item]);
 
   return (

@@ -44,7 +44,7 @@ const PurchaseReturnApprovalGrid = ({
 
   useEffect(() => {
     cb();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange]);
 
   let cb = () => {
@@ -283,7 +283,7 @@ const PurchaseReturnApprovalGrid = ({
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 

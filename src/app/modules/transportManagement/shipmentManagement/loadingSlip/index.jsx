@@ -18,7 +18,7 @@ function LoadingSlip() {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  // eslint-disable-next-line no-unused-vars
+
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
   const [shipmentDDL, getShipmentDDL, shipmentDDLLoader] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);

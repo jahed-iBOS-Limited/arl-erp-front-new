@@ -51,7 +51,7 @@ export default function SalesTerritoryTypeForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
 

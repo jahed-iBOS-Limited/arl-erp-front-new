@@ -60,7 +60,7 @@ export default function HeaderForm() {
         setPartnerByType
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   const girdDataFunc = (values) => {
     setRowDto([]);

@@ -212,14 +212,14 @@ export default function CashJournaEditForm({
         setSingleData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, headerData]);
 
   useEffect(() => {
     if (singleData?.objRow?.length > 0) {
       setRowDto(singleData?.objRow);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const setter = (values) => {

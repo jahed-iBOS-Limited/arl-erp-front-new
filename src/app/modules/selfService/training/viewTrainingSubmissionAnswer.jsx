@@ -21,7 +21,7 @@ const ViewTrainingSubmission = ({ currentUserMarks, assesment }) => {
     getQuestionsList(
       `/hcm/Training/GetTrainingAssesmentQuestionAnswerById?intScheduleId=${currentUserMarks?.value}&EmployeeId=${profileData?.employeeId}&RequsitionId=${currentUserMarks?.requisitionId}&isPreAssessment=${assesment}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values) => {

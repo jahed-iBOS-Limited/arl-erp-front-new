@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-// eslint-disable-next-line no-unused-vars
+
 import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "./../../../../_helper/_select";
 import InputField from "./../../../../_helper/_inputField";
 import { getBusinessTypeDDL, getRouteNameDDL } from "../helper";
-// eslint-disable-next-line no-unused-vars
+
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { getBeatApiDDL } from "../helper";
 
@@ -46,7 +46,7 @@ export default function FormCmp({
   state,
   collerCompanyDDL,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
 
   const [businessTypeDDL, setBusinessDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);
@@ -113,7 +113,7 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">  
+                <div className="col-lg-3">
                   <NewSelect
                     label="Market Name"
                     name="beatName"

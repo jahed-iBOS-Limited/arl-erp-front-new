@@ -21,7 +21,7 @@ export function TableRow() {
   const [gridData, setGridData] = useState([]);
   const history = useHistory();
   const printRef = useRef();
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   // Modal State
   const [id, setId] = useState("");
@@ -53,7 +53,7 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // Initially Load Grid Data
@@ -83,7 +83,7 @@ export function TableRow() {
         setPaginationState
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

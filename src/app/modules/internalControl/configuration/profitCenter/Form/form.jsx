@@ -50,12 +50,12 @@ export default function FormCmp({
     if (initData?.responsiblePerson?.label) {
       setResponsiblePerson(initData?.responsiblePerson?.label);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
   console.log("initData", initData);
   useEffect(() => {
     groupDDLDispatch(initData?.controllingUnit?.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isEdit, initData?.controllingUnit?.value]);
   // get user profile data from store
   const profileData = useSelector((state) => {

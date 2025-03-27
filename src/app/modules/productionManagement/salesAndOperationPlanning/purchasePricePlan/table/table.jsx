@@ -52,7 +52,7 @@ const PurchasePlanTable = () => {
         `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {

@@ -35,7 +35,7 @@ const DepartmentalBalancedScorecard = () => {
   useEffect(() => {
     setIndex(currentItem.index);
     setDatas(newData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentItem]);
 
   const handleArrowRight = () => {

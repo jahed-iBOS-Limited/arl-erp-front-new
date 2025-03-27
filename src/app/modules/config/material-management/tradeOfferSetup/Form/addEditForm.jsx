@@ -116,14 +116,14 @@ export default function TradeOfferForm({
     dispatch(
       getAllDDLAction(profileData.accountId, selectedBusinessUnit.value),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, conditionType]);
 
   useEffect(() => {
     dispatch(
       getUomDDLAction(profileData.accountId, selectedBusinessUnit.value),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export default function TradeOfferForm({
       default:
         setItemDDL([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [conditionType.queryOne]);
 
   useEffect(() => {
@@ -160,7 +160,7 @@ export default function TradeOfferForm({
       default:
         setPartnerDDL([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [conditionType.queryTwo]);
 
   const saveHandler = async (values, cb) => {

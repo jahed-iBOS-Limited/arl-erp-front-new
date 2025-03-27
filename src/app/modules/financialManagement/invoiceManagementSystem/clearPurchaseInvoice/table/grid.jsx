@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { setPlantNameAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-// eslint-disable-next-line no-unused-vars
+
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {
   getBankAcDDL,
@@ -22,10 +22,10 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "./../../../../_helper/_search";
 
 const GridData = () => {
-  // eslint-disable-next-line no-unused-vars
+
   let history = useHistory();
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -82,7 +82,7 @@ const GridData = () => {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     plantDDL_api(

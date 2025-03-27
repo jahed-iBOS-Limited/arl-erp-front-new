@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
+
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
@@ -15,7 +15,7 @@ export const ActionsColumnFormatter = (
   //   >
   //     <a
   //       className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-       
+
   //       onClick={() =>openEditUserPage(row.userId)}
   //     >
   //        {/* openEditUserPage(  row.userId) */}
@@ -23,12 +23,12 @@ export const ActionsColumnFormatter = (
   //         <SVG
   //           src={toAbsoluteUrl("/media/svg/icons/Communication/Write.svg")}
   //         />
-          
+
   //       </span>
   //     </a>
   //   </OverlayTrigger>
 
-     <> 
+     <>
     {/* </> */}
     <OverlayTrigger
       overlay={<Tooltip userId="products-view-tooltip">View User</Tooltip>}

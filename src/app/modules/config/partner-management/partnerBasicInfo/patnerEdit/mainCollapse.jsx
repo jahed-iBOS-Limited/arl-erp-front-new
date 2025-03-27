@@ -58,7 +58,7 @@ export default function MainCollapsePanel() {
     } else if (state?.checkBox === 'SalesInformation') {
       setExpanded('panel4');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   return (

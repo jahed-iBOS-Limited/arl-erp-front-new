@@ -100,7 +100,7 @@ export default function MoustureCreateEdit() {
         remarks: location?.state?.comments,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

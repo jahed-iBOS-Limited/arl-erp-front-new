@@ -99,7 +99,7 @@ const EstimatePDACreate = () => {
       getBuUnitDDL(userId, accId, setUnitDDL);
       getBankAc(accId, buId, setBankAcc);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const history = useHistory();
@@ -231,7 +231,7 @@ const EstimatePDACreate = () => {
     } else {
       getExpenseParticularsList(setRowDto, setLoading);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editId]);
 
   const formikRef = React.useRef(null);

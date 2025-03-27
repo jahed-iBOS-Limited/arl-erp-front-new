@@ -65,7 +65,7 @@ export default function UnloadingRegisterCreate() {
         setSelectedRawMaterial
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function UnloadingRegisterCreate() {
     getLighterVesselDDL(
       `/mes/MSIL/GetLighterVesselDDLFromCargoUnloading?intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -80,7 +80,7 @@ export default function RecivePaymentBankForm({
       setBankAcDDL
     );
     getInstrumentType_Api(setInstrumentType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   console.log(headerData?.values?.transactionType?.value);
@@ -284,7 +284,7 @@ export default function RecivePaymentBankForm({
     if (bank) {
       getPaymentOrReceiveByIdFunc();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bank]);
   return (
     <>

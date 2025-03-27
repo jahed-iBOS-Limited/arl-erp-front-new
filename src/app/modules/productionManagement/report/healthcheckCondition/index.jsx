@@ -30,7 +30,7 @@ export default function HealthCheckCondition() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {};
   return (

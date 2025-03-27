@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
-// eslint-disable-next-line no-unused-vars
+
 import {
   getGridData,
   getBeatApiDDL,
@@ -51,7 +51,7 @@ export function TableRow() {
         setTerritoryDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

@@ -61,7 +61,7 @@ export default function AuditSchedulesEntry() {
 
   useEffect(() => {
     getAuditEngagement();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // handle double entry with same schedule

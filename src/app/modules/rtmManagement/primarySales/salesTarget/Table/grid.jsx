@@ -16,7 +16,7 @@ const GridData = ({
   setGridData,
 }) => {
   // const [modelShow, setModelShow] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   // get user profile data from store

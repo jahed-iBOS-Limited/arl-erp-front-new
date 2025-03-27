@@ -32,7 +32,7 @@ export default function MedicalStock() {
     getRowData(
       `/mes/MSIL/GetMedicalStockLanding?BuId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   return (

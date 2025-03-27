@@ -32,7 +32,7 @@ export function TableRow() {
     if (selectedBusinessUnit && profileData) {
       getDDL(`/pms/CommonDDL/BSCPerspectiveDDL`, setBSCPerspectiveDDL);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export function TableRow() {
       setGridData,
       setLoading
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // setPositionHandler

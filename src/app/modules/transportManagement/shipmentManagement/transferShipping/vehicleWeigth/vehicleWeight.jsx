@@ -64,7 +64,7 @@ const VehicleWeight = (id) => {
     if (landingData?.shipmentCode) {
       dispatch(GetItemWeightInfo_action(landingData?.shipmentCode, setLoading));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [landingData]);
 
   return (

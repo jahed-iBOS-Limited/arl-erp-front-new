@@ -18,7 +18,7 @@ const initData = {
 };
 
 export function ShippmentTerritory() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +40,7 @@ export function ShippmentTerritory() {
       selectedBusinessUnit?.value,
       setShipPointDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const selectedData = () => {

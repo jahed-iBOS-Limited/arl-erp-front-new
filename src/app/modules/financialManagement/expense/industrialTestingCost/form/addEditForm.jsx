@@ -43,7 +43,7 @@ export default function IndustrialTestingCostEntryForm() {
     getPerformPlaces(
       `/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=1&UnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   const saveHandler = async (values, cb) => {

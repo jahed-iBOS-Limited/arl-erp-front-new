@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -36,13 +36,13 @@ const validationSchema = Yup.object().shape({});
 
 export default function HeaderForm() {
   let [wareHouseDDL, setWarehouseDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [landingData, getLandingData, getLoading, setLandingData] =
     useAxiosGet();
   //paginationState
-  // eslint-disable-next-line no-unused-vars
+
   const [pageNo, setPageNo] = React.useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [pageSize, setPageSize] = React.useState(20);
 
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
@@ -70,7 +70,7 @@ export default function HeaderForm() {
   );
 
   // loading
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();

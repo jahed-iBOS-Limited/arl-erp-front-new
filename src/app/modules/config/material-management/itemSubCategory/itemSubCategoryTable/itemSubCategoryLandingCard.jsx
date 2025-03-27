@@ -20,7 +20,7 @@ export function ItemSubCategoryLandingCard() {
 
   useEffect(() => {
     getExcelData(`/item/MasterCategory/GetItemMasterSubCategoryPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${0}&PageSize=${2000}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [])
 
   const exportDataInExcel = () => {

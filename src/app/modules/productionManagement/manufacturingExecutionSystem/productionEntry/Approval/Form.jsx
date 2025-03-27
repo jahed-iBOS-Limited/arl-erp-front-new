@@ -36,7 +36,7 @@ export default function FormCmp({
         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${initData?.plantName?.value}&OrgUnitTypeId=8`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData, profileData, selectedBusinessUnit]);
 
   return (
@@ -76,7 +76,7 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-                    
+
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -93,7 +93,7 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-                           
+
                 </div>
 
                 <div className="col-lg-3">
@@ -109,7 +109,7 @@ export default function FormCmp({
                     type="date"
                     disabled={isEdit}
                   />
-                         
+
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -124,7 +124,7 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-                           
+
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -135,7 +135,7 @@ export default function FormCmp({
                     type="text"
                     disabled={true}
                   />
-                           
+
                 </div>
 
                 <div className="col-lg-3">
@@ -151,7 +151,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-                           
+
                 </div>
                 {selectedBusinessUnit?.value !== 8 ? (
                   <div className="col-lg-3">
@@ -167,7 +167,7 @@ export default function FormCmp({
                       errors={errors}
                       touched={touched}
                     />
-                         
+
                   </div>
                 ) : null}
               </div>

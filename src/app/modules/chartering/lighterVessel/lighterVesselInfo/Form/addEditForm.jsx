@@ -60,7 +60,7 @@ export default function LighterVesselForm({
     if (singleData?.lighterVesselId) {
       getCostCenter(singleData?.intSbuId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, singleData]);
 
   const saveHandler = (values, cb) => {

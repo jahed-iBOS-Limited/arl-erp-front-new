@@ -6,15 +6,15 @@ const RegisterNewTable = ({
   inventoryStatement,
   setIsShowModal,
 }) => {
- 
+
   let totalOpenQty = 0;
   let totalInQty = 0;
   let totalOutQty = 0;
   let totalClosingQty = 0;
   let totalClosingValue = 0;
   let totalRate = 0;
-  
-  // eslint-disable-next-line no-unused-expressions
+
+
   inventoryStatement?.forEach(item => {
     totalOpenQty += item?.numOpenQty;
     totalInQty += item?.numInQty;

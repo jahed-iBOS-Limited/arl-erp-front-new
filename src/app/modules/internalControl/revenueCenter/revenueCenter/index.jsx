@@ -31,7 +31,7 @@ export default function RevenueCenter() {
     getTableData(
       `/costmgmt/Revenue/GetRevenueCenterLandingPaging?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -28,7 +28,7 @@ export default function FormCmp({
   id,
 }) {
   const history = useHistory();
-  // eslint-disable-next-line no-unused-vars
+
   const dispatch = useDispatch();
   // attachment file
   const inputAttachFile = useRef(null);

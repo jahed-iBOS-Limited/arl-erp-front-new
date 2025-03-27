@@ -52,7 +52,7 @@ export default function OfficialInfoCollapsePanel() {
     } else if (state?.checkbox === 'banklInformation') {
       setExpanded('panel10');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   const backHandler = () => {

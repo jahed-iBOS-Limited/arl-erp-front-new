@@ -7,11 +7,11 @@ import { DateWiseReportTable } from "./Table/table";
 import "./style.css";
 
 export default function DateWiseReport() {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [objProps, setObjprops] = useState({});
-  // eslint-disable-next-line no-unused-vars
+
   const [landingData, getData, getLoading, setLoadingData] = useAxiosGet();
   const [filterObj, setFilterObj] = useState(null);
 

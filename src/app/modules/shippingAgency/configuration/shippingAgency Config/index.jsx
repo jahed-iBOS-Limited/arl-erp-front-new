@@ -57,7 +57,7 @@ export default function ShippingAgencyLanding() {
       getVesselDDL(buId, accId, setVesselDDL, setLoading);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
   return (
     <Formik

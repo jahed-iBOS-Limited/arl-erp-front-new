@@ -109,7 +109,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
     getSalesOrganizationList(
       `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   return (
     <Formik
@@ -391,7 +391,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                   {item?.numAchievement}
                                 </td>
                                 <td className="text-center">
-                                  {reportType?.label === "Top Sheet" ? 
+                                  {reportType?.label === "Top Sheet" ?
                                   <InputField
                                     value={item?.numIncentiveAmount || ""}
                                     type="number"

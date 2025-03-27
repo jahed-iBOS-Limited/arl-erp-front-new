@@ -254,12 +254,12 @@ export default function ReturnPOCreateForm({
       0,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
     getRefNoDDL();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier

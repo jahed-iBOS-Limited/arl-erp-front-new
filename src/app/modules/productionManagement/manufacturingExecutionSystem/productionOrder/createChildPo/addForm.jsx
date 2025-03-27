@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
@@ -54,7 +54,7 @@ export default function CreateSubPOForm({
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, params || productionId]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function CreateSubPOForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   // set data to rowDto dynamically

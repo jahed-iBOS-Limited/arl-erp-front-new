@@ -72,7 +72,7 @@ export default function ComplainAssignConfigLanding() {
 
   useEffect(() => {
     handleGetLandingData(null, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function ComplainAssignConfigLanding() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
   return (
     <Formik

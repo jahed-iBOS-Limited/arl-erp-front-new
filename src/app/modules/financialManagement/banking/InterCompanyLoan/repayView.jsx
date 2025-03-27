@@ -27,7 +27,7 @@ export default function RepayViewModal() {
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location]);
 
   const saveHandler = (values, cb) => {};

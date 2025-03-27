@@ -28,12 +28,12 @@ export default function PurchasePlanCreateForm({
     params: { id },
   },
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   // const [salesPlanData, setSalesPlanData] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
 

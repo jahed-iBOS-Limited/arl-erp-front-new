@@ -118,7 +118,7 @@ export default function SalesQuotationForm({
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // single data Specification set
@@ -129,7 +129,7 @@ export default function SalesQuotationForm({
       setSpecTableData(singleData?.objSpec);
       setObjTerms(singleData?.objTerms || []);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const salesOfficeDDLDispatcher = (salesOrgId) => {

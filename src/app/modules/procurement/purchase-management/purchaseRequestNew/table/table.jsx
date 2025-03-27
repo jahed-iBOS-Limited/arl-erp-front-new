@@ -115,7 +115,7 @@ const PurchaseRequestTable = () => {
         setPoList
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const history = useHistory();
@@ -159,7 +159,7 @@ const PurchaseRequestTable = () => {
         setWhList
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [purchaseRequestLanding?.plant]);
 
   const viewPurchaseOrderData = (values) => {

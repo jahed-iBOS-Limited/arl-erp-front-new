@@ -22,7 +22,7 @@ export function Content({ children }) {
     return () => {
       clearTimeout(timeOutId);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [match.url]);
 
   return <>{children}</>;

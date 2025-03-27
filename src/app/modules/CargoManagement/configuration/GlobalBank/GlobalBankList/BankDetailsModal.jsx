@@ -15,7 +15,7 @@ export default function BankDetailsModal({
     GetBankAddressById(
       `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankById?bankId=${selectedItem?.bankId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedItem]);
   return (
     <IViewModal

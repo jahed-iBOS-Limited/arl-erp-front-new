@@ -47,14 +47,14 @@ export default function PerformanceForm({
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   const saveHandler = async (values, cb) => {
@@ -70,7 +70,7 @@ export default function PerformanceForm({
 
   useEffect(() => {
     dispatch(getEmployeeBasicInfoByIdAction(empId));
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [empId]);
 
   const disableHandler = (cond) => {

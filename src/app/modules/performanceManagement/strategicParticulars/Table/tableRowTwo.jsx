@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -129,12 +129,12 @@ const TableRowTwo = () => {
       selectedBusinessUnit?.value,
       setCorporateDepDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     setDepartmentDDL([...departmentDDL, ...depDDL]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [depDDL]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const TableRowTwo = () => {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const viewStrParticularsLanding = () => {

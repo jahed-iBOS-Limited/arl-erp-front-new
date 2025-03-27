@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -157,7 +157,7 @@ export default function BankJournalCreate() {
 
   useEffect(() => {
     // if not id, that means this is for create form, then we will check this..
-     
+
   }, []);
 
   const [objProps, setObjprops] = useState({});

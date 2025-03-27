@@ -31,7 +31,7 @@ export default function BankBranchForm() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   const saveHandler = async (values, cb) => {

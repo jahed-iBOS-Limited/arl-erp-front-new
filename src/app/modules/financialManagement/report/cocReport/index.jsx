@@ -40,7 +40,7 @@ export default function COCReportLandingPage() {
       `/costmgmt/ServiceLevelAgreementCOC/GetCOCReport?partName=SLAEmployeeDDL&businessUnitId=${selectedBusinessUnit?.value}`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // fetch coc report data

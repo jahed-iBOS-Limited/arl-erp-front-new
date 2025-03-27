@@ -55,7 +55,7 @@ export default function CargoUnloadingStatementCreate() {
         getCargoUnloadingStatementById
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [location, id]);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function CargoUnloadingStatementCreate() {
         profileData?.accountId
       }&intBusinessUnitId=${17}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   return (
     <IForm title="Create Cargo Unloading Statement" getProps={setObjprops}>
@@ -584,7 +584,7 @@ export default function CargoUnloadingStatementCreate() {
                       </tbody>
                     </table>
 </div>
-                   
+
                   </div>
                 </div>
               )}

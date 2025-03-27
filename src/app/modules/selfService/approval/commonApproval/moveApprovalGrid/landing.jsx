@@ -33,7 +33,7 @@ const MovementApprovalGrid = () => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // eslint-disable-next-line no-unused-vars
+
   const params = useParams();
 
   const setPositionHandler = (pageNo, pageSize, values) => {

@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 // update price structure when user changes order qty and basic price
 import axios from "axios";
 import Axios from "axios";
@@ -297,7 +297,7 @@ function MailSender(parameterName, valueArr) {
 function toCCMailSend(parameterName, valueArr) {
   if(parameterName === "SendToCC" && valueArr?.length > 0 ) {
      const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");   
+        return queryArr.join("&");
   }else{
      console.log("parameterName",parameterName + "=" + [] + "&")
      return (parameterName + "=" + [] )

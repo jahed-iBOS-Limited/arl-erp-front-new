@@ -40,7 +40,7 @@ const AdjustmentJournalCreate = ({ objProps }) => {
     getNetAndJournalAmount(
       `${imarineBaseUrl}/domain/Report/GetNetIncomeAndFetchJournalAmount?VesselName=${vesselName}&VoyageNo=${voyageNo}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // handleCreateVesselWiseAJ

@@ -43,12 +43,12 @@ export default function SecondaryCollectionForm({
     if (params?.id) {
       GetSecondaryCollectionView(params?.id, setSingleData, setRowDto);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   // // Show when in edit mode, rowData
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
+
     const newData = singleData?.row?.map((item) => ({
       itemId: item?.productId,
       productName: item?.productName,
@@ -64,7 +64,7 @@ export default function SecondaryCollectionForm({
     } else {
       setRowDto([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {

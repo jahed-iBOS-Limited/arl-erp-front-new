@@ -50,7 +50,7 @@ export default function ProductionScheduling() {
           })),
         ),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const saveHandler = (values, cb) => { };
@@ -205,7 +205,7 @@ export default function ProductionScheduling() {
                 {tableData.length > 0 && (
                   <div className="mt-5 ml-4">
                     <ReactHTMLTableToExcel
-                      id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table 
+                      id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table
                       className="btn btn-primary"
                       table="production-scheduling-table-to-xlsx"  // always same with table id
                       filename={"Date Wise Report"}

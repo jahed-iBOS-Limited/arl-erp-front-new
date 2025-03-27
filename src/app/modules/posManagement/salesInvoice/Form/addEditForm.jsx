@@ -1,5 +1,4 @@
 
-/* eslint-disable no-unreachable */
 
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -49,7 +48,7 @@ const initData = {
 
 export default function SalesInvoiceForm() {
    const history = useHistory();
-   // eslint-disable-next-line no-unused-vars
+
    const [isDisabled, setDisabled] = useState(false);
    const [customerDDL, setCustomsDDL] = useState([]);
    const [salesOrderDDL, setSalesOrderDDL] = useState([]);

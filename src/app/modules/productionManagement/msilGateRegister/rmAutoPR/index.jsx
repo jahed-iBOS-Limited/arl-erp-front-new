@@ -42,7 +42,7 @@ function RowMaterialAutoPR() {
       `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
       }&Status=${0}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {

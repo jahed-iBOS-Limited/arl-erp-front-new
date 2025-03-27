@@ -114,7 +114,7 @@ function GlobalBankCreate() {
         setCurrencyList(modifyData);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // get bank data by id for edit
@@ -151,7 +151,7 @@ function GlobalBankCreate() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <ICustomCard

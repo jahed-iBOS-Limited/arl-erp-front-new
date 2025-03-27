@@ -118,7 +118,7 @@ export default function DeadWeightCreate() {
       );
       setHoldsArray(array);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [vesselData?.intHoldNumber]);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ export default function DeadWeightCreate() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [paramId]);
 
   const handleAdd = (values, setFieldValue) => {

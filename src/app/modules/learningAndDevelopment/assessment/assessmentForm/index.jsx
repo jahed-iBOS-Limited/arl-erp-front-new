@@ -16,7 +16,7 @@ export default function AssessmentForm() {
 
   useEffect(() => {
     getLandingData(`/hcm/Training/TrainingScheduleDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

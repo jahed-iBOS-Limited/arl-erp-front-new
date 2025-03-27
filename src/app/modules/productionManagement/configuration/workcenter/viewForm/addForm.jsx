@@ -52,7 +52,7 @@ export default function WorkCenterViewForm({
       setSingleData,
       setSingleRowData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [getWorkCenterById]);
 
   const disableHandler = (cond) => {

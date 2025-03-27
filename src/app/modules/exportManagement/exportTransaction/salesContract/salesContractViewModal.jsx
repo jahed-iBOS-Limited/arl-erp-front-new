@@ -36,7 +36,7 @@ export default function SalesContractView({ quotationId }) {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getTotalCNF = (quotationData) => {

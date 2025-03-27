@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-target-blank */
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import Select from "react-select";
@@ -79,7 +79,7 @@ export default function BalancedTable() {
         label: profileData?.userName,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function BalancedTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function BalancedTable() {
       dispatch(setReportEmpty());
       dispatch(SetKPIScoreData(null))
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function BalancedTable() {
         1
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, employee]);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function BalancedTable() {
     if (employee?.value) {
       dispatch(getEmployeeBasicInfoByIdAction(employee?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [employee]);
 
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -432,7 +432,7 @@ export default function BalancedTable() {
                                 to: to,
                                 year,
                                 reportIndex:indx
-                              }))                             
+                              }))
                               window.open(
                                 `${process.env.PUBLIC_URL}/individual-kpi-scorecard`,
                                 "_blank"

@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-//
+
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { GetAllGLExtendPagination } from "../../helper";
@@ -31,11 +30,11 @@ export default function FormCmp({
   rowDto,
 }) {
   // const [gridData, setGridData] = useState({});
-  // eslint-disable-next-line no-unused-vars
+
   const [pageSize, setPageSize] = React.useState(1000);
-  // eslint-disable-next-line no-unused-vars
+
   const [pageNo, setPageNo] = React.useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit) {
@@ -48,7 +47,7 @@ export default function FormCmp({
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // one item select
@@ -112,7 +111,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-                                 
+
                 </div>
               </div>
               <div className="row cash_journal">

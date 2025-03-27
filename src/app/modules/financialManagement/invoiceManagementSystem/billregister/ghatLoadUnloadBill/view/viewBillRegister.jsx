@@ -37,7 +37,7 @@ export default function ViewGhatLoadUnloadBill({
     getGridData(
       `/tms/LigterLoadUnload/GetUnloadLabourBillByBillregesterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

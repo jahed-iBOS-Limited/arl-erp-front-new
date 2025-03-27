@@ -79,7 +79,7 @@ export default function CostCenterForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -89,7 +89,7 @@ export default function CostCenterForm({
         getEmpDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
@@ -104,7 +104,7 @@ export default function CostCenterForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const CostCenterType = (CostControlUnitId) => {

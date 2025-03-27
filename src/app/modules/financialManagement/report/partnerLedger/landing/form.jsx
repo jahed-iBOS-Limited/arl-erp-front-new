@@ -70,7 +70,7 @@ export function PartnerLedger() {
       //     setLoading
       //   );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getLadingData = (values) => {

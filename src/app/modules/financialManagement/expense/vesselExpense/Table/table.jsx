@@ -177,7 +177,7 @@ const ExpenseRegisterLanding = () => {
     )
       girdDataFunc(personalExpRegLanding, pageNo, pageSize);
       expenseForDDLFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // billSubmitlHandler btn submit handler

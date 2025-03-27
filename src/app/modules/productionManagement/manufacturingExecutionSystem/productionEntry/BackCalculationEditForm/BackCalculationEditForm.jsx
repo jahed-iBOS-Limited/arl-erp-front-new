@@ -198,7 +198,7 @@ export default function FormCmp({
                           disabled
                           // disabled={isEdit}
                         />
-                              
+
                       </div>
                       <div className="col-lg-3">
                         <InputField
@@ -275,7 +275,7 @@ export default function FormCmp({
                           touched={touched}
                           isDisabled={isEdit}
                         />
-                                 
+
                       </div>
                       <div className="col-lg-3">
                         <InputField
@@ -293,7 +293,7 @@ export default function FormCmp({
                           touched={touched}
                           // disabled={isEdit}
                         />
-                           
+
                       </div>
                       <div className="col-lg-12 pl-2 d-flex align-items-end">
                         <div>
@@ -345,7 +345,7 @@ export default function FormCmp({
                                 errors={errors}
                                 touched={touched}
                               />
-                                       
+
                             </div>
                             <div className="col-lg-4">
                               <InputField
@@ -360,7 +360,7 @@ export default function FormCmp({
                                 placeholder="Others Output Quantity"
                                 type="number"
                               />
-                                     
+
                             </div>
                             <div className="col-lg-4 pt-5 mt-2">
                               <button

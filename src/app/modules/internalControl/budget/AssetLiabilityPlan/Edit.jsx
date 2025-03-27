@@ -59,7 +59,7 @@ export default function AssetLiabilityPlanEdit() {
 
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function AssetLiabilityPlanEdit() {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearId, buId]);
 
   const fillPersentageValueInRow = (PercentageValue, index, initialAmount) => {

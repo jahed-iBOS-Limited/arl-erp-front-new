@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 // update price structure when user changes order qty and basic price
 import axios from "axios";
 import Axios from "axios";

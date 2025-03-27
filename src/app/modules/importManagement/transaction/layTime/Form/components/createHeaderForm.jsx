@@ -53,7 +53,7 @@ export function CreateHeaderForm({
     getPartnerDDL(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   return (

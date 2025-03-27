@@ -60,7 +60,7 @@ export default function useMenuTracking() {
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [locationPath, menu]);
 
   return null;

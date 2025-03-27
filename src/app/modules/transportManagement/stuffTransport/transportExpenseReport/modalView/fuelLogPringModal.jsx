@@ -13,7 +13,7 @@ export default function FuelLogPringModal({ item, values }) {
     getPrintData(
       `/mes/VehicleLog/GetFuelCostMonthRangeByEmployee?vehicelUserEnroll=${item?.vehicelUserEnroll}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [item, values]);
 
 

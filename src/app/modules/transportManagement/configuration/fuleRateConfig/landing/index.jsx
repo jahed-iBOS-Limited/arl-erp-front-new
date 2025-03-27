@@ -26,7 +26,7 @@ export default function FuelRateConfig() {
     getFuelRateConfigData(
       `/mes/VehicleLog/GetFuelRateConfigLanding?pageNumber=${pageNo}&pageSize=${pageSize}&viewOrder=asc`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik

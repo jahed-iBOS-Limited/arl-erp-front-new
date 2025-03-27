@@ -23,7 +23,7 @@ function ModalDateRangeModal({ values }) {
       setGridData,
       setLoading
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const componentRef = useRef();

@@ -35,7 +35,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
         setGridData(modifyData);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const grandTotalValue = useMemo(() => {

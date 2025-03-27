@@ -50,7 +50,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
       singleAuditData?.intAuditScheduleId || 0,
       getSingleConfidentialData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const auditForm = (

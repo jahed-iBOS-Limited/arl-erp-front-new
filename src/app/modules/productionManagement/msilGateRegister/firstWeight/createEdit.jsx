@@ -39,9 +39,9 @@ export default function FirstWeightCreateEdit({ weight }) {
   const [objProps, setObjprops] = useState({});
   const [, saveData, saveLoading] = useAxiosPost();
   const [gateEntryItemListId, setGateEntryItemListId] = useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
-  // eslint-disable-next-line no-unused-vars
+
   const [regData, getRegData, regDataLoader] = useAxiosGet();
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [plantDDL, getPlantDDL] = useAxiosGet();
@@ -71,7 +71,7 @@ export default function FirstWeightCreateEdit({ weight }) {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, accId, userId]);
 
   const saveHandler = async (values, cb) => {

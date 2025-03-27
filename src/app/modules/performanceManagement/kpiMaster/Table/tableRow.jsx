@@ -47,12 +47,12 @@ export function TableRow({ saveHandler }) {
         bscSelectedData?.value
       }&status=${selectedStatus?.value}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
     getBscPerspectiveDDL(`/pms/CommonDDL/BSCPerspectiveDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   //setPositionHandler

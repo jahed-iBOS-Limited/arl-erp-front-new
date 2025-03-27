@@ -18,7 +18,7 @@ const ProjectedIncomeStatementModal = ({
       businessUnitList?.find(
         (item) => item?.value === values?.businessUnit?.value,
       ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [values?.businessUnit?.value],
   );
   const [totalAmount, setTotalAmount] = useState(0);
@@ -49,7 +49,7 @@ const ProjectedIncomeStatementModal = ({
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);

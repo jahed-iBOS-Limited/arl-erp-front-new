@@ -21,7 +21,7 @@ export default function ConfigRenewalAttribute() {
     useEffect(() => {
         getRenewalDDL('/asset/DropDown/GetRenewalService')
         getVehicleTypeDDL(`/asset/DropDown/GetBRTAVehicleType`)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
 

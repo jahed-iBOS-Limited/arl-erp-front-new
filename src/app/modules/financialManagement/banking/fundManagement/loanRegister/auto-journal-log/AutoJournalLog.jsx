@@ -54,7 +54,7 @@ const AutoJournalLog = () => {
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const AutoJournalLog = () => {
       initData.fromDate,
       initData.toDate,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

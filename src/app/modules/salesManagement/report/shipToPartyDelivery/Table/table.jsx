@@ -109,7 +109,7 @@ export default function ShipToPartyDelivery() {
         setDistributionChannelDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
   const generateExcel = (values, row) => {
     let header = [

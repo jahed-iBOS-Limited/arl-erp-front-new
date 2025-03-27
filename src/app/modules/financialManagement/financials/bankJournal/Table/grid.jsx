@@ -79,7 +79,7 @@ const GridData = ({
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const totalAmount = useCallback(
     rowDto.reduce((acc, item) => acc + +item.amount, 0)
   );

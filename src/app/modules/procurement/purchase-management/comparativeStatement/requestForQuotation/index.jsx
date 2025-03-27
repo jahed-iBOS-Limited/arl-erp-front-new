@@ -6,7 +6,7 @@ import HeaderForm from './Landing/form';
 
 export default function ShippingRFQLanding() {
 
-  // eslint-disable-next-line no-unused-vars
+
   const {profileData, selectedBusinessUnit} = useSelector(
     (state) => state.authData,
     shallowEqual

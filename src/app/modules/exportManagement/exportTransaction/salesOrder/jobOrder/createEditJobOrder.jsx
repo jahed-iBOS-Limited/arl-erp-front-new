@@ -50,7 +50,7 @@ export default function CreateEditJobOrder() {
     if (salesQuotationId) {
       getData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, salesQuotationId]);
 
   const saveHandler = (values, cb) => {

@@ -16,8 +16,7 @@ import {
 } from "./validationSchema";
 import { shallowEqual, useSelector } from "react-redux";
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

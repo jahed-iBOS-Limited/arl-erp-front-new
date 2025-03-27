@@ -39,7 +39,7 @@ const ProjectAccountingLanding = () => {
         pageNo + 1
       }&PageSize=${pageSize}`,
     );
-    // eslint-disable-next-line
+
   }, [profileData?.accountId, selectedBusinessUnit?.value, pageNo, pageSize]);
   return (
     <>

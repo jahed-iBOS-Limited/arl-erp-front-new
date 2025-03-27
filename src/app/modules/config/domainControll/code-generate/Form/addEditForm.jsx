@@ -53,7 +53,7 @@ export default function CodeGenerateForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const monthLengthDDL = [
@@ -87,7 +87,7 @@ export default function CodeGenerateForm({
     } else {
       dispatch(setCodeGenerateSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

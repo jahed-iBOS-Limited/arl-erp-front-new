@@ -20,7 +20,7 @@ export default function StatisticalDetails({ formValues }) {
       );
       // intType=1 as per ziaul bhai's suggestion
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = (values, cb) => {};
 

@@ -27,9 +27,9 @@ export default function RevenueCenterCreateEdit() {
     const [modifyData, setModifyData] = useState("");
     const [controllingDDL, getControllingDDL, controllingDDLloader] = useAxiosGet();
     const [profitCenterDDL, getProfitCenterDDL, constControllingDDLloader, setProfitCenterDDL] = useAxiosGet();
-    // eslint-disable-next-line no-unused-vars
+
     const [, saveData, saveDataLoader] = useAxiosPost();
-    // 
+    //
     const profileData = useSelector((state) => {
         return state.authData.profileData;
     }, shallowEqual);
@@ -112,7 +112,7 @@ export default function RevenueCenterCreateEdit() {
                 });
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     return (

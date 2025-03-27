@@ -160,7 +160,7 @@ const RoutingLanding = () => {
       <div className="row">
         <div className="col-lg-3">
           <div className="global-form">
-            <label>Select Plant</label>
+            <label>Select Plant</label>
             <Select
               placeholder="Select Plant"
               value={selectplant}

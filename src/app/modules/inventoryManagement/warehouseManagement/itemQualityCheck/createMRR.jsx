@@ -34,7 +34,7 @@ import {
 } from './helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export default function CreateMRR() {
       dispatch(slice.setreferenceNoDDL([]));
       // dispatch(slice.setTransactionTypeDDL([]));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value, state]);
 
   useEffect(() => {
@@ -176,7 +176,7 @@ export default function CreateMRR() {
         setRowDto(updatedItems);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   //add row Dto Data

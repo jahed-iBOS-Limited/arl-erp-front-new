@@ -71,7 +71,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         setCheckPostDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getCheckpostData = async (values, _pageNo, _pageSize) => {
@@ -164,7 +164,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [checkPostDDL]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

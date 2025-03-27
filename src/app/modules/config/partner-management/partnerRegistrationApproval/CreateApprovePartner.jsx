@@ -73,7 +73,7 @@ export default function CreateApprovePartner() {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

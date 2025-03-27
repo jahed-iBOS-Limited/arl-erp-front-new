@@ -24,7 +24,7 @@ const TrainingLanding = () => {
   }, shallowEqual);
   useEffect(() => {
     getLandingData(`/hcm/Training/EmployeeTrainingScheduleLanding?employeeId=${profileData?.employeeId}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

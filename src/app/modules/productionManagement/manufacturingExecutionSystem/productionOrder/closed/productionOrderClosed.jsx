@@ -19,7 +19,7 @@ export default function ProductionOrderClosed() {
   const [
     productionOrderList,
     getProductionOrderList,
-    // eslint-disable-next-line no-unused-vars
+
     getLoading,
     setProductionOrderList,
   ] = useAxiosGet();
@@ -38,7 +38,7 @@ export default function ProductionOrderClosed() {
     return state.authData;
   }, shallowEqual);
 
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -47,7 +47,7 @@ export default function ProductionOrderClosed() {
     getProductionOrderList(
       `/mes/ProductionOrder/GetProductionOrderForClose?productionOrderId=${productionOrderId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [productionOrderId]);
 
   const saveHandler = async (values, cb) => {

@@ -80,16 +80,16 @@ export default function FormCmp({
   dataHandler,
   itemSelectHandler,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [customHouseDDL, setCustomHouseDDL] = useState([]);
   const [taxPortDDL, setTaxPortDDL] = useState([]);
   const [tradeTypeDDL, setTradeTypeDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [paymentTermDDL, setPaymentTermDDL] = useState([]);
   const [itemDDL, setItemDDL] = useState([]);
   const [uomDDL, setUomDDL] = useState([]);
   const [deliveryToDDL, setDeliveryToDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [taxConfig, setTaxConfig] = useState({});
   const [selectedItemInfo, setSelectedItemInfo] = useState({});
   const [tarrifScheduleInfoOne, setTarrifScheduleInfoOne] = useState([]);

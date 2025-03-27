@@ -92,7 +92,7 @@ export default function InterCompanyTransferRequestCreate() {
         // getPartnerDDl(
         //     `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
         // );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [selectedBusinessUnit])
 
     const saveHandler = (values, cb) => {

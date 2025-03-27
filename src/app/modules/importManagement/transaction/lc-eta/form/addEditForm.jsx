@@ -57,7 +57,7 @@ export default function LcEatAddEditForm() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

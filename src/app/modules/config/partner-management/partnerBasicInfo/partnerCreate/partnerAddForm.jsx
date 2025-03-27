@@ -61,7 +61,7 @@ export default function PartnerAddForm({
       selectedBusinessUnit?.value,
       setIsDistrictUpzillaStatus,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const saveWarehouse = async (values, cb) => {

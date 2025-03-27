@@ -30,7 +30,7 @@ export default function InventoryLocationEditForm({
   const [businessUnitData, setData] = useState("");
   useEffect(() => {
     getBusinessUnitById(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getBusinessUnitById = async (id, accountId) => {

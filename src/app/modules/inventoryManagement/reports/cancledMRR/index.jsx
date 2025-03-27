@@ -57,7 +57,7 @@ function CancledMRR() {
         setPlantList
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const viewCancledMRR = (values) => {

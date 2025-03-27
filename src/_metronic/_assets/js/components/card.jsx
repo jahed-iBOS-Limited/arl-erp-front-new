@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-this-alias */
+
 "use strict";
 
 import { KTUtil } from "./util";

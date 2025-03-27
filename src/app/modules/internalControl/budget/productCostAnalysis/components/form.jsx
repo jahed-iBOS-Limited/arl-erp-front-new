@@ -101,7 +101,7 @@ export default function FormCmp({
         setMaterial
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (
@@ -378,7 +378,7 @@ export default function FormCmp({
                         touched={touched}
                         isDisabled={true}
                       />
-                           
+
                     </div>
                     <div className="col-lg-3">
                       <NewSelect
@@ -414,7 +414,7 @@ export default function FormCmp({
                         }}
                         disabled={true}
                       />
-                         
+
                     </div>
 
                     <div className="col-lg-1 pl-2 bank-journal">
@@ -508,7 +508,7 @@ export default function FormCmp({
                         touched={touched}
                         isDisabled={true}
                       />
-                           
+
                     </div>
                     <div className="col-lg-4">
                       <NewSelect
@@ -524,7 +524,7 @@ export default function FormCmp({
                         touched={touched}
                         isDisabled={true}
                       />
-                           
+
                     </div>
 
                     <div className="col-lg-2 pl pr-1 mb-0">

@@ -88,7 +88,7 @@ export default function FormCmp({
   const hiddenFileInput = React.useRef(null);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20000);
-  // eslint-disable-next-line no-unused-vars
+
   const [plant, setPlant] = React.useState({});
   const [isShowModal, setIsShowModal] = useState(false);
 
@@ -124,7 +124,7 @@ export default function FormCmp({
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [fileObject]);
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function FormCmp({
       pageSize,
       setRowDto
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [itemNameDDL]);
 
   const handleClick = (event) => {

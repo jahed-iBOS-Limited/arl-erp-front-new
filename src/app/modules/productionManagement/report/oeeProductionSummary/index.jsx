@@ -39,7 +39,7 @@ export default function OeeProductionSummary() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik
@@ -73,7 +73,7 @@ export default function OeeProductionSummary() {
           >
             <Form>
               <div className="form-group  global-form row">
-              
+
                 <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
@@ -237,7 +237,7 @@ export default function OeeProductionSummary() {
                                 setSingleData(item)
                               }}
                             >
-                              {item?.plannedDowntimeMin} 
+                              {item?.plannedDowntimeMin}
                             </span>
                           </td>
                           <td className="text-center">
@@ -265,7 +265,7 @@ export default function OeeProductionSummary() {
                   show={isPlanDownModalShow}
                   onHide={() => {
                     setPlanDownModal(false);
-                    
+
                   }}
                 >
                   <PlanDownModalShow values={values} singleData={singleData}/>

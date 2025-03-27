@@ -34,7 +34,7 @@ function Report({ weightmentId }) {
         `/mes/MSIL/GetAllMSIL?PartName=FirstWeightSecondWeightInfoForPDF&AutoId=${weightmentId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [weightmentId, selectedBusinessUnit]);
 
   const printRef = useRef();

@@ -58,7 +58,7 @@ export default function NonBankingFund() {
       `/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
     getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -203,7 +203,7 @@ function ApproveapprovebillregLanding() {
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -225,7 +225,7 @@ function ApproveapprovebillregLanding() {
       );
       GetBillTypeDDL(setBillTypeDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const SetRedirectHRValues = (sbuList) => {

@@ -31,7 +31,7 @@ export function ChallanModal({
         `/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${ShippointDDL[0]?.value}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [ShippointDDL]);
 
   return (

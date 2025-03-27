@@ -22,7 +22,7 @@ export default function REBConsumptionForm({
     setConsumptionDDL(
       `/mes/MSIL/GetAllMSIL?PartName=ElectricalREBConsumptionType&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

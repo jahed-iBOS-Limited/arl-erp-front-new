@@ -64,7 +64,7 @@ export default function BankGuaranteeReport() {
     if (accId && buId) {
       getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const handleClick = (event) => {
@@ -105,7 +105,7 @@ export default function BankGuaranteeReport() {
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [fileObject]);
 
   const viewHandler = async (values, _pageNo = 0, _pageSize = 15) => {

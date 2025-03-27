@@ -102,7 +102,7 @@ export default function AssigneeModal({
     GetParticipantTypeListDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const commonGeParticipantDDL = (actionName, partnerType, cargoType) => {
@@ -247,7 +247,7 @@ export default function AssigneeModal({
     } else {
       getCommonShipperAndConsigneeDDL(1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowData]);
 
   // tradeType 1 = Export 2 = Import

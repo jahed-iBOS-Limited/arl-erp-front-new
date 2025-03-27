@@ -22,7 +22,7 @@ export default function MotherVesselCostInfo() {
 
   useEffect(() => {
     GetCarrierDDL(accId, buId, 0, setCarrierDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const setLandingData = (values) => {

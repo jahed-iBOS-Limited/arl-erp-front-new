@@ -69,7 +69,7 @@ export default function DispatchDeskLanding() {
       },
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [userId, buId]);
 
   const paginationSearchHandler = (searchValue, values) => {

@@ -193,7 +193,7 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
       selectedBusinessUnit?.value,
       setSalesCenterDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, allotmentId]);
 
   // If user delivery landing Allotment Challan btn click
@@ -206,7 +206,7 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
         setSecondaryDeliveryById
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [deliveryLandingData]);
 
   return (

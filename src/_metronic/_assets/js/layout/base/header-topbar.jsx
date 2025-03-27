@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 'use strict';
 
 import KTToggle from './../../components/toggle';

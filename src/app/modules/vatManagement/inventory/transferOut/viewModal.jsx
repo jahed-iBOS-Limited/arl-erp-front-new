@@ -47,7 +47,7 @@ export default function TransferOutViewForm({ viewClick }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [viewClick]);
 
   const printRef = useRef();

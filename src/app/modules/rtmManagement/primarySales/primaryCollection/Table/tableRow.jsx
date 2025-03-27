@@ -15,7 +15,7 @@ import IApproval from "./../../../../_helper/_helperIcons/_approval";
 const initValue = {};
 
 export function TableRow({ saveHandler }) {
-  // eslint-disable-next-line no-unused-vars
+
   const dispatch = useDispatch();
   const [loading,] = useState(false);
   const history = useHistory();

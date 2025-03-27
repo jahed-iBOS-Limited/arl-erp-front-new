@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 
 import React, { useMemo } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';

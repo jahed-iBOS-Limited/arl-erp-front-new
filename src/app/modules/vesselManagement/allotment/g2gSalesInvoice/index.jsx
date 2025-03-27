@@ -53,7 +53,7 @@ function G2GSalesInvoice() {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId]);
 
   const getDestinationList = (partnerId, portId, motherVesselId) => {
@@ -168,7 +168,7 @@ function G2GSalesInvoice() {
     },
     content: () => printRef.current,
   });
-  
+
   const isDisableFunction = (values) => {
     const commonConditions =
       !values?.fromDate || !values?.toDate || !values?.motherVessel;

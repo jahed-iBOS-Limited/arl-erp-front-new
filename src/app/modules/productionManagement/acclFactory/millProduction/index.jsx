@@ -45,7 +45,7 @@ export default function MillProduction() {
     getMillProductionlanding(
       `/mes/MSIL/GetAllMillProductionLanding?BusinessunitId=${selectedBusinessUnit?.value}&Fromdate=${initData?.fromDate}&Todate=${initData?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

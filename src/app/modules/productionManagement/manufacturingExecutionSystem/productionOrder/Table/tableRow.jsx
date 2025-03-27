@@ -149,7 +149,7 @@ export function TableRow() {
     getWarehouseDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${selectedPlant?.value}&OrgUnitTypeId=8`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Delete Grid Data

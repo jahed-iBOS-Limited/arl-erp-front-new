@@ -77,7 +77,7 @@ export default function GodownRateCreateEditForm() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   useEffect(() => {
     setEditAbleInitData({

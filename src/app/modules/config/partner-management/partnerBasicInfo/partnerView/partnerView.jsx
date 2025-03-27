@@ -43,7 +43,7 @@ export default function PartnerView() {
     getPartnerInfo(
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerInformationByPartnerID?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&partnerId=${id}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [businessPartnerIdFromHistory]);
   return (
     <Card>

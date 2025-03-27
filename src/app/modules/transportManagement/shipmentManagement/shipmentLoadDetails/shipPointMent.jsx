@@ -33,7 +33,7 @@ const ShipPointShipMentDDL = ({ obj }) => {
       selectedBusinessUnit,
       profileData,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // loading

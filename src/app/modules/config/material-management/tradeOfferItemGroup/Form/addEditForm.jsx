@@ -67,7 +67,7 @@ export default function TradeOfferItemGroupForm({
       } else {
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, id]);
 
   useEffect(() => {

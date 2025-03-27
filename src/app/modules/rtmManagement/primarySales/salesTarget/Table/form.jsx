@@ -33,7 +33,7 @@ export default function HeaderForm({ createHandler }) {
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [routeDDL, setRouteDDL] = useState([]);
   const [gridData, setGridData] = useState({});
-  // eslint-disable-next-line no-unused-vars
+
   const [values, setValues] = useState({});
   const [monthDDL, setMonthDDL] = useState({});
   const [pageNo, setPageNo] = React.useState(0);
@@ -78,7 +78,7 @@ export default function HeaderForm({ createHandler }) {
       pageSize,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, territoryDDL]);
 
   return (

@@ -63,7 +63,7 @@ function SalesOrderSupport() {
     getSalesDDL(
       `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // parameter values

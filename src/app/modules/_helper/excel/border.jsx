@@ -12,7 +12,7 @@ const borderTypes = [
     'double',
     'thick'
   ];
-  
+
   export const getBorder = borderInfo => {
     const _borderDefinations = borderInfo.split(':');
     if (_borderDefinations[0].split(' ')[0] === 'all') {
@@ -43,7 +43,7 @@ const borderTypes = [
       const obj = {};
       _borderDefinations.forEach(item => {
         const _singleBorderDef = item.split(' ');
-        // eslint-disable-next-line default-case
+
         switch (_singleBorderDef?.length) {
           case 1:
             obj[_singleBorderDef[0]] = { color: 'black', style: 'thin' };
@@ -61,8 +61,7 @@ const borderTypes = [
             break;
         }
       });
-  
+
       return obj;
     }
   };
-  

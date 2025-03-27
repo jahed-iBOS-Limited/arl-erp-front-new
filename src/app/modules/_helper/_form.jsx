@@ -65,7 +65,7 @@ export default function IForm({
     if (typeof getProps === 'function'){
       getProps(propsObj);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const _title = title?.split(" ");
   _title && _title.splice(0, 1);

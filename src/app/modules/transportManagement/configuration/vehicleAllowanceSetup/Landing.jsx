@@ -76,7 +76,7 @@ export default function KeyRegisterLanding() {
       handleGetComponentDDL(),
       // handlegetDownTripAllowanceDDL(48),
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   //add new allowance

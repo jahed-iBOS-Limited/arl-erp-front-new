@@ -47,7 +47,7 @@ export default function RebShutdownCreate() {
 
   useEffect(() => {
     getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const { profileData } = useSelector((state) => {
@@ -67,7 +67,7 @@ export default function RebShutdownCreate() {
         totalHour: location?.state?.tmTotalHour,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {

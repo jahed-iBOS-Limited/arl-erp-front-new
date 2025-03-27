@@ -62,7 +62,7 @@ export default function TransportRouteForm({
     } else {
       dispatch(setTransportRouteSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get selectedBusinessUnit action for get selectedBusinessUnit ddl
@@ -72,7 +72,7 @@ export default function TransportRouteForm({
         getTZDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

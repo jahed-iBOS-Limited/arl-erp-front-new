@@ -5,7 +5,7 @@ export const deepClone = x => JSON.parse(JSON.stringify(x));
 export const initStateWithUniqIds = rootNode => {
   let curId = 0;
   const _addId = node => {
-    node._id = curId;  // eslint-disable-line
+    node._id = curId;
     curId += 1;
 
     const { children } = node;
@@ -23,7 +23,7 @@ export const initStateWithUniqIds = rootNode => {
 
 // recursively set status for this node and all children, in place
 const setStatusDown = (node, status) => {
-  node.checked = status;  // eslint-disable-line
+  node.checked = status;
   const { children } = node;
   if (children) {
     for (const child of children) {
@@ -208,4 +208,4 @@ export const isValidOpenStatus = node => {
 
 // check if the initial custom checked status is valid
 // TODO: implement isValidCheckedStatus()
-export const isValidCheckedStatus = rootNode => true;   /* eslint-disable-line */
+export const isValidCheckedStatus = rootNode => true;

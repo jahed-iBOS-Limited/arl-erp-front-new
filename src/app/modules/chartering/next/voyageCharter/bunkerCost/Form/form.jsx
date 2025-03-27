@@ -43,7 +43,7 @@ export default function FormCmp({
         setBunkerPurchaseList
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [preData?.vesselName?.value, preData?.voyageNo?.value]);
 
   return (

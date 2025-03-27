@@ -90,7 +90,7 @@ export default function SalesIncentiveForm() {
     getSalesOrganizationList(
       `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   return (
     <Formik

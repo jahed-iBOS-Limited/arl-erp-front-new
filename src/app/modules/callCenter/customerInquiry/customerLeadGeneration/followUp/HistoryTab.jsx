@@ -13,7 +13,7 @@ export default function HistoryTab({ id }) {
         `/oms/SalesQuotation/GetCustomerFollowUpActivity?CustomerAcquisitionId=${id}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <React.Fragment>

@@ -52,7 +52,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
       : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetByIdHandler(modeOfTransportId, false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {

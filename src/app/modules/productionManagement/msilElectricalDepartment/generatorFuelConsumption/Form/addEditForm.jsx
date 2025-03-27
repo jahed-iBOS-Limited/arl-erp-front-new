@@ -56,7 +56,7 @@ export default function FuelConsumptionCreate() {
   useEffect(() => {
     getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
     getGeneratorNameDDL(`/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
 
@@ -75,7 +75,7 @@ export default function FuelConsumptionCreate() {
         quantity: location?.state?.numQuantityLtr,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {

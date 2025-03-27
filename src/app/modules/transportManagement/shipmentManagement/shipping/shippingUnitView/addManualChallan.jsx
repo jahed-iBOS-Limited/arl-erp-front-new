@@ -40,7 +40,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
         `/tms/Vehicle/GetAvailableVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const rowDataHandler = (name, index, value) => {

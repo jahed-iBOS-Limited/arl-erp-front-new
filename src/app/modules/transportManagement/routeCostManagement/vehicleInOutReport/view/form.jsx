@@ -19,7 +19,7 @@ export default function FormCmp({
   reset,
   setReset,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [componentDDL, setComponentDDL] = useState([]);
 
   useEffect(() => {

@@ -100,12 +100,12 @@ export default function SalesTargetCreateForm({
         setCustomerNameDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   // // Show when in edit mode, rowData
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
+
     const newData = singleData?.row?.map((item) => ({
       itemId: item?.itemId,
       itemName: item?.itemName,
@@ -120,7 +120,7 @@ export default function SalesTargetCreateForm({
     } else {
       setRowDto([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {

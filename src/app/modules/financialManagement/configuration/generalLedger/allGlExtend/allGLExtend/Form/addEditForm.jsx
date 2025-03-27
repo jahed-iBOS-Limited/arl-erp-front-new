@@ -47,7 +47,7 @@ export default function AllextendGLForm({
   }, [profileData]);
 
   //SingleData to view
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState("");
 
   const saveHandler = async (values, cb) => {

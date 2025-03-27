@@ -53,7 +53,7 @@ function FinalInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
   useEffect(() => {
     setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bankInfoData]);
 
   const rowDataHandler = (index, name, value, item) => {

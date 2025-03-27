@@ -110,7 +110,7 @@ export default function SalesOrderLanding() {
         profileData?.accountId
       }&BusinessUnitId=${selectedBusinessUnit?.value}&SalesOrgId=${7}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};

@@ -38,7 +38,7 @@ export default function TdsVdsStatement() {
       `/oms/SalesInformation/GetTDSVDSStatement?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${initData?.fromDate}&toDate=${initData?.toDate}&type=1&nbrSubmitType=${initData?.reportType?.value}
       `
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const handleAllChecked = (e) => {
@@ -71,7 +71,7 @@ export default function TdsVdsStatement() {
     } else {
       setSelectRowDto([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [tableData]);
 
   return (

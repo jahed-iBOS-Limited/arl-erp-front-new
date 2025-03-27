@@ -45,7 +45,7 @@ export default function HrPlanCreateEditModal({
     getBySingleData(
       `/fino/BudgetFinancial/GetAllHrPlan?partName=PlanVsBudgetGetById&businessUnitId=${selectedBusinessUnit?.value}&departmentId=${valueData?.department?.value}&designationId=${rowDetailsData?.intDesignationId}&yearId=${valueData?.year?.value}&autoId=${rowDetailsData?.intHeaderId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, rowDetailsData]);
 
   const saveHandler = (values) => {
@@ -112,7 +112,7 @@ export default function HrPlanCreateEditModal({
     getProfitCenterDDL(
       `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

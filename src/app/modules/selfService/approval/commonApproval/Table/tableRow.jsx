@@ -123,7 +123,7 @@ export function TableRow(props) {
     ) {
       commonBillOfMaterialGridFunc(pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, activityName]);
 
   // const singleApprovalndler = (poId) => {
@@ -162,7 +162,7 @@ export function TableRow(props) {
       getActivityDDL(activity?.moduleName?.value, setActivity);
       setSelectedPlant(activity?.selectedPlant || "");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -479,7 +479,7 @@ export function TableRow(props) {
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 

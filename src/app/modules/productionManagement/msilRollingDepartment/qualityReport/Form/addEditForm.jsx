@@ -116,7 +116,7 @@ export default function QualityControlCreate() {
 
   useEffect(() => {
     getNominalDiaDDL(`/mes/MSIL/GetAllMSIL?PartName=ItemSKUName&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ export default function QualityControlCreate() {
         strRemarks: location?.state?.strRemarks,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

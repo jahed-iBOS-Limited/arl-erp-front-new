@@ -97,7 +97,7 @@ export default function HeaderForm() {
         getWarehouseDDL(invAdjustment?.plant?.value);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -179,7 +179,7 @@ export default function HeaderForm() {
         options: [{ value: 7, label: "Adjust Inventory" }],
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [sbuDDL, plantDDL, wareHouseDDL]);
 
   const paginationSearchHandler = (searchValue, values) => {

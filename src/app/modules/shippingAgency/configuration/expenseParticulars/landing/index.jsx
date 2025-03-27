@@ -33,7 +33,7 @@ const ExpenseParticularsLanding = () => {
     if (accId && buId) {
       commonGridData(pageNo, pageSize, initData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const commonGridData = (

@@ -71,7 +71,7 @@ export default function PartnerProductAllocationForm() {
       selectedBusinessUnit?.value,
       setUpozilaList
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {

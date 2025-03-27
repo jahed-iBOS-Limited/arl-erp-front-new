@@ -14,7 +14,7 @@ import {
 import NewSelect from '../../../../../_helper/_select';
 import InputField from '../../../../../_helper/_inputField';
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
-const _Form = ({
+const FormCmp = ({
   initData,
   saveHandler,
   loading,
@@ -209,4 +209,4 @@ const _Form = ({
   );
 };
 
-export default _Form;
+export default FormCmp;

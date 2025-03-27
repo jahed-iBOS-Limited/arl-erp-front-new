@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
 import {
   getRouteDDL,
-  
+
   saveEditedSecondaryOrder,
   getSingleData,
 } from "../helper";
@@ -63,11 +63,11 @@ export default function PrimaryCollectionForm({
     if (id) {
       getSingleData(id, setSingleData, setItemRowDto);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
+
     const newData = singleData?.row?.map((item) => ({
       rowId: item?.rowId,
       itemId: item?.productId,
@@ -85,14 +85,14 @@ export default function PrimaryCollectionForm({
     } else {
       setItemRowDto([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-        // eslint-disable-next-line no-unused-vars
+
         const payload = {
           id: +id,
           businessPartnerId: values?.partnerName?.value,

@@ -74,7 +74,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
       // );
       // getRequestTypeList(setReqTypeList);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -389,7 +389,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       </div>
 
                       {/* <div className="col d-flex justify-content-end align-items-center">
-                        
+
                       </div> */}
                     </div>
                   </div>

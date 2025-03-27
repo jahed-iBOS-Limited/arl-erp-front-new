@@ -59,7 +59,7 @@ export default function InventoryLoanApproveLanding() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik

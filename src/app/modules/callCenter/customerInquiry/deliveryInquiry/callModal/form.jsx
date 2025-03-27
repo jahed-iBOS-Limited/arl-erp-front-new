@@ -8,7 +8,7 @@ import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import Loading from '../../../../_helper/_loading';
 
-const _Form = ({
+const FormCmp = ({
   initData,
   validationSchema,
   saveHandler,
@@ -31,7 +31,7 @@ const _Form = ({
     getIssueDDL(`/wms/CustomerDeliveryInquery/GetIssueTypeDDL`, (data) => {
       console.log('data', data);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <>
@@ -350,4 +350,4 @@ const _Form = ({
   );
 };
 
-export default _Form;
+export default FormCmp;

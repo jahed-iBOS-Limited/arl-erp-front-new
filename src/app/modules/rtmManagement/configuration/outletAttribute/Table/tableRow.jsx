@@ -7,7 +7,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { getOutletAttributeLanding } from "../helper";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -38,7 +38,7 @@ export function TableRow() {
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler

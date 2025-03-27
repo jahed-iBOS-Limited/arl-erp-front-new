@@ -216,14 +216,14 @@ const FinanceModal = ({ clickRowDto, CB }) => {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowDto]);
 
   useEffect(() => {
     getPaymentPartyListDDL(
       `${imarineBaseUrl}/domain/CHAShipment/GetChaEmployeeDDL`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const invoiceTypeHandeler = (values) => {

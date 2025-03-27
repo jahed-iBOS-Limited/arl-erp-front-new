@@ -36,7 +36,7 @@ export default function PumpInformation() {
     useEffect(() => {
         getShipPoint(`/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`)
         setTableData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [])
 
     const saveHandler = (values, cb) => { };
@@ -133,7 +133,7 @@ export default function PumpInformation() {
                               <td>{item?.pumpModelName}</td>
                               <td>{item?.pumpGroupHeadName}</td>
                               <td>{item?.shipPointName}</td>
-                              <td>{item?.status}</td>                     
+                              <td>{item?.status}</td>
                               <td className="text-center">
                                 <div className="d-flex justify-content-around">
                                   <span>

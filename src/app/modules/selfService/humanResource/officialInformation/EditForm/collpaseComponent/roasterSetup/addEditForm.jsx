@@ -100,7 +100,7 @@ export default function RoasterSetup({ basicDataSave }) {
   useEffect(() => {
     getRoasterSetupInfoById_api(headerData?.employeeId, setSingleData);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getRosterByIdCb = () => {
@@ -116,7 +116,7 @@ export default function RoasterSetup({ basicDataSave }) {
       );
       setCalenderRoasterDDL([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {

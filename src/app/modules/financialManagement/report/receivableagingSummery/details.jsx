@@ -13,7 +13,7 @@ function Details({ clickRowDto }) {
     getRowData(
       `/oms/SalesInformation/GetReceiveableAgingReportDetaills?unitID=${selectedBusinessUnit?.value}&ReportType=1&DCId=${clickRowDto?.intdistributionchannelid}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowDto]);
   return (
     <div>

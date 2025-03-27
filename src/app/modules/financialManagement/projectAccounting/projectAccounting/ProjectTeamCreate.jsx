@@ -82,12 +82,12 @@ const Team = ({
 
       setAllTeam(modifiedData || []);
     }
-    // eslint-disable-next-line
+
   }, [isEdit, projectTeam]);
 
   const [, postData, loading] = useAxiosPost();
 
-  // eslint-disable-next-line
+
   const [roleDDL, setRoleDDL] = useState([]);
 
   // role DDL
@@ -102,7 +102,7 @@ const Team = ({
         },
       );
     }
-    // eslint-disable-next-line
+
   }, [selectedBusinessUnit?.value, profileData?.accountId]);
 
   // setting  DDL

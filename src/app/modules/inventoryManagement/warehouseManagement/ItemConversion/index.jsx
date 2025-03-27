@@ -43,7 +43,7 @@ export default function ItemConversionLanding() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const saveHandler = (values, cb) => {

@@ -51,7 +51,7 @@ export function TableRow() {
       gridDataFunc();
     }
     getCategoryDDL_api(accId, buId, setVisitTypes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getDifferenceDate = (date1, date2) => {

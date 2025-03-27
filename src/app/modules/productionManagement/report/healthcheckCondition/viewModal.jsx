@@ -8,7 +8,7 @@ export function DamageViewModal({ values, singleData }) {
     getViewData(
       `/asset/AssetMaintanance/GetMachineDamageStatusReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&MachineId=${singleData?.intMachineId}&SectionName=${singleData?.SectionName}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values, singleData]);
   return (
     <>

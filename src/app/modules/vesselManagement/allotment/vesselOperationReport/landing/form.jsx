@@ -71,7 +71,7 @@ const VesselOperationReport = () => {
     GetDomesticPortDDL(setPortDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getMotherVesselDDL(accId, buId, setMotherVesselDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const PBIReport = (values) => {

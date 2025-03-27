@@ -86,7 +86,7 @@ export default function CashReceiveForm() {
     if (!location?.state && !params?.id) {
       history.push("financial-management/expense/advance/cashreceive");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [objProps, setObjprops] = useState({});

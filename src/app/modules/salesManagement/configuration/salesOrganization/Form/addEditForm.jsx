@@ -71,7 +71,7 @@ export default function SalesOrganizationForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {

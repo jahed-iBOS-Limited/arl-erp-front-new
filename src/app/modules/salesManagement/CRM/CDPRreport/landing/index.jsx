@@ -82,7 +82,7 @@ const CDPRreportLanding = () => {
 
   useEffect(() => {
     commonGridData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const filterGridDataHandler = ({ values, withoutModfifyData }) => {

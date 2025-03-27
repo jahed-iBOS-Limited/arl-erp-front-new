@@ -24,15 +24,15 @@ const headers = [
 ];
 
 export default function CertificateNameTable() {
-  // eslint-disable-next-line no-unused-vars
+
   const [pageNo, setPageNo] = React.useState(0);
-  // eslint-disable-next-line no-unused-vars
+
   const [pageSize, setPageSize] = React.useState(15);
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
   const history = useHistory();
 
-  // eslint-disable-next-line no-unused-vars
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);

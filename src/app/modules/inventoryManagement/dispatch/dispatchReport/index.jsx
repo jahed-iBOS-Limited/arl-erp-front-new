@@ -44,7 +44,7 @@ export default function DispatchReport() {
         setStatusDDL(updatedStatus)
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

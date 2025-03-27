@@ -61,7 +61,7 @@ export default function CreateEditMachineEmpAssign() {
   };
   useEffect(() => {
     getPlantDDL(userId, accountId, buId, setPlantDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

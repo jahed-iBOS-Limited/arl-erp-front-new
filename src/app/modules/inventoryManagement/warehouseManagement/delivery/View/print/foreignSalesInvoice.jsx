@@ -38,7 +38,7 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
       `/wms/Delivery/ViewForeignDeliveryInvoice?deliveryId=${deliveryId}&accountId=${accId}&businessUnitId=${buId}`
       // `/wms/Delivery/ViewForeignDeliveryInvoice?deliveryId=${deliveryId}&accountId=${accId}&businessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, deliveryId]);
 
   let totalAmountUSD = 0;

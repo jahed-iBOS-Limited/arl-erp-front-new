@@ -38,7 +38,7 @@ export default function ViewForm({ currentItem }) {
     if (kpiId && frId && year) {
       dispatch(getTargetAction(kpiId, frId, year));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [kpiId, frId, year]);
 
   const saveHandler = async (values, cb) => {

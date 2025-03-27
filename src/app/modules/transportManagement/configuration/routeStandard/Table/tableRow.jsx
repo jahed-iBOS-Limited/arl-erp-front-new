@@ -41,7 +41,7 @@ export function TableRow() {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   const setPositionHandler = (pageNo, pageSize) => {
     getRouteStandardCostLanding(

@@ -69,7 +69,7 @@ export default function CreateLandRegister() {
     );
     getDeedTypeDDL('/asset/AGLandMange/DeedTypeDDL');
     getSubRegisterDDL('/asset/AGLandMange/GetSubRegisterOfficeDDL');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

@@ -18,7 +18,7 @@ function ViewInfo({ clickRowDto }) {
         `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowDto]);
 
   if (singleChaShipmentBookingLoading) {

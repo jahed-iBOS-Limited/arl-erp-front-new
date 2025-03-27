@@ -60,7 +60,7 @@ export default function QcItemConfigLanding() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId,buId]);
   useEffect(() => {
     getItemTypeDDL(`/item/ItemCategory/GetItemTypeListDDL`,(data)=>{
@@ -68,7 +68,7 @@ export default function QcItemConfigLanding() {
         setGetItemTypeDDL(updatedData)
     });
     getLandingData(`/mes/QCTest/GetQCItemInformation?businessUnitId=${buId}&plantId=${initData?.plant?.value}&itemTypeId=${initData?.itemType?.value}&itemCategoryId=${initData?.itemCategory?.value}&itemSubCategoryId=${initData?.itemSubCategory?.value}&status=${initData?.status?.label}&pageNo=${pageNo}&pageSize=${pageSize}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik
@@ -222,7 +222,7 @@ export default function QcItemConfigLanding() {
                   >
                     View
                   </button>
-                 
+
                 </div>
               </div>
               <div style={{marginTop:"20px"}}>

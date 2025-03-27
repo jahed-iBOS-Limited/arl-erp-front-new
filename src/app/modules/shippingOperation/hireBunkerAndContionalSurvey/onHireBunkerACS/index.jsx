@@ -35,7 +35,7 @@ export default function OnHireBunkerAndContionalSurvey() {
 
   useEffect(() => {
     getLandingData({}, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getLandingData = (values, pageNo, pageSize) => {
@@ -66,7 +66,7 @@ export default function OnHireBunkerAndContionalSurvey() {
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const getVoyageDDL = (values) => {

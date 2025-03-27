@@ -33,7 +33,7 @@ export default function FormCmp({
       getChartererByVoyageId(landingData?.voyageId, setChartererDDL, null);
       getShipperDDLbyVoyageId(landingData?.voyageId, setShipperDDL, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [landingData?.voyageId]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function FormCmp({
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData?.charterer?.value]);
 
   return (

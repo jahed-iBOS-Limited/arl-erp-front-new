@@ -67,7 +67,7 @@ export default function BalancedTable() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -75,14 +75,14 @@ export default function BalancedTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export default function BalancedTable() {
         3
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, sbu]);
 
   useEffect(() => {
@@ -377,7 +377,7 @@ export default function BalancedTable() {
                 to: to,
                 year,
                 sbuName:sbu?.label
-              }))                             
+              }))
               window.open(
                 `${process.env.PUBLIC_URL}/sbu-balanced-scorecard`,
                 "_blank"

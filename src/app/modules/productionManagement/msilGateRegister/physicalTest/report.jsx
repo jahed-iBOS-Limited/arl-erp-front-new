@@ -27,7 +27,7 @@ export default function PhysicalTestReport() {
     getMachineList(
       `/hcm/QCTest/GetTransactionMachineNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
   const saveHandler = (values, cb) => {};
 

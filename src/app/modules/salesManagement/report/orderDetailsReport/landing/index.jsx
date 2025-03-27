@@ -51,7 +51,7 @@ function OrderDetailsReportLanding() {
     getIHBDDL(
       `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   return (

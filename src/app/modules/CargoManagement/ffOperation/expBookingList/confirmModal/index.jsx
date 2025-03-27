@@ -250,7 +250,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bookingRequestId]);
 
   useEffect(() => {
@@ -259,7 +259,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
     getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const consigneeOnChangeHandler = async (shipperOrConsigneeId) => {

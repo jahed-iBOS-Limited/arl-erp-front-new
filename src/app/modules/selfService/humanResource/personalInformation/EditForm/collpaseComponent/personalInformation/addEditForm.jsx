@@ -188,7 +188,7 @@ export default function PersonalInformation() {
 
   useEffect(() => {
     getEmpPersonalInfoById_api(headerData?.employeeId, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

@@ -1,15 +1,15 @@
-/* eslint-disable eqeqeq */
+
 
 // make your input field type="tel", and use this function, it will only return valid digit, not allowed any character/special character/negative value
 
 /**
- 
- usage : 
+
+ usage :
 
   const validNum = validateDigit(e.target.value)
 
 
-        if you need to check max value : 
+        if you need to check max value :
         if (validNum > item?.restofQty) {
             alert(`Maximum ${item?.restofQty}`);
             validNum = "";

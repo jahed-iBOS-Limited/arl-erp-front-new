@@ -42,7 +42,7 @@ export default function PartnerBank() {
       selectedBusinessUnit?.value,
       id
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value, id]);
 
   const getBusinessPartnerBankInfoByPartnerId = async (accId, buId, id) => {

@@ -52,7 +52,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getTotalCFR = (quotationData) => {

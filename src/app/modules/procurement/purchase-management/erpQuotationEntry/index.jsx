@@ -33,14 +33,14 @@ export default function ErpQuotationEntryLanding() {
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
   const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
   const [landingData, , landingDataLoader, setLandingData] = useAxiosGet();
- 
+
   useEffect(() => {
     getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
       }&BusinessUnitId=${selectedBusinessUnit?.value}`)
 
     getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getData = (values, pageNo, pageSize, searchValue = "") => {

@@ -60,7 +60,7 @@ export default function ShipmentLoadDetailsLandingPage() {
       selectedBusinessUnit,
       profileData,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // save handler

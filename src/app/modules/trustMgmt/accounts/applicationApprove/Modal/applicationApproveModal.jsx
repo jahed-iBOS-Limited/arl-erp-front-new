@@ -22,7 +22,7 @@ export const ApplicationApproveModal = ({
   filterObj,
 }) => {
   const [modifyData, setModifyData] = useState({});
-  // eslint-disable-next-line no-unused-vars
+
   const [landingData, getApproveData] = useAxiosGet();
 
   const dispatch = useDispatch();
@@ -216,7 +216,7 @@ export const ApplicationApproveModal = ({
                     <p><strong>Contact No :</strong> {singleData?.strContactNo}</p>
                     <p><strong>Remarks :</strong> {singleData?.strRemarks}</p>
                     <p>
-                      <strong>Effective Date :</strong> 
+                      <strong>Effective Date :</strong>
                       {_dateFormatter(singleData?.dteEffectiveDate)}
                     </p>
                     <p><strong>Expiry Date : </strong> {_dateFormatter(singleData?.dteEndDate)}</p>
@@ -235,7 +235,7 @@ export const ApplicationApproveModal = ({
                       <strong>Hospitals/Institutes :</strong> {singleData?.strOrganizationName}
                     </p>
                     <p><strong>National ID :</strong> {singleData?.strNationalID}</p>
-                    
+
                     <p><strong>Account Holder :</strong> {singleData?.strAccountHolderName}</p>
                     <p><strong>Account Type :</strong> {singleData?.strAccountType}</p>
                     <p><strong>Account No :</strong> {singleData?.strAccountNo}</p>

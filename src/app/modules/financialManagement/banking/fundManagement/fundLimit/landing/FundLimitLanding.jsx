@@ -49,7 +49,7 @@ const FundLimitLanding = () => {
     businessUnit: "",
   };
 
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [fundLimitData, setFundLimitData] = useState([]);

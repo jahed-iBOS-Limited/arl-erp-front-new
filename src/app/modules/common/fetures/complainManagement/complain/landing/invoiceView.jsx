@@ -30,7 +30,7 @@ function InvoiceView({ clickRowData }) {
         setRowDto(resData?.investigationInfo || []);
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowData]);
   return (
     <>

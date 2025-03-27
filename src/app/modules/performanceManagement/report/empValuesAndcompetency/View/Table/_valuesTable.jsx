@@ -35,7 +35,7 @@ export default function ValuesTable({
         ..._data?.values,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [_data]);
 
   return (

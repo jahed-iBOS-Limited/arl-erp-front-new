@@ -18,7 +18,7 @@ const initData = {
 
 function PayableReport() {
   const {
-    // eslint-disable-next-line no-unused-vars
+
     authData: { profileData },
   } = useSelector((store) => store, shallowEqual);
   const [buDDL, getBuDDL] = useAxiosGet();
@@ -26,7 +26,7 @@ function PayableReport() {
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

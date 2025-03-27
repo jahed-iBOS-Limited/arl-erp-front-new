@@ -38,7 +38,7 @@ export default function OEEMachineAndChecklistLanding() {
     getTableData(
       `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

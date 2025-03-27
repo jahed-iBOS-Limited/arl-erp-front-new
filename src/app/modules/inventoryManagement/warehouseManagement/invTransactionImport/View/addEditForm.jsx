@@ -35,7 +35,7 @@ export default function ViewInvTransactionFormImport({
   useEffect(() => {
     dispatch(getSingleDataAction(id));
     return () => dispatch(slice.setSingleDDL([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const disableHandler = (cond) => {

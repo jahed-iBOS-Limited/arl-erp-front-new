@@ -10,7 +10,7 @@ export default function DetailsDistributionView({ singleData }) {
     getRowDto(
       `/oms/DistributionChannel/GetDistributionItemById?DistributionPlanningId=${singleData?.distributionPlanningId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   return (

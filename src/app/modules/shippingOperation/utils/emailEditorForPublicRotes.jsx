@@ -69,7 +69,7 @@ const EmailEditorForPublicRoutes = ({
       emailBody: convertPayloadToHtml(),
     }));
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [payloadInfo]);
 
   // Regular expression to validate a single email address

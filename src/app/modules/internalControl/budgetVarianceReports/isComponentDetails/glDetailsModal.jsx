@@ -11,7 +11,7 @@ function GlDetailsModal({ singleData, values, selectedBusinessUnit }) {
         if (singleData) {
             getGLDetails(`/fino/Report/GetIncomeStatementComponentDetailsJournal?BusinessUnitId=${selectedBusinessUnit?.value || 0}&ProfitCenter=${values?.profitCenter?.value || 0}&GlId=${singleData?.intGeneralLedgerId}&SubGlId=${singleData?.intSubGlId}&SubGlTypeId=${singleData?.intSubGlTypeId || 0}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [singleData]);
 
     return (

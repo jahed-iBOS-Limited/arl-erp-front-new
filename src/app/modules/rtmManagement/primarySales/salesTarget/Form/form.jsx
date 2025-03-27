@@ -1,12 +1,10 @@
-/* eslint-disable no-undef */
-//
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
-// eslint-disable-next-line no-unused-vars
+
 import Axios from "axios";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -60,7 +58,7 @@ export default function FormCmp({
   remover,
   rowDto,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [rateForm, setRateForm] = useState("");
 
   useEffect(() => {
@@ -70,7 +68,7 @@ export default function FormCmp({
       state?.values?.territoryName?.value,
       setCustomerNameDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accountId, selectedBusinessUnit]);
 
   return (

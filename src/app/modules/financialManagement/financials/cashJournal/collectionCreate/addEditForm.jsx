@@ -30,7 +30,7 @@ export default function CashJournaFormForCollection({
 
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
     [rowDto],

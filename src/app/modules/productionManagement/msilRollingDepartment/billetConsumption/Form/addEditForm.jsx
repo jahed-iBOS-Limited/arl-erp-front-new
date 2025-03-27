@@ -65,7 +65,7 @@ export default function BilletConsumptionCreate() {
 
   useEffect(() => {
     getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const { profileData } = useSelector((state) => {

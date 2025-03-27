@@ -30,7 +30,7 @@ export default function AuditSchedulesView() {
         viewData?.intAuditScheduleId,
         getSingleScheduleData,
       );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

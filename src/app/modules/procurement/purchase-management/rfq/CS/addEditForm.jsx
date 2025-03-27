@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -74,7 +74,6 @@ export default function CSForm({
         setRfqSupplier(res.data);
         let itemList = [];
         csGridData.forEach((item) => {
-          // eslint-disable-next-line eqeqeq
           if (!itemList.find((a) => item.itemId == a.itemId)) {
             itemList.push(item);
           }
@@ -135,7 +134,7 @@ export default function CSForm({
         setRowDto(toArray(itemList));
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [csGridData, supplier]);
 
   // Dispatch action
@@ -157,7 +156,7 @@ export default function CSForm({
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, id]);
 
   // useEffect(() => {

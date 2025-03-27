@@ -134,7 +134,7 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="Partner Type"
                       />
-                            
+
                       <FormikError
                         errors={errors}
                         name="partnerType"
@@ -188,7 +188,7 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="General Ledger"
                       />
-                            
+
                       <FormikError
                         errors={errors}
                         name="gl"

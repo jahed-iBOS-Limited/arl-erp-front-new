@@ -157,7 +157,7 @@ export default function KpiEntryForm({ isView, data }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {

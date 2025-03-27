@@ -65,7 +65,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // single data Specification set
@@ -75,7 +75,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
       setSpecRowDto(singleData?.objSpec);
       setSpecTableData(singleData?.objSpec);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   //Total Qty & Total Amount calculation
@@ -96,7 +96,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     return () => {
       dispatch(setSalesQuotationSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

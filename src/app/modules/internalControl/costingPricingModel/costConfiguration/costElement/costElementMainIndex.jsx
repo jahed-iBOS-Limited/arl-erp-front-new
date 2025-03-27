@@ -32,14 +32,14 @@ const ProductToFG = () => {
     getProductInfo(`costmgmt/Precosting/ProductGetById?productId=0`, (data) => {
       setRowData(data?.commonCostElement || []);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value]);
 
   const saveHandler = (values) => {
     const costElemtList = [];
 
     // Use forEach instead of map for side effects (pushing data)
-    // eslint-disable-next-line no-unused-expressions
+
     rowData?.forEach((data) => {
       if (data?.costElementName) {
         costElemtList.push({

@@ -44,7 +44,7 @@ export function TableRow() {
       pageSize,
       '',
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -144,7 +144,7 @@ export function TableRow() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

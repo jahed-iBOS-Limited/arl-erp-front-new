@@ -50,14 +50,14 @@ const ItemOverallCost = () => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData.userId}&AccId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getGridData(
       `/mes/ShopFloor/GetItemOverallCostReport?billOfMaterialId=307&warehouseId=28`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

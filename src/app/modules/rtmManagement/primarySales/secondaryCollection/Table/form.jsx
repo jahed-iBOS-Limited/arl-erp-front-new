@@ -23,7 +23,7 @@ const initData = {
 export default function HeaderForm({ createHandler }) {
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState({});
-  // eslint-disable-next-line no-unused-vars
+
   const [values, setValues] = useState({});
   const [routeName, setRouteName] = useState('');
   const [pageNo, setPageNo] = React.useState(0);
@@ -59,7 +59,7 @@ export default function HeaderForm({ createHandler }) {
       pageSize,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

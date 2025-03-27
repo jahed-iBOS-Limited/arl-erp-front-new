@@ -69,7 +69,7 @@ export default function ApproveTable() {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

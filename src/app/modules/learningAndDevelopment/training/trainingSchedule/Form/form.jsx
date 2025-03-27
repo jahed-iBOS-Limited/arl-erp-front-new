@@ -34,7 +34,7 @@ export default function FormCmp({
 
   useEffect(() => {
     getTrainingName(`/hcm/Training/TrainingNameDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const addHandler = (values, resetForm) => {

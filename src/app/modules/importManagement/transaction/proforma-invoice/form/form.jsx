@@ -63,7 +63,7 @@ export default function FormCmp({
   const [sbuDDL, getSbuDDL, loaderOnGetSbuDDL] = useAxiosGet();
   // const [purchaseOrganizationDDL, setPurchaseOrganizationDDL] = useState([]);
   const [lcTypeDDL, setLCTypeDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [bankNameDDL, setBankNameDDL] = useState([]);
   const [incoTermsDDL, setIncoTermsDDL] = useState([]);
   const [countryOriginDDL, setCountryOriginDDL] = useState([]);

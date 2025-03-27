@@ -143,7 +143,7 @@ export default function SalesOrderCreateEdit() {
     getOrderReferenceTypeDDL(`/oms/SalesOrder/GetOrderReferanceTypeDDL`);
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [
     profileData,
     selectedBusinessUnit,

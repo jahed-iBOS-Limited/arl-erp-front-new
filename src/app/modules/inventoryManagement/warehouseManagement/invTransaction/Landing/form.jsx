@@ -97,7 +97,7 @@ export default function HeaderForm() {
         getWarehouseDDL(invTransaction?.plant?.value);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -179,7 +179,7 @@ export default function HeaderForm() {
         options: transGroupDDL,
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [sbuDDL, plantDDL, wareHouseDDL, transGroupDDL]);
 
   const paginationSearchHandler = (searchValue, values) => {

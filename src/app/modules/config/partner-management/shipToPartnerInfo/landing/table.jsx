@@ -122,7 +122,7 @@ export function ShipToPartnerInfoTable() {
   // if default reportType Sold To Partner Base select
   useEffect(() => {
     getTerritory(reportTypeDDL?.[0]?.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const soldToPartnerHandle = (valueOption, values) => {

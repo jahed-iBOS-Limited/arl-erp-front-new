@@ -40,7 +40,7 @@ export default function SalesInvoiceLanding() {
     );
     getData({ typeId: 1, values: {} });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getData = ({ typeId, values }) => {

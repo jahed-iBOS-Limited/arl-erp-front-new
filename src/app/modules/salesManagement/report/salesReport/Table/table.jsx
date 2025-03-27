@@ -85,7 +85,7 @@ export default function SalesReportTable({
         setSalesOrgDDl
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const getSalesReportData = async (values, setter) => {

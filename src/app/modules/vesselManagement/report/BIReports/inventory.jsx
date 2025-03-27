@@ -145,7 +145,7 @@ const InventoryG2GReportRDLC = () => {
     );
     // getShippointDDL(accId, buId, setShippointDDL);
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   useEffect(() => {

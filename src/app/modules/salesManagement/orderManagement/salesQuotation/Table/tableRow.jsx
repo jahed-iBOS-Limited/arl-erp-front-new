@@ -69,7 +69,7 @@ export function TableRow() {
     if (buId && accId) {
       setPositionHandler(pageNo, pageSize, null, salesQuotationLanding);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId, salesQuotationLanding]);
 
   const handleInvoicePrint = useReactToPrint({

@@ -35,7 +35,7 @@
 //         0
 //       );
 //     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//
 //   }, [landingData]);
 
 //   const [objProps, setObjprops] = useState({});

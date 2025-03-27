@@ -19,8 +19,7 @@ const validationSchema = Yup.object().shape({
   //   .required("Holiday group name is required"),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

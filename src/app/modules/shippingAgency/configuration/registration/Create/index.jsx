@@ -85,7 +85,7 @@ const EstimatePDACreate = () => {
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
       getCargoDDL(setCargoDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const history = useHistory();
@@ -138,7 +138,7 @@ const EstimatePDACreate = () => {
     if (editId || viewId) {
       commonGetById();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editId, viewId]);
 
   const commonGetById = async () => {

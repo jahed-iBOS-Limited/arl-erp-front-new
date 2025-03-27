@@ -16,7 +16,7 @@ export default function MapView({ singleData }) {
     getAllSheetData(
       `mes/VehicleLog/GetTripAndDriverCheckPointInfo?tripId=${singleData?.intTripId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function MapView({ singleData }) {
         console.log('else');
       }
     }, 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Generate Payload for Polyline

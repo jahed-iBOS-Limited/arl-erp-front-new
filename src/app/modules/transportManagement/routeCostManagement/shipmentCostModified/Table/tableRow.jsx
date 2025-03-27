@@ -22,7 +22,7 @@ export function TableRow() {
   const [gridData, setGridData] = useState([]);
   const history = useHistory();
   const printRef = useRef();
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   // Modal State
@@ -50,7 +50,7 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // Initially Load Grid Data
@@ -86,7 +86,7 @@ export function TableRow() {
         setIsBillSubmit(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {

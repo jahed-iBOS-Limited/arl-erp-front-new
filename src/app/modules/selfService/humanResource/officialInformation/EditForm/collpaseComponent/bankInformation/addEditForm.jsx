@@ -1,6 +1,6 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
+
 import React, { useState, useEffect } from "react";
 import Form from "./form";
 import { _todayDate } from "./../../../../../../_helper/_todayDate";
@@ -92,7 +92,7 @@ export default function BankInformation({empName}) {
 
   useEffect(() => {
     getEmployeeBankInformationById_api(headerData?.employeeId, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

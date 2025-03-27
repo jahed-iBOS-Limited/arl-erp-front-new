@@ -27,7 +27,7 @@ function SalesContractInfo() {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       viewHandle(initData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const viewHandle = (values) => {

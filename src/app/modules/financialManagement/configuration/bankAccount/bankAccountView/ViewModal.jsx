@@ -18,7 +18,7 @@ export function ViewModal({ id, show, onHide }) {
     if (id) {
       dispatch(getViewModalData(id));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   // get view modal data from store

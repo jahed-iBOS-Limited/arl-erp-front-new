@@ -19,7 +19,7 @@ function HealthSummaryModal({ clickRowData }) {
         setGridData(resData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <div>
@@ -109,7 +109,7 @@ const MachienDetils = ({
         setGridData(resData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

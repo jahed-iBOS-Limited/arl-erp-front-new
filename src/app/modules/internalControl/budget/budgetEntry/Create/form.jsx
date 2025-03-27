@@ -47,7 +47,7 @@ export default function FormCmp({
         setProfitCenterDDL(result);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const tableHeader = (id) => {

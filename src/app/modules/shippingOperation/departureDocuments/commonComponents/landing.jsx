@@ -47,7 +47,7 @@ export default function CommonLoadAndDischargePortDocument({ fetureName }) {
     };
     useEffect(() => {
         getLandingData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const getVoyageDDL = (values) => {

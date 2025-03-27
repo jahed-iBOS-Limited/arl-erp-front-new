@@ -26,7 +26,7 @@ const DistributionPlantEditModal = ({
       );
       console.log("editData", editData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editData?.distributionPlanningId]);
 
   const getAbsoluteValue = (e) => {

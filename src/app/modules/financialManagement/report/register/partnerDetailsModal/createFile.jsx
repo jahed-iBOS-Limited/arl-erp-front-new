@@ -12,7 +12,7 @@ export const createFile = (excel, flag) => {
   const workbook = getWorkBook(excel);
 
   //generate sheets
-  // eslint-disable-next-line no-unused-expressions
+
   excel?.sheets?.forEach((sheet) => {
     //create worksheet
 
@@ -33,13 +33,13 @@ export const createFile = (excel, flag) => {
     _sheet.getColumn('G').width = 17;
     _sheet.getColumn('H').width = 18;
     // generate rows
-    // eslint-disable-next-line no-unused-expressions
+
     sheet?.rows?.forEach((row, rowIndex) => {
       // preprocess row
       const _row = [];
 
       let lastCellIndex = 0;
-      // eslint-disable-next-line no-unused-expressions
+
       row?.forEach((cell, index) => {
         if (cell === null) {
           cell = '';

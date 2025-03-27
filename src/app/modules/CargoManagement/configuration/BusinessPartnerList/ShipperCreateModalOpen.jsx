@@ -36,7 +36,7 @@ export default function ShipperCreateModalOpen({
 
   React.useEffect(() => {
     fatchGetAllShipperUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const fatchGetAllShipperUser = (tradeTypeId) => {

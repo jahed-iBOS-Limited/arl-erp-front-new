@@ -45,7 +45,7 @@ export default function MoneyReceiptSubmitForm() {
   useEffect(() => {
     getBankDDL_api(setBankList);
     getRowData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   const rowDataHandler = (values) => {

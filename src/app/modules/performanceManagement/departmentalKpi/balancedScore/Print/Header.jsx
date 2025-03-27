@@ -36,7 +36,7 @@ export default function DepBSCPrint() {
         2
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, state]);
 
   return (

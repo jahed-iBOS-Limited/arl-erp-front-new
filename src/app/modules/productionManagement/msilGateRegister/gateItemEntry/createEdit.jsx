@@ -116,7 +116,7 @@ export default function GateEntryCreate() {
         `/mes/MSIL/GetAllMSIL?PartName=VehicleListForGateEntry&BusinessUnitId=${initData?.businessUnit?.value}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const isCustomer = (location) => {
@@ -216,7 +216,7 @@ export default function GateEntryCreate() {
         poValidityDate: "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, location]);
 
   const saveHandler = (values, cb) => {
@@ -455,7 +455,7 @@ export default function GateEntryCreate() {
                             setFieldValue("vehicleNo", "");
                             setFieldValue("supplierName", "");
                             setFieldValue("clientType", "");
-                            
+
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {

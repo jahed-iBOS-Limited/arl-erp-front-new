@@ -11,7 +11,7 @@ const ViewModal = ({ currentItem }) => {
     getRowDto(
       `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentFileListByRegistrationId&intLegalDocumentRegId=${currentItem?.intLegalDocumentRegId}`
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentItem]);
 
   return (

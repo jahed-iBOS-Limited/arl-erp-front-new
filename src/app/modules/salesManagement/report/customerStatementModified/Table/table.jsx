@@ -78,7 +78,7 @@ export default function CustomerStatementModifiedReportTable() {
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
       getDistributionDDL(accId, buId, setDistributionChannelDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getGridData = (values) => {

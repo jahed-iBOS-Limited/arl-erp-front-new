@@ -73,7 +73,7 @@ export default function ShippingNegotiationCreate() {
             setHeaderAttachment(data?.objSuplierHeader?.strHeaderAttachment)
          }
       );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+
    }, [profileData, selectedBusinessUnit, location]);
 
    const saveHandler = async (values, cb) => {

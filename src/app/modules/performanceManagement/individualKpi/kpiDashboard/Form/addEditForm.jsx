@@ -68,7 +68,7 @@ export default function KpiDashboardForm() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function KpiDashboardForm() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   useEffect(() => {
@@ -100,21 +100,21 @@ export default function KpiDashboardForm() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL, month]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

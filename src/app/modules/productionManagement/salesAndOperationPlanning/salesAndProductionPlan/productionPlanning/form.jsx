@@ -30,7 +30,7 @@ export default function FormCmp({
   setHorizonDDL,
   inputHandler,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
 
   return (
     <>

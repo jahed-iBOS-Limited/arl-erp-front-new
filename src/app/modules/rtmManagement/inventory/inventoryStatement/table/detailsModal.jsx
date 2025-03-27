@@ -26,7 +26,7 @@ const DetailsModal = ({ tableItem, values }) => {
       values?.toDate,
       setInventoryLedger
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [tableItem]);
 
   const printRef = useRef();
@@ -52,7 +52,7 @@ const DetailsModal = ({ tableItem, values }) => {
         <div className="text-center">
           <h3>Business Unit : {selectedBusinessUnit?.label}</h3>
         </div>
-        
+
         <div className="text-center">
           <h6>Inventory Ledger</h6>
         </div>

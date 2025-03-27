@@ -100,7 +100,7 @@ export default function CustomerIncentive() {
   // save handler
   const saveHandler = (values, cb) => {
     const selectedTradeCommission = [];
-    // eslint-disable-next-line no-unused-expressions
+
     tradeCommission?.forEach((item) => {
       if (item?.isSelect) {
         const newItem = {
@@ -117,7 +117,7 @@ export default function CustomerIncentive() {
           inputAmount: item?.inputAmount,
           customerCategory: values?.customerCategory?.label || '',
         };
-        // eslint-disable-next-line no-unused-expressions
+
         selectedTradeCommission?.push(newItem);
       }
     });

@@ -45,7 +45,7 @@ function ScaleRepot() {
     getRowData(
       `/mes/MSIL/GetScaleReport?fromDate=${""}&toDate=${""}&intItemid=0&intSupplierId=0`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const loadUserList = (v) => {
@@ -310,7 +310,7 @@ function ScaleRepot() {
 
                 {/* <div className="row mt-5">
                   <div className="col-lg-12">
-                   
+
                   </div>
                 </div> */}
               </CardBody>

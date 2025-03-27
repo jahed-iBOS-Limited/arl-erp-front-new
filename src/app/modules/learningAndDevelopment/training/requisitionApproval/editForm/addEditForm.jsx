@@ -92,7 +92,7 @@ export default function TrainingRequisitionApprovalEdit() {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params?.editId]);
 
   console.log("requisitionList", requisitionList);

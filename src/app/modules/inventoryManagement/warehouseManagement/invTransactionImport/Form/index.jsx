@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useEffect } from "react";
 import IForm from "../../../../_helper/_form";
 import ReceiveInventory from "./receiveInventory/createForm";
@@ -33,7 +33,7 @@ export function ForminvTransImport() {
       `Create Inventory Transaction Import ${lastInvData ? lastInvData : ""}`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [potype, objProps, lastInvData]);
 
   return (

@@ -26,7 +26,7 @@ const Dashboard = () => {
     }, 60000); // Fetch data every 1 minitue
 
     return () => clearInterval(interval); // Cleanup on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   return (

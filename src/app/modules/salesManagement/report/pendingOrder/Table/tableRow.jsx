@@ -49,7 +49,7 @@ export function TableRow({ initData, initialData, saveHandler }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [actionBy, profileData]);
 
   // get controlling unit list  from store
@@ -91,7 +91,7 @@ export function TableRow({ initData, initialData, saveHandler }) {
       dispatch(setPendingOrderGridDataEmptyAction());
     };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

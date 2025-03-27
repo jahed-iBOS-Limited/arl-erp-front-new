@@ -20,7 +20,7 @@ export default function BankGuarantee({
 
   useEffect(() => {
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

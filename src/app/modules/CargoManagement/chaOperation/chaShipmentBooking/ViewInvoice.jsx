@@ -66,7 +66,7 @@ export default function ViewInvoice({ clickRowDto }) {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowDto]);
 
   if (singleChaShipmentBookingLoading) {

@@ -40,7 +40,7 @@ export default function GradingCreateTwo() {
         setRowData(modifyData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const isLessQuantityRow = (index) => {
@@ -78,19 +78,19 @@ export default function GradingCreateTwo() {
       };
     });
 
-   const isQtyExits = rowList?.find((item) => item?.numQuantity > 0); 
+   const isQtyExits = rowList?.find((item) => item?.numQuantity > 0);
     if (isQtyExits) {
       saveData(
         `/mes/WeightBridge/WeightBridgeQCCreateAndEdit`,
         rowList,
         cb,
         true
-      );  
+      );
     }else{
       return toast("Please provide row quantity");
     }
 
-    
+
   };
 
   const rowDataHandler = (name, index, value) => {
@@ -153,7 +153,7 @@ export default function GradingCreateTwo() {
       setRowData(modifyData);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [lessQuantity]);
 
   const handleKeyDown = (e) => {

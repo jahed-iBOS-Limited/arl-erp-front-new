@@ -41,7 +41,7 @@ export default function FormExtend({
   useEffect(() => {
     getGridData(id);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   return (
     <>
@@ -66,7 +66,7 @@ export default function FormExtend({
           isValid,
         }) => (
           <>
-           
+
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row">

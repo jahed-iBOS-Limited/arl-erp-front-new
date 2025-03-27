@@ -21,7 +21,7 @@ export default function ApprovalView({
     getViewData(
       `/wms/InventoryTransaction/GetPendingAdjustmentRowViewByTransId?intBusinessUnitId=${selectedBusinessUnit?.value}&intInventoryTransactionId=${singleData?.intInventoryTransactionId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   return (

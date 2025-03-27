@@ -69,7 +69,7 @@ export default function FormCmp({
     getNatureofBusinessDDL(
       `/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function FormCmp({
         `/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
 
@@ -142,7 +142,7 @@ export default function FormCmp({
 
   useEffect(() => {
     getSbuDDL(accountId, selectedBusinessUnit?.value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   useEffect(() => {

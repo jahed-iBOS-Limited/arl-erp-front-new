@@ -25,7 +25,7 @@ export default function MotherVesselTransferForm({ obj }) {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const onChangeHandler = (currentField, allValues, setFieldValue) => {

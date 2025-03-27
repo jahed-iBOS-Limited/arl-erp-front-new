@@ -66,7 +66,7 @@ export function CashFlowStatement() {
     //     setLoading
     //   );
     // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   const printRef = useRef();
 
@@ -165,7 +165,7 @@ export function CashFlowStatement() {
                             type="button"
                             className="btn btn-sm btn-primary sales_invoice_btn ml-3"
                           >
-                          
+
                             Print
                           </button>
                         )}
@@ -173,7 +173,7 @@ export function CashFlowStatement() {
                       />
 
                       }
-                 
+
                     </div>
                   </div>
                   {
@@ -241,7 +241,7 @@ export function CashFlowStatement() {
                           })
                         }
 
-                        {/*                       
+                        {/*
                         <tr>
                           <td style={{ width: "150px" }}></td>
                           <td >Customers</td>
@@ -301,7 +301,7 @@ export function CashFlowStatement() {
                             textAlign: "right"
                           }}>693200</td>
                         </tr>
-                       
+
                         <tr>
                           <td colSpan="3" style={{ height: "15px" }}></td>
                         </tr>

@@ -75,7 +75,7 @@ export default function AssetListForm({ currentRowData ,setIsShowModal }) {
       selectedBusinessUnit?.value,
       setItemAttribute
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const onChangeForItem = (item) => {

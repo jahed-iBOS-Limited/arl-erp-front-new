@@ -22,7 +22,7 @@ export default function FormCmp({
   businessUnitDDL,
   remover,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);

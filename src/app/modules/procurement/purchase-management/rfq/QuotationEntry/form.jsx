@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -58,7 +58,7 @@ export default function FormCmp({
   useEffect(() => {
     // getSupplierNameDDLAction(profileData?.accountId, selectedBusinessUnit?.value,usersDDLdata?.sbu?.value,setsupplierNameDDL)
     getRFQSupplierNameDDLAction(profileData?.accountId, selectedBusinessUnit?.value, id, setsupplierNameDDL)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value])
   return (
     <>

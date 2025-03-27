@@ -28,7 +28,7 @@ export default function VehicleExpireStatus() {
 
     useEffect(() => {
         getService(`/asset/DropDown/GetRenewalService`)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const loadVehicleList = (v) => {

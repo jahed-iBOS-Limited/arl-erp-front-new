@@ -118,7 +118,7 @@ export default function ComplainAssignConfigCreateEdit() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
   useEffect(() => {
     if (id) {

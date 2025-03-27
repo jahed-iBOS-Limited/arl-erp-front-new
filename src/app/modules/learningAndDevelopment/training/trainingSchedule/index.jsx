@@ -24,7 +24,7 @@ export default function TrainingSchedule() {
     getTrainingName(`/hcm/Training/TrainingNameDDL`);
     // getRowData(`/hcm/Training/GetTrainingScheduleLanding?intMonthId=0&intYearId=0&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=0`);
     getRowData(`/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=0`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

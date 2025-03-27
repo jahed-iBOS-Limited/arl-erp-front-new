@@ -39,7 +39,7 @@ export function ItemCategoryTable() {
 
   useEffect(() => {
     dispatchProduct(profileData.accountId, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   //setPositionHandler

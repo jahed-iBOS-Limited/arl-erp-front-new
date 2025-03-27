@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
   featureGroupName: Yup.string().required("Feature Group Name is required"),
 });
 
-function _Form({
+function FormCmp({
   initData,
   btnRef,
   saveHandler,

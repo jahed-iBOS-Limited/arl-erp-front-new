@@ -69,7 +69,7 @@ export default function DamDeliveryBill() {
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {

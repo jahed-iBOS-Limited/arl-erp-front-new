@@ -70,7 +70,7 @@ export function LoadingLandingTable() {
     if (accId && buId) {
       setLandingData(pageNo, pageSize, initData, searchTerm);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   let totalQuantity = 0;

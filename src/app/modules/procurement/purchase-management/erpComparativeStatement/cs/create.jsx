@@ -73,7 +73,6 @@ export default function CreateCs({
         `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
         (data) => {
           let list = [];
-          // eslint-disable-next-line array-callback-return, no-unused-expressions
           data?.map((item) => {
             list.push({
               value: item?.rowId,
@@ -120,12 +119,12 @@ export default function CreateCs({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
     getPlacePartnerListCsWise();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [suppilerStatement]);
 
   const getPlacePartnerListCsWise = () => {

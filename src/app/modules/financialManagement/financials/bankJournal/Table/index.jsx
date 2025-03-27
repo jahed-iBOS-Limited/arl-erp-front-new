@@ -157,13 +157,11 @@ export default function BankJournalLanding() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const onChangeCheckHandler = (type) => {
-    if (type === "notComplated") {
-    } else if (type === "notComplated") {
-    }
+
   };
   // complete btn submit handler
   const approvalHandler = (date, journalType) => {

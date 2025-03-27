@@ -52,8 +52,8 @@ export default function ItemQualityCheckLanding() {
 
   useEffect(()=>{
     handleGetLandingData(pageNo, pageSize, initData);
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
   },[])
 
   const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
@@ -97,7 +97,7 @@ export default function ItemQualityCheckLanding() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   return (
     <Formik

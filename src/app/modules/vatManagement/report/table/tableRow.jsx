@@ -6,7 +6,7 @@ import { GetVatItemPagination } from "../helper";
 import "./vatReport.css";
 
 export function TableRow() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const history = useHistory();
@@ -29,7 +29,7 @@ export function TableRow() {
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   return (

@@ -175,7 +175,7 @@ export default function TransferShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value, id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -234,7 +234,7 @@ export default function TransferShipmentForm({
       );
       //dispatch(GetShipmentTypeDDLAction(selectedBusinessUnit?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const vehicleSingeDataView = (id, accId, buId, setter) => {
@@ -292,7 +292,7 @@ export default function TransferShipmentForm({
             );
           })
         );
-      } 
+      }
       // for create
       else {
         const shipmentRowEntryList = rowDto?.map((itm) => {
@@ -482,14 +482,14 @@ export default function TransferShipmentForm({
           null
         );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -509,7 +509,7 @@ export default function TransferShipmentForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [headerData]);
 
   // pendingDeliveryOnchangeHandler
@@ -575,7 +575,7 @@ export default function TransferShipmentForm({
         setTransferOutData={setTransferOutData}
         showTransferOutModal={showTransferOutModal}
         setShowTransferOutModal={setShowTransferOutModal}
-        id={id}        
+        id={id}
       />
     </IForm>
   );

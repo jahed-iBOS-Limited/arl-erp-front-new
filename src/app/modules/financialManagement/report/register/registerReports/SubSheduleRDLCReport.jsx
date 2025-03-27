@@ -61,7 +61,7 @@ const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
 
   useEffect(() => {
     getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <div>

@@ -23,13 +23,13 @@ export function ManualShippointCostDetails({
 
   const { shippointId, vehicleId } = currentItem;
 
-  // eslint-disable-next-line no-unused-vars
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   // get selected business unit from store
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -46,7 +46,7 @@ export function ManualShippointCostDetails({
         valuesfordate?.toDate || ''
       }&isBillSubmited=${false}&intVehicleId=${vehicleId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shippointId, vehicleId, profileData, selectedBusinessUnit]);
 
   const printRef = useRef();

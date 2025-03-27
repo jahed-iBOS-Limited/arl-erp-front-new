@@ -120,7 +120,7 @@ const DailyDeliveryStatusForm = ({
         setDisabled
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickRowData]);
   return (
     <div>

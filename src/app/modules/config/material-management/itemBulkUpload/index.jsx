@@ -54,7 +54,7 @@ export default function ItemBulkUpload() {
     const [loading, setLoading] = useState(false);
     const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
     const [plantDDL, getPlantDDL, plantLoader] = useAxiosGet();
-    // eslint-disable-next-line no-unused-vars
+
     const [, saveItems, itemsLoader] = useAxiosPost()
     const [data, setData] = useState([]);
     const [dataLoader, setDataLoader] = useState(false)
@@ -63,7 +63,7 @@ export default function ItemBulkUpload() {
         if (profileData) {
             getPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [profileData]);
 
     const saveHandler = async (values, cb) => {

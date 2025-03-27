@@ -45,7 +45,7 @@ export default function PartnerThanaRateForm({
     if (id) {
       GetPartnerTransportZoneById(id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {

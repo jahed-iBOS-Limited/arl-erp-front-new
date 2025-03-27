@@ -26,7 +26,7 @@ const ViewModal = ({ clickedItem, landingValues }) => {
     if (clickedItem && clickedItem?.depositLoanId) {
       getDataById(clickedItem?.depositLoanId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickedItem]);
 
   return (

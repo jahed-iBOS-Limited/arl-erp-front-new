@@ -110,7 +110,7 @@ export default function PackingInformationList() {
         );
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {

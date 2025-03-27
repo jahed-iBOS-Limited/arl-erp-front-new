@@ -9,18 +9,18 @@ import { getBusinessUnitDDL, getCashRegisterReport } from "./helper";
 
 const validationSchema = Yup.object().shape({});
 
-export default function 
-_Form({ initData }) {
+export default function
+FormCmp({ initData }) {
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
-  
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId]);
 
   return (

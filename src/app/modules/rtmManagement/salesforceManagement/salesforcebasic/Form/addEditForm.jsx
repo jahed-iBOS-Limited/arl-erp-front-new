@@ -163,7 +163,7 @@ export default function SalesForceElmployeeInformationForm({
         setEmployeeTypeDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const subOnChangeHandler = (sbuId) => {

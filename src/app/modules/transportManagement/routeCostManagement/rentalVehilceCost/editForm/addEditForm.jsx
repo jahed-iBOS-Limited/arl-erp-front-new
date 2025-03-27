@@ -40,7 +40,7 @@ export default function RentalVehicleCostEditForm({
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async () => {

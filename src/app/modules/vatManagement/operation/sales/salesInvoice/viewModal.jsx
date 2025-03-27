@@ -71,7 +71,7 @@ export default function SalesInvoiceModel({
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [viewClick]);
 
   return (

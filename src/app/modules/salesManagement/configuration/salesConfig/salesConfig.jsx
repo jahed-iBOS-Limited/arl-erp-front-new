@@ -47,7 +47,7 @@ export default function SalesConfig() {
         setRowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveBusTaxConfig = async (values, cb) => {

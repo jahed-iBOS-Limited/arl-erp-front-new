@@ -61,7 +61,7 @@ export default function FormCmp({
         setRegionList(data);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function FormCmp({
       }));
       setDailyCollectionData(modifyData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [perDayCollect]);
   return (
     <>

@@ -71,7 +71,7 @@ export default function DistributionPlanLanding() {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   const getRegionDDLHandler = (valueOption) => {

@@ -77,7 +77,7 @@ export function TableRow({ saveHandler }) {
         setDesignationDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

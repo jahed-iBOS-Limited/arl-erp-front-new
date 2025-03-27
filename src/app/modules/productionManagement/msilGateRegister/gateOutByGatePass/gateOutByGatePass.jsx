@@ -20,7 +20,7 @@ function GateOutDelivary() {
     getRowData(
       `/mes/MSIL/GetAllGateOutByGatePassLanding?PageNo=${pageNo}&PageSize=${pageSize}&intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

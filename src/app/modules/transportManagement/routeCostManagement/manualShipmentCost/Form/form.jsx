@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -160,7 +160,7 @@ export default function FormCmp({
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {

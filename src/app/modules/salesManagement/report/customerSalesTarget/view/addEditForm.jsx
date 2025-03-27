@@ -40,7 +40,7 @@ export function CustomerSalesTargetViewForm({
     params: { viewid },
   },
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const location = useLocation();
 
   let initData = {
@@ -70,7 +70,7 @@ export function CustomerSalesTargetViewForm({
 
   useEffect(() => {
     getSalesTargetById(setSingleData, setSingleRowData, viewid, setDisabled);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [getSalesTargetById]);
 
   const setter = (payload) => {

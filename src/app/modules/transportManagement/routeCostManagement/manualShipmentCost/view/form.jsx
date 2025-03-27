@@ -19,7 +19,7 @@ export default function FormCmp({
   distanceKM,
   shipmentId,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [componentDDL, setComponentDDL] = useState([]);
   useEffect(() => {
     if (profileData.accountId) {

@@ -31,7 +31,7 @@ const WorkingCapitalVarianceReport = () => {
   //   };
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

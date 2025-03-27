@@ -80,7 +80,7 @@ const CommissionReportAndJV = () => {
     getTransactionHeads(
       `/wms/WmsReport/GetBusinessTransactionDDL?businessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getData = (values) => {

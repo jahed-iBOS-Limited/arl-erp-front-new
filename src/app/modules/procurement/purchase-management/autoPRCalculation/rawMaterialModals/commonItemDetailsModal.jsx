@@ -31,7 +31,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
       commonItemDetailsDispatch,
       values,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // console.log("Common", commonItemDetailsState);

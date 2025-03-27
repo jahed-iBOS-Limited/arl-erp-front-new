@@ -1,4 +1,4 @@
-/* eslint-disable no-lone-blocks */
+
 import React, { useState, useRef } from 'react';
 import Select from 'react-select';
 import customStyles from '../selectCustomStyle';

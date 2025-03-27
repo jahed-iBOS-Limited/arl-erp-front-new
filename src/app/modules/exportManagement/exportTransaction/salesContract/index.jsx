@@ -72,7 +72,7 @@ export default function SalesContractLanding() {
         setRowData(data?.data);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const actionClickHandler = (values, type, id) => {

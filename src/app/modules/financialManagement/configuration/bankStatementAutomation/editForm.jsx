@@ -47,7 +47,7 @@ function EditForm({ rowClickItem, landingCB }) {
       selectedBusinessUnit?.value,
       setBankAccountDDL,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const formikRef = React.useRef(null);
   useEffect(() => {
@@ -69,7 +69,7 @@ function EditForm({ rowClickItem, landingCB }) {
         );
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [rowClickItem]);
 
   const saveHandler = (values) => {

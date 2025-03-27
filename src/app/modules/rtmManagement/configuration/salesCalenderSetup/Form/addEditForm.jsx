@@ -48,7 +48,7 @@ export default function SalescalendarSetupForm() {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       setYearDDL(yearDDLList);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {

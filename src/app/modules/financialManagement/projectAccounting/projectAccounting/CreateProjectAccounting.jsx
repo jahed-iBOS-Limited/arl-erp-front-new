@@ -115,14 +115,14 @@ const CreateProjectAccounting = ({
         // console.log('first',res)
         setGeneralLedger(res);
       },
-    ); // eslint-disable-next-line
+    );
   }, []);
 
   // general ledgerddl
   useEffect(() => {
     isEdit && setIsDisable(false);
 
-    // eslint-disable-next-line
+
   }, [isEdit]);
 
   return (

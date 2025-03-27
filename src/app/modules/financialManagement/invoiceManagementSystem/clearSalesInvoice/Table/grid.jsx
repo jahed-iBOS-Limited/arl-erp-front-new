@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-// eslint-disable-next-line no-unused-vars
+
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import CashViewForm from "./../view/cash/viewModal";
 import BankViewForm from "./../view/bank/viewModal";
@@ -24,7 +24,7 @@ const GridData = ({
   values,
   gridDataFunc,
 }) => {
-  // eslint-disable-next-line no-unused-vars
+
   let history = useHistory();
   const printRef = useRef();
   const [modalShow1, setModalShow1] = useState(false);

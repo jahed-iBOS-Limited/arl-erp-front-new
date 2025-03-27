@@ -71,7 +71,7 @@ export default function QcItemConfigCreate() {
         setRowData(updatedData);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, id]);
   return (
     <Formik

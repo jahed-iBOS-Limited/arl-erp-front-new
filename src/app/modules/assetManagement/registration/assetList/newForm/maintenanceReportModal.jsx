@@ -31,7 +31,7 @@ function MaintenanceDetailReport({
         setLoading,
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, values, item, setLoading]);
   const printRef = useRef();
   return (

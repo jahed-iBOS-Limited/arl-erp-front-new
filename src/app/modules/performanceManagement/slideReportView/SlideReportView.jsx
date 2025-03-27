@@ -12,7 +12,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
   useEffect(() => {
     setIndex(currentItem.index);
     setDatas(newData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentItem]);
 
   let colorArr = ["#a6a6a6", "#ffd966"];
@@ -62,7 +62,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [index, colorIndex]);
 
   return (

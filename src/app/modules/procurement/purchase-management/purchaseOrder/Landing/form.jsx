@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ import {
 import GridData from './grid';
 
 import ILoader from '../../../../_helper/loader/_loader';
-// eslint-disable-next-line no-unused-vars
+
 const initData = {
   orderType: '',
   refType: '',

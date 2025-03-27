@@ -53,14 +53,14 @@ export default function ValuesAndCompetencyPage() {
       dispatch(getEmployeeBasicInfoByIdAction(headerData?.employeeId));
       dispatch(getValuesAndCompByEmpIdAction(headerData?.employeeId, 11));
     }
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
   }, [headerData]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
+
     let payloadOne;
-    // eslint-disable-next-line no-unused-vars
+
     let payloadTwo;
     if (valuesData && valueList.length) {
       let newData = valueList && [...valueList];
@@ -81,7 +81,7 @@ export default function ValuesAndCompetencyPage() {
       });
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [valuesData, valueList]);
 
   const disableHandler = (cond) => {

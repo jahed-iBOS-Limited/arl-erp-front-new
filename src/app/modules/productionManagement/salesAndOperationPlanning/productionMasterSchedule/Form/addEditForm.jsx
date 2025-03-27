@@ -55,7 +55,7 @@ console.log('productionPlanQty: ', productionPlanQty)
 
   //Dispatch single data action and empty single data for create
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -63,7 +63,7 @@ console.log('productionPlanQty: ', productionPlanQty)
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

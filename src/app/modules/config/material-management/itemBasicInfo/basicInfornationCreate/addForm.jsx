@@ -54,7 +54,7 @@ export default function AddForm({
 
   useEffect(() => {
     getPurchaseOrganizationDDL(profileData?.accountId, 4, setPurchaseOrg);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveData = async (values, cb) => {

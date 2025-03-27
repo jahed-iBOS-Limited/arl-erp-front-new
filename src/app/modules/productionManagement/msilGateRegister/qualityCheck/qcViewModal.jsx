@@ -17,7 +17,7 @@ function QcViewModal({ weightmentId }) {
     getQcInfo(
       `/mes/WeightBridge/GetWeightBridgeQCView?WeightmentId=${weightmentId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [weightmentId]);
   return (
     <>

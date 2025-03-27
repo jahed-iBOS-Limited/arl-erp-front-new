@@ -64,7 +64,7 @@ export default function FdrForm({
         setBankAccountDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPrincipal = (setFieldValue, ait, exDuty, interest) => {

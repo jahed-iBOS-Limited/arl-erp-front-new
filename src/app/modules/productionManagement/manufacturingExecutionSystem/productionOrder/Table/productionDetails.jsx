@@ -23,7 +23,7 @@ export default function ProductionDetails({
         `/mes/ProductionOrder/GetProductionDetailsById?BuId=${selectedBusinessUnit?.value}&ProductionOrderId=${productionOrderId}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [productionOrderId]);
 
   // pdfExport function

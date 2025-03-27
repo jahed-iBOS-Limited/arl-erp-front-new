@@ -81,7 +81,7 @@ export default function SalesReportOMSTable() {
       GetItemTypeDDL_api(setitemType);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   console.log(rowDto)
@@ -435,7 +435,7 @@ function SalesReportTable({ rowDto, selectedBusinessUnit, values }) {
               </p>
             </div>
           </div>
-          
+
           {/* Table Grid Data */}
           <TableGird
             rowDto={rowDto}

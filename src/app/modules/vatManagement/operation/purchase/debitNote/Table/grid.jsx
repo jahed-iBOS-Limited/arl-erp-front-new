@@ -44,7 +44,7 @@ const DebitNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, viewClick]);
   return (
     <>

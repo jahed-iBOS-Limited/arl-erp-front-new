@@ -28,7 +28,7 @@ export default function ItemMasterInfoLanding() {
   };
   useEffect(() => {
     getLandingData(pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize) => {

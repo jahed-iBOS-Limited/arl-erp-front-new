@@ -51,7 +51,7 @@ export default function AssetStandardPOCreateForm({
 
   const [isExcelModalOpen, setExcelModalOpen] = useState(false);
   const [excelFiles, setExcelFiles] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   //const [excelDataForAmount, setExcelDataForAmount] = useState([]);
 
@@ -84,7 +84,7 @@ export default function AssetStandardPOCreateForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   // add single item to row or add all item to row

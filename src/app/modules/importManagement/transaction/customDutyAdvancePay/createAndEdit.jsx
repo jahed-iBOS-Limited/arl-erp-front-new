@@ -97,7 +97,7 @@ export default function CustomDutyAdvancePayCreateEdit() {
         });
         setTypeDDL(data);
       })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [])
 
   // Get PO List DDL

@@ -110,7 +110,7 @@ const GudamAllotmentLanding = () => {
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
     );
     getData(initData, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   // set PositionHandler
@@ -120,7 +120,7 @@ const GudamAllotmentLanding = () => {
 
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const deleteHandler = (id, values) => {

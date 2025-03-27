@@ -1,8 +1,10 @@
-/* eslint-disable */
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-prototype-builtins */
+
 "use strict";
 // DOCS: https://javascript.info/cookie
 
-// Component Definition 
+// Component Definition
 export var KTCookie = function() {
   return {
     // returns the cookie with the given name,

@@ -86,7 +86,7 @@ export default function FormCmp({
       );
       getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

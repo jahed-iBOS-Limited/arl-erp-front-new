@@ -73,7 +73,7 @@ export default function IncentiveBillPaymentModal({
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
     getInstrumentDDL(setInstrumentDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {

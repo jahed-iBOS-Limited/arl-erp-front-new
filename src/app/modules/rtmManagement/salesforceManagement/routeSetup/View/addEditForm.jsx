@@ -40,7 +40,7 @@ export default function RouteSetupViewForm({
         setWeeklyRowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   const backHandler = () => {

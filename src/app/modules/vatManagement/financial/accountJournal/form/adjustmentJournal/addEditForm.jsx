@@ -51,7 +51,7 @@ export default function AdjustmentJournal() {
       //const row = data?.filter((item) => item?.subGLTypeId!==6)
       setRowDto(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
   //save event Modal (code see)
   const IConfirmModal = (props) => {
@@ -216,7 +216,7 @@ export default function AdjustmentJournal() {
     } else {
       toast.warn("Not allowed to duplicate transaction");
     }
-    
+
   };
 
   const remover = (index) => {

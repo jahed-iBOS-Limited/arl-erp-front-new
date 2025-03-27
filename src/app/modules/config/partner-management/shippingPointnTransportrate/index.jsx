@@ -26,7 +26,7 @@ export default function ShippingPointnTransportRate() {
     getPermittedShipPoint(
       `/oms/ShipPoint/GetShipPointPermission?BusinessUnitId=${buId}&UserId=${userId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

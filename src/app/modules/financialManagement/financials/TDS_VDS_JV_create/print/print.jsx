@@ -7,7 +7,7 @@ import { _todayDayWeekName, currentMonthAndYear, dateFormatWithMonthName } from 
 
 export default function Print({ selectedRow, currentSelectedAccNo }) {
   const {
-    // eslint-disable-next-line no-unused-vars
+
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId, label: buName, businessUnitAddress },
   } = useSelector((state) => state.authData, shallowEqual);
@@ -18,7 +18,7 @@ export default function Print({ selectedRow, currentSelectedAccNo }) {
     const apiURL = `/fino/PaymentRequest/GetBusinessUnitTaxInfo?BusinessUnitId=${buId}`;
     getBusinessUnitTaxInfo(apiURL);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   const total = selectedRow.reduce((sum, item) => sum + item.tdsamount, 0);

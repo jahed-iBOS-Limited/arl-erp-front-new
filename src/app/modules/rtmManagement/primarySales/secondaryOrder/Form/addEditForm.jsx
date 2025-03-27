@@ -71,7 +71,7 @@ export default function SecondaryOrderForm({
     if (id) {
       getSingleData(id, setSingleData, setItemRowDto);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
    // Count Sum of Order amount
@@ -89,7 +89,7 @@ export default function SecondaryOrderForm({
   };
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
+
     const newData = singleData?.row?.map((item) => ({
       rowId: item?.rowId,
       itemId: item?.productId,
@@ -107,14 +107,14 @@ export default function SecondaryOrderForm({
     } else {
       setRowData([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-        // eslint-disable-next-line no-unused-vars
+
         const payload = {
           editAttribute: {
             orderId: +id,

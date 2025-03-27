@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import CreateUserForm from "./createUserForm";
@@ -75,13 +75,13 @@ export default function CreateUserEdit({
       )
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, dispatch]);
 
   useEffect(() => {
     let _title = e ? "Edit User" : v ? "View User" : "Create New User";
     setTitle(_title);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [userForEdit, id]);
 
   const saveUser = (values, cb) => {

@@ -8,7 +8,7 @@ const ViewRowItem = ({ currentRowId, item }) => {
   // get single data by id
   useEffect(() => {
     getSingleDataById(currentRowId, setData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

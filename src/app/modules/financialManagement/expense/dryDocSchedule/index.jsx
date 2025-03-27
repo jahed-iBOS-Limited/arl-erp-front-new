@@ -42,7 +42,7 @@ export default function DryDocLanding() {
     getVesselDDL(
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getData = (values) => {

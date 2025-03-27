@@ -61,7 +61,7 @@ export default function TerritorySalesForceConfigForm({
     } else {
       dispatch(setSalesForceTerritorySingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -78,7 +78,7 @@ export default function TerritorySalesForceConfigForm({
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {

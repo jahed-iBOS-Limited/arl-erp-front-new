@@ -56,14 +56,14 @@ export default function KpiDashboardForm() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   useEffect(() => {
@@ -80,21 +80,21 @@ export default function KpiDashboardForm() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL, month]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.employeeId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

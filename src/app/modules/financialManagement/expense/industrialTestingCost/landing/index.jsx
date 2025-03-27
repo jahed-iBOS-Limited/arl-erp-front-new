@@ -48,7 +48,7 @@ const IndustrialTestingCostLanding = () => {
       `/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=1&UnitId=${buId}`,
     );
     getLandingData(pageNo, pageSize, initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   const loading = isLoading;

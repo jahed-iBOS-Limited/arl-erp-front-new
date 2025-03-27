@@ -12,12 +12,10 @@ const initData = {};
 // Debounce function
 function debounce(func, delay) {
   let timeoutId;
-  return function() {
-    const context = this;
-    const args = arguments;
+  return function(...args) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      func.apply(context, args);
+      func.apply(this, args);
     }, delay);
   };
 }
@@ -48,7 +46,7 @@ export default function BankBranchLanding() {
 
   useEffect(() => {
     handleFetchRowData(searchByText, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [searchByText, pageNo, pageSize]);
 
   return (

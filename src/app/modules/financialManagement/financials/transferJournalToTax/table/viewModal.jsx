@@ -44,7 +44,7 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
         'adjustment',
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [viewData]);
 
   useEffect(() => {

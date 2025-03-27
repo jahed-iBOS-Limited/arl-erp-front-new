@@ -52,7 +52,7 @@ export default function ChaShipmentBooking() {
   useEffect(() => {
     commonGetData('', pageNo, pageSize, initialValues);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <ICustomCard

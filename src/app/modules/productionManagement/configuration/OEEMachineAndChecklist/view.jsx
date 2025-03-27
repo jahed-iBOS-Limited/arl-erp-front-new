@@ -48,7 +48,7 @@ export default function CheckListView() {
 
   useEffect(() => {
     getData(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const [fileObjects, setFileObjects] = useState([]);

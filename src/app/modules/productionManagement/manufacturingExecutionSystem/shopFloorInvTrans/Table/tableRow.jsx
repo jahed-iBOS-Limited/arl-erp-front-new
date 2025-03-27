@@ -72,7 +72,7 @@ export function TableRow() {
         setLoader
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shopFloorInventoryTransaction, profileData, selectedBusinessUnit]);
 
   const pushData = () => {

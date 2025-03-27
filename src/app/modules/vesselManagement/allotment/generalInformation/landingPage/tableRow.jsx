@@ -140,7 +140,7 @@ export function LandingTableRow() {
     setLandingData(pageNo, pageSize, initData);
     // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
     GetDomesticPortDDL(setDomesticPortDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const commissionEntry = (values) => {

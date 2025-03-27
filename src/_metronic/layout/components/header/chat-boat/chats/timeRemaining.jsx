@@ -15,7 +15,7 @@ export function TimeRemaining({ timeRemainingCB }) {
     return () => {
       clearTimeout(timer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const minutes = Math.floor(time / 60);

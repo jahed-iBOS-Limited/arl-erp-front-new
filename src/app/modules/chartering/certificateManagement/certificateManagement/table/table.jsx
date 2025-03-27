@@ -46,7 +46,7 @@ export default function CertificateManagementTable() {
   const [certificateNameDDL, setCertificateNameDDL] = useState([]);
   const [rowData, setRowData] = useState([]);
   //const [pageSize, setPageSize] = useState(15);
-  // eslint-disable-next-line no-unused-vars
+
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 

@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useEffect, useState } from 'react';
 import Loading from '../../../../_helper/_loading';
 import { useHistory, useLocation } from 'react-router-dom';

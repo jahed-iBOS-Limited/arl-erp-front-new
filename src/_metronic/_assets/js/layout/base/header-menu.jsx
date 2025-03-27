@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 'use strict';
 
 import KTOffcanvas from './../../components/offcanvas';

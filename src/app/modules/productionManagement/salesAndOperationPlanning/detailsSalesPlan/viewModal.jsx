@@ -3,7 +3,7 @@ import { getSalesPlanById } from "../salesAndProductionPlan/helper";
 
 const ViewModal = ({ id }) => {
   const [rowDto, setRowDto] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState([]);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const ViewModal = ({ id }) => {
         </tbody>
       </table>
 </div>
-      
+
     </div>
   );
 };

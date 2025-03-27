@@ -249,7 +249,7 @@ export default function FormCmp({
         isDisabled: isEdit,
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [
     ShippointDDL,
     vehicleDDL,
@@ -320,7 +320,7 @@ export default function FormCmp({
         `/tms/Vehicle/GetAvailableVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, isGateMaintain]);
 
   useEffect(() => {
@@ -341,7 +341,7 @@ export default function FormCmp({
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, headerData]);
 
   useEffect(() => {
@@ -353,7 +353,7 @@ export default function FormCmp({
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [loadingPointDDL]);
 
   const qurScanHandler = ({ setFieldValue, values }) => {

@@ -67,7 +67,7 @@ export default function ProfitCenterForm({
     if (params?.id) {
       GetProfitCenterView(params?.id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
   const saveHandler = async (values, cb) => {

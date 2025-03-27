@@ -38,7 +38,7 @@ export default function BankGuaranteeLanding() {
       }&type=${bankGuarantee?.type?.label ||
         ""}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bankGuarantee]);
 
   //setPositionHandler

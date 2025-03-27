@@ -253,7 +253,7 @@ export default function CreateForm({
       0,
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const {
@@ -310,7 +310,7 @@ export default function CreateForm({
       setProfitCenterList,
       setLoading,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // getRefNoDdlBySupplier

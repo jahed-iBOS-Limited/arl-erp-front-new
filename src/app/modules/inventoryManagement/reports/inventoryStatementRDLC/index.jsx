@@ -31,7 +31,7 @@ export default function InventoryStatementRDLC() {
     useEffect(() => {
         getItemTypeDDl(`/wms/WmsReport/GetItemTypeListDDL`)
         getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";

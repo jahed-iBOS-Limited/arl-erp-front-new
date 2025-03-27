@@ -53,7 +53,7 @@ const AccidentEntry = () => {
     getAccidentEntryData(
       `/mes/MSIL/AccidentEntryLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <Formik

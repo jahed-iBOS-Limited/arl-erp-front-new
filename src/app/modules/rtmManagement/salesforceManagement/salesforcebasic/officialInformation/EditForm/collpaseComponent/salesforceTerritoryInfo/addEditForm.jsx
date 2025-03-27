@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Form from './form';
@@ -69,7 +69,7 @@ export default function SalesforceTerrioryInfo() {
         setSingleData,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, headerData]);
 
   useEffect(() => {

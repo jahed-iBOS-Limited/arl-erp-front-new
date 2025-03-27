@@ -75,7 +75,7 @@ export function TableRow({
       itemCheck: false,
     }));
     setIncompleteRowDto(modifyGridData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [incompleteGridData]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export function TableRow({
       itemCheck: false,
     }));
     setRowDto(modifyGridData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [gridData]);
 
   const itemSlectedHandler = (value, index) => {
@@ -199,7 +199,7 @@ export function TableRow({
     getPermission(
       `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}&Type=YsnChalanInfo`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -208,7 +208,7 @@ export function TableRow({
       setRowDto([]);
       dispatch(setGridEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getDeliveryShippingInfoById = (url) => {

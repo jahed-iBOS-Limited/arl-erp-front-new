@@ -126,7 +126,7 @@ export default function SalesContactForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get PlantDDL & SalesOrgDDL & DistributionChannelDDL & SoldToPPId
@@ -156,7 +156,7 @@ export default function SalesContactForm({
         getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -306,7 +306,7 @@ export default function SalesContactForm({
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   //onChange itemListHandelar

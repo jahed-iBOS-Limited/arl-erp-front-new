@@ -79,7 +79,7 @@ export function TableRow() {
     getTerritoryDDL(
       `/oms/TerritoryTypeInfo/GetTerritoryTypeList?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function TableRow() {
     ) {
       getData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [employeeLoginInfo]);
 
   // UI Context

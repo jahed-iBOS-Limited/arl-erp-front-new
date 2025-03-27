@@ -12,7 +12,7 @@ export default function ProductionScheduleModal({ buId, fromData, toDate }) {
 
     useEffect(() => {
         getProductionScheduleData(`/mes/ProductionEntry/GetDetailFromProductionSchedule?intBusinessUnitId=${buId}&isForecast=true&fromDate=${fromData}&toDate=${toDate}`)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [])
 
 

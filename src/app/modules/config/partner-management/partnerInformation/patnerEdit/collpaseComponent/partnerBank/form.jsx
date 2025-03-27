@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
@@ -69,7 +69,7 @@ export default function RoleExForm({
         setorgtypeListDDL(ItemType);
       }
     } catch (error) {
-     
+
     }
   };
 
@@ -92,7 +92,7 @@ export default function RoleExForm({
         // setpartnerListDDL(ItemType);
       }
     } catch (error) {
-     
+
     }
   };
 
@@ -116,7 +116,7 @@ export default function RoleExForm({
         setorgnameListDDL(ItemType);
       }
     } catch (error) {
-     
+
     }
   };
 

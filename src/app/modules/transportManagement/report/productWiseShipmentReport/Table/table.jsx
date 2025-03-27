@@ -65,7 +65,7 @@ export default function ProductWiseShipmentReport() {
       );
       getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSbuDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const GetReport = (values) => {

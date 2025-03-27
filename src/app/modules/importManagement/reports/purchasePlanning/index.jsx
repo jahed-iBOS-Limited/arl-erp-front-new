@@ -35,7 +35,7 @@ export default function PurchasePlanningAndScheduling() {
         setItemList(updateList);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values, cb) => {};

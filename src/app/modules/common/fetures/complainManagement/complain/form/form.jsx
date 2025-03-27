@@ -57,7 +57,7 @@ function Form({
       getComplainCategory(buId, setComplainCategory);
       getContactSourceDDL(`/oms/CustomerPoint/ContactSourceDDL`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ function Form({
         );
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [initData]);
   return (
     <>

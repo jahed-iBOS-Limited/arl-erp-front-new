@@ -86,7 +86,7 @@ export default function VesselNominationDashboard() {
 
   useEffect(() => {
     getGridData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getButtonVisibility = (data) => {

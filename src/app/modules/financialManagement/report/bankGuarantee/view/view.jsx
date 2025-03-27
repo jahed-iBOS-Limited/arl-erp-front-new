@@ -13,7 +13,7 @@ export default function BankGuaranteeView({
     getViewData(
       `https://localhost:44346/fino/CommonFino/GetBankGuaranteeSecurityRegisterById?businessUnitId=${selectedBusinessUnit?.value}&code=${landingItem?.strCode}&autoId=${landingItem?.intId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   console.log("viwData", viwData);

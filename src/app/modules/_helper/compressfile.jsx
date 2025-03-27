@@ -8,15 +8,22 @@ export const compressfile = (
     useWebWorker: true,
   }
 ) => {
-  return new Promise(async (resolve, reject) => {
-    const compressedFiles = [];
-    for (let i = 0; i < files.length; i++) {
-      if (files[i]?.type?.startsWith("image/")) {
-        compressedFiles.push(await imageCompression(files[i], options));
-      } else {
-        compressedFiles.push(files[i]);
+  return new Promise((resolve, reject) => {
+    const compressFilesAsync = async () => {
+      try {
+        const compressedFiles = [];
+        for (let i = 0; i < files.length; i++) {
+          if (files[i]?.type?.startsWith("image/")) {
+            compressedFiles.push(await imageCompression(files[i], options));
+          } else {
+            compressedFiles.push(files[i]);
+          }
+        }
+        resolve(compressedFiles);
+      } catch (error) {
+        reject(error);
       }
-    }
-    resolve(compressedFiles);
+    };
+    compressFilesAsync();
   });
 };

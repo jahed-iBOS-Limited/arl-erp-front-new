@@ -31,7 +31,7 @@ export default function DeadWeightAndPreStowagePlaning() {
 
   useEffect(() => {
     getLandingData({}, pageNo, pageSize, '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
@@ -63,7 +63,7 @@ export default function DeadWeightAndPreStowagePlaning() {
   };
   useEffect(() => {
     getLandingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const getVoyageDDL = (values) => {

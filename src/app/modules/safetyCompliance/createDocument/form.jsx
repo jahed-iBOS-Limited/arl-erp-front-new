@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
     .required("Frequency is required"),
 });
 
-const _Form = ({
+const FormCmp = ({
   initData,
   btnRef,
   resetBtnRef,
@@ -418,4 +418,4 @@ const _Form = ({
   );
 };
 
-export default _Form;
+export default FormCmp;

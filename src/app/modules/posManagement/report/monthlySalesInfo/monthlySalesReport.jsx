@@ -1,4 +1,4 @@
-/* eslint-disable no-array-constructor */
+ 
 import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -14,7 +14,7 @@ const initData = {
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  
+
 });
 
 const reportTypeDDL=[
@@ -49,7 +49,7 @@ export default function MonthlySalesReport() {
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
-    var monthName = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var d = new Date();
     d.setDate(1);
     let months=[]
@@ -93,7 +93,7 @@ export default function MonthlySalesReport() {
             <Card>
             {true && <ModalProgressBar />}
               <CardHeader title={"Monthly Sales Report"}>
-                
+
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
@@ -140,7 +140,7 @@ export default function MonthlySalesReport() {
                           className="btn btn-primary"
                           onClick={() => {
                             getMonthlySalesReport(
-                              values?.reportType?.value, 
+                              values?.reportType?.value,
                               values?.outletList,
                               setRowDto
                             );

@@ -50,14 +50,14 @@ export default function CoreValuesForm({
     } else {
       dispatch(setCoreValuesEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
     let data = singleData?.objListRow || [];
     let newData = data?.map(item => ({...item, isPositive : item?.isPositive}))
     setRowDto([...newData]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {

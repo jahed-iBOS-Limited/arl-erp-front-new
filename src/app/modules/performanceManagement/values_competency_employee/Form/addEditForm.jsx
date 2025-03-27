@@ -69,7 +69,7 @@ export default function ValuesAndCompetencyPage() {
     if (profileData) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function ValuesAndCompetencyPage() {
     if (payloadOne && payloadTwo) {
       setValueObj([...payloadOne, ...payloadTwo]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [valuesData, valueList]);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function ValuesAndCompetencyPage() {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getValueAndCompList = (empId) => {
@@ -183,7 +183,7 @@ export default function ValuesAndCompetencyPage() {
         getValuesAndCompByEmpIdAction(profileData.userId, yearDDL[0].value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   //remove store data
@@ -194,7 +194,7 @@ export default function ValuesAndCompetencyPage() {
       dispatch(SetValuesListEmptyAction());
       dispatch(SetCompetencyEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -205,7 +205,7 @@ export default function ValuesAndCompetencyPage() {
 
       getValueAndCompList(profileData.userId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL, profileData]);
 
 

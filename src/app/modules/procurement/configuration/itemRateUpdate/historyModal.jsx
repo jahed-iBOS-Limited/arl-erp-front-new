@@ -17,7 +17,7 @@ export default function ItemRateHistoryModal({ propsObj }) {
     getHistoryData(
       `/procurement/PurchaseOrder/GetItemRateConfigurationHistory?itemId=${singleData?.itemId}&configId=${singleData?.itemRateConfigId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
   const dispatch = useDispatch();
   return (

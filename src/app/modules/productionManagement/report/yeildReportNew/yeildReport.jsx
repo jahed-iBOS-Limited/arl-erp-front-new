@@ -158,7 +158,7 @@ function YeildReportDetails({ clickRowData }) {
         `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${clickRowData?.fromDate}&dteToDate=${clickRowData?.toDate}&intPartId=3&ShopFloorId=${clickRowData?.shopFloor?.value}&BillTypeId=${clickRowData?.bomType?.value}&Variant=${clickRowData?.variant}&ConsumptionQty=${clickRowData?.consumtionQty}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // yeildReportDetailsList reduce

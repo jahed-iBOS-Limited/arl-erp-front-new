@@ -69,7 +69,7 @@ export default function AchievementTable() {
       value: profileData?.employeeId,
       label: profileData?.employeeFullName,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {

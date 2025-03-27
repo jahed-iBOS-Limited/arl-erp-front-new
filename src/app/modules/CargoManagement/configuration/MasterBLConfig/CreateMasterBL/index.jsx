@@ -174,7 +174,7 @@ function CreateMasterBL() {
       );
       formikRef.current.setFieldValue('tradeType', data?.tradeTypeId || 1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [data, id]);
 
   // tradeType 1 = Export 2 = Import

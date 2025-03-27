@@ -13,7 +13,7 @@ const ViewModal = ({ currentItem }) => {
     getRowDto(
       `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameFileById&intDocumentId=${currentItem?.intDocumentId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentItem]);
 
   return (

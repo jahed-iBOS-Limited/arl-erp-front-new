@@ -25,7 +25,7 @@ export default function ViewForm({ id, show, onHide }) {
     return () => {
       dispatch(setCoreValuesEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, id]);
 
   return (

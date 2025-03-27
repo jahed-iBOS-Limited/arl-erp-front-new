@@ -38,7 +38,7 @@ export default function FormCmp({
   };
   React.useEffect(() => {
     getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

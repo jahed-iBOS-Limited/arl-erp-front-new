@@ -113,7 +113,7 @@ export default function FormCmp({
         setMaterial
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     if (plantId) {
@@ -124,7 +124,7 @@ export default function FormCmp({
         setMaterial
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const withoutSelectedMaterialProducts = (values) => {
     if (product?.length > 0) {

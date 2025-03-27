@@ -48,7 +48,7 @@ export default function InsurancePolicyCollapsePanel() {
     } else if (state?.checkbox === 'packingInformation') {
       setExpanded('panel3');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [state]);
 
   const backHandler = () => {

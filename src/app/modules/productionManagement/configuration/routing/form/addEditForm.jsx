@@ -64,7 +64,7 @@ export function RoutingForm({
       selectedBusinessUnit?.value,
       setPlantNameDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     getBillOfMaterialNameDDL(setBillOfMaterialNameDDL);
@@ -126,7 +126,7 @@ export function RoutingForm({
         setBomNameDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singlePageData]);
 
   const saveHandler = async (values, cb) => {

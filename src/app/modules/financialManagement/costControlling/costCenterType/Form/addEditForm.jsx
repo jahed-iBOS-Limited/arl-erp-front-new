@@ -53,7 +53,7 @@ export default function CostCenterTypeForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // //Dispatch get controlling unit name for dropdown
@@ -66,7 +66,7 @@ export default function CostCenterTypeForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

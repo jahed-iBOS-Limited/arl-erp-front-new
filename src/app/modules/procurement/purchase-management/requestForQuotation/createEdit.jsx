@@ -163,7 +163,6 @@ export default function RFQCreateEdit() {
         itemName: item?.itemName,
         uoMid: item?.uoMid,
         uoMname: item?.uoMname,
-        //@ts-ignore
         rfqquantity: item?.rfqquantity,
         referenceQuantity: item?.referenceQuantity,
         description: item?.description,
@@ -385,7 +384,7 @@ export default function RFQCreateEdit() {
         },
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     if (!id) {
@@ -413,7 +412,7 @@ export default function RFQCreateEdit() {
         `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {

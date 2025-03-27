@@ -237,7 +237,7 @@ export default function EducationalInformation() {
 
   useEffect(() => {
     getEmployeeEducationByEmpId_api(headerData?.employeeId, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

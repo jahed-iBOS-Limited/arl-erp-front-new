@@ -71,7 +71,7 @@ export default function LoadInformationCreate({
       GetDomesticPortDDL(setDomesticPortDDL);
       GetShipPointDDL(accId, buId, setShipPointDDL);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, type]);
 
   const getVessels = (values) => {

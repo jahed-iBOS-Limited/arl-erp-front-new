@@ -54,7 +54,7 @@ export default function TransportExpenseReport() {
     getFuelStationList(
       `/mes/VehicleLog/GetSupplierFuelStationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getData = ({ reportTypeId, values }) => {
@@ -63,9 +63,7 @@ export default function TransportExpenseReport() {
       requestUrl = `/mes/VehicleLog/GetFuelStationCosting?partName=fuelStationCostSummery&intFuelStationId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 2) {
       requestUrl = `/mes/VehicleLog/GetFuelStationCosting?partName=fuelStationDetailsPurchaseInfo&intFuelStationId=${values?.fuelStation?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
-    } else if (reportTypeId === 2) {
-      requestUrl = `/mes/VehicleLog/GetFuelStationCosting?partName=fuelStationDetailsPurchaseInfo&intFuelStationId=${values?.fuelStation?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
-    } else if (reportTypeId === 3) {
+    }  else if (reportTypeId === 3) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverWiseExpanse&intDriverId=${values?.driver?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 4) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=${values

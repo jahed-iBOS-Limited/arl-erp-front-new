@@ -227,7 +227,7 @@ export default function SalesOrderForm({
     } else {
       dispatch(setSalesOrderSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
   //Initial single row data set
   useEffect(() => {
@@ -255,7 +255,7 @@ export default function SalesOrderForm({
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   //Dispatch Get inital action
@@ -301,7 +301,7 @@ export default function SalesOrderForm({
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const responseData = (soldToPartnerId, soId, salesOrderCode) => {
@@ -783,7 +783,7 @@ export default function SalesOrderForm({
 
   //     setRowDto([...rowDto, ...newSalesDiscount]);
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [salesDiscount]);
 
   const remover = (id) => {
@@ -948,7 +948,7 @@ export default function SalesOrderForm({
         referenceNoHandler(singleData?.objHeader?.refferenceTypeId);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, singleData]);
 
   const salesOrderApprovalHandler = () => {
@@ -984,7 +984,7 @@ export default function SalesOrderForm({
         selCollectionDays,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [headerData]);
 
   useEffect(() => {
@@ -997,12 +997,12 @@ export default function SalesOrderForm({
       dispatch(SetSalesDiscountEmpty_action());
       dispatch(SetTotalPendingQuantityEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
     balanceCheckFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [total]);
 
   useEffect(() => {
@@ -1025,7 +1025,7 @@ export default function SalesOrderForm({
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, headerData]);
 
   // cancel handler

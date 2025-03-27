@@ -10,8 +10,7 @@ const validationSchema = Yup.object().shape({
   fromDate: Yup.string().required("From Date is required"),
 });
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

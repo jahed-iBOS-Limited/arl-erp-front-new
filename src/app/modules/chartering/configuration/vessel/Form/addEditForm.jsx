@@ -144,7 +144,7 @@ export default function VesselForm() {
     if (id && singleData?.vesselId && singleData?.sbuId) {
       getCostCenter(singleData?.sbuId);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const saveHandler = (values, cb) => {

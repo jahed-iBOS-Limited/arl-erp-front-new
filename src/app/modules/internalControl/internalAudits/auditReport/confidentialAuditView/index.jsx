@@ -47,7 +47,7 @@ const ConfidentialAuditView = ({ objProps }) => {
       singleAuditReport?.intAuditScheduleId || 0,
       getSingleConfidentialData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const auditForm = (singleConfidentialAuditData, setFieldValue, values) => {

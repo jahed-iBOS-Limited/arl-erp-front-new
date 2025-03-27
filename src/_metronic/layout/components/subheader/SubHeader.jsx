@@ -1,4 +1,4 @@
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
+
 import React, { useMemo, useLayoutEffect, useEffect } from "react";
 import objectPath from "object-path";
 import { useLocation } from "react-router-dom";
@@ -32,7 +32,7 @@ export function SubHeader() {
     const header = getBreadcrumbsAndTitle("kt_header_menu", location.pathname);
     subheader.setBreadcrumbs(aside.breadcrumbs || header.breadcrumbs);
     subheader.setTitle(aside.title || header.title);
-    // eslint-disable-next-line
+
   }, [location.pathname]);
 
   // Do not remove this useEffect, need from update title/breadcrumbs outside (from the page)

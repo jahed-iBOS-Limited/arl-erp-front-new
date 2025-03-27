@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape */
+
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';

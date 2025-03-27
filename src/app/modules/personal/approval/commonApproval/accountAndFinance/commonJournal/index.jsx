@@ -53,7 +53,7 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
 
     useEffect(() => {
         cb()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [activityName])
 
 

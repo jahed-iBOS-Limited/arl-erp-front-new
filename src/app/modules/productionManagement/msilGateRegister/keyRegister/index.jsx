@@ -34,7 +34,7 @@ function KeyRegisterLanding() {
       `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
       //  `/mes/MSIL/GetAllKeyRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&search=asd&date=2022-01-02`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {

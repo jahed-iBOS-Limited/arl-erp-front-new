@@ -116,7 +116,7 @@ export default function ReportsByPowerBI({ reportTypeId }) {
 
   useEffect(() => {
     getPowerBIData(reportTypeId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

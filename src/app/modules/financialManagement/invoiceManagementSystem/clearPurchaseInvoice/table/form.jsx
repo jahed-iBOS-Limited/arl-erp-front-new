@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React from "react";
 import { Formik, Form } from "formik";
 import {
@@ -8,7 +8,7 @@ import {
   CardBody,
   CardHeader,
 } from "../../../../../../_metronic/_partials/controls";
-// eslint-disable-next-line no-unused-vars
+
 import * as Yup from "yup";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -26,9 +26,9 @@ export default function HeaderForm() {
     { shallowEqual }
   );
 
-  // eslint-disable-next-line no-unused-vars
+
   let { profileData, selectedBusinessUnit } = receivepaymentAuthData;
-  // eslint-disable-next-line no-unused-vars
+
   const backHandler = () => {
     history.goBack();
   };

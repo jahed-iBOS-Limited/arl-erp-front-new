@@ -89,7 +89,7 @@ export function TableRow() {
     if (creditNoteLanding?.taxbranch?.value) {
       girdDataFunc(creditNoteLanding, pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [creditNoteLanding, taxbranchDDL]);
 
   return (

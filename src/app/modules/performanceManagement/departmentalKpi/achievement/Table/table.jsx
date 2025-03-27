@@ -56,7 +56,7 @@ export default function AchievementTable() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function AchievementTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [yearDDL]);
 
   const [report, setReport] = useState({});
@@ -82,7 +82,7 @@ export default function AchievementTable() {
         2,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, department]);
 
   useEffect(() => {

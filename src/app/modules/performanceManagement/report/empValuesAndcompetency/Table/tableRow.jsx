@@ -71,7 +71,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
         setYearDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const girdDataFunc = (
@@ -132,7 +132,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [empValuesAndcompetency]);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
         setGridData
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [empValuesAndcompetency]);
 
   return (

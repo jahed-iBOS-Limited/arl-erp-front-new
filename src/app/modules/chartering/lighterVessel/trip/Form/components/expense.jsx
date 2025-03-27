@@ -26,7 +26,7 @@ export function ExpenseSection(props) {
     getOilRateApi({ values, setFieldValue });
     // if (viewType !== "view" || viewType !== "edit") {
     // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

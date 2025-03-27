@@ -22,7 +22,7 @@ function CustomerPrivilegeSchemeView({ rowClickData }) {
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
   return (
     <>

@@ -50,7 +50,7 @@ function CustomerGroupForPrivilege() {
         setWareHouseDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

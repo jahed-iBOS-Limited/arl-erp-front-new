@@ -108,7 +108,7 @@ export default function FormCmp({
                     type="date"
                     disabled={isEdit}
                   />
-                         
+
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -123,7 +123,7 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-                           
+
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -134,7 +134,7 @@ export default function FormCmp({
                     type="text"
                     disabled={true}
                   />
-                           
+
                 </div>
 
                 <div className="col-lg-3">
@@ -168,7 +168,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-                       
+
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -190,7 +190,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-                       
+
                 </div>
                 {/* <div className="col-lg-3">
                            <NewSelect

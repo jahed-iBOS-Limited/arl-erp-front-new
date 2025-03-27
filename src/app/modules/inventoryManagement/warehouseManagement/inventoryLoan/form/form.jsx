@@ -1,4 +1,4 @@
-/* eslint-disable react/style-prop-object */
+
 import Axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -53,7 +53,7 @@ export default function FormCmp({
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=1&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   return (

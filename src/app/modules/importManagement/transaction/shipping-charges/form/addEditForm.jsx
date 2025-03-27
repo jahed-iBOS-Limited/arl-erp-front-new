@@ -77,7 +77,7 @@ export default function ShippingChargeForm() {
       selectedBusinessUnit?.value,
       setShippingLineDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function ShippingChargeForm() {
       selectedBusinessUnit?.value,
       setGridData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // Save Handler

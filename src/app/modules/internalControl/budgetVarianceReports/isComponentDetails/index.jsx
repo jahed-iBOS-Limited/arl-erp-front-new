@@ -43,7 +43,7 @@ export default function IscomponentDetails() {
       }));
       setIsComponentDDL(data);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
   const saveHandler = (values, cb) => {};
 

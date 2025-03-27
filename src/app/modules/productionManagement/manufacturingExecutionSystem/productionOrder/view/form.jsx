@@ -134,7 +134,7 @@ export default function FormCmp({
                     type="date"
                     disabled={true}
                   />
-                             
+
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -144,7 +144,7 @@ export default function FormCmp({
                     type="time"
                     disabled={true}
                   />
-                       
+
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -154,7 +154,7 @@ export default function FormCmp({
                     type="date"
                     disabled={true}
                   />
-                          
+
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -164,7 +164,7 @@ export default function FormCmp({
                     type="time"
                     disabled={true}
                   />
-                           
+
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -176,7 +176,7 @@ export default function FormCmp({
                     min="0"
 
                   />
-                             
+
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -187,7 +187,7 @@ export default function FormCmp({
                     disabled={true}
                     min="0"
                   />
-                             
+
                 </div>
               </div>
 

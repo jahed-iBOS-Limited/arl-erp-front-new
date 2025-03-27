@@ -48,7 +48,7 @@ export default function LimitForm({
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
     getFacilityDLL(selectedBusinessUnit?.value, 0, setFacilityDDL, setLoading);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     if (isEdit) {

@@ -54,7 +54,7 @@ export default function PurchaseOrgAddForm({
     } else {
       dispatch(setPurchaseOrgSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -64,7 +64,7 @@ export default function PurchaseOrgAddForm({
         getBUDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function PurchaseOrgAddForm({
     } else {
       setRowDtos([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData?.objRow]);
 
   const saveHandler = async (values, cb) => {

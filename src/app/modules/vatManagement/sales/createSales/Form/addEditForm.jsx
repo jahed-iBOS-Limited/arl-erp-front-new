@@ -28,10 +28,6 @@ const initData = {
   selectedUom: "",
   quantity: "",
   rate: "",
-  // eslint-disable-next-line no-dupe-keys
-  totalTdsAmount: "",
-  // eslint-disable-next-line no-dupe-keys
-  totalVdsAmount: "",
   totalAtv: "",
   totalAit: "",
   deliveryTo: "",
@@ -50,7 +46,7 @@ export default function SalesForm() {
 
   const location = useLocation();
 
-   
+
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -73,7 +69,7 @@ export default function SalesForm() {
         rowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = async (values, cb) => {

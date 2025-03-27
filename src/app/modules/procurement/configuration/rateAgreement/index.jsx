@@ -67,7 +67,7 @@ export default function RateAgreement() {
     getPlanListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   return (
@@ -298,7 +298,7 @@ export default function RateAgreement() {
                             </td>
                             <td className="text-center">
                               {
-                                item?.agreementStatus === "Active" && 
+                                item?.agreementStatus === "Active" &&
                                 <>
                                 <IEdit
                                 title="Edit"

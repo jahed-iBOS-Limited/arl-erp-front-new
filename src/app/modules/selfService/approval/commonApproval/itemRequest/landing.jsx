@@ -41,7 +41,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
 
   useEffect(() => {
     cb()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange])
 
 
@@ -281,7 +281,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 

@@ -27,7 +27,7 @@ export default function TrainingAttendence() {
 
   useEffect(() => {
     getTrainingScheduleDDL(`/hcm/Training/TrainingScheduleDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // const saveHandler = (values, cb) => {};

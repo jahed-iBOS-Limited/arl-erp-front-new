@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-// eslint-disable-next-line no-unused-vars
+
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
@@ -46,7 +46,7 @@ export default function FormCmp({
   outletId,
   collerCompanyDDL,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const classes = useStyles();
 
   return (

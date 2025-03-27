@@ -49,7 +49,7 @@ export default function BasicEmployeeInformation() {
 
   useEffect(() => {
     getEmployeeBasicInfoById_api(headerData?.employeeId, setSingleData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {

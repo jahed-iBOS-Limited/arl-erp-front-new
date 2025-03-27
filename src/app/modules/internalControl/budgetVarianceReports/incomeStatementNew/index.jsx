@@ -63,7 +63,7 @@ export default function IncomestatementNew() {
     getEnterpriseDivisionDDL(
       `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function IncomestatementNew() {
         setBuDDL(newData);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -44,7 +44,7 @@ const TerritorySetupLanding = () => {
       );
       setLandingData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const setLandingData = (values) => {

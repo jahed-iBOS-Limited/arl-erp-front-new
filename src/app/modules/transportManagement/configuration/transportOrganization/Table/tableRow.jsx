@@ -19,7 +19,7 @@ export function TableRow() {
   }, shallowEqual);
 
   // get selected business unit from store
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -33,7 +33,7 @@ export function TableRow() {
       setLoading
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const setPositionHandler=(pageNo, pageSize)=>{

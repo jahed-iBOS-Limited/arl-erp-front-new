@@ -58,7 +58,7 @@ export default function Contra({ viewType }) {
     useEffect(() => {
         getLandingData(initData, pageNo, pageSize, "");
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [])
     return (
         <Formik

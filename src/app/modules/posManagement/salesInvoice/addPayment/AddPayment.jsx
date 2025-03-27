@@ -58,7 +58,7 @@ const AddPayment = ({
     if (header && rowDto && rowDto?.length > 0) {
       handlePrint()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [header, rowDto])
 
   const addPayment = async () => {

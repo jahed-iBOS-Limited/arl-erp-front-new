@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+
 
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
@@ -49,7 +49,7 @@ function LoadingStatusReport() {
       getChannelDDL(`/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`)
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const totalQTY = rowData?.reduce((acc, curr) => acc + curr?.numTotalDeliveryQuantity, 0);

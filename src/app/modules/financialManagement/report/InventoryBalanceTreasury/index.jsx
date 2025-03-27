@@ -30,7 +30,7 @@ function InventoryBalanceTreasury() {
   useEffect(() => {
     getItemTypeList(`/wms/WmsReport/GetItemTypeListDDL`);
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";

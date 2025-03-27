@@ -61,7 +61,7 @@ export default function PartnerAllotmentReport() {
         setRowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const getGridDataChallenInfo = (values, pageNo, pageSize) => {

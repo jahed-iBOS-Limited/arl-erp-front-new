@@ -43,7 +43,7 @@ export default function TransferInForm({
   const [rowDto, setRowDto] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
   const [warehouseDDL, setWrehouseDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
 
   // get user profile data from store
@@ -104,7 +104,7 @@ export default function TransferInForm({
     );
     onChaneForRefType({ value: 23, label: 'Transfer' });
     return () => dispatch(slice.setItemDDL([]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {

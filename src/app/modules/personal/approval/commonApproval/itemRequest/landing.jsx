@@ -41,7 +41,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
 
   useEffect(() => {
     cb()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange])
 
 
@@ -225,7 +225,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                 />
               </div>
             </Form>
-            {rowDto?.data?.length ? 
+            {rowDto?.data?.length ?
            <div className="table-responsive">
              <table className="table table-striped table-bordered global-table">
               <thead>
@@ -283,7 +283,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 
@@ -313,7 +313,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                   </tr>
                 ))}
               </tbody>
-            </table> 
+            </table>
            </div>: ""}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

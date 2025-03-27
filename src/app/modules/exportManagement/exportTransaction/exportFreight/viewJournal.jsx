@@ -30,7 +30,7 @@ export default function ViewJournal({ journalId, sbuId }) {
     getRowData(
       `/oms/SalesOrder/GetSalesOrderDetailsByJournalId?businessUnitId=${selectedBusinessUnit?.value}&accountingJournalId=${journalId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value]);
   return (
     <Formik

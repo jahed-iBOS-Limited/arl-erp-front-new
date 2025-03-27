@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-target-blank */
+
 import React from "react";
 import ApexBarChart from "../../_chart/apexBarChart";
 import IDonut from "./../../_chart/IDonutChart";
@@ -16,7 +16,7 @@ function Card({ itm, updateIsShown }) {
             updateIsShown={updateIsShown}
             isShown={true}
           />
-          
+
           <a
             style={{ position: "absolute", right: "10px", top: "9px" }}
             className="ml-3"

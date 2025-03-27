@@ -50,7 +50,7 @@ export default function AddEditFrom({
 
   useEffect(() => {
     getGrid && getGrid();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const getGrid = () => {
     getPaymentOnMaturity(

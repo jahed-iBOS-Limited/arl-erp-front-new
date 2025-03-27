@@ -33,12 +33,12 @@ export default function StrViewForm() {
 
   useEffect(() => {
     dispatch(getStrObjListAction(strTypeId, strId));
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [strTypeId, strId]);
 
   useEffect(() => {
     dispatch(getStrTargetAction(11, strId));
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [strId]);
 
   const [rowDto, setRowDto] = useState({});

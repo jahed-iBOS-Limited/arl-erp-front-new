@@ -74,7 +74,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
   useEffect(()=>{
     getRowData(`/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${singleItem?.dispatchHeaderId}`
     )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[])
   return (
     <Formik
@@ -217,7 +217,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
 
               <div style={{marginTop:"15px"}}>
                 <CommonTable headersData={["Sl","Dispatch Type","Parcel Name","Quantity","UoM","Remarks"]}>
-                    
+
                     <tbody>
                        {rowData?.row?.map((item,index)=>
                         <tr key={index}>

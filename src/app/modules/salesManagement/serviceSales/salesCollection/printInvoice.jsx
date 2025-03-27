@@ -25,7 +25,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
     getPrintData(
       `/oms/ServiceSales/GetServiceSalesInvocieById?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${singleItem?.invocieHeader?.intServiceSalesInvoiceId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleItem]);
 
   const calculateTotal = (items) => {
@@ -429,7 +429,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
 
 export default PrintInvoiceModal;
 
-// eslint-disable-next-line no-lone-blocks
+
 {
   /* <div className="container">
   <img

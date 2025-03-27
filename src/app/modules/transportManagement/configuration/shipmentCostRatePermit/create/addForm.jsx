@@ -59,7 +59,7 @@ export default function ShipmentCostRatePermitForm() {
     if (params?.id) {
       GetAllowForModificationById_api(params?.id, setSingleData, setDisabled);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
   return (
     <IForm

@@ -79,7 +79,7 @@ export default function GhatCostInfoForm() {
 
   useEffect(() => {
     debounce(() => getVehicleAllColumnTotal(shipPointData, setTotalData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [shipPointData]);
 
   useEffect(() => {

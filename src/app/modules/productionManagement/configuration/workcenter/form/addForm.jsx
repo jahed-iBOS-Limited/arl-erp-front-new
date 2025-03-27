@@ -64,12 +64,12 @@ export default function WorkCenterForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [getPlantNameDDL]);
 
   useEffect(() => {
     getUOMDDL(profileData?.accountId, selectedBusinessUnit?.value, setUomDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // useEffect(() => {
@@ -102,7 +102,7 @@ export default function WorkCenterForm({
       selectedBusinessUnit?.value,
       setEmployeeId
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [getEmployeeIdDDL]);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ export default function WorkCenterForm({
       setSingleData,
       setSingleRowData
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [getWorkCenterById]);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function WorkCenterForm({
         setItemNameDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function WorkCenterForm({
         setShopFloorDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function WorkCenterForm({
         setAssetDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function WorkCenterForm({
         setProductionLineDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   const onChangeForItem = (item) => {

@@ -23,7 +23,7 @@ export const ApplicationApproveForm = ({ getData, setFilterObj }) => {
 
   useEffect(() => {
     getUnits(generateAPI("UnitDDL"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

@@ -37,7 +37,7 @@ export default function BareboatInsuranceConfig() {
 
   useEffect(() => {
     getLandingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, viewType]);
 
   //setPositionHandler

@@ -10,7 +10,7 @@ export default function IncentiveModal({ incentiveConfigId }) {
         `/oms/IncentiveConfig/GetIncentiveConfigById?IncentiveConfigId=${incentiveConfigId}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [incentiveConfigId]);
   return (
     <>

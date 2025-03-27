@@ -34,7 +34,7 @@ export default function DeliveryReport({ id }) {
     if (profileData?.accountId && selectedBusinessUnit?.value && id) {
       getDeliveryChallanInfoById({id,profileData,selectedBusinessUnit,setLoading,setDeliveryOrderReporData});
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, id]);
   const {
     challanNo,

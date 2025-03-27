@@ -89,7 +89,7 @@ export default function HeaderForm() {
         setShipPointByBranchDDL,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData, taxBranchDDL]);
 
   const commonGridFunc = (
@@ -140,7 +140,7 @@ export default function HeaderForm() {
     if (salesInvoiceiBOSlanding?.branch && salesInvoiceiBOSlanding?.status) {
       commonGridFunc(null, salesInvoiceiBOSlanding, pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const isMagnum = [171, 224]?.includes(selectedBusinessUnit?.value);
 

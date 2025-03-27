@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import Axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -215,7 +215,7 @@ export default function FormCmp({
     ) {
       ReceivebleGLDDLConditionFunc(product?.salesOrganaization?.value, null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, id, product]);
 
   // is loading

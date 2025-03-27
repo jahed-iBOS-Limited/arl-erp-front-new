@@ -25,7 +25,7 @@ const WarehouseStockModal = ({ objProp }) => {
       setSingleRowData,
       values,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const isLoading = warehouseStockDataLoading;

@@ -39,7 +39,7 @@ export default function FormCmp({
     getItemGroupDDL(
       `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   return (

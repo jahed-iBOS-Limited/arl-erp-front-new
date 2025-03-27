@@ -33,7 +33,7 @@ const initData = {
 };
 
 export default function CreateInventoryLoanForm() {
-  // eslint-disable-next-line no-unused-vars
+
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [loanSingleData, setLoanSingleData] = useState("");
@@ -90,7 +90,7 @@ export default function CreateInventoryLoanForm() {
       };
       setModifySingleData(newRowData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [loanSingleData]);
 
   const saveHandler = async (values, cb) => {

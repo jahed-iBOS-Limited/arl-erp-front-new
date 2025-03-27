@@ -133,7 +133,7 @@ const SalesInvoiceForm = () => {
       //   setRowDto
       // );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId, state]);
 
   const allSelect = (value) => {

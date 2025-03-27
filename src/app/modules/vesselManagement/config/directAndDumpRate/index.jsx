@@ -21,7 +21,7 @@ export default function DirectAndDumpRateLanding() {
     getLandingData(
       `/wms/ShipPoint/GetAllGoDownNothersRate?businessUnitId=${selectedBusinessUnit?.value}&Type=1&searchTerm=`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

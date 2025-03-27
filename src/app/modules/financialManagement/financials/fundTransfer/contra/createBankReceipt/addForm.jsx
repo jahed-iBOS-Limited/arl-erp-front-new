@@ -49,7 +49,7 @@ export default function BankReceiptForJounal() {
     if (intRequestByUnitId) {
       getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestByUnitId}&Status=true`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [intRequestByUnitId])
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
@@ -89,8 +89,8 @@ export default function BankReceiptForJounal() {
         }
       }
     }
-    /* 
-     // previous code 
+    /*
+     // previous code
      if (selectedJournalTypeId === 4) {
       if (values?.revenueCenter || values?.revenueElement) {
         if (!(values?.revenueCenter && values?.revenueElement)) {

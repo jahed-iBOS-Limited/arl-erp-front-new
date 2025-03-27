@@ -65,7 +65,7 @@ export function ProductDivisionAddForm({
     } else {
       dispatch(setProductDivisionSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export function ProductDivisionAddForm({
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

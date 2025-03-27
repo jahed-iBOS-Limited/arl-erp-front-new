@@ -29,7 +29,7 @@ const initData = {
 
 export default function CertificateManagementForm() {
   const { type, id } = useParams();
-  // eslint-disable-next-line no-unused-vars
+
   const history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +72,7 @@ export default function CertificateManagementForm() {
 
   useEffect(() => {
     getByIdCalled();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[id])
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function CertificateManagementForm() {
       intBusinessUnitId: selectedBusinessUnit?.value,
       intCertificateTypeId: 0,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   /* Save Handler */

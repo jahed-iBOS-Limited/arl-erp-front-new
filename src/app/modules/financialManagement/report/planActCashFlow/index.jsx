@@ -55,7 +55,7 @@ function PlanActCashFlow() {
       totalActForMonthThree: 0,
     };
 
-    // eslint-disable-next-line no-unused-expressions
+
     rowDato?.forEach((item) => {
       obj["totalTgtForMonthOne"] += item?.numTgtMonthOne;
       obj["totalTgtForMonthTwo"] += item?.numTgtMonthTwo;

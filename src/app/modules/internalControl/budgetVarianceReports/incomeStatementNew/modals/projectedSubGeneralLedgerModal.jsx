@@ -40,7 +40,7 @@ const ProjectedSubGeneralLedgerModal = ({
         }
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [generalLedgerRow?.intGeneralLedgerId, values]);
 
   const [subGeneralLedgerRow, setSubGeneralLedgerRow] = useState(null);

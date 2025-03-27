@@ -68,7 +68,7 @@ export default function LandRegister() {
   };
   useEffect(() => {
     getLandingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
 
   return (

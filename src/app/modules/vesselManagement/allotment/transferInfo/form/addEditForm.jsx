@@ -50,7 +50,7 @@ export default function TransferInfoForm() {
 
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getTransferOutedItems = (values) => {

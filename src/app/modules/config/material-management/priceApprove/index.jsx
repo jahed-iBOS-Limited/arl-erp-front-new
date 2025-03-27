@@ -59,7 +59,7 @@ export default function PriceApprove() {
     getItemListDDL(
       `/item/ItemSales/GetItemSalesDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

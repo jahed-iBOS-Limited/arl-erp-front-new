@@ -13,7 +13,7 @@ export function ApprovalModal({
     getViewData(
       `/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${currentRowData?.transectionId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentRowData]);
   return (
     <div>
@@ -118,7 +118,7 @@ export function ApprovalModal({
                           });
                           setViewData({ ...viewData, supplierRow: modifyData });
                         }}
-                        
+
                       />
                     </td>
                   ) : null}

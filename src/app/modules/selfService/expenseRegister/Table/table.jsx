@@ -187,7 +187,7 @@ const ExpenseRegisterLanding = () => {
     } else {
       expenseForDDLFunc(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // billSubmitlHandler btn submit handler

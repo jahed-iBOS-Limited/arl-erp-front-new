@@ -25,7 +25,7 @@ export default function VehicleDemandEditModal({
     getSupplierDDL(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId]);
   return (
     <Formik

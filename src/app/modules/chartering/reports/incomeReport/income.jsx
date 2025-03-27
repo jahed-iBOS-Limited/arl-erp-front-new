@@ -126,7 +126,7 @@ export default function IncomeReport() {
   const [sbuList, setSBUList] = useState([]);
   const [salesOrgList, setSalesOrgList] = useState([]);
   const [show, setShow] = useState(false);
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState({});
   const [, postAllJV, isLoading] = useAxiosPost();
   const [showJournalDetails, setShowJournalDetails] = useState(false);
@@ -183,7 +183,7 @@ export default function IncomeReport() {
         totalAmount: totalAmount,
         // totalAmount: item?.finalRevenue,
         // totalAmount: item?.incomeInDateRange,
-        narration: `Amount debited to ${item?.chartererName} & credited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
+        narration: `Amount debited to ${item?.chartererName} & credited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
         vesselId: item?.vesselId,
         charterId: item?.chartererId,
       };
@@ -218,7 +218,7 @@ export default function IncomeReport() {
         actionby: userId,
         date: values?.journalDate,
         totalAmount: ajAmount,
-        narration: `Amount credited to ${item?.chartererName} & debited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
+        narration: `Amount credited to ${item?.chartererName} & debited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
         vesselId: item?.vesselId,
         charterId: item?.chartererId,
       };

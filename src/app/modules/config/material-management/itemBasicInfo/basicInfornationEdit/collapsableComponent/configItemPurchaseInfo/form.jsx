@@ -66,7 +66,7 @@ export default function FormCmp({
     getItemSalesInformation(
       `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function FormCmp({
         }
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [basicItemInfo?.length]);
 
   return (

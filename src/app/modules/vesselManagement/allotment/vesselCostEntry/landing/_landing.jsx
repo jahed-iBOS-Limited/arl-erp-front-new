@@ -89,7 +89,7 @@ const VesselCostEntry = () => {
   useEffect(() => {
     setLandingData(initData);
     GetDomesticPortDDL(setPortDDL);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   let totalSurveyQty = 0;

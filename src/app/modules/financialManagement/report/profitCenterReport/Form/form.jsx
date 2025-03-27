@@ -14,7 +14,7 @@ import { getProfitCenterData, getProfitCenterReconcileReport } from "./helper";
 const validationSchema = Yup.object().shape({});
 
 export default function
-_Form({ initData }) {
+FormCmp( {initData }) {
   const [rowDto, setRowDto] = useState([]);
   const selectedBusinessUnit = useSelector((state) => state.authData.selectedBusinessUnit, shallowEqual);
   const { accountId } = useSelector((state) => state.authData.profileData, shallowEqual);
@@ -26,7 +26,7 @@ _Form({ initData }) {
 
   useEffect(()=> {
     getControllingUnitDDL(`/costmgmt/ControllingUnit/GetControllingUnitDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit?.value])
   return (
     <>

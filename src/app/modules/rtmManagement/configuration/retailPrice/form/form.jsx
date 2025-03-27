@@ -11,8 +11,7 @@ import IView from './../../../../_helper/_helperIcons/_view';
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 import NewSelect from './../../../../_helper/_select';
 
-function _Form({
-  initData,
+function FormCmp({  initData,
   btnRef,
   saveHandler,
   resetBtnRef,

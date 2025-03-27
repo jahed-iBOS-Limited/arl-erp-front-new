@@ -36,7 +36,7 @@ export default function ViewG2GTruckBill({
     getGridData(
       `/tms/LigterLoadUnload/GetTruckNLabourSupplierByBillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}&billTypeId=16`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   return (

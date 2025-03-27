@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// eslint-disable-next-line no-unused-vars
+
 import "react-toastify/dist/ReactToastify.css";
 
 export default class Header extends Component {

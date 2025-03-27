@@ -71,7 +71,7 @@ export default function GeneralInformationCreate() {
         setDisabled,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {

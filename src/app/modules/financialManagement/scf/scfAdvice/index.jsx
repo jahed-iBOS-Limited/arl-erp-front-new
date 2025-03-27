@@ -43,7 +43,7 @@ const SCFAdviceLanding = () => {
   useEffect(() => {
     fetchBankAsParterDDL({ getBankAsPartnerDDL, selectedBusinessUnit });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // save handler

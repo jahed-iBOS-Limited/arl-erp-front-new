@@ -43,7 +43,7 @@ export function InternalReport({ printRef, setLoading }) {
       selectedBusinessUnit?.value,
       setItemDDL
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {

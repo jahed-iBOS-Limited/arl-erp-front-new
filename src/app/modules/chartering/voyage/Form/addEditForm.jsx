@@ -140,7 +140,7 @@ export default function VoyageForm() {
     getBrokerDDL(setBrokerDDL);
     getByIdCalled();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, id]);
 
   const getByIdCalled = () => {

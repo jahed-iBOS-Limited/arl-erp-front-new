@@ -50,13 +50,13 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, accId]);
 
   return (
     <>
       {/* {(loading || loader) && <Loading />} */}
-      
+
       <div className="col-lg-3">
         <NewSelect
           name="Channel"

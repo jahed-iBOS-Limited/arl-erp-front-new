@@ -73,7 +73,7 @@ export default function WorkPlanLanding() {
 
   useEffect(() => {
     workPlan_landing_api(employeeId, 12, 1, setPlanList, setLoading);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [employeeId]);
 
   useEffect(() => {

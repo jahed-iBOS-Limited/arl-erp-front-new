@@ -42,7 +42,7 @@ export function TableRow() {
         ),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context

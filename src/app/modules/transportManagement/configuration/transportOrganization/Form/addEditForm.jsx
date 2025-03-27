@@ -40,10 +40,10 @@ export default function TransportOrganizationCreateForm({
     if (id) {
       getTransportOrganizationView(id, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]);
 
-  // eslint-disable-next-line no-unused-vars
+
   const [singleData, setSingleData] = useState("");
 
   const saveHandler = async (values, cb) => {

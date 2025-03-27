@@ -44,13 +44,13 @@ export default function InvoiceForOwner({
       getOwnerBankInfoDetailsById(values?.beneficiary?.value, setBankInfoData);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [values?.beneficiary?.value]);
 
   useEffect(() => {
     setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [bankInfoData]);
 
   const redeliveryInputChangeHandler = (value) => {

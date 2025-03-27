@@ -72,7 +72,7 @@ export default function CustomerStatementReportTable() {
     if (accId && buId) {
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId]);
   return (
     <Formik>

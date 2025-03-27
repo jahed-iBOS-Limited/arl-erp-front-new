@@ -34,7 +34,7 @@ export function TableRow() {
         if (selectedBusinessUnit && profileData) {
             dispatch(getPmsDimensionGridData(profileData.accountId));
         }
-           // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [selectedBusinessUnit, profileData]);
 
     // Table columns

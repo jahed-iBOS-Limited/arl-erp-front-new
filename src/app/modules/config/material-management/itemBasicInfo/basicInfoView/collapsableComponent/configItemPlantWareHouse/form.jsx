@@ -188,7 +188,7 @@ export default function FormCmp({
 
   useEffect(() => {
     altUomSetting(productData.baseUomid);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [baseUomList, productData]);
   return (
     <>

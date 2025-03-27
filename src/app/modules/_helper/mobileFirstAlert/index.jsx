@@ -44,7 +44,7 @@ function MobileFirstAlert() {
     } else {
       setIsShowAlert(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   const handleClose = () => {
     setIsShowAlert(false);
@@ -72,7 +72,7 @@ function MobileFirstAlert() {
   // const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
   // const isEmpSuplier =
   //   [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   // useEffect(() => {
   //   const leftTime = timeLeft > 0;
   //   if (

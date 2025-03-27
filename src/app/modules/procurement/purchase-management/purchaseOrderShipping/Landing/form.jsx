@@ -1,5 +1,5 @@
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -23,7 +23,7 @@ import { getWareHouseDDLAction } from '../_redux/Actions';
 import { setPOLandingDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 import ILoader from '../../../../_helper/loader/_loader';
-// eslint-disable-next-line no-unused-vars
+
 import PaginationSearch from './../../../../_helper/_search';
 const initData = {
   orderType: '',

@@ -20,7 +20,7 @@ export const getOutletAttributeLanding = async (
     }
   } catch (error) {
     setLoading(false);
-    
+
   }
 };
 
@@ -37,7 +37,7 @@ export const saveOutletAttribute = async (data, cb, setDisabled) => {
       setDisabled(false);
     }
   } catch (error) {
-    
+
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -55,7 +55,7 @@ export const editOutletAttribute = async (data, setDisabled) => {
       setDisabled(false);
     }
   } catch (error) {
-    
+
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -68,18 +68,18 @@ export const getOutletAttributeSigleData = async (ProfileId, setter) => {
     );
 
     let {
-      // eslint-disable-next-line no-unused-vars
+
       outletAttributeId,
       outletAttributeName,
-      // eslint-disable-next-line no-unused-vars
+
       accountId,
-      // eslint-disable-next-line no-unused-vars
+
       businessUnitId,
-      // eslint-disable-next-line no-unused-vars
+
       uicontrolType,
-      // eslint-disable-next-line no-unused-vars
+
       isMandatory,
-      // eslint-disable-next-line no-unused-vars
+
       actionBy,
     } = res?.data?.objAttribute;
     let row = res?.data?.objAttributeValue;
@@ -93,6 +93,6 @@ export const getOutletAttributeSigleData = async (ProfileId, setter) => {
     setter(obj);
     console.log(obj);
   } catch (error) {
-    
+
   }
 };

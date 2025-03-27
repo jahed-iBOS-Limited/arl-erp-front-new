@@ -40,7 +40,7 @@ const ShipmentPointOperatorTable = ({ values }) => {
 
   useEffect(() => {
     getData(values, pageNo, pageSize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [buId, values.businessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

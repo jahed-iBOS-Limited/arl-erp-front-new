@@ -63,7 +63,7 @@ export default function BusinessPartnerForm() {
     if (id) {
       GetStakeholderById(id, setLoading, setSingleData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, id]);
 
   const saveHandler = (values, cb) => {

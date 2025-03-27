@@ -114,7 +114,7 @@ export default function SalesContactViewForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [view]);
 
   //Dispatch Get PlantDDL & SalesOrgDDL & DistributionChannelDDL & SoldToPPId
@@ -144,7 +144,7 @@ export default function SalesContactViewForm({
         getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -289,7 +289,7 @@ export default function SalesContactViewForm({
         setRowDto(objListRowDTO);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   //Total Qty & Total Amount calculation
@@ -309,7 +309,7 @@ export default function SalesContactViewForm({
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <IForm

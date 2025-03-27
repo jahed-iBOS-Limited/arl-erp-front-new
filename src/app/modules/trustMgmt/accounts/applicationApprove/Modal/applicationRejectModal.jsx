@@ -23,7 +23,7 @@ export const ApplicationRejectModal = ({
     shallowEqual
   );
 
-  // eslint-disable-next-line no-unused-vars
+
   const [landingData, getRejectData] = useAxiosGet();
 
 
@@ -150,7 +150,7 @@ export const ApplicationRejectModal = ({
                     <p><strong>Contact No :</strong> {singleData?.strContactNo}</p>
                     <p><strong>Remarks :</strong> {singleData?.strRemarks}</p>
                     <p>
-                      <strong>Effective Date :</strong> 
+                      <strong>Effective Date :</strong>
                       {_dateFormatter(singleData?.dteEffectiveDate)}
                     </p>
                     <p><strong>Expiry Date : </strong> {_dateFormatter(singleData?.dteEndDate)}</p>

@@ -6,7 +6,7 @@ export default function ViewForm({ id }) {
   const [businessUnitData, setData] = useState("");
   useEffect(() => {
     getBusinessUnitById(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const getBusinessUnitById = async (id, accountId) => {

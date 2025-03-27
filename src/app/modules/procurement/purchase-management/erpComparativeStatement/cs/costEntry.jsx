@@ -82,7 +82,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
         `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const saveHandler = (values) => {

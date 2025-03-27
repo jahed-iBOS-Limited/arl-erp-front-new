@@ -46,7 +46,7 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
 
   useEffect(() => {
     cb();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [activityChange])
 
   let cb = () =>{
@@ -63,7 +63,7 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
       selectedPlant?.value
     );
   }
-  
+
 
   // one item select
   const itemSlectedHandler = (value, index) => {
@@ -227,11 +227,11 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
                     placeholder="Return PO Code Search"
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
-                  /> 
+                  />
               </div>
             </Form>
             {/* Table Start */}
-            {rowDto?.data?.length ?  
+            {rowDto?.data?.length ?
             <div className="table-responsive">
                <table className="table table-striped table-bordered global-table">
               <thead>
@@ -287,7 +287,7 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 

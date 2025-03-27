@@ -48,7 +48,7 @@ const EmailEditor = ({ emailEditorProps }) => {
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [intId, singleRowData]);
 
   // Regular expression to validate a single email address

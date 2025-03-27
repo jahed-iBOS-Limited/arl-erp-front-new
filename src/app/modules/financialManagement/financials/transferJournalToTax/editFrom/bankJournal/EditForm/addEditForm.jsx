@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { toast } from "react-toastify";
@@ -38,7 +38,7 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
   const [rowDto, setRowDto] = useState([]);
   const [objProps, setObjprops] = useState({});
   const [singleData, setSingleData] = useState([]);
-  
+
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
   const storeData = useSelector((state) => {
     return {
@@ -139,7 +139,7 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       singleDataById(journalId, journalTypeId, setSingleData);
     } else {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [journalId, journalTypeId]);
 
   useEffect(() => {
@@ -147,7 +147,7 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       setRowDto(singleData.objRow);
     } else {
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
 

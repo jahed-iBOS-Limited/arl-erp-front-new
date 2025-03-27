@@ -149,7 +149,7 @@ function Dashboardpdd() {
         setLoading,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -167,14 +167,14 @@ function Dashboardpdd() {
     return () => {
       clearInterval(refreshDataInterval); // Clear the interval on component unmount
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   function calculateTotals(options) {
     let total = 0;
 
     for (const key in options) {
-      if (options.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(options, key)) {
         total += options[key];
       }
     }

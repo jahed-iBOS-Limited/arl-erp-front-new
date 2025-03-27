@@ -69,7 +69,7 @@ export default function CompetencyForm({
     } else {
       dispatch(setCompetencyEmpty());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function CompetencyForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(getEmployeeClusterListAction());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

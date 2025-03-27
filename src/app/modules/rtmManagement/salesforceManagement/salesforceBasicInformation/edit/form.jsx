@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function _Form({
+function FormCmp({
   initData,
   btnRef,
   saveHandler,

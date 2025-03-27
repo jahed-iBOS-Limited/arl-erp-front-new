@@ -26,7 +26,7 @@ export default function ItemWiseSerialEdit() {
     return state.authData;
   }, shallowEqual);
 
-  // eslint-disable-next-line no-unused-vars
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -37,7 +37,7 @@ export default function ItemWiseSerialEdit() {
     getChallanNoDDL(
       `/wms/ItemWiseSerialUpdate/GetChallanListDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -117,7 +117,7 @@ export default function ItemWiseSerialEdit() {
               <Form className="form form-label-right">
                 {false && <Loading />}
                 {/* <div className="form-group  global-form">
-                  <div className="row">                   
+                  <div className="row">
                     <div className="col-lg-2">
                       <NewSelect
                         name="sbu"
@@ -151,7 +151,7 @@ export default function ItemWiseSerialEdit() {
                         value={values?.warehouse}
                         label="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouse", valueOption);                          
+                          setFieldValue("warehouse", valueOption);
                         }}
                         errors={errors}
                       />
@@ -193,7 +193,7 @@ export default function ItemWiseSerialEdit() {
                         value={values?.mrrNo}
                         label="Select MRR No"
                         onChange={(valueOption) => {
-                          setFieldValue("mrrNo", valueOption);                          
+                          setFieldValue("mrrNo", valueOption);
                         }}
                         errors={errors}
                       />
@@ -249,7 +249,7 @@ export default function ItemWiseSerialEdit() {
                                     value={rowData[index]?.challanNo}
                                     name="challanNo"
                                     type="text"
-                                    onChange={e => {                               
+                                    onChange={e => {
                                        rowDtoHandler(
                                           'challanNo',
                                           index,

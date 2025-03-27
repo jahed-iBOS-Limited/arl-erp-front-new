@@ -14,9 +14,9 @@ export function RoutingView({
 }) {
   const [isDisabled, setDisabled] = useState(true);
   const [singlePageData, setSinglePageData] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [plantNameDDL, setPlantNameDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [workCenterNameDDL, setWorkCenterNameDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);

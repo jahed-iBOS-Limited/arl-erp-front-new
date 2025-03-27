@@ -96,7 +96,7 @@ function AirOpsBookingList() {
 
   useEffect(() => {
     commonLandingApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData]);
 
   const commonLandingApi = (

@@ -13,7 +13,7 @@ const initData = {
 };
 
 export function ShipmentCostRatePermitLanding() {
-  // eslint-disable-next-line no-unused-vars
+
   const [gridData, setGridData] = useState([]);
   const [loading] = useState(false);
   //paginationState
@@ -41,7 +41,7 @@ export function ShipmentCostRatePermitLanding() {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       girdDataFunc(pageNo, pageSize);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize) => {

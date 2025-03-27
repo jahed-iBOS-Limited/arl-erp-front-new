@@ -41,7 +41,7 @@ export default function RespondentModal({
     getDistrictDDL(
       "/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0"
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   useEffect(() => {
     if (title === "Retailer") {
@@ -57,7 +57,7 @@ export default function RespondentModal({
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [title, respondedBuId]);
   return (
     <Formik

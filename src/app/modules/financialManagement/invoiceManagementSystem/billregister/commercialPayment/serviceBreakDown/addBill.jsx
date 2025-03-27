@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useState } from 'react';

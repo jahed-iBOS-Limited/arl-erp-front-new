@@ -145,12 +145,12 @@ export default function IndividualKpiEditForm({ isView, data }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     dispatch(getKpiEditedSingleDataAction(id, 1));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -231,7 +231,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const disableHandler = (cond) => {
@@ -248,7 +248,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
     if (id) {
       dispatch(getKpiEntryById(+id, 1));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -256,7 +256,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
       dispatch(setKpiTargetSingleEmpty());
       dispatch(SetEmployeeBasicInfoEmptyAction());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -278,7 +278,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
       );
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, editedSingleData, id]);
 
   useEffect(() => {
@@ -287,7 +287,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
         getEmployeeBasicInfoByIdAction(editedSingleData?.objHeader?.employeeId)
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [editedSingleData]);
 
   useEffect(() => {
@@ -301,7 +301,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   // dipatch getStrategicParticularsGridAction

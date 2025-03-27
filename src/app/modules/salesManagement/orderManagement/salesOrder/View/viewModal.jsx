@@ -72,7 +72,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
       dispatch(SetAvailableBalanceEmpty_Action());
       dispatch(SetUndeliveryValuesEmpty_Action());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // get single sales order  unit from store
@@ -154,7 +154,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id]);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleData]);
 
   useEffect(() => {
@@ -210,7 +210,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, singleData]);
 
   //total amount calculation
@@ -612,33 +612,33 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
 
                     {
                       buId===232 && id && singleData?.objDiscount?.length>0 ?
-                      
-                        
-                     
-                  
+
+
+
+
                       <p className="my-2">
                        {singleData?.objDiscount.map((item)=>(
                          <>
-                         <strong>{item?.commissionTypeName}: </strong>  
+                         <strong>{item?.commissionTypeName}: </strong>
                          {" "}
                          <span>{item?.numDiscountAmount}</span>
                          {" "}
                          </>
                        ))}
 
-                        <strong>Grand Total: </strong>  
+                        <strong>Grand Total: </strong>
                          {" "}
                          <span>{objDiscountGrandTotal}</span>
                          {" "}
                       </p>
-                   
-                  
-                   
-                   
-                        
+
+
+
+
+
                     :null
                     }
-                    
+
                   </div>
                 </div>
                 <div className="row justify-content-end">

@@ -76,7 +76,7 @@ const EditModal = ({
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [clickedRowData]);
 
   const saveHandler = (values, cb) => {

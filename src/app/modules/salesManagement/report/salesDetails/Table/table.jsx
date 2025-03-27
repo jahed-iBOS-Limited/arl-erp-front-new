@@ -151,7 +151,7 @@ export default function SalesDetailsTable({ saveHandler }) {
     getLoginInfo(
       `/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const reportId = (values) => {

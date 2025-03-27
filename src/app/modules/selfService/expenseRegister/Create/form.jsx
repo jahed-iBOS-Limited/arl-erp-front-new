@@ -69,10 +69,10 @@ export default function FormCmp({
   setUploadImage,
   location,
 }) {
-  // eslint-disable-next-line no-unused-vars
+
   const [transaction, setTransaction] = useState([]);
   // payment type state
-  // eslint-disable-next-line no-unused-vars
+
   const [paymentType, setPaymentType] = useState([]);
   //
   //category state
@@ -145,7 +145,7 @@ export default function FormCmp({
         setVehicleDDL,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, sbu?.value, selectedBusinessUnit]);
 
   const loadUserList = (v) => {
@@ -185,7 +185,7 @@ export default function FormCmp({
         }`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

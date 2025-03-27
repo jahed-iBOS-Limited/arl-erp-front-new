@@ -60,7 +60,7 @@ export default function PurchaseView({ viewClick, redirectAuditLogPage }) {
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (

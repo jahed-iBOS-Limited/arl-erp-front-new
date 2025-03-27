@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -154,7 +154,7 @@ export default function AdvanceCreateForm() {
     if (!location?.state && (!params?.id || params?.approval)) {
       history.push("/financial-management/expense/advance");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const [objProps, setObjprops] = useState({});

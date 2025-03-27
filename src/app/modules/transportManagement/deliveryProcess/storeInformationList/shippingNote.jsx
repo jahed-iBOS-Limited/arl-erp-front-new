@@ -30,7 +30,7 @@ export default function ShippingInfoDetails({ obj }) {
         `/oms/SalesInformation/sprTransportStatusByDeliveryId?intParid=${2}&intBusinessUnitId=${buId}&PKID=${id}`,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id, buId]);
 
   const getDeliveryShippingPrintInfoById = async (id) => {

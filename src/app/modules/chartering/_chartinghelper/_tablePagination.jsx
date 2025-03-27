@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@mui/styles';

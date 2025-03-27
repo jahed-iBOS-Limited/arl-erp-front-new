@@ -66,14 +66,14 @@ export function TableRow() {
         pageSize
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, shipPointDDL]);
   return (
     <>
       {/* Table Start */}
       <div className="row global-form">
         <div className="col-lg-3">
-          <label>Select ShipPoint</label>
+          <label>Select ShipPoint</label>
           <Select
             placeholder="Select Ship Point"
             value={selectShipPoint}

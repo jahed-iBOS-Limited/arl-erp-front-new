@@ -70,7 +70,7 @@ export default function ProfitCenterForm({
     } else {
       dispatch(setProfitCenterSingleEmpty())
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [id])
 
   //Dispatch Get emplist action for get emplist ddl
@@ -86,7 +86,7 @@ export default function ProfitCenterForm({
         )
       )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData])
 
   const saveHandler = async (values, cb) => {

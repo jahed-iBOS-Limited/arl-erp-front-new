@@ -86,7 +86,7 @@ export default function CallTab({ data }) {
   // get all ddl
   React.useEffect(() => {
     getScheduleTypeDDL(`/oms/SalesQuotation/GetFollowUpActivityTypeDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   return (
     <ICustomCard

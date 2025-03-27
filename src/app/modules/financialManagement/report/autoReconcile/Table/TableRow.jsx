@@ -69,7 +69,7 @@ export function TableRow() {
       selectedBusinessUnit?.value,
       setBankAccDDL,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit, profileData]);
   // const pdfExport = (fileName) => {
   //   var element = document.getElementById("pdf-section");

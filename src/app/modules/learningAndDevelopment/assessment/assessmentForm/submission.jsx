@@ -10,7 +10,7 @@ import IViewModal from '../../../_helper/_viewModal';
 import IndividualSubmissionModal from './modal/IndividualSubmissionModal';
 
 const Submissions = () => {
-    // eslint-disable-next-line no-unused-vars
+
     const [objProps, setObjprops] = useState({});
     const [isDisabled] = useState(false);
     const [rowData, getRowData, lodar] = useAxiosGet();
@@ -24,7 +24,7 @@ const Submissions = () => {
         getRowData(
             `/hcm/Training/GetTrainingSumissionLanding?scheduleId=${id}`
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     return (

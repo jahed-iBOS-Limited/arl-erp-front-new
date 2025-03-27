@@ -44,7 +44,7 @@ export default function MotherVesselBill() {
 
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
 
   const getData = (values, searchTerm) => {

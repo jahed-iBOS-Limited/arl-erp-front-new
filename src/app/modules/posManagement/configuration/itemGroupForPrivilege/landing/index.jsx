@@ -48,7 +48,7 @@ function ItemGroupForPrivilege() {
   //   if (profileData?.accountId && selectedBusinessUnit?.value) {
   //     commonGridFunc(_todayDate());
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //
   // }, [profileData, selectedBusinessUnit]);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -60,7 +60,7 @@ function ItemGroupForPrivilege() {
         setWareHouseDDL
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {

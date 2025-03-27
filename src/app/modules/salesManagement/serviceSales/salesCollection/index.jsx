@@ -90,7 +90,7 @@ export default function SalesCollectionLanding() {
     } else if (actionType === 2) {
       onCheckHandler();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [receivableAmount, actionType]);
 
   const onCheckHandler = () => {
@@ -142,7 +142,7 @@ export default function SalesCollectionLanding() {
       return;
     }
     getData({ typeId: initData?.type?.value, values: initData || {} });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit, initData]);
 
   const getData = ({ typeId, values }) => {

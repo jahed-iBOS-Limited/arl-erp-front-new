@@ -99,7 +99,7 @@ const SCFRegisterLandingPage = () => {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const SCFRegisterLandingPage = () => {
       handleInvoicePrint();
       setShowSCFPrintModal(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [singleItem]);
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const SCFRegisterLandingPage = () => {
       setLoading,
       0
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // function

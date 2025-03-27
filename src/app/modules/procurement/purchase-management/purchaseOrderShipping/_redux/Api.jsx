@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 import axios from "axios";
 
 //Call ordertype ddl APi

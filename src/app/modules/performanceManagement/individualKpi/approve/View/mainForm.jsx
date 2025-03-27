@@ -35,7 +35,7 @@ export default function ViewForm() {
 
   useEffect(() => {
     getTarget();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [kpiId, frId, year]);
 
   const saveHandler = async (values, cb) => {

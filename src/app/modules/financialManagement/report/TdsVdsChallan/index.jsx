@@ -41,7 +41,7 @@ export default function TdsVdsChallan() {
   };
   useEffect(() => {
     commonGetGridData(initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   console.log(tableData, 'tableData');

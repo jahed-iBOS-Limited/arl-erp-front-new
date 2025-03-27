@@ -9,7 +9,7 @@ function DelearsBenefotsViewModal({ intDealerRegistrationId }) {
         getViewData(
             `/partner/PartnerBenefitPolicy/GetPartnerBenefitPolicyById?DealerRegistrationId=${intDealerRegistrationId}`
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [intDealerRegistrationId]);
 
     const renderHeader = () => {

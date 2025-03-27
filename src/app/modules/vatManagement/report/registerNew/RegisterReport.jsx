@@ -92,7 +92,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
         setLoading
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const ths = ["SL", "Partner", "Partner Code", "Debit", "Credit", "Action"];

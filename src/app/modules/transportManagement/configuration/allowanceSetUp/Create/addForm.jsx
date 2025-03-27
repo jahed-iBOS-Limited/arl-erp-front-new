@@ -63,7 +63,7 @@ export default function AllowanceSetUpCreateForm() {
         setRowDto
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [params]); // location
 
   const saveHandler = async (values, cb) => {

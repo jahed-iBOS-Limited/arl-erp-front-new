@@ -60,7 +60,7 @@ export default function RawMaterialAutoPRNew() {
     if (selectedBusinessUnit) {
       getPlantDDL(profileData?.userId,profileData?.accountId,selectedBusinessUnit?.value,setPlantDDL)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};

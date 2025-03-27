@@ -44,7 +44,7 @@ export default function DetailsSalesPlanLanding() {
     getGridData(
       `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.label}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=500&ViewOrder=desc`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};
@@ -410,7 +410,7 @@ export default function DetailsSalesPlanLanding() {
                   </>
                 </table>
                           </div>
-                
+
               )}
             </Form>
           </IForm>

@@ -42,7 +42,7 @@ export default function GodownRateConfigLanding() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [accId, buId]);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
