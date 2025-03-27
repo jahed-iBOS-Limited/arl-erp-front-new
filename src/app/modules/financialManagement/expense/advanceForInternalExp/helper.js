@@ -39,7 +39,7 @@ export const getEMP = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       const addVanceDDL = res?.data.map((item) => {
         return {
-          label: `${item.label} (${item.value}) `,
+          label: `${item.label} (${item.value})`,
           value: item.value,
         };
       });
@@ -69,7 +69,7 @@ export const getRequestedEmp = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       const addVanceDDL = res?.data.map((item) => {
         return {
-          label: `${item.label} (${item.value}) `,
+          label: `${item.label} (${item.value}) `,
           value: item.value,
         };
       });
