@@ -23,6 +23,7 @@ import { initData, validationSchema } from "./helper";
 import RowDtoTable from "./rowDtoTable";
 import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { debounce } from "lodash";
 
 const { actions: slice } = invTransactionSlice;
 

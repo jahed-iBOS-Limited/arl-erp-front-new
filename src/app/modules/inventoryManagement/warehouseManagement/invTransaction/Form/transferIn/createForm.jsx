@@ -30,6 +30,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import './style.css';
+import { debounce } from 'lodash';
 
 const { actions: slice } = invTransactionSlice;
 
