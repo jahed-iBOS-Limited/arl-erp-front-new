@@ -1,9 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable prefer-rest-params */
-/* eslint-disable @typescript-eslint/no-this-alias */
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-prototype-builtins */
-
 'use strict';
 
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -206,7 +200,7 @@ export var KTUtil = (function () {
      * Trigger window resize handlers.
      */
     runResizeHandlers: function () {
-      _runResizeHandlers();
+
     },
 
     resize: function () {
@@ -1086,7 +1080,7 @@ export var KTUtil = (function () {
       method = 'scroll' + method;
       return element == window || element == document
         ? self[method == 'scrollTop' ? 'pageYOffset' : 'pageXOffset'] ||
-            (browserSupportsBoxModel && document.documentElement[method]) ||
+            (document.documentElement[method]) ||
             document.body[method]
         : element[method];
     },
@@ -1973,18 +1967,10 @@ export var KTUtil = (function () {
   };
 })();
 
-// webpack support
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  // module.exports = KTUtil;
-}
 
 // Initialize KTUtil class on document ready
 KTUtil.ready(function () {
-  if (typeof KTAppSettings !== 'undefined') {
-    KTUtil.init(KTAppSettings);
-  } else {
-    KTUtil.init();
-  }
+  KTUtil.init();
 });
 
 // CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)

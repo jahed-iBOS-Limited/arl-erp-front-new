@@ -18,11 +18,6 @@ import axios from 'axios';
 import AdvanceCreateModel from './addvanceModel';
 import { GetAdvanceForSupplierById } from './../helper';
 
-// Validation schema
-
- no-useless-escape
-//const digitsOnly = (value) => /^\d*[\.{1}\d*]\d*$/.test(value) || value.length === 0;
-
 const validationSchema = Yup.object().shape({
   invoiceNumber: Yup.string()
     .min(1, 'Minimum 2 symbols')

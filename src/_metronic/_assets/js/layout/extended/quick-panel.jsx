@@ -1,6 +1,8 @@
 
 'use strict';
 
+import $ from 'jquery';
+
 import { KTUtil } from './../../components/util';
 import KTOffcanvas from './../../components/offcanvas';
 

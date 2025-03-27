@@ -326,7 +326,7 @@ export default function HeaderForm({
                     values?.orderType;
 
                   const isNonDevelopment =
-                    process.env.NODE_ENV !== 'development';
+                  import.meta.env.NODE_ENV !== 'development';
                   const isNotBusinessUnitiBOS =
                     selectedBusinessUnit?.value !== 184;
                   const isStandardPO =

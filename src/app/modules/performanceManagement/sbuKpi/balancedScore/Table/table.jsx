@@ -379,7 +379,7 @@ export default function BalancedTable() {
                 sbuName:sbu?.label
               }))
               window.open(
-                `${process.env.PUBLIC_URL}/sbu-balanced-scorecard`,
+                `${import.meta.env.PUBLIC_URL}/sbu-balanced-scorecard`,
                 "_blank"
               )
             }}

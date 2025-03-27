@@ -13,6 +13,8 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _monthLastDate } from "../../../../_helper/_monthLastDate";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 const initData = {
     status: { value: 0, label: "Pending" },

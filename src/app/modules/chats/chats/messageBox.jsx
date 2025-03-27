@@ -26,7 +26,7 @@ const MessageBox = ({
   const [typing, setTyping] = useState(false);
   const [typingInfo, setTypingInfo] = useState("");
 
-  // let socket = io(process.env.REACT_APP_CHAT_BACKEND_URL, {
+  // let socket = io(import.meta.REACT_APP_CHAT_BACKEND_URL, {
   //   withCredentials: true,
   //   extraHeaders: {
   //     "my-custom-header": "abcd",
@@ -34,7 +34,7 @@ const MessageBox = ({
   // });
 
   // useEffect(() => {
-  //   let socket = io(process.env.REACT_APP_CHAT_BACKEND_URL, {
+  //   let socket = io(import.meta.REACT_APP_CHAT_BACKEND_URL, {
   //     withCredentials: true,
   //     extraHeaders: {
   //       "my-custom-header": "abcd",

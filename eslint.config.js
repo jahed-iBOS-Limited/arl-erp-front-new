@@ -32,7 +32,6 @@ export default tseslint.config(
       'prefer-const': 'off',
       'no-extra-boolean-cast': 'off',
       'no-unsafe-optional-chaining': 'off',
-      // 'no-undef': 'off',
       'no-constant-condition': 'off',
       'jsx-a11y/no-distracting-elements': 'off',
       'no-empty': 'off',

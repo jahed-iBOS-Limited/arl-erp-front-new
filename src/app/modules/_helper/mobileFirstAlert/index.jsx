@@ -21,7 +21,7 @@ function MobileFirstAlert() {
       userAgent,
     );
   useEffect(() => {
-    if (!isMobileUser && process.env.NODE_ENV !== 'development') {
+    if (!isMobileUser && import.meta.NODE_ENV !== 'development') {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide

@@ -239,7 +239,7 @@ export function Routes() {
     };
 
     if (
-      process.env.NODE_ENV === 'production' &&
+      import.meta.NODE_ENV === 'production' &&
       window.location.origin !== 'https://deverp.ibos.io' &&
       window.innerWidth > 768
     ) {
@@ -253,7 +253,7 @@ export function Routes() {
   // useEffect(() => {
   //   let interval = null;
   //   if (
-  //     process.env.NODE_ENV === 'production' &&
+  //     import.meta.NODE_ENV === 'production' &&
   //     window.location.origin !== 'https://deverp.ibos.io'
   //   ) {
   //     interval = setInterval(() => {

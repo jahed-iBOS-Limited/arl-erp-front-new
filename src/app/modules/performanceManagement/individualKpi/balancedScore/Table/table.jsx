@@ -434,7 +434,7 @@ export default function BalancedTable() {
                                 reportIndex:indx
                               }))
                               window.open(
-                                `${process.env.PUBLIC_URL}/individual-kpi-scorecard`,
+                                `${import.meta.env.PUBLIC_URL}/individual-kpi-scorecard`,
                                 "_blank"
                               );
                             }

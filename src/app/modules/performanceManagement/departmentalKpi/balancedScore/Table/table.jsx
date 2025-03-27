@@ -333,7 +333,7 @@ export default function BalancedTable() {
                 reportIndex:item?.flatIndex
               }))
               window.open(
-                `${process.env.PUBLIC_URL}/departmental-balanced-scorecard`,
+                `${import.meta.PUBLIC_URL}/departmental-balanced-scorecard`,
                 "_blank"
               );
             }}
