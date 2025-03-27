@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import InputField from "../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import TextArea from "../../../../_helper/TextArea";
 
 const initData = {
@@ -81,7 +81,7 @@ export const ApplicationApproveModal = ({
         enableReinitialize={true}
         // validationSchema={validationSchema}
         initialValues={singleData ? modifyData : initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
@@ -226,13 +226,13 @@ export const ApplicationApproveModal = ({
                   <div className="col-md-6">
                     <p><strong>Amount :</strong> {singleData?.monAmount}</p>
                     <p><strong>Mode of Payment :</strong> {singleData?.strModeOfPayment}</p>
-                    <p><strong>Donation Name :</strong> {singleData?.strDonationName}</p>
+                    <p><strong>Donation Name :</strong> {singleData?.strDonationName || ""}</p>
                     <p>
                       <strong>Cause of Donation/Zakat :</strong> {singleData?.strDonationType}
                     </p>
                     <p><strong>Donation Purpose :</strong> {singleData?.strDonationPurpose}</p>
                     <p>
-                      <strong>Hospitals/Institutes :</strong> {singleData?.strOrganizationName}
+                      <strong>Hospitals/Institutes :</strong> {singleData?.strOrganizationName || ""}
                     </p>
                     <p><strong>National ID :</strong> {singleData?.strNationalID}</p>
 
@@ -248,7 +248,7 @@ export const ApplicationApproveModal = ({
                         );
                       }}
                     >
-                      <strong>Attachment :</strong> <span style={{color: "#3699FF" ,cursor: "pointer"}}>{singleData?.strAttachmentUrl}</span>
+                      <strong>Attachment :</strong> <span style={{ color: "#3699FF", cursor: "pointer" }}>{singleData?.strAttachmentUrl}</span>
                     </p>
                   </div>
                 </div>
