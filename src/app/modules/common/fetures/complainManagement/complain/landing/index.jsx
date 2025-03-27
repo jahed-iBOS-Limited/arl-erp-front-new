@@ -57,7 +57,6 @@ const ComplainLanding = (featureName) => {
 
   useEffect(() => {
     if (accId && buId) {
-      // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
       getBusinessUnitDDLApi(accId, setBusinessUnitDDL);

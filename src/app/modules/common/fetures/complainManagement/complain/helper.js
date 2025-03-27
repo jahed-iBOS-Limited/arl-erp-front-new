@@ -3,20 +3,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-export const employeEnroll_Api = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modify = res?.data?.map((itm) => ({
-        value: itm.value,
-        label: `${itm.label} (${itm.value})`,
-      }));
-      setter(modify);
-    }
-  } catch (error) { }
-};
+
 export const getComplainStatus = async (buId, setter) => {
   try {
     const res = await axios.get(

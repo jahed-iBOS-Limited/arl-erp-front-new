@@ -11,12 +11,11 @@ import PaginationTable from "../../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import {
   complainLandingPasignationByEmployeeId,
-  getComplainCategory,
   getComplainStatus,
   respondentTypeDDL,
 } from "../helper";
 import LandingTable from "./table";
-import { getBusinessUnitDDLApi } from "../../complain/helper";
+import { getBusinessUnitDDLApi, getComplainCategory } from "../../complain/helper";
 
 const initData = {
   respondentType: {
@@ -55,7 +54,6 @@ const ResolutionLanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
       getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
@@ -89,14 +87,14 @@ const ResolutionLanding = () => {
 
   const pathname = window.location.pathname;
 
-const title =
+  const title =
     pathname === "/self-service/my-complaint"
-        ? "My Feedback"
-        : pathname.includes("/complainmanagement/Delegate")
-            ? "Delegate"
-            : pathname.includes("/complainmanagement/investigate")
-                ? "Investigate"
-                : "";
+      ? "My Feedback"
+      : pathname.includes("/complainmanagement/Delegate")
+        ? "Delegate"
+        : pathname.includes("/complainmanagement/investigate")
+          ? "Investigate"
+          : "";
   return (
     <>
       {loading && <Loading />}
@@ -131,7 +129,7 @@ const title =
                 <div className='col-lg-3'>
                   <NewSelect
                     name='respondentBusinessUnit'
-                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    options={[{ value: 0, label: "All" }, ...businessUnitDDL] || []}
                     value={values?.respondentBusinessUnit}
                     label='Respondent Business Unit'
                     onChange={(valueOption) => {
