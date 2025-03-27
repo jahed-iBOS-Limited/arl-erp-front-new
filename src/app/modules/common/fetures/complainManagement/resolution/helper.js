@@ -2,20 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-export const employeEnroll_Api = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modify = res?.data?.map((itm) => ({
-        value: itm.value,
-        label: `${itm.label} (${itm.value})`,
-      }));
-      setter(modify);
-    }
-  } catch (error) { }
-};
+
 export const getComplainStatus = async (buId, setter) => {
   try {
     const res = await axios.get(
@@ -24,14 +11,7 @@ export const getComplainStatus = async (buId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
-export const getComplainCategory = async (buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
-    );
-    setter(res?.data);
-  } catch (error) { }
-};
+
 export const getComplainById = async (
   complainId,
   accId,
@@ -87,37 +67,6 @@ export const getComplainById = async (
   }
 };
 
-
-
-
-
-export const createComplain = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.post(`/oms/CustomerPoint/CreateComplain`, payload);
-    cb();
-    toast.success(res?.data?.message);
-    setLoading(false);
-  } catch (err) {
-    toast.error(err?.response?.data?.message);
-    setLoading(false);
-  }
-};
-export const updateComplain = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.put(
-      `/oms/CustomerPoint/UpdateAndDelegateComplain`,
-      payload
-    );
-    cb && cb();
-    toast.success(res?.data?.message);
-    setLoading(false);
-  } catch (err) {
-    toast.error(err?.response?.data?.message);
-    setLoading(false);
-  }
-};
 export const investigateReviewApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
@@ -213,58 +162,8 @@ export const saveColseComplainApi = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
-export const customerListDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
-    );
-    setter(
-      res?.data?.map((itm) => {
-        return {
-          ...itm,
-          label: `${itm?.label} (${itm?.code})`,
-        };
-      })
-    );
-  } catch (error) {
-    setter([]);
-  }
-};
-export const getDistributionChannelDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
-    );
-    setter(res?.data || []);
-  } catch (error) {
-    setter([]);
-  }
-};
-export const getSupplierDDLApi = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
-export const getItemSalesByChanneldDDLApi = async (
-  accId,
-  buId,
-  dcId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
-    );
-    setter(res?.data || []);
-  } catch (error) {
-    setter([]);
-  }
-};
+
+
 export const getInvestigateComplainbyApi = async (complainId, setter) => {
   try {
     const res = await axios.get(

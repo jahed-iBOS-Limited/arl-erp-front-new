@@ -45,8 +45,8 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
             <div className="col-lg-12">
               <TextArea
                 name="feedback"
-                value={values?.feedback || ''}
-                placeholder="FeedBack"
+                value={values?.feedback}
+                placeholder="Feed Back"
                 touched={touched}
                 rows="3"
                 onChange={(e) => {
