@@ -94,8 +94,8 @@ function FeedbackModal({ clickRowData, landingCB }) {
                 placeholder="FeedBack"
                 touched={touched}
                 rows="3"
-                onChange={(e) => {
-                  setFieldValue('feedback', e.target.value);
+                onChange={(event) => {
+                  setFieldValue('feedback', event.target.value);
                 }}
                 errors={errors}
               />

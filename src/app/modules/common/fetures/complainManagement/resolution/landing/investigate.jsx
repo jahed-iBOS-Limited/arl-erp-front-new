@@ -162,7 +162,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Issue Id:</b> {singleData?.complainNo}
                 </p>
                 <p>
-                  <b>Issue Type:</b> {singleData?.complainCategoryName}
+                  <b>Issue Type:</b> {singleData?.complainCategoryName || ""}
                 </p>
                 <p>
                   <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
@@ -183,7 +183,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Issue Details:</b> {singleData?.description}
                 </p>
                 <p>
-                  <b>Respondent Type:</b> {singleData?.respondentTypeName}
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName || ""}
                 </p>
                 <p>
                   <b>Respondent Name:</b> {singleData?.respondentType}
@@ -217,20 +217,20 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 </p>
                 <p>
                   <b>Delegate Date Time:</b>{' '}
-                  {singleData?.delegateDateTime &&
+                  {moment(singleData?.delegateDateTime).isValid() &&
                     moment(singleData?.delegateDateTime).format(
                       'YYYY-MM-DD, HH:mm A',
                     )}
                 </p>
                 <p>
-                  <b>Delegate To:</b> {singleData?.delegateToName}
+                  <b>Delegate To:</b> {singleData?.delegateToName || ""}
                 </p>
                 <p>
-                  <b> Remarks:</b> {singleData?.statusRemarks}
+                  <b> Remarks:</b> {singleData?.statusRemarks || ""}
                 </p>
                 {singleData?.respondentTypeName === 'Employee' && (
                   <p>
-                    <b> Work Place:</b> {singleData?.workPlace}
+                    <b> Work Place:</b> {singleData?.workPlace || ""}
                   </p>
                 )}
                 {singleData?.respondentTypeName === 'End User' && (

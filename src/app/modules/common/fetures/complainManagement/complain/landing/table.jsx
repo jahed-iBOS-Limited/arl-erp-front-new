@@ -1,3 +1,4 @@
+import { Rating } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -7,11 +8,10 @@ import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import IEdit from '../../../../../_helper/_helperIcons/_edit';
 import IView from '../../../../../_helper/_helperIcons/_view';
 import IViewModal from '../../../../../_helper/_viewModal';
-import FeedbackModal from '../../resolution/landing/feedbackModal';
-import InvoiceView from './invoiceView';
 import { saveColseComplainApi } from '../../resolution/helper';
-import { Rating } from '@mui/material';
+import FeedbackModal from '../../resolution/landing/feedbackModal';
 import FeedbackModalAfterClosing from './feedbackModal';
+import InvoiceView from './invoiceView';
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
@@ -81,7 +81,7 @@ const LandingTable = ({ obj }) => {
                     <OverlayTrigger
                       overlay={
                         <Tooltip className="mytooltip" id="info-tooltip">
-                          <>
+                          <React.Fragment>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
                                 style={{
@@ -90,7 +90,7 @@ const LandingTable = ({ obj }) => {
                                 }}
                               >
                                 <p>
-                                  <b>Investigation: </b>
+                                  <strong>Investigation: </strong>
                                   {itm?.investigatorName}
                                   {itm?.investigationDueDate && (
                                     <>
@@ -115,7 +115,7 @@ const LandingTable = ({ obj }) => {
                                 </p>
                               </div>
                             ))}
-                          </>
+                          </React.Fragment>
                         </Tooltip>
                       }
                     >
@@ -124,6 +124,7 @@ const LandingTable = ({ obj }) => {
                           cursor: 'pointer',
                           color: 'blue',
                           textDecoration: 'underline',
+                          fontWeight: 'normal'
                         }}
                       >
                         {(matchEmployeeId?.investigatorName || defaultEnvEmp) &&
@@ -195,10 +196,10 @@ const LandingTable = ({ obj }) => {
                           item?.status === 'Open'
                             ? 'red'
                             : item?.status === 'Delegate'
-                            ? 'blue'
-                            : item?.status === 'Investigate'
-                            ? 'orrage'
-                            : 'green',
+                              ? 'blue'
+                              : item?.status === 'Investigate'
+                                ? 'orrage'
+                                : 'green',
                       }}
                     >
                       {item?.status}

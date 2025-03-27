@@ -20,7 +20,7 @@ const initData = {
   process: '',
 };
 export default function ComplainAssignConfigLanding() {
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const history = useHistory();
   const [businessUnitDDL, getBusinessUnitDDL] = useAxiosGet([]);
   const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
@@ -145,6 +145,7 @@ export default function ComplainAssignConfigLanding() {
                     }}
                     errors={errors}
                     touched={touched}
+                    placeholder="Assign Business Unit"
                   />
                 </div>
                 <div
@@ -161,6 +162,7 @@ export default function ComplainAssignConfigLanding() {
                     }}
                     errors={errors}
                     touched={touched}
+                    placeholder="Issue Type"
                   />
                 </div>
                 <div className="col-lg-3  ">
@@ -204,6 +206,8 @@ export default function ComplainAssignConfigLanding() {
                     }}
                     errors={errors}
                     touched={touched}
+                    placeholder="Process"
+
                   />
                 </div>
                 <div className="col-lg-2">

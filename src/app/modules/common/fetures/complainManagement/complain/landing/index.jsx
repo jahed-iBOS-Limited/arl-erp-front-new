@@ -119,7 +119,7 @@ const ComplainLanding = (featureName) => {
                     value={values?.respondentType}
                     label='Respondent Type'
                     onChange={(valueOption) => {
-                      setFieldValue("respondentType", valueOption || "");
+                      setFieldValue("respondentType", valueOption);
                       setGridData([]);
                     }}
                     placeholder='Respondent Type'
@@ -157,7 +157,7 @@ const ComplainLanding = (featureName) => {
                     value={values?.status}
                     label='Status'
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption || "");
+                      setFieldValue("status", valueOption);
                       setGridData([]);
                     }}
                     placeholder='Status'
@@ -217,6 +217,7 @@ const ComplainLanding = (featureName) => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
+                    type="button"
                   >
                     View
                   </button>

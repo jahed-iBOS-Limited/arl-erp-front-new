@@ -795,7 +795,6 @@ function Form({
                 </div>
               </div>
             </form>
-
             <DropzoneDialogBase
               filesLimit={1}
               acceptedFiles={['image/*', 'application/pdf']}
@@ -804,12 +803,12 @@ function Form({
               submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
-              onAdd={(newFileObjs) => {
-                setFileObjects([].concat(newFileObjs));
+              onAdd={(newObj) => {
+                setFileObjects([].concat(newObj));
               }}
-              onDelete={(deleteFileObj) => {
+              onDelete={(delObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== delObj.file.name,
                 );
                 setFileObjects(newData);
               }}
