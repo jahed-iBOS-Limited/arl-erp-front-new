@@ -29,6 +29,7 @@ import Loading from '../../../../../_helper/_loading';
 import axios from 'axios';
 const { actions: slice } = invTransactionSlice;
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
+import { debounce } from 'lodash';
 export default function ReceiveInvCreateForm({
   btnRef,
   resetBtnRef,
@@ -386,6 +387,11 @@ export default function ReceiveInvCreateForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -394,8 +400,14 @@ export default function ReceiveInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

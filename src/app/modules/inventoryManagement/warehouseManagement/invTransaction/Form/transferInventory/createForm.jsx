@@ -23,6 +23,7 @@ import { initData, validationSchema } from "./helper";
 import RowDtoTable from "./rowDtoTable";
 import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { debounce } from "lodash";
 
 const { actions: slice } = invTransactionSlice;
 
@@ -338,6 +339,11 @@ export default function TransferInvCreateForm({
     }
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
       {isDisabled && <Loading />}
@@ -346,9 +352,15 @@ export default function TransferInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setAttachmentFile("");
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setAttachmentFile("");
+              });
+            },
           });
         }}
       >
