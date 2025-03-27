@@ -67,21 +67,6 @@ export const getComplainById = async (
   }
 };
 
-export const updateComplain = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.put(
-      `/oms/CustomerPoint/UpdateAndDelegateComplain`,
-      payload
-    );
-    cb && cb();
-    toast.success(res?.data?.message);
-    setLoading(false);
-  } catch (err) {
-    toast.error(err?.response?.data?.message);
-    setLoading(false);
-  }
-};
 export const investigateReviewApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
@@ -177,58 +162,8 @@ export const saveColseComplainApi = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
-export const customerListDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
-    );
-    setter(
-      res?.data?.map((itm) => {
-        return {
-          ...itm,
-          label: `${itm?.label} (${itm?.code})`,
-        };
-      })
-    );
-  } catch (error) {
-    setter([]);
-  }
-};
-export const getDistributionChannelDDL = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
-    );
-    setter(res?.data || []);
-  } catch (error) {
-    setter([]);
-  }
-};
-export const getSupplierDDLApi = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) { }
-};
-export const getItemSalesByChanneldDDLApi = async (
-  accId,
-  buId,
-  dcId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
-    );
-    setter(res?.data || []);
-  } catch (error) {
-    setter([]);
-  }
-};
+
+
 export const getInvestigateComplainbyApi = async (complainId, setter) => {
   try {
     const res = await axios.get(

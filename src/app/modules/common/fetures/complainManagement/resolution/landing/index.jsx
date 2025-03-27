@@ -115,7 +115,7 @@ const ResolutionLanding = () => {
                         ...respondentTypeDDL,
                       ] || []
                     }
-                    value={values?.respondentType}
+                    value={values?.respondentType || ""}
                     label='Respondent Type'
                     onChange={(valueOption) => {
                       setFieldValue("respondentType", valueOption || "");
@@ -130,7 +130,7 @@ const ResolutionLanding = () => {
                   <NewSelect
                     name='respondentBusinessUnit'
                     options={[{ value: 0, label: "All" }, ...businessUnitDDL] || []}
-                    value={values?.respondentBusinessUnit}
+                    value={values?.respondentBusinessUnit || ""}
                     label='Respondent Business Unit'
                     onChange={(valueOption) => {
                       setFieldValue(
@@ -154,7 +154,7 @@ const ResolutionLanding = () => {
                         ...complainStatus,
                       ] || []
                     }
-                    value={values?.status}
+                    value={values?.status || ""}
                     label='Status'
                     onChange={(valueOption) => {
                       setFieldValue("status", valueOption || "");
@@ -225,8 +225,8 @@ const ResolutionLanding = () => {
 
               <PaginationSearch
                 placeholder='Search By Issue, Code, Name'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, values, searchValue);
+                paginationSearchHandler={(search) => {
+                  commonGridData(1, pageSize, values, search);
                 }}
                 values={values}
               />

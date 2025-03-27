@@ -173,21 +173,7 @@ export const updateComplain = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
-export const investigateComplainApi = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.put(
-      `/oms/CustomerPoint/InvestigateComplain`,
-      payload
-    );
-    cb && cb();
-    toast.success(res?.data?.message);
-    setLoading(false);
-  } catch (err) {
-    toast.error(err?.response?.data?.message);
-    setLoading(false);
-  }
-};
+
 export const customerListDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
@@ -236,7 +222,7 @@ export const getItemSalesByChanneldDDLApi = async (
       `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
     );
     setter(res?.data || []);
-  } catch (error) {
+  } catch (e) {
     setter([]);
   }
 };
