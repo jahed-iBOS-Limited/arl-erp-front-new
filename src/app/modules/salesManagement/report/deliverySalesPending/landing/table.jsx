@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/no-distracting-elements */
+
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";

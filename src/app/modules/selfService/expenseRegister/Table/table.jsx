@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/no-distracting-elements */
+
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";

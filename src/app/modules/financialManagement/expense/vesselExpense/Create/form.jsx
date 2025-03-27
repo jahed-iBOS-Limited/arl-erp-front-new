@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/no-distracting-elements */
+
 import Axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';

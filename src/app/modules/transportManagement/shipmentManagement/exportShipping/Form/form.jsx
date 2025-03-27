@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/no-distracting-elements */
+
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/no-distracting-elements */
+
 import { Formik } from "formik";
 import React from "react";
 import ICustomCard from "../../../../_helper/_customCard";

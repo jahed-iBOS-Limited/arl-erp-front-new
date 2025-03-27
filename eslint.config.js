@@ -34,6 +34,7 @@ export default tseslint.config(
       'no-unsafe-optional-chaining': 'off',
       'no-undef': 'off',
       'no-constant-condition': 'off',
+      'jsx-a11y/no-distracting-elements': 'off',
     },
   },
 );

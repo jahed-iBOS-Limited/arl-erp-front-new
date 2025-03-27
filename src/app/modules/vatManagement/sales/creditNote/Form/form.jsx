@@ -429,7 +429,6 @@ export default function FormCmp({
                           <td style={{ width: "30px" }}>
                             <div className='text-left'>
                               <input
-                                value={rowDto[index]?.returnSd}
                                 onChange={(e) => {
                                   rowDtoHandler(
                                     "returnSd",
