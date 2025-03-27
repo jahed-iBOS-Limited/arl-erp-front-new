@@ -793,7 +793,7 @@ export default function FormCmp({
                                 .then((data) => {
                                   setAttachmentFile(data?.[0]?.id);
                                 })
-                                .catch((error) => {
+                                .catch((err) => {
                                   setAttachmentFile("");
                                 });
                             }

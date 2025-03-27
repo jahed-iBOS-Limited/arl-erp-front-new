@@ -46,7 +46,7 @@ const ViewModal = ({ currentItem }) => {
         </thead>
         <tbody>
           {rowDto?.map((data, i) => (
-            <tr key={i + 1}>
+            <tr key={i}>
               <td>{i + 1}</td>
               <td> {data?.strFileUrl} </td>
               <td className="text-center">

@@ -73,8 +73,8 @@ const FormCmp = ({
   };
 
   const formats = [
-    "header",
     "font",
+    "header",
     "size",
     "bold",
     "italic",
@@ -86,7 +86,6 @@ const FormCmp = ({
     "bullet",
     "indent",
     "link",
-    // "image",
   ];
 
   const modules = {
@@ -101,7 +100,6 @@ const FormCmp = ({
         { align: "justify" },
       ],
       [{ list: "ordered" }, { list: "bullet" }],
-      // ["link", "image"],
     ],
   };
 
@@ -286,7 +284,7 @@ const FormCmp = ({
                                     setAttachmentFile(data?.[0]?.id);
                                     setAttachmentFileName(data[0]);
                                   })
-                                  .catch((error) => {
+                                  .catch(() => {
                                     toast.warn("Failed, try again");
                                   });
                               }

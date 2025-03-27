@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
 import React from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
-import TextArea from "../../../../_helper/TextArea";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import TextArea from "../../../../_helper/TextArea";
 
 const initData = {
   reason: "",
@@ -18,7 +18,7 @@ export const ApplicationRejectModal = ({
   filterObj,
 }) => {
 
-  const {profileData} = useSelector(
+  const { profileData } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
@@ -68,7 +68,7 @@ export const ApplicationRejectModal = ({
         enableReinitialize={true}
         // validationSchema={validationSchema}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({
           handleSubmit,
@@ -141,19 +141,20 @@ export const ApplicationRejectModal = ({
                 </div>
                 <div style={{ marginLeft: "50px" }} className="row">
                   <div className="col-md-6">
-                    <p><strong>Applicant's Name :</strong> {singleData?.strApplicantName}</p>
+                    <p><strong>Applicant's Name :</strong> {singleData?.strApplicantName || ""}</p>
                     <p><strong>Name of Beneficiary :</strong> {singleData?.strPatientName}</p>
                     <p>
                       <strong>Account Holder's Name :</strong> {singleData?.strAccountHolderName}
                     </p>
                     <p><strong>Address :</strong> {singleData?.strAddress}</p>
-                    <p><strong>Contact No :</strong> {singleData?.strContactNo}</p>
+                    <p><strong>Contact No :</strong> {singleData?.strContactNo || ""}</p>
                     <p><strong>Remarks :</strong> {singleData?.strRemarks}</p>
                     <p>
                       <strong>Effective Date :</strong>
                       {_dateFormatter(singleData?.dteEffectiveDate)}
                     </p>
                     <p><strong>Expiry Date : </strong> {_dateFormatter(singleData?.dteEndDate)}</p>
+                    <div />
                   </div>
                   <div className="col-md-6">
                     <p><strong>Amount :</strong> {singleData?.monAmount}</p>
@@ -176,7 +177,7 @@ export const ApplicationRejectModal = ({
                         );
                       }}
                     >
-                      <strong>Attachment :</strong> <span style={{color: "#3699FF", cursor: "pointer"}}>{singleData?.strAttachmentUrl}</span>
+                      <strong>Attachment :</strong> <span style={{ color: "#3699FF", cursor: "pointer" }}>{singleData?.strAttachmentUrl}</span>
                     </p>
                   </div>
                 </div>

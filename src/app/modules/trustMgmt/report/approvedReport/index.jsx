@@ -90,14 +90,13 @@ const ApprovedReport = () => {
           <>
             <Form className="form form-label-right">
               <Card>
-                {true && <ModalProgressBar />}
+                <ModalProgressBar />
                 <CardHeader title={"Approved Report"}></CardHeader>
                 <CardBody>
                   <div className="mt-0">
                     <div className="form-group row global-form">
                       <div className="col-8">
                         <div className="row">
-                          {/* first row */}
                           <div className="col-lg-2 mb-2">
                             <div className="d-flex align-items-center h-100">
                               Unit Name

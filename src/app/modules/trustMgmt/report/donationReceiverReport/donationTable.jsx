@@ -11,13 +11,13 @@ const DonationTable = ({ rowDto }) => {
   const dispatch = useDispatch();
   return (
     <>
-      <h6 style={{marginBottom: 0, paddingTop: "30px"}}>Information About Donation Receiver:</h6>
+      <h6 style={{ marginBottom: 0, paddingTop: "30px" }}>Information About Donation Receiver:</h6>
       <ICustomTable ths={header}>
-      {rowDto?.length > 0 &&
+        {rowDto?.length > 0 &&
           rowDto?.map((item, index) => (
-            <tr className="text-center" key={index}>
+            <tr className="text-center" key={index + 1}>
               <td>{++index}</td>
-              <td>{item?.intApplicationID}</td>
+              <td>{item?.intApplicationID || ""}</td>
               <td>{item?.strRegistrationNo}</td>
               <td>{_dateFormatter(item?.dteApplicationDate)}</td>
               <td>{item?.strAccountHolderName}</td>
