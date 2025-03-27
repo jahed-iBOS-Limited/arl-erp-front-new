@@ -329,19 +329,7 @@ export default function FormCmp({
                     name="lastUpdatedDate"
                   />
                 </div>
-                {/* <div className="col-lg-6 d-flex align-items-center justify-concern-center mt-5">
-                  <input
-                    style={{ width: "15px", height: "15px" }}
-                    name="checkBox"
-                    checked={values?.checkBox}
-                    className="form-control mr-3"
-                    type="checkbox"
-                    onChange={(e) => {
-                      setFieldValue("checkBox", e.target.checked);
-                    }}
-                  />
-                  <label>Applied</label>
-                </div> */}
+
                 <div className="col-lg-12 mt-2">
                   <div>
                     <div>Remarks</div>
@@ -397,7 +385,7 @@ export default function FormCmp({
                               setAttachmentFile(data?.[0]?.id);
                               setAttachmentFileName(data[0]);
                             })
-                            .catch((error) => {
+                            .catch(() => {
                               toast.warn("Failed, try again");
                             });
                         }
@@ -483,7 +471,7 @@ export default function FormCmp({
                       <td>{item?.fileName}</td>
                       <td className="text-center">
                         <span
-                          onClick={(e) => {
+                          onClick={() => {
                             if (
                               regId &&
                               item?.id &&

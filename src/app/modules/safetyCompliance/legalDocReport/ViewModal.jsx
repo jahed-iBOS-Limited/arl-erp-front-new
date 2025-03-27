@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Loading from "../../_helper/_loading";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import { downloadFile } from "../../_helper/downloadFile";
-import Loading from "../../_helper/_loading";
 
 const ViewModal = ({ currentItem }) => {
   const [rowDto, getRowDto, loading] = useAxiosGet();
@@ -39,7 +39,6 @@ const ViewModal = ({ currentItem }) => {
                   type="button"
                   onClick={() => {
                     let arr = data?.strFileUrl?.split(".");
-
                     downloadFile(
                       `/domain/Document/DownlloadFile?id=${data?.strFileUrl}`,
                       `${data?.strFileUrl}`,

@@ -4,18 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import * as Yup from "yup";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import printIcon from "../../_helper/images/print-icon.png";
 import { _dateFormatter } from "../../_helper/_dateFormate";
 import Loading from "../../_helper/_loading";
 import NewSelect from "../../_helper/_select";
+import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
+import printIcon from "../../_helper/images/print-icon.png";
 import { getBusinessUnitDDL_api } from "../createDocument/helper";
 import {
   Card,
   CardBody,
   CardHeader,
-  CardHeaderToolbar,
-  ModalProgressBar,
+  ModalProgressBar
 } from "./../../../../_metronic/_partials/controls";
 
 // Validation schema
@@ -52,15 +51,12 @@ export default function DocSummaryReport() {
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
-        {({ errors, touched, setFieldValue, isValid, values }) => (
+        {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
-              {true && <ModalProgressBar />}
-              <CardHeader title={"Legal Documentation Summary"}>
-                <CardHeaderToolbar></CardHeaderToolbar>
-              </CardHeader>
+              <ModalProgressBar />
+              <CardHeader title={"Legal Documentation Summary"} />
               {loading && <Loading />}
               <CardBody>
                 <Form className="form form-label-right">
@@ -85,6 +81,7 @@ export default function DocSummaryReport() {
                         placeholder="Unit"
                         errors={errors}
                         touched={touched}
+
                       />
                     </div>
                     <div className="col-lg-3">
