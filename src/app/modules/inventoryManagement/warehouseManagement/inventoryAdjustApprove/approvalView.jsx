@@ -4,6 +4,7 @@ import IConfirmModal from '../../../_helper/_confirmModal';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { debounce } from 'lodash';
 
 export default function ApprovalView({
   singleData,
@@ -16,6 +17,8 @@ export default function ApprovalView({
 
   const [, approveRectionHandler, saveLoader] = useAxiosPost();
   const [viewData, getViewData] = useAxiosGet();
+  const [isDisabled, setDisabled] = useState(false);
+
 
   useEffect(() => {
     getViewData(
@@ -24,9 +27,14 @@ export default function ApprovalView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 5000);
+
   return (
     <>
-      {saveLoader && <Loading />}
+      {(saveLoader || isDisabled ) && <Loading />}
       <div className="mt-5">
         <div className="text-right my-3">
           <button
@@ -36,17 +44,24 @@ export default function ApprovalView({
               IConfirmModal({
                 message: `Are you sure to Approve?`,
                 yesAlertFunc: () => {
-                  approveRectionHandler(
-                    `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${singleData?.intInventoryTransactionId}&isApprove=true
-                                    `,
-                    null,
-                    () => {
-                      setIsShowModal(false);
-                      getRowData(
-                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                  setDisabled(true);
+                  debounceHandelar({
+                    setLoading: setDisabled,
+                    CB: () => {
+                      approveRectionHandler(
+                        `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${singleData?.intInventoryTransactionId}&isApprove=true
+                                        `,
+                        null,
+                        () => {
+                          setIsShowModal(false);
+                          getRowData(
+                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                          );
+                        },
                       );
                     },
-                  );
+                  });
+                  
                 },
                 noAlertFunc: () => {},
               });
@@ -61,17 +76,23 @@ export default function ApprovalView({
               IConfirmModal({
                 message: `Are you sure to Reject?`,
                 yesAlertFunc: () => {
-                  approveRectionHandler(
-                    `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${singleData?.intInventoryTransactionId}&isApprove=false
-                                    `,
-                    null,
-                    () => {
-                      setIsShowModal(false);
-                      getRowData(
-                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                  setDisabled(true);
+                  debounceHandelar({
+                    setLoading: setDisabled,
+                    CB: () => {
+                      approveRectionHandler(
+                        `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${singleData?.intInventoryTransactionId}&isApprove=false
+                                        `,
+                        null,
+                        () => {
+                          setIsShowModal(false);
+                          getRowData(
+                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                          );
+                        },
                       );
                     },
-                  );
+                  });
                 },
                 noAlertFunc: () => {},
               });
