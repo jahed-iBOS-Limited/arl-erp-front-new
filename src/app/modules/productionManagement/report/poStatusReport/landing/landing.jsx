@@ -9,12 +9,12 @@ import NewSelect from "../../../../_helper/_select";
 import ReactToPrint from "react-to-print";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
-  getPlantNameDDL_api,
   getShopfloorDDL,
   getBOMItemDDL,
   getPoStatusReport,
   getProductionCodeDDL,
 } from "../helper";
+import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
 
 const initData = {
   plant: "",
@@ -219,25 +219,25 @@ function PoStatusReportLanding() {
                               item?.parentItemid,
                               gridData[index - 1]?.parentItemid
                             ) && (
-                              <>
-                                <tr>
-                                  <td
-                                    colSpan={6}
-                                    align="left"
-                                    style={{ backgroundColor: "#FEF3C7" }}
-                                  >
-                                    <div className="text-left pl-2">
-                                      {yellowMaker(
-                                        item?.itemLv,
-                                        index,
-                                        item?.parentItemid,
-                                        gridData[index - 1]?.parentItemid
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              </>
-                            )}
+                                <>
+                                  <tr>
+                                    <td
+                                      colSpan={6}
+                                      align="left"
+                                      style={{ backgroundColor: "#FEF3C7" }}
+                                    >
+                                      <div className="text-left pl-2">
+                                        {yellowMaker(
+                                          item?.itemLv,
+                                          index,
+                                          item?.parentItemid,
+                                          gridData[index - 1]?.parentItemid
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </>
+                              )}
 
                             <tr key={index}>
                               <td className="text-center">
