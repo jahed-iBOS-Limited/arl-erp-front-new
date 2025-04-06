@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
 
 export default function PackingAndWeightListCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  
+
   const saveHandler = (values, cb) => {
     alert("Working...");
   };
@@ -53,9 +53,9 @@ export default function PackingAndWeightListCreateEdit() {
         touched,
       }) => (
         <>
-            {false && <Loading />}
-            <IForm title="Packing And WeightList Create" getProps={setObjprops}>
-             <Form>
+          {false && <Loading />}
+          <IForm title="Packing And WeightList Create" getProps={setObjprops}>
+            <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
@@ -121,8 +121,8 @@ export default function PackingAndWeightListCreateEdit() {
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
-              </Form>
-            </IForm>
+            </Form>
+          </IForm>
         </>
       )}
     </Formik>

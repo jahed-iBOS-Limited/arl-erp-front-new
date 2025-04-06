@@ -27,7 +27,7 @@ export default function PackingAndWeightListViewModal({
     quotationDataLoader,
     setQuotationData,
   ] = useAxiosGet();
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const printRef = useRef();
 
@@ -95,15 +95,15 @@ export default function PackingAndWeightListViewModal({
       }}
     >
       {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
+        // handleSubmit,
+        // resetForm,
+        // values,
+        // setFieldValue,
+        // isValid,
+        // errors,
+        // touched,
       }) => (
-        <>
+        <React.Fragment>
           {quotationDataLoader && <Loading />}
           <IForm
             title=""
@@ -137,7 +137,7 @@ export default function PackingAndWeightListViewModal({
                     src={essentialLogo}
                     alt="logo"
                   />
-                <div className="table-responsive">  <table
+                  <div className="table-responsive">  <table
                     id="sales-contract-print"
                     className="table table-striped table-bordered global-table"
                   >
@@ -283,12 +283,7 @@ export default function PackingAndWeightListViewModal({
                         <strong>FINAL DESTINATION:</strong>{" "}
                         {quotationData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
                         <br />
-                        {/* <strong>EXP NO:</strong>{" "}
-                        {quotationData?.HeaderData?.ExPortPermissionNo?.toUpperCase()}{" "}
-                        <strong className="ml-5">DATE:</strong>{" "}
-                        {_dateFormatter(
-                          quotationData?.HeaderData?.PricingDate?.toUpperCase()
-                        )} */}
+
                       </td>
                     </tr>
                     <tr>
@@ -363,20 +358,7 @@ export default function PackingAndWeightListViewModal({
                         </strong>
                       </td>
                     </tr>
-                    {/* <tr>
-                      <td
-                        className="font-weight-bold"
-                        colSpan={quotationData?.Head?.length + 7}
-                      >
-                        {quotationData?.TermsData?.map((item, index) => {
-                          return (
-                            <h6 style={{ fontSize: "14px" }}>
-                              {item?.Sl}. {item?.Terms?.toUpperCase()} <br />{" "}
-                            </h6>
-                          );
-                        })}
-                      </td>
-                    </tr> */}
+
                     <tr>
                       <td
                         className="font-weight-bold"
@@ -450,7 +432,7 @@ export default function PackingAndWeightListViewModal({
               ) : null}
             </Form>
           </IForm>
-        </>
+        </React.Fragment>
       )}
     </Formik>
   );
