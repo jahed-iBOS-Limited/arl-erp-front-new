@@ -11,6 +11,7 @@ export default function SalesOrderReportModal({
   onHide,
   landingDataCallback,
   setLoading,
+  isSaveWork = true,
 }) {
 
   const { profileData } = useSelector((state) => {
@@ -62,6 +63,7 @@ export default function SalesOrderReportModal({
                 type="button"
                 className="btn btn-primary"
                 onClick={(e) => {
+                  if(!isSaveWork) return;
                   saveHandler();
                 }}
               >

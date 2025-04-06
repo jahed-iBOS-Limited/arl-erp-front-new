@@ -229,6 +229,7 @@ function SalesOrderInActiveLanding() {
                 }}
                 onHide={() => setModalShow(false)}
                 setLoading={setLoading}
+                isSaveWork ={true}
               />
             </>
           )}
