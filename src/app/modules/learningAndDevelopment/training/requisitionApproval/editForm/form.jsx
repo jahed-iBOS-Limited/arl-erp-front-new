@@ -86,7 +86,6 @@ export default function FormCmp({
         }) => (
           <>
             <Form className="form form-label-right">
-              {false && <Loading />}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <NewSelect

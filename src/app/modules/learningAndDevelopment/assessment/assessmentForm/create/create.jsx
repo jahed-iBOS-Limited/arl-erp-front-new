@@ -84,11 +84,6 @@ export default function AssessmentSubmissionForm() {
           {({
             handleSubmit,
             resetForm,
-            values,
-            setFieldValue,
-            isValid,
-            errors,
-            touched,
           }) => (
             <>
               <Form className="form form-label-right">

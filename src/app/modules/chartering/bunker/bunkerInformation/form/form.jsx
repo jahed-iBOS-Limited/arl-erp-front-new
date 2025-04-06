@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { useHistory } from 'react-router';
 import {
   getPreBORInformationByVoyageId,
-  validationSchema,
   getItemRateByVoyageId,
   GetItemInfoFromPurchase,
 } from '../helper';
@@ -12,6 +11,7 @@ import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 import { getVoyageDDLNew } from '../../../helper';
 import FormikInput from '../../../_chartinghelper/common/formikInput';
 import ICustomTable from '../../../_chartinghelper/_customTable';
+import { vslAndVoyNoValidationSchema } from '../../../../_helper/_validationSchema';
 
 export default function Form({
   initData,
@@ -116,7 +116,7 @@ export default function Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -491,21 +491,21 @@ export default function Form({
                   {((values?.voyageNo?.voyageTypeName || values?.voyageType) ===
                     'Voyage Charter' ||
                     viewType === 'view') && (
-                    <>
-                      <div className="col-lg-6"> </div>
-                      <div className="col-lg-6">
-                        <ICustomTable ths={headers}>
-                          {purchaseList?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.itemQty}</td>
-                            </tr>
-                          ))}
-                        </ICustomTable>{' '}
-                      </div>
-                    </>
-                  )}
+                      <>
+                        <div className="col-lg-6"> </div>
+                        <div className="col-lg-6">
+                          <ICustomTable ths={headers}>
+                            {purchaseList?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.itemQty}</td>
+                              </tr>
+                            ))}
+                          </ICustomTable>{' '}
+                        </div>
+                      </>
+                    )}
 
                   {/*
 
@@ -517,384 +517,384 @@ export default function Form({
 
                   {(values?.voyageNo?.voyageTypeName === 'Time Charter' ||
                     values?.voyageType === 'Time Charter') && (
-                    <>
-                      <div className="col-lg-12 mt-3">
-                        <h6>Bunker Sale</h6>
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSMGO QTY</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsmgoQty}
-                          name="bunkerSaleLsmgoQty"
-                          placeholder="LSMGO QTY"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue('bunkerSaleLsmgoQty', e.target.value);
-                            setFieldValue(
-                              'bunkerSaleLsmgoValue',
-                              Number(e.target.value) *
+                      <>
+                        <div className="col-lg-12 mt-3">
+                          <h6>Bunker Sale</h6>
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSMGO QTY</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsmgoQty}
+                            name="bunkerSaleLsmgoQty"
+                            placeholder="LSMGO QTY"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue('bunkerSaleLsmgoQty', e.target.value);
+                              setFieldValue(
+                                'bunkerSaleLsmgoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsmgoRate) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSMGO Rate</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsmgoRate}
-                          name="bunkerSaleLsmgoRate"
-                          placeholder="LSMGO Rate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              'bunkerSaleLsmgoRate',
-                              e.target.value,
-                            );
-                            setFieldValue(
-                              'bunkerSaleLsmgoValue',
-                              Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSMGO Rate</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsmgoRate}
+                            name="bunkerSaleLsmgoRate"
+                            placeholder="LSMGO Rate"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'bunkerSaleLsmgoRate',
+                                e.target.value,
+                              );
+                              setFieldValue(
+                                'bunkerSaleLsmgoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsmgoQty) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSMGO Value</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsmgoValue}
-                          name="bunkerSaleLsmgoValue"
-                          placeholder="LSMGO Value"
-                          type="number"
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-1 QTY</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo1Qty}
-                          name="bunkerSaleLsfo1Qty"
-                          placeholder="LSFO-1 QTY"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue('bunkerSaleLsfo1Qty', e.target.value);
-                            setFieldValue(
-                              'bunkerSaleLsfoValue',
-                              Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSMGO Value</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsmgoValue}
+                            name="bunkerSaleLsmgoValue"
+                            placeholder="LSMGO Value"
+                            type="number"
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-1 QTY</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo1Qty}
+                            name="bunkerSaleLsfo1Qty"
+                            placeholder="LSFO-1 QTY"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue('bunkerSaleLsfo1Qty', e.target.value);
+                              setFieldValue(
+                                'bunkerSaleLsfoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsfoRate) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-1 Rate</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo1Rate}
-                          name="bunkerSaleLsfo1Rate"
-                          placeholder="LSFO-1 Rate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              'bunkerSaleLsfo1Rate',
-                              e.target.value,
-                            );
-                            setFieldValue(
-                              'bunkerSaleLsfoValue',
-                              Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-1 Rate</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo1Rate}
+                            name="bunkerSaleLsfo1Rate"
+                            placeholder="LSFO-1 Rate"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'bunkerSaleLsfo1Rate',
+                                e.target.value,
+                              );
+                              setFieldValue(
+                                'bunkerSaleLsfoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsfoQty) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-1 Value</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo1Value}
-                          name="bunkerSaleLsfo1Value"
-                          placeholder="LSFO-1 Value"
-                          type="number"
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-2 QTY</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo2Qty}
-                          name="bunkerSaleLsfo2Qty"
-                          placeholder="LSFO-2 QTY"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue('bunkerSaleLsfo2Qty', e.target.value);
-                            setFieldValue(
-                              'bunkerSaleLsfoValue',
-                              Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-1 Value</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo1Value}
+                            name="bunkerSaleLsfo1Value"
+                            placeholder="LSFO-1 Value"
+                            type="number"
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-2 QTY</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo2Qty}
+                            name="bunkerSaleLsfo2Qty"
+                            placeholder="LSFO-2 QTY"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue('bunkerSaleLsfo2Qty', e.target.value);
+                              setFieldValue(
+                                'bunkerSaleLsfoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsfoRate) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-2 Rate</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo2Rate}
-                          name="bunkerSaleLsfo2Rate"
-                          placeholder="LSFO-2 Rate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              'bunkerSaleLsfo2Rate',
-                              e.target.value,
-                            );
-                            setFieldValue(
-                              'bunkerSaleLsfoValue',
-                              Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-2 Rate</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo2Rate}
+                            name="bunkerSaleLsfo2Rate"
+                            placeholder="LSFO-2 Rate"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'bunkerSaleLsfo2Rate',
+                                e.target.value,
+                              );
+                              setFieldValue(
+                                'bunkerSaleLsfoValue',
+                                Number(e.target.value) *
                                 (Number(values?.bunkerSaleLsfoQty) || 1),
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>LSFO-2 Value</label>
-                        <FormikInput
-                          value={values?.bunkerSaleLsfo2Value}
-                          name="bunkerSaleLsfo2Value"
-                          placeholder="LSFO-2 Value"
-                          type="number"
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div>{' '}
-                      {viewType !== 'view' && (
-                        <>
-                          <div className="col-lg-12 d-flex mt-3">
-                            <h6>Bunker Purchase</h6>
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSMGO QTY</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsmgoQty}
-                              name="bunkerPurchaseLsmgoQty"
-                              placeholder="LSMGO QTY"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsmgoQty',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsmgoValue',
-                                  Number(e.target.value) *
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <label>LSFO-2 Value</label>
+                          <FormikInput
+                            value={values?.bunkerSaleLsfo2Value}
+                            name="bunkerSaleLsfo2Value"
+                            placeholder="LSFO-2 Value"
+                            type="number"
+                            errors={errors}
+                            touched={touched}
+                            disabled={true}
+                          />
+                        </div>{' '}
+                        {viewType !== 'view' && (
+                          <>
+                            <div className="col-lg-12 d-flex mt-3">
+                              <h6>Bunker Purchase</h6>
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSMGO QTY</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsmgoQty}
+                                name="bunkerPurchaseLsmgoQty"
+                                placeholder="LSMGO QTY"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsmgoQty',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsmgoValue',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsmgoRate) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSMGO Rate</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsmgoRate}
-                              name="bunkerPurchaseLsmgoRate"
-                              placeholder="LSMGO Rate"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsmgoRate',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsmgoValue',
-                                  Number(e.target.value) *
+                                  );
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSMGO Rate</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsmgoRate}
+                                name="bunkerPurchaseLsmgoRate"
+                                placeholder="LSMGO Rate"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsmgoRate',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsmgoValue',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsmgoQty) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSMGO Value</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsmgoValue}
-                              name="bunkerPurchaseLsmgoValue"
-                              placeholder="LSMGO Value"
-                              type="number"
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-1 QTY</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo1Qty}
-                              name="bunkerPurchaseLsfo1Qty"
-                              placeholder="LSFO-1 QTY"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo1Qty',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo1Value',
-                                  Number(e.target.value) *
+                                  );
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSMGO Value</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsmgoValue}
+                                name="bunkerPurchaseLsmgoValue"
+                                placeholder="LSMGO Value"
+                                type="number"
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSFO-1 QTY</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo1Qty}
+                                name="bunkerPurchaseLsfo1Qty"
+                                placeholder="LSFO-1 QTY"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo1Qty',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo1Value',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo1Rate) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-1 Rate</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo1Rate}
-                              name="bunkerPurchaseLsfo1Rate"
-                              placeholder="LSFO-1 Rate"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo1Rate',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsfoValue',
-                                  Number(e.target.value) *
+                                  );
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSFO-1 Rate</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo1Rate}
+                                name="bunkerPurchaseLsfo1Rate"
+                                placeholder="LSFO-1 Rate"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo1Rate',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfoValue',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfoQty) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-1 Value</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo1Value}
-                              name="bunkerPurchaseLsfo1Value"
-                              placeholder="LSFO-1 Value"
-                              type="number"
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-2 QTY</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo2Qty}
-                              name="bunkerPurchaseLsfo2Qty"
-                              placeholder="LSFO-2 QTY"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo2Qty',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo2Value',
-                                  Number(e.target.value) *
+                                  );
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSFO-1 Value</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo1Value}
+                                name="bunkerPurchaseLsfo1Value"
+                                placeholder="LSFO-1 Value"
+                                type="number"
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSFO-2 QTY</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo2Qty}
+                                name="bunkerPurchaseLsfo2Qty"
+                                placeholder="LSFO-2 QTY"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo2Qty',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo2Value',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo2Rate) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-2 Rate</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo2Rate}
-                              name="bunkerPurchaseLsfo2Rate"
-                              placeholder="LSFO-2 Rate"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo2Rate',
-                                  e.target.value,
-                                );
-                                setFieldValue(
-                                  'bunkerPurchaseLsfo2Value',
-                                  Number(e.target.value) *
+                                  );
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <label>LSFO-2 Rate</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo2Rate}
+                                name="bunkerPurchaseLsfo2Rate"
+                                placeholder="LSFO-2 Rate"
+                                type="number"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo2Rate',
+                                    e.target.value,
+                                  );
+                                  setFieldValue(
+                                    'bunkerPurchaseLsfo2Value',
+                                    Number(e.target.value) *
                                     (Number(values?.bunkerPurchaseLsfo2Qty) ||
                                       1),
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          <div className="col-lg-2">
-                            <label>LSFO-2 Value</label>
-                            <FormikInput
-                              value={values?.bunkerPurchaseLsfo2Value}
-                              name="bunkerPurchaseLsfo2Value"
-                              placeholder="LSFO-2 Value"
-                              type="number"
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </div>
-                          {values?.isComplete && (
-                            <div className="col-lg-2">
-                              <button
-                                className="btn btn-primary mt-5 px-3 py-2"
-                                type="button"
-                                onClick={() => {
-                                  bunkerPurchase(values);
+                                  );
                                 }}
-                                disabled={
-                                  viewType === 'view' ||
-                                  returnID ||
-                                  (values?.bunkerPurchaseLsfo2Qty < 1 &&
-                                    values?.bunkerPurchaseLsfo1Qty < 1 &&
-                                    values?.bunkerPurchaseLsmgoQty < 1)
-                                }
-                              >
-                                Purchase
-                              </button>
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
                             </div>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
+                            <div className="col-lg-2">
+                              <label>LSFO-2 Value</label>
+                              <FormikInput
+                                value={values?.bunkerPurchaseLsfo2Value}
+                                name="bunkerPurchaseLsfo2Value"
+                                placeholder="LSFO-2 Value"
+                                type="number"
+                                errors={errors}
+                                touched={touched}
+                                disabled={true}
+                              />
+                            </div>
+                            {values?.isComplete && (
+                              <div className="col-lg-2">
+                                <button
+                                  className="btn btn-primary mt-5 px-3 py-2"
+                                  type="button"
+                                  onClick={() => {
+                                    bunkerPurchase(values);
+                                  }}
+                                  disabled={
+                                    viewType === 'view' ||
+                                    returnID ||
+                                    (values?.bunkerPurchaseLsfo2Qty < 1 &&
+                                      values?.bunkerPurchaseLsfo1Qty < 1 &&
+                                      values?.bunkerPurchaseLsmgoQty < 1)
+                                  }
+                                >
+                                  Purchase
+                                </button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
                   {/*
 
 

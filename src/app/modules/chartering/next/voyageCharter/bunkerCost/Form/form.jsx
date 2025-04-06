@@ -5,11 +5,9 @@ import { toast } from "react-toastify";
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import ICustomTable from "../../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
-import {
-  getBunkerPurchaseList,
-  getConsumption,
-  validationSchema,
-} from "../helper";
+
+import { vslAndVoyNoValidationSchema } from "../../../../../_helper/_validationSchema";
+import { getBunkerPurchaseList, getConsumption } from "../../../../../_helper/_commonApi";
 
 export default function FormCmp({
   title,
@@ -55,7 +53,7 @@ export default function FormCmp({
           vesselName: preData?.vesselName,
           voyageNo: preData?.voyageNo,
         }}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

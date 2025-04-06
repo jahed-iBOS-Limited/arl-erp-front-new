@@ -8,11 +8,13 @@ import React from "react";
 // import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import IDelete from "../../../../../chartering/_chartinghelper/_delete";
 import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
 import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
 import IEdit from "../../../../../chartering/_chartinghelper/icons/_edit";
+import { LayTimeTableHeader } from "../../../../../chartering/layTime/Form/components/layTimeTableHeader";
 import {
   daysToSeconds,
   DDHHMMToDays,
@@ -25,8 +27,6 @@ import {
   toDDHHMM,
   totalSecondCalculate,
 } from "../utils";
-import { LayTimeTableHeader } from "./layTimeTableHeader";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
 
 export default function LayTimeTableBody({
   rowData,

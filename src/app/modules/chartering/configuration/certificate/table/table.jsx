@@ -65,7 +65,7 @@ export default function CertificateNameTable() {
         //intVesselId: 0,
       },
       setLoading,
-      () => {}
+      () => { }
     );
   };
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function CertificateNameTable() {
         //intVesselId: 0,
       },
       setLoading,
-      () => {}
+      () => { }
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
@@ -104,8 +104,7 @@ export default function CertificateNameTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={{}}
-        onSubmit={(values) => {}}
+        onSubmit={(values) => { }}
       >
         {({
           handleSubmit,

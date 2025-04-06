@@ -1378,3 +1378,83 @@ export const getPlantNameDDL_api = async (userId, accId, buId, setter) => {
     setter([]);
   }
 };
+
+export const getWorkplaceDDL_api = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/hcm/WorkPlace/GetWorkPlace?accountId=${accId}&businessUnitId=${buId}`
+    );
+    const modfid = res?.data?.map((item) => ({
+      value: item?.workplaceId,
+      label: item?.workplaceName,
+      code: item?.workplaceCode,
+      workplaceGroupId: item?.workplaceGroupId,
+    }));
+    const newModfData = [{ value: 0, label: "All" }, ...modfid]
+    setter(newModfData);
+  } catch (error) {
+    setter([]);
+  }
+}
+
+export const getConsumption = async (
+  vesselId,
+  voyageId,
+  setLoading,
+  setter,
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`,
+    );
+    setter(res?.data[0]);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    setLoading(false);
+  }
+};
+
+export const getBunkerPurchaseList = async (
+  buId,
+  vesselId,
+  setLoading,
+  setter,
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`,
+    );
+
+    setter(
+      res?.data?.map((item) => ({
+        ...item,
+        itemCost: 0,
+        consumption: 0,
+        remainingQty: item?.remaining,
+      })),
+    );
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    setLoading(false);
+  }
+};
+
+export const saveBunkerCost = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `${imarineBaseUrl}/domain/BunkerCost/CreateBunkerCost`,
+      payload,
+    );
+    toast.success(res?.data?.message);
+    cb();
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};

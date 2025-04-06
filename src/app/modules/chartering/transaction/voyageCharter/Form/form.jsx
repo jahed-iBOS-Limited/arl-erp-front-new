@@ -16,12 +16,12 @@ import {
   getIntermidiateInvoiceData,
   getInvoiceData,
   getVoyageChartererTransactionById,
-  validationSchema,
   voyageCharterBRApi,
 } from "../helper";
 import FinalInvoice from "../invoice/finalInvoice/finalInvoice";
 import FinalInvoiceCharterer from "../invoice/finalInvoice/finalInvoiceCharterer";
 import InitialInvoice from "../invoice/initialInvoice/initialInvoice";
+import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
 
 export default function FormCmp({
   title,
@@ -79,7 +79,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler({ ...values, rowData, invoiceHireData }, () => {
             resetForm(initData);
@@ -357,7 +357,7 @@ export default function FormCmp({
                   </div>
 
                   {invoiceHireData?.objHeaderDTO?.freightInvoiceId === 0 ||
-                  invoiceHireData?.freightInvoiceId === 0 ? (
+                    invoiceHireData?.freightInvoiceId === 0 ? (
                     <div className="col-lg-3">
                       <FormikSelect
                         value={values?.beneficiary || ""}
@@ -379,9 +379,9 @@ export default function FormCmp({
                 </div>
               </div>
               {values?.statement &&
-              // invoiceHireData?.objHeaderDTO?.freightInvoiceId
-              invoiceHireData?.freightInvoiceId &&
-              !viewType ? (
+                // invoiceHireData?.objHeaderDTO?.freightInvoiceId
+                invoiceHireData?.freightInvoiceId &&
+                !viewType ? (
                 <>
                   <div className="marine-form-card-content">
                     <h5>Journal</h5>
@@ -618,7 +618,7 @@ export default function FormCmp({
                   ) : null}
 
                   {values?.statement?.value === 2 ||
-                  values?.statement?.value === 3 ? (
+                    values?.statement?.value === 3 ? (
                     <FinalInvoice
                       formikprops={{
                         handleSubmit,
@@ -661,7 +661,7 @@ export default function FormCmp({
                   ) : null}
 
                   {values?.statement?.value === 2 ||
-                  values?.statement?.value === 3 ? (
+                    values?.statement?.value === 3 ? (
                     <FinalInvoiceCharterer
                       formikprops={{
                         handleSubmit,

@@ -8,7 +8,6 @@ import { Form } from "react-bootstrap";
 import {
   getNewApplicationData,
   approveAll,
-  getWorkplaceDDL_api,
 } from "../helper";
 import NewSelect from "../../../../_helper/_select";
 import Loading from "../../../../_helper/_loading";
@@ -17,6 +16,7 @@ import { toast } from "react-toastify";
 import { downloadFile } from "../../../../_helper/downloadFile";
 import { IInput } from "../../../../_helper/_input";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
 const initData = {
   viewAs: "",
   applicationType: "",
@@ -87,7 +87,7 @@ const OvertimeRequisitionApprovalLanding = () => {
           getDataForApproval(values);
         });
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -129,14 +129,10 @@ const OvertimeRequisitionApprovalLanding = () => {
           }}
         >
           {({
-            handleSubmit,
-            resetForm,
             values,
             errors,
             touched,
             setFieldValue,
-            setValues,
-            isValid,
           }) => (
             <>
               {loader && <Loading />}
@@ -301,7 +297,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                     <tbody>
                       {rowDto?.length > 0 &&
                         rowDto?.map((data, index) => (
-                          <tr key={index}>
+                          <tr key={index + 1}>
                             {values?.applicationType?.value === 1 && (
                               <td>
                                 <input
