@@ -16,7 +16,7 @@ import {
   getBusinessPartnerDDL,
   getLandingPaginationData,
 } from "../helper";
-import SalesOrderReportModal from "./salesOrderReportModal";
+import SalesOrderReportModal from "../../../../salesManagement/orderManagement/salesOrderInActive/landing/salesOrderReportModal";
 
 const initData = {
   partner: "",
@@ -288,6 +288,7 @@ function AssetRentLanding() {
                 }}
                 onHide={() => setModalShow(false)}
                 setLoading={setLoading}
+                isSaveWork ={false}
               />
             </>
           )}
