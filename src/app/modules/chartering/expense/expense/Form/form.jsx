@@ -16,9 +16,9 @@ import {
   getBusinessPartnerDDL,
   getCostTypeDDL,
 } from "../helper";
-import AddCostTypeForm from "./addCostType";
 import CashReceiveForm from "./cashReceive";
 import ServicePO from "./servicePo";
+import AddCostTypeForm from "../../../next/shared/expense/Form/addCostType";
 
 export default function FormCmp({
   title,
