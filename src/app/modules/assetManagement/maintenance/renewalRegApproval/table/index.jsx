@@ -4,14 +4,13 @@ import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import ICustomCard from "../../../../_helper/_customCard";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import SubmittedRow from "../../renewalRegistration/view/viewModal";
 import { renewalRegistrationApproval } from "../helper";
 import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
+import RenewalApprovalTable from "./renewalApprovalTable";
 
 const validationSchema = Yup.object().shape({});
 
@@ -159,85 +158,12 @@ export default function RenewalBillForm() {
                   </div>
                 </div>
               </Form>
-              <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table mt-0">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>
-                        <input
-                          disabled={!gridData?.length}
-                          type="checkbox"
-                          checked={
-                            gridData?.length > 0
-                              ? gridData?.every((item) => item?.checked)
-                              : false
-                          }
-                          onChange={(e) => {
-                            setGridData(
-                              gridData?.map((item) => {
-                                return {
-                                  ...item,
-                                  checked: e?.target?.checked,
-                                };
-                              })
-                            );
-                          }}
-                        />
-                      </th>
-                      <th>Sl</th>
-                      <th>Code</th>
-                      <th>Total Amount</th>
-                      <th className="text-right pr-1" style={{ width: 80 }}>
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.length
-                      ? gridData.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="text-center align-middle">
-                                <input
-                                  type="checkbox"
-                                  checked={item?.checked}
-                                  onChange={(e) => {
-                                    item["checked"] = e.target.checked;
-                                    setGridData([...gridData]);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-center">
-                                {index + 1}
-                              </td>
-                              <td className="text-center">
-                                {item?.renewalCode}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.totalAmount)}
-                              </td>
-                              <td className="text-center">
-                                <div className="d-flex align-items-center justify-content-center">
-                                  <span className="mx-1">
-                                    <IView
-                                      clickHandler={(e) => {
-                                        setCode({
-                                          renewalCode: item.renewalCode,
-                                          statusTypeId: item.statusTypeId,
-                                        });
-                                        setIsShowModal(true);
-                                      }}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      : null}
-                  </tbody>
-                </table>
-              </div>
+              <RenewalApprovalTable
+                gridData={gridData}
+                setGridData={setGridData}
+                setCode={setCode}
+                setIsShowModal={setIsShowModal}
+              />
             </>
           )}
         </Formik>
