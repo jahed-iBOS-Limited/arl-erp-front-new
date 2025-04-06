@@ -2,26 +2,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../../App';
 
-
-export const getConsumption = async (
-  vesselId,
-  voyageId,
-  setLoading,
-  setter,
-) => {
-  setLoading(true);
-  try {
-    const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`,
-    );
-    setter(res?.data[0]);
-    setLoading(false);
-  } catch (error) {
-    setter([]);
-    setLoading(false);
-  }
-};
-
 export const getBunkerPurchaseList = async (
   buId,
   vesselId,

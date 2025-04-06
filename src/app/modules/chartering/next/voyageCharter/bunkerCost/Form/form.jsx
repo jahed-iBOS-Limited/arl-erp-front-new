@@ -7,9 +7,9 @@ import ICustomTable from "../../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
 import {
   getBunkerPurchaseList,
-  getConsumption,
 } from "../helper";
 import { vslAndVoyNoValidationSchema } from "../../../../../_helper/_validationSchema";
+import { getConsumption } from "../../../../../_helper/_commonApi";
 
 export default function FormCmp({
   title,
