@@ -39,7 +39,7 @@ export default function FormCmp({
       .then((res) => {
         return res?.data;
       })
-      .catch((err) => []);
+      .catch(() => []);
   };
 
   const addHandler = (values, resetForm, setFieldValue) => {
@@ -75,13 +75,10 @@ export default function FormCmp({
           resetForm,
           values,
           setFieldValue,
-          isValid,
           errors,
-          touched,
         }) => (
           <>
             <Form className="form form-label-right">
-              {false && <Loading />}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <NewSelect
@@ -225,17 +222,17 @@ export default function FormCmp({
                         requisitionList?.map((item, index) => (
                           <tr key={index}>
                             <td className="text-center">
-                              {item?.employee?.value}
+                              {item?.employee?.value || ""}
                             </td>
-                            <td>{item?.employee?.name}</td>
-                            <td>{item?.trainingSchedule?.name}</td>
-                            <td>{item?.designation?.label}</td>
-                            <td>{item?.jobType?.label}</td>
-                            <td>{item?.email}</td>
-                            <td>{item?.phone}</td>
-                            <td>{item?.gender}</td>
-                            <td>{item?.supervisor}</td>
-                            <td>{item?.resourcePerson}</td>
+                            <td>{item?.employee?.name || ""}</td>
+                            <td>{item?.trainingSchedule?.name || ""}</td>
+                            <td>{item?.designation?.label || ""}</td>
+                            <td>{item?.jobType?.label || ""}</td>
+                            <td>{item?.email || ""}</td>
+                            <td>{item?.phone || ""}</td>
+                            <td>{item?.gender || ""}</td>
+                            <td>{item?.supervisor || ""}</td>
+                            <td>{item?.resourcePerson || ""}</td>
                             <td className="text-center">
                               <OverlayTrigger
                                 overlay={

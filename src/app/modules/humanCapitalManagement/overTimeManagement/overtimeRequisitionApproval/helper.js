@@ -39,21 +39,3 @@ export const approveAll = async (payload, setLoader, cb) => {
   }
 };
 
-
-export const getWorkplaceDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/hcm/WorkPlace/GetWorkPlace?accountId=${accId}&businessUnitId=${buId}`
-    );
-    const modfid = res?.data?.map((item) => ({
-      value: item?.workplaceId,
-      label: item?.workplaceName,
-      code: item?.workplaceCode,
-      workplaceGroupId: item?.workplaceGroupId,
-    }));
-    const newModfData = [{ value: 0, label: "All"}, ...modfid]
-    setter(newModfData);
-  } catch (error) {
-    setter([]);
-  }
-};

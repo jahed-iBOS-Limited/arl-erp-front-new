@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form } from "formik";
 import { IInput } from "../../../../_helper/_input";
 import { shallowEqual, useSelector } from "react-redux";
-import { getWorkplaceDDL_api } from "../../overTimeEntry/helper";
 import { getOvertimeReport } from "../helper";
 import Loading from "../../../../_helper/_loading";
 import ReactToPrint from "react-to-print";
@@ -11,6 +10,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import ViewModal from "./View";
 import IView from "../../../../_helper/_helperIcons/_view";
 import NewSelect from "../../../../_helper/_select";
+import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
 
 export default function FormCmp({ initData, btnRef, resetBtnRef }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {

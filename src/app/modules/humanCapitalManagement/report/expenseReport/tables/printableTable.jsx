@@ -58,7 +58,7 @@ function PrintableTable({ gridData, printRef }) {
             </td>
 
             <td className="text-right">
-              <b>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</b>
+              <strong>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</strong>
             </td>
             <td className="text-right">
               <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>

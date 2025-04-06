@@ -22,7 +22,6 @@ export default function TrainingSchedule() {
   const history = useHistory();
   useEffect(() => {
     getTrainingName(`/hcm/Training/TrainingNameDDL`);
-    // getRowData(`/hcm/Training/GetTrainingScheduleLanding?intMonthId=0&intYearId=0&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=0`);
     getRowData(`/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=0`);
 
   }, []);
@@ -32,8 +31,7 @@ export default function TrainingSchedule() {
       `/hcm/Training/GetTrainingScheduleLanding?intMonthId=${values?.monthYear?.split(
         "-"
       )[1] || 0}&intYearId=${values?.monthYear?.split("-")[0] ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${
-        values?.trainigName?.value
+      0}&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${values?.trainigName?.value
       }`
     );
   };
@@ -48,19 +46,12 @@ export default function TrainingSchedule() {
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            // saveHandler(values, () => {
-            //   resetForm(initData);
-            // });
           }}
         >
           {({
-            handleSubmit,
-            resetForm,
             values,
             setFieldValue,
-            isValid,
             errors,
-            touched,
           }) => (
             <>
               <Form className="form form-label-right">
@@ -106,8 +97,7 @@ export default function TrainingSchedule() {
                           )[1] || 0}&intYearId=${values?.monthYear?.split(
                             "-"
                           )[0] ||
-                            0}&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${
-                            values?.trainigName?.value
+                          0}&pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${values?.trainigName?.value
                           }`
                         );
                       }}
