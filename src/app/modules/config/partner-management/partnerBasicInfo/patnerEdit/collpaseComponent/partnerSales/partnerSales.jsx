@@ -364,7 +364,7 @@ export default function PartnerSales() {
             isExclusive: values?.exclusivity?.value,
             creditFacilityTypeId: values?.paymentMode?.value,
             creditFacilityTypeName: values?.paymentMode?.label,
-            partyStatusType: values?.partyStatusType?.value,
+            partyStatusType: values?.partyStatusType?.label,
             strCustomerCategory: values?.customerCategory?.value,
             akigGroupSisterConcernId: values?.agConcern?.value, //new
             akigGroupSisterConcernName: values?.agConcern?.label, //new
@@ -426,7 +426,7 @@ export default function PartnerSales() {
             isExclusive: values?.exclusivity?.value,
             creditFacilityTypeId: values?.paymentMode?.value,
             creditFacilityTypeName: values?.paymentMode?.label,
-            partyStatusType: values?.partyStatusType?.value,
+            partyStatusType: values?.partyStatusType?.label,
             strCustomerCategory: values?.customerCategory?.value,
             isManualAuto: values?.isManualAuto || false,
           },

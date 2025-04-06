@@ -183,7 +183,7 @@ export const getBusinessPartnerSalesByPartnerId = async (
         : "",
       partyStatusType: objDataGet?.partyStatusType
         ? {
-          value: objDataGet?.partyStatusType,
+          value: 0,
           label: objDataGet?.partyStatusType,
         }
         : "",
