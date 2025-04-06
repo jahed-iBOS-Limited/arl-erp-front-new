@@ -52,9 +52,9 @@ const TokenExpiredPopUp = ({ isCancel }) => {
   };
 
   const cb = () => {
-    dispatch(getUserRoleAction(profileData?.userId));
-    dispatch(setBuList(profileData?.userId, profileData?.accountId));
-    dispatch(getMenu_action(profileData?.userId));
+    // dispatch(getUserRoleAction(profileData?.userId));
+    // dispatch(setBuList(profileData?.userId, profileData?.accountId));
+    // dispatch(getMenu_action(profileData?.userId));
   };
 
   const submitHandler = (e) => {
