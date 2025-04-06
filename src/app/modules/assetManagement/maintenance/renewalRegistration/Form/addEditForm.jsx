@@ -94,93 +94,63 @@ const RenewalRegForm = ({
   const saveHandler = async (values, cb) => {
     if (totalAmount <= 0)
       return toast.warn("Total amount must be greater than zero");
+  
     setDisabled(true);
-    if (currentRowId) {
-      const attribute = rowDto?.map((item) => ({
-        rowId: item?.rowId,
-        attributeId: item?.attributeId,
-        attributeName: item?.attributeName,
-        amount: +item?.amount,
-        validityDate: values?.expiredDate,
-        nextRenewalDate: values?.nextRenewal,
-      }));
-
-      const payload = {
-        intRenewalId: currentRowId,
-        isApproved: false,
-        accountId: profileData?.accountId,
-        businessUnitId: selectedBusinessUnit?.value,
-        plantId: 0,
-        assetId: +prevData?.vehicleNo?.value,
-        assetCode: prevData?.vehicleNo?.code,
-        assetName: prevData?.vehicleNo?.label,
-        renewalServiceId: +prevData?.renewalType?.value,
-        renewalServiceName: prevData?.renewalType?.label,
-        itemId: prevData?.vehicleNo?.itemId,
-        itemName: prevData?.vehicleNo?.itemName,
-        documentId: "",
-        renewalDate: values?.renewalDate,
-        validityDate: values?.expiredDate || null,
-        nextRenewalDate: values?.nextRenewal || null,
-        renewalAmount: totalAmount,
-        actionBy: profileData?.userId,
-        brtaVehicleTypeId:
-          prevData?.vehicleNo?.brtaVehicelTypeId || values?.brtaType?.value,
-        brtaVehicleTypeName:
-          prevData?.vehicleNo?.brtaVehicelTypeName || values?.brtaType?.label,
-        attribute,
-      };
-
-      saveRenewalReg(
-        payload,
-        () => {
-          setCurrentRowId(null);
-          cb();
-        },
-        setDisabled
-      );
-    } else if (
-      values &&
-      profileData?.accountId &&
-      selectedBusinessUnit?.value
-    ) {
-      const attribute = rowDto?.map((item) => ({
-        rowId: item?.rowId,
-        attributeId: item?.attributeId,
-        attributeName: item?.attributeName,
-        amount: +item?.amount,
-        validityDate: values?.expiredDate,
-        nextRenewalDate: values?.nextRenewal,
-      }));
-
-      const payload = {
-        accountId: profileData?.accountId,
-        businessUnitId: selectedBusinessUnit?.value,
-        plantId: 0,
-        assetId: +prevData?.vehicleNo?.value,
-        assetCode: prevData?.vehicleNo?.code,
-        assetName: prevData?.vehicleNo?.label,
-        renewalServiceId: +prevData?.renewalType?.value,
-        renewalServiceName: prevData?.renewalType?.label,
-        itemId: prevData?.vehicleNo?.itemId,
-        itemName: prevData?.vehicleNo?.itemName,
-        documentId: "",
-        renewalDate: values?.renewalDate,
-        validityDate: values?.expiredDate || null,
-        nextRenewalDate: values?.nextRenewal || null,
-        renewalAmount: totalAmount,
-        actionBy: profileData?.userId,
-        brtaVehicleTypeId:
-          prevData?.vehicleNo?.brtaVehicelTypeId || values?.brtaType?.value,
-        brtaVehicleTypeName:
-          prevData?.vehicleNo?.brtaVehicelTypeName || values?.brtaType?.label,
-        attribute,
-      };
-
-      saveRenewalReg(payload, cb, setDisabled);
-    } else {
+  
+    if (!values || !profileData?.accountId || !selectedBusinessUnit?.value) {
       setDisabled(false);
+      return;
     }
+  
+    const attribute = rowDto?.map((item) => ({
+      rowId: item?.rowId,
+      attributeId: item?.attributeId,
+      attributeName: item?.attributeName,
+      amount: +item?.amount,
+      validityDate: values?.expiredDate,
+      nextRenewalDate: values?.nextRenewal,
+    }));
+  
+    const commonPayload = {
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value,
+      plantId: 0,
+      assetId: +prevData?.vehicleNo?.value,
+      assetCode: prevData?.vehicleNo?.code,
+      assetName: prevData?.vehicleNo?.label,
+      renewalServiceId: +prevData?.renewalType?.value,
+      renewalServiceName: prevData?.renewalType?.label,
+      itemId: prevData?.vehicleNo?.itemId,
+      itemName: prevData?.vehicleNo?.itemName,
+      documentId: "",
+      renewalDate: values?.renewalDate,
+      validityDate: values?.expiredDate || null,
+      nextRenewalDate: values?.nextRenewal || null,
+      renewalAmount: totalAmount,
+      actionBy: profileData?.userId,
+      brtaVehicleTypeId:
+        prevData?.vehicleNo?.brtaVehicelTypeId || values?.brtaType?.value,
+      brtaVehicleTypeName:
+        prevData?.vehicleNo?.brtaVehicelTypeName || values?.brtaType?.label,
+      attribute,
+    };
+  
+    const payload = currentRowId
+      ? {
+          ...commonPayload,
+          intRenewalId: currentRowId,
+          isApproved: false,
+        }
+      : commonPayload;
+  
+    saveRenewalReg(
+      payload,
+      () => {
+        if (currentRowId) setCurrentRowId(null);
+        cb();
+      },
+      setDisabled
+    );
   };
 
   // setRowDto amount dynamically
