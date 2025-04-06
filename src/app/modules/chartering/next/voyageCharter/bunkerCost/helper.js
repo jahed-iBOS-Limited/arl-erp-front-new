@@ -2,48 +2,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../../../App';
 
-export const getBunkerPurchaseList = async (
-  buId,
-  vesselId,
-  setLoading,
-  setter,
-) => {
-  setLoading(true);
-  try {
-    const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`,
-    );
-
-    setter(
-      res?.data?.map((item) => ({
-        ...item,
-        itemCost: 0,
-        consumption: 0,
-        remainingQty: item?.remaining,
-      })),
-    );
-    setLoading(false);
-  } catch (error) {
-    setter([]);
-    setLoading(false);
-  }
-};
-
-export const saveBunkerCost = async (payload, setLoading, cb) => {
-  setLoading(true);
-  try {
-    const res = await axios.post(
-      `${imarineBaseUrl}/domain/BunkerCost/CreateBunkerCost`,
-      payload,
-    );
-    toast.success(res?.data?.message);
-    cb();
-    setLoading(false);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setLoading(false);
-  }
-};
 
 // get landing page data
 export const getBunkerCostLandingData = async (
