@@ -7,7 +7,49 @@ import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
 import { getDifference } from "../../../../_chartinghelper/_getDateDiff";
 import { validationSchema } from "../helper";
+export const dateHandler = (e, values, setFieldValue, type) => {
+  /* Calculate Duration */
+  const diff = getDifference(
+    type === "endDate"
+      ? moment(values?.ballastStartDate).format("YYYY-MM-DDTHH:mm:ss")
+      : moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss"),
+    type === "endDate"
+      ? moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
+      : moment(values?.ballastEndDate).format("YYYY-MM-DDTHH:mm:ss")
+  );
 
+  /* Set Ballast Duration */
+
+  setFieldValue("ballastDuration", isNaN(diff) ? 0 : parseFloat(diff));
+
+  /* Set Current Input Field Value */
+  if (type === "endDate") {
+    setFieldValue(
+      "ballastEndDate",
+      moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
+    );
+  } else {
+    setFieldValue(
+      "ballastStartDate",
+      moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
+    );
+  }
+
+  const lsfoQty = (values?.lsfoperDayQty * diff).toFixed(2);
+  const lsmgoQty = (values?.lsmgoperDayQty * diff).toFixed(2);
+
+  setFieldValue("lsfoballastQty", lsfoQty);
+  setFieldValue("lsmgoballastQty", lsmgoQty);
+
+  setFieldValue(
+    "lsfoballastAmount",
+    (lsfoQty * values?.lsfoballastRate).toFixed(2)
+  );
+  setFieldValue(
+    "lsmgoballastAmount",
+    (lsmgoQty * values?.lsmgoballastRate).toFixed(2)
+  );
+};
 export default function FormCmp({
   title,
   initData,
@@ -16,51 +58,6 @@ export default function FormCmp({
   preData,
 }) {
   const history = useHistory();
-
-  const dateHandler = (e, values, setFieldValue, type) => {
-    /* Calculate Duration */
-    const diff = getDifference(
-      type === "endDate"
-        ? moment(values?.ballastStartDate).format("YYYY-MM-DDTHH:mm:ss")
-        : moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss"),
-      type === "endDate"
-        ? moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-        : moment(values?.ballastEndDate).format("YYYY-MM-DDTHH:mm:ss")
-    );
-
-    /* Set Ballast Duration */
-
-    setFieldValue("ballastDuration", isNaN(diff) ? 0 : parseFloat(diff));
-
-    /* Set Current Input Field Value */
-    if (type === "endDate") {
-      setFieldValue(
-        "ballastEndDate",
-        moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-      );
-    } else {
-      setFieldValue(
-        "ballastStartDate",
-        moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-      );
-    }
-
-    const lsfoQty = (values?.lsfoperDayQty * diff).toFixed(2);
-    const lsmgoQty = (values?.lsmgoperDayQty * diff).toFixed(2);
-
-    setFieldValue("lsfoballastQty", lsfoQty);
-    setFieldValue("lsmgoballastQty", lsmgoQty);
-
-    setFieldValue(
-      "lsfoballastAmount",
-      (lsfoQty * values?.lsfoballastRate).toFixed(2)
-    );
-    setFieldValue(
-      "lsmgoballastAmount",
-      (lsmgoQty * values?.lsmgoballastRate).toFixed(2)
-    );
-  };
-
   return (
     <>
       <Formik
@@ -133,12 +130,12 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <FormikSelect
                       value={values?.vesselName || ""}
-                      isSearchable={true}
+                      isSearchable
                       styles={customStyles}
                       name="vesselName"
                       placeholder="Vessel Name"
                       label="Vessel Name"
-                      isDisabled={true}
+                      isDisabled
                       errors={errors}
                       touched={touched}
                     />
@@ -146,12 +143,12 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <FormikSelect
                       value={values?.voyageNo || ""}
-                      isSearchable={true}
+                      isSearchable
                       styles={customStyles}
                       name="voyageNo"
                       placeholder="Voyage No"
                       label="Voyage No"
-                      isDisabled={true}
+                      isDisabled
                       errors={errors}
                       touched={touched}
                     />
@@ -169,8 +166,8 @@ export default function FormCmp({
                       max={
                         values?.ballastEndDate
                           ? moment(values?.ballastEndDate).format(
-                              "YYYY-MM-DDTHH:mm:ss"
-                            )
+                            "YYYY-MM-DDTHH:mm:ss"
+                          )
                           : ""
                       }
                       type="datetime-local"
@@ -201,7 +198,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>Ballast Duration</label>
                     <FormikInput
-                      value={values?.ballastDuration}
+                      value={values?.ballastDuration || ""}
                       name="ballastDuration"
                       placeholder="Ballast Duration"
                       type="text"

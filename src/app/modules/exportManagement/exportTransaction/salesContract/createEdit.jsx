@@ -162,27 +162,27 @@ export default function SalesContractCreateEdit() {
             },
             portofShipment:
               data?.data?.objHeader?.portofShipment &&
-              data?.data?.objHeader?.portofShipmentId
+                data?.data?.objHeader?.portofShipmentId
                 ? {
-                    value: data?.data?.objHeader?.portofShipmentId,
-                    label: data?.data?.objHeader?.portofShipment,
-                  }
+                  value: data?.data?.objHeader?.portofShipmentId,
+                  label: data?.data?.objHeader?.portofShipment,
+                }
                 : '',
             portofDishcharge:
               data?.data?.objHeader?.portofDishcharge &&
-              data?.data?.objHeader?.portofDischargeId
+                data?.data?.objHeader?.portofDischargeId
                 ? {
-                    value: data?.data?.objHeader?.portofDischargeId,
-                    label: data?.data?.objHeader?.portofDishcharge,
-                  }
+                  value: data?.data?.objHeader?.portofDischargeId,
+                  label: data?.data?.objHeader?.portofDishcharge,
+                }
                 : '',
             destinationCountry:
               data?.data?.objHeader?.toCountryId &&
-              data?.data?.objHeader?.toCountryName
+                data?.data?.objHeader?.toCountryName
                 ? {
-                    value: data?.data?.objHeader?.toCountryId,
-                    label: data?.data?.objHeader?.toCountryName,
-                  }
+                  value: data?.data?.objHeader?.toCountryId,
+                  label: data?.data?.objHeader?.toCountryName,
+                }
                 : '',
             finalDestination: data?.data?.objHeader?.finalDestination,
             countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -197,11 +197,11 @@ export default function SalesContractCreateEdit() {
             exPortRegNo: data?.data?.objHeader?.exPortRegNo,
             viewAs:
               data?.data?.objHeader?.strViewAs &&
-              data?.data?.objHeader?.intViewAs
+                data?.data?.objHeader?.intViewAs
                 ? {
-                    value: data?.data?.objHeader?.intViewAs,
-                    label: data?.data?.objHeader?.strViewAs,
-                  }
+                  value: data?.data?.objHeader?.intViewAs,
+                  label: data?.data?.objHeader?.strViewAs,
+                }
                 : '',
             attachmentno: data?.data?.objHeader?.attachmentno,
           });
@@ -334,11 +334,11 @@ export default function SalesContractCreateEdit() {
                 portofDishcharge: data?.data?.objHeader?.portofDishcharge,
                 destinationCountry:
                   data?.data?.objHeader?.toCountryId &&
-                  data?.data?.objHeader?.toCountryName
+                    data?.data?.objHeader?.toCountryName
                     ? {
-                        value: data?.data?.objHeader?.toCountryId,
-                        label: data?.data?.objHeader?.toCountryName,
-                      }
+                      value: data?.data?.objHeader?.toCountryId,
+                      label: data?.data?.objHeader?.toCountryName,
+                    }
                     : '',
                 finalDestination: data?.data?.objHeader?.finalDestination,
                 countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -812,11 +812,10 @@ export default function SalesContractCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.freightAmount}
-                    label={`Freight Amount ${
-                      values?.currency?.label
+                    label={`Freight Amount ${values?.currency?.label
                         ? `in (${values?.currency?.label})`
                         : ``
-                    }`}
+                      }`}
                     name="freightAmount"
                     type="number"
                     onChange={(e) => {
@@ -831,9 +830,8 @@ export default function SalesContractCreateEdit() {
                     type="button"
                     onClick={() => setOpen(true)}
                   >
-                    {`${
-                      id && modifyData?.attachmentno ? 'ReAttach' : 'Attach'
-                    } File`}
+                    {`${id && modifyData?.attachmentno ? 'ReAttach' : 'Attach'
+                      } File`}
                   </button>
                 </div>
                 {id && modifyData?.attachmentno && (
@@ -860,8 +858,8 @@ export default function SalesContractCreateEdit() {
                   submitButtonText={'submit'}
                   maxFileSize={1000000}
                   open={open}
-                  onAdd={(newFileObjs) => {
-                    setFileObjects([].concat(newFileObjs));
+                  onAdd={(newFileObj) => {
+                    setFileObjects([].concat(newFileObj));
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
@@ -936,54 +934,6 @@ export default function SalesContractCreateEdit() {
                     }}
                   />
                 </div>
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.quantity}
-                    label="Quantity"
-                    name="quantity"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.price}
-                    label={`Fob Rate (${values?.currency?.label || ""})`}
-                    name="price"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("price", e.target.value);
-                    }}
-                  />
-                </div> */}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={(values?.quantity * values?.price).toFixed(2) || 0}
-                    label="Total Price"
-                    name="total"
-                    type="number"
-                    disabled={true}
-                  />
-                </div> */}
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="uom"
-                    options={uom}
-                    value={values?.uom}
-                    label="Uom"
-                    onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("uom", valueOption);
-                      } else {
-                        setFieldValue("uom", "");
-                      }
-                    }}
-                    isDisabled={true}
-                  />
-                </div> */}
-
                 <div className="col-lg-3">
                   <NewSelect
                     name="exportUoM"
@@ -997,29 +947,12 @@ export default function SalesContractCreateEdit() {
                         setFieldValue('exportUoM', '');
                       }
                     }}
-                    // isDisabled={true}
                   />
                 </div>
 
-                {/* <div className="col-lg-3">
-                  <input
-                    id="isSpecification"
-                    type="checkbox"
-                    className="ml-2"
-                    value={values?.isSpecification}
-                    checked={values?.isSpecification}
-                    name="isSpecification"
-                    onChange={(e) => {
-                      setFieldValue("isSpecification", e.target.checked);
-                    }}
-                  />
-                  <label htmlFor="isSpecification" className="ml-1 mt-2">
-                    Want to add specification?
-                  </label>
-                </div> */}
+
               </div>
-              {/* third box */}
-              {/* {values?.isSpecification && ( */}
+
               <div className="form-group global-form row">
                 <div className="col-lg-3">
                   <NewSelect

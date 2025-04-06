@@ -110,3 +110,14 @@ export const loanRegisterSchema = Yup.object().shape({
     }),
     instrumentNo: Yup.string().required('Instrument No is required'),
 });
+
+export const vslAndVoyNoValidationSchema = Yup.object().shape({
+    vesselName: Yup.object().shape({
+        label: Yup.string().required('Vessel Name is required'),
+        value: Yup.string().required('Vessel Name is required'),
+    }),
+    voyageNo: Yup.object().shape({
+        label: Yup.string().required('Voyage No is required'),
+        value: Yup.string().required('Voyage No is required'),
+    }),
+});

@@ -4,8 +4,8 @@ import { useSelector, shallowEqual } from "react-redux";
 import { useParams, useLocation, useHistory } from "react-router";
 import Form from "./form";
 import { toast } from "react-toastify";
-import { saveBunkerCost } from "../helper";
 import Loading from "../../../../_chartinghelper/loading/_loading";
+import { saveBunkerCost } from "../../../../../_helper/_commonApi";
 
 const initData = {
   vesselName: "",
@@ -114,7 +114,7 @@ export default function NextBunkerCostForm() {
     data[index]["itemCost"] = bunkerPurchaseList[index]["itemRate"] * value;
     data[index]["remainingQty"] = value
       ? bunkerPurchaseList[index]["remaining"] -
-        Number(bunkerPurchaseList[index]["consumption"])
+      Number(bunkerPurchaseList[index]["consumption"])
       : data[index]["remaining"];
     setBunkerPurchaseList(data);
   };
