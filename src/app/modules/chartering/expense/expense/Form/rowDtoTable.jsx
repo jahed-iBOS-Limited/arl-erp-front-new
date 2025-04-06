@@ -23,8 +23,6 @@ const RowDtoTable = ({
   const [orderQtyCheck, setOrderQtyCheck] = useState(false);
 
   const setAllOrderQty = (orderQtyCheck) => {
-    // set every row orderQty = restofQty
-    // we use rowDtoHandler because this function will set orderQty, and also calculate net amount
     rowDto.forEach((item, index) => {
       rowDtoDynamicHandler(
         "orderQty",
@@ -46,7 +44,7 @@ const RowDtoTable = ({
   return (
     <div>
       {rowDto?.length > 0 && (
-        <>
+        <React.Fragment>
           <div className="table-responsive">
             <table className="table table-striped table-bordered global-table mt-3 po-table">
               <thead>
@@ -334,7 +332,7 @@ const RowDtoTable = ({
               setIsShowModal={setIsShowModal}
             />
           </IViewModal>
-        </>
+        </React.Fragment>
       )}
     </div>
   );
