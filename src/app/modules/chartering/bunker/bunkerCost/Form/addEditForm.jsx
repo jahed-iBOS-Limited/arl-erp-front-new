@@ -4,9 +4,10 @@ import { useSelector, shallowEqual } from "react-redux";
 import { useParams } from "react-router";
 import Form from "./form";
 import { toast } from "react-toastify";
-import { GetBunkerCostById, saveBunkerCost } from "../helper";
+import { GetBunkerCostById } from "../helper";
 import { getVesselDDL } from "../../../helper";
 import Loading from "../../../_chartinghelper/loading/_loading";
+import { saveBunkerCost } from "../../../../_helper/_commonApi";
 
 const initData = {
   vesselName: "",
@@ -66,11 +67,11 @@ export default function BunkerCostForm() {
 
     if (
       Number(Lsmgo.toFixed(2)) !==
-        Number(consumption?.consumptionLsmgoqty.toFixed(2)) ||
+      Number(consumption?.consumptionLsmgoqty.toFixed(2)) ||
       Number(Lsfo1.toFixed(2)) !==
-        Number(consumption?.consumptionLsfo1qty.toFixed(2)) ||
+      Number(consumption?.consumptionLsfo1qty.toFixed(2)) ||
       Number(Lsfo2.toFixed(2)) !==
-        Number(consumption?.consumptionLsfo2qty.toFixed(2))
+      Number(consumption?.consumptionLsfo2qty.toFixed(2))
     ) {
       return toast.error("Please check consumption adjustment");
     }
@@ -132,11 +133,11 @@ export default function BunkerCostForm() {
     );
     data[index]["remainingQty"] = value
       ? Number(
-          (
-            bunkerPurchaseList[index]["remaining"] -
-            Number(bunkerPurchaseList[index]["consumption"])
-          )?.toFixed(2)
-        )
+        (
+          bunkerPurchaseList[index]["remaining"] -
+          Number(bunkerPurchaseList[index]["consumption"])
+        )?.toFixed(2)
+      )
       : Number(data[index]["remaining"]?.toFixed(2));
     setBunkerPurchaseList(data);
   };
@@ -145,8 +146,8 @@ export default function BunkerCostForm() {
     type === "view"
       ? "View Bunker Cost"
       : type === "edit"
-      ? "Edit Bunker Cost"
-      : "Create Bunker Cost";
+        ? "Edit Bunker Cost"
+        : "Create Bunker Cost";
 
   return (
     <>

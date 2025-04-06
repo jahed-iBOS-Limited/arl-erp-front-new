@@ -9,6 +9,7 @@ import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { getDifference } from "../../../_chartinghelper/_getDateDiff";
 import { getItemRateForBunker, validationSchema } from "../helper";
+import { dateHandler } from "../../../next/timeCharter/ballastPassage/Form/form";
 
 export default function FormCmp({
   title,
@@ -27,48 +28,7 @@ export default function FormCmp({
     return state?.authData;
   }, shallowEqual);
 
-  const dateHandler = (e, values, setFieldValue, type) => {
-    /* Calculate Duration */
-    const diff = getDifference(
-      type === "endDate"
-        ? moment(values?.ballastStartDate).format("YYYY-MM-DDTHH:mm:ss")
-        : moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss"),
-      type === "endDate"
-        ? moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-        : moment(values?.ballastEndDate).format("YYYY-MM-DDTHH:mm:ss")
-    );
 
-    /* Set Ballast Duration */
-    setFieldValue("ballastDuration", isNaN(diff) ? 0 : parseFloat(diff));
-
-    /* Set Current Input Field Value */
-    if (type === "endDate") {
-      setFieldValue(
-        "ballastEndDate",
-        moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-      );
-    } else {
-      setFieldValue(
-        "ballastStartDate",
-        moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-      );
-    }
-
-    const lsfoQty = (values?.lsfoperDayQty * diff).toFixed(2);
-    const lsmgoQty = (values?.lsmgoperDayQty * diff).toFixed(2);
-
-    setFieldValue("lsfoballastQty", lsfoQty);
-    setFieldValue("lsmgoballastQty", lsmgoQty);
-
-    setFieldValue(
-      "lsfoballastAmount",
-      (lsfoQty * values?.lsfoballastRate).toFixed(2)
-    );
-    setFieldValue(
-      "lsmgoballastAmount",
-      (lsmgoQty * values?.lsmgoballastRate).toFixed(2)
-    );
-  };
 
   return (
     <>
@@ -197,8 +157,8 @@ export default function FormCmp({
                       max={
                         values?.ballastEndDate
                           ? moment(values?.ballastEndDate).format(
-                              "YYYY-MM-DDTHH:mm:ss"
-                            )
+                            "YYYY-MM-DDTHH:mm:ss"
+                          )
                           : ""
                       }
                       type="datetime-local"

@@ -64,23 +64,28 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
   const formikRef = React.useRef(null);
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
-  const [getBankListDDL, setBankListDDL] = useAxiosGet();
+  const [buyerBankDDL, getBuyerBankDDL] = useAxiosGet();
+  const [shipperBankDDL, getShipperBankDDL] = useAxiosGet();
   const [, setBlobalBankAddressDDL] = useAxiosGet();
   const [, GetParticipantsWithShipper] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
-
+  const isImport = rowClickData?.tradeTypeId === 2;
   const getGlobalBankAddress = (id) => {
     setBuyerBankAddressDDL([]);
     if (!id) return;
-    setBlobalBankAddressDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`,
-      (data) => {
-        // formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
-        setBuyerBankAddressDDL(data);
-      },
-    );
+
+    let url = '';
+    if (isImport) {
+      url = `${imarineBaseUrl}/domain/OwnerInfo/GetBankBranchDDL?BankId=${id}`;
+    } else {
+      url = `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`;
+    }
+    setBlobalBankAddressDDL(url, (data) => {
+      // formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
+      setBuyerBankAddressDDL(data);
+    });
   };
 
   const debouncedGetCityList = _.debounce((value) => {
@@ -122,27 +127,27 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
               'consigneeName',
               data?.consigneeId && data?.consigneeName
                 ? {
-                  value: data?.consigneeId || 0,
-                  label: data?.consigneeName || '',
-                }
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                  value: data?.consigCountryId || 0,
-                  label: data?.consigCountry || '',
-                }
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigState
                 ? {
-                  value: 0,
-                  label: data?.consigState || '',
-                }
+                    value: 0,
+                    label: data?.consigState || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -170,36 +175,36 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
               'bankAddress',
               data?.notifyBankAddr
                 ? {
-                  value: 0,
-                  label: data?.notifyBankAddr || '',
-                }
+                    value: 0,
+                    label: data?.notifyBankAddr || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
               data?.notifyParty
                 ? {
-                  value: 0,
-                  label: data?.notifyParty || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'buyerBank',
               data?.buyerBank
                 ? {
-                  value: 0,
-                  label: data?.buyerBank || '',
-                }
+                    value: 0,
+                    label: data?.buyerBank || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty2',
               data?.notifyParty2
                 ? {
-                  value: 0,
-                  label: data?.notifyParty2 || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty2 || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -210,18 +215,18 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: data?.freightAgentReferenceId || 0,
-                  label: data?.freightAgentReference || '',
-                }
+                    value: data?.freightAgentReferenceId || 0,
+                    label: data?.freightAgentReference || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'freightAgentReference2',
               data?.freightAgentReference2
                 ? {
-                  value: data?.freightAgentReferenceId2 || 0,
-                  label: data?.freightAgentReference2 || '',
-                }
+                    value: data?.freightAgentReferenceId2 || 0,
+                    label: data?.freightAgentReference2 || '',
+                  }
                 : '',
             );
             //shippingMark
@@ -249,17 +254,17 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
         },
       );
     }
-
-
   }, [bookingRequestId]);
 
   useEffect(() => {
-    setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
+    getBuyerBankDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`,
+    );
+    getShipperBankDDL(`${imarineBaseUrl}/domain/OwnerInfo/GetBankDDL`);
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
     getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
-
   }, []);
 
   const consigneeOnChangeHandler = async (shipperOrConsigneeId) => {
@@ -415,13 +420,15 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
         return res?.data;
       });
   };
+
   return (
     <div className="confirmModal">
       {(bookingConfirmLoading || shipBookingRequestLoading) && <Loading />}
@@ -763,7 +770,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="buyerBank"
-                    options={getBankListDDL || []}
+                    options={!isImport ? buyerBankDDL : shipperBankDDL || []}
                     value={values?.buyerBank}
                     label="Buyer Bank"
                     onChange={(valueOption) => {
@@ -782,11 +789,10 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     name="bankAddress"
                     options={buyerBankAddressDDL || []}
                     value={values?.bankAddress}
-                    label="Bank Address"
+                    label={!isImport ? 'Bank Address' : 'Bank Branch'}
                     onChange={(valueOption) => {
                       setFieldValue('bankAddress', valueOption);
                     }}
-                    placeholder="Bank Address"
                     errors={errors}
                     touched={touched}
                   />

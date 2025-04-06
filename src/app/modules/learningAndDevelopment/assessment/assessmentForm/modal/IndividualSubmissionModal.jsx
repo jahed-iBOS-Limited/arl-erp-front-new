@@ -9,7 +9,7 @@ const initData = {
 const IndividualSubmissionModal = ({ currentUserMarks, assesment }) => {
     const [isDisabled] = useState(false);
     const [objProps, setObjprops] = useState({});
-    const [questionsList, getQuestionsList, ] = useAxiosGet();
+    const [questionsList, getQuestionsList,] = useAxiosGet();
 
     useEffect(() => {
         getQuestionsList(
@@ -28,7 +28,6 @@ const IndividualSubmissionModal = ({ currentUserMarks, assesment }) => {
                 `Total Marks:
                     ${questionsList?.reduce((a, b) => a + b?.numMarks, 0)}`
             }
-            // customTitle={assesment ? "Pre-Assessment Submission Form" : "Post-Assessment Submission Form"}
             getProps={setObjprops}
             isDisabled={isDisabled}
             isHiddenReset={true}
@@ -49,11 +48,7 @@ const IndividualSubmissionModal = ({ currentUserMarks, assesment }) => {
                     {({
                         handleSubmit,
                         resetForm,
-                        values,
                         setFieldValue,
-                        isValid,
-                        errors,
-                        touched,
                     }) => (
                         <>
                             <Form className="form form-label-right">
