@@ -8,8 +8,8 @@ import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
 import {
   getBunkerPurchaseList,
   getConsumption,
-  validationSchema,
 } from "../helper";
+import { vslAndVoyNoValidationSchema } from "../../../../../_helper/_validationSchema";
 
 export default function FormCmp({
   title,
@@ -55,7 +55,7 @@ export default function FormCmp({
           vesselName: preData?.vesselName,
           voyageNo: preData?.voyageNo,
         }}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

@@ -1,20 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
 import { imarineBaseUrl } from '../../../../../App';
-
-// Validation schema
-export const validationSchema = Yup.object().shape({
-  vesselName: Yup.object().shape({
-    label: Yup.string().required('Vessel Name is required'),
-    value: Yup.string().required('Vessel Name is required'),
-  }),
-  voyageNo: Yup.object().shape({
-    label: Yup.string().required('Voyage No is required'),
-    value: Yup.string().required('Voyage No is required'),
-  }),
-});
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
 
 export const getVoyageCharterTransactionLandingData = async (
   accId,
@@ -142,20 +129,20 @@ export const getIntermidiateInvoiceData = async (
     const rows =
       res?.data?.objList?.length > 0
         ? res?.data?.objList?.map((item, index) => {
-            return {
-              ...item,
-              sl: index,
-              isFixed: true,
-              isChecked: true,
-            };
-          })
+          return {
+            ...item,
+            sl: index,
+            isFixed: true,
+            isChecked: true,
+          };
+        })
         : [];
 
     const initialRowForCreate =
       rows?.length === 0
         ? []
         : statementId === 3
-        ? [
+          ? [
             {
               freightInvoiceId: 0,
               sl: 0,
@@ -242,9 +229,8 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `AMOUNT RECEIVED BEFORE (${
-                header?.freightPercentage
-              }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
+              particulars: `AMOUNT RECEIVED BEFORE (${header?.freightPercentage
+                }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -255,7 +241,7 @@ export const getIntermidiateInvoiceData = async (
               isFixed: true,
             },
           ]
-        : /* Initial Statement */
+          : /* Initial Statement */
           [
             {
               freightInvoiceId: 0,
@@ -272,9 +258,8 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${
-                header?.brokerCommission || 0
-              }% BROKER COMMISSION ON 100% FREIGHT`,
+              particulars: `${header?.brokerCommission || 0
+                }% BROKER COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -286,9 +271,8 @@ export const getIntermidiateInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${
-                header?.addressCommission || 0
-              }% ADDRESS COMMISSION ON 100% FREIGHT`,
+              particulars: `${header?.addressCommission || 0
+                }% ADDRESS COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -304,18 +288,18 @@ export const getIntermidiateInvoiceData = async (
     header?.freightInvoiceId > 0
       ? setRowData([...rows])
       : setRowData([
-          ...rows?.map((item) => {
-            if (statementId === 3) {
-              return {
-                ...item,
-                debit: item?.cargoQty * item?.freightRate || 0,
-              };
-            } else {
-              return item;
-            }
-          }),
-          ...initialRowForCreate,
-        ]);
+        ...rows?.map((item) => {
+          if (statementId === 3) {
+            return {
+              ...item,
+              debit: item?.cargoQty * item?.freightRate || 0,
+            };
+          } else {
+            return item;
+          }
+        }),
+        ...initialRowForCreate,
+      ]);
 
     setLoading(false);
   } catch (err) {
@@ -348,20 +332,20 @@ export const getInvoiceData = async (
     const rows =
       res?.data?.objList?.length > 0
         ? res?.data?.objList?.map((item, index) => {
-            return {
-              ...item,
-              sl: index,
-              isFixed: true,
-              isChecked: true,
-            };
-          })
+          return {
+            ...item,
+            sl: index,
+            isFixed: true,
+            isChecked: true,
+          };
+        })
         : [];
 
     const initialRowForCreate =
       rows?.length === 0
         ? []
         : statementId === 2
-        ? [
+          ? [
             {
               freightInvoiceId: 0,
               sl: 0,
@@ -462,7 +446,7 @@ export const getInvoiceData = async (
               isFixed: true,
             },
           ]
-        : /* Initial Statement */
+          : /* Initial Statement */
           [
             {
               freightInvoiceId: 0,
@@ -479,9 +463,8 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${
-                header?.brokerCommission || 0
-              }% BROKER COMMISSION ON 100% FREIGHT`,
+              particulars: `${header?.brokerCommission || 0
+                }% BROKER COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -493,9 +476,8 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `${
-                header?.addressCommission || 0
-              }% ADDRESS COMMISSION ON 100% FREIGHT`,
+              particulars: `${header?.addressCommission || 0
+                }% ADDRESS COMMISSION ON 100% FREIGHT`,
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
@@ -511,18 +493,18 @@ export const getInvoiceData = async (
     header?.freightInvoiceId > 0
       ? setRowData([...rows])
       : setRowData([
-          ...rows?.map((item) => {
-            if (statementId === 2) {
-              return {
-                ...item,
-                debit: item?.cargoQty * item?.freightRate || 0,
-              };
-            } else {
-              return item;
-            }
-          }),
-          ...initialRowForCreate,
-        ]);
+        ...rows?.map((item) => {
+          if (statementId === 2) {
+            return {
+              ...item,
+              debit: item?.cargoQty * item?.freightRate || 0,
+            };
+          } else {
+            return item;
+          }
+        }),
+        ...initialRowForCreate,
+      ]);
 
     setLoading(false);
   } catch (err) {
@@ -591,7 +573,7 @@ export const getAccDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // {

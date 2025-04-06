@@ -1,18 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
 
-export const validationSchema = Yup.object().shape({
-  vesselName: Yup.object().shape({
-    label: Yup.string().required('Vessel Name is required'),
-    value: Yup.string().required('Vessel Name is required'),
-  }),
-  voyageNo: Yup.object().shape({
-    label: Yup.string().required('Voyage No is required'),
-    value: Yup.string().required('Voyage No is required'),
-  }),
-});
 
 export const getConsumption = async (
   vesselId,

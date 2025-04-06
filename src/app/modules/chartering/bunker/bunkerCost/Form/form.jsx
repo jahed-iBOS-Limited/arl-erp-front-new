@@ -4,7 +4,6 @@ import { useHistory } from "react-router";
 import {
   getBunkerPurchaseList,
   getConsumption,
-  validationSchema,
 } from "../helper";
 import { toast } from "react-toastify";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
@@ -13,6 +12,7 @@ import { getVoyageDDLNew } from "../../../helper";
 import ICustomTable from "../../../_chartinghelper/_customTable";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
 
 export default function FormCmp({
   title,
@@ -39,7 +39,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

@@ -1,22 +1,11 @@
-import * as Yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { imarineBaseUrl } from '../../../../../App';
 import { isArray } from 'lodash-es';
-import { _todayDate } from '../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
-// Validation schema
-export const validationSchema = Yup.object().shape({
-  vesselName: Yup.object().shape({
-    label: Yup.string().required('Vessel name is required'),
-    value: Yup.string().required('Vessel name is required'),
-  }),
-  voyageNo: Yup.object().shape({
-    label: Yup.string().required('Voyage No is required'),
-    value: Yup.string().required('Voyage No is required'),
-  }),
-});
 
 export const getAdditionalCostLandingData = async (
   accId,

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
 import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import IViewModal from "../../../_chartinghelper/_viewModal";
@@ -14,7 +15,6 @@ import { getVoyageDDLNew } from "../../../helper";
 import {
   getBusinessPartnerDDL,
   getCostTypeDDL,
-  validationSchema,
 } from "../helper";
 import AddCostTypeForm from "./addCostType";
 import CashReceiveForm from "./cashReceive";
@@ -76,7 +76,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={vslAndVoyNoValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
