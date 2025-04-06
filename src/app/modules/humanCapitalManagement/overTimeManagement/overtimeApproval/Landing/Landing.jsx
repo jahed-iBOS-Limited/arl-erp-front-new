@@ -7,7 +7,6 @@ import { Form } from "react-bootstrap";
 import {
   getNewApplicationData,
   approveAll,
-  getWorkplaceDDL_api,
 } from "../helper";
 import NewSelect from "../../../../_helper/_select";
 import Loading from "../../../../_helper/_loading";
@@ -15,6 +14,7 @@ import IConfirmModal from "../../../../_helper/_confirmModal";
 import { toast } from "react-toastify";
 import { IInput } from "../../../../_helper/_input";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
 const initData = {
   viewAs: "",
   applicationType: "",
@@ -85,7 +85,7 @@ const OvertimeApprovalLanding = () => {
           getDataForApproval(values);
         });
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
