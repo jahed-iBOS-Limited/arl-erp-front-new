@@ -129,14 +129,10 @@ const OvertimeRequisitionApprovalLanding = () => {
           }}
         >
           {({
-            handleSubmit,
-            resetForm,
             values,
             errors,
             touched,
             setFieldValue,
-            setValues,
-            isValid,
           }) => (
             <>
               {loader && <Loading />}
@@ -301,7 +297,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                     <tbody>
                       {rowDto?.length > 0 &&
                         rowDto?.map((data, index) => (
-                          <tr key={index}>
+                          <tr key={index + 1}>
                             {values?.applicationType?.value === 1 && (
                               <td>
                                 <input

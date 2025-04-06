@@ -79,7 +79,7 @@ const OvertimeApprovalLanding = () => {
             data.push(obj);
           }
         });
-        if (data.length === 0) return toast.warn("Select atleast one row");
+        if (data.length === 0) return toast.warn("Select at least one row");
         approveAll(data, setLoader, () => {
           setAllSelect(false);
           getDataForApproval(values);
@@ -127,7 +127,6 @@ const OvertimeApprovalLanding = () => {
           }}
         >
           {({
-            handleSubmit,
             resetForm,
             values,
             errors,
