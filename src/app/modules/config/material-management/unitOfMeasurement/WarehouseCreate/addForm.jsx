@@ -62,7 +62,6 @@ export default function UOMAddForm({
       setDisabled(false);
     }
   };
-
   const btnRef = useRef();
   const saveBtnClicker = () => {
     if (btnRef && btnRef.current) {
