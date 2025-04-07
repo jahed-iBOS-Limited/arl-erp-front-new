@@ -23,15 +23,12 @@ export default function FormCmp({
 }) {
   const history = useHistory();
 
-  // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
-
-
   return (
-    <>
+    <React.Fragment>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -331,6 +328,6 @@ export default function FormCmp({
           </>
         )}
       </Formik>
-    </>
+    </React.Fragment>
   );
 }

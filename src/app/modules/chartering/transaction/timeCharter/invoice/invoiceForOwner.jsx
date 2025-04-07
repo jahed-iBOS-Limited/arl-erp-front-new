@@ -88,11 +88,6 @@ export default function InvoiceForOwner({
           credit:
             ((12 * invoiceHireData?.cveday) / 365) *
             (diffDate - offHireDuration),
-          // formula by changed by dipu vi
-          // credit:
-          //   ((diffDate - offHireDuration) *
-          //     invoiceHireData?.cveday) /
-          //   30,
         };
       }
       if (item?.key === "hbc") {
@@ -150,13 +145,12 @@ export default function InvoiceForOwner({
         </div>
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DATE OF INVOICE :</div>
-          <div className="headerValue">{values?.invoiceDate}</div>
-          {/* <div className="headerValue">{values?.transactionDate}</div> */}
+          <div className="headerValue">{values?.invoiceDate || ""}</div>
         </div>
 
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">OWNER :</div>
-          <div className="headerValue">{invoiceHireData?.ownerName}</div>
+          <div className="headerValue">{invoiceHireData?.ownerName || ""}</div>
         </div>
         <div className="col-lg-6 headerWrapper">
           {invoiceHireData?.refNo ? (
@@ -169,7 +163,7 @@ export default function InvoiceForOwner({
 
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">CHTR :</div>
-          <div className="headerValue">{invoiceHireData?.chtrName}</div>
+          <div className="headerValue">{invoiceHireData?.chtrName || ""}</div>
         </div>
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DUE DATE :</div>

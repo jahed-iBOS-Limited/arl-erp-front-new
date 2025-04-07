@@ -7,7 +7,7 @@ import {
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import {getLayTime } from "../../helper";
+import { getLayTime } from "../../helper";
 import { initData } from "../addEditForm";
 import { daysToDDHHMM } from "../utils";
 import { getCargoDDL, getPortDDL } from "../../../../_helper/_commonApi";
@@ -78,9 +78,9 @@ export function CreateHeaderForm({
                   id
                     ? setSingleData({ ...initData, layTimeType: valueOption })
                     : setValues({
-                        ...initData,
-                        layTimeType: valueOption,
-                      });
+                      ...initData,
+                      layTimeType: valueOption,
+                    });
                 }}
                 errors={errors}
                 touched={touched}
@@ -116,13 +116,6 @@ export function CreateHeaderForm({
                       isComplete: 2,
                       voyageTypeId: 2,
                     });
-                    // getVoyageDDLFilter({
-                    //   id: valueOption?.value,
-                    //   setter: setVoyageNoDDL,
-                    //   typeId: 2,
-                    //   setLoading: setLoading,
-                    //   isComplete: false,
-                    // });
                   }
                 }}
                 isDisabled={preData?.vesselName?.value || viewType}
@@ -167,7 +160,6 @@ export function CreateHeaderForm({
                 styles={customStyles}
                 name="stackHolderType"
                 placeholder="Business Partner Type"
-                // label="Business Partner Type"
                 onChange={(valueOption) => {
                   setFieldValue("stackHolderType", valueOption);
 
@@ -186,7 +178,7 @@ export function CreateHeaderForm({
                       values?.voyageNo?.value,
                       valueOption?.value,
                       setStackHolderNameDDL,
-                      setFieldValue // For demurrage, despatch
+                      setFieldValue
                     );
                   }
                 }}
@@ -203,7 +195,6 @@ export function CreateHeaderForm({
                 styles={customStyles}
                 name="stackHolderName"
                 placeholder="Business Partner Name"
-                // label="Business Partner Name"
                 onChange={(valueOption) => {
                   setFieldValue("stackHolderName", valueOption);
                   setValuesState({
@@ -376,18 +367,7 @@ export function CreateHeaderForm({
                   touched={touched}
                 />
               </div>
-              {/* <HeaderLabelComponent name="BERTHED/Port at" />
-              <div className="col-lg-3">
-                <FormikInput
-                  value={values?.portAt}
-                  placeholder="BERTHED/Port at"
-                  name="portAt"
-                  type="text"
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
-              
+
             </>
             <>
               <HeaderLabelComponent
@@ -523,9 +503,8 @@ export function CreateHeaderForm({
 
             <>
               <HeaderLabelComponent
-                name={`Time allowed for ${
-                  values?.layTimeType?.value === 1 ? "Loading" : "Discharging"
-                }`}
+                name={`Time allowed for ${values?.layTimeType?.value === 1 ? "Loading" : "Discharging"
+                  }`}
               />
               <div className="col-lg-3">
                 <strong>
