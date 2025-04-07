@@ -1,23 +1,22 @@
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   DeliveryChallanInformation_api,
   GetInfoForChalalnCancell_api,
@@ -26,31 +25,31 @@ import {
   getDistributionChannelDDL_api,
   getSBUList,
   getSalesOrgDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  customer: "",
-  challan: "",
-  supplierName: "",
-  distributionChannel: "",
-  previousDate: "",
-  remarks: "",
-  reportType: { value: 1, label: "Challan Date Update" },
-  plant: "",
-  salesOrg: "",
-  shipPoint: "",
-  fromDate: "",
-  toDate: "",
-  sbu: "",
+  customer: '',
+  challan: '',
+  supplierName: '',
+  distributionChannel: '',
+  previousDate: '',
+  remarks: '',
+  reportType: { value: 1, label: 'Challan Date Update' },
+  plant: '',
+  salesOrg: '',
+  shipPoint: '',
+  fromDate: '',
+  toDate: '',
+  sbu: '',
 };
 
 const header = [
-  "SL",
-  "Delivery Code",
-  "Complete Date",
-  "Vehicle No",
-  "Quantity",
-  "Manual Challan No",
+  'SL',
+  'Delivery Code',
+  'Complete Date',
+  'Vehicle No',
+  'Quantity',
+  'Manual Challan No',
 ];
 
 function ChallanInformationUpdate() {
@@ -61,8 +60,8 @@ function ChallanInformationUpdate() {
   const [salesOrgList, setSalesOrgList] = useState([]);
   const [sbuList, setSbuList] = useState([]);
   const [reportTypes, setReportTypes] = useState([
-    { value: 1, label: "Challan Date Update" },
-    { value: 2, label: "Challan Cancel" },
+    { value: 1, label: 'Challan Date Update' },
+    { value: 2, label: 'Challan Cancel' },
   ]);
 
   const shipPointDDL = shipPointList?.map((item) => ({
@@ -91,7 +90,7 @@ function ChallanInformationUpdate() {
     if ([4]?.includes(buId)) {
       const newReportTypes = [
         ...reportTypes,
-        { value: 3, label: "Add Manual Challan No" },
+        { value: 3, label: 'Add Manual Challan No' },
       ];
       setReportTypes(newReportTypes);
     }
@@ -127,7 +126,7 @@ function ChallanInformationUpdate() {
   const submitAPI = (values, resetForm) => {
     const typeId = values?.reportType?.value;
     if (+gridData?.[0]?.intBillNumber > 0) {
-      toast.warning("Already bill submitted");
+      toast.warning('Already bill submitted');
       return false;
     } else if (typeId === 1) {
       DeliveryChallanInformation_api(
@@ -163,7 +162,7 @@ function ChallanInformationUpdate() {
         if (
           selectedData?.filter((item) => !item?.manualChallanNo)?.length > 0
         ) {
-          toast.warning("Please fill all checked rows with manual challan no");
+          toast.warning('Please fill all checked rows with manual challan no');
         } else {
           const payload = selectedData?.map((item) => ({
             deliveryId: item?.deliveryId,
@@ -174,18 +173,18 @@ function ChallanInformationUpdate() {
           addManualChallanNumber(payload, setLoading, () => {});
         }
       } else {
-        toast.warning("Please select at least one row");
+        toast.warning('Please select at least one row');
       }
     }
   };
 
   const getBtnTitle = (reportTypeId) => {
     if (reportTypeId === 1) {
-      return "Update Challan Date";
+      return 'Update Challan Date';
     } else if (reportTypeId === 2) {
-      return "Cancel Challan";
+      return 'Cancel Challan';
     } else if (reportTypeId === 3) {
-      return "Submit";
+      return 'Submit';
     }
   };
 
@@ -229,7 +228,7 @@ function ChallanInformationUpdate() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Challan Info Update"}>
+                <CardHeader title={'Challan Info Update'}>
                   <CardHeaderToolbar>
                     <button
                       className="btn btn-primary ml-2"
@@ -253,7 +252,7 @@ function ChallanInformationUpdate() {
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Report Type"
@@ -269,8 +268,8 @@ function ChallanInformationUpdate() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Distribution Channel"
@@ -283,7 +282,7 @@ function ChallanInformationUpdate() {
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           setGridData([]);
                         }}
                         isDisabled={!values?.distributionChannel}
@@ -308,7 +307,7 @@ function ChallanInformationUpdate() {
                             value={values?.shipPoint}
                             label="ShipPoint"
                             onChange={(valueOption) => {
-                              setFieldValue("shipPoint", valueOption);
+                              setFieldValue('shipPoint', valueOption);
                               setGridData([]);
                             }}
                             placeholder="Select ShipPoint"
@@ -324,8 +323,8 @@ function ChallanInformationUpdate() {
                             value={values?.sbu}
                             label="SBU"
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
-                              setFieldValue("salesOrg", "");
+                              setFieldValue('sbu', valueOption);
+                              setFieldValue('salesOrg', '');
                               if (valueOption) {
                                 getSalesOrgDDL(
                                   accId,
@@ -346,7 +345,7 @@ function ChallanInformationUpdate() {
                             value={values?.salesOrg}
                             label="Sales Organization"
                             onChange={(valueOption) => {
-                              setFieldValue("salesOrg", valueOption);
+                              setFieldValue('salesOrg', valueOption);
                             }}
                             placeholder="Select Sales Organization"
                             isDisabled={!values?.sbu}
@@ -360,7 +359,7 @@ function ChallanInformationUpdate() {
                             placeholder="From Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                               setGridData([]);
                             }}
                           />
@@ -373,7 +372,7 @@ function ChallanInformationUpdate() {
                             placeholder="To Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                               setGridData([]);
                             }}
                           />
@@ -390,7 +389,7 @@ function ChallanInformationUpdate() {
                             placeholder="Challan"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue("challan", e.target.value);
+                              setFieldValue('challan', e.target.value);
                               setGridData([]);
                             }}
                           />
@@ -403,7 +402,7 @@ function ChallanInformationUpdate() {
                             placeholder="Previous Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("previousDate", e.target.value);
+                              setFieldValue('previousDate', e.target.value);
                               setGridData([]);
                             }}
                           />
@@ -445,7 +444,7 @@ function ChallanInformationUpdate() {
                       <div className="col-lg-3">
                         <label>Remarks</label>
                         <InputField
-                          value={values?.remarks || ""}
+                          value={values?.remarks || ''}
                           name="remarks"
                           placeholder="Remarks"
                           type="text"
@@ -457,128 +456,128 @@ function ChallanInformationUpdate() {
                   {gridData?.length > 0 &&
                   [1, 2]?.includes(values?.reportType?.value) ? (
                     <div className="table-responsive">
-                       <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Challan Date</th>
-                          <th>Audit Approve Date</th>
-                          <th>Delivery Challan No.</th>
-                          <th>Sold To Partner Name</th>
-                          <th>Transport Supplier Name</th>
-                          <th>Vehicle Supplier Name</th>
-                          <th>Transport Mode Name</th>
-                          <th>Owner Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.map((item, index) => (
-                          <tr key={index}>
-                            <td> {index + 1}</td>
-                            <td> {_dateFormatter(item?.dteChallanDate)}</td>
-                            <td>
-                              {" "}
-                              {_dateFormatter(item?.dteAuditApproveDate)}
-                            </td>
-                            <td> {item?.strDeliverychallan}</td>
-                            <td> {item?.strSoldToPartnerName}</td>
-                            <td> {item?.strTransportsupplier}</td>
-                            <td> {item?.strVehicleSupplierName}</td>
-                            <td> {item?.strTransportModeName}</td>
-                            <td> {item?.strOwnerType}</td>
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Challan Date</th>
+                            <th>Audit Approve Date</th>
+                            <th>Delivery Challan No.</th>
+                            <th>Sold To Partner Name</th>
+                            <th>Transport Supplier Name</th>
+                            <th>Vehicle Supplier Name</th>
+                            <th>Transport Mode Name</th>
+                            <th>Owner Type</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {gridData?.map((item, index) => (
+                            <tr key={index}>
+                              <td> {index + 1}</td>
+                              <td> {_dateFormatter(item?.dteChallanDate)}</td>
+                              <td>
+                                {' '}
+                                {_dateFormatter(item?.dteAuditApproveDate)}
+                              </td>
+                              <td> {item?.strDeliverychallan}</td>
+                              <td> {item?.strSoldToPartnerName}</td>
+                              <td> {item?.strTransportsupplier}</td>
+                              <td> {item?.strVehicleSupplierName}</td>
+                              <td> {item?.strTransportModeName}</td>
+                              <td> {item?.strOwnerType}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   ) : (
                     <div className="table-responsive">
                       <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr>
-                          <th
-                            onClick={() => allSelect(!selectedAll())}
-                            className="cursor-pointer"
-                            style={{ width: "40px" }}
-                          >
-                            <input
-                              type="checkbox"
-                              value={selectedAll()}
-                              checked={selectedAll()}
-                              onChange={() => {}}
-                            />
-                          </th>
-                          {header.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td
-                                className="text-center cursor-pointer"
-                                onClick={() => {
-                                  rowDataHandler(
-                                    index,
-                                    "isSelected",
-                                    !item.isSelected
-                                  );
-                                }}
-                                style={
-                                  item?.isSelected
-                                    ? {
-                                        backgroundColor: "#aacae3",
-                                        width: "40px",
-                                      }
-                                    : { width: "40px" }
-                                }
-                              >
-                                <input
-                                  type="checkbox"
-                                  value={item?.isSelected}
-                                  checked={item?.isSelected}
-                                  onChange={() => {}}
-                                />
-                              </td>
-
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.deliveryCode}</td>
-                              <td>{_dateFormatter(item?.completeDate)}</td>
-                              <td>{item?.vehicleName}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.quantity, true)}
-                              </td>
-                              <td style={{ width: "250px" }}>
-                                <InputField
-                                  value={item?.manualChallanNo}
-                                  name="manualChallanNo"
-                                  placeholder="Manual Challan No"
-                                  type="text"
-                                  onChange={(e) => {
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr>
+                            <th
+                              onClick={() => allSelect(!selectedAll())}
+                              className="cursor-pointer"
+                              style={{ width: '40px' }}
+                            >
+                              <input
+                                type="checkbox"
+                                value={selectedAll()}
+                                checked={selectedAll()}
+                                onChange={() => {}}
+                              />
+                            </th>
+                            {header.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td
+                                  className="text-center cursor-pointer"
+                                  onClick={() => {
                                     rowDataHandler(
                                       index,
-                                      "manualChallanNo",
-                                      e?.target?.value
+                                      'isSelected',
+                                      !item.isSelected
                                     );
                                   }}
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                  style={
+                                    item?.isSelected
+                                      ? {
+                                          backgroundColor: '#aacae3',
+                                          width: '40px',
+                                        }
+                                      : { width: '40px' }
+                                  }
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={item?.isSelected}
+                                    checked={item?.isSelected}
+                                    onChange={() => {}}
+                                  />
+                                </td>
+
+                                <td
+                                  style={{ width: '40px' }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.deliveryCode}</td>
+                                <td>{_dateFormatter(item?.completeDate)}</td>
+                                <td>{item?.vehicleName}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.quantity, true)}
+                                </td>
+                                <td style={{ width: '250px' }}>
+                                  <InputField
+                                    value={item?.manualChallanNo}
+                                    name="manualChallanNo"
+                                    placeholder="Manual Challan No"
+                                    type="text"
+                                    onChange={(e) => {
+                                      rowDataHandler(
+                                        index,
+                                        'manualChallanNo',
+                                        e?.target?.value
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </CardBody>

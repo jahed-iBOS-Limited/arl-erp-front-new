@@ -1,23 +1,21 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "./form";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from './form';
+import Axios from 'axios';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  userId: "",
-  userGroupName: "",
-  userGroupCode: "",
-  warehouseName: "",
+  userId: '',
+  userGroupName: '',
+  userGroupCode: '',
+  warehouseName: '',
 };
 
 export default function UserGroupViewFrom({
@@ -28,16 +26,16 @@ export default function UserGroupViewFrom({
 }) {
   const [isDisabled, setDisabled] = useState(false);
 
-  const [data, setData] = useState("");
-  const [headerDto, setHeaderDto] = useState("");
+  const [data, setData] = useState('');
+  const [headerDto, setHeaderDto] = useState('');
 
   useEffect(() => {
     getBusinessUnitById(id);
-
   }, [id]);
 
   const getBusinessUnitById = async (id, accountId) => {
-    const res = await Axios.get(`/domain/CreateUserGroup/GetUserGroupInformationByGroupId?UserGroupId=${id}
+    const res =
+      await Axios.get(`/domain/CreateUserGroup/GetUserGroupInformationByGroupId?UserGroupId=${id}
         `);
     const { data, status } = res;
     if (status === 200 && data) {
@@ -48,8 +46,6 @@ export default function UserGroupViewFrom({
   };
 
   // Check duplicate for show warning
-
-
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -63,15 +59,13 @@ export default function UserGroupViewFrom({
 
   //Test
   // save business unit data to DB
-  const saveBusinessUnit = async (values, cb) => {
-  };
+  const saveBusinessUnit = async (values, cb) => {};
 
   const btnRef = useRef();
 
   const backHandler = () => {
     history.push(`/config/domain-controll/user-group/`);
   };
-
 
   return (
     <Card>

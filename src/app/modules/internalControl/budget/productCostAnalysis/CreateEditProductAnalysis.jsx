@@ -1,11 +1,8 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Form from "./components/form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Form from './components/form';
 
 import {
   getSingleDataById,
@@ -17,37 +14,37 @@ import {
   getMaterialDDL,
   getCostElementDDL,
   saveBillofMaterial,
-} from "./helper";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../_helper/_customCard";
-import Loading from "../../../_helper/_loading";
+} from './helper';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../_helper/_customCard';
+import Loading from '../../../_helper/_loading';
 
 const initData = {
-  copyfrombomname: "",
-  plant: "",
-  shopFloor: "",
-  bomName: "",
-  bomVersion: "",
-  bomType: "",
-  bomCode: "",
-  product: "",
-  lotSize: "",
-  netWeight: "",
-  wastage: "",
-  material: "",
-  quantity: "",
-  uom: "",
+  copyfrombomname: '',
+  plant: '',
+  shopFloor: '',
+  bomName: '',
+  bomVersion: '',
+  bomType: '',
+  bomCode: '',
+  product: '',
+  lotSize: '',
+  netWeight: '',
+  wastage: '',
+  material: '',
+  quantity: '',
+  uom: '',
   isStandardBoM: false,
-  itemCode: "",
-  UOM: "",
-  costElement: "",
-  costElementAmount: "",
+  itemCode: '',
+  UOM: '',
+  costElement: '',
+  costElementAmount: '',
 };
 
 export default function CreateEditProductAnalysis() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   const params = useParams();
@@ -62,15 +59,15 @@ export default function CreateEditProductAnalysis() {
   const bomTypeDDL = [
     {
       value: 1,
-      label: "Main (Paddy to Rice)",
+      label: 'Main (Paddy to Rice)',
     },
     {
       value: 2,
-      label: "Conversion (Rice to Rice)",
+      label: 'Conversion (Rice to Rice)',
     },
     {
       value: 3,
-      label: "Re-Process (Rice to Rice)",
+      label: 'Re-Process (Rice to Rice)',
     },
   ];
 
@@ -99,7 +96,7 @@ export default function CreateEditProductAnalysis() {
     }
   }, [params]);
 
-  console.log(params?.id, "jj");
+  console.log(params?.id, 'jj');
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -144,7 +141,6 @@ export default function CreateEditProductAnalysis() {
         setMaterial
       );
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -207,7 +203,7 @@ export default function CreateEditProductAnalysis() {
           createRowBOE: costElementRowData,
         };
         if (objRow.length === 0) {
-          toast.warning("Please add material");
+          toast.warning('Please add material');
         } else {
           saveBillofMaterial(payload, cb, setDisabled);
           // console.log(" payload", payload);
@@ -221,21 +217,21 @@ export default function CreateEditProductAnalysis() {
   // Row Data Setter
   const setter = (payload, type) => {
     // Set Material Row Data
-    if (type === "M") {
+    if (type === 'M') {
       const foundData = rowDto?.some(
         (item) => item?.material?.value === payload?.material?.value
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setRowDto([...rowDto, payload]);
     }
     // Set Cost Element Row Data
-    else if (type === "C") {
+    else if (type === 'C') {
       const foundData = costElementRowData?.some(
         (item) => item?.costElementId === payload?.costElementId
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setCostElementRowData([...costElementRowData, payload]);
     }
   };
@@ -260,11 +256,11 @@ export default function CreateEditProductAnalysis() {
 
   return (
     <ICustomCard
-      title={"View of Cost of Product"}
+      title={'View of Cost of Product'}
       backHandler={() => {
         history.goBack();
       }}
-      renderProps={() => { }}
+      renderProps={() => {}}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

@@ -1,9 +1,9 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import IEdit from './../../../../_helper/_helperIcons/_edit';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 const GridData = ({
   rowDto,
@@ -13,16 +13,15 @@ const GridData = ({
   pageSize,
   setPageNo,
   setPageSize,
-  values
-  
+  values,
 }) => {
   const history = useHistory();
-  
+
   return (
     <>
       <div className="row">
         <div className="col-lg-12">
-        {loading && <Loading />}
+          {loading && <Loading />}
           <table className="table table-striped table-bordered global-table">
             <thead>
               <tr>
@@ -38,7 +37,7 @@ const GridData = ({
                 rowDto?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -50,7 +49,7 @@ const GridData = ({
                       <td>
                         <span className="pl-2">{item?.territoryName}</span>
                       </td>
-                      <td style={{ width: "100px" }} className="text-center">
+                      <td style={{ width: '100px' }} className="text-center">
                         <span
                           className="edit"
                           onClick={(e) =>

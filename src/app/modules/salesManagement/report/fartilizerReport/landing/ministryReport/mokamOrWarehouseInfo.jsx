@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
 export default function MokamOrWarehouseInfoTable({ rowData }) {
   return (
@@ -9,7 +9,7 @@ export default function MokamOrWarehouseInfoTable({ rowData }) {
           <thead>
             <tr>
               {rowData[0]?.map((item, key) => (
-                <th key={key} style={{ width: "100px" }} rowSpan="2">
+                <th key={key} style={{ width: '100px' }} rowSpan="2">
                   {item}
                 </th>
               ))}

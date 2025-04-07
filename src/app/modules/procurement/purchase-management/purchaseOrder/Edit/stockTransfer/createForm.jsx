@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { ISelect } from '../../../../../_helper/_inputDropDown';
@@ -83,11 +82,11 @@ export default function StockTransferPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -156,7 +155,7 @@ export default function StockTransferPOCreateForm({
           singleData?.objHeaderDTO?.purchaseOrganizationId
         }&PlantId=${singleData?.objHeaderDTO?.plantId}&WearhouseId=${
           singleData?.objHeaderDTO?.warehouseId
-        }&PartnerId=0&RefTypeId=${3}&RefNoId=0`,
+        }&PartnerId=0&RefTypeId=${3}&RefNoId=0`
       )
       .then((res) => {
         const updateList = res?.data.map((item) => ({
@@ -183,7 +182,7 @@ export default function StockTransferPOCreateForm({
       profileData?.accountId,
       profileData?.userId,
       singleData?.objHeaderDTO?.warehouseId,
-      setWh,
+      setWh
     );
   }, [profileData, selectedBusinessUnit, singleData]);
 
@@ -213,8 +212,6 @@ export default function StockTransferPOCreateForm({
     //   singleData?.objHeaderDTO?.referenceTypeId,
     //   0
     // );
-
-
   }, [singleData]);
 
   const {

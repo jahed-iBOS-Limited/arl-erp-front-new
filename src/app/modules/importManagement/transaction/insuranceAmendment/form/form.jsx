@@ -1,12 +1,11 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import { validationSchema } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import removeComma from "../../../../_helper/_removeComma";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { validationSchema } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import removeComma from '../../../../_helper/_removeComma';
+import NewSelect from '../../../../_helper/_select';
 // import { toast } from "react-toastify";
 
 export default function FormCmp({
@@ -18,7 +17,7 @@ export default function FormCmp({
   insuranceSingleData,
   singleItem,
   lcAmendmentDDL,
-  type
+  type,
 }) {
   console.log('single item: ', singleItem);
   return (
@@ -47,11 +46,11 @@ export default function FormCmp({
         {({ handleSubmit, resetForm, values, errors, setFieldValue }) => (
           <>
             <div className="d-flex justify-content-center align-items-center">
-              {console.log("initData: ", initData)}
-              <div style={{ fontWeight: "900", marginLeft: "30px" }}>
+              {console.log('initData: ', initData)}
+              <div style={{ fontWeight: '900', marginLeft: '30px' }}>
                 PO : {values?.ponumber}
               </div>
-              <div style={{ fontWeight: "900", marginLeft: "30px" }}>
+              <div style={{ fontWeight: '900', marginLeft: '30px' }}>
                 LC : {values?.lcnumber}
               </div>
             </div>
@@ -69,9 +68,9 @@ export default function FormCmp({
                           name="lcAmendment"
                           label="LC Amendment"
                           onChange={(valueOption) => {
-                            setFieldValue("lcAmendment", valueOption);
+                            setFieldValue('lcAmendment', valueOption);
                           }}
-                          isDisabled={type?.type === "view"}
+                          isDisabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -91,7 +90,7 @@ export default function FormCmp({
                           value={values?.reason}
                           placeholder="Reason"
                           name="reason"
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -101,7 +100,7 @@ export default function FormCmp({
                           placeholder="Amendment Date"
                           name="amendmentDate"
                           type="date"
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -130,9 +129,9 @@ export default function FormCmp({
                           placeholder="Exchange Rate"
                           name="exchangeRate"
                           onChange={(v) => {
-                            setFieldValue("exchangeRate", v.target.value);
+                            setFieldValue('exchangeRate', v.target.value);
                             setFieldValue(
-                              "piamountBDT",
+                              'piamountBDT',
                               removeComma(v.target.value) *
                                 removeComma(values?.piamountFC)
                               // numberWithCommas(
@@ -144,7 +143,7 @@ export default function FormCmp({
                           type="number"
                           min="0"
                           step="any"
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -154,11 +153,11 @@ export default function FormCmp({
                           value={
                             singleItem
                               ? values?.piamountBDT
-                              : (values?.piamountBDT
-                              ? numberWithCommas(
-                                  parseFloat(values?.piamountBDT).toFixed(3)
-                                )
-                              : "")
+                              : values?.piamountBDT
+                                ? numberWithCommas(
+                                    parseFloat(values?.piamountBDT).toFixed(3)
+                                  )
+                                : ''
                           }
                           // value={(values?.piamountBDT)}
                           placeholder="PI Amount (BDT)"
@@ -174,10 +173,10 @@ export default function FormCmp({
                           value={values?.totalCharge}
                           placeholder="Total Charge"
                           name="totalCharge"
-                          type={initData?.type === "view" ? "text" : "number"}
+                          type={initData?.type === 'view' ? 'text' : 'number'}
                           min={0}
                           errors={errors}
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -194,7 +193,7 @@ export default function FormCmp({
                           //     );
                           //   }
                           // }}
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -204,7 +203,7 @@ export default function FormCmp({
                           placeholder="Due Date"
                           name="dueDate"
                           type="date"
-                          disabled={type?.type === "view"}
+                          disabled={type?.type === 'view'}
                         />
                       </div>
                     </>
@@ -214,13 +213,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
               ></button>
             </Form>

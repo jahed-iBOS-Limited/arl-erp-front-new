@@ -1,5 +1,5 @@
-import axios from "axios";
-import moment from "moment";
+import axios from 'axios';
+import moment from 'moment';
 
 export const GetCustomerChallanFromGhat = async (
   accId,
@@ -12,11 +12,11 @@ export const GetCustomerChallanFromGhat = async (
   setter,
   setLoading
 ) => {
-  const fromDateTime = moment(`${fromDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const fromDateTime = moment(`${fromDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
-  const toDateTime = moment(`${toDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const toDateTime = moment(`${toDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
   setLoading(true);
   try {

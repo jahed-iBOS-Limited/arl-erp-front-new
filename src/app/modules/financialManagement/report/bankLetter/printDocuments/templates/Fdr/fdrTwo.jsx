@@ -1,7 +1,7 @@
-import React from "react";
-import "../../templates/style.scss";
-import { amountToWords } from "../../../../../../_helper/_ConvertnumberToWord";
-import FdrThree from "./FdrThree";
+import React from 'react';
+import '../../templates/style.scss';
+import { amountToWords } from '../../../../../../_helper/_ConvertnumberToWord';
+import FdrThree from './FdrThree';
 
 const FdrTwo = ({ singleRowItem }) => {
   const {
@@ -17,7 +17,7 @@ const FdrTwo = ({ singleRowItem }) => {
       <FdrThree singleRowItem={singleRowItem} />
       <div
         style={{
-          pageBreakAfter: "always",
+          pageBreakAfter: 'always',
         }}
       ></div>
       <div class="bank-letter-template-common-wrapper">
@@ -38,17 +38,17 @@ const FdrTwo = ({ singleRowItem }) => {
           <p>
             <span>
               <strong>Mr. Sheikh Jasim Uddin</strong>
-            </span>{" "}
-            <span style={{ marginLeft: "100px" }}>Managing Director</span>{" "}
-            <span style={{ marginLeft: "90px" }}>Sd/</span>
+            </span>{' '}
+            <span style={{ marginLeft: '100px' }}>Managing Director</span>{' '}
+            <span style={{ marginLeft: '90px' }}>Sd/</span>
           </p>
           <p>
             <span>
               <strong>Ms. Faria Hossain</strong>
             </span>
             {}
-            <span style={{ marginLeft: "142px" }}>Chairman</span>{" "}
-            <span style={{ marginLeft: "140px" }}>Sd/</span>
+            <span style={{ marginLeft: '142px' }}>Chairman</span>{' '}
+            <span style={{ marginLeft: '140px' }}>Sd/</span>
           </p>
         </div>
         <br />
@@ -61,7 +61,7 @@ const FdrTwo = ({ singleRowItem }) => {
           Resolve that the company will open an FDR for
           <strong>BDT {numAmount} </strong>
           <strong>
-            {" "}
+            {' '}
             ({amountToWords(numAmount)?.toUpperCase()})
           </strong> with <strong> {strBankName?.toUpperCase()}</strong>
         </p>
@@ -71,18 +71,18 @@ const FdrTwo = ({ singleRowItem }) => {
           company singly or jointly by any two authorized Six (06) officials
           namely:
           <strong>
-            {" "}
+            {' '}
             1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana- Chief
             Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam Khan-
-            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){" "}
+            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){' '}
           </strong>
           from now onward <strong>will sign and endorse:</strong>
         </p>
         <br />
-        <div style={{ marginLeft: "80px" }}>
-          <div style={{ display: "flex" }}>
-            <p style={{ marginRight: "30px" }}>
+        <div style={{ marginLeft: '80px' }}>
+          <div style={{ display: 'flex' }}>
+            <p style={{ marginRight: '30px' }}>
               <strong>-</strong>
             </p>
             <p>
@@ -92,8 +92,8 @@ const FdrTwo = ({ singleRowItem }) => {
               </strong>
             </p>
           </div>
-          <div style={{ display: "flex" }}>
-            <p style={{ marginRight: "30px" }}>
+          <div style={{ display: 'flex' }}>
+            <p style={{ marginRight: '30px' }}>
               <strong>-</strong>
             </p>
             <p>
@@ -104,8 +104,8 @@ const FdrTwo = ({ singleRowItem }) => {
               </strong>
             </p>
           </div>
-          <div style={{ display: "flex" }}>
-            <p style={{ marginRight: "30px" }}>
+          <div style={{ display: 'flex' }}>
+            <p style={{ marginRight: '30px' }}>
               <strong>-</strong>
             </p>
             <p>
@@ -123,11 +123,11 @@ const FdrTwo = ({ singleRowItem }) => {
         </p>
         <br />
         <br />
-        <p style={{ marginLeft: "40px" }}>Sd/-</p>
+        <p style={{ marginLeft: '40px' }}>Sd/-</p>
         <p>
           <strong>(Sheikh Jasim Uddin) </strong>
         </p>
-        <p style={{ marginTop: "-7px" }}>Managing Director</p>
+        <p style={{ marginTop: '-7px' }}>Managing Director</p>
       </div>
     </>
   );

@@ -1,28 +1,28 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name  is required"),
-    value: Yup.string().required("Plant Name  is required"),
+    label: Yup.string().required('Plant Name  is required'),
+    value: Yup.string().required('Plant Name  is required'),
   }),
   productionLine: Yup.object().shape({
-    label: Yup.string().required("Production Line  is required"),
-    value: Yup.string().required("Production Line  is required"),
+    label: Yup.string().required('Production Line  is required'),
+    value: Yup.string().required('Production Line  is required'),
   }),
-  workcenterName: Yup.string().required("Work Center Name is required"),
-  workcenterCode: Yup.string().required("Work Center Code is required"),
-  workCenterCapacity: Yup.string().required("Work Center Capicity is required"),
-  setupTime: Yup.string().required("Setup Time is required"),
-  machineTime: Yup.string().required("Machine Time is required"),
-  laborQty: Yup.string().required("Labor Quantity is required"),
-  laborTime: Yup.string().required("Labor Time is required"),
-  laborCost: Yup.string().required("Labor Cost is required"),
-  assetId: Yup.string().required("Asset Id is required"),
-  employeeId: Yup.string().required("Employee Id is required"),
+  workcenterName: Yup.string().required('Work Center Name is required'),
+  workcenterCode: Yup.string().required('Work Center Code is required'),
+  workCenterCapacity: Yup.string().required('Work Center Capicity is required'),
+  setupTime: Yup.string().required('Setup Time is required'),
+  machineTime: Yup.string().required('Machine Time is required'),
+  laborQty: Yup.string().required('Labor Quantity is required'),
+  laborTime: Yup.string().required('Labor Time is required'),
+  laborCost: Yup.string().required('Labor Cost is required'),
+  assetId: Yup.string().required('Asset Id is required'),
+  employeeId: Yup.string().required('Employee Id is required'),
 });
 
 export default function FormCmp({
@@ -47,7 +47,6 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-
   }, [singleRowData]);
 
   return (
@@ -85,7 +84,7 @@ export default function FormCmp({
                       onChange={(valueOption) => {
                         onChangeForItem(valueOption);
                         onChangeForAssetId(valueOption);
-                        setFieldValue("plantName", valueOption);
+                        setFieldValue('plantName', valueOption);
                       }}
                       placeholder="Plant Name"
                       errors={errors}
@@ -101,7 +100,7 @@ export default function FormCmp({
                       value={values?.productionLine}
                       label="Production Line"
                       onChange={(valueOption) => {
-                        setFieldValue("productionLine", valueOption);
+                        setFieldValue('productionLine', valueOption);
                       }}
                       placeholder="Production Line"
                       errors={errors}
@@ -198,7 +197,7 @@ export default function FormCmp({
                       value={values?.assetId}
                       label="Asset Id"
                       onChange={(valueOption) => {
-                        setFieldValue("assetId", valueOption);
+                        setFieldValue('assetId', valueOption);
                       }}
                       placeholder="Asset Id"
                       errors={errors}
@@ -213,7 +212,7 @@ export default function FormCmp({
                       value={values?.employeeId}
                       label="Employee Id"
                       onChange={(valueOption) => {
-                        setFieldValue("employeeId", valueOption);
+                        setFieldValue('employeeId', valueOption);
                       }}
                       placeholder="Employee Id"
                       errors={errors}
@@ -228,7 +227,7 @@ export default function FormCmp({
                       value={values?.shopFloorId}
                       label="Shopfloor"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloorId", valueOption);
+                        setFieldValue('shopFloorId', valueOption);
                       }}
                       placeholder="Shopfloor"
                       errors={errors}
@@ -240,14 +239,14 @@ export default function FormCmp({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import AddGrid from "./addGrid";
-import { useSelector } from "react-redux";
-import shortid from "shortid";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import AddGrid from './addGrid';
+import { useSelector } from 'react-redux';
+import shortid from 'shortid';
 
 // Validation schema
 const initDataEditSchema = Yup.object().shape({
   priceStructureName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Price StructureName is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Price StructureName is required'),
   priceStructureCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Price StructureCode is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Price StructureCode is required'),
 });
 const initData = {
   //id: shortid(),
-  priceComponent: { label: "", value: "", typeId: "" },
-  valueType: "",
+  priceComponent: { label: '', value: '', typeId: '' },
+  valueType: '',
   numValue: 0,
-  baseComponent: { label: "", value: "" },
+  baseComponent: { label: '', value: '' },
   serialNo: 0,
   sumFromSerial: 0,
   sumToSerial: 0,
@@ -41,7 +41,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
     },
   });
   useEffect(() => {
-    Axios.get("/item/PriceStructure/GetPriceStructureTypeDDL")
+    Axios.get('/item/PriceStructure/GetPriceStructureTypeDDL')
       .then((res) => {
         const { status, data } = res;
         if (status === 200 && data) {
@@ -56,9 +56,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
           setStructureType(items);
         }
       })
-      .catch((err) => {
-
-      });
+      .catch((err) => {});
   }, []);
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
@@ -84,9 +82,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
             setPcDDL(items);
           }
         })
-        .catch((err) => {
-
-        });
+        .catch((err) => {});
     }
   };
 
@@ -133,7 +129,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
               <div className="form-group row global-form">
                 <div className="col-lg-4">
                   <Field
-                    value={values.priceStructureName || ""}
+                    value={values.priceStructureName || ''}
                     name="priceStructureName"
                     component={Input}
                     placeholder="Structure Name"
@@ -143,7 +139,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.priceStructureCode || ""}
+                    value={values.priceStructureCode || ''}
                     name="priceStructureCode"
                     component={Input}
                     placeholder="Code"
@@ -161,7 +157,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
                         placeholder="Select Itemss Type"
                         value={values?.priceStructureType}
                         onChange={(valueOption) => {
-                          setFieldValue("priceStructureType", valueOption);
+                          setFieldValue('priceStructureType', valueOption);
                           getPriceComponentDdl(valueOption?.value);
                         }}
                         isSearchable={true}
@@ -171,10 +167,10 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -194,7 +190,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
                 // disabled={true}
@@ -202,7 +198,7 @@ export default function FormCmp({ data, btnRef, saveData, resetBtnRef }) {
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(data)}
               ></button>

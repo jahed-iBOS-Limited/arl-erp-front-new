@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const saveApprovalSetup = async (data, cb, setDisabled) => {
   setDisabled(true);
@@ -10,15 +10,15 @@ export const saveApprovalSetup = async (data, cb, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "save_approval_setup",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'save_approval_setup',
       });
       cb();
     }
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "save_approval_setup_error",
+      toastId: 'save_approval_setup_error',
     });
   }
 };
@@ -32,14 +32,14 @@ export const editApprovalSetup = async (data, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "edit_approval_setup",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'edit_approval_setup',
       });
     }
   } catch (error) {
     setDisabled(false);
-    toast.error(error?.response?.message || "Submitted successfully", {
-      toastId: "edit_approval_setup_error",
+    toast.error(error?.response?.message || 'Submitted successfully', {
+      toastId: 'edit_approval_setup_error',
     });
   }
 };
@@ -62,7 +62,6 @@ export const getApprovalLandingDataAction = async (
     }
   } catch (error) {
     setLoading(false);
-    
   }
 };
 
@@ -84,7 +83,7 @@ export const getApprovalDataByIdAction = async (id, setter) => {
         plantId,
         plantName,
         moduleId,
-        moduleName
+        moduleName,
       } = res?.data;
       const newData = {
         approvalConfigId,
@@ -92,24 +91,22 @@ export const getApprovalDataByIdAction = async (id, setter) => {
           value: predisorActivityId,
           label: predisorActivityName,
         },
-        isThreshold: "",
-        userName: "",
-        groupName:groupName,
+        isThreshold: '',
+        userName: '',
+        groupName: groupName,
         any: { value: anyUsers, label: anyUsers },
-        plant:{value:plantId,label:plantName},
-        moduleName:{value: moduleId, label: moduleName},
+        plant: { value: plantId, label: plantName },
+        moduleName: { value: moduleId, label: moduleName },
         approvalOrder: isAnyOrder
-          ? { value: "Any Order", label: "Any Order" }
+          ? { value: 'Any Order', label: 'Any Order' }
           : isInSequence
-          ? { value: "In Sequence", label: "In Sequence" }
-          : { value: "Any Person", label: "Any Person" },
+            ? { value: 'In Sequence', label: 'In Sequence' }
+            : { value: 'Any Person', label: 'Any Person' },
         row: tblApprovalConfigRow,
       };
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getActivityDDLByModule = async (mId, setter) => {
@@ -130,8 +127,8 @@ export const approvalInActiveByConfigId = async (confId) => {
       `/domain/ApprovalConfig/ApprovalConfigInActive?ConfigId=${confId}`
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "save_approval_setup",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'save_approval_setup',
       });
     }
   } catch (error) {}
@@ -156,7 +153,6 @@ export const getModuleDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-
 export const getPantDDL = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
@@ -165,7 +161,5 @@ export const getPantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

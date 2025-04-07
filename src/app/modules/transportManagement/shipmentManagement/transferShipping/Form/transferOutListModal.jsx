@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
 
 const TransferOutTableHeader = [
-  "Transaction Code",
-  "Item Name",
-  "Available Stock",
-  "UoM",
-  "Item Price",
-  "Transaction Quantity",
-  "Transacton Value",
+  'Transaction Code',
+  'Item Name',
+  'Available Stock',
+  'UoM',
+  'Item Price',
+  'Transaction Quantity',
+  'Transacton Value',
 ];
 
 export default function TransferOutListModal({ obj }) {
@@ -57,19 +57,18 @@ export default function TransferOutListModal({ obj }) {
                           <td>{item?.itemPrice || 0}</td>
                           <td>
                             <InputField
-                              value={item?.transactionQuantity || ""}
+                              value={item?.transactionQuantity || ''}
                               type="number"
                               onChange={(e) => {
                                 const value = e.target.value;
                                 const updatedData = [...transferOutData];
-                                updatedData[index][
-                                  "transactionQuantity"
-                                ] = +value;
+                                updatedData[index]['transactionQuantity'] =
+                                  +value;
                                 if (item?.itemPrice) {
-                                  updatedData[index]["transactionValue"] =
+                                  updatedData[index]['transactionValue'] =
                                     +value * +item?.itemPrice;
                                 }
-                                updatedData[index]["transactionValue"] = 0;
+                                updatedData[index]['transactionValue'] = 0;
                                 setTransferOutData(updatedData);
                               }}
                             />

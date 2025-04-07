@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { _todayDate } from "./../../../../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { _todayDate } from './../../../../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   editEmployeeProfessionalInfo_api,
   employeeProfessionalInfoId_api,
   employeeProfessionalInfo_api,
-} from "./helper";
-import { useLocation } from "react-router-dom";
-import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
-import Loading from "./../../../../../../_helper/_loading";
+} from './helper';
+import { useLocation } from 'react-router-dom';
+import { _dateFormatter } from './../../../../../../_helper/_dateFormate';
+import Loading from './../../../../../../_helper/_loading';
 import { isUniq } from './../../../../../../_helper/uniqChecker';
 
 const initData = {
-  companyName: "",
-  companyBusiness: "",
-  companyLocation: "",
-  designation: "",
-  department: "",
+  companyName: '',
+  companyBusiness: '',
+  companyLocation: '',
+  designation: '',
+  department: '',
   serviceLengthFrom: _todayDate(),
   currentlyWorking: false,
-  serviceLengthTo: "",
-  areaOfExperiences: "",
-  responsibilities: "",
+  serviceLengthTo: '',
+  areaOfExperiences: '',
+  responsibilities: '',
 };
 
 export default function ProfessionalInformation() {
@@ -43,10 +43,10 @@ export default function ProfessionalInformation() {
   const [rowDto, setRowDto] = useState([]);
   const [edit, setEdit] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
-  const [uploadImage, setUploadImage] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
   const [isDisabled, setDisabled] = useState(false);
   const [editClick, setEditClick] = useState(false);
-  const [editBtnIndex, setEditBtnIndex] = useState("");
+  const [editBtnIndex, setEditBtnIndex] = useState('');
 
   // singleRowdto func
   const singleRowdtoFunc = (values) => {
@@ -60,7 +60,7 @@ export default function ProfessionalInformation() {
       toServiceLength: values?.serviceLengthTo || null,
       areaOfExperiences: values?.areaOfExperiences,
       responsibilities: values?.responsibilities,
-      documentLink: uploadImage[0]?.id || "",
+      documentLink: uploadImage[0]?.id || '',
       isCurrentlyWorking: values?.currentlyWorking,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
@@ -72,8 +72,16 @@ export default function ProfessionalInformation() {
   };
 
   const saveHandler = async (values, cb) => {
-
-    if(editClick && (!values?.companyName || !values?.companyBusiness || !values?.companyLocation || !values?.designation || !values?.department || !values?.serviceLengthFrom)) return toast.warn("Please fill up all fields")
+    if (
+      editClick &&
+      (!values?.companyName ||
+        !values?.companyBusiness ||
+        !values?.companyLocation ||
+        !values?.designation ||
+        !values?.department ||
+        !values?.serviceLengthFrom)
+    )
+      return toast.warn('Please fill up all fields');
 
     if (singleData.length > 0) {
       // Edit api call
@@ -95,8 +103,8 @@ export default function ProfessionalInformation() {
             documentLink: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.documentLink
-              ? values?.documentLink
-              : "",
+                ? values?.documentLink
+                : '',
           };
           editEmployeeProfessionalInfo_api(copyRodto, cb, setDisabled).then(
             (data) => {
@@ -108,7 +116,7 @@ export default function ProfessionalInformation() {
             }
           );
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       } else {
         // edit btn false
@@ -124,7 +132,7 @@ export default function ProfessionalInformation() {
             );
           });
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       }
     } else {
@@ -134,20 +142,16 @@ export default function ProfessionalInformation() {
           employeeProfessionalInfoId_api(headerData?.employeeId, setSingleData);
         });
       } else {
-        toast.warn("Please add at least one");
+        toast.warn('Please add at least one');
       }
     }
   };
 
   const rowDataAddHandler = (values) => {
-    if(
-      isUniq("companyName", values?.companyName, rowDto)
-    ){
+    if (isUniq('companyName', values?.companyName, rowDto)) {
       setRowDto([...rowDto, singleRowdtoFunc(values)]);
-      setUploadImage("");
+      setUploadImage('');
     }
-
-
   };
   // const rowDataAddHandler = (payload) => {
   //   if (
@@ -184,15 +188,11 @@ export default function ProfessionalInformation() {
   };
 
   const empProfessionalInfoById = () => {
-    employeeProfessionalInfoId_api(
-      headerData?.employeeId,
-      setSingleData
-    );
-  }
+    employeeProfessionalInfoId_api(headerData?.employeeId, setSingleData);
+  };
 
   useEffect(() => {
     employeeProfessionalInfoId_api(headerData?.employeeId, setSingleData);
-
   }, []);
 
   useEffect(() => {
@@ -203,7 +203,6 @@ export default function ProfessionalInformation() {
       setEdit(true);
     }
   }, [singleData]);
-
 
   return (
     <div className="employeeInformation">

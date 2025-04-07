@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveEditedCoreValues,
   setCoreValuesEmpty,
   saveCoreValues,
   getCoreValuesById,
-} from "../_redux/Actions";
-import { toast } from "react-toastify";
-import { isUniq } from "../../../_helper/uniqChecker";
-import IForm from "../../../_helper/_form";
+} from '../_redux/Actions';
+import { toast } from 'react-toastify';
+import { isUniq } from '../../../_helper/uniqChecker';
+import IForm from '../../../_helper/_form';
 
 const initData = {
   id: undefined,
-  coreValueName: "",
-  coreValueDefinition: "",
-  numDesiredValue: "",
-  demonstratedBehaviour: "",
-  isPositive: true
+  coreValueName: '',
+  coreValueDefinition: '',
+  numDesiredValue: '',
+  demonstratedBehaviour: '',
+  isPositive: true,
 };
 
 export default function CoreValuesForm({
@@ -50,14 +49,15 @@ export default function CoreValuesForm({
     } else {
       dispatch(setCoreValuesEmpty());
     }
-
   }, [id]);
 
   useEffect(() => {
     let data = singleData?.objListRow || [];
-    let newData = data?.map(item => ({...item, isPositive : item?.isPositive}))
+    let newData = data?.map((item) => ({
+      ...item,
+      isPositive: item?.isPositive,
+    }));
     setRowDto([...newData]);
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -86,7 +86,7 @@ export default function CoreValuesForm({
         };
 
         !rowDto.length
-          ? toast.warning("Select all fields")
+          ? toast.warning('Select all fields')
           : dispatch(saveEditedCoreValues(payload, cb));
       } else {
         let row = rowDto.map((itm, index) => {
@@ -108,7 +108,7 @@ export default function CoreValuesForm({
           objListRow: row,
         };
         !rowDto.length
-          ? toast.warning("Select all fields")
+          ? toast.warning('Select all fields')
           : dispatch(saveCoreValues({ data: payload, cb, setRowDto }));
       }
     } else {
@@ -124,11 +124,11 @@ export default function CoreValuesForm({
 
   const setter = (values) => {
     if (
-      isUniq("demonstratedBehaviour", values?.demonstratedBehaviour, rowDto)
+      isUniq('demonstratedBehaviour', values?.demonstratedBehaviour, rowDto)
     ) {
       let obj = {
         demonstratedBehaviour: values?.demonstratedBehaviour,
-        isPositive: values?.isPositive
+        isPositive: values?.isPositive,
       };
       setRowDto([...rowDto, obj]);
     }
@@ -141,15 +141,15 @@ export default function CoreValuesForm({
   };
   console.log(rowDto);
 
-  const rowDtoHandler = (name, index , value) => {
-    const data = [...rowDto]
-          data[index][name] = value
-          setRowDto(data)
-  }
+  const rowDtoHandler = (name, index, value) => {
+    const data = [...rowDto];
+    data[index][name] = value;
+    setRowDto(data);
+  };
 
   return (
     <IForm
-      title={id ? "EDIT CORE VALUES" : "CREATE CORE VALUES"}
+      title={id ? 'EDIT CORE VALUES' : 'CREATE CORE VALUES'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

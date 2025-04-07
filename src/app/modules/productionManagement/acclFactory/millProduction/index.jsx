@@ -1,21 +1,21 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import RowDetails from "./view";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import RowDetails from './view';
 const initData = {
-  shift: "",
-  mill: "",
+  shift: '',
+  mill: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
@@ -45,7 +45,6 @@ export default function MillProduction() {
     getMillProductionlanding(
       `/mes/MSIL/GetAllMillProductionLanding?BusinessunitId=${selectedBusinessUnit?.value}&Fromdate=${initData?.fromDate}&Todate=${initData?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
   return (
@@ -78,7 +77,7 @@ export default function MillProduction() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/ACCLFactory/mill-production/create"
+                        '/production-management/ACCLFactory/mill-production/create'
                       );
                     }}
                   >
@@ -110,7 +109,7 @@ export default function MillProduction() {
                   <button
                     type="button"
                     disabled={!values?.fromDate || !values?.toDate}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     onClick={() => {
                       getMillProductionlanding(
@@ -128,7 +127,7 @@ export default function MillProduction() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Date</th>
                           <th>Shift</th>
                           {/* <th>Plant</th> */}

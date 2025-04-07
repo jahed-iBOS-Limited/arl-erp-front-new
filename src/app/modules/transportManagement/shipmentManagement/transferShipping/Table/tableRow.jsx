@@ -95,9 +95,8 @@ export function TableRow({
     }));
     setIncompleteRowDto(modifyGridData);
     getPermission(
-      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnChalanInfo`,
+      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnChalanInfo`
     );
-
   }, [incompleteGridData]);
 
   useEffect(() => {
@@ -106,7 +105,6 @@ export function TableRow({
       itemCheck: false,
     }));
     setRowDto(modifyGridData);
-
   }, [gridData]);
 
   // const itemSlectedHandler = (value, index) => {
@@ -151,8 +149,8 @@ export function TableRow({
           values?.toDate,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     } else if (values?.reportType?.value === 2) {
       dispatch(
@@ -163,15 +161,15 @@ export function TableRow({
           values?.tillDate,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     } else if (values?.reportType?.value === 4) {
       getCanceledData(
         `/oms/Shipment/GetCanceledTransferShippingReport?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.pgiShippoint?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}`,
         (resData) => {
           setCanceledRows(resData);
-        },
+        }
       );
     }
   };
@@ -201,8 +199,8 @@ export function TableRow({
               viewBtnClickHandler,
               values,
               pageNo,
-              pageSize,
-            ),
+              pageSize
+            )
           );
         },
         noAlertFunc: () => {},
@@ -223,7 +221,6 @@ export function TableRow({
     ) {
       viewBtnClickHandler(shipmentlanding, pageNo, pageSize);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -232,7 +229,6 @@ export function TableRow({
       setRowDto([]);
       dispatch(setGridEmptyAction());
     };
-
   }, []);
   return (
     <>
@@ -467,7 +463,7 @@ export function TableRow({
                                                 //setFieldValue("itemCheck", e.target.checked);
                                                 itemSlectedRowHandler(
                                                   e.target.checked,
-                                                  index,
+                                                  index
                                                 );
                                               }}
                                             />
@@ -517,12 +513,12 @@ export function TableRow({
                                         />
                                       </span>
                                       <IEdit
-                                      onClick={()=>{
-                                        history.push({
-                                          pathname: `/transport-management/shipmentmanagement/transfershipping/edit/${td.shipmentId}`,
-                                          state: values,
-                                        });
-                                      }}
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/transport-management/shipmentmanagement/transfershipping/edit/${td.shipmentId}`,
+                                            state: values,
+                                          });
+                                        }}
                                       />
                                       {permitted ? (
                                         <span className="view">
@@ -683,7 +679,7 @@ export function TableRow({
                                         <IView
                                           clickHandler={() => {
                                             history.push(
-                                              `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`,
+                                              `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`
                                             );
                                           }}
                                         />

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetProfitCenterPagination = async (accountId, buId, setter) => {
   try {
@@ -10,9 +10,7 @@ export const GetProfitCenterPagination = async (accountId, buId, setter) => {
     if (res.status === 200 && res?.data?.data) {
       setter(res?.data?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const GetProfitCenterView = async (profitCenterId, setter) => {
@@ -41,9 +39,7 @@ export const GetProfitCenterView = async (profitCenterId, setter) => {
       };
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveProfitCenter = async (data, cb) => {
@@ -53,11 +49,10 @@ export const saveProfitCenter = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
   }
 };
@@ -69,11 +64,10 @@ export const saveEditedProfitCenter = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       cb();
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
   }
 };
@@ -86,9 +80,7 @@ export const getControllingUnitDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getGetProfitCenterGroupNameDDL_api = async (
@@ -104,9 +96,7 @@ export const getGetProfitCenterGroupNameDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getResponsiblePersonDDL_api = async (accId, buId, setter) => {
@@ -117,7 +107,5 @@ export const getResponsiblePersonDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

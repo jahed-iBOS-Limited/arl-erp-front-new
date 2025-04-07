@@ -1,30 +1,29 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { getSBUListDDL } from "../../../../assetManagement/assetRentManagement/assetRent/helper";
-import { getOwnerInfoDDL, getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { getSBUListDDL } from '../../../../assetManagement/assetRentManagement/assetRent/helper';
+import { getOwnerInfoDDL, getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
 import {
   saveVoyageCharterTransaction,
   saveVoyageCharterTransactionIntermidiate,
-} from "../helper";
-import { totalNetPayableInitialInvoice } from "../invoice/initialInvoice/initialInvoice";
-import Form from "./form";
+} from '../helper';
+import { totalNetPayableInitialInvoice } from '../invoice/initialInvoice/initialInvoice';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  statement: "",
+  vesselName: '',
+  voyageNo: '',
+  statement: '',
   invoiceDate: _todayDate(),
-  invoiceRef: "",
-  charterer: "",
-  beneficiary: "",
+  invoiceRef: '',
+  charterer: '',
+  beneficiary: '',
   journalDate: _todayDate(),
-  cargo: "",
+  cargo: '',
   receivedDate: '',
   bankAccNo: '',
   receiveAmount: '',
@@ -107,19 +106,19 @@ export default function VoyageCharterForm() {
           statementNo: values?.statement?.value,
           fromName:
             values?.statement?.value === 1
-              ? values?.invoiceHireData?.fromName || ""
-              : values?.invoiceHireData?.toName || "",
+              ? values?.invoiceHireData?.fromName || ''
+              : values?.invoiceHireData?.toName || '',
           fromAddress:
             values?.statement?.value === 1
-              ? values?.invoiceHireData?.fromAddress || ""
-              : values?.invoiceHireData?.toAdress || "",
+              ? values?.invoiceHireData?.fromAddress || ''
+              : values?.invoiceHireData?.toAdress || '',
           toName:
             values?.statement?.value === 1
-              ? values?.invoiceHireData?.toName || ""
-              : values?.invoiceHireData?.fromName || "",
+              ? values?.invoiceHireData?.toName || ''
+              : values?.invoiceHireData?.fromName || '',
           toAdress:
             values?.statement?.value === 1
-              ? values?.invoiceHireData?.toAdress || ""
+              ? values?.invoiceHireData?.toAdress || ''
               : values?.invoiceHireData?.fromAddress,
           reference: `${values?.vesselName?.label} CP Date ${_dateFormatter(
             values?.invoiceHireData?.cpDate
@@ -128,9 +127,9 @@ export default function VoyageCharterForm() {
           cpDate:
             _dateFormatter(values?.invoiceHireData?.cpDate) || _todayDate(),
           quantity: values?.invoiceHireData?.cargoQty,
-          loadPort: values?.invoiceHireData?.loadPort || "",
-          dischPort: values?.invoiceHireData?.dischPort || "",
-          invoiceRef: values?.invoiceHireData?.invoiceRef || "",
+          loadPort: values?.invoiceHireData?.loadPort || '',
+          dischPort: values?.invoiceHireData?.dischPort || '',
+          invoiceRef: values?.invoiceHireData?.invoiceRef || '',
           totalNetPayble: +totalNetPayble.toFixed(2) || 0,
           /* Last added */
           charterId: values?.charterer?.value,
@@ -177,11 +176,11 @@ export default function VoyageCharterForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Voyage Charter Transaction"
-            : type === "view"
-            ? "View Voyage Charter Transaction"
-            : "Create Voyage Charter Transaction"
+          type === 'edit'
+            ? 'Edit Voyage Charter Transaction'
+            : type === 'view'
+              ? 'View Voyage Charter Transaction'
+              : 'Create Voyage Charter Transaction'
         }
         initData={
           id
@@ -200,10 +199,10 @@ export default function VoyageCharterForm() {
                   value: state?.statementNo,
                   label:
                     state?.statementNo === 2
-                      ? "Final Statement"
+                      ? 'Final Statement'
                       : state?.statementNo === 3
-                      ? "Intermediate Invoice"
-                      : "Initial Statement",
+                        ? 'Intermediate Invoice'
+                        : 'Initial Statement',
                 },
                 hireTypeName: {
                   value: state?.hireTypeId,
@@ -245,7 +244,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: `${item?.parcentageValue || 0}% FREIGHT` || "",
+      particulars: `${item?.parcentageValue || 0}% FREIGHT` || '',
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -260,7 +259,7 @@ const initialStateMentRowMaker = (item, index, total) => {
       sl: index + 1,
       particulars:
         `${item?.parcentageValue || 0}% Broker COMMISSION ON 100% FREIGHT` ||
-        "",
+        '',
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -275,7 +274,7 @@ const initialStateMentRowMaker = (item, index, total) => {
       sl: index + 1,
       particulars:
         `${item?.parcentageValue || 0}% Address COMMISSION ON 100% FREIGHT` ||
-        "",
+        '',
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -286,7 +285,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: 0,
       freightRate: 0,
       debit: 0,
@@ -297,7 +296,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: item?.cargoQty,
       freightRate: item?.freightRate,
       debit: 0,
@@ -311,7 +310,7 @@ const finalStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: 0,
       freightRate: 0,
       debit: +total || 0,
@@ -321,7 +320,7 @@ const finalStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: 0,
       freightRate: 0,
       debit: 0,
@@ -331,7 +330,7 @@ const finalStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: 0,
       freightRate: 0,
       debit: 0,
@@ -341,7 +340,7 @@ const finalStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: item?.particulars || "",
+      particulars: item?.particulars || '',
       cargoQty: item?.cargoQty || 0,
       freightRate: item?.freightRate || 0,
       debit: +item?.debit || 0,

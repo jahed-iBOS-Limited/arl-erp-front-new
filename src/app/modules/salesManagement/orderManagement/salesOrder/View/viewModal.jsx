@@ -1,15 +1,15 @@
-import { Field, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
+import { Field, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
 import {
   SetAvailableBalanceEmpty_Action,
   SetPartnerBalanceEmpty_Action,
@@ -23,38 +23,38 @@ import {
   getSalesOrderGridData,
   getShipToPartner_Action,
   getUndeliveryValues_action,
-} from "../_redux/Actions";
-import { logisticByDDL, updateSalesOrder } from "../helper";
-import { ISelect } from "./../../../../_helper/_inputDropDown";
-import Loading from "./../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { setSalesOrderSingleEmpty } from "./../_redux/Actions";
+} from '../_redux/Actions';
+import { logisticByDDL, updateSalesOrder } from '../helper';
+import { ISelect } from './../../../../_helper/_inputDropDown';
+import Loading from './../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { setSalesOrderSingleEmpty } from './../_redux/Actions';
 
 const initData = {
   id: undefined,
-  soldtoParty: "",
-  partnerReffNo: "",
-  currency: "",
+  soldtoParty: '',
+  partnerReffNo: '',
+  currency: '',
   pricingDate: _todayDate(),
   dueShippingDate: _todayDate(),
   isTransshipment: false,
   isPartialShipment: false,
-  refType: "",
-  incoterm: "",
-  paymentTerms: "",
-  validity: "",
-  numItemPrice: "",
-  referenceNo: "",
-  shipToParty: "",
-  item: "",
-  customerItemName: "",
+  refType: '',
+  incoterm: '',
+  paymentTerms: '',
+  validity: '',
+  numItemPrice: '',
+  referenceNo: '',
+  shipToParty: '',
+  item: '',
+  customerItemName: '',
   allCheckbox: false,
-  numDiscountValue: "",
-  narration: "",
-  numRequestQuantity: "",
-  uom: "",
-  shipToPartnerContactNo: "",
-  shiptoPartnerAddress: "",
+  numDiscountValue: '',
+  narration: '',
+  numRequestQuantity: '',
+  uom: '',
+  shipToPartnerContactNo: '',
+  shiptoPartnerAddress: '',
 };
 
 export default function ViewForm({ id, show, onHide, isLoading }) {
@@ -72,7 +72,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
       dispatch(SetAvailableBalanceEmpty_Action());
       dispatch(SetUndeliveryValuesEmpty_Action());
     };
-
   }, []);
 
   // get single sales order  unit from store
@@ -103,9 +102,12 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
   );
 
   const objDiscountGrandTotal =
-  buId === 232 && id && singleData?.objDiscount?.length > 0
-    ? singleData?.objDiscount?.reduce((acc, item) => (acc += item?.numDiscountAmount), 0)
-    : 0;
+    buId === 232 && id && singleData?.objDiscount?.length > 0
+      ? singleData?.objDiscount?.reduce(
+          (acc, item) => (acc += item?.numDiscountAmount),
+          0
+        )
+      : 0;
 
   let {
     partnerBalance,
@@ -154,7 +156,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -167,7 +168,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
@@ -176,7 +176,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         ...itm,
         netValue:
           itm.numOrderValue - (itm.numOrderValue * itm.numDiscountValue) / 100,
-        isFree: itm.isFreeItem ? "Yes" : "No",
+        isFree: itm.isFreeItem ? 'Yes' : 'No',
         item: { value: itm?.itemId, label: itm?.itemName },
         shipToPartner: {
           value: itm?.shipToPartnerId,
@@ -210,7 +210,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-
   }, [id, singleData]);
 
   //total amount calculation
@@ -233,13 +232,13 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     _data[index][name] = value;
 
     const orderValue =
-      name === "numRequestQuantity"
-        ? _data[index]["numItemPrice"] * value
-        : name === "numItemPrice"
-        ? _data[index]["numRequestQuantity"] * value
-        : _data[index]["numOrderValue"];
+      name === 'numRequestQuantity'
+        ? _data[index]['numItemPrice'] * value
+        : name === 'numItemPrice'
+          ? _data[index]['numRequestQuantity'] * value
+          : _data[index]['numOrderValue'];
 
-    _data[index]["numOrderValue"] = orderValue;
+    _data[index]['numOrderValue'] = orderValue;
     setRowDto(_data);
   };
 
@@ -258,31 +257,31 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         shipToPartnerAddress: values?.shiptoPartnerAddress,
         shipToPartnerContactNo: values?.shipToPartnerContactNo,
         shipPointId: 0,
-        shipPointName: "",
+        shipPointName: '',
       },
       objRow: rowDto?.map((item, i) => {
         return {
           rowId: item?.rowId,
           shipToPartnerId: item?.shipToPartner?.value,
           shipToPartnerName: item?.shipToPartner?.label,
-          shipToPartnerAddress: "",
+          shipToPartnerAddress: '',
           itemId: item?.item?.value,
-          itemCode: "",
+          itemCode: '',
           itemName: item?.item?.label,
           requestQuantity: item?.numRequestQuantity,
           itemPrice: item?.numItemPrice,
           customerItemName: item?.item?.label,
           uomId: 0,
-          uomName: "",
-          referenceNoName: "",
+          uomName: '',
+          referenceNoName: '',
           orderQuantity: +item?.numOrderQuantity,
           undeliveryQuantity: item?.numRequestQuantity,
           orderValue: item?.numOrderValue,
-          specification: "",
+          specification: '',
         };
       }),
     };
-    if (type === "update") {
+    if (type === 'update') {
       updateSalesOrder(payload, setLoading, () => {
         onHide();
         dispatch(
@@ -302,13 +301,13 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
   };
 
   const p = state?.addressChangingPermission;
-  const viewMode = type !== "update" || !p;
+  const viewMode = type !== 'update' || !p;
   return (
     <div>
       <IViewModal
         show={show}
         onHide={onHide}
-        title={`${type === "update" ? "Edit" : "View"} Sales Order`}
+        title={`${type === 'update' ? 'Edit' : 'View'} Sales Order`}
         isShow={singleData?.objHeader && false}
       >
         <Formik
@@ -318,7 +317,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
           {({ values, errors, touched, setFieldValue }) => (
             <>
               {loading && <Loading />}
-              {type === "update" && (
+              {type === 'update' && (
                 <div className="text-right">
                   <button
                     className="btn btn-primary"
@@ -373,7 +372,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       type="date"
                       errors={errors}
                       touched={touched}
-                      value={_dateFormatter(values.pricingDate || "")}
+                      value={_dateFormatter(values.pricingDate || '')}
                       disabled={viewMode}
                     />
                   </div>
@@ -391,7 +390,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Incoterm"
-                      options={""}
+                      options={''}
                       value={values.incoterm}
                       name="incoterm"
                       setFieldValue={setFieldValue}
@@ -441,7 +440,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       value={values.shiptoPartnerAddress}
                       label="Ship To Party Address"
                       name="shiptoPartnerAddress"
-                      disabled={type !== "update"}
+                      disabled={type !== 'update'}
                       // disabled={viewMode}
                     />
                   </div>
@@ -470,7 +469,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       value={values?.transportZone}
                       label="Ship To Party Transport Zone"
                       onChange={(valueOption) => {
-                        setFieldValue("transportZone", valueOption);
+                        setFieldValue('transportZone', valueOption);
                       }}
                       placeholder="No Data Found"
                       errors={errors}
@@ -491,12 +490,12 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                             id="isTransshipment"
                             type="checkbox"
                             className="ml-2"
-                            value={values.isTransshipment || ""}
+                            value={values.isTransshipment || ''}
                             checked={values.isTransshipment}
                             name={values.isTransshipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isTransshipment",
+                                'isTransshipment',
                                 e.target.checked
                               );
                             }}
@@ -517,12 +516,12 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                             id="isPartialShipment"
                             type="checkbox"
                             className="ml-2"
-                            value={values.isPartialShipment || ""}
+                            value={values.isPartialShipment || ''}
                             checked={values.isPartialShipment}
                             name={values.isPartialShipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isPartialShipment",
+                                'isPartialShipment',
                                 e.target.checked
                               );
                             }}
@@ -539,7 +538,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       value={values?.logisticBy}
                       label="Logistic By"
                       onChange={(valueOption) => {
-                        setFieldValue("logisticBy", valueOption);
+                        setFieldValue('logisticBy', valueOption);
                       }}
                       placeholder="No Data Found"
                       errors={errors}
@@ -556,7 +555,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           value={values?.isWaterProof}
                           label="Is Water Proof"
                           onChange={(valueOption) => {
-                            setFieldValue("isWaterProof", valueOption);
+                            setFieldValue('isWaterProof', valueOption);
                           }}
                           placeholder="No Data Found"
                           errors={errors}
@@ -571,7 +570,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           value={values?.isPumpCharge}
                           label="Is Pump Charge"
                           onChange={(valueOption) => {
-                            setFieldValue("isPumpCharge", valueOption);
+                            setFieldValue('isPumpCharge', valueOption);
                           }}
                           placeholder="No Data Found"
                           errors={errors}
@@ -595,50 +594,33 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       <p className="m-0 my-2">
                         <b>Ledger Balance: </b>
                         {partnerBalance.ledgerBalance},
-                        <b className="ml-2">Credit Limit: </b>{" "}
+                        <b className="ml-2">Credit Limit: </b>{' '}
                         {creditLimitForInternalUser},
                         <b className="ml-2">Unbilled Amount: </b>
                         {partnerBalance.unbilledAmount},
-                        <b className="ml-2">Available Balance: </b>{" "}
+                        <b className="ml-2">Available Balance: </b>{' '}
                         {availableBalance},
                         <b className="ml-2">Undelivered Amount: </b>
                         {undeliveryValues?.unlideliveredValues}
                       </p>
                     )}
 
-
-
                     {/* If the bussiness unit is agro feed 232 & approved mode than show below content */}
 
-                    {
-                      buId===232 && id && singleData?.objDiscount?.length>0 ?
-
-
-
-
+                    {buId === 232 &&
+                    id &&
+                    singleData?.objDiscount?.length > 0 ? (
                       <p className="my-2">
-                       {singleData?.objDiscount.map((item)=>(
-                         <>
-                         <strong>{item?.commissionTypeName}: </strong>
-                         {" "}
-                         <span>{item?.numDiscountAmount}</span>
-                         {" "}
-                         </>
-                       ))}
-
-                        <strong>Grand Total: </strong>
-                         {" "}
-                         <span>{objDiscountGrandTotal}</span>
-                         {" "}
+                        {singleData?.objDiscount.map((item) => (
+                          <>
+                            <strong>{item?.commissionTypeName}: </strong>{' '}
+                            <span>{item?.numDiscountAmount}</span>{' '}
+                          </>
+                        ))}
+                        <strong>Grand Total: </strong>{' '}
+                        <span>{objDiscountGrandTotal}</span>{' '}
                       </p>
-
-
-
-
-
-                    :null
-                    }
-
+                    ) : null}
                   </div>
                 </div>
                 <div className="row justify-content-end">
@@ -659,7 +641,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
           <table
             // className={"table table-striped table-bordered global-table "}
             className={
-              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
             }
           >
             <thead>
@@ -667,11 +649,11 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                 <th>SL</th>
                 <th>Reference No</th>
                 <th>specification</th>
-                <th style={viewMode ? {} : { width: "200px" }}>
+                <th style={viewMode ? {} : { width: '200px' }}>
                   Ship To Party
                 </th>
                 {viewMode && <th>Item Code</th>}
-                <th style={viewMode ? {} : { width: "200px" }}>Item Name</th>
+                <th style={viewMode ? {} : { width: '200px' }}>Item Name</th>
                 {viewMode && <th>Customer Item Name</th>}
                 {viewMode && <th>Uom</th>}
                 <th>Is Free</th>
@@ -709,7 +691,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           value={itm?.shipToPartner || {}}
                           options={shipToPartner || []}
                           onChange={(e) => {
-                            rowDataHandler(index, "shipToPartner", e);
+                            rowDataHandler(index, 'shipToPartner', e);
                           }}
                         />
                       )}
@@ -727,7 +709,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           value={itm?.item || {}}
                           options={itemPlantDDL || []}
                           onChange={(e) => {
-                            rowDataHandler(index, "item", e);
+                            rowDataHandler(index, 'item', e);
                           }}
                         />
                       )}
@@ -752,7 +734,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "numRequestQuantity",
+                              'numRequestQuantity',
                               // "numOrderQuantity",
                               e?.target?.value
                             );
@@ -775,7 +757,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "numItemPrice",
+                              'numItemPrice',
                               e?.target?.value
                             );
                           }}
@@ -805,7 +787,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                         : _formatMoney(
                             itm.numOrderValue -
                               (itm.numOrderValue * itm.numDiscountValue) / 100
-                          )}{" "}
+                          )}{' '}
                     </td>
                   </tr>
                 );

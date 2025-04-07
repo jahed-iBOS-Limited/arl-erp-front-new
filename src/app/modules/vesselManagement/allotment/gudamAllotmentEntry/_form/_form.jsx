@@ -1,48 +1,47 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
+} from '../../../../../../_metronic/_partials/controls';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
 // import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 // import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { GetDomesticPortDDL } from "../../generalInformation/helper";
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { GetDomesticPortDDL } from '../../generalInformation/helper';
 // import { GetShipPointDDL } from "../../generalInformation/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   editGudamAllotment,
   getMotherVesselDDL,
   getShipToPartnerDDLByShipPoint,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  soldToPartner: "",
-  shipToPartner: "",
-  item: "",
-  allotmentQty: "",
-  month: "",
-  year: "",
-  shipPoint: "",
-  port: "",
-  programNo: "",
-  revenueRate: "",
-  revenueByTransport: "",
-  isNearShipPoint: "",
+  soldToPartner: '',
+  shipToPartner: '',
+  item: '',
+  allotmentQty: '',
+  month: '',
+  year: '',
+  shipPoint: '',
+  port: '',
+  programNo: '',
+  revenueRate: '',
+  revenueByTransport: '',
+  isNearShipPoint: '',
   extraAllotmentQuantity: 0,
 };
 
@@ -85,7 +84,7 @@ const GudamAllotmentForm = ({
   useEffect(() => {}, [accId, buId]);
 
   const getInitData = () => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return {
         soldToPartner: {
           value: singleItem?.soldToPartnerId,
@@ -117,8 +116,8 @@ const GudamAllotmentForm = ({
           value: singleItem?.yearId,
           label: singleItem?.yearId,
         },
-        revenueRate: singleItem?.revenueRate || "",
-        revenueByTransport: singleItem?.revenueByTransport || "",
+        revenueRate: singleItem?.revenueRate || '',
+        revenueByTransport: singleItem?.revenueByTransport || '',
       };
     } else {
       return initData;
@@ -126,7 +125,7 @@ const GudamAllotmentForm = ({
   };
 
   const saveHandler = (values) => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       const payload = {
         id: singleItem?.id,
         soldToPartnerId: values?.soldToPartner?.value,
@@ -160,7 +159,7 @@ const GudamAllotmentForm = ({
           setShow(false);
           history.push({
             pathname: `/vessel-management/allotment/tenderinformation/entry`,
-            state: { ...values, type: "redirect" },
+            state: { ...values, type: 'redirect' },
           });
         },
         true
@@ -199,7 +198,7 @@ const GudamAllotmentForm = ({
   };
 
   const isSaveBtnDisabled = (values) => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return !(
         values?.soldToPartner &&
         values?.shipToPartner &&
@@ -245,7 +244,7 @@ const GudamAllotmentForm = ({
                           value={values?.soldToPartner}
                           label="Business Partner"
                           onChange={(e) => {
-                            setFieldValue("soldToPartner", e);
+                            setFieldValue('soldToPartner', e);
                             getShipToPartnerDDLByShipPoint(
                               buId,
                               e?.value,
@@ -264,7 +263,7 @@ const GudamAllotmentForm = ({
                           value={values?.port}
                           label="Port"
                           onChange={(valueOption) => {
-                            setFieldValue("port", valueOption);
+                            setFieldValue('port', valueOption);
                             getMotherVesselDDL(
                               accId,
                               buId,
@@ -285,8 +284,8 @@ const GudamAllotmentForm = ({
                           value={values?.motherVessel}
                           label="Mother Vessel"
                           onChange={(valueOption) => {
-                            setFieldValue("motherVessel", valueOption);
-                            setFieldValue("programNo", valueOption?.programNo);
+                            setFieldValue('motherVessel', valueOption);
+                            setFieldValue('programNo', valueOption?.programNo);
                           }}
                           placeholder="Mother Vessel"
                         />
@@ -309,7 +308,7 @@ const GudamAllotmentForm = ({
                           value={values?.shipToPartner}
                           label="Ship to Partner"
                           onChange={(e) => {
-                            setFieldValue("shipToPartner", e);
+                            setFieldValue('shipToPartner', e);
                           }}
                           placeholder="Ship to Partner"
                           isDisabled={!values?.soldToPartner}
@@ -320,7 +319,7 @@ const GudamAllotmentForm = ({
                         <SearchAsyncSelect
                           selectedValue={values?.item}
                           handleChange={(valueOption) => {
-                            setFieldValue("item", valueOption);
+                            setFieldValue('item', valueOption);
                           }}
                           placeholder="Search Item"
                           loadOptions={(v) => {
@@ -391,14 +390,14 @@ const GudamAllotmentForm = ({
                           checked={values?.isNearShipPoint}
                           onChange={(e) => {
                             setFieldValue(
-                              "isNearShipPoint",
+                              'isNearShipPoint',
                               e?.target?.checked
                             );
                           }}
-                        />{" "}
+                        />{' '}
                         <label htmlFor="isNearShipPoint">Near shipPoint</label>
                       </div>
-                      {formType !== "edit" && (
+                      {formType !== 'edit' && (
                         <div className="col-12 text-right mt-5">
                           <button
                             className="btn btn-primary"
@@ -422,29 +421,29 @@ const GudamAllotmentForm = ({
                     </div>
                   </div>
                 </form>
-                {formType !== "edit" && (
+                {formType !== 'edit' && (
                   <div className="table-responsive">
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
                         <tr className="cursor-pointer">
                           {[
-                            "SL",
-                            "Business Partner",
-                            "Ship to Partner",
-                            "Mother Vessel",
-                            "Item Name",
+                            'SL',
+                            'Business Partner',
+                            'Ship to Partner',
+                            'Mother Vessel',
+                            'Item Name',
                             // "Month",
                             // "Year",
-                            "Allotment Qty",
-                            "Extra Allotment Qty",
-                            "Revenue Rate (Tk.)",
-                            "Revenue by Transport",
-                            "Action",
+                            'Allotment Qty',
+                            'Extra Allotment Qty',
+                            'Revenue Rate (Tk.)',
+                            'Revenue by Transport',
+                            'Action',
                           ]?.map((th, index) => {
                             return <th key={index}> {th} </th>;
                           })}
@@ -455,7 +454,7 @@ const GudamAllotmentForm = ({
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -482,7 +481,7 @@ const GudamAllotmentForm = ({
                                 {item?.revenueByTransport}
                               </td>
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 <div className="d-flex justify-content-around">

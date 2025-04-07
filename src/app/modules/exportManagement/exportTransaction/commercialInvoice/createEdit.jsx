@@ -1,8 +1,5 @@
-import React from "react";
-import PackingAndWeight from "../../../_helper/_commonJSX";
+import React from 'react';
+import PackingAndWeight from '../../../_helper/_commonJSX';
 export default function CommercialInvoiceCreateEdit() {
-  return (
-    <PackingAndWeight title="Commercial Invoice Create" />
-
-  );
+  return <PackingAndWeight title="Commercial Invoice Create" />;
 }

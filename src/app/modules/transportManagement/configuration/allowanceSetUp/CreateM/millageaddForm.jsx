@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
 
 import {
   GetComponentDDL,
   saveMillageSetUp,
   GetMillagePagination,
-} from "../helper";
+} from '../helper';
 
-import Loading from "../../../../_helper/_loading";
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  millageComponent: "",
-  millage: "",
-  minimumamount: "",
-  maximumamount: "",
+  millageComponent: '',
+  millage: '',
+  minimumamount: '',
+  maximumamount: '',
 };
 
 export default function MillageSetUpCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const params = useParams();
   const [millageComponent, setMillageComponent] = useState([]);
@@ -62,7 +62,7 @@ export default function MillageSetUpCreateForm() {
 
   return (
     <IForm
-      title={"Millage Set-Up"}
+      title={'Millage Set-Up'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}

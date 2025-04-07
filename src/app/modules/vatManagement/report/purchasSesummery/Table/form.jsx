@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,11 +12,11 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import { getVatBranches_api, purchaseSummaryReportReport_api } from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from './../../../../../../_metronic/_partials/controls';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import { getVatBranches_api, purchaseSummaryReportReport_api } from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -25,9 +25,9 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  itemType: "",
-  branch: "",
-  sortBy: "",
+  itemType: '',
+  branch: '',
+  sortBy: '',
 };
 
 export default function HeaderForm() {
@@ -69,7 +69,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Purchase Summary"}>
+              <CardHeader title={'Purchase Summary'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -82,8 +82,8 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setRowDto([])
-                          setFieldValue("branch", valueOption);
+                          setRowDto([]);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -94,16 +94,16 @@ export default function HeaderForm() {
                       <NewSelect
                         name="sortBy"
                         options={[
-                          { value: 1, label: "Day" },
-                          { value: 2, label: "Product" },
-                          { value: 3, label: "Type Purchase" },
-                          { value: 4, label: "By Supplier" },
+                          { value: 1, label: 'Day' },
+                          { value: 2, label: 'Product' },
+                          { value: 3, label: 'Type Purchase' },
+                          { value: 4, label: 'By Supplier' },
                         ]}
                         value={values?.sortBy}
                         label="Sort By"
                         onChange={(valueOption) => {
-                          setRowDto([])
-                          setFieldValue("sortBy", valueOption);
+                          setRowDto([]);
+                          setFieldValue('sortBy', valueOption);
                         }}
                         placeholder="Sort By"
                         errors={errors}
@@ -118,8 +118,8 @@ export default function HeaderForm() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          setRowDto([])
+                          setFieldValue('fromDate', e.target.value);
+                          setRowDto([]);
                         }}
                       />
                     </div>
@@ -131,8 +131,8 @@ export default function HeaderForm() {
                         placeholder="Top Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          setRowDto([])
+                          setFieldValue('toDate', e.target.value);
+                          setRowDto([]);
                         }}
                       />
                     </div>
@@ -141,7 +141,7 @@ export default function HeaderForm() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          setRowDto([])
+                          setRowDto([]);
                           purchaseSummaryReportReport_api(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,

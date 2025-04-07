@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getFuelStationDDL } from "../helper";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getFuelStationDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   fromAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("From Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('From Address is required'),
   toAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("To Address is required"),
-  endMileage: Yup.number().required("Controlling Unit Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('To Address is required'),
+  endMileage: Yup.number().required('Controlling Unit Name is required'),
   usageType: Yup.object().shape({
-    label: Yup.string().required("Usage Type is required"),
-    value: Yup.string().required("Usage Type is required"),
+    label: Yup.string().required('Usage Type is required'),
+    value: Yup.string().required('Usage Type is required'),
   }),
 });
 
@@ -33,7 +33,7 @@ export default function FormCmp({
   fuelStationDDL,
   setFuelStationDDL,
   supplierDDL,
-  fuelCost
+  fuelCost,
 }) {
   return (
     <>
@@ -57,7 +57,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {console.log("values", values)}
+            {console.log('values', values)}
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               {/* Form */}
@@ -130,9 +130,9 @@ export default function FormCmp({
                       name="endMileage"
                       placeholder="End Mileage"
                       onChange={(e) => {
-                        setFieldValue("endMileage", e.target.value);
+                        setFieldValue('endMileage', e.target.value);
                         setFieldValue(
-                          "consumedMileage",
+                          'consumedMileage',
                           e.target.value - values.startMileage
                         );
                       }}
@@ -155,13 +155,13 @@ export default function FormCmp({
                     <NewSelect
                       name="usageType"
                       options={[
-                        { value: "Official", label: "Official" },
-                        { value: "Personal", label: "Personal" },
+                        { value: 'Official', label: 'Official' },
+                        { value: 'Personal', label: 'Personal' },
                       ]}
                       value={values?.usageType}
                       label="Usage Type"
                       onChange={(valueOption) => {
-                        setFieldValue("usageType", valueOption);
+                        setFieldValue('usageType', valueOption);
                       }}
                       placeholder="Usage Type"
                       isDisabled={true}
@@ -205,7 +205,7 @@ export default function FormCmp({
                         value={values?.fuelType}
                         label="Fuel Type"
                         onChange={(valueOption) => {
-                          setFieldValue("fuelType", valueOption);
+                          setFieldValue('fuelType', valueOption);
                         }}
                         placeholder="Fuel Type"
                         isDisabled={true}
@@ -238,15 +238,15 @@ export default function FormCmp({
                       <NewSelect
                         name="paymentMethod"
                         options={[
-                          { value: "Cash", label: "Cash" },
-                          { value: "Credit", label: "Credit" },
+                          { value: 'Cash', label: 'Cash' },
+                          { value: 'Credit', label: 'Credit' },
                         ]}
                         value={values?.paymentMethod}
                         label="Payment Method"
                         onChange={(valueOption) => {
-                          setFieldValue("fuelStation", "");
-                          setFieldValue("supplier", "");
-                          setFieldValue("paymentMethod", valueOption);
+                          setFieldValue('fuelStation', '');
+                          setFieldValue('supplier', '');
+                          setFieldValue('paymentMethod', valueOption);
                         }}
                         isDisabled={true}
                         placeholder="Payment Method"
@@ -266,8 +266,8 @@ export default function FormCmp({
                             valueOption?.value,
                             setFuelStationDDL
                           );
-                          setFieldValue("fuelStation", "");
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('fuelStation', '');
+                          setFieldValue('supplier', valueOption);
                         }}
                         placeholder="Supplier"
                         errors={errors}
@@ -282,7 +282,7 @@ export default function FormCmp({
                         isDisabled={true}
                         label="Fuel Station"
                         onChange={(valueOption) => {
-                          setFieldValue("fuelStation", valueOption);
+                          setFieldValue('fuelStation', valueOption);
                         }}
                         placeholder="Fuel Station"
                         errors={errors}
@@ -302,16 +302,16 @@ export default function FormCmp({
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
 
-<div className="row">
+              <div className="row">
                 <div className="col-lg-12">
                   <div className="table-responsive">
-                    <table className={"table global-table"}>
+                    <table className={'table global-table'}>
                       <thead>
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
+                          <th style={{ width: '20px' }}>SL</th>
                           <th>Payment Type</th>
                           <th>Supplier Name</th>
                           <th>Fuel Station Name</th>
@@ -322,7 +322,6 @@ export default function FormCmp({
                           <th>Cash Amount</th>
                           <th>Credit Amount</th>
                           <th>Total</th>
-
                         </tr>
                       </thead>
                       <tbody>
@@ -334,7 +333,7 @@ export default function FormCmp({
                             <td>{item?.fuelStationName}</td>
                             <td>{item?.fuelTypeName}</td>
                             <td>{item?.quantity}</td>
-                            <td>{item?.referenceNo || ""}</td>
+                            <td>{item?.referenceNo || ''}</td>
                             <td>{item?.referenceDate}</td>
                             <td>{item?.cashAmount}</td>
                             <td>{item?.creditAmount}</td>
@@ -352,7 +351,6 @@ export default function FormCmp({
                                 />
                               )}
                             </td> */}
-
                           </tr>
                         ))}
                       </tbody>
@@ -363,14 +361,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

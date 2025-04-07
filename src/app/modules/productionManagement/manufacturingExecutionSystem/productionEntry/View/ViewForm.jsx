@@ -1,6 +1,6 @@
-import React from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function ProductionEntryViewForm({ data }) {
   console.log(data);
@@ -17,7 +17,7 @@ export default function ProductionEntryViewForm({ data }) {
                 value={
                   data?.objHeader?.dteProductionDate
                     ? _dateFormatter(data?.objHeader?.dteProductionDate)
-                    : ""
+                    : ''
                 }
                 type="date"
                 disabled
@@ -29,7 +29,7 @@ export default function ProductionEntryViewForm({ data }) {
             <Form.Group controlId="shiftName">
               <Form.Label className="text-left">Shift Name</Form.Label>
               <Form.Control
-                value={data?.shift?.label ? data?.shift?.label : ""}
+                value={data?.shift?.label ? data?.shift?.label : ''}
                 type="text"
                 disabled
                 placeholder="Shift Name"
@@ -40,7 +40,7 @@ export default function ProductionEntryViewForm({ data }) {
             <Form.Group controlId="plant">
               <Form.Label className="text-left">Plant Name</Form.Label>
               <Form.Control
-                value={data?.plantName?.label ? data?.plantName?.label : ""}
+                value={data?.plantName?.label ? data?.plantName?.label : ''}
                 type="text"
                 disabled
                 placeholder="Plant Name"
@@ -66,7 +66,7 @@ export default function ProductionEntryViewForm({ data }) {
                 value={
                   data?.objHeader?.productionOrderCode
                     ? data?.objHeader?.productionOrderCode
-                    : ""
+                    : ''
                 }
                 type="text"
                 disabled
@@ -92,7 +92,7 @@ export default function ProductionEntryViewForm({ data }) {
                 Good Production Quantity
               </Form.Label>
               <Form.Control
-                value={""}
+                value={''}
                 type="text"
                 disabled
                 placeholder="Good Production Quantity"
@@ -117,11 +117,11 @@ export default function ProductionEntryViewForm({ data }) {
               <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Item Code</th>
-                    <th style={{ width: "50px" }}>Output Item</th>
-                    <th style={{ width: "50px" }}>Output Quantity</th>
-                    <th style={{ width: "50px" }}>QC Quantity</th>
+                    <th style={{ width: '30px' }}>SL</th>
+                    <th style={{ width: '50px' }}>Item Code</th>
+                    <th style={{ width: '50px' }}>Output Item</th>
+                    <th style={{ width: '50px' }}>Output Quantity</th>
+                    <th style={{ width: '50px' }}>QC Quantity</th>
                   </tr>
                 </thead>
                 <tbody>

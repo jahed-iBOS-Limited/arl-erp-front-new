@@ -1,16 +1,14 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getGridData } from "../landingHelper";
-import IViewModal from "../../../../_helper/_viewModal";
-import AssetOrderForm from "../newForm/addEditForm";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getGridData } from '../landingHelper';
+import IViewModal from '../../../../_helper/_viewModal';
+import AssetOrderForm from '../newForm/addEditForm';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 export default function TableRow() {
   // get user profile data from store
@@ -28,10 +26,19 @@ export default function TableRow() {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
-  const [plantName, setPlantName] = useState({ value: 79, label: "ACCL Narayanganj" });
-  const [warehouseName, setWarehouseName] = useState({ label: "ACCL PDD", value: 178 });
-  const [sbuName, setSbuName] = useState({ value: 58, label: "Akij Cement Company Ltd." });
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [plantName, setPlantName] = useState({
+    value: 79,
+    label: 'ACCL Narayanganj',
+  });
+  const [warehouseName, setWarehouseName] = useState({
+    label: 'ACCL PDD',
+    value: 178,
+  });
+  const [sbuName, setSbuName] = useState({
+    value: 58,
+    label: 'Akij Cement Company Ltd.',
+  });
+  const [currentRowData, setCurrentRowData] = useState('');
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
@@ -39,24 +46,52 @@ export default function TableRow() {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getGridData(profileData?.accountId, selectedBusinessUnit?.value, plantName?.value, setGridData, setLoading, pageNo, pageSize);
+    getGridData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      plantName?.value,
+      setGridData,
+      setLoading,
+      pageNo,
+      pageSize
+    );
   };
 
   const viewGridData = () => {
-    getGridData(profileData?.accountId, selectedBusinessUnit?.value, plantName?.value, setGridData, setLoading, pageNo, pageSize);
+    getGridData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      plantName?.value,
+      setGridData,
+      setLoading,
+      pageNo,
+      pageSize
+    );
   };
 
   useEffect(() => {
-    getGridData(profileData?.accountId, selectedBusinessUnit?.value, plantName?.value, setGridData, setLoading, pageNo, pageSize);
+    getGridData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      plantName?.value,
+      setGridData,
+      setLoading,
+      pageNo,
+      pageSize
+    );
   }, []);
 
-  console.log("workOrder", workOrder);
+  console.log('workOrder', workOrder);
   return (
     <>
       <ICustomCard
         title="Maintenance Vehicle Service Request"
         renderProps={() => (
-          <button className="btn btn-primary" disabled={!sbuName || !plantName || !warehouseName} onClick={(e) => setisShowModalforCreate(true)}>
+          <button
+            className="btn btn-primary"
+            disabled={!sbuName || !plantName || !warehouseName}
+            onClick={(e) => setisShowModalforCreate(true)}
+          >
             Create new
           </button>
         )}
@@ -76,7 +111,7 @@ export default function TableRow() {
                 }}
                 styles={customStyles}
                 isSearchable={true}
-                options={[{ value: 58, label: "Akij Cement Company Ltd." }]}
+                options={[{ value: 58, label: 'Akij Cement Company Ltd.' }]}
               />
             </div>
           </div>
@@ -92,7 +127,7 @@ export default function TableRow() {
                 isDisabled
                 styles={customStyles}
                 isSearchable={true}
-                options={[{ value: 79, label: "ACCL Narayanganj" }]}
+                options={[{ value: 79, label: 'ACCL Narayanganj' }]}
               />
             </div>
           </div>
@@ -108,12 +143,16 @@ export default function TableRow() {
                 isDisabled
                 styles={customStyles}
                 isSearchable={true}
-                options={[{ label: "ACCL PDD", value: 178 }]}
+                options={[{ label: 'ACCL PDD', value: 178 }]}
               />
             </div>
           </div>
           <div className="col-lg-2 d-flex align-items-end">
-            <button className="btn btn-primary" disabled={!plantName || !warehouseName} onClick={viewGridData}>
+            <button
+              className="btn btn-primary"
+              disabled={!plantName || !warehouseName}
+              onClick={viewGridData}
+            >
               View
             </button>
           </div>
@@ -149,7 +188,10 @@ export default function TableRow() {
           </table>
         </div>
 
-        <IViewModal show={isShowModalforCreate} onHide={() => setisShowModalforCreate(false)}>
+        <IViewModal
+          show={isShowModalforCreate}
+          onHide={() => setisShowModalforCreate(false)}
+        >
           <AssetOrderForm
             currentRowData={currentRowData}
             sbuName={sbuName}
@@ -162,7 +204,11 @@ export default function TableRow() {
 
         {/* Pagination Code */}
         {gridData?.data?.length > 0 && (
-          <PaginationTable count={gridData?.totalCount} setPositionHandler={setPositionHandler} paginationState={{ pageNo, setPageNo, pageSize, setPageSize }} />
+          <PaginationTable
+            count={gridData?.totalCount}
+            setPositionHandler={setPositionHandler}
+            paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+          />
         )}
       </ICustomCard>
     </>

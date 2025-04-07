@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDistributionChannelDDL_api = async (accId, buId, setter) => {
   try {
@@ -38,19 +38,19 @@ export const GetSupplierAndVehicleInfo_api = async (
   isUpdateMassage
 ) => {
   setLoading(true);
-  const isRemarks = remarks ? `&Reasons=${remarks}` : ""
+  const isRemarks = remarks ? `&Reasons=${remarks}` : '';
   try {
     let res = await Axios.get(
       `/oms/SalesInformation/GetTransportzoneInformationforzonechange?PartID=${type}&UnitID=${buId}&Delivercode=${code}&ShippingPoint=${shipmentId}&Customerid=${customerId}&UpdateBy=${userId}&Transportzoneid=${transportZoneId}${isRemarks}`
     );
     if (isUpdateMassage) {
-      toast.success("Submitted successfully");
+      toast.success('Submitted successfully');
       setter([]);
       setLoading(false);
       return false;
     }
 
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setter(res?.data);
     setLoading(false);
   } catch (err) {

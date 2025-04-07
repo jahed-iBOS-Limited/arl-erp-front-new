@@ -66,12 +66,12 @@ export default function DispatchRequisitionLanding() {
     const searchParam = searchValue ? `&search=${searchValue}` : '';
     if (status === 'send') {
       getGridData(
-        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}`,
+        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}`
       );
     } else {
       getGridData(
         `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}
-      `,
+      `
       );
     }
   };
@@ -87,10 +87,8 @@ export default function DispatchRequisitionLanding() {
         const fromPlantPayload = data?.map((item) => item?.value);
         handleGetRowData('send', pageNo, pageSize);
         setFromPlant(fromPlantPayload);
-      },
+      }
     );
-
-
   }, [userId, buId]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -253,7 +251,7 @@ export default function DispatchRequisitionLanding() {
                                 style={{ cursor: 'pointer' }}
                                 onClick={() =>
                                   history.push(
-                                    `/self-service/DispatchRequisition/edit/${item?.dispatchHeaderId}`,
+                                    `/self-service/DispatchRequisition/edit/${item?.dispatchHeaderId}`
                                   )
                                 }
                               >
@@ -273,9 +271,9 @@ export default function DispatchRequisitionLanding() {
                                             handleGetRowData(
                                               'send',
                                               pageNo,
-                                              pageSize,
+                                              pageSize
                                             );
-                                          },
+                                          }
                                         );
                                       },
                                       noAlertFunc: () => {},
@@ -297,10 +295,10 @@ export default function DispatchRequisitionLanding() {
                                     handleGetRowData(
                                       values?.requisition,
                                       pageNo,
-                                      pageSize,
+                                      pageSize
                                     );
                                   },
-                                  true,
+                                  true
                                 );
                               }}
                             >

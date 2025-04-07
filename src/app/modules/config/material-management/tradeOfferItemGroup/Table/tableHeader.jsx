@@ -1,6 +1,6 @@
-import React from "react";
-import { TableRow } from "./tableData";
-import { ITable } from "../../../../_helper/_table";
+import React from 'react';
+import { TableRow } from './tableData';
+import { ITable } from '../../../../_helper/_table';
 
 export function TradeOfferItemGroupTable() {
   return (

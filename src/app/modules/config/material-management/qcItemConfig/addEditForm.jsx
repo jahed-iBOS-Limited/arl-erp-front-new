@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import CommonTable from "../../../_helper/commonTable";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  parameter: "",
-  standardValue: "",
-  differenceLimit: "",
+  parameter: '',
+  standardValue: '',
+  differenceLimit: '',
 };
 
 export default function QcItemConfigCreate() {
@@ -39,7 +39,7 @@ export default function QcItemConfigCreate() {
         item?.differenceLimit === values?.differenceLimit
     );
     if (checkDuplicateData) {
-      toast.warn("Duplicate Data Not Allow");
+      toast.warn('Duplicate Data Not Allow');
       return;
     }
     const rowItem = {
@@ -66,12 +66,11 @@ export default function QcItemConfigCreate() {
       `/mes/QCTest/GetQCItemParameterConfigByItem?businessUnitId=${buId}&itemId=${id}`,
       (data) => {
         const updatedData = data?.filter(
-          (item) => item?.standardValue > 0 && item?.parameterName !== ""
+          (item) => item?.standardValue > 0 && item?.parameterName !== ''
         );
         setRowData(updatedData);
       }
     );
-
   }, [buId, id]);
   return (
     <Formik
@@ -80,7 +79,7 @@ export default function QcItemConfigCreate() {
       //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (rowData?.length < 1) {
-          toast.warn("Add minimum one item");
+          toast.warn('Add minimum one item');
           return;
         }
         saveHandler(values, () => {
@@ -103,22 +102,22 @@ export default function QcItemConfigCreate() {
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
-                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                  <p style={{ fontSize: 14, fontWeight: 'bold' }}>
                     Item Name : {state?.itemName}
                   </p>
                 </div>
                 <div className="col-lg-3">
-                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                  <p style={{ fontSize: 14, fontWeight: 'bold' }}>
                     Item Type : {state?.itemTypeName}
                   </p>
                 </div>
                 <div className="col-lg-3">
-                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                  <p style={{ fontSize: 14, fontWeight: 'bold' }}>
                     Item Category : {state?.itemCategoryName}
                   </p>
                 </div>
                 <div className="col-lg-3">
-                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                  <p style={{ fontSize: 14, fontWeight: 'bold' }}>
                     Item SubCategory : {state?.itemSubCategoryName}
                   </p>
                 </div>
@@ -132,7 +131,7 @@ export default function QcItemConfigCreate() {
                     name="parameter"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("parameter", e.target.value);
+                      setFieldValue('parameter', e.target.value);
                     }}
                   />
                 </div>
@@ -144,7 +143,7 @@ export default function QcItemConfigCreate() {
                     name="standardValue"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("standardValue", e.target.value);
+                      setFieldValue('standardValue', e.target.value);
                     }}
                   />
                 </div>
@@ -156,7 +155,7 @@ export default function QcItemConfigCreate() {
                     name="differenceLimit"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("differenceLimit", e.target.value);
+                      setFieldValue('differenceLimit', e.target.value);
                     }}
                   />
                 </div>
@@ -164,7 +163,7 @@ export default function QcItemConfigCreate() {
                   <button
                     type="button"
                     style={{
-                      marginTop: "16px",
+                      marginTop: '16px',
                     }}
                     onClick={() => {
                       handleRowAdd(values);
@@ -184,10 +183,10 @@ export default function QcItemConfigCreate() {
               <div className="mt-4">
                 <CommonTable
                   headersData={[
-                    "Parameter",
-                    "Standard Value",
-                    "Difference Limit",
-                    "Action",
+                    'Parameter',
+                    'Standard Value',
+                    'Difference Limit',
+                    'Action',
                   ]}
                 >
                   <tbody>
@@ -196,7 +195,7 @@ export default function QcItemConfigCreate() {
                         {/* Parameter Name as Text Input */}
                         <td className="text-center">
                           <InputField
-                            value={item?.parameterName || ""}
+                            value={item?.parameterName || ''}
                             placeholder="Parameter Name"
                             name={`parameterName-${index}`}
                             type="text"
@@ -211,7 +210,7 @@ export default function QcItemConfigCreate() {
                         {/* Standard Value as Number Input */}
                         <td className="text-center">
                           <InputField
-                            value={item?.standardValue || ""}
+                            value={item?.standardValue || ''}
                             placeholder="Standard Value"
                             name={`standardValue-${index}`}
                             type="number"
@@ -228,7 +227,7 @@ export default function QcItemConfigCreate() {
                         {/* Difference Limit as Number Input */}
                         <td className="text-center">
                           <InputField
-                            value={item?.differenceLimit || ""}
+                            value={item?.differenceLimit || ''}
                             placeholder="Difference Limit"
                             name={`differenceLimit-${index}`}
                             type="number"
@@ -255,14 +254,14 @@ export default function QcItemConfigCreate() {
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

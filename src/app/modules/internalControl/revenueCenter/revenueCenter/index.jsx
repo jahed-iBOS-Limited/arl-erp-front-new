@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { shallowEqual, useSelector } from "react-redux";
-import IEdit from "../../../_helper/_helperIcons/_edit";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { shallowEqual, useSelector } from 'react-redux';
+import IEdit from '../../../_helper/_helperIcons/_edit';
 const initData = {};
 export default function RevenueCenter() {
   // get user profile data from store
@@ -31,7 +31,6 @@ export default function RevenueCenter() {
     getTableData(
       `/costmgmt/Revenue/GetRevenueCenterLandingPaging?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
     );
-
   }, []);
 
   return (
@@ -68,7 +67,7 @@ export default function RevenueCenter() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/internal-control/revenuecenter/revenue-center/create"
+                        '/internal-control/revenuecenter/revenue-center/create'
                       );
                     }}
                   >
@@ -85,7 +84,7 @@ export default function RevenueCenter() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Revenue Center Name</th>
                           <th>Revenue Center Code</th>
                           <th>Controlling Unit</th>

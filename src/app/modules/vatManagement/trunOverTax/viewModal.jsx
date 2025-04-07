@@ -179,7 +179,7 @@ export default function SalesInvoiceModel({
                         <div className="text-right pr-2">
                           {gridData?.details?.reduce(
                             (acc, item) => acc + +item?.total,
-                            0,
+                            0
                           )}
                         </div>
                       </td>
@@ -194,7 +194,7 @@ export default function SalesInvoiceModel({
                         <div className="text-right pr-2">
                           {(gridData?.details?.reduce(
                             (acc, item) => acc + +item?.total,
-                            0,
+                            0
                           ) *
                             gridData?.data?.turnoverTaxPercentage) /
                             100}

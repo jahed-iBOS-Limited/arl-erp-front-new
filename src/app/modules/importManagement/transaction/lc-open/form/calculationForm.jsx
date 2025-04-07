@@ -1,12 +1,11 @@
-
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardHeader,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { Formik } from "formik";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+} from '../../../../../../_metronic/_partials/controls';
+import { Formik } from 'formik';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 // import InputField from "../../../../_helper/_inputField";
 // import ICustomTable from "../../../../_helper/_customTable";
 const CalculationForm = ({ initData }) => {
@@ -23,7 +22,7 @@ const CalculationForm = ({ initData }) => {
             {/* {console.log(values)} */}
             <Card>
               <CardHeader title="LC Opening Break Down"></CardHeader>
-              <CardBody style={{ background: "#dde3e8", paddingTop: "20px" }}>
+              <CardBody style={{ background: '#dde3e8', paddingTop: '20px' }}>
                 {/* <h5>Bank</h5> */}
                 <div className="react-bootstrap-table table-responsive">
                   <table className="table table-striped table-bordered mt-3 global-table">
@@ -31,8 +30,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Swift
@@ -42,8 +41,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Stamp
@@ -53,8 +52,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Stationary
@@ -64,8 +63,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Stamp Charge for Other

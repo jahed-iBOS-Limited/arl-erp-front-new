@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/transportSupplierUpdate/helper";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getSalesTargetById } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/transportSupplierUpdate/helper';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getSalesTargetById } from '../helper';
+import Form from './form';
 
 export function CustomerCollectionTargetForm({
   history,
@@ -18,7 +18,7 @@ export function CustomerCollectionTargetForm({
   const [objProps, setObjprops] = useState({});
   const { state } = useLocation();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [singleRowData, setSingleRowData] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
@@ -26,12 +26,12 @@ export function CustomerCollectionTargetForm({
 
   const initData = {
     sbu: state?.sbu,
-    targetMonth: "",
-    targetYear: "",
-    distributionChannel: "",
-    region: "",
-    area: "",
-    salesOrg: "",
+    targetMonth: '',
+    targetYear: '',
+    distributionChannel: '',
+    region: '',
+    area: '',
+    salesOrg: '',
   };
 
   const {
@@ -85,8 +85,8 @@ export function CustomerCollectionTargetForm({
     <IForm
       title={
         approveid
-          ? "Approve Customer Collection Target"
-          : "Customer Collection Target Entry"
+          ? 'Approve Customer Collection Target'
+          : 'Customer Collection Target Entry'
       }
       getProps={setObjprops}
       isDisabled={

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function BankGuaranteeView({
   landingItem,
@@ -13,10 +13,9 @@ export default function BankGuaranteeView({
     getViewData(
       `https://localhost:44346/fino/CommonFino/GetBankGuaranteeSecurityRegisterById?businessUnitId=${selectedBusinessUnit?.value}&code=${landingItem?.strCode}&autoId=${landingItem?.intId}`
     );
-
   }, []);
 
-  console.log("viwData", viwData);
+  console.log('viwData', viwData);
   return (
     <div>
       {loading && <Loading />}

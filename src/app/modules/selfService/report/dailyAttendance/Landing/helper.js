@@ -1,60 +1,60 @@
-import axios from "axios";
+import axios from 'axios';
 /* 
  Color Render For present, offday, leave, holiday, late, unprocessed, absent, movement, 
 */
 export const colorList = {
   preset: {
-    color: "green",
+    color: 'green',
     backgroundColor: {
-      backgroundColor: "rgba(52, 211, 153, 1)",
+      backgroundColor: 'rgba(52, 211, 153, 1)',
     },
   },
   late: {
-    color: "yellow",
+    color: 'yellow',
     backgroundColor: {
-      backgroundColor: "rgba(251, 191, 36, 1)",
+      backgroundColor: 'rgba(251, 191, 36, 1)',
     },
   },
   offday: {
-    color: "gray",
+    color: 'gray',
     backgroundColor: {
-      backgroundColor: "rgba(156, 163, 175, 1)",
+      backgroundColor: 'rgba(156, 163, 175, 1)',
     },
   },
   absent: {
-    color: "red",
+    color: 'red',
     backgroundColor: {
-      backgroundColor: "rgba(248, 113, 113, 1)",
+      backgroundColor: 'rgba(248, 113, 113, 1)',
     },
   },
   leave: {
-    color: "indigo",
+    color: 'indigo',
     backgroundColor: {
-      backgroundColor: "rgba(129, 140, 248, 1)",
+      backgroundColor: 'rgba(129, 140, 248, 1)',
     },
   },
   movement: {
-    color: "pink",
+    color: 'pink',
     backgroundColor: {
-      backgroundColor: "rgba(244, 114, 182, 1)",
+      backgroundColor: 'rgba(244, 114, 182, 1)',
     },
   },
   holiday: {
-    color: "pink",
+    color: 'pink',
     backgroundColor: {
-      backgroundColor: "rgba(96, 165, 250, 1)",
+      backgroundColor: 'rgba(96, 165, 250, 1)',
     },
   },
   unprocessed: {
-    color: "purple",
+    color: 'purple',
     backgroundColor: {
-      backgroundColor: " rgba(167, 139, 250, 1)",
+      backgroundColor: ' rgba(167, 139, 250, 1)',
     },
   },
   default: {
-    color: "default",
+    color: 'default',
     backgroundColor: {
-      backgroundColor: " rgba(229, 231, 235, 1)",
+      backgroundColor: ' rgba(229, 231, 235, 1)',
     },
   },
 };
@@ -81,13 +81,13 @@ const matchDataset = (dateList, resDataset) => {
       };
     }
     return {
-      dayName: "",
+      dayName: '',
       dayNumber: 0,
       dayOfWeek: 0,
       intEmployeeId: 0,
-      monthDate: "0",
-      monthName: "",
-      presentStatus: "-",
+      monthDate: '0',
+      monthName: '',
+      presentStatus: '-',
       weekOfMonth: 0,
     };
   });
@@ -105,7 +105,7 @@ export const getEmployeeAttendenceDetailsReport = async (
     let res = await axios.get(
       `/hcm/HCMLeaveAndMovementReport/GetAttendanceSummaryCalenderViewReport?EmployeeId=${empId}&Monthy=${month}&Year=${year}`
     );
-    
+
     /*  **Last Change Assign | Md. Al Amin (CPO) */
     // if (res?.data?.length >= 28) {
     //   // ** Old Logic
@@ -118,7 +118,7 @@ export const getEmployeeAttendenceDetailsReport = async (
     //   // console.log("new data", newData);
     //   setter(newData);
     // } else {}
-    
+
     setter(matchDataset(allDayList, res?.data));
   } catch (error) {
     setter([]);

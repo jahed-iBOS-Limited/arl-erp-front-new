@@ -80,13 +80,12 @@ export default function VesselNominationDashboard() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : '';
     getLandingData(
-      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
+      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
   useEffect(() => {
     getGridData();
-
   }, []);
 
   const getButtonVisibility = (data) => {
@@ -180,7 +179,7 @@ export default function VesselNominationDashboard() {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             setVesselDDL,
-                            valueOption?.value === 2 ? 2 : '',
+                            valueOption?.value === 2 ? 2 : ''
                           );
                         } else {
                           getGridData();
@@ -283,7 +282,7 @@ export default function VesselNominationDashboard() {
 
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'isBunkerCalculationSave',
+                                'isBunkerCalculationSave'
                               ) && (
                                 <button
                                   className={
@@ -297,7 +296,7 @@ export default function VesselNominationDashboard() {
                                       '/shippingOperation/bunker-management/bunker/create',
                                       {
                                         landingData: item,
-                                      },
+                                      }
                                     );
                                   }}
                                   // disabled={item?.isBunkerCalculationSave}
@@ -318,7 +317,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.preStowageSend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -348,7 +347,7 @@ export default function VesselNominationDashboard() {
                                 onClick={() => {
                                   if (item.isVesselNominationEmailSent) {
                                     const confirmation = window.confirm(
-                                      'Email already sent. Do you want to send it again?',
+                                      'Email already sent. Do you want to send it again?'
                                     );
 
                                     if (!confirmation) {
@@ -378,7 +377,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.edpaLoadportSend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -400,7 +399,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'onHireBunkerSurveySent',
+                                'onHireBunkerSurveySent'
                               ) && (
                                 <button
                                   className={
@@ -412,7 +411,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.onHireBunkerSurveySent) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -458,7 +457,7 @@ export default function VesselNominationDashboard() {
                             </td> */}
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'voyageInstructionSent',
+                                'voyageInstructionSent'
                               ) && (
                                 <button
                                   className={
@@ -507,7 +506,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.pisurveySent) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -528,7 +527,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'voyageLicenseFlagWaiverSend',
+                                'voyageLicenseFlagWaiverSend'
                               ) && (
                                 <button
                                   className={
@@ -540,7 +539,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.voyageLicenseFlagWaiverSend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -572,7 +571,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.tclSend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -594,7 +593,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'weatherRoutingCompanySend',
+                                'weatherRoutingCompanySend'
                               ) && (
                                 <button
                                   className={
@@ -606,7 +605,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.weatherRoutingCompanySend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -628,7 +627,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'departureDocumentLoadPortSend',
+                                'departureDocumentLoadPortSend'
                               ) && (
                                 <button
                                   className={
@@ -640,7 +639,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.departureDocumentLoadPortSend) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -662,7 +661,7 @@ export default function VesselNominationDashboard() {
 
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'epdadischargePortSent',
+                                'epdadischargePortSent'
                               ) && (
                                 <button
                                   className={
@@ -674,7 +673,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.epdadischargePortSent) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -695,7 +694,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'offHireBunkerSurveySent',
+                                'offHireBunkerSurveySent'
                               ) && (
                                 <button
                                   className={
@@ -707,7 +706,7 @@ export default function VesselNominationDashboard() {
                                   onClick={() => {
                                     if (item.offHireBunkerSurveySent) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {
@@ -728,7 +727,7 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                'departureDocumentDischargePortSend',
+                                'departureDocumentDischargePortSend'
                               ) && (
                                 <button
                                   className={
@@ -742,7 +741,7 @@ export default function VesselNominationDashboard() {
                                       item.departureDocumentDischargePortSend
                                     ) {
                                       const confirmation = window.confirm(
-                                        'Email already sent. Do you want to send it again?',
+                                        'Email already sent. Do you want to send it again?'
                                       );
 
                                       if (!confirmation) {

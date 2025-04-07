@@ -1,19 +1,18 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import { ToWords } from "to-words";
-import { getOwnerBankInfoDetailsByStakeHolderId } from "../../../../helper";
+import React, { useEffect, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import { ToWords } from 'to-words';
+import { getOwnerBankInfoDetailsByStakeHolderId } from '../../../../helper';
 // import akijShippingLogo from "../../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
-import { _formatMoneyWithDoller } from "../../../../_chartinghelper/_formatMoney";
-import { BankInfoComponent } from "../BankInfoComponent";
-import "../style.css";
-import FinalInvoiceChartererView from "./finalInvoiceChartererView";
-import letterhead from "../../../assets/images/shipping_line_pte_letterhead.jpeg";
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import { _dateFormatter } from '../../../../_chartinghelper/_dateFormatter';
+import { _formatMoneyWithDoller } from '../../../../_chartinghelper/_formatMoney';
+import { BankInfoComponent } from '../BankInfoComponent';
+import '../style.css';
+import FinalInvoiceChartererView from './finalInvoiceChartererView';
+import letterhead from '../../../assets/images/shipping_line_pte_letterhead.jpeg';
 
 const toWords = new ToWords({
-  localeCode: "en-US",
+  localeCode: 'en-US',
   converterOptions: {
     currency: true,
     ignoreDecimal: false,
@@ -49,8 +48,6 @@ function FinalInvoiceCharterer({
         setBankInfoData
       );
     }
-
-
   }, [
     values?.beneficiary?.value,
     values?.statement?.value,
@@ -58,7 +55,7 @@ function FinalInvoiceCharterer({
   ]);
 
   useEffect(() => {
-    setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
+    setFieldValue('beneficiary', { ...values?.beneficiary, ...bankInfoData });
   }, [bankInfoData]);
 
   const rowDataHandler = (index, name, value, item) => {
@@ -72,7 +69,7 @@ function FinalInvoiceCharterer({
     copy.splice(index + 1, 0, {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: "",
+      particulars: '',
       cargoQty: 0,
       freightRate: 0,
       debit: 0,
@@ -110,7 +107,7 @@ function FinalInvoiceCharterer({
         <div className="d-flex justify-content-end my-2">
           <ReactToPrint
             pageStyle={
-              "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+              '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
             }
             trigger={() => (
               <button type="button" className="btn btn-primary px-3 py-2">
@@ -128,20 +125,20 @@ function FinalInvoiceCharterer({
         className="p-4 voyageChartererInvoice"
         style={{
           backgroundImage: `url(${letterhead})`,
-          backgroundRepeat: "no-repeat",
+          backgroundRepeat: 'no-repeat',
           // backgroundPosition: "center",
-          backgroundPosition: "50% 50%",
-          backgroundSize: "cover",
-          width: "100%",
-          height: "100%",
+          backgroundPosition: '50% 50%',
+          backgroundSize: 'cover',
+          width: '100%',
+          height: '100%',
         }}
       >
         {/* <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div> */}
-        <div style={{margin: "0 30px"}}>
+        <div style={{ margin: '0 30px' }}>
           <h5
-            style={{ marginBottom: "3rem" }}
+            style={{ marginBottom: '3rem' }}
             className="text-center mb-4 uppercase statementTitle"
           >
             {`Freight Invoice For ${values?.vesselName?.label} CP Date
@@ -166,7 +163,7 @@ function FinalInvoiceCharterer({
                 <>
                   <div className="headerKey">INVOICE REF :</div>
                   <div className="headerValue">
-                    {invoiceHireData?.invoiceRef || ""}
+                    {invoiceHireData?.invoiceRef || ''}
                   </div>
                 </>
               ) : null}
@@ -178,7 +175,7 @@ function FinalInvoiceCharterer({
                 {invoiceHireData?.fromName}
                 {invoiceHireData?.fromAddress
                   ? `, ${invoiceHireData?.fromAddress}`
-                  : ""}
+                  : ''}
               </div>
             </div>
             <div className="col-lg-12 headerWrapper">
@@ -187,7 +184,7 @@ function FinalInvoiceCharterer({
                 {invoiceHireData?.toName}
                 {invoiceHireData?.toAdress
                   ? `, ${invoiceHireData?.toAdress}`
-                  : ""}
+                  : ''}
               </div>
             </div>
 
@@ -205,7 +202,7 @@ function FinalInvoiceCharterer({
                 {invoiceHireData?.vesselname}
                 {invoiceHireData?.voyageNo
                   ? ` & V${invoiceHireData?.voyageNo}`
-                  : ""}
+                  : ''}
               </div>
             </div>
             <div className="col-lg-12 headerWrapper">
@@ -229,270 +226,275 @@ function FinalInvoiceCharterer({
               />
             ) : (
               <div className="headerWrapper">
-              <div className="table-responsive">
-              <table className="table mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr
-                      style={{ borderTop: "1px solid #d6d6d6" }}
-                      className="text-center"
-                    >
-                      <th>SL</th>
-                      <th>PARTICULARS</th>
-                      <th>CARGO QTY MT</th>
-                      <th>FRIEGHT RATE USD/PMT</th>
-                      <th>Debit</th>
-                      <th>Credit</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.map((item, index) => (
-                      <tr key={index}>
-                        <td
-                          style={{ maxWidth: "40px" }}
-                          className={`text-center`}
-                        >
-                          {index + 1}
-                        </td>
-                        <td>
-                          {!item?.isNew ? (
-                            item?.particulars
-                          ) : (
-                            <>
-                              <FormikInput
-                                className="mr-2"
-                                onChange={(e) =>
-                                  rowDataHandler(
-                                    index,
-                                    "particulars",
-                                    e.target.value,
-                                    item
-                                  )
-                                }
-                                value={item?.particulars}
-                                name={`${index}particulars${values?.statement?.value}`}
-                                type="text"
-                                errors={errors}
-                                touched={touched}
-                                disabled={!item?.isChecked}
-                              />
-                            </>
-                          )}
-                        </td>
-                        <td className={`text-right`}>
-                          {!item?.isNew ? item?.cargoQty || "" : <></>}
-                        </td>
-                        <td className={`text-right`}>
-                          {!item?.isNew
-                            ? _formatMoneyWithDoller(
-                                item?.freightRate?.toFixed(2)
-                              ) || ""
-                            : null}
-                        </td>
-
-                        {/* Debit is Credit For Final Invoice */}
-                        <td style={{ width: "130px" }} className="text-right">
-                          <>
-                            {item?.isLocalPortCredit ? (
-                              <FormikInput
-                                className="mr-2"
-                                onChange={(e) =>
-                                  rowDataHandler(
-                                    index,
-                                    "credit",
-                                    e.target.value,
-                                    item
-                                  )
-                                }
-                                value={item?.credit}
-                                name={`${index}credit${values?.statement?.value}`}
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                disabled={!item?.isChecked}
-                              />
-                            ) : null}
-
-                            {item?.isNew ? (
-                              <FormikInput
-                                className="mr-2"
-                                onChange={(e) =>
-                                  rowDataHandler(
-                                    index,
-                                    "credit",
-                                    e.target.value,
-                                    item
-                                  )
-                                }
-                                value={item?.credit}
-                                name={`${index}credit${values?.statement?.value}`}
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                disabled={!item?.isChecked || item?.debit > 0}
-                              />
-                            ) : null}
-
-                            {item?.isBrokerCom
-                              ? (
-                                  (totalDebit * item?.parcentageValue) /
-                                  100
-                                ).toFixed(2)
-                              : null}
-
-                            {item?.isAddCom
-                              ? (
-                                  (totalDebit * item?.parcentageValue) /
-                                  100
-                                ).toFixed(2)
-                              : null}
-
-                            {!item?.isNew &&
-                            !item?.isBrokerCom &&
-                            !item?.isAddCom &&
-                            !item?.isLocalPortCredit
-                              ? item?.credit || ""
-                              : ""}
-                          </>
-                        </td>
-
-                        {/* Credit is Debit For Final Invoice */}
-                        <td style={{ width: "130px" }} className={`text-right`}>
-                          <>
-                            {item?.isLocalPortDebit ? (
-                              <>
-                                {item?.isLocalPortDebit ? (
-                                  <FormikInput
-                                    className="mr-2"
-                                    onChange={(e) =>
-                                      rowDataHandler(
-                                        index,
-                                        "debit",
-                                        e.target.value,
-                                        item
-                                      )
-                                    }
-                                    value={item?.debit}
-                                    name={`${index}debit${values?.statement?.value}`}
-                                    type="number"
-                                    errors={errors}
-                                    touched={touched}
-                                    disabled={!item?.isChecked}
-                                  />
-                                ) : null}
-                              </>
+                <div className="table-responsive">
+                  <table className="table mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr
+                        style={{ borderTop: '1px solid #d6d6d6' }}
+                        className="text-center"
+                      >
+                        <th>SL</th>
+                        <th>PARTICULARS</th>
+                        <th>CARGO QTY MT</th>
+                        <th>FRIEGHT RATE USD/PMT</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((item, index) => (
+                        <tr key={index}>
+                          <td
+                            style={{ maxWidth: '40px' }}
+                            className={`text-center`}
+                          >
+                            {index + 1}
+                          </td>
+                          <td>
+                            {!item?.isNew ? (
+                              item?.particulars
                             ) : (
                               <>
-                                {item?.isGrandTotal ? (
-                                  <>{totalDebit}</>
-                                ) : !item?.isNew ? (
-                                  item?.debit || ""
-                                ) : (
-                                  ""
-                                )}
-                              </>
-                            )}
-
-                            {item?.isNew ? (
-                              <FormikInput
-                                className="mr-2"
-                                onChange={(e) =>
-                                  rowDataHandler(
-                                    index,
-                                    "debit",
-                                    e.target.value,
-                                    item
-                                  )
-                                }
-                                value={item?.debit}
-                                name={`${index}debit${values?.statement?.value}`}
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                disabled={!item?.isChecked || item?.credit > 0}
-                              />
-                            ) : null}
-                          </>
-                        </td>
-
-                        {/* Action */}
-                        <td className="text-center" style={{ width: "80px" }}>
-                          {item?.isNew || item?.prevReceive ? (
-                            <>
-                              <span
-                                onClick={() => {
-                                  addHandler(index);
-                                }}
-                              >
-                                <i
-                                  style={{ fontSize: "16px" }}
-                                  className="fa fa-plus-square text-primary mr-2"
-                                />
-                              </span>
-                              <span>
-                                <input
-                                  type="checkbox"
-                                  disabled={item?.isFixed}
-                                  checked={item?.isChecked}
-                                  onChange={(e) => {
+                                <FormikInput
+                                  className="mr-2"
+                                  onChange={(e) =>
                                     rowDataHandler(
                                       index,
-                                      "isChecked",
-                                      e.target.checked,
+                                      'particulars',
+                                      e.target.value,
                                       item
-                                    );
-                                  }}
+                                    )
+                                  }
+                                  value={item?.particulars}
+                                  name={`${index}particulars${values?.statement?.value}`}
+                                  type="text"
+                                  errors={errors}
+                                  touched={touched}
+                                  disabled={!item?.isChecked}
                                 />
-                              </span>
+                              </>
+                            )}
+                          </td>
+                          <td className={`text-right`}>
+                            {!item?.isNew ? item?.cargoQty || '' : <></>}
+                          </td>
+                          <td className={`text-right`}>
+                            {!item?.isNew
+                              ? _formatMoneyWithDoller(
+                                  item?.freightRate?.toFixed(2)
+                                ) || ''
+                              : null}
+                          </td>
+
+                          {/* Debit is Credit For Final Invoice */}
+                          <td style={{ width: '130px' }} className="text-right">
+                            <>
+                              {item?.isLocalPortCredit ? (
+                                <FormikInput
+                                  className="mr-2"
+                                  onChange={(e) =>
+                                    rowDataHandler(
+                                      index,
+                                      'credit',
+                                      e.target.value,
+                                      item
+                                    )
+                                  }
+                                  value={item?.credit}
+                                  name={`${index}credit${values?.statement?.value}`}
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  disabled={!item?.isChecked}
+                                />
+                              ) : null}
 
                               {item?.isNew ? (
+                                <FormikInput
+                                  className="mr-2"
+                                  onChange={(e) =>
+                                    rowDataHandler(
+                                      index,
+                                      'credit',
+                                      e.target.value,
+                                      item
+                                    )
+                                  }
+                                  value={item?.credit}
+                                  name={`${index}credit${values?.statement?.value}`}
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  disabled={!item?.isChecked || item?.debit > 0}
+                                />
+                              ) : null}
+
+                              {item?.isBrokerCom
+                                ? (
+                                    (totalDebit * item?.parcentageValue) /
+                                    100
+                                  ).toFixed(2)
+                                : null}
+
+                              {item?.isAddCom
+                                ? (
+                                    (totalDebit * item?.parcentageValue) /
+                                    100
+                                  ).toFixed(2)
+                                : null}
+
+                              {!item?.isNew &&
+                              !item?.isBrokerCom &&
+                              !item?.isAddCom &&
+                              !item?.isLocalPortCredit
+                                ? item?.credit || ''
+                                : ''}
+                            </>
+                          </td>
+
+                          {/* Credit is Debit For Final Invoice */}
+                          <td
+                            style={{ width: '130px' }}
+                            className={`text-right`}
+                          >
+                            <>
+                              {item?.isLocalPortDebit ? (
                                 <>
-                                  <span
-                                    onClick={() => {
-                                      deleteHandler(index);
-                                    }}
-                                  >
-                                    <i
-                                      style={{ fontSize: "14px" }}
-                                      className="fa fa-trash text-danger ml-2"
+                                  {item?.isLocalPortDebit ? (
+                                    <FormikInput
+                                      className="mr-2"
+                                      onChange={(e) =>
+                                        rowDataHandler(
+                                          index,
+                                          'debit',
+                                          e.target.value,
+                                          item
+                                        )
+                                      }
+                                      value={item?.debit}
+                                      name={`${index}debit${values?.statement?.value}`}
+                                      type="number"
+                                      errors={errors}
+                                      touched={touched}
+                                      disabled={!item?.isChecked}
                                     />
-                                  </span>
+                                  ) : null}
                                 </>
+                              ) : (
+                                <>
+                                  {item?.isGrandTotal ? (
+                                    <>{totalDebit}</>
+                                  ) : !item?.isNew ? (
+                                    item?.debit || ''
+                                  ) : (
+                                    ''
+                                  )}
+                                </>
+                              )}
+
+                              {item?.isNew ? (
+                                <FormikInput
+                                  className="mr-2"
+                                  onChange={(e) =>
+                                    rowDataHandler(
+                                      index,
+                                      'debit',
+                                      e.target.value,
+                                      item
+                                    )
+                                  }
+                                  value={item?.debit}
+                                  name={`${index}debit${values?.statement?.value}`}
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  disabled={
+                                    !item?.isChecked || item?.credit > 0
+                                  }
+                                />
                               ) : null}
                             </>
-                          ) : null}
+                          </td>
+
+                          {/* Action */}
+                          <td className="text-center" style={{ width: '80px' }}>
+                            {item?.isNew || item?.prevReceive ? (
+                              <>
+                                <span
+                                  onClick={() => {
+                                    addHandler(index);
+                                  }}
+                                >
+                                  <i
+                                    style={{ fontSize: '16px' }}
+                                    className="fa fa-plus-square text-primary mr-2"
+                                  />
+                                </span>
+                                <span>
+                                  <input
+                                    type="checkbox"
+                                    disabled={item?.isFixed}
+                                    checked={item?.isChecked}
+                                    onChange={(e) => {
+                                      rowDataHandler(
+                                        index,
+                                        'isChecked',
+                                        e.target.checked,
+                                        item
+                                      );
+                                    }}
+                                  />
+                                </span>
+
+                                {item?.isNew ? (
+                                  <>
+                                    <span
+                                      onClick={() => {
+                                        deleteHandler(index);
+                                      }}
+                                    >
+                                      <i
+                                        style={{ fontSize: '14px' }}
+                                        className="fa fa-trash text-danger ml-2"
+                                      />
+                                    </span>
+                                  </>
+                                ) : null}
+                              </>
+                            ) : null}
+                          </td>
+                        </tr>
+                      ))}
+
+                      <tr>
+                        <td colSpan={4} className="text-right">
+                          <strong>NET PAYABLE TO OWNERS</strong>
+                        </td>
+                        <td colSpan={2} className="text-right">
+                          <strong>
+                            {_formatMoneyWithDoller(
+                              (+totalDebit - +totalCredit).toFixed(2)
+                            )}
+                          </strong>
+                        </td>
+                        <td></td>
+                      </tr>
+
+                      <tr>
+                        <td colSpan="7" className="text-center">
+                          <div>
+                            <strong>
+                              {`(In Word USD) ${toWords.convert(
+                                +totalDebit - +totalCredit
+                              )}`}
+                            </strong>
+                          </div>
                         </td>
                       </tr>
-                    ))}
-
-                    <tr>
-                      <td colSpan={4} className="text-right">
-                        <strong>NET PAYABLE TO OWNERS</strong>
-                      </td>
-                      <td colSpan={2} className="text-right">
-                        <strong>
-                          {_formatMoneyWithDoller(
-                            (+totalDebit - +totalCredit).toFixed(2)
-                          )}
-                        </strong>
-                      </td>
-                      <td></td>
-                    </tr>
-
-                    <tr>
-                      <td colSpan="7" className="text-center">
-                        <div>
-                          <strong>
-                            {`(In Word USD) ${toWords.convert(
-                              +totalDebit - +totalCredit
-                            )}`}
-                          </strong>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
@@ -507,7 +509,7 @@ function FinalInvoiceCharterer({
                   For And Behalf Of {invoiceHireData?.fromName}
                   {invoiceHireData?.fromAddress
                     ? ` ${invoiceHireData?.fromAddress}`
-                    : ""}
+                    : ''}
                 </strong>
               </p>
             </div>

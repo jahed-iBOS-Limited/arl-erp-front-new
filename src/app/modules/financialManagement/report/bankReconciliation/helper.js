@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getBankAccDDLAction = async (accId, buId, setter) => {
   try {
@@ -45,39 +45,38 @@ export const getBankReconciliationAction = async (
 
     data.forEach((item) => {
       switch (item?.strHead) {
-        case "1.Add: Cheque issued but not presented in bank":
+        case '1.Add: Cheque issued but not presented in bank':
           typeOne.push(item);
           typeOneTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
-        case "2.Less: Amount debited in bank book but not credited in bank statement":
+        case '2.Less: Amount debited in bank book but not credited in bank statement':
           typeTwo.push(item);
           typeTwoTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
-        case "3.Add: Amount credited in bank statement but not yet debited in bank book":
+        case '3.Add: Amount credited in bank statement but not yet debited in bank book':
           typeThree.push(item);
           typeThreeTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
-        case "4.Less: Amount debited in bank statement but not yet credited in bank book":
+        case '4.Less: Amount debited in bank statement but not yet credited in bank book':
           typeFour.push(item);
           typeFourTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
-        case "5.Less: Amount Adjusted in bank statement but not yet credited in bank book":
+        case '5.Less: Amount Adjusted in bank statement but not yet credited in bank book':
           typeFive.push(item);
           typeFiveTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
-        case "Balance Of Bank Book":
+        case 'Balance Of Bank Book':
           typeBalanceOfBankBook.push(item);
           typeBalanceOfBankBookTotal += Number(item.monAmount);
           bankStatementClosing = Number(item.monBankStatementClosing);
           break;
         default:
       }
-    
     });
 
     setter({

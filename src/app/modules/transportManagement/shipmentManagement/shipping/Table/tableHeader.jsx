@@ -1,13 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import { TableRow } from "./tableRow";
-import { ITable } from "../../../../_helper/_table";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import {
-  getIsPGICheck_Action,
-} from "../../../../salesManagement/orderManagement/pgi/_redux/Actions";
+import React, { useEffect, useState } from 'react';
+import { TableRow } from './tableRow';
+import { ITable } from '../../../../_helper/_table';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getIsPGICheck_Action } from '../../../../salesManagement/orderManagement/pgi/_redux/Actions';
 const initialData = {
-  pgiShippoint: "",
+  pgiShippoint: '',
 };
 export function ShipmentTable() {
   const [rowDto, setRowDto] = useState([]);
@@ -25,7 +22,6 @@ export function ShipmentTable() {
 
   const { accountId, userId: actionBy } = profileData;
   const { value: businessunitid } = selectedBusinessUnit;
-
 
   // get info to Check PGI exists or not
   const IsPGICheck = useSelector((state) => {
@@ -48,8 +44,6 @@ export function ShipmentTable() {
         getIsPGICheck_Action(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -59,12 +53,7 @@ export function ShipmentTable() {
     }));
 
     setRowDto(modifyGridData);
-
-
   }, [gridData]);
-
-
-
 
   return (
     <TableRow

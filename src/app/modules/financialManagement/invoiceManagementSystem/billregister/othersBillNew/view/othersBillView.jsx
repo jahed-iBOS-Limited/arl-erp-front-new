@@ -54,7 +54,7 @@ function OthersBillView({
       othersBillEntriesGetById(
         gridItem?.billRegisterId,
         setSingleData,
-        setDisabled,
+        setDisabled
       );
     }
   }, [gridItem]);
@@ -289,7 +289,7 @@ function OthersBillView({
                               <p>
                                 <b>Bill Date: </b>
                                 {_dateFormatter(
-                                  singleData?.header?.dteBillRegisterDate,
+                                  singleData?.header?.dteBillRegisterDate
                                 )}
                               </p>
                             </div>
@@ -306,10 +306,10 @@ function OthersBillView({
                                     getMultipleFileView_Action(
                                       singleData?.image?.length > 0
                                         ? singleData?.image?.map(
-                                            (item) => item?.strAttatchment,
+                                            (item) => item?.strAttatchment
                                           )
-                                        : [],
-                                    ),
+                                        : []
+                                    )
                                   );
                                 }}
                               >

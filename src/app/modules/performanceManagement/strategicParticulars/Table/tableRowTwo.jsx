@@ -1,49 +1,48 @@
-
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import customStyles from "../../../selectCustomStyle";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { IToggleButton } from "./ToggleButton";
-import { downloadFile } from "../../../_helper/downloadFile";
-import ICustomTable from "../../../_helper/_customTable";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import customStyles from '../../../selectCustomStyle';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { IToggleButton } from './ToggleButton';
+import { downloadFile } from '../../../_helper/downloadFile';
+import ICustomTable from '../../../_helper/_customTable';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
 import {
   getSbuDDLAction,
   getDepartmentDDLAction,
-} from "../../individualKpi/balancedScore/_redux/Actions";
+} from '../../individualKpi/balancedScore/_redux/Actions';
 import {
   getCategoryDDLAction,
   getCorporateDepDDLAction,
   strLandingActiveInactiveAction,
-} from "../Form/helper";
-import { StrategicParticularsgetPaginationAction } from "../_redux/Actions";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { getYearDDLAction } from "../../_redux/Actions";
+} from '../Form/helper';
+import { StrategicParticularsgetPaginationAction } from '../_redux/Actions';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { getYearDDLAction } from '../../_redux/Actions';
 
-const ths = ["SL", "Particulars", "Category", "SRF", "Action"];
-const thsTwo = ["SL", "Particulars", "Category", "Code", "SRF", "Action"];
+const ths = ['SL', 'Particulars', 'Category', 'SRF', 'Action'];
+const thsTwo = ['SL', 'Particulars', 'Category', 'Code', 'SRF', 'Action'];
 
 const TableRowTwo = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [sbu, setSbu] = useState("");
-  const [status, setStatus] = useState("");
-  const [category, setCategory] = useState("");
+  const [sbu, setSbu] = useState('');
+  const [status, setStatus] = useState('');
+  const [category, setCategory] = useState('');
   const [categoryDDL, setCategoryDDL] = useState([]);
 
   const [corporateDepDDL, setCorporateDepDDL] = useState([]);
-  const [type, setType] = useState({value:0, label:"All"});
-  const [department, setDepartment] = useState("");
+  const [type, setType] = useState({ value: 0, label: 'All' });
+  const [department, setDepartment] = useState('');
   const [loading, setLoading] = useState(false);
   const [departmentDDL, setDepartmentDDL] = useState([
-    { value: 0, label: "All department" },
+    { value: 0, label: 'All department' },
   ]);
-  const [selectedYear, setSelectedYear] = useState({value: 0, label: "All"})
+  const [selectedYear, setSelectedYear] = useState({ value: 0, label: 'All' });
 
   const yearDDL = useSelector((state) => {
     return state?.performanceMgt?.yearDDL;
@@ -52,12 +51,12 @@ const TableRowTwo = () => {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
 
-    //setPositionHandler
-    const setPositionHandler = (pageNo, pageSize, searchValue) => {
-      if ((type?.value === 2 || type?.value === 4) && !department)
-      return toast.warn("Please select department");
+  //setPositionHandler
+  const setPositionHandler = (pageNo, pageSize, searchValue) => {
+    if ((type?.value === 2 || type?.value === 4) && !department)
+      return toast.warn('Please select department');
 
-    if (type?.value === 3 && !sbu) return toast.warn("Please select SBU");
+    if (type?.value === 3 && !sbu) return toast.warn('Please select SBU');
 
     let refId = null;
     if (type?.value === 1 || type?.value === 0) {
@@ -70,10 +69,10 @@ const TableRowTwo = () => {
 
     let statusId = null;
     if (status?.value === true || status?.value === false) {
-      console.log("t", status.value);
+      console.log('t', status.value);
       statusId = status?.value;
     } else {
-      console.log("y", status.value);
+      console.log('y', status.value);
       statusId = null;
     }
 
@@ -91,7 +90,7 @@ const TableRowTwo = () => {
         selectedYear?.value
       )
     );
-    };
+  };
 
   let storeData = useSelector(
     (state) => {
@@ -105,13 +104,8 @@ const TableRowTwo = () => {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    sbuDDL,
-    strData,
-    depDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, sbuDDL, strData, depDDL } =
+    storeData;
 
   useEffect(() => {
     dispatch(
@@ -129,12 +123,10 @@ const TableRowTwo = () => {
       selectedBusinessUnit?.value,
       setCorporateDepDDL
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     setDepartmentDDL([...departmentDDL, ...depDDL]);
-
   }, [depDDL]);
 
   useEffect(() => {
@@ -154,14 +146,13 @@ const TableRowTwo = () => {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const viewStrParticularsLanding = () => {
     if ((type?.value === 2 || type?.value === 4) && !department)
-      return toast.warn("Please select department");
+      return toast.warn('Please select department');
 
-    if (type?.value === 3 && !sbu) return toast.warn("Please select SBU");
+    if (type?.value === 3 && !sbu) return toast.warn('Please select SBU');
 
     let refId = null;
     if (type?.value === 1 || type?.value === 0) {
@@ -174,10 +165,10 @@ const TableRowTwo = () => {
 
     let statusId = null;
     if (status?.value === true || status?.value === false) {
-      console.log("t", status.value);
+      console.log('t', status.value);
       statusId = status?.value;
     } else {
-      console.log("y", status.value);
+      console.log('y', status.value);
       statusId = null;
     }
 
@@ -211,8 +202,8 @@ const TableRowTwo = () => {
           <Select
             onChange={(valueOption) => {
               setType({ value: valueOption?.value, label: valueOption?.label });
-              setDepartment("");
-              setSbu("");
+              setDepartment('');
+              setSbu('');
               // if (valueOption?.value === 1) {
               //   dispatch(
               //     StrategicParticularsgetPaginationAction(
@@ -227,11 +218,11 @@ const TableRowTwo = () => {
             value={type}
             isSearchable={true}
             options={[
-              {value:0, label:"All"},
-              { value: 1, label: "Employee" },
-              { value: 2, label: "Department" },
-              { value: 3, label: "SBU" },
-              { value: 4, label: "Corporate" },
+              { value: 0, label: 'All' },
+              { value: 1, label: 'Employee' },
+              { value: 2, label: 'Department' },
+              { value: 3, label: 'SBU' },
+              { value: 4, label: 'Corporate' },
             ]}
             styles={customStyles}
             placeholder="Strategy for"
@@ -315,16 +306,16 @@ const TableRowTwo = () => {
             value={status}
             isSearchable={true}
             options={[
-              { value: true, label: "Active" },
-              { value: false, label: "Inactive" },
+              { value: true, label: 'Active' },
+              { value: false, label: 'Inactive' },
             ]}
             styles={customStyles}
             placeholder="Status"
           />
         </div>
         <div className="col-lg-2">
-        <label>Year</label>
-        <Select
+          <label>Year</label>
+          <Select
             onChange={(valueOption) => {
               setSelectedYear(valueOption);
             }}
@@ -340,9 +331,9 @@ const TableRowTwo = () => {
           <ButtonStyleOne
             label="View"
             style={{
-              padding: "6px 8px",
-              marginTop: "21px",
-              marginRight: "3px",
+              padding: '6px 8px',
+              marginTop: '21px',
+              marginRight: '3px',
             }}
             type="button"
             onClick={() => {
@@ -351,16 +342,20 @@ const TableRowTwo = () => {
           />
           <ButtonStyleOne
             label="Export Excel"
-            style={{ padding: "6px 8px", marginTop: "21px", marginLeft:"15px" }}
+            style={{
+              padding: '6px 8px',
+              marginTop: '21px',
+              marginLeft: '15px',
+            }}
             type="button"
             onClick={() => {
               let active =
                 status?.value === true || status?.value === false
                   ? `&IsActive=${status?.value}`
-                  : "";
+                  : '';
               let categoryId = category?.value
                 ? `&CategoryId=${category?.value}`
-                : "";
+                : '';
               downloadFile(
                 `/pms/StrategicParticulars/GetStrategicParticularsPaginationDownload?accountId=${
                   profileData?.accountId
@@ -369,8 +364,8 @@ const TableRowTwo = () => {
                 }&emp_dept_sbu_Type=${type?.value}&ReffId=${
                   type?.value === 3 ? sbu?.value || 0 : department?.value || 0
                 }${active}${categoryId}&PageNo=1&PageSize=1000&viewOrder=desc&yearId=${selectedYear?.value}`,
-                "Strategic Plan",
-                "xlsx",
+                'Strategic Plan',
+                'xlsx',
                 setLoading
               );
             }}
@@ -384,7 +379,7 @@ const TableRowTwo = () => {
               <td> {index + 1} </td>
               <td className="pl-3"> {itm.objective} </td>
               <td className="pl-3"> {itm.strategicParticularsTypeName} </td>
-             {category?.value === 1 && ( <td className="pl-3">{itm?.code}</td>)}
+              {category?.value === 1 && <td className="pl-3">{itm?.code}</td>}
               <td className="pl-3"> {itm.freqName} </td>
               <td>
                 <div className="d-flex justify-content-center">
@@ -435,18 +430,18 @@ const TableRowTwo = () => {
         </ICustomTable>
       )}
       {/* Pagination Code */}
-      { strData?.data?.length > 0 && (
-             <PaginationTable
-             count={strData?.totalCount}
-             setPositionHandler={setPositionHandler}
-             paginationState={{
-               pageNo,
-               setPageNo,
-               pageSize,
-               setPageSize,
-             }}
-           />
-          )}
+      {strData?.data?.length > 0 && (
+        <PaginationTable
+          count={strData?.totalCount}
+          setPositionHandler={setPositionHandler}
+          paginationState={{
+            pageNo,
+            setPageNo,
+            pageSize,
+            setPageSize,
+          }}
+        />
+      )}
     </div>
   );
 };

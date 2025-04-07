@@ -1,32 +1,31 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import Loading from "./../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import Loading from './../../../../_helper/_loading';
 import {
   getGeneralLedgerDDLAction,
   saveCostElement,
   setCostElementSingleEmpty,
   getCostCenterById,
   saveEditedCostElementData,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getCostCenterDDLAction,
   getControllingUnitDDLAction,
-} from "../../../../_helper/_redux/Actions";
-import { toast } from "react-toastify";
-import { getBusinessTransactionDDL } from "./helper";
+} from '../../../../_helper/_redux/Actions';
+import { toast } from 'react-toastify';
+import { getBusinessTransactionDDL } from './helper';
 
 const initData = {
   id: undefined,
-  costElementName: "",
-  costElementCode: "",
-  controllingUnit: "",
-  costCenter: "",
+  costElementName: '',
+  costElementCode: '',
+  controllingUnit: '',
+  costCenter: '',
   allocationBased: false,
-  generalLedger: "",
-  businessTransaction:""
+  generalLedger: '',
+  businessTransaction: '',
 };
 
 export default function CostElementForm({
@@ -73,11 +72,10 @@ export default function CostElementForm({
     } else {
       dispatch(setCostElementSingleEmpty());
     }
-
   }, [id]);
 
-  useEffect(()=> {
-    if(singleData){
+  useEffect(() => {
+    if (singleData) {
       dispatch(
         getCostCenterDDLAction(
           profileData.accountId,
@@ -90,10 +88,9 @@ export default function CostElementForm({
         selectedBusinessUnit.value,
         singleData?.generalLedgerId,
         setBusinessTransactionDDL
-      )
+      );
     }
-
-  },[singleData, profileData, selectedBusinessUnit])
+  }, [singleData, profileData, selectedBusinessUnit]);
 
   // Dispatch action for ddl
   useEffect(() => {
@@ -111,7 +108,6 @@ export default function CostElementForm({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const controllUniIdFunc = (cuId) => {
@@ -126,14 +122,14 @@ export default function CostElementForm({
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
-    if(!values?.costCenter) return toast.warn("Cost Center is Required")
+    if (!values?.costCenter) return toast.warn('Cost Center is Required');
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
         const payload = {
           costElementName: values.costElementName,
           costElementId: +id,
           generalLedgerId: values.generalLedger?.value,
-          costCenterId: values?.costCenter?.map((data)=>(data?.value)),
+          costCenterId: values?.costCenter?.map((data) => data?.value),
           allocationBased: false,
           actionBy: profileData.userId,
           businessTransactionId: values?.businessTransaction?.value,
@@ -143,9 +139,9 @@ export default function CostElementForm({
       } else {
         const payload = {
           businessTransactionId: values?.businessTransaction?.value,
-          costElementCode: "N/A",
+          costElementCode: 'N/A',
           costElementName: values.costElementName,
-          costCenterId: values?.costCenter?.map((data)=>(data?.value)),
+          costCenterId: values?.costCenter?.map((data) => data?.value),
           generalLedgerId: values.generalLedger?.value,
           controllingUnitId: values.controllingUnit?.value,
           accountId: profileData.accountId,

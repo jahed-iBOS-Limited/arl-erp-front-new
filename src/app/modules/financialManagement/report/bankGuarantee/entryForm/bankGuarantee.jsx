@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function BankGuarantee({
   values,
@@ -20,7 +20,6 @@ export default function BankGuarantee({
 
   useEffect(() => {
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
-
   }, []);
 
   return (
@@ -32,7 +31,7 @@ export default function BankGuarantee({
           value={values?.sbu}
           label="SBU"
           onChange={(valueOption) => {
-            setFieldValue("sbu", valueOption);
+            setFieldValue('sbu', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -46,14 +45,14 @@ export default function BankGuarantee({
           label="Bank"
           onChange={(valueOption) => {
             if (valueOption) {
-              setFieldValue("bank", valueOption);
-              setFieldValue("beneficiary", "");
+              setFieldValue('bank', valueOption);
+              setFieldValue('beneficiary', '');
               getBankAccDDL(
                 `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
               );
             } else {
-              setFieldValue("bank", "");
-              setFieldValue("beneficiary", "");
+              setFieldValue('bank', '');
+              setFieldValue('beneficiary', '');
               setBankAccDDL([]);
             }
           }}
@@ -68,7 +67,7 @@ export default function BankGuarantee({
           value={values?.beneficiary}
           label="Beneficiary"
           onChange={(valueOption) => {
-            setFieldValue("beneficiary", valueOption);
+            setFieldValue('beneficiary', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -81,7 +80,7 @@ export default function BankGuarantee({
           name="beneficiaryTitle"
           type="text"
           onChange={(e) => {
-            setFieldValue("beneficiaryTitle", e.target.value);
+            setFieldValue('beneficiaryTitle', e.target.value);
           }}
         />
       </div>
@@ -92,7 +91,7 @@ export default function BankGuarantee({
           name="bankGuaranteeNumber"
           type="text"
           onChange={(e) => {
-            setFieldValue("bankGuaranteeNumber", e.target.value);
+            setFieldValue('bankGuaranteeNumber', e.target.value);
           }}
         />
       </div>
@@ -103,7 +102,7 @@ export default function BankGuarantee({
           name="issuingDate"
           type="date"
           onChange={(e) => {
-            setFieldValue("issuingDate", e.target.value);
+            setFieldValue('issuingDate', e.target.value);
           }}
         />
       </div>
@@ -114,7 +113,7 @@ export default function BankGuarantee({
           name="endingDate"
           type="date"
           onChange={(e) => {
-            setFieldValue("endingDate", e.target.value);
+            setFieldValue('endingDate', e.target.value);
           }}
         />
       </div>
@@ -125,7 +124,7 @@ export default function BankGuarantee({
           name="tDays"
           type="number"
           onChange={(e) => {
-            setFieldValue("tDays", e.target.value);
+            setFieldValue('tDays', e.target.value);
           }}
         />
       </div>
@@ -136,7 +135,7 @@ export default function BankGuarantee({
           value={values?.currency}
           label="Currency"
           onChange={(valueOption) => {
-            setFieldValue("currency", valueOption);
+            setFieldValue('currency', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -149,7 +148,7 @@ export default function BankGuarantee({
           name="amount"
           type="number"
           onChange={(e) => {
-            setFieldValue("amount", e.target.value);
+            setFieldValue('amount', e.target.value);
           }}
         />
       </div>
@@ -160,7 +159,7 @@ export default function BankGuarantee({
           name="marginRef"
           type="text"
           onChange={(e) => {
-            setFieldValue("marginRef", e.target.value);
+            setFieldValue('marginRef', e.target.value);
           }}
         />
       </div>

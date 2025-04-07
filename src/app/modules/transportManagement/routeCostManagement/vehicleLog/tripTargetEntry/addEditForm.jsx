@@ -1,19 +1,18 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 
 const initData = {
-  year: "",
-  month: "",
-  shipPoint: "",
-  vehicleCategory: "",
+  year: '',
+  month: '',
+  shipPoint: '',
+  vehicleCategory: '',
 };
 
 export default function TripTargetEntryForm() {
@@ -40,7 +39,7 @@ export default function TripTargetEntryForm() {
           ...element,
           vehicleId: 107,
           vehicleName: element?.label,
-          tripTarget: "",
+          tripTarget: '',
           vehicleCategory: values?.vehicleCategory?.label,
         }));
         setRowData(modifyData);
@@ -55,7 +54,7 @@ export default function TripTargetEntryForm() {
   const saveHandler = (values, cb) => {
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     const payload = selectedItems?.map((item) => ({
       ...item,

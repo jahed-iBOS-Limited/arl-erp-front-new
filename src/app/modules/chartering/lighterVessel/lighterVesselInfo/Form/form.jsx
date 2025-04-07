@@ -1,9 +1,9 @@
-import { Formik } from "formik";
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({
   title,
@@ -35,7 +35,7 @@ export default function FormCmp({
                 <div>
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={false}
                   >
@@ -58,18 +58,21 @@ export default function FormCmp({
                     />
                   </div>
                   <div className="col-lg-3">
-                      <FormikSelect
-                      name = "vesselType"
-                      value ={values?.vesselType}
+                    <FormikSelect
+                      name="vesselType"
+                      value={values?.vesselType}
                       label={`Vessel Type*`}
-                      options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
-                      onChange={(valueOption)=>{
-                        setFieldValue("vesselType",valueOption)
+                      options={[
+                        { value: 1, label: 'Rental Vessel' },
+                        { value: 2, label: 'Own Vessel' },
+                      ]}
+                      onChange={(valueOption) => {
+                        setFieldValue('vesselType', valueOption);
                       }}
                       styles={customStyles}
                       errors={errors}
                       touched={touched}
-                      />
+                    />
                   </div>
                   <div className="col-lg-3">
                     <FormikInput
@@ -96,7 +99,7 @@ export default function FormCmp({
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.sbu || ""}
+                      value={values?.sbu || ''}
                       isSearchable={true}
                       options={sbuDDL || []}
                       styles={customStyles}
@@ -105,8 +108,8 @@ export default function FormCmp({
                       placeholder="SBU"
                       onChange={(valueOption) => {
                         getCostCenter(valueOption?.value);
-                        setFieldValue("sbu", valueOption);
-                        setFieldValue("costCenter", "");
+                        setFieldValue('sbu', valueOption);
+                        setFieldValue('costCenter', '');
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -115,7 +118,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.revenueCenter || ""}
+                      value={values?.revenueCenter || ''}
                       isSearchable={true}
                       options={revenueCenterDDL || []}
                       styles={customStyles}
@@ -123,7 +126,7 @@ export default function FormCmp({
                       label="Revenue Center"
                       placeholder="Revenue Center"
                       onChange={(valueOption) => {
-                        setFieldValue("revenueCenter", valueOption);
+                        setFieldValue('revenueCenter', valueOption);
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -132,7 +135,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.costCenter || ""}
+                      value={values?.costCenter || ''}
                       isSearchable={true}
                       options={costCenterDDL || []}
                       styles={customStyles}
@@ -140,7 +143,7 @@ export default function FormCmp({
                       label="Cost Center"
                       placeholder="Cost Center"
                       onChange={(valueOption) => {
-                        setFieldValue("costCenter", valueOption);
+                        setFieldValue('costCenter', valueOption);
                       }}
                       isDisabled={!values?.sbu}
                       errors={errors}
@@ -149,7 +152,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.profitCenter || ""}
+                      value={values?.profitCenter || ''}
                       isSearchable={true}
                       options={profitCenterDDL || []}
                       styles={customStyles}
@@ -157,7 +160,7 @@ export default function FormCmp({
                       placeholder="Profit Center"
                       label="Profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

@@ -1,24 +1,24 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { getProfitCenterDDL } from "./helper";
+} from '../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { getProfitCenterDDL } from './helper';
 
 const initData = {
-  currentBusinessUnit: "",
-  profitCenter: "",
-  fromDate: "",
-  toDate: "",
+  currentBusinessUnit: '',
+  profitCenter: '',
+  fromDate: '',
+  toDate: '',
   isForecast: false,
 };
 const BudgetVsSalesVarient = () => {
@@ -29,8 +29,8 @@ const BudgetVsSalesVarient = () => {
   }, shallowEqual);
 
   const getMonth = (monthNumber) => {
-    return new Date(2021, monthNumber, 0).toLocaleString("default", {
-      month: "long",
+    return new Date(2021, monthNumber, 0).toLocaleString('default', {
+      month: 'long',
     });
   };
 
@@ -45,7 +45,7 @@ const BudgetVsSalesVarient = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Sales Variance Report"}></CardHeader>
+              <CardHeader title={'Sales Variance Report'}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="form-group  global-form">
@@ -64,17 +64,17 @@ const BudgetVsSalesVarient = () => {
                                 console.log(profitCenterDDLData);
                                 setProfitCenterDDL(profitCenterDDLData);
                                 setFieldValue(
-                                  "profitCenter",
-                                  profitCenterDDLData?.[1] || ""
+                                  'profitCenter',
+                                  profitCenterDDLData?.[1] || ''
                                 );
                               }
                             );
                           }
                           if (valueOption) {
-                            setFieldValue("currentBusinessUnit", valueOption);
+                            setFieldValue('currentBusinessUnit', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("currentBusinessUnit", "");
+                            setFieldValue('currentBusinessUnit', '');
                             setRowData([]);
                           }
                         }}
@@ -92,7 +92,7 @@ const BudgetVsSalesVarient = () => {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                         placeholder="Profit Center"
                       />
@@ -134,7 +134,7 @@ const BudgetVsSalesVarient = () => {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                         }}
                       />
                     </div>
@@ -146,29 +146,29 @@ const BudgetVsSalesVarient = () => {
                         placeholder="To Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                         }}
                       />
                     </div>
                     <div className="col-lg-1 mt-4">
-                    <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast} 
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <div className="d-flex align-items-center">
+                        <p className="pr-1 pt-3">
+                          <input
+                            type="checkbox"
+                            checked={values?.isForecast}
+                            onChange={(e) => {
+                              setFieldValue('isForecast', e.target.checked);
+                            }}
+                          />
+                        </p>
+                        <p>
+                          <label>Is Forecast</label>
+                        </p>
+                      </div>
                     </div>
                     <div className="col-lg-3">
                       <button
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !values?.currentBusinessUnit ||
@@ -193,7 +193,7 @@ const BudgetVsSalesVarient = () => {
                       <div className="text-center">
                         <h2>{values?.currentBusinessUnit?.label}</h2>
                         <h5>
-                          Budget vs Sales Variance For{" "}
+                          Budget vs Sales Variance For{' '}
                           {getMonth(values?.monthId)}-{values?.yearId}
                         </h5>
                       </div>
@@ -201,7 +201,7 @@ const BudgetVsSalesVarient = () => {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th rowSpan={2} style={{ width: "30px" }}>
+                              <th rowSpan={2} style={{ width: '30px' }}>
                                 SL
                               </th>
                               <th rowSpan={2}>Item Code</th>

@@ -1,16 +1,15 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import ShipToPartyTargetLandingForm from "./form";
-import ShipToPartyTargetLandingTable from "./table";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import ShipToPartyTargetLandingForm from './form';
+import ShipToPartyTargetLandingTable from './table';
 
 const initData = {
-  type: "",
-  month: "",
-  year: "",
+  type: '',
+  month: '',
+  year: '',
 };
 
 const ShipToPartyTargetLanding = () => {
@@ -42,7 +41,7 @@ const ShipToPartyTargetLanding = () => {
               isCreteBtn={true}
               createHandler={() => {
                 history.push(
-                  "/sales-management/report/shiptopartnertarget/entry"
+                  '/sales-management/report/shiptopartnertarget/entry'
                 );
               }}
             >

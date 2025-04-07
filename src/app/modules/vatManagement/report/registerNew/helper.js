@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -19,27 +19,23 @@ export const getRegisterReportAction = async (
   setter,
   setLoading,
   registerTypeId,
-  partnerTypeId,
+  partnerTypeId
 ) => {
-  const {
-    sbu = null,
-    generalLedger = null,
-    fromDate,
-    toDate,
-  } = values;
+  const { sbu = null, generalLedger = null, fromDate, toDate } = values;
   // console.log(registerType);
   let api;
   if (registerTypeId === 5) {
     api = `/fino/Account/GetBusinessTransectionLedger?BusinessUnitId=${buId}&GLId=${generalLedger?.value}&FromDate=${fromDate}&ToDate=${toDate}`;
   } else if (registerTypeId === 7) {
-    const fromDateQuery = fromDate ? `&fromDate=${fromDate}` :"";
-    const toDateQuery = toDate ? `&toDate=${toDate}`:""
+    const fromDateQuery = fromDate ? `&fromDate=${fromDate}` : '';
+    const toDateQuery = toDate ? `&toDate=${toDate}` : '';
     api = `fino/Account/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${partnerTypeId}${fromDateQuery}${toDateQuery}`;
   } else if (registerTypeId !== 6 && registerTypeId) {
     api = `/fino/Account/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${registerTypeId}`;
   } else if (registerTypeId === 6) {
-    api = `/fino/Account/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value
-      }&ToDate=${_dateFormatter(values?.toDate)}`;
+    api = `/fino/Account/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${
+      sbu?.value
+    }&ToDate=${_dateFormatter(values?.toDate)}`;
   } else {
     api = `/fino/Account/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}`;
   }
@@ -93,7 +89,7 @@ export const getGeneralLedgerDDL = async (setLoading, setter) => {
 export const getPartnerTypeDDL = async (setter) => {
   try {
     const res = await axios.get(
-      "/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList"
+      '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
     );
     const list = res?.data.map((item) => {
       return {
@@ -102,13 +98,12 @@ export const getPartnerTypeDDL = async (setter) => {
       };
       // itemTypes.push(items)
     });
-    list.push({ value: 3, label: "Employee" });
+    list.push({ value: 3, label: 'Employee' });
     setter(list);
   } catch (error) {
     console.log(error);
   }
 };
-
 
 export const getPartnerBook = async (
   businessUnitId,
@@ -122,9 +117,9 @@ export const getPartnerBook = async (
 ) => {
   try {
     setLoading(true);
-    let query = `/fino/Account/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}`
+    let query = `/fino/Account/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}`;
     if (glId) {
-      query += `&GeneralId=${glId}`
+      query += `&GeneralId=${glId}`;
     }
     const res = await axios.get(query);
     setLoading(false);
@@ -135,17 +130,22 @@ export const getPartnerBook = async (
   }
 };
 
-
-export const partnerGeneralLedgerList = async (businessUnitId, partnerTypeId, setter) => {
+export const partnerGeneralLedgerList = async (
+  businessUnitId,
+  partnerTypeId,
+  setter
+) => {
   try {
     const res = await axios.get(
       `/fino/FinanceCommonDDL/PartnerGeneralLedgerList?businessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}`
     );
-    setter(res?.data.map((item) => ({
-      ...item,
-      value: item?.glId,
-      label: item?.glName,
-    })));
+    setter(
+      res?.data.map((item) => ({
+        ...item,
+        value: item?.glId,
+        label: item?.glName,
+      }))
+    );
   } catch (error) {
     console.log(error);
   }

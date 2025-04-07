@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { RouteTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { RouteTable } from './Table/tableHeader';
 
 export function RouteLanding() {
   const uIEvents = {};
@@ -10,4 +10,4 @@ export function RouteLanding() {
       <RouteTable />
     </UiProvider>
   );
-};
+}

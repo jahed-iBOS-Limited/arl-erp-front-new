@@ -1,50 +1,49 @@
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { useLocation } from "react-router-dom";
-import Loading from "./../../../../../../_helper/_loading";
-import { useParams } from "react-router";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import Loading from './../../../../../../_helper/_loading';
+import { useParams } from 'react-router';
 import {
   getEmployeeBasicInfoById_api,
   EditEmployeeBasicInformation,
-} from "./helper";
-import { religionDDL_api } from "../../../../personalInformation/EditForm/collpaseComponent/personalInformation/helper";
-import { toast } from "react-toastify";
-import { confirmAlert } from "react-confirm-alert";
-import { useHistory } from "react-router";
-import { YearDDL } from "./../../../../../../_helper/_yearDDL";
+} from './helper';
+import { religionDDL_api } from '../../../../personalInformation/EditForm/collpaseComponent/personalInformation/helper';
+import { toast } from 'react-toastify';
+import { confirmAlert } from 'react-confirm-alert';
+import { useHistory } from 'react-router';
+import { YearDDL } from './../../../../../../_helper/_yearDDL';
 
 const initData = {
   id: undefined,
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  gender: "",
-  email: "",
-  businessUnit: "",
-  SBUName: "",
-  costCenter: "",
-  functionalDepartment: "",
-  HRposition: "",
-  designation: "",
-  employeeGrade: "",
-  workplaceGroup: "",
-  lineManager: "",
-  superVisor: "",
-  employeeCode: "",
-  employmentType: "",
-  employeeStatus: "",
-  nanagerInfo: "",
-  dateOfJoining: "",
-  grossSalary: "",
-  basicSalary: "",
-  code: "",
-  confirmationDate: "",
-  religion: "",
-  effectiveYear: "",
-  effectiveMonth: "",
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  gender: '',
+  email: '',
+  businessUnit: '',
+  SBUName: '',
+  costCenter: '',
+  functionalDepartment: '',
+  HRposition: '',
+  designation: '',
+  employeeGrade: '',
+  workplaceGroup: '',
+  lineManager: '',
+  superVisor: '',
+  employeeCode: '',
+  employmentType: '',
+  employeeStatus: '',
+  nanagerInfo: '',
+  dateOfJoining: '',
+  grossSalary: '',
+  basicSalary: '',
+  code: '',
+  confirmationDate: '',
+  religion: '',
+  effectiveYear: '',
+  effectiveMonth: '',
 };
 export default function BasicEmployeeInformation({
   setIsConsolidatedEmpRemu,
@@ -52,7 +51,7 @@ export default function BasicEmployeeInformation({
   basicDataSave,
 }) {
   const history = useHistory();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [edit, setEdit] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
   const [religionDDL, setReligionDDL] = useState([]);
@@ -91,36 +90,34 @@ export default function BasicEmployeeInformation({
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (
-        values?.employmentType?.label === "Permanent" &&
+        values?.employmentType?.label === 'Permanent' &&
         (!values?.basicSalary || values?.basicSalary < 1)
       )
-        return toast.warn("Basic Salary must be greater than zero");
+        return toast.warn('Basic Salary must be greater than zero');
 
       if (
-        values?.employmentType?.label !== "Permanent" &&
+        values?.employmentType?.label !== 'Permanent' &&
         (!values?.grossSalary || values?.grossSalary < 1)
       )
-        return toast.warn("Gross Salary must be greater than zero");
+        return toast.warn('Gross Salary must be greater than zero');
 
       if (
-        values?.employmentType?.label === "Permanent" &&
+        values?.employmentType?.label === 'Permanent' &&
         !values?.confirmationDate
       )
-        return toast.warn("Please add Confirmation Date");
+        return toast.warn('Please add Confirmation Date');
 
       const IConfirmModal = () => {
         // const { title, message, noAlertFunc } = props;
         return confirmAlert({
-          title: "",
+          title: '',
           message:
             "Employee status inactive successfully. Employee official information stored in 'Re-registration'",
           buttons: [
             {
-              label: "Ok",
+              label: 'Ok',
               onClick: () =>
-                history.push(
-                  `/self-service/self-profile/official/edit/${id}`
-                ),
+                history.push(`/self-service/self-profile/official/edit/${id}`),
             },
           ],
         });
@@ -128,10 +125,10 @@ export default function BasicEmployeeInformation({
 
       const payload = {
         employeeId: singleData?.employeeId || +id,
-        employeeCode: values?.code || "",
-        employeeFirstName: "",
-        middleName: "",
-        lastName: "",
+        employeeCode: values?.code || '',
+        employeeFirstName: '',
+        middleName: '',
+        lastName: '',
         employeeFullName: values?.firstName,
         accountId: profileData?.accountId,
         businessunitId: values?.businessUnit?.value,
@@ -140,7 +137,7 @@ export default function BasicEmployeeInformation({
         designationId: values?.designation?.value,
         joiningDate: values?.dateOfJoining,
         countryId: 0,
-        email: values?.email || "",
+        email: values?.email || '',
         supervisorId: values?.superVisor?.value || 0,
         costCenterId: values?.costCenter?.value || 0,
         workplaceGroupId: values?.workplace?.workplaceGroupId || 0,
@@ -150,12 +147,12 @@ export default function BasicEmployeeInformation({
         employmentTypeId: values?.employmentType?.value,
         lineManagerId: values?.lineManager?.value || values?.superVisor?.value,
         lineManagerCode:
-          values?.lineManager?.code || values?.superVisor?.code || "",
+          values?.lineManager?.code || values?.superVisor?.code || '',
         employmentStatusId: values?.employeeStatus?.value,
         actionBy: profileData.userId,
         basicSalary: values?.basicSalary || 0,
         grossSalary: values?.grossSalary || 0,
-        confirmationDate: values?.confirmationDate || "",
+        confirmationDate: values?.confirmationDate || '',
         genderId: values?.gender?.value,
         gender: values?.gender?.label,
         religionId: values?.religion?.value,

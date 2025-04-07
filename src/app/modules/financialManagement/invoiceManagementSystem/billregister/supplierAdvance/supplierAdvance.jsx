@@ -6,7 +6,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 import Loading from '../../../../_helper/_loading';
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import {
   CreateAdvanceForSupplier,
   GetAdvanceForSupplierById,
@@ -24,7 +24,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-  ModalProgressBar
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
 import IWarningModal from '../../../../_helper/_warningModal';
 import FormikError from './../../../../_helper/_formikError';
@@ -59,7 +59,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
   const [warehouse, setWarehouse] = useState([]);
   const [purchaseOrg, setpurchaseOrg] = useState([]);
   const [advanceForSupplierById, setAdvanceForSupplierById] = React.useState(
-    [],
+    []
   );
   const [supplierAmountInfo, setSupplierAmountInfo] = React.useState('');
   const [isDisabled, setDisabled] = useState(false);
@@ -83,14 +83,14 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
   const saveHandler = (values, cb) => {
     const amount =
       (+values?.purchaseOrder?.totalPOAmount || 0) +
-      +(+values?.purchaseOrder?.othersCharge || 0) || 0;
+        +(+values?.purchaseOrder?.othersCharge || 0) || 0;
     const total =
       Number(amount.toFixed(2)) -
       Number(supplierAmountInfo?.poAdvanceAmount.toFixed(2));
     if (total < values?.amount) {
       console.log(total, values?.amount);
       return toast.warn(
-        'Difference Between Po Amount and Advance Amount can not be lower than Amount',
+        'Difference Between Po Amount and Advance Amount can not be lower than Amount'
       );
     }
     const payload = {
@@ -128,7 +128,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
             setDisabled,
             setAdvanceForSupplierById,
             setFileObjects,
-            IWarningModal,
+            IWarningModal
           );
         })
         .catch((err) => console.log(err?.message));
@@ -140,7 +140,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
         setDisabled,
         setAdvanceForSupplierById,
         setFileObjects,
-        IWarningModal,
+        IWarningModal
       );
     }
   };
@@ -156,13 +156,13 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
         profileData.accountId,
         selectedBusinessUnit.value,
         headerData?.plant?.value,
-        setWarehouse,
+        setWarehouse
       );
       getPurchaseOrgDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
         headerData?.sbu?.value,
-        setpurchaseOrg,
+        setpurchaseOrg
       );
     }
   }, [profileData, selectedBusinessUnit, headerData]);
@@ -221,7 +221,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                       setSaveBtnDisable(true);
                       setTimeout(() => {
                         setSaveBtnDisable(false);
-                      }, 5000)
+                      }, 5000);
                       handleSubmit();
                     }}
                     className="btn btn-primary ml-2"
@@ -243,18 +243,18 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                           name="isBusinessUnit"
                           checked={isBusinessUnit}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(valueOption) => {
                             setIsBusinessUnit(true);
-                            setFieldValue("purchaseOrder", "")
-                            setFieldValue("warehouse", "");
-                            setFieldValue("purchaseOrg", "");
-                            setFieldValue("totalGRNAmount", "");
-                            setFieldValue("amount", "");
-                            setFieldValue("narration", "");
-                            setFieldValue("billNo", "");
+                            setFieldValue('purchaseOrder', '');
+                            setFieldValue('warehouse', '');
+                            setFieldValue('purchaseOrg', '');
+                            setFieldValue('totalGRNAmount', '');
+                            setFieldValue('amount', '');
+                            setFieldValue('narration', '');
+                            setFieldValue('billNo', '');
                             setSupplierAmountInfo({});
-                            setAdvanceForSupplierById([])
+                            setAdvanceForSupplierById([]);
                           }}
                         />
                         Business Unit
@@ -265,18 +265,18 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                           name="isBusinessUnit"
                           checked={!isBusinessUnit}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setIsBusinessUnit(false);
-                            setFieldValue("purchaseOrder", "")
-                            setFieldValue("warehouse", "");
-                            setFieldValue("purchaseOrg", "");
-                            setFieldValue("totalGRNAmount", "");
-                            setFieldValue("amount", "");
-                            setFieldValue("narration", "");
-                            setFieldValue("billNo", "");
+                            setFieldValue('purchaseOrder', '');
+                            setFieldValue('warehouse', '');
+                            setFieldValue('purchaseOrg', '');
+                            setFieldValue('totalGRNAmount', '');
+                            setFieldValue('amount', '');
+                            setFieldValue('narration', '');
+                            setFieldValue('billNo', '');
                             setSupplierAmountInfo({});
-                            setAdvanceForSupplierById([])
+                            setAdvanceForSupplierById([]);
                           }}
                         />
                         Transfer Business Unit
@@ -284,7 +284,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                     </div>
                   </>
                   <div className="row global-form global-form-custom pb-2">
-                    {isBusinessUnit &&
+                    {isBusinessUnit && (
                       <>
                         <div className="col-lg-3">
                           <label>Select PO Number</label>
@@ -292,9 +292,11 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                             selectedValue={values?.purchaseOrder}
                             handleChange={(valueOption) => {
                               if (+valueOption?.billId > 0) {
-                                return toast.warn("Advance Entry is not Possible After MRR")
+                                return toast.warn(
+                                  'Advance Entry is not Possible After MRR'
+                                );
                               }
-                              setFieldValue("purchaseOrder", valueOption);
+                              setFieldValue('purchaseOrder', valueOption);
                               GetAdvanceForSupplierById(
                                 valueOption?.value,
                                 setAdvanceForSupplierById
@@ -303,21 +305,21 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                                 valueOption?.value,
                                 setSupplierAmountInfo
                               );
-                              setFieldValue("warehouse", {
+                              setFieldValue('warehouse', {
                                 value: valueOption?.warehouseId,
                                 label: valueOption?.warehouseName,
                               });
-                              setFieldValue("purchaseOrg", {
+                              setFieldValue('purchaseOrg', {
                                 value: valueOption?.purchaseOrganizationId,
                                 label: valueOption?.purchaseOrganizationName,
                               });
                               setFieldValue(
-                                "totalGRNAmount",
+                                'totalGRNAmount',
                                 valueOption?.totalGRNAmount
                               );
                               if (!valueOption) {
                                 setSupplierAmountInfo({});
-                                setAdvanceForSupplierById([])
+                                setAdvanceForSupplierById([]);
                               }
                             }}
                             loadOptions={(v) => {
@@ -341,15 +343,15 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                           />
                         </div>
                       </>
-                    }
-                    {!isBusinessUnit &&
+                    )}
+                    {!isBusinessUnit && (
                       <>
                         <div className="col-lg-3">
                           <label>Select PO Number</label>
                           <SearchAsyncSelect
                             selectedValue={values?.purchaseOrder}
                             handleChange={(valueOption) => {
-                              setFieldValue("purchaseOrder", valueOption);
+                              setFieldValue('purchaseOrder', valueOption);
                               GetAdvanceForSupplierById(
                                 valueOption?.value,
                                 setAdvanceForSupplierById
@@ -358,21 +360,21 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                                 valueOption?.value,
                                 setSupplierAmountInfo
                               );
-                              setFieldValue("warehouse", {
+                              setFieldValue('warehouse', {
                                 value: warehouse[0]?.value,
                                 label: warehouse[0]?.label,
                               });
-                              setFieldValue("purchaseOrg", {
+                              setFieldValue('purchaseOrg', {
                                 value: valueOption?.purchaseOrganizationId,
                                 label: valueOption?.purchaseOrganizationName,
                               });
                               setFieldValue(
-                                "totalGRNAmount",
+                                'totalGRNAmount',
                                 valueOption?.totalGRNAmount
                               );
                               if (!valueOption) {
                                 setSupplierAmountInfo({});
-                                setAdvanceForSupplierById([])
+                                setAdvanceForSupplierById([]);
                               }
                             }}
                             loadOptions={(v) => {
@@ -396,7 +398,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                           />
                         </div>
                       </>
-                    }
+                    )}
                     {!isBusinessUnit && (
                       <>
                         <div className="col-lg-3">
@@ -407,11 +409,11 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                               setFieldValue('purchaseOrder', valueOption);
                               GetAdvanceForSupplierById(
                                 valueOption?.value,
-                                setAdvanceForSupplierById,
+                                setAdvanceForSupplierById
                               );
                               GetSupplierAmountInfo(
                                 valueOption?.value,
-                                setSupplierAmountInfo,
+                                setSupplierAmountInfo
                               );
                               setFieldValue('warehouse', {
                                 value: warehouse[0]?.value,
@@ -423,7 +425,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                               });
                               setFieldValue(
                                 'totalGRNAmount',
-                                valueOption?.totalGRNAmount,
+                                valueOption?.totalGRNAmount
                               );
                               if (!valueOption) {
                                 setSupplierAmountInfo({});
@@ -433,7 +435,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                             loadOptions={(v) => {
                               if (v?.length < 3) return [];
                               return Axios.get(
-                                `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2Shipping?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${headerData?.sbu?.value}&PlantId=${headerData?.plant?.value}&searchTerm=${v}`,
+                                `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2Shipping?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${headerData?.sbu?.value}&PlantId=${headerData?.plant?.value}&searchTerm=${v}`
                               ).then((res) => {
                                 const updateList = res?.data.map((item) => ({
                                   ...item,
@@ -561,7 +563,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                             {/* {+supplierAmountInfo?.poAdvanceAmount -
                               +supplierAmountInfo?.totalAdjustedBalance || "0"} */}
                             {supplierAmountInfo?.poPendingAdjustment?.toFixed(
-                              2,
+                              2
                             )}
                           </span>
                         </div>
@@ -572,27 +574,29 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                     <table className="table table-striped table-bordered mt-3 global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "25px" }}>Sl</th>
-                          <th style={{ width: "25px" }}>Date</th>
-                          <th style={{ width: "25px" }}>Amount</th>
-                          <th style={{ width: "25px" }}>Narration</th>
+                          <th style={{ width: '25px' }}>Sl</th>
+                          <th style={{ width: '25px' }}>Date</th>
+                          <th style={{ width: '25px' }}>Amount</th>
+                          <th style={{ width: '25px' }}>Narration</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {advanceForSupplierById?.advances?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{_dateFormatter(item?.advanceDate)}</td>
-                            <td>{item?.amount}</td>
-                            <td>{item?.remarks}</td>
-                          </tr>
-                        ))}
+                        {advanceForSupplierById?.advances?.map(
+                          (item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{_dateFormatter(item?.advanceDate)}</td>
+                              <td>{item?.amount}</td>
+                              <td>{item?.remarks}</td>
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>
                   <DropzoneDialogBase
                     filesLimit={1}
-                    acceptedFiles={["image/*", "application/pdf"]}
+                    acceptedFiles={['image/*', 'application/pdf']}
                     fileObjects={fileObjects}
                     cancelButtonText={'cancel'}
                     submitButtonText={'submit'}
@@ -603,7 +607,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

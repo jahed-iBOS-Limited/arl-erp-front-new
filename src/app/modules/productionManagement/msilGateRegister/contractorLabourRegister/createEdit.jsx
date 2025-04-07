@@ -1,31 +1,31 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   date: _todayDate(),
-  labourSupplierName: "",
-  inTime: "",
-  outTime: "",
-  totalLabour: "",
-  workSection: "",
-  workDescription: "",
-  workPlace: "",
-  comments: "",
+  labourSupplierName: '',
+  inTime: '',
+  outTime: '',
+  totalLabour: '',
+  workSection: '',
+  workDescription: '',
+  workPlace: '',
+  comments: '',
 };
 export default function ContractorLabourRegisterCreate() {
   const [objProps, setObjprops] = useState({});
-  const [workingSectionDDL, setWorkingSectionDDL] = useAxiosGet()
+  const [workingSectionDDL, setWorkingSectionDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
   const { id } = useParams();
   const location = useLocation();
@@ -40,9 +40,10 @@ export default function ContractorLabourRegisterCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    setWorkingSectionDDL(`/mes/MesDDL/GetWorkingSectionDDL?BusinessunitId=${selectedBusinessUnit?.value}`)
-
-  },[])
+    setWorkingSectionDDL(
+      `/mes/MesDDL/GetWorkingSectionDDL?BusinessunitId=${selectedBusinessUnit?.value}`
+    );
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -54,7 +55,7 @@ export default function ContractorLabourRegisterCreate() {
         totalLabour: location?.state?.numTotalLabour,
         workSection: {
           value: location?.state?.intWorkSectionId,
-          label: location?.state?.strWorkSectionName
+          label: location?.state?.strWorkSectionName,
         },
         workDescription: location?.state?.strWorkDescription,
         workPlace: location?.state?.strWorkPlace,
@@ -64,28 +65,28 @@ export default function ContractorLabourRegisterCreate() {
   }, [id, location]);
 
   const saveHandler = async (values, cb) => {
-    if (!values?.date) return toast.warn("Please add তারিখ");
+    if (!values?.date) return toast.warn('Please add তারিখ');
 
     saveData(
       `/mes/MSIL/LabourInOutCreateAndEdit`,
       {
         intGateLabourInOutRegisterId: id ? id : 0,
         intBusinessUnitId: selectedBusinessUnit?.value,
-        dteDate: values?.date || "",
-        strLabourSupplierName: values?.labourSupplierName || "",
-        tmInTime: values?.inTime || "",
-        tmOutTime: values?.outTime || "",
+        dteDate: values?.date || '',
+        strLabourSupplierName: values?.labourSupplierName || '',
+        tmInTime: values?.inTime || '',
+        tmOutTime: values?.outTime || '',
         numTotalLabour: values?.totalLabour || 0,
         intWorkSectionId: values?.workSection?.value || 0,
-        strWorkSectionName: values?.workSection?.label || "",
-        strWorkDescription: values?.workDescription || "",
-        strWorkPlace: values?.workPlace || "",
-        strRemarks: values?.comments || "",
-        intActionBy:  profileData?.userId,
+        strWorkSectionName: values?.workSection?.label || '',
+        strWorkDescription: values?.workDescription || '',
+        strWorkPlace: values?.workPlace || '',
+        strRemarks: values?.comments || '',
+        intActionBy: profileData?.userId,
         dteInsertDate: _todayDate(),
-        isActive: true
+        isActive: true,
       },
-      id ? "" : cb,
+      id ? '' : cb,
       true
     );
   };
@@ -164,7 +165,7 @@ export default function ContractorLabourRegisterCreate() {
                         value={values?.workSection}
                         label="কাজের বিভাগ"
                         onChange={(valueOption) => {
-                          setFieldValue("workSection", valueOption);
+                          setFieldValue('workSection', valueOption);
                         }}
                         errors={errors}
                       />
@@ -198,14 +199,14 @@ export default function ContractorLabourRegisterCreate() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

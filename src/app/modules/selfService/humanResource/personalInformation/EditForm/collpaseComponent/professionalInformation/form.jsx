@@ -227,7 +227,7 @@ export default function FormCmp({
                           onChange={(event) => {
                             setFieldValue(
                               'currentlyWorking',
-                              event.target.checked,
+                              event.target.checked
                             );
                           }}
                         />
@@ -350,13 +350,13 @@ export default function FormCmp({
                                   <td className="">{itm?.department}</td>
                                   {itm?.isCurrentlyWorking === true ? (
                                     <td className="">{`${_dateFormatter(
-                                      itm?.fromServiceLength,
+                                      itm?.fromServiceLength
                                     )} to ${'Present'}`}</td>
                                   ) : (
                                     <td className="">{`${_dateFormatter(
-                                      itm?.fromServiceLength,
+                                      itm?.fromServiceLength
                                     )} to ${_dateFormatter(
-                                      itm?.toServiceLength,
+                                      itm?.toServiceLength
                                     )}`}</td>
                                   )}
 
@@ -384,7 +384,7 @@ export default function FormCmp({
                                               editBtnHandler(
                                                 index,
                                                 itm,
-                                                setValues,
+                                                setValues
                                               );
                                             }}
                                           >
@@ -420,7 +420,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

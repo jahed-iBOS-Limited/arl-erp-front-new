@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import Form from "./form";
-import { toast } from "react-toastify";
-import { GetBunkerCostById } from "../helper";
-import { getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { saveBunkerCost } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import Form from './form';
+import { toast } from 'react-toastify';
+import { GetBunkerCostById } from '../helper';
+import { getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { saveBunkerCost } from '../../../../_helper/_commonApi';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 const consumptionHeader = [
-  { name: "SL" },
-  { name: "Item Name" },
-  { name: "Consumption" },
-  { name: "Added Consumption" },
+  { name: 'SL' },
+  { name: 'Item Name' },
+  { name: 'Consumption' },
+  { name: 'Added Consumption' },
 ];
 
 export default function BunkerCostForm() {
@@ -67,13 +66,13 @@ export default function BunkerCostForm() {
 
     if (
       Number(Lsmgo.toFixed(2)) !==
-      Number(consumption?.consumptionLsmgoqty.toFixed(2)) ||
+        Number(consumption?.consumptionLsmgoqty.toFixed(2)) ||
       Number(Lsfo1.toFixed(2)) !==
-      Number(consumption?.consumptionLsfo1qty.toFixed(2)) ||
+        Number(consumption?.consumptionLsfo1qty.toFixed(2)) ||
       Number(Lsfo2.toFixed(2)) !==
-      Number(consumption?.consumptionLsfo2qty.toFixed(2))
+        Number(consumption?.consumptionLsfo2qty.toFixed(2))
     ) {
-      return toast.error("Please check consumption adjustment");
+      return toast.error('Please check consumption adjustment');
     }
 
     if (id) {
@@ -83,7 +82,7 @@ export default function BunkerCostForm() {
         )?.length
       )
         toast.error(
-          "Consumption can not be greater than remaining quantity. So, Please check the consumptions"
+          'Consumption can not be greater than remaining quantity. So, Please check the consumptions'
         );
 
       // editVoyage(data, setLoading, cb);
@@ -128,26 +127,26 @@ export default function BunkerCostForm() {
   const rowDtoHandler = (key, value, index) => {
     let data = [...bunkerPurchaseList];
     data[index][key] = value;
-    data[index]["itemCost"] = Number(
-      (bunkerPurchaseList[index]["itemRate"] * value).toFixed(2)
+    data[index]['itemCost'] = Number(
+      (bunkerPurchaseList[index]['itemRate'] * value).toFixed(2)
     );
-    data[index]["remainingQty"] = value
+    data[index]['remainingQty'] = value
       ? Number(
-        (
-          bunkerPurchaseList[index]["remaining"] -
-          Number(bunkerPurchaseList[index]["consumption"])
-        )?.toFixed(2)
-      )
-      : Number(data[index]["remaining"]?.toFixed(2));
+          (
+            bunkerPurchaseList[index]['remaining'] -
+            Number(bunkerPurchaseList[index]['consumption'])
+          )?.toFixed(2)
+        )
+      : Number(data[index]['remaining']?.toFixed(2));
     setBunkerPurchaseList(data);
   };
 
   const title =
-    type === "view"
-      ? "View Bunker Cost"
-      : type === "edit"
-        ? "Edit Bunker Cost"
-        : "Create Bunker Cost";
+    type === 'view'
+      ? 'View Bunker Cost'
+      : type === 'edit'
+        ? 'Edit Bunker Cost'
+        : 'Create Bunker Cost';
 
   return (
     <>

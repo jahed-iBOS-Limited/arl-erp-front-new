@@ -27,7 +27,7 @@ export default function MasterHBLModal({
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [isPrintViewMode] = useState(isPrintView || false);
   const [preCarriageByDDL, setPreCarriageByDDL] = useState([]);
@@ -85,7 +85,7 @@ export default function MasterHBLModal({
             formikRef.current.setFieldValue(key, obj[key]);
           });
         }
-      },
+      }
     );
   };
 
@@ -109,7 +109,6 @@ export default function MasterHBLModal({
           const strPortOfDischarge = [];
           const strPortOfLoading = [];
           const strOceanVessel = [];
-
 
           hblRestData?.forEach((item, index) => {
             const transportPlanningSea =
@@ -177,7 +176,7 @@ export default function MasterHBLModal({
             const rows = item?.rowsData || [];
             const weightSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-              0,
+              0
             );
             return subtotal + weightSubtotal;
           }, 0);
@@ -185,7 +184,7 @@ export default function MasterHBLModal({
             const rows = item?.rowsData || [];
             const volumeSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalVolumeCBM || 0),
-              0,
+              0
             );
             return subtotal + volumeSubtotal;
           }, 0);
@@ -195,11 +194,11 @@ export default function MasterHBLModal({
               const rows = item?.rowsData || [];
               const packageSubtotal = rows?.reduce(
                 (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-                0,
+                0
               );
               return subtotal + packageSubtotal;
             },
-            0,
+            0
           );
 
           const strDescriptionOfPackagesAndGoods = hblRestData
@@ -219,7 +218,7 @@ export default function MasterHBLModal({
                     .join(',')}`;
                   return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
                 })
-                .join('\n'),
+                .join('\n')
             )
             .join('\n');
 
@@ -305,11 +304,9 @@ export default function MasterHBLModal({
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
-        },
+        }
       );
     }
-
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -358,7 +355,7 @@ export default function MasterHBLModal({
         if (data) {
           CB();
         }
-      },
+      }
     );
   };
 
@@ -381,9 +378,8 @@ export default function MasterHBLModal({
   });
   useEffect(() => {
     getMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2&tradeTypeId=${tradeTypeId}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2&tradeTypeId=${tradeTypeId}`
     );
-
   }, []);
 
   return (
@@ -561,7 +557,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strPreCarriageBy',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -597,7 +593,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strPlaceOfReceipt',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -635,7 +631,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strOceanVessel',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -671,7 +667,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strPortOfLoading',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -748,7 +744,7 @@ export default function MasterHBLModal({
                                   console.log(JSON.stringify(e.target.value));
                                   setFieldValue(
                                     'strShippingAgentReferences',
-                                    e.target.value,
+                                    e.target.value
                                   );
                                 }}
                               />
@@ -784,7 +780,7 @@ export default function MasterHBLModal({
                                   onChange={(valueOption) => {
                                     setFieldValue(
                                       'strPortOfDischarge',
-                                      valueOption?.label,
+                                      valueOption?.label
                                     );
                                   }}
                                   errors={errors}
@@ -821,7 +817,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strPlaceOfDelivery',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -857,7 +853,7 @@ export default function MasterHBLModal({
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         'strFreightPayableAt',
-                                        valueOption?.label,
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -931,7 +927,7 @@ export default function MasterHBLModal({
                                     console.log(JSON.stringify(e.target.value));
                                     setFieldValue(
                                       'strMarksAndNumbers',
-                                      e.target.value,
+                                      e.target.value
                                     );
                                   }}
                                 />
@@ -968,7 +964,7 @@ export default function MasterHBLModal({
                                     onChange={(e) => {
                                       setFieldValue(
                                         'strNoOfPackages',
-                                        e.target.value,
+                                        e.target.value
                                       );
                                     }}
                                   />
@@ -1010,7 +1006,7 @@ export default function MasterHBLModal({
                                   onChange={(e) => {
                                     setFieldValue(
                                       'strDescriptionOfPackagesAndGoods',
-                                      e.target.value,
+                                      e.target.value
                                     );
                                   }}
                                 />
@@ -1047,7 +1043,7 @@ export default function MasterHBLModal({
                                     onChange={(e) => {
                                       setFieldValue(
                                         'strGrossWeightOrMeasurement',
-                                        e.target.value,
+                                        e.target.value
                                       );
                                     }}
                                   />

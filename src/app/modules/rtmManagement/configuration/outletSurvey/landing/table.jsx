@@ -1,26 +1,25 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import InputField from "../../../../_helper/_inputField";
-import { Formik } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import InputField from '../../../../_helper/_inputField';
+import { Formik } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
-  outletName: "", // DDL
+  outletName: '', // DDL
   fromDate: _todayDate(),
-  toDate: "",
+  toDate: '',
 };
 
 const OutletSurveyLanding = () => {
@@ -69,7 +68,7 @@ const OutletSurveyLanding = () => {
                 <button
                   onClick={() =>
                     history.push(
-                      "/rtm-management/configuration/outletsurvey/create"
+                      '/rtm-management/configuration/outletsurvey/create'
                     )
                   }
                   className="btn btn-primary"
@@ -140,7 +139,7 @@ const OutletSurveyLanding = () => {
                             <td className="text-center">
                               {item?.valiedTo
                                 ? _dateFormatter(item?.valiedTo)
-                                : "-"}
+                                : '-'}
                             </td>
                             <td>
                               <div className="text-center">

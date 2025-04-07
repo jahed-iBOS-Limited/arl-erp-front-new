@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import BootstrapTable from 'react-bootstrap-table-next'
+import React, { useEffect, useMemo, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
 
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import * as actions from '../_redux/createUserActions'
-import { sortCaret } from '../../../../../../_metronic/_helpers'
-import * as columnFormatters from './column-formatters'
-import { useUserUIContext } from '../UserUIContext'
-import Loading from './../../../../_helper/_loading'
-import PaginationTable from './../../../../_helper/_tablePagination'
-import PaginationSearch from './../../../../_helper/_search'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as actions from '../_redux/createUserActions';
+import { sortCaret } from '../../../../../../_metronic/_helpers';
+import * as columnFormatters from './column-formatters';
+import { useUserUIContext } from '../UserUIContext';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from './../../../../_helper/_search';
 
 export function UsersTable() {
   // user UI Context
-  const userUIContext = useUserUIContext()
+  const userUIContext = useUserUIContext();
   const userUIProps = useMemo(() => {
     return {
       ids: userUIContext.ids,
@@ -22,21 +22,21 @@ export function UsersTable() {
       openEditUserPage: userUIContext.openEditUserPage,
       openDeleteUserDialog: userUIContext.openDeleteUserDialog,
       openViewPage: userUIContext.openViewPage,
-    }
-  }, [userUIContext])
+    };
+  }, [userUIContext]);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   //paginationState
-  const [pageNo, setPageNo] = React.useState(0)
-  const [pageSize, setPageSize] = React.useState(15)
-  const [search, setSearch] = useState("")
+  const [pageNo, setPageNo] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(15);
+  const [search, setSearch] = useState('');
   // Getting curret state of user list from store (Redux)
   const { currentState } = useSelector(
     (state) => ({
       currentState: state.user,
     }),
     shallowEqual
-  )
+  );
   const { profileData } = useSelector(
     (state) => ({
       userForEdit: state.user.edit,
@@ -44,19 +44,18 @@ export function UsersTable() {
       profileData: state.authData.profileData,
     }),
     shallowEqual
-  )
+  );
 
-  const { totalCount, entities } = currentState
+  const { totalCount, entities } = currentState;
 
   // user Redux state
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
       actions.UserPageData(profileData.accountId, setLoading, pageNo, pageSize)
-    )
-
-  }, [dispatch])
+    );
+  }, [dispatch]);
 
   const columns = [
     {
@@ -68,7 +67,7 @@ export function UsersTable() {
       text: 'User ID',
       sort: false,
       sortCaret: sortCaret,
-      classes: "text-center",
+      classes: 'text-center',
     },
     {
       dataField: 'userName',
@@ -105,13 +104,19 @@ export function UsersTable() {
         minWidth: '100px',
       },
     },
-  ]
+  ];
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
     dispatch(
-      actions.UserPageData(profileData.accountId, setLoading, pageNo, pageSize, search)
-    )
-  }
+      actions.UserPageData(
+        profileData.accountId,
+        setLoading,
+        pageNo,
+        pageSize,
+        search
+      )
+    );
+  };
 
   const paginationSearchHandler = (searchV) => {
     dispatch(
@@ -122,8 +127,8 @@ export function UsersTable() {
         pageSize,
         searchV
       )
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -193,5 +198,5 @@ export function UsersTable() {
         />
       )}
     </>
-  )
+  );
 }

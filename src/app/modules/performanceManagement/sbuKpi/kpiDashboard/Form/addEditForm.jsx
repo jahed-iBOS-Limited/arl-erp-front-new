@@ -1,27 +1,26 @@
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-
-import ICard from "../../../../_helper/_card";
-import { getReportAction, setReportEmpty } from "../_redux/Actions";
+import ICard from '../../../../_helper/_card';
+import { getReportAction, setReportEmpty } from '../_redux/Actions';
 import {
   getEmployeeBasicInfoByIdAction,
   getUnFavDepSbuDDLAction,
   getYearDDLAction,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import { getSbuDDLAction } from "../../balancedScore/_redux/Actions";
-import Help from "./../../../help/Help";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import { getSbuDDLAction } from '../../balancedScore/_redux/Actions';
+import Help from './../../../help/Help';
 
 const initData = {
   id: undefined,
-  unpavorite: "",
-  year: "",
-  from: "",
-  to: "",
-  sbu: "",
-  section: "",
+  unpavorite: '',
+  year: '',
+  from: '',
+  to: '',
+  sbu: '',
+  section: '',
 };
 
 export default function KpiDashboardForm() {
@@ -58,7 +57,6 @@ export default function KpiDashboardForm() {
         getSbuDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -73,7 +71,6 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -90,21 +87,18 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, month, sbuDDL, selectedBusinessUnit]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, []);
 
   return (

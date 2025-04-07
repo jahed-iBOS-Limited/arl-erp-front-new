@@ -1,19 +1,24 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router";
-import { getBranchNameDDL, validationSchema } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
+import { getBranchNameDDL, validationSchema } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
-export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) {
+export default function FormCmp({
+  initData,
+  saveHandler,
+  isEdit,
+  isView,
+  DDL,
+}) {
   const { supplierCountryDDL, bankDDL, branchDDL, setbranchDDL, lcDDL } = DDL;
   const history = useHistory();
 
@@ -41,9 +46,9 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader
-                title={`${(isEdit && "Edit") ||
-                  (isView && "View") ||
-                  "Create"} Product Allocation LC Information`}
+                title={`${
+                  (isEdit && 'Edit') || (isView && 'View') || 'Create'
+                } Product Allocation LC Information`}
               >
                 <CardHeaderToolbar>
                   <>
@@ -78,7 +83,7 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {console.log("Values", values)}
+                {console.log('Values', values)}
                 <Form className="form form-label-right">
                   <div className="global-form">
                     <div className="row">
@@ -89,7 +94,7 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
                           options={supplierCountryDDL}
                           value={values?.supplierCountry}
                           onChange={(valueOption) => {
-                            setFieldValue("supplierCountry", valueOption);
+                            setFieldValue('supplierCountry', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -103,7 +108,7 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
                           options={lcDDL || []}
                           value={values?.lCno}
                           onChange={(valueOption) => {
-                            setFieldValue("lCno", valueOption);
+                            setFieldValue('lCno', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -139,8 +144,8 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
                           options={bankDDL}
                           value={values?.bankName}
                           onChange={(valueOption) => {
-                            setFieldValue("branchName", "");
-                            setFieldValue("bankName", valueOption);
+                            setFieldValue('branchName', '');
+                            setFieldValue('bankName', valueOption);
                             getBranchNameDDL(
                               valueOption?.value,
                               18, // Hardcode for BD
@@ -159,7 +164,7 @@ export default function FormCmp({ initData, saveHandler, isEdit, isView, DDL }) 
                           options={branchDDL}
                           value={values?.branchName}
                           onChange={(valueOption) => {
-                            setFieldValue("branchName", valueOption);
+                            setFieldValue('branchName', valueOption);
                           }}
                           errors={errors}
                           touched={touched}

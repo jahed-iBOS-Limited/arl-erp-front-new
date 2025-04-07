@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import ClearInvoiceViewModel from "./clearInvoiceViewModel";
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import ClearInvoiceViewModel from './clearInvoiceViewModel';
 
 function ClearInvoiceGrid({
   gridData,
@@ -10,7 +10,7 @@ function ClearInvoiceGrid({
   setClearInvoiceGridData,
 }) {
   const [isClearInvViewModel, setIsClearInvViewModel] = useState(false);
-  const [gridRowItem, setGridRowItem] = useState("");
+  const [gridRowItem, setGridRowItem] = useState('');
   return (
     <>
       {gridData?.length > 0 && (
@@ -29,7 +29,7 @@ function ClearInvoiceGrid({
                     }}
                   />
                 </th> */}
-                <th style={{ width: "25px" }}>Sl</th>
+                <th style={{ width: '25px' }}>Sl</th>
                 <th>Invoice Code</th>
                 <th>Transaction Date</th>
                 <th>Supplier</th>
@@ -37,7 +37,7 @@ function ClearInvoiceGrid({
                 <th>PO Amount</th>
                 <th>GRN Amount</th>
                 <th>Invoice Amount</th>
-                <th style={{ width: "90px" }}>Action</th>
+                <th style={{ width: '90px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@ function ClearInvoiceGrid({
                     <div className="text-right pr-2">
                       {item?.transanctionDate
                         ? _dateFormatter(item?.transanctionDate)
-                        : "N/A"}
+                        : 'N/A'}
                     </div>
                   </td>
                   <td>

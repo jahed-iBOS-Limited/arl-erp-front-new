@@ -1,19 +1,18 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import essentialLogo from "./assets/essentialLogo.png";
-import { ToWords } from "to-words";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import essentialLogo from './assets/essentialLogo.png';
+import { ToWords } from 'to-words';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 import {
   getSalesContactById,
   setSalesContactSingleEmpty,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 
 export default function SalesContractView({ contactId }) {
   const printRef = useRef();
@@ -31,7 +30,7 @@ export default function SalesContractView({ contactId }) {
     return state.salesContact?.singleData;
   }, shallowEqual);
 
-  console.log("singleData111", singleData);
+  console.log('singleData111', singleData);
 
   const dispatch = useDispatch();
   //Dispatch single data action and empty single data for create
@@ -47,7 +46,6 @@ export default function SalesContractView({ contactId }) {
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [contactId]);
 
   return (
@@ -80,7 +78,7 @@ export default function SalesContractView({ contactId }) {
                 <div>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important; font-size: 50px ! important;}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important; font-size: 50px ! important;}}'
                     }
                     trigger={() => (
                       <button type="button" className="btn btn-primary ml-3">
@@ -98,7 +96,7 @@ export default function SalesContractView({ contactId }) {
               {singleData?.objHeaderDTO ? (
                 <div componentRef={printRef} ref={printRef}>
                   <img
-                    style={{ width: "130px", height: "60px" }}
+                    style={{ width: '130px', height: '60px' }}
                     src={essentialLogo}
                     alt="logo"
                   />
@@ -116,45 +114,45 @@ export default function SalesContractView({ contactId }) {
                       <tr>
                         <td className="font-weight-bold" colSpan={3}>
                           <strong>
-                            Sales Contract No:{" "}
+                            Sales Contract No:{' '}
                             {singleData?.objHeaderDTO?.salesContactCode}
                           </strong>
                           <br />
                           <strong>
-                            Logistic By:{" "}
+                            Logistic By:{' '}
                             {singleData?.objHeaderDTO?.vehicleBy?.label}
                           </strong>
                           <br />
                           <strong>
-                            Partner Name:{" "}
+                            Partner Name:{' '}
                             {singleData?.objHeaderDTO?.soldToPartnerName}
                           </strong>
                           <br />
                           <strong>
-                            Payment Terms Name:{" "}
+                            Payment Terms Name:{' '}
                             {singleData?.objHeaderDTO?.paymentTermsName}
                           </strong>
                           <br />
                           <strong>
-                            Partial Shipment:{" "}
+                            Partial Shipment:{' '}
                             {singleData?.objHeaderDTO?.partialShipment}
                           </strong>
                         </td>
                         <td className="font-weight-bold" colSpan={3}>
                           <strong>
-                            Start Date:{" "}
+                            Start Date:{' '}
                             {_dateFormatter(
                               singleData?.objHeaderDTO?.startDate
                             )}
                           </strong>
                           <br />
                           <strong>
-                            End Date:{" "}
+                            End Date:{' '}
                             {_dateFormatter(singleData?.objHeaderDTO?.endDate)}
                           </strong>
                           <br />
                           <strong>
-                            Pricing Date:{" "}
+                            Pricing Date:{' '}
                             {_dateFormatter(
                               singleData?.objHeaderDTO?.pricingDate
                             )}
@@ -164,7 +162,7 @@ export default function SalesContractView({ contactId }) {
                       </tr>
                       <tr>
                         <th width="30px" className="text-center">
-                          Sl NO.{" "}
+                          Sl NO.{' '}
                         </th>
                         <th>Item</th>
                         <th>Quantity</th>
@@ -233,7 +231,7 @@ export default function SalesContractView({ contactId }) {
                       <tr className="border-none">
                         <td
                           className="font-weight-bold"
-                          style={{ border: "none" }}
+                          style={{ border: 'none' }}
                           colSpan={2}
                         >
                           <h3>{singleData?.objHeaderDTO?.businessUnitName}</h3>
@@ -242,7 +240,7 @@ export default function SalesContractView({ contactId }) {
                         </td>
                         <td
                           className="font-weight-bold"
-                          style={{ border: "none", textAlign: "center" }}
+                          style={{ border: 'none', textAlign: 'center' }}
                           colSpan={2}
                         >
                           T: 88-02-887-8888 <br />
@@ -251,7 +249,7 @@ export default function SalesContractView({ contactId }) {
                         </td>
                         <td
                           className="font-weight-bold"
-                          style={{ border: "none" }}
+                          style={{ border: 'none' }}
                           colSpan={2}
                         >
                           findYourDailyEssentials.com <br />

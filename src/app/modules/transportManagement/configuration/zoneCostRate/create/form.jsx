@@ -1,39 +1,37 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    value: Yup.string().required("Ship Point is required"),
-    label: Yup.string().required("Ship Point is required"),
+    value: Yup.string().required('Ship Point is required'),
+    label: Yup.string().required('Ship Point is required'),
   }),
   zone: Yup.object().shape({
-    value: Yup.string().required("Zone is required"),
-    label: Yup.string().required("Zone is required"),
+    value: Yup.string().required('Zone is required'),
+    label: Yup.string().required('Zone is required'),
   }),
 
-  num3tonRate: Yup.string().required("3 Ton Rate is required"),
-  num5tonRate: Yup.string().required("5 Ton Rate is required"),
-  num7tonRate: Yup.string().required("7 Ton Rate is required"),
-  num1point5TonRate: Yup.string().required("1 Point 5 Ton Rate is required"),
-  num1TonRate: Yup.string().required("1 Ton Rate is required"),
-  num14TonRate: Yup.string().required("14 Ton Rate is required"),
-  num2TonRate: Yup.string().required("2 Ton Rate is required"),
-  num20TonRate: Yup.string().required("20 Ton Rate is required"),
-  distanceKm: Yup.string().required("Distance (Km) is required"),
-  handlingCost: Yup.string().required("Handling Cost is required"),
-  labourCost: Yup.string().required("Labour Cost is required"),
+  num3tonRate: Yup.string().required('3 Ton Rate is required'),
+  num5tonRate: Yup.string().required('5 Ton Rate is required'),
+  num7tonRate: Yup.string().required('7 Ton Rate is required'),
+  num1point5TonRate: Yup.string().required('1 Point 5 Ton Rate is required'),
+  num1TonRate: Yup.string().required('1 Ton Rate is required'),
+  num14TonRate: Yup.string().required('14 Ton Rate is required'),
+  num2TonRate: Yup.string().required('2 Ton Rate is required'),
+  num20TonRate: Yup.string().required('20 Ton Rate is required'),
+  distanceKm: Yup.string().required('Distance (Km) is required'),
+  handlingCost: Yup.string().required('Handling Cost is required'),
+  labourCost: Yup.string().required('Labour Cost is required'),
   labourCostLess6Ton: Yup.string().required(
-    "Labour Cost less 6 ton is required"
+    'Labour Cost less 6 ton is required'
   ),
   // subsidiaryRate: Yup.string().required("Subsidiary Rate is required"),
-  additionalAmount: Yup.string().required("Additional Amount is required"),
+  additionalAmount: Yup.string().required('Additional Amount is required'),
 });
 
 /* condition for bu 232 agro feed */
@@ -54,13 +52,13 @@ function CategoryNameFormField({ obj }) {
         <NewSelect
           name="categoryName"
           options={[
-            { value: 1, label: "Straight" },
-            { value: 2, label: "Bend" },
+            { value: 1, label: 'Straight' },
+            { value: 2, label: 'Bend' },
           ]}
           value={values?.categoryName}
           label="Select Category name"
           onChange={(valueOption) => {
-            setFieldValue("categoryName", valueOption);
+            setFieldValue('categoryName', valueOption);
           }}
           placeholder="Select Category name"
           errors={errors}
@@ -99,7 +97,7 @@ function AgroFeedAndDistanceCheckbox({ obj }) {
         id="isDistanceBase"
         type="checkbox"
         onChange={() => {
-          setFieldValue("isDistanceBase", !values?.isDistanceBase);
+          setFieldValue('isDistanceBase', !values?.isDistanceBase);
         }}
         disabled={true}
       />
@@ -160,7 +158,7 @@ export default function FormCmp({
             {isSubsidyRunning && (
               <marquee
                 direction="left"
-                style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
               >
                 Transport subsidiary is running....
               </marquee>
@@ -174,7 +172,7 @@ export default function FormCmp({
                     value={values?.shipPoint}
                     label="Select Shippoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     placeholder="Select Shippoint"
                     errors={errors}
@@ -189,7 +187,7 @@ export default function FormCmp({
                     value={values?.zone}
                     label="Select Transport Zone"
                     onChange={(valueOption) => {
-                      setFieldValue("zone", valueOption);
+                      setFieldValue('zone', valueOption);
                     }}
                     placeholder="Select Transport Zone"
                     errors={errors}
@@ -206,7 +204,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num1TonRate", e.target.value);
+                        setFieldValue('num1TonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -220,7 +218,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num1point5TonRate", e.target.value);
+                        setFieldValue('num1point5TonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -235,7 +233,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num2TonRate", e.target.value);
+                        setFieldValue('num2TonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -249,7 +247,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num3tonRate", e.target.value);
+                        setFieldValue('num3tonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -264,7 +262,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num5tonRate", e.target.value);
+                        setFieldValue('num5tonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -278,7 +276,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num7tonRate", e.target.value);
+                        setFieldValue('num7tonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -293,7 +291,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num14TonRate", e.target.value);
+                        setFieldValue('num14TonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -308,7 +306,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("num20TonRate", e.target.value);
+                        setFieldValue('num20TonRate', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -322,7 +320,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("additionalAmount", e.target.value);
+                        setFieldValue('additionalAmount', e.target.value);
                       }
                     }}
                     disabled={isView || (isEdit && values?.isSlabProgram)}
@@ -336,7 +334,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("distanceKm", e.target.value);
+                        setFieldValue('distanceKm', e.target.value);
                       }
                     }}
                     disabled={
@@ -356,7 +354,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("handlingCost", e.target.value);
+                        setFieldValue('handlingCost', e.target.value);
                       }
                     }}
                     disabled={
@@ -376,7 +374,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("labourCost", e.target.value);
+                        setFieldValue('labourCost', e.target.value);
                       }
                     }}
                     disabled={
@@ -396,7 +394,7 @@ export default function FormCmp({
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("labourCostLess6Ton", e.target.value);
+                        setFieldValue('labourCostLess6Ton', e.target.value);
                       }
                     }}
                     disabled={
@@ -407,14 +405,14 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    style={{ backgroundColor: "yellow" }}
+                    style={{ backgroundColor: 'yellow' }}
                     value={values?.subsidiaryRate}
                     name="subsidiaryRate"
                     label="Subsidiary Rate"
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("subsidiaryRate", e.target.value);
+                        setFieldValue('subsidiaryRate', e.target.value);
                       }
                     }}
                     disabled={
@@ -434,9 +432,9 @@ export default function FormCmp({
                     id="isAmountBase"
                     type="checkbox"
                     onChange={() => {
-                      setFieldValue("isAmountBase", !values?.isAmountBase);
+                      setFieldValue('isAmountBase', !values?.isAmountBase);
                       setFieldValue(
-                        "isSlabProgram",
+                        'isSlabProgram',
                         values?.isSlabProgram ? false : null
                       );
                     }}
@@ -462,9 +460,9 @@ export default function FormCmp({
                     id="isSlabProgram"
                     type="checkbox"
                     onChange={() => {
-                      setFieldValue("isSlabProgram", !values?.isSlabProgram);
+                      setFieldValue('isSlabProgram', !values?.isSlabProgram);
                       setFieldValue(
-                        "isAmountBase",
+                        'isAmountBase',
                         values?.isAmountBase ? false : null
                       );
                     }}
@@ -478,14 +476,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -500,15 +498,15 @@ export default function FormCmp({
                         // label="Range From"
                         label={isAgroFeedAndLabelChange(
                           buId,
-                          "Range From",
-                          "Range From (Distance km)"
+                          'Range From',
+                          'Range From (Distance km)'
                         )}
                         placeholder="Range From"
                         name="rangeFrom"
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("rangeFrom", e.target.value);
+                            setFieldValue('rangeFrom', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -520,15 +518,15 @@ export default function FormCmp({
                         // label="Range To"
                         label={isAgroFeedAndLabelChange(
                           buId,
-                          "Range To ",
-                          "Range To (Distance km)"
+                          'Range To ',
+                          'Range To (Distance km)'
                         )}
                         placeholder="Range To"
                         name="rangeTo"
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("rangeTo", e.target.value);
+                            setFieldValue('rangeTo', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -540,15 +538,15 @@ export default function FormCmp({
                         // label="Slab Rate"
                         label={isAgroFeedAndLabelChange(
                           buId,
-                          "Slab Rate",
-                          "Slab Rate (KG)"
+                          'Slab Rate',
+                          'Slab Rate (KG)'
                         )}
                         placeholder="Slab Rate"
                         name="slabRate"
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("slabRate", e.target.value);
+                            setFieldValue('slabRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -606,7 +604,7 @@ export default function FormCmp({
                         type="checkbox"
                         onChange={() => {
                           setFieldValue(
-                            "isAmountBase2",
+                            'isAmountBase2',
                             !values?.isAmountBase2
                           );
                         }}
@@ -650,7 +648,7 @@ export default function FormCmp({
                             <th>Category Name</th>
                             <th>Is Amount Base</th>
                             <th>Is Distance Base</th>
-                            <th style={{ width: "70px" }}>Action</th>
+                            <th style={{ width: '70px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -661,8 +659,8 @@ export default function FormCmp({
                               <td className="text-right">{item?.rangeTo}</td>
                               <td className="text-right">{item?.slabRate}</td>
                               <td>{item?.categoryName}</td>
-                              <td>{item?.isAmountBase ? "True" : "False"}</td>
-                              <td>{item?.isDistanceBase ? "True" : "False"}</td>
+                              <td>{item?.isAmountBase ? 'True' : 'False'}</td>
+                              <td>{item?.isDistanceBase ? 'True' : 'False'}</td>
                               <td className="text-center">
                                 <IDelete remover={remover} id={index} />
                               </td>

@@ -1,25 +1,24 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import { getTargetEntryData } from "../helper";
-import { monthDDL } from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import { getTargetEntryData } from '../helper';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import { toast } from 'react-toastify';
 
 const initData = {
-  type: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  zone: "",
-  month: "",
-  year: "",
-  item: "",
+  type: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  zone: '',
+  month: '',
+  year: '',
+  item: '',
 };
 
 export default function ManpowerSalesTargetForm() {
@@ -82,8 +81,8 @@ export default function ManpowerSalesTargetForm() {
         TSOList?.map((item) => ({
           ...item,
           isSelected: false,
-          chiniguraQty: "",
-          nonChiniguraQty: "",
+          chiniguraQty: '',
+          nonChiniguraQty: '',
         }))
       );
     } else if ([1, 2, 3].includes(values?.type?.value)) {
@@ -100,7 +99,7 @@ export default function ManpowerSalesTargetForm() {
         shipPointDDL?.map((item) => ({
           ...item,
           isSelected: false,
-          targetQty: "",
+          targetQty: '',
         }))
       );
     } else if ([5].includes(values?.type?.value)) {
@@ -108,7 +107,7 @@ export default function ManpowerSalesTargetForm() {
         monthDDL?.map((item) => ({
           ...item,
           isSelected: false,
-          rate: "",
+          rate: '',
         }))
       );
     }
@@ -118,7 +117,7 @@ export default function ManpowerSalesTargetForm() {
     if (!id) {
       const selectedItems = rowData?.filter((e) => e?.isSelected);
       if (selectedItems?.length < 1) {
-        return toast.warn("Please select at least one row!");
+        return toast.warn('Please select at least one row!');
       }
       const payloadForAEL = [];
 
@@ -145,8 +144,8 @@ export default function ManpowerSalesTargetForm() {
                 index === 1
                   ? +item?.chiniguraQty
                   : index === 2
-                  ? +item?.nonChiniguraQty
-                  : 0,
+                    ? +item?.nonChiniguraQty
+                    : 0,
               targeAmount: 0,
               actionBy: userId,
               typeId: values?.type?.value,
@@ -178,7 +177,7 @@ export default function ManpowerSalesTargetForm() {
                 // setupPKId: values?.zone?.value,
                 // setupPkName: values?.zone?.label,
                 territoryTypeId: 74,
-                territoryTypeName: "Point",
+                territoryTypeName: 'Point',
                 employeeEnroll: item?.employeeId,
                 targeQnt: +item?.targetQty,
                 targeAmount: 0,
@@ -199,10 +198,10 @@ export default function ManpowerSalesTargetForm() {
           targetYearId: values?.year?.value,
           channelId: 0,
           setupPKId: 0,
-          setupPkName: "",
-          channelName: "",
+          setupPkName: '',
+          channelName: '',
           territoryTypeId: 0,
-          territoryTypeName: "",
+          territoryTypeName: '',
           employeeEnroll: 0,
           targeQnt: [4].includes(values?.type?.value)
             ? +item?.targetQty
@@ -210,7 +209,7 @@ export default function ManpowerSalesTargetForm() {
           targeAmount: 0,
           actionBy: userId,
           typeId: values?.type?.value || 0,
-          entryTypeName: values?.type?.label || "",
+          entryTypeName: values?.type?.label || '',
           shippingPointId: item?.value || 0,
         };
       });

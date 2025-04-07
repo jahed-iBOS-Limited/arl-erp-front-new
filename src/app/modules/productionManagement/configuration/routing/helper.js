@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // get selected business unit from store
 
@@ -14,7 +14,7 @@ export const getLandingPageData = (
   search
 ) => {
   setLoader(true);
-  const searchPath = search ? `Searchterm=${search}&` : "";
+  const searchPath = search ? `Searchterm=${search}&` : '';
   axios
     .get(
       `/mes/Routing/RoutingLandingPagination?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -41,7 +41,7 @@ export const getSinglePageData = (id, setter) => {
 export function saveCreateData(data, cb, setDisabled) {
   setDisabled(true);
   axios
-    .post("/mes/Routing/CreateRouting", data)
+    .post('/mes/Routing/CreateRouting', data)
     .then((res) => {
       const { data, status } = res;
       if (status === 200 && data) {
@@ -59,7 +59,7 @@ export function saveCreateData(data, cb, setDisabled) {
 
 export function saveEditData(data, setDisabled) {
   setDisabled(true);
-  axios.put("/mes/Routing/EditRouting", data).then((res) => {
+  axios.put('/mes/Routing/EditRouting', data).then((res) => {
     const { data, status } = res;
     if (status === 200 && data) {
       toast.success(data.message);
@@ -140,7 +140,7 @@ export const getItemNameDDL = (accId, buId, plantId, wrkCntrId, setter) => {
     });
 };
 export const getBillOfMaterialNameDDL = (setter) => {
-  axios.get("/mes/MesDDL/GetBoMNameDDL").then((res) => {
+  axios.get('/mes/MesDDL/GetBoMNameDDL').then((res) => {
     setter(res.data);
   });
 };
@@ -159,14 +159,14 @@ export const getCreatePageData = (
       const { data, status } = res;
       if (status === 200 && data) {
         setFieldValue(
-          "laborTime",
+          'laborTime',
           data.getByIdHeader.laborQty * data.getByIdHeader.machineTime
         );
-        setFieldValue("machineTime", data.getByIdHeader.machineTime);
-        setFieldValue("setUpTime", data.getByIdHeader.setupTime);
-        setFieldValue("laborQty", data.getByIdHeader.laborQty);
-        setFieldValue("laborCost", data.getByIdHeader.laborCost);
-        setFieldValue("capacity", data.getByIdHeader.workCenterCapacity);
+        setFieldValue('machineTime', data.getByIdHeader.machineTime);
+        setFieldValue('setUpTime', data.getByIdHeader.setupTime);
+        setFieldValue('laborQty', data.getByIdHeader.laborQty);
+        setFieldValue('laborCost', data.getByIdHeader.laborCost);
+        setFieldValue('capacity', data.getByIdHeader.workCenterCapacity);
       }
     });
 };

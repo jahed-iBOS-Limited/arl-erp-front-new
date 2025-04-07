@@ -1,6 +1,6 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getGeneralLedgerDDL = async (accId, buId, setter) => {
   try {
@@ -31,12 +31,12 @@ export const saveData = async (payload, setIsLoading) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "saveData" });
+      toast.success(res?.data?.message, { toastId: 'saveData' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "saveDataErr",
+      toastId: 'saveDataErr',
     });
     setIsLoading(false);
   }

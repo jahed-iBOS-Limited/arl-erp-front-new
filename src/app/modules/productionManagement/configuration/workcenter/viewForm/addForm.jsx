@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
 
-import { getWorkCenterById } from "../helper";
-import Form from "./form";
+import { getWorkCenterById } from '../helper';
+import Form from './form';
 
 const initData = {
-  plantName: "",
-  productionLine: "",
-  workcenterName: "",
-  workcenterCode: "",
-  workCenterCapacity: "",
-  uomName: "",
-  itemName: "",
-  itemCode: "",
-  setupTime: "",
-  machineTime: "",
-  laborQty: "",
-  laborTime: "",
-  laborCost: "",
-  assetId: "",
-  employeeId: "",
-  shopFloorId: "",
+  plantName: '',
+  productionLine: '',
+  workcenterName: '',
+  workcenterCode: '',
+  workCenterCapacity: '',
+  uomName: '',
+  itemName: '',
+  itemCode: '',
+  setupTime: '',
+  machineTime: '',
+  laborQty: '',
+  laborTime: '',
+  laborCost: '',
+  assetId: '',
+  employeeId: '',
+  shopFloorId: '',
 };
 
 export default function WorkCenterViewForm({
@@ -32,8 +32,8 @@ export default function WorkCenterViewForm({
 }) {
   const [isDisabled, setDisabled] = useState(true);
 
-  const [singleData, setSingleData] = useState("");
-  const [singleRowData, setSingleRowData] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [singleRowData, setSingleRowData] = useState('');
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -52,7 +52,6 @@ export default function WorkCenterViewForm({
       setSingleData,
       setSingleRowData
     );
-
   }, [getWorkCenterById]);
 
   const disableHandler = (cond) => {

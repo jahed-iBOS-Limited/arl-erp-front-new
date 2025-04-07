@@ -1,29 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 const initData = {
   date: _todayDate(),
-  keyReceiverName: "",
-  designation: "",
-  keyLocation: "",
-  keyQuantity: "",
-  keyProvideTime: "",
-  keyReceiveTime: "",
-  keyProviderName: "",
-  keyProviderNameForEdit: "",
-  keyReceiverNameForEdit: "",
+  keyReceiverName: '',
+  designation: '',
+  keyLocation: '',
+  keyQuantity: '',
+  keyProvideTime: '',
+  keyReceiveTime: '',
+  keyProviderName: '',
+  keyProviderNameForEdit: '',
+  keyReceiverNameForEdit: '',
 };
 export default function KeyRegisterCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -49,7 +49,6 @@ export default function KeyRegisterCreateEdit() {
     getKeyProviderDDL(
       `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   useEffect(() => {
@@ -72,8 +71,14 @@ export default function KeyRegisterCreateEdit() {
           value: location?.state?.intKeyProviderEnroll,
           label: location?.state?.strKeyProviderName,
         },
-        keyProviderNameForEdit: location?.state?.strKeyReceivedFrom || "",
-        keyReceiverNameForEdit: (location?.state?.intKeyReceivedBy && location?.state?.strKeyReceivedBy) ? { value: location?.state?.intKeyReceivedBy, label: location?.state?.strKeyReceivedBy } : "",
+        keyProviderNameForEdit: location?.state?.strKeyReceivedFrom || '',
+        keyReceiverNameForEdit:
+          location?.state?.intKeyReceivedBy && location?.state?.strKeyReceivedBy
+            ? {
+                value: location?.state?.intKeyReceivedBy,
+                label: location?.state?.strKeyReceivedBy,
+              }
+            : '',
       });
     }
   }, [id, location]);
@@ -96,15 +101,15 @@ export default function KeyRegisterCreateEdit() {
         tmKeyReceiveTime: values?.keyReceiveTime,
         intKeyProviderEnroll: values?.keyProviderName?.value,
         strKeyProviderName: values?.keyProviderName?.label,
-        strRemarks: "",
+        strRemarks: '',
         intActionBy: profileData?.userId,
         dteInsertDate: _todayDate(),
         isActive: true,
-        strKeyReceivedFrom: values?.keyProviderNameForEdit || "",
+        strKeyReceivedFrom: values?.keyProviderNameForEdit || '',
         intKeyReceivedBy: values?.keyReceiverNameForEdit?.value || 0,
-        strKeyReceivedBy: values?.keyReceiverNameForEdit?.label || "",
+        strKeyReceivedBy: values?.keyReceiverNameForEdit?.label || '',
       },
-      id ? "" : cb,
+      id ? '' : cb,
       true
     );
   };
@@ -163,8 +168,11 @@ export default function KeyRegisterCreateEdit() {
                         selectedValue={values?.keyReceiverName}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("keyReceiverName", valueOption);
-                          setFieldValue("designation", valueOption?.employeeInfoDesignation || "");
+                          setFieldValue('keyReceiverName', valueOption);
+                          setFieldValue(
+                            'designation',
+                            valueOption?.employeeInfoDesignation || ''
+                          );
                         }}
                         loadOptions={loadKeyReceiverName}
                         isDisabled={id}
@@ -186,7 +194,7 @@ export default function KeyRegisterCreateEdit() {
                         value={values?.keyLocation}
                         label="চাবির স্থান"
                         onChange={(valueOption) => {
-                          setFieldValue("keyLocation", valueOption);
+                          setFieldValue('keyLocation', valueOption);
                         }}
                         isDisabled={id}
                       />
@@ -200,7 +208,7 @@ export default function KeyRegisterCreateEdit() {
                         type="number"
                         onChange={(e) => {
                           if (+e.target.value < 0) return;
-                          setFieldValue("keyQuantity", e.target.value);
+                          setFieldValue('keyQuantity', e.target.value);
                         }}
                       />
                     </div>
@@ -227,44 +235,50 @@ export default function KeyRegisterCreateEdit() {
                         value={values?.keyProviderName}
                         label="চাবি প্রদানকারীর নাম"
                         onChange={(valueOption) => {
-                          setFieldValue("keyProviderName", valueOption);
+                          setFieldValue('keyProviderName', valueOption);
                         }}
                         isDisabled={id}
                       />
                     </div>
-                    {id ? <div className="col-lg-3">
-                      <InputField
-                        value={values?.keyProviderNameForEdit}
-                        label="চাবি প্রদানকারীর নাম (User)"
-                        name="keyProviderNameForEdit"
-                        type="text"
-                      />
-                    </div> : null}
-                    {id ? <div className="col-lg-3">
-                      <NewSelect
-                        name="keyReceiverNameForEdit"
-                        options={keyProviderDDL || []}
-                        value={values?.keyReceiverNameForEdit}
-                        label="চাবি গ্রহনকারীর নাম (Security)"
-                        onChange={(valueOption) => {
-                          setFieldValue("keyReceiverNameForEdit", valueOption);
-                        }}
-                      />
-                    </div>
-                      : null}
+                    {id ? (
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.keyProviderNameForEdit}
+                          label="চাবি প্রদানকারীর নাম (User)"
+                          name="keyProviderNameForEdit"
+                          type="text"
+                        />
+                      </div>
+                    ) : null}
+                    {id ? (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="keyReceiverNameForEdit"
+                          options={keyProviderDDL || []}
+                          value={values?.keyReceiverNameForEdit}
+                          label="চাবি গ্রহনকারীর নাম (Security)"
+                          onChange={(valueOption) => {
+                            setFieldValue(
+                              'keyReceiverNameForEdit',
+                              valueOption
+                            );
+                          }}
+                        />
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

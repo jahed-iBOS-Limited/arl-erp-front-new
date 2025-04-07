@@ -1,13 +1,13 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { PartnerTable } from "./partnerTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { PartnerTable } from './partnerTableCard';
 
 export function PartnerLandingCard() {
   let history = useHistory();
@@ -20,7 +20,7 @@ export function PartnerLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/partner-management/partner-basic-info/add")
+              history.push('/config/partner-management/partner-basic-info/add')
             }
           >
             Create New

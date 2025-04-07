@@ -1,70 +1,69 @@
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getDistributionChannelDDL_api } from "../../../../salesManagement/report/customerSalesTargetReport/helper";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getDistributionChannelDDL_api } from '../../../../salesManagement/report/customerSalesTargetReport/helper';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   CastingScheduleEntryEditAPI,
   CastingScheduleEntrySaveAPI,
   getCastingEntryById,
   getSalesOrgList,
   getShipPointist,
-} from "../helper";
-import Form from "./form";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import moment from "moment";
+} from '../helper';
+import Form from './form';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import moment from 'moment';
 
 const date = new Date();
 
 const initData = {
-  dteInformationDate: moment(date).format("YYYY-MM-DD HH:mm"),
-  dteCastingDate: "", // Date & Time,
+  dteInformationDate: moment(date).format('YYYY-MM-DD HH:mm'),
+  dteCastingDate: '', // Date & Time,
   dteDemandDate: _todayDate(),
-  customer: "", // DDL
-  strAddress: "",
-  strContactPerson: "",
-  workType: "", // DDL
-  strRemarks: "",
-  salesOrg: "", // DDL for item
-  shipPoint: "", // DDL
-  item: "", // DDL
+  customer: '', // DDL
+  strAddress: '',
+  strContactPerson: '',
+  workType: '', // DDL
+  strRemarks: '',
+  salesOrg: '', // DDL for item
+  shipPoint: '', // DDL
+  item: '', // DDL
   numQuantity: 0,
-  strShift: { value: 1, label: "Day" },  // DDL
+  strShift: { value: 1, label: 'Day' }, // DDL
   intNumberOfPump: 0,
   intPipeFeet: 0,
   intLargeTyre: 0,
   intSmallTyre: 0,
   intBagCementUse: 0,
-  castingProcedure: "", // DDL, search ddl
-  buetTestReportDay: "",
-  waterproof: "",
-  phone:"",
-  nonPump:"",
+  castingProcedure: '', // DDL, search ddl
+  buetTestReportDay: '',
+  waterproof: '',
+  phone: '',
+  nonPump: '',
 };
 
 const validationSchema = Yup.object().shape({
-  dteCastingDate: Yup.string().required("Field is required"),
+  dteCastingDate: Yup.string().required('Field is required'),
   customer: Yup.object().shape({
-    value: Yup.string().required("Customer is required"),
-    label: Yup.string().required("Customer is required"),
+    value: Yup.string().required('Customer is required'),
+    label: Yup.string().required('Customer is required'),
   }),
-  strAddress: Yup.string().required("Field is required"),
-  strContactPerson: Yup.string().required("Field is required"),
+  strAddress: Yup.string().required('Field is required'),
+  strContactPerson: Yup.string().required('Field is required'),
   workType: Yup.object().shape({
-    value: Yup.string().required("Work Type is required"),
-    label: Yup.string().required("Work Type is required"),
+    value: Yup.string().required('Work Type is required'),
+    label: Yup.string().required('Work Type is required'),
   }),
   castingProcedure: Yup.object().shape({
-    value: Yup.string().required("Field is required"),
-    label: Yup.string().required("Field is required"),
+    value: Yup.string().required('Field is required'),
+    label: Yup.string().required('Field is required'),
   }),
   shipPoint: Yup.object().shape({
-    value: Yup.string().required("Field is required"),
-    label: Yup.string().required("Field is required"),
+    value: Yup.string().required('Field is required'),
+    label: Yup.string().required('Field is required'),
   }),
 });
 
@@ -110,7 +109,7 @@ export default function CastingScheduleForm() {
   }, [params?.id]);
 
   const saveHandler = async (values) => {
-    if (rowData?.length <= 0) return toast.warn("Please add atleast one item");
+    if (rowData?.length <= 0) return toast.warn('Please add atleast one item');
 
     const payload = {
       header: {
@@ -132,29 +131,29 @@ export default function CastingScheduleForm() {
         numItemSalesRate: 1,
         intUnitId: selectedBusinessUnit?.value,
         intRequistionBy: profileData?.userId,
-        intTargetYear: +values?.dteDemandDate?.split("-")[0],
-        intTargetMonth: +values?.dteDemandDate?.split("-")[1],
+        intTargetYear: +values?.dteDemandDate?.split('-')[0],
+        intTargetMonth: +values?.dteDemandDate?.split('-')[1],
         intEntryTypeId: 3,
-        strEntryTypeName: "Casting Plan",
+        strEntryTypeName: 'Casting Plan',
         intl7Id: 0,
-        strNl7: "",
+        strNl7: '',
         intL6id: 0,
-        strNl6: "",
+        strNl6: '',
         intL5id: 0,
-        strNl5: "",
-        intDayId: +values?.dteDemandDate?.split("-")[2],
-        intYearId: +values?.dteDemandDate?.split("-")[0],
-        intMonthId: +values?.dteDemandDate?.split("-")[1],
+        strNl5: '',
+        intDayId: +values?.dteDemandDate?.split('-')[2],
+        intYearId: +values?.dteDemandDate?.split('-')[0],
+        intMonthId: +values?.dteDemandDate?.split('-')[1],
 
         intShippingPointID: values?.shipPoint?.value,
         strShippingPointName: values?.shipPoint?.label,
         intCastingProcedureBy: values?.castingProcedure?.value,
         strCastingProcedureBy: values?.castingProcedure?.label,
         intStatus: 0,
-        strStatus: "pending",
+        strStatus: 'pending',
         intTestReportDayId: values?.buetTestReportDay?.value,
         strTestReportDay: values?.buetTestReportDay?.label,
-        strConcernPhone: values?.phone || "",
+        strConcernPhone: values?.phone || '',
       },
       row: rowData,
     };
@@ -178,10 +177,10 @@ export default function CastingScheduleForm() {
   return (
     <IForm
       isHiddenReset={true}
-      title={"Casting Schedule Entry"}
+      title={'Casting Schedule Entry'}
       getProps={setObjProps}
-      isDisabled={isDisabled || params?.type === "view"}
-      isHiddenSave={params?.type === "view"}
+      isDisabled={isDisabled || params?.type === 'view'}
+      isHiddenSave={params?.type === 'view'}
     >
       {isDisabled && <Loading />}
       <Form

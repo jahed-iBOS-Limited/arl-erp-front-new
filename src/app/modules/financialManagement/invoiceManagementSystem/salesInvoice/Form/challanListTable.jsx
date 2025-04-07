@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import DeliveryReport from "./deliveryReport/table";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import DeliveryReport from './deliveryReport/table';
 
 export const ChallanListTable = ({ obj }) => {
   const { challanList } = obj;
@@ -13,7 +13,7 @@ export const ChallanListTable = ({ obj }) => {
         <table className="global-table table">
           <thead>
             <tr>
-              <th style={{ width: "30px" }}>SL</th>
+              <th style={{ width: '30px' }}>SL</th>
               <th>Challan No</th>
               <th>Challan Date</th>
               <th>Ship To Party</th>
@@ -35,9 +35,9 @@ export const ChallanListTable = ({ obj }) => {
                   <td className="ml-2">
                     <span
                       style={{
-                        borderBottom: "1px solid blue",
-                        cursor: "pointer",
-                        color: "blue",
+                        borderBottom: '1px solid blue',
+                        cursor: 'pointer',
+                        color: 'blue',
                       }}
                       onClick={(e) => {
                         e.stopPropagation();

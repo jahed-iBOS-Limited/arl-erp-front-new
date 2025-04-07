@@ -1,11 +1,11 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export const rowDataAddHandler = (rowData, setRowData, values) => {
   const filterDuplicate = rowData?.some(
     (item) => item?.intItemId === values?.item?.value
   );
 
-  if (filterDuplicate) return toast.warn("Duplicate data not allowed");
+  if (filterDuplicate) return toast.warn('Duplicate data not allowed');
 
   const payload = {
     intRowId: 0, // RowId
@@ -21,7 +21,7 @@ export const rowDataAddHandler = (rowData, setRowData, values) => {
     intSmallTyre: values?.intSmallTyre || 0,
     intBagCementUse: values?.intBagCementUse,
     isWaterProof: values?.waterproof?.value === 1,
-    intNumberOfNonePump:values?.nonPump || 0,
+    intNumberOfNonePump: values?.nonPump || 0,
   };
 
   const copy = [...rowData];

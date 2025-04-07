@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getMonthDDL = async (setter) => {
   try {
@@ -48,14 +48,14 @@ export const getSalesCalender = async (
             calendarStatusDDL: calendarStatusList,
             calendarStatus: itm?.statusName
               ? { value: itm.satusId, label: itm.statusName }
-              : calendarStatusList[0] || "",
+              : calendarStatusList[0] || '',
           };
         });
         setter(newData);
-        setFieldValue && setFieldValue("itemLists", newData);
+        setFieldValue && setFieldValue('itemLists', newData);
       } else {
         setter([]);
-        setFieldValue && setFieldValue("itemLists", []);
+        setFieldValue && setFieldValue('itemLists', []);
       }
     }
   } catch (err) {
@@ -71,13 +71,13 @@ export const createOrUpdateSalesCalender = async (payload, cb, setDisabled) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
     // toast.error(error?.response?.data?.title);
-    toast.error("Please every fillup the calendar status feild");
+    toast.error('Please every fillup the calendar status feild');
     setDisabled(false);
   }
 };

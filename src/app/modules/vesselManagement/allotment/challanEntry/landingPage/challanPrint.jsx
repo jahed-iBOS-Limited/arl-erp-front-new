@@ -18,7 +18,7 @@ const ChallanPrint = ({ challanInfo }) => {
 
   const totalWeight = challanInfo?.objectRowList?.reduce(
     (a, b) => (a += b?.quantityTon),
-    0,
+    0
   );
 
   return (

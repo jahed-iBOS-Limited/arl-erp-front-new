@@ -1,26 +1,25 @@
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-
-import ICard from "../../../../_helper/_card";
-import { getReportAction, setReportEmpty } from "../_redux/Actions";
+import ICard from '../../../../_helper/_card';
+import { getReportAction, setReportEmpty } from '../_redux/Actions';
 import {
   getEmployeeBasicInfoByIdAction,
   getUnFavDepSbuDDLAction,
   getYearDDLAction,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import { getDepartmentDDLAction } from "../../balancedScore/_redux/Actions";
-import Help from "./../../../help/Help";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import { getDepartmentDDLAction } from '../../balancedScore/_redux/Actions';
+import Help from './../../../help/Help';
 
 const initData = {
   id: undefined,
-  unpavorite: "",
-  year: "",
-  from: "",
-  to: "",
-  department: "",
+  unpavorite: '',
+  year: '',
+  from: '',
+  to: '',
+  department: '',
 };
 
 export default function KpiDashboardForm() {
@@ -60,7 +59,6 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -75,7 +73,6 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -92,21 +89,18 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, month, departmentDDL, selectedBusinessUnit]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, []);
 
   return (

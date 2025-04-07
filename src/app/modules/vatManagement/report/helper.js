@@ -1,28 +1,26 @@
-import Axios from 'axios'
-import { toast } from 'react-toastify'
-import shortid from "shortid";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
 export const GetVatItemPagination = async (accountId, buId, setter) => {
   try {
     const res = await Axios.get(
       `/vat/TaxItemGroup/GetTaxItemGroupPagination?accountId=${accountId}&businessUnitId=${buId}&PageNo=1&PageSize=20&viewOrder=desc`
-    )
+    );
     if (res.status === 200 && res?.data?.data) {
-      setter(res?.data?.data)
+      setter(res?.data?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const GetVatItemView = async (taxItemGroupId, setter) => {
   try {
     const res = await Axios.get(
       `/vat/TaxItemGroup/GetTaxItemGroupById?taxItemGroupId=${taxItemGroupId}
       `
-    )
+    );
     if (res.status === 200 && res?.data) {
-      const data = res?.data[0]
+      const data = res?.data[0];
       const newData = {
         ...data,
         taxItemTypeId: {
@@ -53,115 +51,99 @@ export const GetVatItemView = async (taxItemGroupId, setter) => {
           value: data.businessUnitId,
           label: data.businessUnitName,
         },
-      }
-      setter(newData)
+      };
+      setter(newData);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 export const getItemTypeListDDL_api = async (setter) => {
   try {
     const res = await Axios.get(
       `/item/ItemCategory/GetItemTypeListDDL
       `
-    )
+    );
     if (res.status === 200 && res?.data) {
-      const data = res?.data
+      const data = res?.data;
       const newData = data.map((item) => {
         return {
           value: item.itemTypeId,
           label: item.itemTypeName,
-        }
-      })
-      setter(newData)
+        };
+      });
+      setter(newData);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const saveVatItem = async (data, cb) => {
   try {
-    const res = await Axios.post(`/vat/TaxItemGroup/CreateTaxItemGroup`, data)
+    const res = await Axios.post(`/vat/TaxItemGroup/CreateTaxItemGroup`, data);
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
-      cb()
+      cb();
     }
   } catch (error) {
-    
-    toast.error(error?.response?.data?.message)
+    toast.error(error?.response?.data?.message);
   }
-}
+};
 
 export const saveEditedVatItem = async (data, cb) => {
   try {
-    const res = await Axios.put(`/vat/TaxItemGroup/EditTaxItemGroup`, data)
+    const res = await Axios.put(`/vat/TaxItemGroup/EditTaxItemGroup`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || 'Edited successfully')
-      cb()
+      toast.success(res.data?.message || 'Edited successfully');
+      cb();
     }
   } catch (error) {
-    
-    toast.error(error?.response?.data?.message)
+    toast.error(error?.response?.data?.message);
   }
-}
+};
 
 export const getItemCategoryDDL_api = async (setter) => {
   try {
-    const res = await Axios.get(`/item/ItemCategoryGL/ItemCategoryDDL`)
+    const res = await Axios.get(`/item/ItemCategoryGL/ItemCategoryDDL`);
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const getSupplyTypeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get(`/vat/TaxDDL/SupplyTypeDDL`)
+    const res = await Axios.get(`/vat/TaxDDL/SupplyTypeDDL`);
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const getHSCodeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get(`/vat/TaxDDL/HSCodeDDL`)
+    const res = await Axios.get(`/vat/TaxDDL/HSCodeDDL`);
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const getTaxItemTypeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`)
+    const res = await Axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const getItemUOMDDL_api = async (accountId, buId, setter) => {
   try {
     const res = await Axios.get(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
-    )
+    );
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};

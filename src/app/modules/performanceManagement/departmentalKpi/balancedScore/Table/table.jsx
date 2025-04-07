@@ -1,20 +1,19 @@
-
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import { useState } from "react";
-import { getDepartmentDDLAction } from "../_redux/Actions";
-import customStyles from "../../../../selectCustomStyle";
-import { getReportAction, getYearDDLAction } from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import { useState } from 'react';
+import { getDepartmentDDLAction } from '../_redux/Actions';
+import customStyles from '../../../../selectCustomStyle';
+import { getReportAction, getYearDDLAction } from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import { useHistory } from 'react-router-dom';
 // import IViewModal from "../../../../_helper/_viewModal";
 // import ReportView from "../../../sbuKpi/reportView/ReportView";
-import Help from "./../../../help/Help";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard";
-import { SetDepartmentalBalancedScoreData } from "../../../../_helper/reduxForLocalStorage/Actions";
+import Help from './../../../help/Help';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard';
+import { SetDepartmentalBalancedScoreData } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export default function BalancedTable() {
   let storeData = useSelector(
@@ -29,13 +28,8 @@ export default function BalancedTable() {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    monthDDL,
-    departmentDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, yearDDL, monthDDL, departmentDDL } =
+    storeData;
 
   const [department, setDepartment] = useState({
     value: profileData?.departmentId,
@@ -64,9 +58,9 @@ export default function BalancedTable() {
 
   const dispatch = useDispatch();
 
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
   const history = useHistory();
   // const [isShowModal, setIsShowModal] = useState(false);
   // const [currentItem, setCurrentItem] = useState("");
@@ -139,7 +133,7 @@ export default function BalancedTable() {
         clickHandler={() =>
           history.push({
             pathname:
-              "/performance-management/departmental-kpi/scorecard/print",
+              '/performance-management/departmental-kpi/scorecard/print',
             state: { department, year, from, to, selectedBusinessUnit },
           })
         }
@@ -318,23 +312,25 @@ export default function BalancedTable() {
             actionHandler={(item) => {
               // setCurrentItem({ item, index: item?.flatIndex });
               // setIsShowModal(true);
-              dispatch(SetDepartmentalBalancedScoreData({
-                departmentName:department?.label,
-                newData: reports,
-                report:item,
-                currentItem: {
-                  item,
-                  index: item?.flatIndex,
-                },
-                heading: "DEPARTMENTAL BALANCED SCORECARD",
-                from: from,
-                to: to,
-                year,
-                reportIndex:item?.flatIndex
-              }))
+              dispatch(
+                SetDepartmentalBalancedScoreData({
+                  departmentName: department?.label,
+                  newData: reports,
+                  report: item,
+                  currentItem: {
+                    item,
+                    index: item?.flatIndex,
+                  },
+                  heading: 'DEPARTMENTAL BALANCED SCORECARD',
+                  from: from,
+                  to: to,
+                  year,
+                  reportIndex: item?.flatIndex,
+                })
+              );
               window.open(
                 `${import.meta.PUBLIC_URL}/departmental-balanced-scorecard`,
-                "_blank"
+                '_blank'
               );
             }}
           />

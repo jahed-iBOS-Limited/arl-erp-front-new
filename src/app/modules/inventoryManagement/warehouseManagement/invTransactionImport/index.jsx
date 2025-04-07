@@ -1,7 +1,7 @@
-import React from "react";
-import { ITableTwo } from "../../../_helper/_tableTwo";
-import HeaderForm from "./Landing/form";
-import "./index.css";
+import React from 'react';
+import { ITableTwo } from '../../../_helper/_tableTwo';
+import HeaderForm from './Landing/form';
+import './index.css';
 
 export default function InvTransactionImport() {
   return (

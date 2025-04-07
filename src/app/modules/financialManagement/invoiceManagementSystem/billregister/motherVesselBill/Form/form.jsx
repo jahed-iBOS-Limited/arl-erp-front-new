@@ -79,7 +79,7 @@ export default function FormCmp({
                             setFieldValue('port', e);
                             setFieldValue('motherVessel', '');
                             getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}&businessUnitId=${buId}`,
+                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}&businessUnitId=${buId}`
                             );
                           }
                         }}
@@ -112,7 +112,7 @@ export default function FormCmp({
                           return Axios.get(
                             `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${
                               headerData?.sbu?.value || 0
-                            }`,
+                            }`
                           ).then((res) => {
                             const updateList = res?.data.map((item) => ({
                               ...item,
@@ -195,8 +195,8 @@ export default function FormCmp({
                               clickHandler={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.attachmentId,
-                                  ),
+                                    values?.attachmentId
+                                  )
                                 );
                               }}
                             />
@@ -246,9 +246,9 @@ export default function FormCmp({
                       (a, b) =>
                         Number(a) +
                         (b?.isSelected ? Number(b?.decProgramQnt || 0) : 0),
-                      0,
+                      0
                     ),
-                    true,
+                    true
                   )}
                 </p>
                 <p>
@@ -258,9 +258,9 @@ export default function FormCmp({
                       (a, b) =>
                         Number(a) +
                         (b?.isSelected ? Number(b?.numBillAmount || 0) : 0),
-                      0,
+                      0
                     ),
-                    true,
+                    true
                   )}
                 </p>
               </div>
@@ -283,7 +283,7 @@ export default function FormCmp({
                                   ...item,
                                   isSelected: e?.target?.checked,
                                 };
-                              }),
+                              })
                             );
                           }}
                         />
@@ -356,7 +356,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

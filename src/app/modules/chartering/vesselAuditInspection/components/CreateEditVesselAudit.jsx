@@ -44,8 +44,8 @@ export default function CreateEditVesselAudit() {
                   item?.strStatus === 'pending'
                     ? 'Pending'
                     : item?.strStatus === 'open'
-                    ? 'Open'
-                    : 'Close',
+                      ? 'Open'
+                      : 'Close',
               },
               dueDate: item?.dteDueDateTime,
               description: item?.strDescription,
@@ -53,10 +53,9 @@ export default function CreateEditVesselAudit() {
             };
           });
           setRowDto(modifyData);
-        },
+        }
       );
     }
-
   }, []);
   /* Save Handler */
   const saveHandler = (payload) => {
@@ -66,7 +65,7 @@ export default function CreateEditVesselAudit() {
       `/hcm/VesselAuditInspection/CreateAndEditVesselAuditInspection`,
       payload,
       () => {},
-      true,
+      true
     );
   };
 
@@ -78,8 +77,8 @@ export default function CreateEditVesselAudit() {
           type === 'view'
             ? 'View Vessel Audit Inspection'
             : type === 'edit'
-            ? 'Edit Vessel Audit Inspection'
-            : 'Create Vessel Audit Inspection'
+              ? 'Edit Vessel Audit Inspection'
+              : 'Create Vessel Audit Inspection'
         }
         initData={
           id

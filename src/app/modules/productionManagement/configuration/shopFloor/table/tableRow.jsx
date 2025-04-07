@@ -1,27 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomTable from "../../../../_helper/_customTable";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../../_helper/_select";
-import { getPlantNameDDl, landingGridData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomTable from '../../../../_helper/_customTable';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import NewSelect from '../../../../_helper/_select';
+import { getPlantNameDDl, landingGridData } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls/Card";
+} from '../../../../../../_metronic/_partials/controls/Card';
 
 const tableHeader = [
-  "SL",
-  "Shop Floor Name",
-  "Shop Floor Code",
-  "Warehouse Name",
-  "Location",
-  "Action",
+  'SL',
+  'Shop Floor Name',
+  'Shop Floor Code',
+  'Warehouse Name',
+  'Location',
+  'Action',
 ];
 
 export default function TableRow() {
@@ -86,7 +85,7 @@ export default function TableRow() {
   return (
     <>
       <Card>
-        <CardHeader title={"Shop Floor Basic Information"}>
+        <CardHeader title={'Shop Floor Basic Information'}>
           <CardHeaderToolbar>
             <button
               type="button"
@@ -94,7 +93,7 @@ export default function TableRow() {
               onClick={() =>
                 history.push({
                   pathname:
-                    "/production-management/configuration/shopfloor/create",
+                    '/production-management/configuration/shopfloor/create',
                   state: selectedDDLItem,
                 })
               }
@@ -126,8 +125,8 @@ export default function TableRow() {
                   }
                 }}
                 value={selectedDDLItem}
-                errors={"errors"}
-                touched={"touched"}
+                errors={'errors'}
+                touched={'touched'}
               />
             </div>
 

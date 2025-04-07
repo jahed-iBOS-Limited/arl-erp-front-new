@@ -38,10 +38,9 @@ export function TableRow() {
         setGridData,
         setLoading,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // setPositionHandler
@@ -52,7 +51,7 @@ export function TableRow() {
       setGridData,
       setLoading,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
   return (
@@ -113,7 +112,7 @@ export function TableRow() {
                           className="edit"
                           onClick={() => {
                             history.push(
-                              `/rtm-management/primarySale/primaryDeliveryReceive/edit/${item?.inventoryTransactionId}`,
+                              `/rtm-management/primarySale/primaryDeliveryReceive/edit/${item?.inventoryTransactionId}`
                             );
                           }}
                         >

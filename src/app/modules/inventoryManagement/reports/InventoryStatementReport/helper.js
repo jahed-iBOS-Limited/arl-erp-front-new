@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 //businessUnitPlant_api Api call
 export const businessUnitPlant_api = async (
@@ -18,7 +18,7 @@ export const businessUnitPlant_api = async (
         const updatedData = [
           {
             value: 0,
-            label: "All",
+            label: 'All',
           },
           ...res?.data,
         ];
@@ -27,7 +27,7 @@ export const businessUnitPlant_api = async (
         setter(res?.data);
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //Wearhouse_api Api call
 export const wearhouse_api = async (
@@ -47,7 +47,7 @@ export const wearhouse_api = async (
         const updatedData = [
           {
             value: 0,
-            label: "All",
+            label: 'All',
           },
           ...res?.data,
         ];
@@ -56,7 +56,7 @@ export const wearhouse_api = async (
         setter(res?.data);
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //InventoryStatement_api Api call
@@ -78,11 +78,11 @@ export const inventoryStatement_api = async ({
   search,
   avgDays,
 }) => {
-  const searchPath = search ? `&Search=${search}` : "";
-  const searchForInvNew = search ? `&search=${search}` : "";
-  const typeIdQuery = itemtypeId ? `&itemTypeId=${itemtypeId}` : "";
-  const categoryIdQuery = itemcatId ? `&categoryId=${itemcatId}` : "";
-  const itemSubIdQuery = itemSubId ? `&subCategoryId=${itemSubId}` : "";
+  const searchPath = search ? `&Search=${search}` : '';
+  const searchForInvNew = search ? `&search=${search}` : '';
+  const typeIdQuery = itemtypeId ? `&itemTypeId=${itemtypeId}` : '';
+  const categoryIdQuery = itemcatId ? `&categoryId=${itemcatId}` : '';
+  const itemSubIdQuery = itemSubId ? `&subCategoryId=${itemSubId}` : '';
   setLoading(true);
 
   let api;
@@ -157,7 +157,9 @@ export const InventoryLedger_api_new = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-      type === 6 ? `/wms/InventoryTransaction/GetInventoryLedgerV2?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}` : `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
+      type === 6
+        ? `/wms/InventoryTransaction/GetInventoryLedgerV2?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
+        : `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -167,4 +169,3 @@ export const InventoryLedger_api_new = async (
     setLoading(false);
   }
 };
-

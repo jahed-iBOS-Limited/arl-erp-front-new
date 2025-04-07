@@ -1,44 +1,39 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getSingleDataById } from './helper';
 
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import {
-  getSingleDataById
-} from "./helper";
-
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../../_helper/_loading";
-import ICustomCard from "../../../../../_helper/_customCard";
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../../_helper/_loading';
+import ICustomCard from '../../../../../_helper/_customCard';
 
 const initData = {
-  copyfrombomname: "",
-  plant: "",
-  shopFloor: "",
-  bomName: "",
-  bomVersion: "",
-  bomCode: "",
-  product: "",
-  lotSize: "",
-  netWeight: "",
-  wastage: "",
-  material: "",
-  quantity: "",
-  uom: "",
+  copyfrombomname: '',
+  plant: '',
+  shopFloor: '',
+  bomName: '',
+  bomVersion: '',
+  bomCode: '',
+  product: '',
+  lotSize: '',
+  netWeight: '',
+  wastage: '',
+  material: '',
+  quantity: '',
+  uom: '',
   isStandardBoM: false,
-  itemCode: "",
-  UOM: "",
-  costElement: "",
-  costElementAmount: "",
+  itemCode: '',
+  UOM: '',
+  costElement: '',
+  costElementAmount: '',
 };
 
-export default function BillofMaretialViewApproval({id}) {
+export default function BillofMaretialViewApproval({ id }) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   // const params = useParams();
@@ -50,7 +45,6 @@ export default function BillofMaretialViewApproval({id}) {
   const [copyfrombomname] = useState([]);
   const [UOMDDL, setUOMDDL] = useState([]);
   const history = useHistory();
-
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
@@ -80,21 +74,21 @@ export default function BillofMaretialViewApproval({id}) {
   // Row Data Setter
   const setter = (payload, type) => {
     // Set Material Row Data
-    if (type === "M") {
+    if (type === 'M') {
       const foundData = rowDto?.some(
         (item) => item?.material?.value === payload?.material?.value
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setRowDto([...rowDto, payload]);
     }
     // Set Cost Element Row Data
-    else if (type === "C") {
+    else if (type === 'C') {
       const foundData = costElementRowData?.some(
         (item) => item?.costElementId === payload?.costElementId
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setCostElementRowData([...costElementRowData, payload]);
     }
   };
@@ -119,7 +113,7 @@ export default function BillofMaretialViewApproval({id}) {
 
   return (
     <ICustomCard
-      title={"View of Bill of Material"}
+      title={'View of Bill of Material'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

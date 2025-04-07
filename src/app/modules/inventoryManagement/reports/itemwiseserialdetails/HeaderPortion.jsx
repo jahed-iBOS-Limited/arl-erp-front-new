@@ -1,10 +1,10 @@
-import React from "react";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { usedDDL } from "./constants";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../_helper/_formikError";
-import axios from "axios";
+import React from 'react';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { usedDDL } from './constants';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../_helper/_formikError';
+import axios from 'axios';
 
 const HeaderPortion = ({
   values,
@@ -26,7 +26,7 @@ const HeaderPortion = ({
           placeholder="From Date"
           type="date"
           onChange={(e) => {
-            setFieldValue("fromDate", e?.target?.value);
+            setFieldValue('fromDate', e?.target?.value);
           }}
         />
       </div>
@@ -38,7 +38,7 @@ const HeaderPortion = ({
           placeholder="To Date"
           type="date"
           onChange={(e) => {
-            setFieldValue("toDate", e?.target?.value);
+            setFieldValue('toDate', e?.target?.value);
           }}
         />
       </div>
@@ -50,7 +50,7 @@ const HeaderPortion = ({
           options={usedDDL}
           value={values?.usingStatus}
           onChange={(valueOption) => {
-            setFieldValue("usingStatus", valueOption);
+            setFieldValue('usingStatus', valueOption);
           }}
         />
       </div>
@@ -59,7 +59,7 @@ const HeaderPortion = ({
         <SearchAsyncSelect
           selectedValue={values?.item}
           handleChange={(valueOption) => {
-            setFieldValue("item", valueOption);
+            setFieldValue('item', valueOption);
           }}
           loadOptions={(v) => {
             if (v?.length < 3) return [];
@@ -80,11 +80,11 @@ const HeaderPortion = ({
           placeholder="Serial Number"
           type="text"
           onChange={(e) => {
-            setFieldValue("serialNumber", e?.target?.value);
+            setFieldValue('serialNumber', e?.target?.value);
           }}
         />
       </div>
-      <div className="col-lg-2 " style={{ marginTop: "20px" }}>
+      <div className="col-lg-2 " style={{ marginTop: '20px' }}>
         <button
           className="btn btn-primary mr-2"
           type="button"

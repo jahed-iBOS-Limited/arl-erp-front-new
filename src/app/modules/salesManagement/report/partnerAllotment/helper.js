@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetPartnerAllotmentLanding = async (
   accId,
@@ -22,7 +22,6 @@ export const GetPartnerAllotmentLanding = async (
     setLoading(false);
   }
 };
-
 
 export const GetSecondaryDeliveryLanding_api = async (
   accId,

@@ -1,20 +1,19 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
 const initData = {
-  dteDate: "",
-  shift: "",
-  remarks: "",
+  dteDate: '',
+  shift: '',
+  remarks: '',
 };
 export default function MoustureCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -36,13 +35,13 @@ export default function MoustureCreateEdit() {
   const [tableData, setTableData] = useState([]);
   const saveHandler = (values, cb) => {
     if (!values?.dteDate) {
-      return toast.warn("Date is required");
+      return toast.warn('Date is required');
     }
     if (!values?.shift) {
-      return toast.warn("Shift is required");
+      return toast.warn('Shift is required');
     }
     if (!tableData?.length) {
-      return toast.warn("Item is required");
+      return toast.warn('Item is required');
     }
     const modiFiedRowData = tableData?.map((itm) => {
       return {
@@ -82,10 +81,10 @@ export default function MoustureCreateEdit() {
           const updatedData = data?.data?.map((itm) => {
             return {
               ...itm,
-              createdAt: "",
-              createdby: "",
-              qcParameterName: "",
-              qcTestType: "MoistureTest",
+              createdAt: '',
+              createdby: '',
+              qcParameterName: '',
+              qcTestType: 'MoistureTest',
             };
           });
           setTableData(updatedData);
@@ -100,7 +99,6 @@ export default function MoustureCreateEdit() {
         remarks: location?.state?.comments,
       });
     }
-
   }, []);
 
   return (
@@ -125,7 +123,7 @@ export default function MoustureCreateEdit() {
             <Loading />
           )}
           <IForm
-            title={id ? "Edit Moisture Test" : "Create Moisture Test"}
+            title={id ? 'Edit Moisture Test' : 'Create Moisture Test'}
             getProps={setObjprops}
           >
             <Form>
@@ -137,9 +135,9 @@ export default function MoustureCreateEdit() {
                     name="dteDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("dteDate", e.target.value);
-                      setFieldValue("shift", "");
-                      setFieldValue("remarks", "");
+                      setFieldValue('dteDate', e.target.value);
+                      setFieldValue('shift', '');
+                      setFieldValue('remarks', '');
                       setTableData([]);
                     }}
                     disabled={id ? true : false}
@@ -149,34 +147,34 @@ export default function MoustureCreateEdit() {
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: 1, label: "A" },
-                      { value: 2, label: "B" },
-                      { value: 3, label: "C" },
+                      { value: 1, label: 'A' },
+                      { value: 2, label: 'B' },
+                      { value: 3, label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shift", valueOption);
-                        setFieldValue("remarks", "");
+                        setFieldValue('shift', valueOption);
+                        setFieldValue('remarks', '');
                         getItemData(
                           `/hcm/QCTest/GetMoistureQCItemConfigData?Date=${values?.dteDate}&Shift=${valueOption?.label}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                           (data) => {
                             const updatedData = data?.data?.map((itm) => {
                               return {
                                 ...itm,
-                                createdAt: "",
-                                createdby: "",
-                                qcParameterName: "",
-                                qcTestType: "MoistureTest",
+                                createdAt: '',
+                                createdby: '',
+                                qcParameterName: '',
+                                qcTestType: 'MoistureTest',
                               };
                             });
                             setTableData(updatedData);
                           }
                         );
                       } else {
-                        setFieldValue("shift", "");
-                        setFieldValue("remarks", "");
+                        setFieldValue('shift', '');
+                        setFieldValue('remarks', '');
                         setTableData([]);
                       }
                     }}
@@ -192,7 +190,7 @@ export default function MoustureCreateEdit() {
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                     disabled={id ? true : false}
                   />
@@ -219,7 +217,7 @@ export default function MoustureCreateEdit() {
                             <td>{itm?.itemTypeName}</td>
                             <td>{itm?.itemName}</td>
                             <td>
-                              {itm?.itemTypeName === "Finished Products" ? (
+                              {itm?.itemTypeName === 'Finished Products' ? (
                                 <NewSelect
                                   options={machineDDL}
                                   value={{
@@ -236,7 +234,7 @@ export default function MoustureCreateEdit() {
                                     } else {
                                       const data = [...tableData];
                                       data[idx].machineId = 0;
-                                      data[idx].machineName = "";
+                                      data[idx].machineName = '';
                                       setTableData(data);
                                     }
                                   }}
@@ -268,13 +266,13 @@ export default function MoustureCreateEdit() {
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import { rowDtoDynamicHandler } from "../../../../procurement/purchase-management/purchaseOrder/utils";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import { validateDigit } from "../../../../_helper/validateDigit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import LastPriceDetails from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView/LastPriceDetails";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "./viewForm";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import { rowDtoDynamicHandler } from '../../../../procurement/purchase-management/purchaseOrder/utils';
+import customStyles from '../../../../selectCustomStyle';
+import { IInput } from '../../../../_helper/_input';
+import { validateDigit } from '../../../../_helper/validateDigit';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import LastPriceDetails from '../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView/LastPriceDetails';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from './viewForm';
 
 const RowDtoTable = ({
   isWithoutRef,
@@ -18,14 +18,14 @@ const RowDtoTable = ({
   values,
 }) => {
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData] = useState("");
+  const [currentRowData] = useState('');
   const [currentIndex] = useState(null);
   const [orderQtyCheck, setOrderQtyCheck] = useState(false);
 
   const setAllOrderQty = (orderQtyCheck) => {
     rowDto.forEach((item, index) => {
       rowDtoDynamicHandler(
-        "orderQty",
+        'orderQty',
         orderQtyCheck ? item?.restofQty : 0,
         index,
         rowDto,
@@ -39,7 +39,7 @@ const RowDtoTable = ({
     setAnchorEl(event.currentTarget);
   };
 
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
   return (
     <div>
@@ -52,16 +52,16 @@ const RowDtoTable = ({
                   <th>SL</th>
                   {isWithoutRef && <th>Ref No.</th>}
                   {/* <th style={{ width: "150px" }}>Code</th> */}
-                  <th style={{ width: "150px" }}>Item</th>
-                  <th style={{ width: "70px" }}>UoM</th>
-                  <th style={{ width: "150px" }}>Description</th>
+                  <th style={{ width: '150px' }}>Item</th>
+                  <th style={{ width: '70px' }}>UoM</th>
+                  <th style={{ width: '150px' }}>Description</th>
                   <th>Cost Element</th>
                   {isWithoutRef && <th>Ref Qty.</th>}
                   {isWithoutRef && <th>Rest Qty.</th>}
                   <th className="po_custom_width">
                     {isWithoutRef && (
                       <input
-                        style={{ transform: "translateY(3px)" }}
+                        style={{ transform: 'translateY(3px)' }}
                         type="checkbox"
                         defaultChecked={orderQtyCheck}
                         onChange={(e) => {
@@ -88,7 +88,7 @@ const RowDtoTable = ({
                     <td className="text-center align-middle"> {index + 1} </td>
                     {isWithoutRef && (
                       <td className="align-middle">
-                        {item?.referenceNo?.label || "NA"}
+                        {item?.referenceNo?.label || 'NA'}
                       </td>
                     )}
                     {/* <td className="text-center align-middle">
@@ -96,11 +96,11 @@ const RowDtoTable = ({
                     {item?.item?.code}{" "}
                   </td> */}
                     <td className="">{item?.item?.itemName}</td>
-                    <td style={{ width: "100px" }}>
+                    <td style={{ width: '100px' }}>
                       <Select
                         onChange={(valueOption) => {
                           rowDtoDynamicHandler(
-                            "selectedUom",
+                            'selectedUom',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -111,7 +111,7 @@ const RowDtoTable = ({
                           );
                         }}
                         defaultValue={
-                          item?.selectedUom || { value: "", label: "" }
+                          item?.selectedUom || { value: '', label: '' }
                         }
                         isSearchable={true}
                         styles={customStyles}
@@ -125,11 +125,11 @@ const RowDtoTable = ({
                       <IInput
                         value={rowDto[index]?.desc}
                         name="desc"
-                        style={{ fontSize: "10px" }}
+                        style={{ fontSize: '10px' }}
                         placeholder="Description"
                         onChange={(e) => {
                           rowDtoDynamicHandler(
-                            "desc",
+                            'desc',
                             e.target.value,
                             index,
                             rowDto,
@@ -152,7 +152,7 @@ const RowDtoTable = ({
                       <td
                         onClick={(e) =>
                           rowDtoDynamicHandler(
-                            "orderQty",
+                            'orderQty',
                             item?.restofQty || 0,
                             index,
                             rowDto,
@@ -161,13 +161,13 @@ const RowDtoTable = ({
                         }
                         className="text-center align-middle pointer"
                       >
-                        <span style={{ color: "blue" }}>
+                        <span style={{ color: 'blue' }}>
                           {item?.restofQty || 0}
                         </span>
                       </td>
                     )}
                     <td
-                      style={{ width: "90px" }}
+                      style={{ width: '90px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -183,11 +183,11 @@ const RowDtoTable = ({
 
                           if (validNum > item?.restofQty && item?.referenceNo) {
                             alert(`Maximum ${item?.restofQty}`);
-                            validNum = "";
+                            validNum = '';
                           }
 
                           rowDtoDynamicHandler(
-                            "orderQty",
+                            'orderQty',
                             validNum,
                             index,
                             rowDto,
@@ -197,7 +197,7 @@ const RowDtoTable = ({
                       />
                     </td>
                     <td
-                      style={{ width: "120px" }}
+                      style={{ width: '120px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -211,7 +211,7 @@ const RowDtoTable = ({
                           const validNum = validateDigit(e.target.value);
 
                           rowDtoDynamicHandler(
-                            "basicPrice",
+                            'basicPrice',
                             validNum,
                             index,
                             rowDto,
@@ -233,7 +233,7 @@ const RowDtoTable = ({
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                     >
                       <IInput
                         value={rowDto[index]?.vat}
@@ -245,7 +245,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           const validNum = validateDigit(e.target.value);
                           rowDtoDynamicHandler(
-                            "vat",
+                            'vat',
                             validNum,
                             index,
                             rowDto,
@@ -256,7 +256,7 @@ const RowDtoTable = ({
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                     >
                       <IInput
                         value={rowDto[index]?.userGivenVatAmount}
@@ -268,7 +268,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           const validNum = validateDigit(e.target.value);
                           rowDtoDynamicHandler(
-                            "userGivenVatAmount",
+                            'userGivenVatAmount',
                             validNum,
                             index,
                             rowDto,

@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { useCementInvoicePrintHandler } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/Form/formHandlerBluePill";
-import InvoiceReceptForCement from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/invoiceCement/invoiceRecept";
-import { deliverySlice } from "../_redux/Slice";
-import { getDeliveryChallanInfoById, getInvoiceDataForPrint } from "../utils";
-import ForeingSalesInvoicePrint from "../View/print/foreignSalesInvoice";
-import ChallanPrint from "../View/print/table";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import PaginationSearch from "./../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import IViewModal from "./../../../../_helper/_viewModal";
-import ChallanPrintModal from "./../../../../salesManagement/orderManagement/partnerAllotmentChallan/challanPrintModal/challanPrintModal";
-import PartnerAllotmentChallanForm from "./../../../../salesManagement/orderManagement/partnerAllotmentChallan/Form/addEditForm";
-import HologramPrintForAkijCommodities from "./hologramForCommodities";
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { useCementInvoicePrintHandler } from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/Form/formHandlerBluePill';
+import InvoiceReceptForCement from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/invoiceCement/invoiceRecept';
+import { deliverySlice } from '../_redux/Slice';
+import { getDeliveryChallanInfoById, getInvoiceDataForPrint } from '../utils';
+import ForeingSalesInvoicePrint from '../View/print/foreignSalesInvoice';
+import ChallanPrint from '../View/print/table';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
+import PaginationSearch from './../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import IViewModal from './../../../../_helper/_viewModal';
+import ChallanPrintModal from './../../../../salesManagement/orderManagement/partnerAllotmentChallan/challanPrintModal/challanPrintModal';
+import PartnerAllotmentChallanForm from './../../../../salesManagement/orderManagement/partnerAllotmentChallan/Form/addEditForm';
+import HologramPrintForAkijCommodities from './hologramForCommodities';
 const { actions: slice } = deliverySlice;
 
 export function TableRow({
@@ -48,24 +48,21 @@ export function TableRow({
 
   const history = useHistory();
   const [allotmentChallanModel, setAllotmentChallanModel] = useState(false);
-  const [clickRowData, setClickRowData] = useState("");
+  const [clickRowData, setClickRowData] = useState('');
   const [challanPrintModalShow, setChallanPrintModalShow] = useState(false);
   const [show, setShow] = useState(false);
   const [deliveryChallanInfo, setDeliveryChallanInfo] = useState({});
   const [row, setRow] = useState({});
-  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] = useState(
-    false
-  );
+  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] =
+    useState(false);
   const [printData, getPrintData, IsLoading] = useAxiosPut();
   const dispatch = useDispatch();
   const [showMutipleModal, setShowMultipleModal] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
   const [, putData, loader] = useAxiosPut();
 
-  const {
-    printRefCement,
-    handleInvoicePrintCement,
-  } = useCementInvoicePrintHandler();
+  const { printRefCement, handleInvoicePrintCement } =
+    useCementInvoicePrintHandler();
 
   const rowDataHandler = (name, index, value) => {
     let _data = [...gridData?.data];
@@ -84,19 +81,19 @@ export function TableRow({
 
   const makeUnprinted = (deliveryId) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "Do you want to mark this UNPRINTED?",
+      title: 'Are you sure?',
+      message: 'Do you want to mark this UNPRINTED?',
       yesAlertFunc: async () => {
         putData(
           `/oms/OManagementReport/InactivePrintedDeliveryPaper?deliveryId=${deliveryId}&userId=${userId}`,
           setLoading,
           () => {
-            paginationSearchHandler("", values);
+            paginationSearchHandler('', values);
           }
         );
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -122,7 +119,7 @@ export function TableRow({
                 0 && (
                 <button
                   type="button"
-                  className={"btn btn-primary mr-2"}
+                  className={'btn btn-primary mr-2'}
                   onClick={() => {
                     const payload = gridData?.data
                       ?.filter((element) => element?.isSelectedPrint)
@@ -147,10 +144,10 @@ export function TableRow({
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
+                  <th style={{ width: '35px' }}>SL</th>
                   <th>Delivery Order</th>
 
-                  <th style={{ width: "90px" }}>Delivery Date</th>
+                  <th style={{ width: '90px' }}>Delivery Date</th>
 
                   <th>Sales Organization</th>
                   <th>Channel</th>
@@ -160,8 +157,8 @@ export function TableRow({
                   <th>Supplier Type</th>
                   <th>Delivery Time</th>
 
-                  <th style={{ width: "90px" }}>Total Quantity</th>
-                  <th style={{ width: "100px" }}>Actions</th>
+                  <th style={{ width: '90px' }}>Total Quantity</th>
+                  <th style={{ width: '100px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +209,7 @@ export function TableRow({
                       </td>
                       <td>
                         <div className="d-flex justify-content-around">
-                          {td?.distributionChannelName === "Export" ? (
+                          {td?.distributionChannelName === 'Export' ? (
                             <span className="view">
                               <IView
                                 clickHandler={() => {
@@ -243,7 +240,7 @@ export function TableRow({
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">
-                                        {"Print Invoice"}
+                                        {'Print Invoice'}
                                       </Tooltip>
                                     }
                                   >
@@ -262,8 +259,8 @@ export function TableRow({
                                           });
                                         }}
                                         style={{
-                                          fontSize: "16px",
-                                          cursor: "pointer",
+                                          fontSize: '16px',
+                                          cursor: 'pointer',
                                         }}
                                         class="fa fa-print"
                                         aria-hidden="true"
@@ -326,7 +323,7 @@ export function TableRow({
                               <OverlayTrigger
                                 overlay={
                                   <Tooltip id="cs-icon">
-                                    {"Allotment Challan"}
+                                    {'Allotment Challan'}
                                   </Tooltip>
                                 }
                               >
@@ -339,10 +336,10 @@ export function TableRow({
                           {!td?.isPaperDOPrinted ? (
                             <span
                               style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                gap: "5px",
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: '5px',
                               }}
                             >
                               <ICon
@@ -367,7 +364,7 @@ export function TableRow({
                                 checked={td?.isSelectedPrint}
                                 onChange={() => {
                                   rowDataHandler(
-                                    "isSelectedPrint",
+                                    'isSelectedPrint',
                                     index,
                                     !td.isSelectedPrint
                                   );
@@ -377,7 +374,7 @@ export function TableRow({
                           ) : (
                             <span>
                               <ICon
-                                title={"Make it Unprinted"}
+                                title={'Make it Unprinted'}
                                 onClick={() => {
                                   makeUnprinted(td?.deliveryId);
                                 }}
@@ -393,8 +390,8 @@ export function TableRow({
                 })}
                 <tr className="text-right font-weight-bold">
                   <td className="text-right" colSpan="10">
-                    {" "}
-                    Grand Total{" "}
+                    {' '}
+                    Grand Total{' '}
                   </td>
                   <td> {_fixedPoint(grandTotal || 0)} </td>
                   <td></td>
@@ -475,7 +472,7 @@ export function TableRow({
           show={showMutipleModal}
           onHide={() => {
             setShowMultipleModal(false);
-            paginationSearchHandler("", values);
+            paginationSearchHandler('', values);
           }}
         >
           {[221, 144]?.includes(buId) && (

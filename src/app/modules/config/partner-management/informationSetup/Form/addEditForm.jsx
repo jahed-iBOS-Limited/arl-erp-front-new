@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   getPartneInformationSetupById,
   getPartnerSectionNameDDL_api,
   saveInformationSetup,
   EditPartnerInformationSetup,
-} from "../helper";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
+} from '../helper';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
 // import { useHistory } from "react-router-dom";
 
 const initData = {
-  sectionName: "",
-  attributeName: "",
-  controlName: "",
+  sectionName: '',
+  attributeName: '',
+  controlName: '',
   isMandatory: false,
 };
 
@@ -43,7 +42,7 @@ export default function InformationSetupForm({
   }, shallowEqual);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -65,7 +64,6 @@ export default function InformationSetupForm({
         setSingleData
       );
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -98,7 +96,7 @@ export default function InformationSetupForm({
             };
             EditPartnerInformationSetup(payload, customCallback, setDisabled);
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         } else {
           // if controlName text or date
@@ -129,7 +127,7 @@ export default function InformationSetupForm({
             };
             saveInformationSetup(payload, customCallback, setDisabled);
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         } else {
           // if controlName text or date
@@ -141,7 +139,7 @@ export default function InformationSetupForm({
     }
   };
   const setter = (payload) => {
-    if (isUniq("label", payload?.label, rowDto)) {
+    if (isUniq('label', payload?.label, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };

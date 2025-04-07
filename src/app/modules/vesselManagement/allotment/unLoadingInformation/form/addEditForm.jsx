@@ -57,27 +57,23 @@ export default function UnLoadingInformationForm() {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [pendingQty, getPendingQty] = useAxiosGet();
   const [portDDL, setPortDDL] = useState();
-  const [
-    dateWiseQuantity,
-    getDateWiseQuantity,
-    ,
-    setDateWiseQuantity,
-  ] = useAxiosGet();
+  const [dateWiseQuantity, getDateWiseQuantity, , setDateWiseQuantity] =
+    useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   const pendingQuantity = (
     motherVesselId,
     lighterVesselId,
-    lighterDestinationId,
+    lighterDestinationId
   ) => {
     getPendingQty(
-      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`,
+      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`
     );
   };
 
   useEffect(() => {
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
     if (!type || type !== 'view') {
       GetShipPointDDL(accId, buId, setShipPointDDL);
@@ -97,12 +93,12 @@ export default function UnLoadingInformationForm() {
             pendingQuantity(
               resData?.motherVessel?.value,
               resData?.lighterVessel?.value,
-              resData?.lighterDestination?.value,
+              resData?.lighterDestination?.value
             );
             // getPendingQty(
             //   `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${}&LighterVesselId=${}&DestinationId=${}`
             // );
-          },
+          }
         );
       } else {
         getLoadingInfoByVoyageNo(
@@ -117,19 +113,19 @@ export default function UnLoadingInformationForm() {
             pendingQuantity(
               resData?.motherVessel?.value,
               resData?.lighterVessel?.value,
-              resData?.lighterDestination?.value,
+              resData?.lighterDestination?.value
             );
-          },
+          }
         );
       }
     }
-
   }, [accId, buId, type, id]);
 
   const getVessels = (values) => {
     getMotherVesselDDL(
-      `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${values
-        ?.port?.value || 0}&OrganizationId=${values?.organization?.value || 0}`,
+      `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        values?.port?.value || 0
+      }&OrganizationId=${values?.organization?.value || 0}`
     );
   };
 
@@ -174,7 +170,7 @@ export default function UnLoadingInformationForm() {
                   unLoadingDateDetails: data?.unloadDateDetails || '',
                   receiveQuantity: data?.receiveQuantityDeatails || 0,
                   updateBy: userId,
-                }),
+                })
               )
             : [],
       };
@@ -201,7 +197,7 @@ export default function UnLoadingInformationForm() {
         () => {
           cb();
         },
-        true,
+        true
       );
     }
   };
@@ -240,7 +236,7 @@ export default function UnLoadingInformationForm() {
               //   label: e?.programNo,
               //   value: e?.programNo,
               // });
-            },
+            }
           );
           // getAllotmentDDLByMotherVessel(
           //   currentValue?.value,
@@ -269,12 +265,12 @@ export default function UnLoadingInformationForm() {
                 label: resData?.itemName,
               });
               setFieldValue('unloadedQty', resData?.surveyQnt);
-            },
+            }
           );
           pendingQuantity(
             values?.motherVessel?.value,
             currentValue?.value,
-            values?.lighterDestination?.value,
+            values?.lighterDestination?.value
           );
         }
         break;

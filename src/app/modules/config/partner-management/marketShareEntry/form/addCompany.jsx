@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  companyName: "",
-  address: "",
+  companyName: '',
+  address: '',
 };
 
 export default function AddCompanyForm({ setShow }) {

@@ -1,19 +1,14 @@
+import React, { useEffect, useState } from 'react';
+import { Formik, Field, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getAssetReceiveReportData } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 
-
-import React, { useEffect, useState } from "react";
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
-import { useSelector, shallowEqual } from "react-redux";
-import {
-  getAssetReceiveReportData,
-} from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-
-
-const validationSchema = Yup.object().shape({})
+const validationSchema = Yup.object().shape({});
 
 export function TableRow(props) {
   //paginationState
@@ -44,8 +39,6 @@ export function TableRow(props) {
   //     pageSize)
   // }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
-
-
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     getAssetReceiveReportData(
@@ -61,24 +54,22 @@ export function TableRow(props) {
     );
   };
 
- const onChangeForAssetReceiveReport = (value) =>{
-  getAssetReceiveReportData(
-    profileData?.accountId,
-    selectedBusinessUnit?.value,
-    profileData?.userId,
-    +value,
-    setGridData,
-    setLoading,
-    pageNo,
-    pageSize
-  );
-  }
-
+  const onChangeForAssetReceiveReport = (value) => {
+    getAssetReceiveReportData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      profileData?.userId,
+      +value,
+      setGridData,
+      setLoading,
+      pageNo,
+      pageSize
+    );
+  };
 
   const paginationSearchHandler = (searchValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
-
 
   return (
     <>
@@ -88,7 +79,7 @@ export function TableRow(props) {
             enableReinitialize={true}
             initialValues={{}}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
@@ -100,84 +91,102 @@ export function TableRow(props) {
                       paginationSearchHandler={paginationSearchHandler}
                     />
                     <Form>
-                      <div role="group" aria-labelledby="my-radio-group" className="m-3">
+                      <div
+                        role="group"
+                        aria-labelledby="my-radio-group"
+                        className="m-3"
+                      >
                         <label>
-                          <Field type="radio" name="picked"
-                          onClick={(e)=>{
-                            onChangeForAssetReceiveReport(e.target.value)
-                            setEmpType(+e.target.value)
-                          }}
-
-                          value="1" />
-                         Assign By
-                      </label>
+                          <Field
+                            type="radio"
+                            name="picked"
+                            onClick={(e) => {
+                              onChangeForAssetReceiveReport(e.target.value);
+                              setEmpType(+e.target.value);
+                            }}
+                            value="1"
+                          />
+                          Assign By
+                        </label>
                         <label className="ml-3">
-                          <Field type="radio" name="picked"
-                          onClick={(e)=>{
-                            onChangeForAssetReceiveReport(e.target.value)
-                            setEmpType(+e.target.value)
-                          }}
-                          value="2" />
-                        Responsible Person
-                       </label>
+                          <Field
+                            type="radio"
+                            name="picked"
+                            onClick={(e) => {
+                              onChangeForAssetReceiveReport(e.target.value);
+                              setEmpType(+e.target.value);
+                            }}
+                            value="2"
+                          />
+                          Responsible Person
+                        </label>
                       </div>
                     </Form>
-                    <div className='table-responsive'>
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Asset Name</th>
-                          <th>Asset Description</th>
-                          <th>Employee Code</th>
-                          <th>Employee Name</th>
-                          {/* <th>Employee Email</th> */}
-                          <th>Responsible Employee Name</th>
-                          <th>Using Department Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.length > 0 &&
-                          gridData?.data.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td style={{ width: "30px" }} className="text-center">
-                                  {index + 1}
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.assetName}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.assetDescription}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.employeeCode}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">
-                                    {item?.employeeFirstName}
-                                  </span>
-                                </td>
-                                {/* <td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Asset Name</th>
+                            <th>Asset Description</th>
+                            <th>Employee Code</th>
+                            <th>Employee Name</th>
+                            {/* <th>Employee Email</th> */}
+                            <th>Responsible Employee Name</th>
+                            <th>Using Department Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.length > 0 &&
+                            gridData?.data.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td
+                                    style={{ width: '30px' }}
+                                    className="text-center"
+                                  >
+                                    {index + 1}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.assetName}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.assetDescription}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.employeeCode}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.employeeFirstName}
+                                    </span>
+                                  </td>
+                                  {/* <td>
                                   <span className="pl-2">
                                     {item?.employeeEmail}
                                   </span>
                                 </td> */}
-                                <td>
-                                  <span className="pl-2">
-                                    {item?.responsibleEmpName}
-                                  </span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">
-                                    {item.usingDepartmentName}
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.responsibleEmpName}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item.usingDepartmentName}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -185,7 +194,12 @@ export function TableRow(props) {
                   <PaginationTable
                     count={gridData.totalCount}
                     setPositionHandler={setPositionHandler}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
                   />
                 )}
               </>

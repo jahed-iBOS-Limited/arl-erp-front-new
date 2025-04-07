@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import * as Yup from "yup";
-import ICustomCard from "../../../_helper/_customCard";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import * as Yup from 'yup';
+import ICustomCard from '../../../_helper/_customCard';
+import { useDispatch } from 'react-redux';
 // import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IView from "../../../_helper/_helperIcons/_view";
-import IEdit from "./../../../_helper/_helperIcons/_edit";
-import IApproval from "./../../../_helper/_helperIcons/_approval";
+import NewSelect from '../../../_helper/_select';
+import IView from '../../../_helper/_helperIcons/_view';
+import IEdit from './../../../_helper/_helperIcons/_edit';
+import IApproval from './../../../_helper/_helperIcons/_approval';
 import {
   getSalesTargetPagination,
   getBusinessUnitDDL,
   getBusinessUPartnerDDL,
-} from "./helper";
-import { setCustomerSalesLandingAction } from "./../../../_helper/reduxForLocalStorage/Actions";
-import { getMonth } from "./utils";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+} from './helper';
+import { setCustomerSalesLandingAction } from './../../../_helper/reduxForLocalStorage/Actions';
+import { getMonth } from './utils';
+import Loading from '../../../_helper/_loading';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -56,7 +56,6 @@ const CustomerSalesTarget = () => {
         selectedBusinessUnit?.value
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   const customerSalesLanding = useSelector((state) => {
     return state.localStorage.customerSalesLanding;
@@ -84,8 +83,6 @@ const CustomerSalesTarget = () => {
         setLoading
       );
     }
-
-
   }, [profileData, selectedBusinessUnit, customerSalesLanding]);
 
   const targetEntry = (values) => {
@@ -94,8 +91,8 @@ const CustomerSalesTarget = () => {
       id === 1
         ? `https://automation.ibos.io/APFIL_Distributor_Target`
         : id === 2
-        ? `https://automation.ibos.io/ael_distributor_target`
-        : "";
+          ? `https://automation.ibos.io/ael_distributor_target`
+          : '';
 
     postData(
       url,
@@ -142,8 +139,8 @@ const CustomerSalesTarget = () => {
                           label="SBU"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("sbu", valueOption);
-                            setFieldValue("business_partner", "");
+                            setFieldValue('sbu', valueOption);
+                            setFieldValue('business_partner', '');
                             if (valueOption) {
                               getBusinessUPartnerDDL(
                                 setBusinessPartnerDDL,
@@ -163,15 +160,15 @@ const CustomerSalesTarget = () => {
                         <NewSelect
                           name="targetEntryFromGoogleSheet"
                           options={[
-                            { value: 1, label: "Partner Based" },
-                            { value: 2, label: "Distributor Based" },
+                            { value: 1, label: 'Partner Based' },
+                            { value: 2, label: 'Distributor Based' },
                           ]}
                           value={values?.targetEntryFromGoogleSheet}
                           label="Target Entry From Google Sheet"
                           onChange={(valueOption) => {
                             setRowDto([]);
                             setFieldValue(
-                              "targetEntryFromGoogleSheet",
+                              'targetEntryFromGoogleSheet',
                               valueOption
                             );
                           }}
@@ -202,7 +199,7 @@ const CustomerSalesTarget = () => {
                             label="Business Partner"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("business_partner", valueOption);
+                              setFieldValue('business_partner', valueOption);
                             }}
                             placeholder="Business Partner"
                             errors={errors}
@@ -268,15 +265,15 @@ const CustomerSalesTarget = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Distribution Channel</th>
-                            <th style={{ width: "190px" }}>Target Year</th>
+                            <th style={{ width: '190px' }}>Target Year</th>
                             <th>Target Month</th>
                             <th>Target Start Date</th>
                             <th>End Date</th>
                             <th>Target Quantity</th>
                             <th>isApprove</th>
-                            <th style={{ width: "90px" }}>Action</th>
+                            <th style={{ width: '90px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -312,12 +309,12 @@ const CustomerSalesTarget = () => {
 
                               <td>
                                 <div className="pl-2">
-                                  {td?.isApprove ? "Yes" : "No"}
+                                  {td?.isApprove ? 'Yes' : 'No'}
                                 </div>
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center">
-                                  <span style={{ paddingLeft: "5px" }}>
+                                  <span style={{ paddingLeft: '5px' }}>
                                     <IView
                                       clickHandler={() =>
                                         history.push({
@@ -337,7 +334,7 @@ const CustomerSalesTarget = () => {
                                             state: values,
                                           });
                                         }}
-                                        style={{ marginLeft: "10px" }}
+                                        style={{ marginLeft: '10px' }}
                                       >
                                         <IEdit />
                                       </span>
@@ -349,9 +346,9 @@ const CustomerSalesTarget = () => {
                                           });
                                         }}
                                         style={{
-                                          marginLeft: "10px",
+                                          marginLeft: '10px',
                                           visibility: `${
-                                            td.isApprove ? "hidden" : "block"
+                                            td.isApprove ? 'hidden' : 'block'
                                           }`,
                                         }}
                                       >

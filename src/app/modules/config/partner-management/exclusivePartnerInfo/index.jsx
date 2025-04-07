@@ -35,12 +35,11 @@ export default function ExclusivePartnerInfo() {
 
   useEffect(() => {
     getChannel(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`
     );
     getSales(
-      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
+      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
     );
-
   }, [buId, accountId]);
 
   return (
@@ -50,7 +49,7 @@ export default function ExclusivePartnerInfo() {
       // validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         getGridData(
-          `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${values?.shop?.value}&businessPartnerId=${values?.customer?.value}`,
+          `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${values?.shop?.value}&businessPartnerId=${values?.customer?.value}`
         );
       }}
     >
@@ -82,7 +81,7 @@ export default function ExclusivePartnerInfo() {
                     value={values?.channel}
                     onChange={(valueOption) => {
                       getCustomer(
-                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${values?.sale?.value}&DistribuitionChannelId=${valueOption?.value}`,
+                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${values?.sale?.value}&DistribuitionChannelId=${valueOption?.value}`
                       );
                       setFieldValue('channel', valueOption);
                     }}
@@ -97,7 +96,7 @@ export default function ExclusivePartnerInfo() {
                     value={values?.sale}
                     onChange={(valueOption) => {
                       getCustomer(
-                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`,
+                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`
                       );
                       setFieldValue('sale', valueOption);
                     }}
@@ -112,7 +111,7 @@ export default function ExclusivePartnerInfo() {
                     value={values?.customer}
                     onChange={(valueOption) => {
                       getShop(
-                        `/partner/PManagementCommonDDL/GetBusinessPartnerSalesShippingAddress?AccountId=${accountId}&BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`,
+                        `/partner/PManagementCommonDDL/GetBusinessPartnerSalesShippingAddress?AccountId=${accountId}&BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`
                       );
                       setFieldValue('customer', valueOption);
                     }}

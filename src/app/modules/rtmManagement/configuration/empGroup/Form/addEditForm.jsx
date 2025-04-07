@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { createEmployeeGroupNew } from "../helper";
+import React, { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { createEmployeeGroupNew } from '../helper';
 
 let initData = {
-  employeeGroupName: "",
+  employeeGroupName: '',
 };
 
 export default function EmpGroupCreateForm() {

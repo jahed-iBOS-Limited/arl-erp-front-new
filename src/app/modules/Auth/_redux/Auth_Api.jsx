@@ -21,27 +21,27 @@ export function loginApiCall(email, password) {
 //Get user Profile Data
 export function profileAPiCall(email) {
   return axios.get(
-    `/domain/CreateUser/GetUserInformationByUserEmail?Email=${email}`,
+    `/domain/CreateUser/GetUserInformationByUserEmail?Email=${email}`
   );
 }
 
 export function getUserRole(userId) {
   return axios.get(
-    `/domain/DCOGetUserPermission/GetUserPermission?intUserId=${userId}`,
+    `/domain/DCOGetUserPermission/GetUserPermission?intUserId=${userId}`
   );
 }
 
 //Call get user permission APi
 export function getBuPermission(userId, accountId) {
   return axios.get(
-    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${accountId}`,
+    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${accountId}`
   );
 }
 
 //Call menu data api
 export function getMenu(userId) {
   return axios.get(
-    `/domain/MenuInformation/GetMenuListPermissionWise?UserId=${userId}`,
+    `/domain/MenuInformation/GetMenuListPermissionWise?UserId=${userId}`
   );
 }
 
@@ -53,6 +53,6 @@ export function saveChatInfo(email, name, accountId, userId) {
       name,
       accountId,
       userId,
-    },
+    }
   );
 }

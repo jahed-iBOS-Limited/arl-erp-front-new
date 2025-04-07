@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getItemRequestGridData = async (
   accId,
@@ -18,19 +18,18 @@ export const getItemRequestGridData = async (
   status,
   fromDate,
   toDate,
-  search,
+  search
 ) => {
-
-  const searchPath = search ? `searchTerm=${search}&` : "";
-  const statusPath = status!==undefined ? `&status=${status}` : "";
-  const fromDatePath = fromDate ? `&fromDate=${fromDate}` : "";
-  const toDatePath = toDate ? `&toDate=${toDate}` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
+  const statusPath = status !== undefined ? `&status=${status}` : '';
+  const fromDatePath = fromDate ? `&fromDate=${fromDate}` : '';
+  const toDatePath = toDate ? `&toDate=${toDate}` : '';
 
   setLoading(true);
-  const requestUrl = `/wms/ItemRequest/GetItemRequestSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&ActionBy=${userId}&sbuId=${sbuId || 0}&plantId=${plantId || 0}&warehouse=${whId || 0}${statusPath}${fromDatePath}${toDatePath}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&PrivateOrPublic=${privacyType}`
+  const requestUrl = `/wms/ItemRequest/GetItemRequestSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&ActionBy=${userId}&sbuId=${sbuId || 0}&plantId=${plantId || 0}&warehouse=${whId || 0}${statusPath}${fromDatePath}${toDatePath}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&PrivateOrPublic=${privacyType}`;
 
   try {
-    const res = await Axios.get(requestUrl)
+    const res = await Axios.get(requestUrl);
     if (res.status === 200 && res?.data) {
       setTotalCount(res?.data?.totalCount);
       let gridData = res?.data?.data.map((data) => {
@@ -79,7 +78,7 @@ export const saveItemRequest = async (data, cb, setGridData, setDisabled) => {
     const res = await Axios.post(`/wms/ItemRequest/CreateItemRequest`, data);
     if (res.status === 200) {
       setGridData([]);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -136,7 +135,10 @@ export const getSingleDataForEdit = async (id, setter) => {
           validTill: _dateFormatter(setDtoValue.objHeader.validTill),
           dueDate: _dateFormatter(setDtoValue.objHeader.dteDueDate),
           // will be added project
-          actionType: setDtoValue?.objHeader?.intProjectId > 0 ?  { label: "Project", value: 1 } : { label: "Operation", value: 2 },
+          actionType:
+            setDtoValue?.objHeader?.intProjectId > 0
+              ? { label: 'Project', value: 1 }
+              : { label: 'Operation', value: 2 },
           project:
             setDtoValue?.objHeader?.intProjectId > 0
               ? {
@@ -144,10 +146,10 @@ export const getSingleDataForEdit = async (id, setter) => {
                   label: setDtoValue?.objHeader?.strProject,
                 }
               : null,
-          referenceId: "",
-          quantity: "",
-          remarks: "",
-          item: "",
+          referenceId: '',
+          quantity: '',
+          remarks: '',
+          item: '',
         },
         objRow: [...setDtoValue?.objRow],
       };
@@ -172,7 +174,7 @@ export const saveItemReqEdit = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.put(`/wms/ItemRequest/EditItemRequest`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
       setDisabled(false);
     }
@@ -259,15 +261,13 @@ export const getUOMList = async (
         label: item?.label,
       };
     });
-    setFieldValue("itemUom", {
+    setFieldValue('itemUom', {
       value: res?.data?.value,
       label: res?.data?.label,
     });
     setter(newData);
   } catch (error) {}
 };
-
-
 
 export const getReportItemReq = async (prId, setter) => {
   try {
@@ -278,73 +278,59 @@ export const getReportItemReq = async (prId, setter) => {
   } catch (error) {}
 };
 
-
 export const getCostElement = async (unId, setter) => {
   try {
     const res = await Axios.get(
       `/wms/ItemRequest/GetCostElementByUnitId?businessUnitId=${unId}`
     );
 
-    if(res.status === 200){
-      let newData = res?.data.map(data=>{
+    if (res.status === 200) {
+      let newData = res?.data.map((data) => {
         return {
           ...data,
-          value:data?.costElementId,
-          label:data?.costElementName
-        }
-      })
+          value: data?.costElementId,
+          label: data?.costElementName,
+        };
+      });
 
       setter(newData);
     }
-    
   } catch (error) {}
 };
 
-
 export const sendEmailPostApi = async (dataObj) => {
   let formData = new FormData();
-  formData.append("to", dataObj?.toMail);
-  formData.append("cc", dataObj?.toCC);
-  formData.append("bcc", dataObj?.toBCC);
-  formData.append("subject", dataObj?.subject);
-  formData.append("body", dataObj?.message);
-  formData.append("file", dataObj?.attachment);
+  formData.append('to', dataObj?.toMail);
+  formData.append('cc', dataObj?.toCC);
+  formData.append('bcc', dataObj?.toBCC);
+  formData.append('subject', dataObj?.subject);
+  formData.append('body', dataObj?.message);
+  formData.append('file', dataObj?.attachment);
   try {
-    let { data } = await Axios.post("/domain/MailSender/SendMail", formData, {
+    let { data } = await Axios.post('/domain/MailSender/SendMail', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
 
-    toast.success("Mail Send Successfully");
+    toast.success('Mail Send Successfully');
     return data;
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "Mail cant not send successfully"
+      error?.response?.data?.message || 'Mail cant not send successfully'
     );
   }
 };
 
-
-export const postItemReqCancelAction = async (
-  iId
-) => {
+export const postItemReqCancelAction = async (iId) => {
   try {
     const res = await Axios.put(
       `/wms/ItemRequest/CancelItemRequestDatabyId?ItemRequest=${iId}`
     );
-    if (res.status === 200) {     
-      toast.success(res?.data?.message || "Cancel Successfully")    
+    if (res.status === 200) {
+      toast.success(res?.data?.message || 'Cancel Successfully');
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed")
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };
-
-
-
-
-
-
-
-

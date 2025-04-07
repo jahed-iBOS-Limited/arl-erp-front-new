@@ -12,7 +12,7 @@ const SalesQuotationForCement = ({
 }) => {
   const {
     profileData: { employeeFullName, designationName, contact, emailAddress },
-    selectedBusinessUnit
+    selectedBusinessUnit,
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getCementTypes = (type) => {
@@ -39,7 +39,7 @@ const SalesQuotationForCement = ({
       <div
         className="invoice-header"
         style={{
-          backgroundImage: `url(${commonGetLetterHead({buId:selectedBusinessUnit?.value})})`,
+          backgroundImage: `url(${commonGetLetterHead({ buId: selectedBusinessUnit?.value })})`,
           backgroundRepeat: 'no-repeat',
           height: '150px',
           backgroundPosition: 'left 10px',
@@ -55,7 +55,7 @@ const SalesQuotationForCement = ({
       <div
         className="invoice-footer"
         style={{
-          backgroundImage: `url(${commonGetLetterHead({buId:selectedBusinessUnit?.value})})`,
+          backgroundImage: `url(${commonGetLetterHead({ buId: selectedBusinessUnit?.value })})`,
           backgroundRepeat: 'no-repeat',
           height: '100px',
           backgroundPosition: 'left bottom',
@@ -140,8 +140,8 @@ const SalesQuotationForCement = ({
                       getCementTypes('opc')
                         ? 'Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN 197-1:2003'
                         : getCementTypes('pcc')
-                        ? 'Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003'
-                        : ''
+                          ? 'Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003'
+                          : ''
                     }`}
                   </p>
 

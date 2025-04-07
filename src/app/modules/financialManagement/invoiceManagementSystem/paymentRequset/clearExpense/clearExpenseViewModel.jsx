@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getExpenseById } from "../helper";
-import { Formik, Form } from "formik";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import React, { useEffect, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getExpenseById } from '../helper';
+import { Formik, Form } from 'formik';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 const initData = {
-  expenseCategory: "",
-  projectName: "",
+  expenseCategory: '',
+  projectName: '',
   expenseFrom: _todayDate(),
   expenseTo: _todayDate(),
-  costCenter: "",
-  quantity: "",
-  reference: "",
-  comments1: "",
+  costCenter: '',
+  quantity: '',
+  reference: '',
+  comments1: '',
   expenseDate: _todayDate(),
-  transaction: "",
-  totalAmount: "",
-  location: "",
-  comments2: "",
-  disbursmentCenter: "",
-  paymentType: "",
+  transaction: '',
+  totalAmount: '',
+  location: '',
+  comments2: '',
+  disbursmentCenter: '',
+  paymentType: '',
 };
 
 export default function ClearExpenseViewModel({
@@ -36,7 +36,7 @@ export default function ClearExpenseViewModel({
 }) {
   const id = gridRowDataClearExpViewBtn?.expenseId;
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [total, setTotal] = useState({ totalAmount: 0, totalQty: 0 });
   useEffect(() => {
     if (id) {
@@ -64,8 +64,8 @@ export default function ClearExpenseViewModel({
         show={show}
         onHide={onHide}
         isShow={rowDto && false}
-        title={"Expense Register View"}
-        style={{ fontSize: "1.2rem !important" }}
+        title={'Expense Register View'}
+        style={{ fontSize: '1.2rem !important' }}
         btnText="Close"
       >
         <div>
@@ -100,7 +100,6 @@ export default function ClearExpenseViewModel({
                         </div>
                         {/* date */}
                         <div className="col-lg-6 pl pr-1 mb-1">
-
                           <IInput
                             value={_dateFormatter(values?.expenseFrom)}
                             label="From"
@@ -108,7 +107,6 @@ export default function ClearExpenseViewModel({
                             type="date"
                             disabled={true}
                           />
-
                         </div>
                         <div className="col-lg-6 pl pr-1 mb-1">
                           <IInput
@@ -118,13 +116,12 @@ export default function ClearExpenseViewModel({
                             type="date"
                             disabled={true}
                           />
-
                         </div>
                         <div className="col-lg-6 pr pl-1 mb-1">
                           <label>Project Name</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("projectName", valueOption);
+                              setFieldValue('projectName', valueOption);
                             }}
                             value={values?.projectName}
                             isSearchable={true}
@@ -149,7 +146,7 @@ export default function ClearExpenseViewModel({
                           <label>Payment Type</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("paymentType", valueOption);
+                              setFieldValue('paymentType', valueOption);
                             }}
                             value={values?.paymentType}
                             isSearchable={true}
@@ -184,31 +181,31 @@ export default function ClearExpenseViewModel({
                             <b>Total Expense : {total?.totalAmount}</b>
                           </div>
                           <div className="table-responsive">
-                            <table className={"table mt-1 bj-table"}>
-                              <thead className={rowDto.length < 1 && "d-none"}>
+                            <table className={'table mt-1 bj-table'}>
+                              <thead className={rowDto.length < 1 && 'd-none'}>
                                 <tr>
-                                  <th style={{ width: "20px" }}>SL</th>
-                                  <th style={{ width: "260px" }}>
+                                  <th style={{ width: '20px' }}>SL</th>
+                                  <th style={{ width: '260px' }}>
                                     Expense Date
                                   </th>
-                                  <th style={{ width: "100px" }}>
+                                  <th style={{ width: '100px' }}>
                                     Expense Type
                                   </th>
-                                  <th style={{ width: "100px" }}>Quantity</th>
-                                  <th style={{ width: "100px" }}>
+                                  <th style={{ width: '100px' }}>Quantity</th>
+                                  <th style={{ width: '100px' }}>
                                     Total Amount
                                   </th>
-                                  <th style={{ width: "100px" }}>
-                                    {" "}
+                                  <th style={{ width: '100px' }}>
+                                    {' '}
                                     Expense Place
                                   </th>
-                                  <th style={{ width: "100px" }}>
+                                  <th style={{ width: '100px' }}>
                                     Expense Description
                                   </th>
-                                  <th style={{ width: "200px" }}>
+                                  <th style={{ width: '200px' }}>
                                     Driver Name
                                   </th>
-                                  <th style={{ width: "50px" }}>Attachment</th>
+                                  <th style={{ width: '50px' }}>Attachment</th>
                                 </tr>
                               </thead>
                               <tbody>

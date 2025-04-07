@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 
 const initProduct = {
   id: undefined,
-  plantName: "",
-  warehouseName: "",
+  plantName: '',
+  warehouseName: '',
 };
 export default function PlantWarehouseAddForm({
   history,
@@ -47,19 +46,19 @@ export default function PlantWarehouseAddForm({
         businessUnitId: selectedBusinessUnit.value,
         businessUnitName: selectedBusinessUnit.label,
         actionBy: profileData.userId,
-        lastActionDateTime: "2020-07-08T09:19:27.446Z",
+        lastActionDateTime: '2020-07-08T09:19:27.446Z',
         isActive: true,
       };
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/wms/ConfigPlantWearHouse/CreateConfigPlantWH",
+          '/wms/ConfigPlantWearHouse/CreateConfigPlantWH',
           businessData
         );
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -67,7 +66,6 @@ export default function PlantWarehouseAddForm({
         setDisabled(false);
       }
     } else {
-
     }
   };
 
@@ -121,7 +119,7 @@ export default function PlantWarehouseAddForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}

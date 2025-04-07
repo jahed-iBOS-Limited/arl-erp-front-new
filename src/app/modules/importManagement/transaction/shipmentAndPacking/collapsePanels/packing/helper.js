@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const getPackingListByShipmentId = async (
   accId,
@@ -33,7 +33,7 @@ export const createPacking = async (payload, cb) => {
 };
 export const getPackingTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/PackingTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/PackingTypeDDL');
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
@@ -57,10 +57,10 @@ export const deletePackingById = async (packingId) => {
 
 export const packingValidationSchema = Yup.object().shape({
   quantity: Yup.number()
-    .positive("Quantity Must be positive")
-    .integer("Must be Integer"),
+    .positive('Quantity Must be positive')
+    .integer('Must be Integer'),
 
   packingType: Yup.object().shape({
-    value: Yup.string().required("Packing Type is required"),
+    value: Yup.string().required('Packing Type is required'),
   }),
 });

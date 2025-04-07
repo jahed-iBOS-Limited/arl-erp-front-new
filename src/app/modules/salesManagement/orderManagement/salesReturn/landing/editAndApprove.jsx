@@ -1,14 +1,13 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { editSalesReturn, salesReturnApprove_api } from "../helper";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { editSalesReturn, salesReturnApprove_api } from '../helper';
 
 const initData = {};
 
@@ -99,8 +98,8 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
                           <th>Challan No</th>
                           <th>Customer Name</th>
                           <th>Customer Code</th>
-                          <th style={{ width: "120px" }}>Quantity</th>
-                          <th style={{ width: "120px" }}>Amount</th>
+                          <th style={{ width: '120px' }}>Quantity</th>
+                          <th style={{ width: '120px' }}>Amount</th>
                           <th>Entry Date</th>
                           {/* <th>Status</th>
                         <th>Action</th> */}
@@ -123,14 +122,14 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
                                 onChange={(e) => {
                                   dataChangeHandler(
                                     index,
-                                    "quantity",
+                                    'quantity',
                                     e?.target?.value
                                   );
                                 }}
                                 onBlur={(e) => {
                                   if (e?.target?.value > item?.numDeliveryQnt) {
                                     toast.warn(
-                                      "Damage qty can not be greater than delivery qty"
+                                      'Damage qty can not be greater than delivery qty'
                                     );
                                   }
                                 }}
@@ -156,7 +155,7 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
                             {/* <td></td> */}
                           </tr>
                         ))}
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                        <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                           <td
                             colSpan={values?.status?.value === 2 ? 5 : 4}
                             className="text-right"
@@ -187,7 +186,7 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
                           <td colSpan={3}></td>
                         </tr>
                       </tbody>
-                    </table>{" "}
+                    </table>{' '}
                   </div>
                 )}
               </form>

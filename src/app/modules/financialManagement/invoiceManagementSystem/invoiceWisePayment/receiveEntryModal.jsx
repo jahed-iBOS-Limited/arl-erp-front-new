@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 
 const initData = {
   receiveDate: _todayDate(),
-  receiveType: "",
-  receiveAmount: "",
-  reference: "",
+  receiveType: '',
+  receiveAmount: '',
+  reference: '',
 };
 
 export default function ReceiveEntryModal({
@@ -31,16 +31,16 @@ export default function ReceiveEntryModal({
 
   const saveHandler = (values, cb) => {
     if (!values?.receiveDate) {
-      return toast.warn("Receive Date is required");
+      return toast.warn('Receive Date is required');
     }
     if (!values?.receiveType) {
-      return toast.warn("Receive Type is required");
+      return toast.warn('Receive Type is required');
     }
     if (!values?.receiveAmount) {
-      return toast.warn("Receive Amount is required");
+      return toast.warn('Receive Amount is required');
     }
     if (!values?.reference) {
-      return toast.warn("Reference is required");
+      return toast.warn('Reference is required');
     }
     const payload = {
       transactionDate: values?.receiveDate,
@@ -106,9 +106,9 @@ export default function ReceiveEntryModal({
                     value={values?.receiveDate}
                     onChange={(e) => {
                       if (e) {
-                        setFieldValue("receiveDate", e.target.value);
+                        setFieldValue('receiveDate', e.target.value);
                       } else {
-                        setFieldValue("receiveDate", "");
+                        setFieldValue('receiveDate', '');
                       }
                     }}
                   />
@@ -119,24 +119,24 @@ export default function ReceiveEntryModal({
                     options={[
                       {
                         value: 1,
-                        label: "AIT",
+                        label: 'AIT',
                       },
                       {
                         value: 2,
-                        label: "Vat",
+                        label: 'Vat',
                       },
                       {
                         value: 3,
-                        label: "Delivery",
+                        label: 'Delivery',
                       },
                     ]}
                     value={values?.receiveType}
                     label="Receive Type"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("receiveType", valueOption);
+                        setFieldValue('receiveType', valueOption);
                       } else {
-                        setFieldValue("receiveType", "");
+                        setFieldValue('receiveType', '');
                       }
                     }}
                     errors={errors}
@@ -151,9 +151,9 @@ export default function ReceiveEntryModal({
                     value={values?.receiveAmount}
                     onChange={(e) => {
                       if (e) {
-                        setFieldValue("receiveAmount", e.target.value);
+                        setFieldValue('receiveAmount', e.target.value);
                       } else {
-                        setFieldValue("receiveAmount", "");
+                        setFieldValue('receiveAmount', '');
                       }
                     }}
                   />
@@ -166,9 +166,9 @@ export default function ReceiveEntryModal({
                     value={values?.reference}
                     onChange={(e) => {
                       if (e) {
-                        setFieldValue("reference", e.target.value);
+                        setFieldValue('reference', e.target.value);
                       } else {
-                        setFieldValue("reference", "");
+                        setFieldValue('reference', '');
                       }
                     }}
                   />
@@ -177,14 +177,14 @@ export default function ReceiveEntryModal({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

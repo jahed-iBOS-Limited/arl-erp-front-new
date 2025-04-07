@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { vehicleUnitSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { vehicleUnitSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = vehicleUnitSlice;
 
 //getVehicleTypeDDLAction
@@ -49,8 +49,8 @@ export const saveVehicle = (payload, cb, setDisabled) => () => {
     .saveCreateData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "saveVehicle",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'saveVehicle',
         });
         cb();
         setDisabled(false);
@@ -70,8 +70,8 @@ export const saveEditedVehicleUnit = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "saveEditedVehicleUnit",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'saveEditedVehicleUnit',
         });
         setDisabled(false);
       }
@@ -83,35 +83,37 @@ export const saveEditedVehicleUnit = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getVehicleGridData = (
-  accId,
-  buId,
-  pageNo,
-  pageSize,
-  setLoading,
-  shipPointId,
-  ownerTypeId,
-  search
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(
-      accId,
-      pageNo,
-      pageSize,
-      buId,
-      search,
-      shipPointId,
-      ownerTypeId
-    )
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-    });
-};
+export const getVehicleGridData =
+  (
+    accId,
+    buId,
+    pageNo,
+    pageSize,
+    setLoading,
+    shipPointId,
+    ownerTypeId,
+    search
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(
+        accId,
+        pageNo,
+        pageSize,
+        buId,
+        search,
+        shipPointId,
+        ownerTypeId
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 export const GetTransportModeDDLAction = () => (dispatch) => {
   return requestFromServer.GetTransportModeDDLApi().then((res) => {
     const { status, data } = res;
@@ -139,8 +141,8 @@ export const getSingleById = (id) => (dispatch) => {
           ...item,
           capacityInBag:
             item?.capacityInBag == null
-              ? ""
-              : parseFloat(item?.capacityInBag) ?? "",
+              ? ''
+              : (parseFloat(item?.capacityInBag) ?? ''),
           ownerType: {
             value: item?.ownerTypeId,
             label: item?.ownerType,
@@ -153,10 +155,13 @@ export const getSingleById = (id) => (dispatch) => {
             value: item?.driverId,
             label: item?.driverName,
           },
-          user:item?.vehicleUserEnrollId && item?.vehicleUserEnrollName ? {
-            value:item?.vehicleUserEnrollId,
-            label:item?.vehicleUserEnrollName,
-          } : "",
+          user:
+            item?.vehicleUserEnrollId && item?.vehicleUserEnrollName
+              ? {
+                  value: item?.vehicleUserEnrollId,
+                  label: item?.vehicleUserEnrollName,
+                }
+              : '',
           transportmode: {
             value: item?.transportMoodId,
             label: item?.transportMoodName,

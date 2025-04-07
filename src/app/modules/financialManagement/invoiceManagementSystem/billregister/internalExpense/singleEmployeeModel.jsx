@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import ClearExpenseViewModel from "./clearExpenseViewModel";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React, { useState } from 'react';
+import ClearExpenseViewModel from './clearExpenseViewModel';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 function SingleEmployeeModel({ singleEmployeeGridData, show, onHide }) {
   const [isClearExpenseViewModel, setIsClearExpenseViewModel] = useState(false);
-  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] = useState(
-    ""
-  );
+  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] =
+    useState('');
   let totalNetAmount = 0,
     totalApprovedAmount = 0,
     totalBalanceAmount = 0;
@@ -17,7 +16,7 @@ function SingleEmployeeModel({ singleEmployeeGridData, show, onHide }) {
       show={show}
       onHide={onHide}
       title={singleEmployeeGridData?.[0]?.expenseForName}
-      style={{ fontSize: "1.2rem !important" }}
+      style={{ fontSize: '1.2rem !important' }}
       btnText="Close"
     >
       <>
@@ -26,16 +25,16 @@ function SingleEmployeeModel({ singleEmployeeGridData, show, onHide }) {
             <table className="table table-striped table-bordered mt-3 global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "150px" }}>Request Date</th>
-                  <th style={{ width: "150px" }}>Expense Code</th>
-                  <th style={{ width: "150px" }}>Request By</th>
-                  <th style={{ width: "150px" }}>Purpose</th>
-                  <th style={{ width: "150px" }}>Disbursement Center Name</th>
-                  <th style={{ width: "150px" }}>Advance Amount</th>
-                  <th style={{ width: "150px" }}>Total Amount</th>
-                  <th style={{ width: "150px" }}>Net Amount</th>
-                  <th style={{ width: "150px" }}>Action</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ width: '150px' }}>Request Date</th>
+                  <th style={{ width: '150px' }}>Expense Code</th>
+                  <th style={{ width: '150px' }}>Request By</th>
+                  <th style={{ width: '150px' }}>Purpose</th>
+                  <th style={{ width: '150px' }}>Disbursement Center Name</th>
+                  <th style={{ width: '150px' }}>Advance Amount</th>
+                  <th style={{ width: '150px' }}>Total Amount</th>
+                  <th style={{ width: '150px' }}>Net Amount</th>
+                  <th style={{ width: '150px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>

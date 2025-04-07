@@ -1,10 +1,8 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation } from 'react-router-dom';
 import {
   getExpenseForDDL,
   getSbuDDL,
@@ -13,9 +11,9 @@ import {
   getProjectNameDDL,
   CreateInternalTripCostTransferToExpRegister,
   getPaymentType,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 export default function EmployeeRegisterForm({
   history,
   match: {
@@ -28,18 +26,18 @@ export default function EmployeeRegisterForm({
   const landingGridData = state?.landingData?.data;
 
   const initData = {
-    expenseFor: "",
-    sbu: "",
-    country: "",
-    currency: "",
-    expenseCategory: "",
+    expenseFor: '',
+    sbu: '',
+    country: '',
+    currency: '',
+    expenseCategory: '',
     experiencePeriodFrom: state?.values?.travelDateFrom,
     experiencePeriodTo: state?.values?.travelDateTo,
-    costCenter: "",
-    projectName: "",
-    paymentType: "",
-    disbursementCenter: "",
-    reference: "",
+    costCenter: '',
+    projectName: '',
+    paymentType: '',
+    disbursementCenter: '',
+    reference: '',
   };
 
   // get user profile data from store
@@ -105,7 +103,7 @@ export default function EmployeeRegisterForm({
             amount: data.totalCost,
             expenseDate: data.shipmentDate,
             expenseLocation: `${data.shipPointAddress} To ${data.partnerAddress}`,
-            comments: "",
+            comments: '',
             shipmentId: data?.shipmentId || 0,
           };
         });
@@ -117,22 +115,22 @@ export default function EmployeeRegisterForm({
             businessUnitId: selectedBusinessUnit?.value,
             businessUnitName: selectedBusinessUnit?.label,
             countryId: 0,
-            countryName: "",
+            countryName: '',
             currencyId: 0,
-            currencyName: "",
+            currencyName: '',
             expenseForId: values.expenseFor.value,
             expenseForName: values.expenseFor.label,
             fromDate: values.experiencePeriodFrom,
             toDate: values.experiencePeriodTo,
             projectId: 0,
-            projectName: "",
+            projectName: '',
             costCenterId: values.costCenter.value,
             costCenterName: values.costCenter.label,
             disbursementCenterId: values.disbursementCenter.value,
             disbursementCenterName: values.disbursementCenter.label,
             vehicleId: 0,
             totalAmount: TotalExpense,
-            comments: values.comments || "",
+            comments: values.comments || '',
             paymentType: values.paymentType.value,
             actionBy: profileData?.accountId,
           },
@@ -140,9 +138,14 @@ export default function EmployeeRegisterForm({
         };
         if (rowDtoFormet?.length > 0) {
           console.log(payload);
-          CreateInternalTripCostTransferToExpRegister(payload, cb, history, setDisabled);
+          CreateInternalTripCostTransferToExpRegister(
+            payload,
+            cb,
+            history,
+            setDisabled
+          );
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       }
     } else {
@@ -154,7 +157,7 @@ export default function EmployeeRegisterForm({
 
   return (
     <IForm
-      title='Create Employee Register'
+      title="Create Employee Register"
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

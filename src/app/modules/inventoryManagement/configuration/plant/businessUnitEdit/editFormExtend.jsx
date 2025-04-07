@@ -1,21 +1,19 @@
-
-
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from '../../../../../../_metronic/_partials/controls'
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls'
-import FormExtend from '../common/fromExtend'
-import Axios from 'axios'
-import shortid from 'shortid'
-import { toast } from 'react-toastify'
-import { useSelector, shallowEqual } from 'react-redux'
-import { isUniq } from '../../../../_helper/uniqChecker'
-import { useLocation } from 'react-router-dom'
-import Loading from '../../../../_helper/_loading'
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import FormExtend from '../common/fromExtend';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import { useSelector, shallowEqual } from 'react-redux';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { useLocation } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 
 export default function EditFormExtend({
   history,
@@ -23,26 +21,26 @@ export default function EditFormExtend({
     params: { id },
   },
 }) {
-  const [isDisabled, setDisabled] = useState(false)
-  const [unit, setUnitData] = useState('')
-  const [warehouseData, setData] = useState('')
-  const [rowDto, setRowDto] = useState([])
-  const { state: headerData } = useLocation()
+  const [isDisabled, setDisabled] = useState(false);
+  const [unit, setUnitData] = useState('');
+  const [warehouseData, setData] = useState('');
+  const [rowDto, setRowDto] = useState([]);
+  const { state: headerData } = useLocation();
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData
-  }, shallowEqual)
+    return state.authData.profileData;
+  }, shallowEqual);
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit
-  }, shallowEqual)
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
   useEffect(() => {
-    getBusinessUnitById(id)
-    getbusinessunitlist(profileData.accountId)
-  }, [id, profileData.accountId])
+    getBusinessUnitById(id);
+    getbusinessunitlist(profileData.accountId);
+  }, [id, profileData.accountId]);
   const getBusinessUnitById = async (id) => {
-    const res = await Axios.get(`/wms/Plant/GetPlantEditViewDataById?Id=${id}`)
-    const { data } = res
+    const res = await Axios.get(`/wms/Plant/GetPlantEditViewDataById?Id=${id}`);
+    const { data } = res;
     if (data.length) {
       res.data.forEach((r) => {
         const singleObject = {
@@ -52,39 +50,39 @@ export default function EditFormExtend({
           plantName: r.plantName,
           plantCode: r.plantCode,
           plantAddress: r.plantAddress,
-        }
-        setData(singleObject)
-      })
+        };
+        setData(singleObject);
+      });
     }
-  }
+  };
   const getbusinessunitlist = async (accId) => {
     const res = await Axios.get(
       `/vat/TaxDDL/GetBusinessUnitByAccIdDDL?AccountId=${accId}`
-    )
-    const { data } = res
+    );
+    const { data } = res;
     if (data.length) {
-      setUnitData(res.data)
+      setUnitData(res.data);
     }
-  }
+  };
   const getGridData = async (PlantId) => {
-    const res = await Axios.get(`/wms/Plant/GetBUByPlantId?PlantId=${PlantId}`)
-    const { data } = res
+    const res = await Axios.get(`/wms/Plant/GetBUByPlantId?PlantId=${PlantId}`);
+    const { data } = res;
 
     const finaldata = data.map((item) => ({
       businessUnitId: item.value,
       businessUnitName: item.label,
       configId: item.configId,
-    }))
+    }));
 
     if (data.length) {
-      setRowDto([...rowDto, ...finaldata])
+      setRowDto([...rowDto, ...finaldata]);
     }
-  }
+  };
 
   // save business unit data to DB
   const saveWarehouse = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      const { userId: actionBy } = profileData
+      const { userId: actionBy } = profileData;
       // create
       const objRow = rowDto.map((itm) => {
         return {
@@ -93,52 +91,52 @@ export default function EditFormExtend({
           businessUnitId: itm.businessUnitId,
           plantId: +id,
           actionBy,
-        }
-      })
-      const payload = objRow
+        };
+      });
+      const payload = objRow;
       try {
-        setDisabled(true)
-        await Axios.post('/wms/BusinessUnitPlant/CreateBUPlant', payload)
-        cb()
-        setDisabled(false)
-        toast.success('Save successfully', { toastId: shortid() })
-        backToWarehouseList()
+        setDisabled(true);
+        await Axios.post('/wms/BusinessUnitPlant/CreateBUPlant', payload);
+        cb();
+        setDisabled(false);
+        toast.success('Save successfully', { toastId: shortid() });
+        backToWarehouseList();
       } catch (error) {
-        console.log(error)
-        setDisabled(false)
-        toast.error(error?.response?.data?.message, { toastId: shortid() })
+        console.log(error);
+        setDisabled(false);
+        toast.error(error?.response?.data?.message, { toastId: shortid() });
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
-  }
+  };
 
   const backToWarehouseList = () => {
-    history.push(`/inventory-management/configuration/plant/`)
-  }
+    history.push(`/inventory-management/configuration/plant/`);
+  };
   const addHandler = (param) => {
     if (isUniq('businessUnitId', param.businessUnitId, rowDto)) {
-      setRowDto([param, ...rowDto])
+      setRowDto([param, ...rowDto]);
     }
-  }
+  };
   const remover = (param) => {
-    const filtered = rowDto.filter((itm, idx) => idx !== param)
-    setRowDto(filtered)
-  }
+    const filtered = rowDto.filter((itm, idx) => idx !== param);
+    setRowDto(filtered);
+  };
 
-  const btnRef = useRef()
+  const btnRef = useRef();
   const saveBtnClicker = () => {
     if (btnRef && btnRef.current) {
-      btnRef.current.click()
+      btnRef.current.click();
     }
-  }
+  };
 
-  const resetBtnRef = useRef()
+  const resetBtnRef = useRef();
   const ResetProductClick = () => {
     if (resetBtnRef && resetBtnRef.current) {
-      resetBtnRef.current.click()
+      resetBtnRef.current.click();
     }
-  }
+  };
 
   // const disableHandler = (cond) => {
   //   setDisabled(cond);
@@ -204,5 +202,5 @@ export default function EditFormExtend({
         )}
       </CardBody>
     </Card>
-  )
+  );
 }

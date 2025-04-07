@@ -1,4 +1,3 @@
-
 import { Chip } from '@mui/material';
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -55,7 +54,7 @@ export default function CertificateManagementTable() {
   }, shallowEqual);
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   let certificateManagementPermission = null;
@@ -79,7 +78,7 @@ export default function CertificateManagementTable() {
         intVesselCertificateId: 0,
       },
       setLoading,
-      () => {},
+      () => {}
     );
   };
 
@@ -95,7 +94,7 @@ export default function CertificateManagementTable() {
     getVesselDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setVesselDDL,
+      setVesselDDL
     );
     gridData();
     getCertificateNameDDL();
@@ -141,7 +140,7 @@ export default function CertificateManagementTable() {
                     className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        '/chartering/certificateManagement/certificateManagement/create',
+                        '/chartering/certificateManagement/certificateManagement/create'
                       )
                     }
                   >

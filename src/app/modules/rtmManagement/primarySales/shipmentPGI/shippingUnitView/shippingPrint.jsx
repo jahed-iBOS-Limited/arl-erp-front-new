@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Axios from "axios";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Axios from 'axios';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const ths = [
-  "Customer Name",
-  "Address",
-  "Delivery No",
-  "Item Code",
-  "Product Name",
-  "Rate",
-  "Qty",
-  "Amount",
+  'Customer Name',
+  'Address',
+  'Delivery No',
+  'Item Code',
+  'Product Name',
+  'Rate',
+  'Qty',
+  'Amount',
 ];
 
 export default function ShippingPrint({ id, shipmentCode }) {
   const printRef = useRef();
-  const [shippingPrint, setSingleShippingPrintInfo] = useState("");
+  const [shippingPrint, setSingleShippingPrintInfo] = useState('');
   let storeData = useSelector(
     (state) => {
       return {
@@ -44,9 +44,7 @@ export default function ShippingPrint({ id, shipmentCode }) {
       if (res && res.data) {
         setSingleShippingPrintInfo(res.data);
       }
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
 
   return (
@@ -76,20 +74,20 @@ export default function ShippingPrint({ id, shipmentCode }) {
             <div className="d-flex justify-content-between">
               <div>
                 <b>
-                  Unload Vehicle Weight:{" "}
-                  {`${shippingPrint?.unloadVehicleWeight}`}{" "}
-                </b>{" "}
+                  Unload Vehicle Weight:{' '}
+                  {`${shippingPrint?.unloadVehicleWeight}`}{' '}
+                </b>{' '}
                 <br />
               </div>
               <div>
-                <b>Item Net weight: {`${shippingPrint?.totalNetWeight}`} </b>{" "}
+                <b>Item Net weight: {`${shippingPrint?.totalNetWeight}`} </b>{' '}
                 <br />
               </div>
               <div>
                 <b>Item Volume: {`${shippingPrint?.totalVolume}`} </b> <br />
               </div>
               <div>
-                <b>Total Net Weight: {`${shippingPrint?.totalNetWeight}`} </b>{" "}
+                <b>Total Net Weight: {`${shippingPrint?.totalNetWeight}`} </b>{' '}
                 <br />
               </div>
             </div>
@@ -97,11 +95,11 @@ export default function ShippingPrint({ id, shipmentCode }) {
               <ICustomTable ths={ths}>
                 <tr>
                   <td className="text-center">
-                    {" "}
-                    {shippingPrint?.customerName}{" "}
+                    {' '}
+                    {shippingPrint?.customerName}{' '}
                   </td>
                   <td className="text-center">
-                    {" "}
+                    {' '}
                     {shippingPrint?.customerAddress}
                   </td>
                   <td className="text-center"> {shippingPrint?.deliveryId}</td>
@@ -109,27 +107,28 @@ export default function ShippingPrint({ id, shipmentCode }) {
                   <td className="text-center">{shippingPrint?.itemName}</td>
                   <td className="text-center">{shippingPrint?.itemPrice}</td>
                   <td className="text-center">{shippingPrint?.quantity}</td>
-                  <td className="text-center">{shippingPrint?.deliveryValue}</td>
-                  
+                  <td className="text-center">
+                    {shippingPrint?.deliveryValue}
+                  </td>
                 </tr>
               </ICustomTable>
             </div>
             <div
               className="d-flex justify-content-between"
-              style={{ margin: "80px 0 0" }}
+              style={{ margin: '80px 0 0' }}
             >
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Authority Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Driver Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Customer Signature
                 </b>
               </div>

@@ -1,11 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 
 export function ItemAttributesTable() {
   const [products, setProducts] = useState(null);
@@ -20,9 +19,9 @@ export function ItemAttributesTable() {
   );
   const profileData = useSelector((state) => state.authData.profileData);
 
-  const dispatchProduct = async (accId, buId, pageNo, pageSize,search) => {
+  const dispatchProduct = async (accId, buId, pageNo, pageSize, search) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
         `/item/ItemAttriute/GetItemAttributeByAccountIdBusinessUnitIdSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -30,7 +29,6 @@ export function ItemAttributesTable() {
       setProducts(res?.data);
       setLoading(false);
     } catch (error) {
-
       setLoading(false);
     }
   };
@@ -60,25 +58,25 @@ export function ItemAttributesTable() {
   // Table Property
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "itemAttributeName",
-      text: "Item Attribute Name",
+      dataField: 'itemAttributeName',
+      text: 'Item Attribute Name',
     },
     {
-      dataField: "itemCategoryName",
-      text: "Item Category Name",
+      dataField: 'itemCategoryName',
+      text: 'Item Category Name',
     },
     {
-      dataField: "uomName",
-      text: "UoM Name",
+      dataField: 'uomName',
+      text: 'UoM Name',
     },
   ];
-  const paginationSearchHandler =(searchValue)=>{
-    setPositionHandler(pageNo, pageSize, searchValue)
-  }
+  const paginationSearchHandler = (searchValue) => {
+    setPositionHandler(pageNo, pageSize, searchValue);
+  };
   return (
     <>
       {loading && <Loading />}

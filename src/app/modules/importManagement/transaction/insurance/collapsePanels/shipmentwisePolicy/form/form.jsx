@@ -1,23 +1,23 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import ICustomTable from "../../../../../../_helper/_customTable";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
+import ICustomTable from '../../../../../../_helper/_customTable';
 // import IEdit from "../../../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import { validationSchema } from "../helper";
-import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
-import IView from "../../../../../../_helper/_helperIcons/_view";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import { validationSchema } from '../helper';
+import numberWithCommas from '../../../../../../_helper/_numberWithCommas';
+import IView from '../../../../../../_helper/_helperIcons/_view';
 // import { toast } from "react-toastify";
-import IEdit from "./../../../../../../_helper/_helperIcons/_edit";
+import IEdit from './../../../../../../_helper/_helperIcons/_edit';
 
 export default function FormCmp({
   initData,
@@ -29,18 +29,18 @@ export default function FormCmp({
   gridData,
   // policyNumber,
   poNumber,
-  routeState
+  routeState,
 }) {
   // Table headers
   const header = [
-    "SL",
-    "PO No",
-    "Shipment No",
-    "Policy Number",
-    "Bill No",
-    "Amount",
-    "Policy Date",
-    "Action",
+    'SL',
+    'PO No',
+    'Shipment No',
+    'Policy Number',
+    'Bill No',
+    'Amount',
+    'Policy Date',
+    'Action',
   ];
 
   // const { state } = useLocation();
@@ -50,12 +50,12 @@ export default function FormCmp({
 
   //this function is for taking decision about title...
   const getTitle = (routeState) => {
-    if (routeState === "view") {
-      return "View Shipment Wise Insurance Policy";
-    } else if (routeState === "edit") {
-      return "Edit Shipment Wise Insurance Policy";
+    if (routeState === 'view') {
+      return 'View Shipment Wise Insurance Policy';
+    } else if (routeState === 'edit') {
+      return 'Edit Shipment Wise Insurance Policy';
     } else {
-      return "Shipment Wise Insurance Policy";
+      return 'Shipment Wise Insurance Policy';
     }
   };
 
@@ -106,7 +106,7 @@ export default function FormCmp({
 
               <CardBody>
                 <div className="d-flex justify-content-center align-items-center">
-                  <div style={{ fontWeight: "900" }}>PO Number:{poNumber}</div>
+                  <div style={{ fontWeight: '900' }}>PO Number:{poNumber}</div>
                 </div>
                 <Form className="form form-label-right">
                   <div className="row">
@@ -120,9 +120,9 @@ export default function FormCmp({
                               options={shipmentDDL || []}
                               value={values?.shipment}
                               onChange={(valueOption) => {
-                                setFieldValue("shipment", valueOption);
+                                setFieldValue('shipment', valueOption);
                                 setFieldValue(
-                                  "invoiceAmount",
+                                  'invoiceAmount',
                                   valueOption?.invoiceAmount
                                 );
                               }}
@@ -140,7 +140,7 @@ export default function FormCmp({
                               disabled={routeState === 'view'}
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  "policyNumber",
+                                  'policyNumber',
                                   valueOption?.target?.value.startsWith(
                                     values?.policyNumberActual
                                   )
@@ -157,7 +157,7 @@ export default function FormCmp({
                               name="policyDate"
                               type="date"
                               value={values?.policyDate}
-                              disabled={routeState === "view"}
+                              disabled={routeState === 'view'}
                             />
                           </div>
                           <div className="col-lg-3">
@@ -167,7 +167,7 @@ export default function FormCmp({
                               placeholder="Bill No"
                               name="billNo"
                               type="text"
-                              disabled={routeState === "view"}
+                              disabled={routeState === 'view'}
                             />
                           </div>
                           <div className="col-lg-3">
@@ -303,7 +303,7 @@ export default function FormCmp({
                               placeholder="Due Date"
                               name="dueDate"
                               type="date"
-                              disabled={routeState === "view"}
+                              disabled={routeState === 'view'}
                               // error={errors}
                               // touched={touched}
                             />
@@ -319,7 +319,7 @@ export default function FormCmp({
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -352,7 +352,7 @@ export default function FormCmp({
                               </td>
 
                               <td
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                                 className="text-center"
                               >
                                 <span
@@ -361,8 +361,8 @@ export default function FormCmp({
                                     history.push({
                                       pathname: `/managementImport/transaction/insurance-policy/view/${item?.shipmentId}`,
                                       state: {
-                                        checkbox: "shipmentWiseInsurancePolicy",
-                                        routeState: "view",
+                                        checkbox: 'shipmentWiseInsurancePolicy',
+                                        routeState: 'view',
                                         item: item,
                                       },
                                     })
@@ -376,8 +376,8 @@ export default function FormCmp({
                                     history.push({
                                       pathname: `/managementImport/transaction/insurance-policy/edit/${item?.shipmentId}`,
                                       state: {
-                                        checkbox: "shipmentWiseInsurancePolicy",
-                                        routeState: "edit",
+                                        checkbox: 'shipmentWiseInsurancePolicy',
+                                        routeState: 'edit',
                                         item: item,
                                       },
                                     })
@@ -394,13 +394,13 @@ export default function FormCmp({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     // onSubmit={() => resetForm(initData)}
                   ></button>

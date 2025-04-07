@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Modal } from "react-bootstrap";
+import React from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 export default function ConfirmtionModal({
   show,
@@ -22,7 +22,7 @@ export default function ConfirmtionModal({
         <Modal.Body>{message}</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={onYesAction}>
-           Sure, Update
+            Sure, Update
           </Button>
           <Button variant="success" onClick={() => handleClose(false)}>
             Close

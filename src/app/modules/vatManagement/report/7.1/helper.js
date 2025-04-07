@@ -1,18 +1,16 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getVatBranches_api = async (userId, accid, buid, setter) => {
   try {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
-    )
+    );
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 
 export const getGridData = async (values, setter, cb) => {
   try {
@@ -21,7 +19,7 @@ export const getGridData = async (values, setter, cb) => {
     );
     if (res.status === 200 && res?.data) {
       if (res?.data?.length === 0) {
-        toast.warning("No Data Found", { toastId: "NDF" });
+        toast.warning('No Data Found', { toastId: 'NDF' });
       }
       setter(res?.data);
       cb();
@@ -36,7 +34,7 @@ export const getGridDataTwo = async (values, setter, cb) => {
     );
     if (res.status === 200 && res?.data) {
       if (res?.data?.length === 0) {
-        toast.warning("No Data Found", { toastId: "NDF" });
+        toast.warning('No Data Found', { toastId: 'NDF' });
       }
       setter(res?.data);
       cb();

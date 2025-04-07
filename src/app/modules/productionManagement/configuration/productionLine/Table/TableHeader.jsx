@@ -1,7 +1,7 @@
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { TableRow } from "./TableRow";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { TableRow } from './TableRow';
+import { useHistory } from 'react-router-dom';
 
 export default function ProductionLineTable() {
   const history = useHistory();
@@ -12,7 +12,7 @@ export default function ProductionLineTable() {
           className="btn btn-primary"
           onClick={() =>
             history.push(
-              "/production-management/configuration/productionline/create"
+              '/production-management/configuration/productionline/create'
             )
           }
         >

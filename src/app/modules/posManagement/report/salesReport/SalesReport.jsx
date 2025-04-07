@@ -1,95 +1,94 @@
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import * as Yup from "yup";
-import { IInput } from "../../../_helper/_input";
-import { getSalesReportData, getWareHouseDDL } from "../helper";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../_helper/_todayDate';
+import NewSelect from '../../../_helper/_select';
+import * as Yup from 'yup';
+import { IInput } from '../../../_helper/_input';
+import { getSalesReportData, getWareHouseDDL } from '../helper';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const challanBaseHeader = [
-  "Sl",
-  "Challan",
-  "Customer Name",
-  "Date",
-  "Item",
-  "MRP",
-  "item Price",
-  "Total Quantity",
-  "Total Net Amount",
+  'Sl',
+  'Challan',
+  'Customer Name',
+  'Date',
+  'Item',
+  'MRP',
+  'item Price',
+  'Total Quantity',
+  'Total Net Amount',
 ];
 const partnerBaseHeader = [
-  "Sl",
-  "Customer Name",
-  "Total Quantity",
-  "Cash Amount",
-  "Credit Amount",
-  "Total Net Amount"
+  'Sl',
+  'Customer Name',
+  'Total Quantity',
+  'Cash Amount',
+  'Credit Amount',
+  'Total Net Amount',
 ];
 const dateBaseHeader = [
-  "Sl",
-  "Date",
-  "Item Price",
-  "Quantity",
-  "Total Net Amount",
+  'Sl',
+  'Date',
+  'Item Price',
+  'Quantity',
+  'Total Net Amount',
 ];
 const itemBaseHeader = [
-  "Sl",
-  "Item Name",
-  "Item Code",
-  "Item Price",
-  "Quantity",
-  "Total Net Amount",
+  'Sl',
+  'Item Name',
+  'Item Code',
+  'Item Price',
+  'Quantity',
+  'Total Net Amount',
 ];
 const itemandDateBaseHeader = [
-  "Sl",
-  "Date",
-  "Item Name",
-  "Item Code",
-  "Item Price",
-  "Quantity",
-  "Total Net Amount",
+  'Sl',
+  'Date',
+  'Item Name',
+  'Item Code',
+  'Item Price',
+  'Quantity',
+  'Total Net Amount',
 ];
 const salesandDeliveryHeader = [
-  "Sl",
-  "Date",
-  "Quantity",
-  "Delivery Value",
-  "Net Value",
-  "Cash Amount",
-  "Credit Amount",
-  "Grand Collection",
+  'Sl',
+  'Date',
+  'Quantity',
+  'Delivery Value',
+  'Net Value',
+  'Cash Amount',
+  'Credit Amount',
+  'Grand Collection',
 ];
 const reportDDL = [
-  { value: 1, label: "Challan Base Detaills" },
-  { value: 2, label: "Partner Base Detaills" },
-  { value: 3, label: "Day Base Detaills" },
-  { value: 4, label: "Item Base Detaills" },
-  { value: 5, label: "Item and Date Base Detaills" },
-  { value: 6, label: "Sales and Delivery Detaills" },
+  { value: 1, label: 'Challan Base Detaills' },
+  { value: 2, label: 'Partner Base Detaills' },
+  { value: 3, label: 'Day Base Detaills' },
+  { value: 4, label: 'Item Base Detaills' },
+  { value: 5, label: 'Item and Date Base Detaills' },
+  { value: 6, label: 'Sales and Delivery Detaills' },
 ];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
-  toDate: Yup.date().required("To Date is required"),
+  fromDate: Yup.date().required('From Date is required'),
+  toDate: Yup.date().required('To Date is required'),
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
 });
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
+  reportType: '',
 };
 
 export default function SalesReport() {
@@ -140,7 +139,6 @@ export default function SalesReport() {
   let grandTotalCashAmount = 0;
   let grandTotalCreditAmount = 0;
 
-
   return (
     <Formik>
       <>
@@ -184,7 +182,7 @@ export default function SalesReport() {
                             label="Outlet Name"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("whName", valueOption);
+                              setFieldValue('whName', valueOption);
                             }}
                             placeholder="Outlet Name"
                             errors={errors}
@@ -198,7 +196,7 @@ export default function SalesReport() {
                             type="date"
                             name="fromDate"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -210,7 +208,7 @@ export default function SalesReport() {
                             label="To date"
                             name="toDate"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -222,14 +220,14 @@ export default function SalesReport() {
                             label="Report Type"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("reportType", valueOption);
+                              setFieldValue('reportType', valueOption);
                             }}
                             placeholder="Report Type"
                             errors={errors}
                             touched={touched}
                           />
                         </div>
-                        <div style={{ marginTop: "18px" }} className="col-lg-1">
+                        <div style={{ marginTop: '18px' }} className="col-lg-1">
                           <button
                             disabled={
                               !values?.fromDate ||
@@ -253,45 +251,52 @@ export default function SalesReport() {
                       {values?.reportType?.value === 1 && (
                         <ICustomTable ths={challanBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount += +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue;
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td> {itm.strDeliveryCode}</td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {itm.strShipToPartnerName}
                                 </td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {_dateFormatter(itm.dteDeliveryDate)}
                                 </td>
                                 <td className="text-left">
-                                  {" "}
+                                  {' '}
                                   {itm.itemname}&nbsp;
-                                  {"[" + `${itm?.itemcode}` + "]"}
+                                  {'[' + `${itm?.itemcode}` + ']'}
                                 </td>
                                 <td className="text-right"> {itm.numMRP}</td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numItemPrice}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="8" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-center"
+                              colspan="8"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               Grand Total
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -300,15 +305,16 @@ export default function SalesReport() {
                       {values?.reportType?.value === 2 && (
                         <ICustomTable ths={partnerBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount += +itm?.numTotalNetValue
-                            grandTotalCashAmount += +itm?.numCashAmount || 0
-                            grandTotalCreditAmount += +itm?.numCreditAmount || 0
+                            grandTotalNetAmount += +itm?.numTotalNetValue;
+                            grandTotalCashAmount += +itm?.numCashAmount || 0;
+                            grandTotalCreditAmount +=
+                              +itm?.numCreditAmount || 0;
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td> {itm.strSoldToPartnerName}</td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
@@ -318,23 +324,36 @@ export default function SalesReport() {
                                   {_formatMoney(itm?.numCreditAmount)}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="3" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-center"
+                              colspan="3"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               Grand Total
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalCashAmount.toFixed(2)}
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalCreditAmount.toFixed(2)}
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -343,34 +362,41 @@ export default function SalesReport() {
                       {values?.reportType?.value === 3 && (
                         <ICustomTable ths={dateBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount += +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue;
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {_dateFormatter(itm.dteDeliveryDate)}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numItemPrice}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="4" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-center"
+                              colspan="4"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               Grand Total
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -379,32 +405,39 @@ export default function SalesReport() {
                       {values?.reportType?.value === 4 && (
                         <ICustomTable ths={itemBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount += +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue;
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td className="text-left"> {itm.itemname}</td>
                                 <td className="text-left"> {itm.itemcode}</td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numItemPrice}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="5" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-center"
+                              colspan="5"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               Grand Total
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -413,36 +446,43 @@ export default function SalesReport() {
                       {values?.reportType?.value === 5 && (
                         <ICustomTable ths={itemandDateBaseHeader}>
                           {rowDto.map((itm, i) => {
-                            grandTotalNetAmount += +itm?.numTotalNetValue
+                            grandTotalNetAmount += +itm?.numTotalNetValue;
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {_dateFormatter(itm.dteDeliveryDate)}
                                 </td>
                                 <td className="text-left"> {itm.itemname}</td>
                                 <td className="text-left"> {itm.itemcode}</td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numItemPrice}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="6" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-center"
+                              colspan="6"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               Grand Total
                             </td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
                               {grandTotalNetAmount.toFixed(2)}
                             </td>
                           </tr>
@@ -458,29 +498,28 @@ export default function SalesReport() {
                                 <td className="text-center"> {i + 1}</td>
                                 <td> {_dateFormatter(itm.dteDeliveryDate)}</td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numDeliveryValue}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numTotalNetValue}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numCashAmount}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
+                                  {' '}
                                   {itm.numCreditAmount}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
-                                  {itm.numCreditAmount +
-                                    itm.numCashAmount}
+                                  {' '}
+                                  {itm.numCreditAmount + itm.numCashAmount}
                                 </td>
                               </tr>
                             );
@@ -497,9 +536,9 @@ export default function SalesReport() {
                             </td>
                             <td className="text-right">
                               <b>
-                                {(totalCashAmount +
-                                  totalCreditAmount
-                                ).toFixed(2)}
+                                {(totalCashAmount + totalCreditAmount).toFixed(
+                                  2
+                                )}
                               </b>
                             </td>
                           </tr>

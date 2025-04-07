@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import NewSelect from "../../../../../_helper/_select";
-import IInput from "../../../../../_helper/_inputField";
-import { useEffect } from "react";
-import { getBankBranchDDL, getBankDDL } from "../../helper";
-import { useHistory } from "react-router-dom";
-import InputField from "../../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { getBankAc } from "../../../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import NewSelect from '../../../../../_helper/_select';
+import IInput from '../../../../../_helper/_inputField';
+import { useEffect } from 'react';
+import { getBankBranchDDL, getBankDDL } from '../../helper';
+import { useHistory } from 'react-router-dom';
+import InputField from '../../../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import { getBankAc } from '../../../../../_helper/_commonApi';
 
 const fdrRegister = Yup.object().shape({
   bank: Yup.object()
     .shape({
-      label: Yup.string().required("Bank is required"),
-      value: Yup.string().required("Bank is required"),
+      label: Yup.string().required('Bank is required'),
+      value: Yup.string().required('Bank is required'),
     })
     .nullable(),
   bankBranch: Yup.object()
     .shape({
-      label: Yup.string().required("Branch is required"),
-      value: Yup.string().required("Branch is required"),
+      label: Yup.string().required('Branch is required'),
+      value: Yup.string().required('Branch is required'),
     })
     .nullable(),
   // bankAccount: Yup.object()
@@ -30,11 +30,11 @@ const fdrRegister = Yup.object().shape({
   //     value: Yup.string().required("Bank Account is required"),
   //   })
   //   .nullable(),
-  principle: Yup.string().required("Principal is required"),
-  interestRate: Yup.number().required("Interest Rate is required"),
-  fdrNo: Yup.string().required("FDR No is required"),
-  openingDate: Yup.date().required("Opening Date is required"),
-  termDays: Yup.number().required("Term Days is required"),
+  principle: Yup.string().required('Principal is required'),
+  interestRate: Yup.number().required('Interest Rate is required'),
+  fdrNo: Yup.string().required('FDR No is required'),
+  openingDate: Yup.date().required('Opening Date is required'),
+  termDays: Yup.number().required('Term Days is required'),
 });
 
 export default function FdrForm({
@@ -64,13 +64,12 @@ export default function FdrForm({
         setBankAccountDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPrincipal = (setFieldValue, ait, exDuty, interest) => {
     const newPrincipal =
       Number(oldPrincipal) + Number(interest) - Number(ait) - Number(exDuty);
-    setFieldValue("principle", newPrincipal || 0);
+    setFieldValue('principle', newPrincipal || 0);
   };
 
   return (
@@ -82,7 +81,7 @@ export default function FdrForm({
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/financial-management/banking/fdr-register");
+            history.push('/financial-management/banking/fdr-register');
           });
         }}
       >
@@ -111,7 +110,7 @@ export default function FdrForm({
                         onChange={(e) => {
                           if (+e.target.value < 0)
                             return toast.warn("AIT can't be less than zero");
-                          setFieldValue("ait", e.target.value);
+                          setFieldValue('ait', e.target.value);
                           setPrincipal(
                             setFieldValue,
                             +e.target.value,
@@ -130,7 +129,7 @@ export default function FdrForm({
                         onChange={(e) => {
                           if (+e.target.value < 0)
                             return toast.warn("Excise can't be less than zero");
-                          setFieldValue("exDuty", e.target.value);
+                          setFieldValue('exDuty', e.target.value);
                           setPrincipal(
                             setFieldValue,
                             values?.ait || 0,
@@ -149,7 +148,7 @@ export default function FdrForm({
                         onChange={(e) => {
                           if (+e.target.value < 0)
                             return toast.warn("Interest can't less than zero");
-                          setFieldValue("interest", e.target.value);
+                          setFieldValue('interest', e.target.value);
                           setPrincipal(
                             setFieldValue,
                             values?.ait || 0,
@@ -162,7 +161,7 @@ export default function FdrForm({
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
               <div className="row global-form h-100">
                 <div className="col-lg-3">
@@ -171,8 +170,8 @@ export default function FdrForm({
                     options={bankDDL}
                     value={values?.bank}
                     onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
-                      setFieldValue("bankBranch", "");
+                      setFieldValue('bank', valueOption);
+                      setFieldValue('bankBranch', '');
 
                       getBankBranchDDL(
                         valueOption?.value,
@@ -193,7 +192,7 @@ export default function FdrForm({
                     options={bankBranchDDL}
                     value={values?.bankBranch}
                     onChange={(valueOption) => {
-                      setFieldValue("bankBranch", valueOption);
+                      setFieldValue('bankBranch', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -208,7 +207,7 @@ export default function FdrForm({
                     options={bankAccountDDL}
                     value={values?.bankAccount}
                     onChange={(valueOption) => {
-                      setFieldValue("bankAccount", valueOption);
+                      setFieldValue('bankAccount', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -225,7 +224,7 @@ export default function FdrForm({
                     name="fdrNo"
                     placeholder="FDR No"
                     onChange={(e) => {
-                      setFieldValue("fdrNo", e.target.value);
+                      setFieldValue('fdrNo', e.target.value);
                     }}
                     type="string"
                     disabled={isEdit}
@@ -248,9 +247,9 @@ export default function FdrForm({
                     placeholder="Term (Days)"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("termDays", e.target.value);
+                        setFieldValue('termDays', e.target.value);
                       } else {
-                        setFieldValue("termDays", "");
+                        setFieldValue('termDays', '');
                       }
                     }}
                     type="number"
@@ -268,9 +267,9 @@ export default function FdrForm({
                     placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("principle", e.target.value);
+                        setFieldValue('principle', e.target.value);
                       } else {
-                        setFieldValue("principle", "");
+                        setFieldValue('principle', '');
                       }
                     }}
                     type="number"
@@ -286,9 +285,9 @@ export default function FdrForm({
                     placeholder="Interest Rate"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("interestRate", e.target.value);
+                        setFieldValue('interestRate', e.target.value);
                       } else {
-                        setFieldValue("interestRate", "");
+                        setFieldValue('interestRate', '');
                       }
                     }}
                     type="number"
@@ -303,7 +302,7 @@ export default function FdrForm({
                     name="leanTo"
                     placeholder="Lean To"
                     onChange={(e) => {
-                      setFieldValue("leanTo", e.target.value);
+                      setFieldValue('leanTo', e.target.value);
                     }}
                     type="string"
                   />
@@ -312,14 +311,14 @@ export default function FdrForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,30 +1,27 @@
-
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import ReactToPrint from "react-to-print";
-import Loading from "./../../../../_helper/loader/_loader";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import ReactToPrint from 'react-to-print';
+import Loading from './../../../../_helper/loader/_loader';
 import {
   getReportForInvReq,
   getReportForInvReqInternal,
   getReportForInvReqW2w,
   GetMESConfigurationBusinessUnitWiseByAccountId,
-} from "../helper";
+} from '../helper';
 import {
   getSingleDataByForBackCalculation,
   getSingleDataById,
-} from "./../../../../productionManagement/manufacturingExecutionSystem/productionEntry/helper";
-import BackCalculationPEViewModal from "./../../../../productionManagement/manufacturingExecutionSystem/productionEntry/ViewForBackCalculation/ViewModal";
-import ProductionEntryViewModal from "./../../../../productionManagement/manufacturingExecutionSystem/productionEntry/View/ViewModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../attachmentView/viewForm";
+} from './../../../../productionManagement/manufacturingExecutionSystem/productionEntry/helper';
+import BackCalculationPEViewModal from './../../../../productionManagement/manufacturingExecutionSystem/productionEntry/ViewForBackCalculation/ViewModal';
+import ProductionEntryViewModal from './../../../../productionManagement/manufacturingExecutionSystem/productionEntry/View/ViewModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../attachmentView/viewForm';
 
 let imageObj = {
   8: iMarineIcon,
@@ -37,7 +34,7 @@ export function InventoryTransactionReportViewTableRow({
   currentRowData,
 }) {
   const [loading, setLoading] = useState(false);
-  const [itemReqReport, setiIemReqReport] = useState("");
+  const [itemReqReport, setiIemReqReport] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const [poData, setPOData] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -45,10 +42,8 @@ export function InventoryTransactionReportViewTableRow({
     {}
   );
   const [singleData, setSingleData] = useState({});
-  const [
-    modalShowForBackCalculation,
-    setModalShowForBackCalculation,
-  ] = useState(false);
+  const [modalShowForBackCalculation, setModalShowForBackCalculation] =
+    useState(false);
 
   const [data, setData] = useState({});
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
@@ -134,7 +129,7 @@ export function InventoryTransactionReportViewTableRow({
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -157,13 +152,13 @@ export function InventoryTransactionReportViewTableRow({
                         {/* Transaction Code: */}
                         <span className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.inventoryTransactionCode}
-                        </span>{" "}
+                        </span>{' '}
                         GRn Date:
                         <span className="font-weight-bold mr-2 ml-1">
                           {_dateFormatter(
                             itemReqReport?.objHeader?.transectionDate
                           )}
-                        </span>{" "}
+                        </span>{' '}
                         Transaction Group Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.transactionGroupName}
@@ -184,9 +179,9 @@ export function InventoryTransactionReportViewTableRow({
                           style={
                             currentRowData?.transactionTypeId === 14
                               ? {
-                                  color: "blue",
-                                  borderBottom: "1px solid",
-                                  cursor: "pointer",
+                                  color: 'blue',
+                                  borderBottom: '1px solid',
+                                  cursor: 'pointer',
                                 }
                               : {}
                           }
@@ -210,31 +205,31 @@ export function InventoryTransactionReportViewTableRow({
                         >
                           {itemReqReport?.objHeader?.referenceCode
                             ? itemReqReport?.objHeader?.referenceCode
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Business Partner Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.businessPartnerName
                             ? itemReqReport?.objHeader?.businessPartnerName
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Cost Center Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.costCenterName
                             ? itemReqReport?.objHeader?.costCenterName
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Project Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.projectName
                             ? itemReqReport?.objHeader?.projectName
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Personnel Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.personnelName
                             ? itemReqReport?.objHeader?.personnelName
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                       </div>
                       <div className="my-3">
@@ -244,13 +239,13 @@ export function InventoryTransactionReportViewTableRow({
                           <sapn className="font-weight-bold mr-2 ml-1">
                             {itemReqReport?.objHeader?.adjustmentJournalCode
                               ? itemReqReport?.objHeader?.adjustmentJournalCode
-                              : "NA"}
+                              : 'NA'}
                           </sapn>
                           Challan:
                           <sapn className="font-weight-bold mr-2 ml-1">
                             {itemReqReport?.objHeader?.challan
                               ? itemReqReport?.objHeader?.challan
-                              : "NA"}
+                              : 'NA'}
                           </sapn>
                           Challan Date:
                           <sapn className="font-weight-bold mr-2 ml-1">
@@ -258,13 +253,13 @@ export function InventoryTransactionReportViewTableRow({
                               ? _dateFormatter(
                                   itemReqReport?.objHeader?.challanDateTime
                                 )
-                              : "NA"}
+                              : 'NA'}
                           </sapn>
                           Vat Challan:
                           <sapn className="font-weight-bold mr-2 ml-1">
                             {itemReqReport?.objHeader?.vatChallan
                               ? itemReqReport?.objHeader?.vatChallan
-                              : "NA"}
+                              : 'NA'}
                           </sapn>
                           Vat Amount:
                           <sapn className="font-weight-bold mr-2 ml-1">
@@ -280,7 +275,7 @@ export function InventoryTransactionReportViewTableRow({
                           <sapn className="font-weight-bold mr-2 ml-1">
                             {itemReqReport?.objHeader?.gateEntryNo
                               ? itemReqReport?.objHeader?.gateEntryNo
-                              : "NA"}
+                              : 'NA'}
                           </sapn>
                         </>
                         {/* )} */}
@@ -288,7 +283,7 @@ export function InventoryTransactionReportViewTableRow({
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.comments
                             ? itemReqReport?.objHeader?.comments
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         <>
                           Attachment
@@ -310,7 +305,7 @@ export function InventoryTransactionReportViewTableRow({
                           </sapn>
                         </>
                         <div className="text-right">
-                          <b>Total Amount : </b>{" "}
+                          <b>Total Amount : </b>{' '}
                           {(
                             (+itemReqReport?.objHeader?.vatAmount || 0) +
                             (+totalAmount || 0)
@@ -382,7 +377,7 @@ export function InventoryTransactionReportViewTableRow({
                             <td></td>
                             <td></td> */}
                                 {/* <td colspan={+grId === 13 ? "9" : "5"}></td> */}
-                                <td colspan={"5"}></td>
+                                <td colspan={'5'}></td>
                                 <td className="font-weight-bold">Total</td>
                                 {/* <td className="text-right">{data?.currentStock}</td> */}
                                 <td className="text-right">

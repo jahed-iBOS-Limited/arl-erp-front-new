@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { generateExcel } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { generateExcel } from './helper';
 const initData = {
   date: _todayDate(),
-  reportType: "",
-  businessUnit: "",
-  plant: "",
-  warehouse: "",
+  reportType: '',
+  businessUnit: '',
+  plant: '',
+  warehouse: '',
 };
 export default function GLWiseBalance() {
   const {
@@ -31,25 +31,25 @@ export default function GLWiseBalance() {
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-
   }, []);
   const saveHandler = (values, cb) => {};
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowDto(
       `/fino/Report/GetGlWiseInventoryReport?intBusinessUnitId=${
         values?.businessUnit?.value
-      }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${values
-        ?.warehouse?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}&reportType=${
+      }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${
+        values?.warehouse?.value || 0
+      }&pageNo=${pageNo}&pageSize=${pageSize}&reportType=${
         values?.reportType?.value
       }`,
       (data) => {
         getExcelData(
           `/fino/Report/GetGlWiseInventoryReport?intBusinessUnitId=${
             values?.businessUnit?.value
-          }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${values
-            ?.warehouse?.value || 0}&pageNo=${pageNo}&pageSize=${
+          }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${
+            values?.warehouse?.value || 0
+          }&pageNo=${pageNo}&pageSize=${
             data?.[0]?.totalRows
           }&reportType=${values?.reportType?.value}`
         );
@@ -94,9 +94,9 @@ export default function GLWiseBalance() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('businessUnit', valueOption);
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                         getPlantDDL(
                           `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
                             profileData?.userId
@@ -105,9 +105,9 @@ export default function GLWiseBalance() {
                           }&OrgUnitTypeId=${7}`
                         );
                       } else {
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('businessUnit', '');
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                         setPlantDDL([]);
                         setWareHouseDDL([]);
                       }
@@ -124,14 +124,14 @@ export default function GLWiseBalance() {
                     label="Plant"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
                         getWareHouseDDL(
                           `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                         );
                       } else {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
                         setWareHouseDDL([]);
                       }
                     }}
@@ -144,12 +144,12 @@ export default function GLWiseBalance() {
                   <NewSelect
                     name="warehouse"
                     options={
-                      [{ value: 0, label: "All" }, ...wareHouseDDL] || []
+                      [{ value: 0, label: 'All' }, ...wareHouseDDL] || []
                     }
                     value={values?.warehouse}
                     label="WareHouse"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('warehouse', valueOption);
                     }}
                     placeholder="WareHouse"
                     errors={errors}
@@ -160,13 +160,13 @@ export default function GLWiseBalance() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 0, label: "Summary" },
-                      { value: 1, label: "Details" },
+                      { value: 0, label: 'Summary' },
+                      { value: 1, label: 'Details' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -179,7 +179,7 @@ export default function GLWiseBalance() {
                     type="date"
                     name="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                   />
                 </div>
@@ -192,7 +192,7 @@ export default function GLWiseBalance() {
                       !values?.reportType
                     }
                     onClick={() => {
-                      setPositionHandler(pageNo, pageSize, values, "");
+                      setPositionHandler(pageNo, pageSize, values, '');
                     }}
                     className="btn btn-primary"
                   >

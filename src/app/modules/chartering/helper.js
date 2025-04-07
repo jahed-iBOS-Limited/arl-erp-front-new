@@ -4,7 +4,7 @@ import { imarineBaseUrl } from '../../../App';
 export const GetPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -15,7 +15,7 @@ export const GetPortDDL = async (setter) => {
 export const GetDomesticPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetDomesticPortDDL`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetDomesticPortDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -26,7 +26,7 @@ export const GetDomesticPortDDL = async (setter) => {
 export const GetLighterVesselDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -37,7 +37,7 @@ export const GetLighterVesselDDL = async (accId, buId, setter) => {
 export const GetCountryDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`,
+      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -49,7 +49,7 @@ export const getVesselDDL = async (accId, buId, setter, vesselId) => {
   const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ''; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`,
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
     );
     setter(res.data);
   } catch (error) {
@@ -60,7 +60,7 @@ export const getVesselDDL = async (accId, buId, setter, vesselId) => {
 export const getMotherVesselDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res.data);
   } catch (error) {
@@ -71,7 +71,7 @@ export const getMotherVesselDDL = async (accId, buId, setter) => {
 export const GetLighterConsigneeDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterConsigneeDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterConsigneeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -83,13 +83,13 @@ export const getVoyageDDLByVesselId = async (
   id,
   setLoading,
   setter,
-  typeId,
+  typeId
 ) => {
   setLoading(true);
   const type = typeId ? `&TypeId=${typeId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${type}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${type}`
     );
     setter(res?.data);
     setLoading(false);
@@ -117,7 +117,7 @@ export const getVoyageDDLFilter = async ({
     : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${typeIdPath}${isForPurchasePath}${isCompletePath}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${typeIdPath}${isForPurchasePath}${isCompletePath}`
     );
     setter(res?.data);
     setLoading && setLoading(false);
@@ -142,7 +142,7 @@ export const getVoyageDDLNew = async ({
     const res = await axios.get(
       `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=${accId}&BusinessUnitId=${buId}&vesselId=${id}&VoyageTypeId=${
         voyageTypeId || 0
-      }&ReturnType=${isComplete || 0}&HireTypeId=${hireType || 0}`,
+      }&ReturnType=${isComplete || 0}&HireTypeId=${hireType || 0}`
     );
     setter(res?.data);
     setLoading && setLoading(false);
@@ -156,13 +156,13 @@ export const getVoyageDDLForPurchaseBunker = async (
   id,
   setLoading,
   setter,
-  typeId,
+  typeId
 ) => {
   setLoading(true);
   const type = typeId ? `&TypeId=${typeId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${type}&isForPurchase=true`,
+      `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLByVesselId?vesselId=${id}${type}&isForPurchase=true`
     );
     setter(res?.data);
     setLoading(false);
@@ -184,7 +184,7 @@ export const getAgencyDDL = async (setter) => {
 export const getCharterPartyDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res.data);
   } catch (error) {
@@ -222,7 +222,7 @@ export const getShipperDDL = async (setter) => {
 export const getCargoDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`,
+      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`
     );
     setter(res.data);
   } catch (error) {
@@ -233,7 +233,7 @@ export const getCargoDDL = async (setter) => {
 export const getBankDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/OwnerInfo/GetBankDDL`,
+      `${imarineBaseUrl}/domain/OwnerInfo/GetBankDDL`
     );
     setter(res.data);
   } catch (error) {
@@ -244,7 +244,7 @@ export const getBankDDL = async (setter) => {
 export const getBankBranchDDL = async (bankId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/OwnerInfo/GetBankBranchDDL?BankId=${bankId}`,
+      `${imarineBaseUrl}/domain/OwnerInfo/GetBankBranchDDL?BankId=${bankId}`
     );
     setter(res.data);
   } catch (error) {
@@ -255,7 +255,7 @@ export const getBankBranchDDL = async (bankId, setter) => {
 export const getChartererVoyageCodeDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetChartererVoyageCode`,
+      `${imarineBaseUrl}/domain/Voyage/GetChartererVoyageCode`
     );
     setter(res.data);
   } catch (error) {
@@ -266,7 +266,7 @@ export const getChartererVoyageCodeDDL = async (setter) => {
 export const getOwnerInfoDDL = async ({ setter }) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Vessel/GetOwnerInfoDDL`,
+      `${imarineBaseUrl}/domain/Vessel/GetOwnerInfoDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -277,7 +277,7 @@ export const getOwnerInfoDDL = async ({ setter }) => {
 export const getOwnerBankInfoDetailsById = async (ownerId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/OwnerInfo/GetOwnerInfoDetailsById?OwnerId=${ownerId}`,
+      `${imarineBaseUrl}/domain/OwnerInfo/GetOwnerInfoDetailsById?OwnerId=${ownerId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -287,11 +287,11 @@ export const getOwnerBankInfoDetailsById = async (ownerId, setter) => {
 
 export const getOwnerBankInfoDetailsByStakeHolderId = async (
   ownerId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -302,7 +302,7 @@ export const getOwnerBankInfoDetailsByStakeHolderId = async (
 export const getStakeholderTypeDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeDDL`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeDDL`
     );
     setter(res?.data);
   } catch (err) {
@@ -314,11 +314,11 @@ export const getStakeholderNameByTypeId = async (
   accId,
   buId,
   typeId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStackHolderDDlByType?AccountId=${accId}&BusinessUnitId=${buId}&TypeId=${typeId}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStackHolderDDlByType?AccountId=${accId}&BusinessUnitId=${buId}&TypeId=${typeId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -330,7 +330,7 @@ export const getChartererByVoyageId = async (voyageId, setter, setLoading) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GeChartererDDLByVoyage?VoyageId=${voyageId}`,
+      `${imarineBaseUrl}/domain/Voyage/GeChartererDDLByVoyage?VoyageId=${voyageId}`
     );
     setter(res?.data);
     setLoading && setLoading(false);
@@ -343,7 +343,7 @@ export const getChartererByVoyageId = async (voyageId, setter, setLoading) => {
 export const getBusinessPartnerTypeDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LayTimeInfo/GetStackTypeDDlForChartShip`,
+      `${imarineBaseUrl}/domain/LayTimeInfo/GetStackTypeDDlForChartShip`
     );
     setter(res?.data);
   } catch (err) {
@@ -354,11 +354,11 @@ export const getBusinessPartnerTypeDDL = async (setter) => {
 export const getBusinessPartnerNameByVoyageDDL = async (
   voyageId,
   typeId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LayTimeInfo/GetStackDDlFromVoyage?VoyageId=${voyageId}&StackTypeId=${typeId}`,
+      `${imarineBaseUrl}/domain/LayTimeInfo/GetStackDDlFromVoyage?VoyageId=${voyageId}&StackTypeId=${typeId}`
     );
     setter(res?.data);
   } catch (err) {

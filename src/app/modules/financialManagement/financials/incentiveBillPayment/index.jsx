@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IViewModal from "../../../_helper/_viewModal";
-import IncentiveBillPaymentModal from "./incentiveBillPaymentModal";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IViewModal from '../../../_helper/_viewModal';
+import IncentiveBillPaymentModal from './incentiveBillPaymentModal';
 const initData = {
-  year: "",
+  year: '',
 };
 
 export default function IncentiveBillPaymentLanding() {
@@ -19,51 +19,47 @@ export default function IncentiveBillPaymentLanding() {
   }, shallowEqual);
 
   const saveHandler = (values, cb) => {};
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const [openModal, setOpenModal] = useState(false);
 
   const getMonthNameFromMonthId = (monthId) => {
     switch (monthId) {
       case 1:
-        return "January";
+        return 'January';
       case 2:
-        return "February";
+        return 'February';
       case 3:
-        return "March";
+        return 'March';
       case 4:
-        return "April";
+        return 'April';
 
       case 5:
-        return "May";
+        return 'May';
 
       case 6:
-        return "June";
+        return 'June';
 
       case 7:
-        return "July";
+        return 'July';
 
       case 8:
-        return "August";
+        return 'August';
 
       case 9:
-        return "September";
+        return 'September';
 
       case 10:
-        return "October";
+        return 'October';
 
       case 11:
-        return "November";
+        return 'November';
 
       case 12:
-        return "December";
+        return 'December';
 
       default:
-        return "";
+        return '';
     }
   };
 
@@ -134,10 +130,10 @@ export default function IncentiveBillPaymentLanding() {
                     label="Year"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("year", valueOption);
+                        setFieldValue('year', valueOption);
                         getData(valueOption?.value);
                       } else {
-                        setFieldValue("year", "");
+                        setFieldValue('year', '');
                       }
                     }}
                     errors={errors}
@@ -165,80 +161,80 @@ export default function IncentiveBillPaymentLanding() {
               </div>
 
               <div className="mt-1">
-              <div className="table-responsive">
-              <table className="table table-striped table-bordered bj-table bj-table-landing">
-                  {tableData?.length ? (
-                    <thead>
-                      <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            checked={
-                              tableData?.length > 0 &&
-                              tableData?.every((item) => item?.isChecked)
-                            }
-                            onChange={(e) => {
-                              const modifyData = tableData?.map((itm) => ({
-                                ...itm,
-                                isChecked: e.target.checked,
-                              }));
-                              setTableData(modifyData);
-                            }}
-                          />
-                        </th>
-                        <th>SL</th>
-                        <th>Incentive Journal Code</th>
-                        <th>Journal Amount</th>
-                        <th>Voucher Code</th>
-                        <th>Month</th>
-                        <th>Year</th>
-                        <th>Create Date</th>
-                      </tr>
-                    </thead>
-                  ) : null}
-                  <tbody>
-                    {tableData?.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={item?.isChecked}
-                            onChange={(e) => {
-                              const modifyData = tableData?.map((itm) => {
-                                if (
-                                  item?.strIncentiveJournalCode ===
-                                  itm?.strIncentiveJournalCode
-                                ) {
-                                  return {
-                                    ...itm,
-                                    isChecked: e.target.checked,
-                                  };
-                                } else {
-                                  return {
-                                    ...itm,
-                                  };
-                                }
-                              });
-                              setTableData(modifyData);
-                            }}
-                          />
-                        </td>
-                        <td>{index + 1}</td>
-                        <td>{item?.strIncentiveJournalCode}</td>
-                        <td className="text-right">
-                          {_formatMoney(item?.numJournalAmount)}
-                        </td>
-                        <td>{item?.strVoucherCode}</td>
-                        <td>{getMonthNameFromMonthId(item?.intMonthId)}</td>
-                        <td>{item?.intYearId}</td>
-                        <td className="text-center">
-                          {_dateFormatter(item?.dteCreateDate)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-      </div>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    {tableData?.length ? (
+                      <thead>
+                        <tr>
+                          <th>
+                            <input
+                              type="checkbox"
+                              checked={
+                                tableData?.length > 0 &&
+                                tableData?.every((item) => item?.isChecked)
+                              }
+                              onChange={(e) => {
+                                const modifyData = tableData?.map((itm) => ({
+                                  ...itm,
+                                  isChecked: e.target.checked,
+                                }));
+                                setTableData(modifyData);
+                              }}
+                            />
+                          </th>
+                          <th>SL</th>
+                          <th>Incentive Journal Code</th>
+                          <th>Journal Amount</th>
+                          <th>Voucher Code</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Create Date</th>
+                        </tr>
+                      </thead>
+                    ) : null}
+                    <tbody>
+                      {tableData?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={item?.isChecked}
+                              onChange={(e) => {
+                                const modifyData = tableData?.map((itm) => {
+                                  if (
+                                    item?.strIncentiveJournalCode ===
+                                    itm?.strIncentiveJournalCode
+                                  ) {
+                                    return {
+                                      ...itm,
+                                      isChecked: e.target.checked,
+                                    };
+                                  } else {
+                                    return {
+                                      ...itm,
+                                    };
+                                  }
+                                });
+                                setTableData(modifyData);
+                              }}
+                            />
+                          </td>
+                          <td>{index + 1}</td>
+                          <td>{item?.strIncentiveJournalCode}</td>
+                          <td className="text-right">
+                            {_formatMoney(item?.numJournalAmount)}
+                          </td>
+                          <td>{item?.strVoucherCode}</td>
+                          <td>{getMonthNameFromMonthId(item?.intMonthId)}</td>
+                          <td>{item?.intYearId}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item?.dteCreateDate)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               <IViewModal

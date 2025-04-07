@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import DailyDeliveryStatusForm from "../callModal/addEditForm";
-import { GetCustomerDeliveryInqueryLanding_api } from "./../helper";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import moment from "moment";
-import PaginationSearch from "./../../../../_helper/_search";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useState, useEffect } from 'react';
+import { Formik } from 'formik';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import DailyDeliveryStatusForm from '../callModal/addEditForm';
+import { GetCustomerDeliveryInqueryLanding_api } from './../helper';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import moment from 'moment';
+import PaginationSearch from './../../../../_helper/_search';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 const DeliveryInquiryLanding = () => {
   const [open, setOpen] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const [loading, setLoading] = useState(false);
-  const [clickRowData, setClickRowData] = useState("");
+  const [clickRowData, setClickRowData] = useState('');
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -59,7 +59,6 @@ const DeliveryInquiryLanding = () => {
         toDate: _todayDate(),
       });
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -67,7 +66,7 @@ const DeliveryInquiryLanding = () => {
   };
   return (
     <>
-      {" "}
+      {' '}
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue }) => (
           <>
@@ -89,8 +88,8 @@ const DeliveryInquiryLanding = () => {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
-                        setFieldValue("toDate", "");
+                        setFieldValue('fromDate', e.target.value);
+                        setFieldValue('toDate', '');
                         // commonGridFunc(pageNo, pageSize, {
                         //   ...values,
                         //   fromDate: e.target.value,
@@ -106,7 +105,7 @@ const DeliveryInquiryLanding = () => {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         if (values?.fromDate) {
                           commonGridFunc(pageNo, pageSize, {
                             ...values,
@@ -128,7 +127,7 @@ const DeliveryInquiryLanding = () => {
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px" }}
+                  style={{ maxHeight: '540px' }}
                 >
                   <table
                     id="table-to-xlsx"
@@ -136,30 +135,30 @@ const DeliveryInquiryLanding = () => {
                   >
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "30px" }}>SL</th>
-                        <th style={{ minWidth: "65px" }}>Unit</th>
-                        <th style={{ minWidth: "130px" }}>Challan Number</th>
-                        <th style={{ minWidth: "130px" }}>Sales Order Code</th>
-                        <th style={{ minWidth: "75px" }}>Challan Date</th>
+                        <th style={{ minWidth: '30px' }}>SL</th>
+                        <th style={{ minWidth: '65px' }}>Unit</th>
+                        <th style={{ minWidth: '130px' }}>Challan Number</th>
+                        <th style={{ minWidth: '130px' }}>Sales Order Code</th>
+                        <th style={{ minWidth: '75px' }}>Challan Date</th>
                         <th>Out Date Time</th>
-                        <th style={{ minWidth: "140px" }}>
+                        <th style={{ minWidth: '140px' }}>
                           Estimated Received Date Time
                         </th>
-                        <th style={{ minWidth: "320px" }}>Ship To Address</th>
-                        <th style={{ minWidth: "180px" }}>Customer Name</th>
-                        <th style={{ minWidth: "201px" }}>Customer Address</th>
-                        <th style={{ minWidth: "100px" }}>Customer Phone</th>
-                        <th style={{ minWidth: "100px" }}>Ship To Contact</th>
-                        <th style={{ minWidth: "100px" }}>Vehicle No</th>
-                        <th style={{ minWidth: "100px" }}>Own/Rental</th>
-                        <th style={{ minWidth: "100px" }}>Vehicle Type</th>
-                        <th style={{ minWidth: "100px" }}>Driver Name</th>
-                        <th style={{ minWidth: "100px" }}>Driver Phone</th>
+                        <th style={{ minWidth: '320px' }}>Ship To Address</th>
+                        <th style={{ minWidth: '180px' }}>Customer Name</th>
+                        <th style={{ minWidth: '201px' }}>Customer Address</th>
+                        <th style={{ minWidth: '100px' }}>Customer Phone</th>
+                        <th style={{ minWidth: '100px' }}>Ship To Contact</th>
+                        <th style={{ minWidth: '100px' }}>Vehicle No</th>
+                        <th style={{ minWidth: '100px' }}>Own/Rental</th>
+                        <th style={{ minWidth: '100px' }}>Vehicle Type</th>
+                        <th style={{ minWidth: '100px' }}>Driver Name</th>
+                        <th style={{ minWidth: '100px' }}>Driver Phone</th>
                         {/* <th style={{ minWidth: "100px" }}>
                           {" "}
                           Product Description
                         </th> */}
-                        <th style={{ minWidth: "100px" }}>Form</th>
+                        <th style={{ minWidth: '100px' }}>Form</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -171,15 +170,15 @@ const DeliveryInquiryLanding = () => {
                           <td className="text-center">{itm?.salesOrderCode}</td>
                           <td>{_dateFormatter(itm?.challanDate)}</td>
                           <td className="text-center">
-                            {`${itm?.outDateTime?.split("T")[0]} ${moment(
+                            {`${itm?.outDateTime?.split('T')[0]} ${moment(
                               itm?.outDateTime
-                            ).format("h:mm:ss a")}`}
+                            ).format('h:mm:ss a')}`}
                           </td>
                           <td>
                             {_dateFormatter(itm?.estimatedReceiveDateTime)}
-                            {", "}
+                            {', '}
                             {moment(itm?.estimatedReceiveDateTime).format(
-                              "h:mm:ss a"
+                              'h:mm:ss a'
                             )}
                           </td>
                           <td>{itm?.shipToAddress}</td>
@@ -218,8 +217,8 @@ const DeliveryInquiryLanding = () => {
                                       {itemInfo?.map((item, i) => (
                                         <p
                                           style={{
-                                            background: "#EFC3BA",
-                                            padding: "3px",
+                                            background: '#EFC3BA',
+                                            padding: '3px',
                                           }}
                                         >{`${i + 1}. ${item?.label} - ${
                                           item?.qty

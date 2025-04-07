@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import { createCustomerGroupForPrivilege } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import { createCustomerGroupForPrivilege } from '../helper';
 import { toast } from 'react-toastify';
 const initData = {
   id: undefined,
-  outletName: "",
-  customerGroupName: "",
-  gender: "",
-  customer: "",
-  isSelect: "",
+  outletName: '',
+  customerGroupName: '',
+  gender: '',
+  customer: '',
+  isSelect: '',
 };
 
 export default function CustomerGroupForPrivilegeForm({
@@ -31,14 +31,19 @@ export default function CustomerGroupForPrivilegeForm({
   }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
-    if (values && rowDto?.length > 0 && profileData?.accountId && selectedBusinessUnit?.value) {
+    if (
+      values &&
+      rowDto?.length > 0 &&
+      profileData?.accountId &&
+      selectedBusinessUnit?.value
+    ) {
       if (id) {
       } else {
         const objRow = rowDto?.map((item) => ({
           customerId: item?.customerId,
           customerCode: item?.customerCode,
           customerName: item?.customer,
-          gender: item?.gender 
+          gender: item?.gender,
         }));
 
         const payload = {
@@ -51,42 +56,39 @@ export default function CustomerGroupForPrivilegeForm({
             warehouseId: values?.outletName?.value,
             actionById: profileData?.userId,
           },
-          objRow: objRow
+          objRow: objRow,
         };
 
-        createCustomerGroupForPrivilege(payload, cb, setDisabled)
+        createCustomerGroupForPrivilege(payload, cb, setDisabled);
       }
     } else {
-      toast.warn('Please add at least one customer')
+      toast.warn('Please add at least one customer');
       setDisabled(false);
     }
   };
 
   const setter = (values, customerDDL, isCheck) => {
-
-    if(isCheck) {
-      const obj = customerDDL?.map(info => ({
+    if (isCheck) {
+      const obj = customerDDL?.map((info) => ({
         customer: info?.label,
         customerId: info?.value,
         gender: info?.gendarName,
-        customerCode: info?.code
-      }))
+        customerCode: info?.code,
+      }));
       setRowDto(obj);
-    }
-    else{
+    } else {
       const obj = {
         customer: values?.customer?.label,
         customerId: values?.customer?.value,
         gender: values?.customer?.gendarName,
-        customerCode: values?.customer?.code
+        customerCode: values?.customer?.code,
       };
-  
-      if (isUniq("customerId", values?.customer?.value, rowDto)) {
-        if(values?.customer?.label){
+
+      if (isUniq('customerId', values?.customer?.value, rowDto)) {
+        if (values?.customer?.label) {
           setRowDto([...rowDto, obj]);
-        }
-        else{
-          toast.warn('Please at least add one customer')
+        } else {
+          toast.warn('Please at least add one customer');
         }
       }
     }
@@ -99,7 +101,7 @@ export default function CustomerGroupForPrivilegeForm({
 
   return (
     <IForm
-      title={"Create Customer Group For Privilege		"}
+      title={'Create Customer Group For Privilege		'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

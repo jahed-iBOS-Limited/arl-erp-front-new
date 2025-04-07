@@ -1,14 +1,11 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import {
   createLCAmendment,
   updateLCAmendment,
@@ -16,27 +13,27 @@ import {
   GetDataForForm,
   GetItemListDetailsByPOId,
   saveLcDocAmendmentRowApi,
-} from "./../helper";
-import { encoItemDDLAction, LCTypeDDLAction } from "../../lc-open/helper";
-import IWarningModal from "../../../../_helper/_warningModal";
-import { toast } from "react-toastify";
+} from './../helper';
+import { encoItemDDLAction, LCTypeDDLAction } from '../../lc-open/helper';
+import IWarningModal from '../../../../_helper/_warningModal';
+import { toast } from 'react-toastify';
 
 const initData = {
-  lcType: "",
+  lcType: '',
   LCExpiredDate: _dateFormatter(new Date()),
   lastShipmentDate: _dateFormatter(new Date()),
   dueDate: _dateFormatter(new Date()),
-  incoTerms: "",
-  tolarencePercentage: "",
-  LCTenorDays: "",
-  totalAmendmentCharge: "",
-  VATOnAmendmentCharge: "",
-  totalPIAmount: "",
-  attachment: "",
-  currency: "",
-  PIAmountBDT: "",
+  incoTerms: '',
+  tolarencePercentage: '',
+  LCTenorDays: '',
+  totalAmendmentCharge: '',
+  VATOnAmendmentCharge: '',
+  totalPIAmount: '',
+  attachment: '',
+  currency: '',
+  PIAmountBDT: '',
   exchangeRate: 1,
-  docLink: "",
+  docLink: '',
 };
 
 export default function LCAmendmentForm() {
@@ -51,7 +48,7 @@ export default function LCAmendmentForm() {
   const [itemList, setItemList] = useState([]);
   const [incoTermsDDL, setIncoTermsDDL] = useState([]);
   // get singleData
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -123,21 +120,21 @@ export default function LCAmendmentForm() {
     let data = [...itemList];
     let _sl = data[sl];
     _sl[name] = value;
-    _sl["price"] = value * _sl.basePrice;
+    _sl['price'] = value * _sl.basePrice;
     setItemList(data);
     let PINewAmount = data?.reduce((total, value) => total + value?.price, 0);
-    setFieldValue("PIAmountBDT", +values?.exchangeRate * PINewAmount);
+    setFieldValue('PIAmountBDT', +values?.exchangeRate * PINewAmount);
   };
   const saveLcDocAmendmentRowHandler = (values) => {
     const payload = {
       intLcDocAmendmentRowId: 0,
-      strEditLcFieldNameJson: "",
+      strEditLcFieldNameJson: '',
       intLcDocAmendmentConfigId: 0,
-      strLcDocAmendmentConfigName: "",
+      strLcDocAmendmentConfigName: '',
       intAccountId: profileData?.accountId,
       intBusinessUnitId: selectedBusinessUnit?.value,
       intLcId: 0,
-      strLcDocId: "",
+      strLcDocId: '',
       intAmendmentNum: 0,
       isActive: true,
       dteLastActionDateTime: new Date(),
@@ -146,15 +143,13 @@ export default function LCAmendmentForm() {
       intUpdateBy: 0,
     };
 
-    saveLcDocAmendmentRowApi(payload, setDisabled, () => {
-
-    });
+    saveLcDocAmendmentRowApi(payload, setDisabled, () => {});
   };
   return (
     <IForm
       title="LC Amendment"
       getProps={setObjprops}
-      isDisabled={isDisabled || params?.type === "view"}
+      isDisabled={isDisabled || params?.type === 'view'}
     >
       {/* {isDisabled && <Loading />} */}
 

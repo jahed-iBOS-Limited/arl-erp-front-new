@@ -1,5 +1,5 @@
-import React from "react";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
 
 const MilageAllowanceTable = ({
   gridData,
@@ -20,15 +20,15 @@ const MilageAllowanceTable = ({
   return (
     <div className="row">
       <div className="col-lg-12 table-responsive">
-        <table className={"table table-responsive mt-1 bj-table"}>
-          <thead className={`${gridData?.length < 1 && "d-none"}`}>
+        <table className={'table table-responsive mt-1 bj-table'}>
+          <thead className={`${gridData?.length < 1 && 'd-none'}`}>
             <tr>
-              <th style={{ width: "30px" }}>SL</th>
-              <th style={{ width: "120px" }}>Vehicle Capacity</th>
-              <th style={{ width: "100px" }}>Local Millage Rate</th>
-              <th style={{ width: "100px" }}>Outer Millage Rate</th>
+              <th style={{ width: '30px' }}>SL</th>
+              <th style={{ width: '120px' }}>Vehicle Capacity</th>
+              <th style={{ width: '100px' }}>Local Millage Rate</th>
+              <th style={{ width: '100px' }}>Outer Millage Rate</th>
 
-              <th style={{ width: "50px" }}>Actions</th>
+              <th style={{ width: '50px' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -46,8 +46,8 @@ const MilageAllowanceTable = ({
                         type="number"
                         className="trans-date cj-landing-date"
                         style={{
-                          padding: "0 10px",
-                          maxWidth: "98%",
+                          padding: '0 10px',
+                          maxWidth: '98%',
                         }}
                         value={item?.localMillageRate}
                         onChange={(e) => {
@@ -67,8 +67,8 @@ const MilageAllowanceTable = ({
                         type="number"
                         className="trans-date cj-landing-date"
                         style={{
-                          padding: "0 10px",
-                          maxWidth: "98%",
+                          padding: '0 10px',
+                          maxWidth: '98%',
                         }}
                         value={item?.outerMillageRate}
                         onChange={(e) => {
@@ -83,12 +83,9 @@ const MilageAllowanceTable = ({
 
                 <td className="text-center">
                   {item?.isDeleted ? (
-                    <IDelete
-                      remover={removeRowData}
-                      id={index}
-                    />
+                    <IDelete remover={removeRowData} id={index} />
                   ) : (
-                    "-"
+                    '-'
                   )}
                 </td>
               </tr>

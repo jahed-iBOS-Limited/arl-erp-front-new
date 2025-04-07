@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getGeneralLedgerGridData } from "../_redux/Actions";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IExtend from "../../../../_helper/_helperIcons/_extend";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getGeneralLedgerGridData } from '../_redux/Actions';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IExtend from '../../../../_helper/_helperIcons/_extend';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -42,7 +42,6 @@ export function TableRow() {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -69,7 +68,7 @@ export function TableRow() {
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0 ">
           <div className="d-flex justify-content-between">
-            {" "}
+            {' '}
             <PaginationSearch
               placeholder="GL Name  Search"
               paginationSearchHandler={paginationSearchHandler}
@@ -79,7 +78,7 @@ export function TableRow() {
               className="btn btn-primary"
               onClick={() =>
                 history.push(
-                  "/financial-management/configuration/general-ladger/allGlExtend"
+                  '/financial-management/configuration/general-ladger/allGlExtend'
                 )
               }
             >

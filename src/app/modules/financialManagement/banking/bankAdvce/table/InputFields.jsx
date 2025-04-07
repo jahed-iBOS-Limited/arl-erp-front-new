@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from "react";
-import InputField from "../../../../_helper/_inputField";
-import { adviceMailCreate, advicePrintCount, getAdviceReport } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import { adviceMailCreate, advicePrintCount, getAdviceReport } from '../helper';
+import NewSelect from './../../../../_helper/_select';
 
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewData from "./ViewPrint";
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewData from './ViewPrint';
 
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetFinancialsBankAdviceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IConfirmModal from "../../../../chartering/_chartinghelper/_confirmModal";
-import EmailViewForm from "./emailForm";
-import { generateExcel } from "./excelReportGenarate";
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetFinancialsBankAdviceAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IConfirmModal from '../../../../chartering/_chartinghelper/_confirmModal';
+import EmailViewForm from './emailForm';
+import { generateExcel } from './excelReportGenarate';
 
 const InputFields = ({ obj }) => {
-  const [isView, setIsView] = useState("");
+  const [isView, setIsView] = useState('');
   const [mdalShow, setModalShow] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [, setTotalInWords] = useState(0);
-  const [
-    adviceDDL,
-    getAdviceDDL,
-    loadingOnGetAdviceDDL,
-    setAdviceDDL,
-  ] = useAxiosGet();
+  const [adviceDDL, getAdviceDDL, loadingOnGetAdviceDDL, setAdviceDDL] =
+    useAxiosGet();
   const dispatch = useDispatch();
   let {
     values,
@@ -46,12 +42,12 @@ const InputFields = ({ obj }) => {
 
   const getData = () => {
     let data = [];
-    if (values?.advice?.info === "below36Character") {
+    if (values?.advice?.info === 'below36Character') {
       data = adviceReportData?.filter(
         (item) => item.checked && item.strPayee?.length < 36
       );
-    } else if (values?.advice?.info === "above36Character") {
-      console.log("2");
+    } else if (values?.advice?.info === 'above36Character') {
+      console.log('2');
       data = adviceReportData?.filter(
         (item) => item.checked && item.strPayee?.length >= 36
       );
@@ -66,7 +62,6 @@ const InputFields = ({ obj }) => {
         `/costmgmt/BankAccount/GetAdviceFormatByBankId?bankId=${values?.bankAccountNo?.bankId}`
       );
     }
-
   }, [values?.bankAccountNo]);
 
   useEffect(() => {
@@ -89,11 +84,11 @@ const InputFields = ({ obj }) => {
 
   const initDataforEmail = {
     toMail: [],
-    toCC: "",
+    toCC: '',
     toBCC: [],
     subject: ``,
     message: ``,
-    attachment: "",
+    attachment: '',
   };
 
   return (
@@ -108,7 +103,7 @@ const InputFields = ({ obj }) => {
               value={values?.sbuUnit}
               label="SBU"
               onChange={(valueOption) => {
-                setFieldValue("sbuUnit", valueOption);
+                setFieldValue('sbuUnit', valueOption);
                 dispatch(
                   SetFinancialsBankAdviceAction({
                     ...values,
@@ -124,7 +119,7 @@ const InputFields = ({ obj }) => {
           <div className="col-lg-2">
             <label>Date</label>
             <InputField
-              value={values?.dateTime || ""}
+              value={values?.dateTime || ''}
               name="dateTime"
               placeholder="Date"
               type="date"
@@ -144,12 +139,12 @@ const InputFields = ({ obj }) => {
               options={bankAccountDDL || []}
               name="bankAccountNo"
               placeholder="Bank Account No"
-              value={values?.bankAccountNo || ""}
+              value={values?.bankAccountNo || ''}
               onChange={(valueOption) => {
-                setFieldValue("bankAccountNo", valueOption);
+                setFieldValue('bankAccountNo', valueOption);
                 setAdviceDDL([]);
                 if (valueOption) {
-                  setFieldValue("advice", "");
+                  setFieldValue('advice', '');
                 }
                 dispatch(
                   SetFinancialsBankAdviceAction({
@@ -169,9 +164,9 @@ const InputFields = ({ obj }) => {
               options={adviceTypeDDL || []}
               name="adviceType"
               placeholder="Instrument Type"
-              value={values?.adviceType || ""}
+              value={values?.adviceType || ''}
               onChange={(valueOption) => {
-                setFieldValue("adviceType", valueOption);
+                setFieldValue('adviceType', valueOption);
                 dispatch(
                   SetFinancialsBankAdviceAction({
                     ...values,
@@ -189,9 +184,9 @@ const InputFields = ({ obj }) => {
               options={adviceDDL || []}
               name="advice"
               placeholder="Advice"
-              value={values?.advice || ""}
+              value={values?.advice || ''}
               onChange={(valueOption) => {
-                setFieldValue("advice", valueOption);
+                setFieldValue('advice', valueOption);
                 setAdviceReportData([]);
               }}
               errors={errors}
@@ -201,7 +196,7 @@ const InputFields = ({ obj }) => {
         </div>
         <div
           className="d-flex align-items-center justify-content-end"
-          style={{ marginTop: "8px" }}
+          style={{ marginTop: '8px' }}
         >
           {/* <button
                   type="button"
@@ -253,8 +248,8 @@ const InputFields = ({ obj }) => {
                   JournalId: itm?.intJournalId || 0,
                 }));
                 IConfirmModal({
-                  title: "Send Email",
-                  message: "Are you sure you want to email ?",
+                  title: 'Send Email',
+                  message: 'Are you sure you want to email ?',
                   yesAlertFunc: () => {
                     adviceMailCreate(filterArr, setLoading);
                   },
@@ -334,28 +329,27 @@ const InputFields = ({ obj }) => {
                 })
               );
 
-
               const adviceName =
-                values?.advice?.label === "IBBL"
-                  ? "IBBL_ONLINE"
-                  : values?.advice?.label === "IBBL-BEFTN"
-                  ? "IBBL_BEFTN"
-                  : values?.advice?.label;
-              const dateFormat = values?.dateTime?.split("/").join("_");
+                values?.advice?.label === 'IBBL'
+                  ? 'IBBL_ONLINE'
+                  : values?.advice?.label === 'IBBL-BEFTN'
+                    ? 'IBBL_BEFTN'
+                    : values?.advice?.label;
+              const dateFormat = values?.dateTime?.split('/').join('_');
               const fileName = `${selectedBusinessUnit?.buShortName}_${
                 total ? total : 0
               }_${adviceName}_${dateFormat}`;
-              console.log("fileName", fileName);
+              console.log('fileName', fileName);
               generateExcel(
                 data,
                 values,
                 0,
-                "",
+                '',
                 selectedBusinessUnit,
                 false,
                 null,
                 fileName,
-                "isOldExcelDownload"
+                'isOldExcelDownload'
               );
               // }
             }}
@@ -374,7 +368,7 @@ const InputFields = ({ obj }) => {
             className="btn btn-primary mr-2"
             onClick={() => {
               if (
-                ["above36Character", "below36Character"].includes(
+                ['above36Character', 'below36Character'].includes(
                   values?.advice?.info
                 )
               ) {

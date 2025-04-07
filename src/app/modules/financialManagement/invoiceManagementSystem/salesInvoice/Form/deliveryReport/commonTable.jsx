@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function CommonTable({
   deliveryOrderReportData,
@@ -13,7 +13,7 @@ function CommonTable({
     <>
       <div className="my-8">
         {!deliveryOrderReportData?.isPrintable ? (
-          <h5 style={{ color: "tomato" }} className="text-center">
+          <h5 style={{ color: 'tomato' }} className="text-center">
             {deliveryOrderReportData?.massage}
           </h5>
         ) : null}
@@ -23,8 +23,8 @@ function CommonTable({
             <table className="table table-striped table-bordered  global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ minWidth: "220px" }}>PRODUCT DESCRIPTION</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ minWidth: '220px' }}>PRODUCT DESCRIPTION</th>
                   {[186]?.includes(selectedBusinessUnit?.value) && (
                     <th>CUSTOMER DESCRIPTION</th>
                   )}
@@ -39,14 +39,14 @@ function CommonTable({
                   <th>QNT.</th>
                   <th
                     style={{
-                      width: "150px",
+                      width: '150px',
                     }}
                   >
                     Rate
                   </th>
                   <th
                     style={{
-                      width: "150px",
+                      width: '150px',
                     }}
                   >
                     Amount

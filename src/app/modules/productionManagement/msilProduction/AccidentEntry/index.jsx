@@ -1,31 +1,28 @@
-import React, { useState } from "react";
-import { Form, Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
-import PaginationSearch from "../../../_helper/_search";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import PaginationTable from "../../../_helper/_tablePagination";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IViewModal from "../../../_helper/_viewModal";
-import AccidentEntryModal from "./modal";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { useEffect } from "react";
-import IForm from "../../../_helper/_form";
+import React, { useState } from 'react';
+import { Form, Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
+import PaginationSearch from '../../../_helper/_search';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import PaginationTable from '../../../_helper/_tablePagination';
+import Loading from '../../../_helper/_loading';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IViewModal from '../../../_helper/_viewModal';
+import AccidentEntryModal from './modal';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { useEffect } from 'react';
+import IForm from '../../../_helper/_form';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 const AccidentEntry = () => {
-  const [
-    accidentEntryData,
-    getAccidentEntryData,
-    accidentEntryDataLoader,
-  ] = useAxiosGet();
+  const [accidentEntryData, getAccidentEntryData, accidentEntryDataLoader] =
+    useAxiosGet();
   const [isShowRowItemModal, setIsShowRowItemModal] = useState(false);
   const [clickedRowItem, setClickedRowItem] = useState(null);
   const [pageNo, setPageNo] = useState(0);
@@ -36,12 +33,13 @@ const AccidentEntry = () => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getAccidentEntryData(
       `/mes/MSIL/AccidentEntryLanding?BusinessUnitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&Search=${searchValue ||
-        ""}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&Search=${
+        searchValue || ''
+      }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
     );
   };
 
@@ -53,7 +51,6 @@ const AccidentEntry = () => {
     getAccidentEntryData(
       `/mes/MSIL/AccidentEntryLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}`
     );
-
   }, []);
   return (
     <Formik
@@ -85,7 +82,7 @@ const AccidentEntry = () => {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/msil-Production/accidententry/create"
+                        '/production-management/msil-Production/accidententry/create'
                       );
                     }}
                   >
@@ -105,7 +102,7 @@ const AccidentEntry = () => {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -116,13 +113,13 @@ const AccidentEntry = () => {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
@@ -177,9 +174,9 @@ const AccidentEntry = () => {
                                 <td>{item?.nameOfInjuries}</td>
                                 <td
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "space-around",
-                                    alignItems: "center",
+                                    display: 'flex',
+                                    justifyContent: 'space-around',
+                                    alignItems: 'center',
                                   }}
                                 >
                                   <IEdit

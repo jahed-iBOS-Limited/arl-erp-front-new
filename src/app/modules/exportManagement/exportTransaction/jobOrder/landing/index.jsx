@@ -1,15 +1,15 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { JobOrderLandingForm } from "./form";
-import { JobOrderLandingTable } from "./table";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { JobOrderLandingForm } from './form';
+import { JobOrderLandingTable } from './table';
 
 const initData = {
-  status: { value: false, label: "Quotation Open" },
+  status: { value: false, label: 'Quotation Open' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -29,9 +29,9 @@ export default function JobOrderLanding() {
     values,
     _pageNo = 0,
     _pageSize = 15,
-    searchValue = ""
+    searchValue = ''
   ) => {
-    const search = searchValue ? `&searchTerm=${searchValue}` : "";
+    const search = searchValue ? `&searchTerm=${searchValue}` : '';
 
     getRowData(
       `/oms/SalesQuotation/GetSalesQuotationSearchLandingPagination?AccountId=${accId}&BUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&QuotationStatus=${values?.status?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}${search}`,
@@ -42,10 +42,9 @@ export default function JobOrderLanding() {
   };
   useEffect(() => {
     getLandingData(initData);
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 

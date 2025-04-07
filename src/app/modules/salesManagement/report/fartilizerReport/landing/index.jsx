@@ -1,15 +1,15 @@
-import React, { useState, useRef } from "react";
-import ICard from "../../../../_helper/_card";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import { MinistryReport } from "./ministryReport/_index";
-import { InternalReport } from "./internalReport/_index";
-import { PurchaseAndSalesInfo } from "./powerBIReport/purchaseAndSalesInfo";
+import React, { useState, useRef } from 'react';
+import ICard from '../../../../_helper/_card';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import { MinistryReport } from './ministryReport/_index';
+import { InternalReport } from './internalReport/_index';
+import { PurchaseAndSalesInfo } from './powerBIReport/purchaseAndSalesInfo';
 
 export default function FertilizerReportLanding() {
   const printRef = useRef();
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState("ministry");
+  const [tab, setTab] = useState('ministry');
 
   return (
     <Formik>
@@ -31,7 +31,7 @@ export default function FertilizerReportLanding() {
                   <li class="nav-item">
                     <span
                       class={`nav-link cursor-pointer ${
-                        tab === "ministry" ? "active" : ""
+                        tab === 'ministry' ? 'active' : ''
                       }`}
                       id="ministry-tab"
                       data-toggle="tab"
@@ -39,7 +39,7 @@ export default function FertilizerReportLanding() {
                       aria-controls="ministry"
                       aria-selected="true"
                       onClick={() => {
-                        setTab("ministry");
+                        setTab('ministry');
                       }}
                     >
                       Ministry Report
@@ -48,7 +48,7 @@ export default function FertilizerReportLanding() {
                   <li class="nav-item">
                     <span
                       class={`nav-link cursor-pointer ${
-                        tab === "internal" ? "active" : ""
+                        tab === 'internal' ? 'active' : ''
                       }`}
                       id="internal-tab"
                       data-toggle="tab"
@@ -56,7 +56,7 @@ export default function FertilizerReportLanding() {
                       aria-controls="internal"
                       aria-selected="false"
                       onClick={() => {
-                        setTab("internal");
+                        setTab('internal');
                       }}
                     >
                       Internal Report
@@ -65,7 +65,7 @@ export default function FertilizerReportLanding() {
                   <li class="nav-item">
                     <span
                       class={`nav-link cursor-pointer ${
-                        tab === "salesInfo" ? "active" : ""
+                        tab === 'salesInfo' ? 'active' : ''
                       }`}
                       id="salesInfo-tab"
                       data-toggle="tab"
@@ -73,7 +73,7 @@ export default function FertilizerReportLanding() {
                       aria-controls="salesInfo"
                       aria-selected="false"
                       onClick={() => {
-                        setTab("salesInfo");
+                        setTab('salesInfo');
                       }}
                     >
                       Purchase & Sales Info
@@ -83,7 +83,7 @@ export default function FertilizerReportLanding() {
                 <div class="tab-content" id="myTabContent">
                   <div
                     class={`tab-pane fade ${
-                      tab === "ministry" ? "show active" : ""
+                      tab === 'ministry' ? 'show active' : ''
                     }`}
                     id="ministry"
                     role="tabpanel"
@@ -92,12 +92,12 @@ export default function FertilizerReportLanding() {
                     <MinistryReport
                       loading={loading}
                       setLoading={setLoading}
-                      printRef={tab === "ministry" ? printRef : null}
+                      printRef={tab === 'ministry' ? printRef : null}
                     />
                   </div>
                   <div
                     class={`tab-pane fade ${
-                      tab === "internal" ? "show active" : ""
+                      tab === 'internal' ? 'show active' : ''
                     }`}
                     id="internal"
                     role="tabpanel"
@@ -106,18 +106,18 @@ export default function FertilizerReportLanding() {
                     <InternalReport
                       loading={loading}
                       setLoading={setLoading}
-                      printRef={tab === "internal" ? printRef : null}
+                      printRef={tab === 'internal' ? printRef : null}
                     />
                   </div>
                   <div
                     class={`tab-pane fade ${
-                      tab === "salesInfo" ? "show active" : ""
+                      tab === 'salesInfo' ? 'show active' : ''
                     }`}
                     id="salesInfo"
                     role="tabpanel"
                     aria-labelledby="salesInfo-tab"
                   >
-                    <PurchaseAndSalesInfo/>
+                    <PurchaseAndSalesInfo />
                   </div>
                 </div>
               </>

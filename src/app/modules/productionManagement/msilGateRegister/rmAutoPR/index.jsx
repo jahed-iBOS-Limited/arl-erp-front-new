@@ -39,19 +39,21 @@ function RowMaterialAutoPR() {
 
   useEffect(() => {
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
-      }&Status=${0}`,
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
+        selectedBusinessUnit?.value
+      }&Status=${0}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     let fromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : '';
     let toDate = values?.toDate ? `&ToDate=${values?.toDate}` : '';
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
-      }${fromDate}${toDate}&Status=${values?.status?.value ||
-      0}&Search=${searchValue}`,
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
+        selectedBusinessUnit?.value
+      }${fromDate}${toDate}&Status=${
+        values?.status?.value || 0
+      }&Search=${searchValue}`
     );
   };
 
@@ -86,7 +88,7 @@ function RowMaterialAutoPR() {
           // fromDate: _todayDate(),
           // toDate: _todayDate()
         }}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -165,7 +167,7 @@ function RowMaterialAutoPR() {
                             ? `&ToDate=${values?.toDate}`
                             : '';
                           getRowData(
-                            `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value}${fromDate}${toDate}&Status=${values?.status?.value}`,
+                            `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value}${fromDate}${toDate}&Status=${values?.status?.value}`
                           );
                         }}
                       >
@@ -252,7 +254,7 @@ function RowMaterialAutoPR() {
                                   style={{ cursor: 'pointer' }}
                                   onClick={() => {
                                     setShowAttachmentModal(
-                                      !showAttachmentModal,
+                                      !showAttachmentModal
                                     );
                                     setSingleData(item);
                                   }}
@@ -262,10 +264,10 @@ function RowMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.strInventoryTransactionCode?.length > 0
                                     ? renderCommaSeparatedItems(
-                                      item?.strInventoryTransactionCode,
-                                      index,
-                                      item,
-                                    )
+                                        item?.strInventoryTransactionCode,
+                                        index,
+                                        item
+                                      )
                                     : ''}
                                 </td>
 

@@ -1,10 +1,9 @@
-
-import React, { useEffect, useRef } from "react";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
+import React, { useEffect, useRef } from 'react';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
 
 const BreakdownViewModal = ({ currentItem, values }) => {
   const { intBusinessUnitId, intGeneratorRunningHourId } = currentItem;
@@ -49,8 +48,8 @@ const BreakdownViewModal = ({ currentItem, values }) => {
       {true && <ModalProgressBar />}
       <div className="row">
         <div className="col-lg-4">
-          Date:{" "}
-          {currentItem?.dteDate ? _dateFormatter(currentItem?.dteDate) : ""}
+          Date:{' '}
+          {currentItem?.dteDate ? _dateFormatter(currentItem?.dteDate) : ''}
         </div>
         <div className="col-lg-4">Shift Name: {currentItem?.strShift}</div>
         <div className="col-lg-4">
@@ -63,9 +62,9 @@ const BreakdownViewModal = ({ currentItem, values }) => {
           End Time: {_timeFormatter(currentItem?.tmEndTime)}
         </div>
         <div className="col-lg-4">
-          Running Hour:{" "}
-          {currentItem && currentItem?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
-          {currentItem && currentItem?.tmTotalHour?.split(":")?.[1] + "M"}
+          Running Hour:{' '}
+          {currentItem && currentItem?.tmTotalHour?.split(':')?.[0] + 'H'}{' '}
+          {currentItem && currentItem?.tmTotalHour?.split(':')?.[1] + 'M'}
         </div>
         <div className="col-lg-4">
           Previous Running Hour: {currentItem?.numPreviousReading}
@@ -88,7 +87,7 @@ const BreakdownViewModal = ({ currentItem, values }) => {
           >
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th className="text-center">Breakdown Type</th>
                 <th className="text-center">Reason Of Stopage</th>
                 <th className="text-center">Start Time</th>

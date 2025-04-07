@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 // Get landing data
 export const getItemRequestGridData = async (
@@ -47,10 +47,10 @@ export const GetLoadUnloadLabourBillTopSheet = async (
     const res = await Axios.get(
       `/tms/LabourBillInfo/GetPendingUnloadLabourBillTopSheet?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&ShipPointId=${shipPointId}`
     );
-    setter(res?.data)
+    setter(res?.data);
     setLoading(false);
   } catch (error) {
-    setter([])
+    setter([]);
     setLoading(false);
   }
 };

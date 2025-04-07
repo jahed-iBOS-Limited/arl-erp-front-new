@@ -1,28 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-
-import ICard from "../../../../_helper/_card";
-import { getReportAction, setReportEmpty } from "../_redux/Actions";
+import ICard from '../../../../_helper/_card';
+import { getReportAction, setReportEmpty } from '../_redux/Actions';
 import {
   getEmployeeBasicInfoByIdAction,
   getUnFavDepSbuDDLAction,
   getYearDDLAction,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
 // import { getSbuDDLAction } from "../../balancedScore/_redux/Actions";
-import { getCorporateDepertmentDDL } from "./../helper";
+import { getCorporateDepertmentDDL } from './../helper';
 
 const initData = {
   id: undefined,
-  unpavorite: "",
-  year: "",
-  from: "",
-  to: "",
+  unpavorite: '',
+  year: '',
+  from: '',
+  to: '',
   // sbu: "",
-  corporate: "",
-  section: "",
+  corporate: '',
+  section: '',
 };
 
 export default function KpiDashboardForm() {
@@ -65,7 +64,6 @@ export default function KpiDashboardForm() {
         setCorporateDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -80,7 +78,6 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -97,21 +94,18 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, month, corporateDDL, selectedBusinessUnit]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, []);
 
   return (

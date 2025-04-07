@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 export default function ViewModal({ singleData, values }) {
   const [rowData, getRowData, loader] = useAxiosGet();
 
   useEffect(() => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
+    const [year, month] = values?.monthYear.split('-').map(Number);
     const startDate = new Date(Date.UTC(year, month - 1, 1));
     const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
 
     getRowData(
       `/fino/Report/GetCostOfProductionDetail?businessUnitId=${values?.currentBusinessUnit?.value}&itemId=${singleData?.intItemId}&BudCOGS=${singleData?.numBudTotalCost}&ActCOGS=${singleData?.numActTotalCost}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
-
   }, [values, singleData]);
   return (
     <div>

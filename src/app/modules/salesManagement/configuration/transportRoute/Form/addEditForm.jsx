@@ -1,21 +1,20 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getTZDDLAction,
   setTransportRouteSingleEmpty,
   saveTransportRoute,
   getTransportRouteById,
   saveEditedTransportRouteData,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import Loading from '../../../../_helper/_loading';
 const initData = {
   id: undefined,
-  routeAddress: "",
-  routeName: "",
+  routeAddress: '',
+  routeName: '',
 };
 
 export default function TransportRouteForm({
@@ -62,7 +61,6 @@ export default function TransportRouteForm({
     } else {
       dispatch(setTransportRouteSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get selectedBusinessUnit action for get selectedBusinessUnit ddl
@@ -72,7 +70,6 @@ export default function TransportRouteForm({
         getTZDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -90,12 +87,12 @@ export default function TransportRouteForm({
             accountId: profileData.accountId,
             businessUnitId: selectedBusinessUnit.value,
             actionBy: profileData.userId,
-            lastActionDateTime: "2020-08-30T06:51:57.367Z",
+            lastActionDateTime: '2020-08-30T06:51:57.367Z',
           },
           routeTransportZoneRow: transportZoneId,
         };
 
-        dispatch(saveEditedTransportRouteData(payload,setDisabled));
+        dispatch(saveEditedTransportRouteData(payload, setDisabled));
       } else {
         const payload = {
           routeName: values.routeName,
@@ -105,15 +102,15 @@ export default function TransportRouteForm({
           businessUnitName: selectedBusinessUnit.label,
           actionBy: profileData.userId,
         };
-        dispatch(saveTransportRoute({ data: payload, cb },setDisabled));
+        dispatch(saveTransportRoute({ data: payload, cb }, setDisabled));
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
   };
 
   const setter = (param) => {
-    if (isUniq("transportZoneId", param.transportZoneId, rowDto)) {
+    if (isUniq('transportZoneId', param.transportZoneId, rowDto)) {
       setRowDto([...rowDto, param]);
     }
   };

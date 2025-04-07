@@ -1,18 +1,17 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 
 export default function EditForm({
   history,
@@ -22,7 +21,7 @@ export default function EditForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
 
-  const [warehouseData, setData] = useState("");
+  const [warehouseData, setData] = useState('');
   useEffect(() => {
     getBusinessUnitById(id);
   }, [id]);
@@ -37,9 +36,7 @@ export default function EditForm({
   }, shallowEqual);
 
   const getBusinessUnitById = async (id) => {
-    const res = await Axios.get(
-      `/wms/Plant/GetPlantEditViewDataById?Id=${id}`
-    );
+    const res = await Axios.get(`/wms/Plant/GetPlantEditViewDataById?Id=${id}`);
     const { data } = res;
     if (data.length) {
       res.data.forEach((r) => {
@@ -55,7 +52,6 @@ export default function EditForm({
 
   // save business unit data to DB
   const saveWarehouse = async (values, cb) => {
-
     setDisabled(true);
     const warehouseData = {
       plantId: +id,
@@ -70,16 +66,12 @@ export default function EditForm({
 
     try {
       setDisabled(true);
-      await Axios.put(
-        "/wms/Plant/EditPlant",
-        warehouseData
-      );
+      await Axios.put('/wms/Plant/EditPlant', warehouseData);
       cb();
       setDisabled(false);
-      toast.success("Save successfully", { toastId: shortid() });
+      toast.success('Save successfully', { toastId: shortid() });
       backToWarehouseList();
     } catch (error) {
-
       setDisabled(false);
       toast.error(error?.response?.data?.message, { toastId: shortid() });
     }
@@ -143,7 +135,7 @@ export default function EditForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         {warehouseData && (
           <div className="mt-0">
             <Form
@@ -151,7 +143,7 @@ export default function EditForm({
               btnRef={btnRef}
               saveWarehouse={saveWarehouse}
               resetBtnRef={resetBtnRef}
-             // disableHandler={disableHandler}
+              // disableHandler={disableHandler}
               plantName={false}
               plantCode={true}
               accountId={profileData?.accountId}

@@ -1,33 +1,33 @@
-import { createContext } from "react";
-import { _firstDateofMonth } from "../_helper/_firstDateOfCurrentMonth";
-import { _todayDate } from "./_chartinghelper/_todayDate";
+import { createContext } from 'react';
+import { _firstDateofMonth } from '../_helper/_firstDateOfCurrentMonth';
+import { _todayDate } from './_chartinghelper/_todayDate';
 
 const commonFields = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 export const CharteringState = {
   transactionTimeChartererLandingInitData: {
-    filterBy: "",
-    fromDate: "",
-    toDate: "",
-    voyageNo: "",
-    vesselName: "",
+    filterBy: '',
+    fromDate: '',
+    toDate: '',
+    voyageNo: '',
+    vesselName: '',
   },
   hireOwnerLandingInitData: {
-    voyageType: { value: "timeCharter", label: "Time Charter" },
-    vesselName: "",
-    voyageNo: "",
+    voyageType: { value: 'timeCharter', label: 'Time Charter' },
+    vesselName: '',
+    voyageNo: '',
   },
   hireChartererLandingInitData: {
-    voyageType: { value: "timeCharter", label: "Time Charter" },
-    vesselName: "",
-    voyageNo: "",
+    voyageType: { value: 'timeCharter', label: 'Time Charter' },
+    vesselName: '',
+    voyageNo: '',
   },
   lighterVesselLandingInitData: {
-    status: { value: null, label: "All" },
-    lighterVessel: { value: 0, label: "All" },
+    status: { value: null, label: 'All' },
+    lighterVessel: { value: 0, label: 'All' },
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
   },
@@ -36,11 +36,11 @@ export const CharteringState = {
     toDate: _todayDate(),
   },
   voyageLandingFormData: {
-    status: { value: 0, label: "All" },
+    status: { value: 0, label: 'All' },
     ...commonFields,
   },
   offHireLandingFormData: {
-    viewType: { value: 1, label: "Top Sheet" },
+    viewType: { value: 1, label: 'Top Sheet' },
     ...commonFields,
   },
   bunkerCostLandingFormData: commonFields,

@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import { validationSchema } from "../helper";
-import BusinessPartner from "./components/businessPartner";
-import ChartererRow from "./components/chartererRow";
-import ChartererSection from "./components/chartererSection";
-import Header from "./components/header";
-import TimeCharterer from "./components/timeCharterer";
-import VoyageCharterer from "./components/voyageCharterer";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import { validationSchema } from '../helper';
+import BusinessPartner from './components/businessPartner';
+import ChartererRow from './components/chartererRow';
+import ChartererSection from './components/chartererSection';
+import Header from './components/header';
+import TimeCharterer from './components/timeCharterer';
+import VoyageCharterer from './components/voyageCharterer';
 
 export default function FormCmp({
   title,
@@ -37,10 +37,11 @@ export default function FormCmp({
   setFileObjects,
   setUploadedFile,
   uploadedFile,
-  setCPList,cpList,
+  setCPList,
+  cpList,
   currentVoyageNo,
   getCurrentVoyageNo,
-  setCurrentVoyageNo
+  setCurrentVoyageNo,
 }) {
   const history = useHistory();
   const [businessPartnerNameDDL, setBusinessPartnerNameDDL] = useState([]);
@@ -55,7 +56,7 @@ export default function FormCmp({
         (totalAmount / 100) * values?.brokerCommission || 1;
       const totalComm = addCommission + brokCommission;
 
-      setFieldValue("totalAmount", totalAmount - totalComm);
+      setFieldValue('totalAmount', totalAmount - totalComm);
     }
   };
 
@@ -71,7 +72,7 @@ export default function FormCmp({
             setChartererRowData([]);
             setBusinessPartnerGrid([]);
             resetForm(initData);
-            setCurrentVoyageNo("");
+            setCurrentVoyageNo('');
           });
         }}
       >
@@ -96,12 +97,12 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => {
@@ -110,16 +111,16 @@ export default function FormCmp({
                         setChartererRowData([]);
                         resetForm(initData);
                       }}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
                       // type="button"
-                      className={"btn btn-success ml-2 px-3 py-2"}
+                      className={'btn btn-success ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       // onClick={() =>
                       //   saveHandler(values, () => {
@@ -198,7 +199,7 @@ export default function FormCmp({
                 ) : null}
 
                 {/* Charterer Form */}
-                {viewType !== "view" ? (
+                {viewType !== 'view' ? (
                   <>
                     {!values?.voyageType?.value ? null : (
                       <ChartererSection
@@ -222,7 +223,7 @@ export default function FormCmp({
                   </>
                 ) : null}
 
-                {viewType === "view" && values?.voyageType?.value === 1 ? (
+                {viewType === 'view' && values?.voyageType?.value === 1 ? (
                   <ChartererSection
                     values={values}
                     businessPartnerTypeDDL={businessPartnerTypeDDL}
@@ -244,7 +245,7 @@ export default function FormCmp({
               </>
 
               {/* Voyage Charterer & Cargo Section */}
-              {viewType !== "view" ? (
+              {viewType !== 'view' ? (
                 <>
                   {values?.voyageType?.value === 2 ? (
                     <VoyageCharterer

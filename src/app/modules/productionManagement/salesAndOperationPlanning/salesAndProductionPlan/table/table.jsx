@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getSalesPlanLanding } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import Loading from "../../../../_helper/_loading";
-import VersionModal from "./versionModal";
-import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getLandingPlantDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSalesPlanLanding } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import Loading from '../../../../_helper/_loading';
+import VersionModal from './versionModal';
+import { SetSalesAndProductionTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getLandingPlantDDL } from '../../../../_helper/_commonApi';
 
 const SalesAndProductionTable = () => {
   const [, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
@@ -61,12 +61,11 @@ const SalesAndProductionTable = () => {
         setLoading
       );
     }
-
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {
     history.push(
-      "/production-management/salesAndOperationsPlanning/salesAndProductionPlan/Create"
+      '/production-management/salesAndOperationsPlanning/salesAndProductionPlan/Create'
     );
   };
 
@@ -90,7 +89,7 @@ const SalesAndProductionTable = () => {
               // );
               dispatch(
                 SetSalesAndProductionTableLandingAction({
-                  year: "",
+                  year: '',
                   plant: v,
                 })
               );
@@ -137,7 +136,7 @@ const SalesAndProductionTable = () => {
                 setLoading
               );
             }}
-            style={{ marginTop: "18px" }}
+            style={{ marginTop: '18px' }}
             className="btn btn-primary"
             disabled={!plant || !year}
           >
@@ -195,7 +194,7 @@ const SalesAndProductionTable = () => {
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Create Production Plan"}
+                                {'Create Production Plan'}
                               </Tooltip>
                             }
                           >
@@ -227,7 +226,7 @@ const SalesAndProductionTable = () => {
                         >
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id="cs-icon">{"Log Version"}</Tooltip>
+                              <Tooltip id="cs-icon">{'Log Version'}</Tooltip>
                             }
                           >
                             <span>

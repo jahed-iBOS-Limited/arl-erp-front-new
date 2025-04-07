@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { IInput } from "../../../../_helper/_input";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getReportAction } from "../../../_redux/Actions";
-import { getDailyTargetData, saveDailyTargetRow } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState } from 'react';
+import { IInput } from '../../../../_helper/_input';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getReportAction } from '../../../_redux/Actions';
+import { getDailyTargetData, saveDailyTargetRow } from './helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -27,7 +27,7 @@ export default function FormCmp({
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [clickedMonth, setClickedMonth] = useState("");
+  const [clickedMonth, setClickedMonth] = useState('');
   const [dailyEntryRow, setDailyEntryRow] = useState([]);
 
   // daily entry row handler
@@ -47,7 +47,7 @@ export default function FormCmp({
           saveHandler(values, () => {
             resetForm(initData);
             history.push(
-              "/performance-management/individual-kpi/individual-kpi-approve"
+              '/performance-management/individual-kpi/individual-kpi-approve'
             );
             dispatch(
               getReportAction(
@@ -76,13 +76,13 @@ export default function FormCmp({
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg">
-                  <p style={{ fontSize: "14px", marginTop: "5px" }}>
-                    {" "}
-                    <b>Objective</b> : {location?.state?.objective}{" "}
+                  <p style={{ fontSize: '14px', marginTop: '5px' }}>
+                    {' '}
+                    <b>Objective</b> : {location?.state?.objective}{' '}
                   </p>
-                  <p style={{ fontSize: "14px", marginBottom: "0px" }}>
-                    {" "}
-                    <b>KPI</b> : {location?.state?.kpi}{" "}
+                  <p style={{ fontSize: '14px', marginBottom: '0px' }}>
+                    {' '}
+                    <b>KPI</b> : {location?.state?.kpi}{' '}
                   </p>
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function FormCmp({
                                 }}
                                 onChange={(e) =>
                                   rowDtoHandler(
-                                    "numAchivment",
+                                    'numAchivment',
                                     e.target.value,
                                     index,
                                     itm.rowId
@@ -170,18 +170,20 @@ export default function FormCmp({
                   <div className="indKpiDailyEntry">
                     <div className="d-flex align-items-center mb-2">
                       <b className="text-capitalize">
-                        Month Name : {clickedMonth}{" "}
+                        Month Name : {clickedMonth}{' '}
                       </b>
                       <button
                         //disabled={values?.numAchivment > 0}
                         className="btn btn-primary btn-sm ml-2"
                         type="button"
-                        onClick={() => saveDailyTargetRow(dailyEntryRow, getTarget)}
+                        onClick={() =>
+                          saveDailyTargetRow(dailyEntryRow, getTarget)
+                        }
                       >
                         Save
                       </button>
                     </div>
-                    <table style={{ width: "50%" }} className="table">
+                    <table style={{ width: '50%' }} className="table">
                       <thead>
                         <tr>
                           <th>Date</th>
@@ -211,7 +213,7 @@ export default function FormCmp({
                           ))}
                         </tbody>
                       ) : (
-                        "...loading"
+                        '...loading'
                       )}
                     </table>
                   </div>
@@ -219,14 +221,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

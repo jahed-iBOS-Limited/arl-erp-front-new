@@ -1,18 +1,17 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   editOutletAttribute,
   getOutletAttributeSigleData,
   saveOutletAttribute,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  profileTypeName: "",
-  controlName: "",
+  profileTypeName: '',
+  controlName: '',
   isMandatory: false,
 };
 
@@ -37,14 +36,13 @@ export default function OutletAttributeForm({
   }, shallowEqual);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get value addition view data
   useEffect(() => {
     if (id) {
       getOutletAttributeSigleData(id, setSingleData);
     }
-
   }, [id]);
   // Show when in edit mode, rowData
   useEffect(() => {
@@ -56,7 +54,6 @@ export default function OutletAttributeForm({
     } else {
       setRowDto([]);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -77,7 +74,7 @@ export default function OutletAttributeForm({
             uicontrolType: values?.controlName?.label,
             isMandatory: values?.isMandatory,
             actionBy: profileData?.userId,
-            dteLastActionDateTime: "2021-01-11T08:30:02.852Z",
+            dteLastActionDateTime: '2021-01-11T08:30:02.852Z',
           },
           editAttributeValue: editRowDto,
         };
@@ -96,7 +93,7 @@ export default function OutletAttributeForm({
             uicontrolType: values?.controlName?.label,
             isMandatory: values?.isMandatory,
             actionBy: profileData?.userId,
-            dteLastActionDateTime: "2021-01-11T06:24:01.460Z",
+            dteLastActionDateTime: '2021-01-11T06:24:01.460Z',
           },
           objCreateOutletAttributeValue: newRowDto,
         };
@@ -104,7 +101,6 @@ export default function OutletAttributeForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
   const remover = (index) => {

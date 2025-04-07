@@ -78,11 +78,11 @@ export default function FuelStationReport() {
     console.log(values);
     if (values?.fuelRequisition?.value === 1) {
       getGridData(
-        `/tms/FuelRequsition/GetFuelRequsitionReportCarWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`,
+        `/tms/FuelRequsition/GetFuelRequsitionReportCarWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`
       );
     } else {
       getGridData(
-        `/tms/FuelRequsition/GetFuelRequsitionReportDayWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`,
+        `/tms/FuelRequsition/GetFuelRequsitionReportDayWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`
       );
     }
   };
@@ -296,7 +296,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.octane,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -306,7 +306,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.disel,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -317,7 +317,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cng,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -330,7 +330,7 @@ export default function FuelStationReport() {
                                           acc +
                                           item?.octaneAmount +
                                           item?.diselAmount,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -338,7 +338,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cngAmount,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -392,7 +392,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.octane,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -402,7 +402,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.disel,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -413,7 +413,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cng,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -427,7 +427,7 @@ export default function FuelStationReport() {
                                           acc +
                                           item?.octaneAmount +
                                           item?.diselAmount,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -435,7 +435,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cngAmount,
-                                        0,
+                                        0
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -455,9 +455,9 @@ export default function FuelStationReport() {
                               ?.reduce(
                                 (acc, item) =>
                                   acc + item?.octaneAmount + item?.diselAmount,
-                                0,
+                                0
                               )
-                              .toFixed(2),
+                              .toFixed(2)
                           )}
                           {' taka only'}
                         </strong>

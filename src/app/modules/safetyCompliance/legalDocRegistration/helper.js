@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../_helper/_dateFormate';
 
 // save api for create or edit
 export const saveLegalDocumentRegistration = async (data, setDisabled, cb) => {
@@ -12,10 +12,10 @@ export const saveLegalDocumentRegistration = async (data, setDisabled, cb) => {
     );
     setDisabled(false);
     cb();
-    toast.success(res?.data?.[0]?.message || "Submitted successfully");
+    toast.success(res?.data?.[0]?.message || 'Submitted successfully');
   } catch (error) {
     setDisabled(false);
-    toast.error(error?.response?.data?.message || "Please try again");
+    toast.error(error?.response?.data?.message || 'Please try again');
   }
 };
 

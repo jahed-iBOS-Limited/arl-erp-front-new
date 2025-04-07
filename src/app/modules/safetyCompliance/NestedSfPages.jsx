@@ -1,13 +1,13 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../_metronic/layout";
-import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import CreateDocument from "./createDocument/index";
-import CreateDocumentLanding from "./createDocument/landing";
-import DocSummaryReport from "./docSummaryReport";
-import { LegalDocRegistration } from "./legalDocRegistration/form/addEditForm";
-import LegalDocReport from "./legalDocReport";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../_metronic/layout';
+import NotPermittedPage from '../_helper/notPermitted/NotPermittedPage';
+import CreateDocument from './createDocument/index';
+import CreateDocumentLanding from './createDocument/landing';
+import DocSummaryReport from './docSummaryReport';
+import { LegalDocRegistration } from './legalDocRegistration/form/addEditForm';
+import LegalDocReport from './legalDocReport';
 
 export function NestedSfPages() {
   const userRole = useSelector(

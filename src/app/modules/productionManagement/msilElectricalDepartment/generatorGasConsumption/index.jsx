@@ -1,25 +1,25 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 // import IEdit from '../../../_helper/_helperIcons/_edit';
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import JVModalView from "./jvView";
-import { toast } from "react-toastify";
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import JVModalView from './jvView';
+import { toast } from 'react-toastify';
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -40,7 +40,6 @@ const GeneratorGasConsumptionLanding = () => {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorFuelConsumptionLanding?BusinessUnitId=${selectedBusinessUnit.value}&FromDate=${initData.fromDate}&ToDate=${initData.toDate}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -60,7 +59,7 @@ const GeneratorGasConsumptionLanding = () => {
       start.getFullYear() === end.getFullYear();
 
     if (!sameMonthAndYear) {
-      alert("Error: The selected dates must be in the same month and year.");
+      alert('Error: The selected dates must be in the same month and year.');
       return false;
     }
 
@@ -95,7 +94,7 @@ const GeneratorGasConsumptionLanding = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gas Consumption"}>
+              <CardHeader title={'Gas Consumption'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -122,7 +121,7 @@ const GeneratorGasConsumptionLanding = () => {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -133,13 +132,13 @@ const GeneratorGasConsumptionLanding = () => {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={!values?.fromDate || !values.toDate}
                         onClick={() => {
@@ -151,14 +150,14 @@ const GeneratorGasConsumptionLanding = () => {
                         Show
                       </button>
                     </div>
-                    <div className="col-lg-2" style={{ marginTop: "1px" }}>
+                    <div className="col-lg-2" style={{ marginTop: '1px' }}>
                       <button
                         onClick={() => {
                           if (validateDates(values?.fromDate, values?.toDate)) {
                             setShowJVModal(true);
                           } else {
                             toast.error(
-                              "Please select the first and last date of the same month to create JV."
+                              'Please select the first and last date of the same month to create JV.'
                             );
                           }
                         }}
@@ -176,7 +175,7 @@ const GeneratorGasConsumptionLanding = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "20px" }}>SL</th>
+                            <th style={{ width: '20px' }}>SL</th>
                             <th>Date</th>
                             <th>Previous Reading</th>
                             <th>Present Reading</th>
@@ -245,7 +244,7 @@ const GeneratorGasConsumptionLanding = () => {
                     )}
                     {showJVModal && (
                       <IViewModal
-                        title={"JV View for Gas Consumption"}
+                        title={'JV View for Gas Consumption'}
                         show={showJVModal}
                         onHide={() => {
                           setShowJVModal(false);

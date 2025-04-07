@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IEdit from "../../../_helper/_helperIcons/_edit";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IEdit from '../../../_helper/_helperIcons/_edit';
 const initData = {};
 export default function RevenueElement() {
   // get user profile data from store
@@ -31,7 +31,6 @@ export default function RevenueElement() {
     getTableData(
       `/costmgmt/Revenue/GetRevenueElementLandingPaging?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
     );
-
   }, []);
   return (
     <Formik
@@ -68,7 +67,7 @@ export default function RevenueElement() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/internal-control/revenuecenter/revenue-element/create"
+                        '/internal-control/revenuecenter/revenue-element/create'
                       );
                     }}
                   >
@@ -85,7 +84,7 @@ export default function RevenueElement() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Element Name</th>
                           <th>Code</th>
                           <th>General Ledger</th>
@@ -104,7 +103,7 @@ export default function RevenueElement() {
                                 <td>{item?.generalLedgerName}</td>
                                 <td>{item?.controllingUnitName}</td>
                                 <td>
-                                  {item?.isAllocationBased ? "Yes" : "No"}
+                                  {item?.isAllocationBased ? 'Yes' : 'No'}
                                 </td>
 
                                 <td className="text-center">

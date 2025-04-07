@@ -26,7 +26,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
 
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   React.useEffect(() => {
     getShippingHeadOfCharges(
@@ -40,7 +40,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
               resShippingHeadOfCharges.forEach((item) => {
                 const saveHeadOfChargeList =
                   resSveData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value,
+                    (findItem) => findItem?.headOfChargeId === item?.value
                   ) || [];
 
                 if (saveHeadOfChargeList?.length > 0) {
@@ -71,11 +71,10 @@ function ServiceAndCharge({ clickRowDto, CB }) {
               });
               setShippingHeadOfCharges([...arryList]);
             }
-          },
+          }
         );
-      },
+      }
     );
-
   }, []);
   const saveHandler = (values, cb) => {
     const payloadList = shippingHeadOfCharges
@@ -116,7 +115,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
         const emptyItem = payloadList?.find((item) => !item[attr]);
         if (emptyItem) {
           toast.warn(
-            `Please enter ${label} for "${emptyItem?.headOfCharges}" Attribute`,
+            `Please enter ${label} for "${emptyItem?.headOfCharges}" Attribute`
           );
           return false;
         }
@@ -139,7 +138,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateChaServiceAndCharge`,
       payloadList,
-      CB,
+      CB
     );
   };
 
@@ -315,7 +314,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                                     };
                                   }
                                   return data;
-                                }),
+                                })
                               );
                             }}
                           />

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -50,32 +48,32 @@ export default function HeaderForm() {
 
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const plantDDL = useSelector((state) => state?.purchaseOrder?.plantDDL);
   const wareHouseDDL = useSelector(
-    (state) => state?.purchaseOrder?.wareHouseDDL,
+    (state) => state?.purchaseOrder?.wareHouseDDL
   );
   const orderTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.orderTypeDDL,
+    (state) => state?.purchaseOrder?.orderTypeDDL
   );
   const poLandingInitData = useSelector(
-    (state) => state.localStorage.poLanding,
+    (state) => state.localStorage.poLanding
   );
   const poReferenceTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.poReferenceTypeDDL,
+    (state) => state?.purchaseOrder?.poReferenceTypeDDL
   );
   const history = useHistory();
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
 
   // loading
@@ -84,20 +82,17 @@ export default function HeaderForm() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
-      getPurchaseOrgDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+      getPurchaseOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
       getPlantListDDLAction(
         profileData?.userId,
         profileData?.accountId,
-        selectedBusinessUnit?.value,
-      ),
+        selectedBusinessUnit?.value
+      )
     );
     dispatch(getOrderTypeListDDLAction());
   }, [profileData, selectedBusinessUnit]);
@@ -127,8 +122,8 @@ export default function HeaderForm() {
           pageNo,
           pageSize,
           null,
-          poLandingInitData?.status?.label,
-        ),
+          poLandingInitData?.status?.label
+        )
       );
       getWarehouseDDL(poLandingInitData?.plant?.value);
       getPoReferenceTypeDDL(poLandingInitData?.orderType?.value);
@@ -153,8 +148,8 @@ export default function HeaderForm() {
         pageNo,
         pageSize,
         null,
-        poLandingInitData?.status?.label,
-      ),
+        poLandingInitData?.status?.label
+      )
     );
   };
 
@@ -165,8 +160,8 @@ export default function HeaderForm() {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        param,
-      ),
+        param
+      )
     );
   };
 
@@ -194,8 +189,8 @@ export default function HeaderForm() {
         pageNo,
         pageSize,
         searchValue,
-        poLandingInitData?.status?.label,
-      ),
+        poLandingInitData?.status?.label
+      )
     );
   };
   useEffect(() => {
@@ -238,7 +233,7 @@ export default function HeaderForm() {
         label: 'Reference Type',
         name: 'refType',
         options: poReferenceTypeDDL.filter((item) =>
-          [2, 3, 4].includes(item.value),
+          [2, 3, 4].includes(item.value)
         ),
         isDisabled: ['orderType'],
       },
@@ -444,8 +439,8 @@ export default function HeaderForm() {
                             pageNo,
                             pageSize,
                             null,
-                            values?.status?.value,
-                          ),
+                            values?.status?.value
+                          )
                         );
                         dispatch(setPOLandingDataAction(values));
                       }}

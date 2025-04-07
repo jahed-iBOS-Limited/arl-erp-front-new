@@ -1,16 +1,16 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { BADCBCICForm } from "../../../common/components";
-import { getMotherVesselDDL } from "../../tenderInformation/helper";
-import { GetLighterVesselList, validationSchema } from "../helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { BADCBCICForm } from '../../../common/components';
+import { getMotherVesselDDL } from '../../tenderInformation/helper';
+import { GetLighterVesselList, validationSchema } from '../helper';
 
 export default function FormCmp({
   type,
@@ -62,14 +62,14 @@ export default function FormCmp({
           <ICustomCard
             title={title}
             saveHandler={
-              type === "view"
+              type === 'view'
                 ? false
                 : () => {
                     handleSubmit();
                   }
             }
             resetHandler={
-              type === "view"
+              type === 'view'
                 ? false
                 : () => {
                     resetForm(initData);
@@ -96,7 +96,7 @@ export default function FormCmp({
                       value={values?.organization}
                       label="Organization"
                       onChange={(valueOption) => {
-                        setFieldValue("organization", valueOption);
+                        setFieldValue('organization', valueOption);
                       }}
                       placeholder="Organization"
                       errors={errors}
@@ -111,8 +111,8 @@ export default function FormCmp({
                     value={values?.loadingPort}
                     label="Port"
                     onChange={(valueOption) => {
-                      setFieldValue("loadingPort", valueOption);
-                      setFieldValue("motherVessel", "");
+                      setFieldValue('loadingPort', valueOption);
+                      setFieldValue('motherVessel', '');
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -133,24 +133,24 @@ export default function FormCmp({
                     value={values?.motherVessel}
                     label="Mother Vessel"
                     onChange={(valueOption) => {
-                      setFieldValue("motherVessel", valueOption);
+                      setFieldValue('motherVessel', valueOption);
                       // setFieldValue("programNo", valueOption?.programNo || "");
                       if (valueOption) {
                         const callBack = (resData) => {
-                          setFieldValue("item", {
+                          setFieldValue('item', {
                             value: resData?.itemId,
                             label: resData?.itemName,
                           });
-                          setFieldValue("cnf", {
+                          setFieldValue('cnf', {
                             value: resData?.cnfid,
                             label: resData?.cnfname,
                           });
-                          setFieldValue("steveDore", {
+                          setFieldValue('steveDore', {
                             value: resData?.stevdoreId,
                             label: resData?.stevdoreName,
                           });
-                          setFieldValue("lotNo", resData?.lotNo);
-                          setFieldValue("programNo", resData?.programNo);
+                          setFieldValue('lotNo', resData?.lotNo);
+                          setFieldValue('programNo', resData?.programNo);
                           GetLighterVesselList(
                             values?.loadingPort?.value,
                             valueOption?.value,
@@ -192,7 +192,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.item}
                         handleChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Search Item"
                         loadOptions={(v) => {
@@ -229,7 +229,7 @@ export default function FormCmp({
                         value={values?.cnf}
                         label="CNF"
                         onChange={(valueOption) => {
-                          setFieldValue("cnf", valueOption);
+                          setFieldValue('cnf', valueOption);
                         }}
                         placeholder="CNF"
                         errors={errors}
@@ -244,7 +244,7 @@ export default function FormCmp({
                         value={values?.steveDore}
                         label="Steve Dore"
                         onChange={(valueOption) => {
-                          setFieldValue("steveDore", valueOption);
+                          setFieldValue('steveDore', valueOption);
                         }}
                         placeholder="Steve Dore"
                         errors={errors}
@@ -283,16 +283,16 @@ export default function FormCmp({
             <div className="col-lg-6">
               {lighterList?.length > 0 && (
                 <div
-                  style={{ maxHeight: "450px" }}
+                  style={{ maxHeight: '450px' }}
                   className="scroll-table _table"
                 >
                   <table className="global-table table table-font-size-sm">
                     <thead>
                       <tr>
-                        {(!type || type === "edit") && (
+                        {(!type || type === 'edit') && (
                           <th
                             onClick={() => allSelect(!selectedAll())}
-                            style={{ width: "40px" }}
+                            style={{ width: '40px' }}
                           >
                             <input
                               type="checkbox"
@@ -302,23 +302,23 @@ export default function FormCmp({
                             />
                           </th>
                         )}
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Lighter Vessel</th>
-                        <th style={{ width: "130px" }}>Quantity</th>
+                        <th style={{ width: '130px' }}>Quantity</th>
                         {/* <th style={{ width: "200px" }}>Unloading Port</th> */}
-                        <th style={{ width: "200px" }}>
+                        <th style={{ width: '200px' }}>
                           Unloading Destination
                         </th>
                       </tr>
                     </thead>
-                    <tbody style={{ overflow: "scroll" }}>
+                    <tbody style={{ overflow: 'scroll' }}>
                       {lighterList?.map((itm, index) => (
                         <tr key={index}>
-                          {(!type || type === "edit") && (
+                          {(!type || type === 'edit') && (
                             <td
                               onClick={() => {
                                 rowDataHandler(
-                                  "isSelected",
+                                  'isSelected',
                                   index,
                                   !itm.isSelected
                                 );
@@ -327,10 +327,10 @@ export default function FormCmp({
                               style={
                                 itm?.isSelected
                                   ? {
-                                      backgroundColor: "#aacae3",
-                                      width: "40px",
+                                      backgroundColor: '#aacae3',
+                                      width: '40px',
                                     }
-                                  : { width: "40px" }
+                                  : { width: '40px' }
                               }
                             >
                               <input
@@ -344,7 +344,7 @@ export default function FormCmp({
                           <td>{index + 1}</td>
                           <td>{itm?.label}</td>
                           <td className="text-right">
-                            {type === "view" ? (
+                            {type === 'view' ? (
                               _fixedPoint(itm?.surveyQty, true)
                             ) : (
                               <InputField
@@ -355,7 +355,7 @@ export default function FormCmp({
                                 min={0}
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "surveyQty",
+                                    'surveyQty',
                                     index,
                                     e?.target?.value
                                   );
@@ -378,7 +378,7 @@ export default function FormCmp({
                               )}
                             </td> */}
                           <td>
-                            {type === "view" ? (
+                            {type === 'view' ? (
                               itm?.lighterDestinationName
                             ) : (
                               <NewSelect
@@ -387,7 +387,7 @@ export default function FormCmp({
                                 value={itm?.lighterDestination}
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "lighterDestination",
+                                    'lighterDestination',
                                     index,
                                     e
                                   );
@@ -397,7 +397,7 @@ export default function FormCmp({
                           </td>
                         </tr>
                       ))}
-                      {type === "view" && (
+                      {type === 'view' && (
                         <tr>
                           <td colSpan={type ? 2 : 3} className="text-right">
                             <b>Total</b>

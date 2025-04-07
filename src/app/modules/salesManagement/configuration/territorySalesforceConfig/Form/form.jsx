@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import NewSelect from "../../../../_helper/_select";
-import { getDistributionChannelDDL_api } from "../../../report/customerSalesTargetReport/helper";
-import { getRegionAreaTerritory } from "./api";
-import { toast } from "react-toastify";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import NewSelect from '../../../../_helper/_select';
+import { getDistributionChannelDDL_api } from '../../../report/customerSalesTargetReport/helper';
+import { getRegionAreaTerritory } from './api';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   territoryType: Yup.object().shape({
-    label: Yup.string().required("Territory type is required"),
-    value: Yup.string().required("Territory type is required"),
+    label: Yup.string().required('Territory type is required'),
+    value: Yup.string().required('Territory type is required'),
   }),
 
   // territory: Yup.object().shape({
@@ -24,8 +24,8 @@ const validationSchema = Yup.object().shape({
   //   value: Yup.string().required("Territory is required"),
   // }),
   employee: Yup.object().shape({
-    label: Yup.string().required("Responsible Person is required"),
-    value: Yup.string().required("Responsible Person is required"),
+    label: Yup.string().required('Responsible Person is required'),
+    value: Yup.string().required('Responsible Person is required'),
   }),
 });
 
@@ -64,19 +64,19 @@ export default function FormCmp({
 
   const getTerritoryIdName = (values) => {
     switch (values?.territoryType?.label?.toLowerCase()) {
-      case "area":
+      case 'area':
         return {
           territoryId: values?.area?.value,
           territoryName: values?.area?.label,
         };
 
-      case "region":
+      case 'region':
         return {
           territoryId: values?.region?.value,
           territoryName: values?.region?.label,
         };
 
-      case "point":
+      case 'point':
         return {
           territoryId: values?.point?.value,
           territoryName: values?.point?.label,
@@ -92,22 +92,22 @@ export default function FormCmp({
 
   const getTerritoryNameForRowTableHeaderLabel = (values) => {
     switch (values?.territoryType?.label?.toLowerCase()) {
-      case "area":
-        return "Area Name";
+      case 'area':
+        return 'Area Name';
 
-      case "region":
-        return "Region Name";
+      case 'region':
+        return 'Region Name';
 
-      case "point":
-        return "Point Name";
+      case 'point':
+        return 'Point Name';
 
       default:
-        return "Territory Name";
+        return 'Territory Name';
     }
   };
 
   const loadSupervisorAndLineManagerList = (v) => {
-    const na = { value: 0, label: "Not Applicable" };
+    const na = { value: 0, label: 'Not Applicable' };
     if (v?.length < 2) return [na];
     return axios
       .get(
@@ -155,8 +155,8 @@ export default function FormCmp({
                         placeholder="Select Territory Type"
                         defaultValue={values.territoryType}
                         onChange={(valueOption) => {
-                          setFieldValue("territory", "");
-                          setFieldValue("territoryType", valueOption);
+                          setFieldValue('territory', '');
+                          setFieldValue('territoryType', valueOption);
                           territroyDDLCaller(valueOption?.value);
                         }}
                         isDisabled={rowDto.length}
@@ -167,10 +167,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -179,7 +179,7 @@ export default function FormCmp({
                     touched &&
                     touched.territoryType
                       ? errors.territoryType.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -188,20 +188,20 @@ export default function FormCmp({
                     <NewSelect
                       name="salesForceType"
                       options={[
-                        { value: "TSO", label: "TSO" },
+                        { value: 'TSO', label: 'TSO' },
                         {
-                          value: "TerritoryManager",
-                          label: "Territory Manager",
+                          value: 'TerritoryManager',
+                          label: 'Territory Manager',
                         },
                         {
-                          value: "ProductServiceEngineer",
-                          label: "Product Service Engineer",
+                          value: 'ProductServiceEngineer',
+                          label: 'Product Service Engineer',
                         },
                       ]}
                       value={values?.salesForceType}
                       label="SalesForce Type"
                       onChange={(valueOption) => {
-                        setFieldValue("salesForceType", valueOption);
+                        setFieldValue('salesForceType', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="SalesForce Type"
@@ -212,7 +212,7 @@ export default function FormCmp({
                 )}
 
                 <>
-                  {["area", "region", "territory", "point"].includes(
+                  {['area', 'region', 'territory', 'point'].includes(
                     values?.territoryType?.label?.toLowerCase()
                   ) ? (
                     <>
@@ -223,28 +223,28 @@ export default function FormCmp({
                           value={values?.distributionChannel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("distributionChannel", valueOption);
-                            setFieldValue("region", "");
-                            setFieldValue("area", "");
-                            setFieldValue("territory", "");
+                            setFieldValue('distributionChannel', valueOption);
+                            setFieldValue('region', '');
+                            setFieldValue('area', '');
+                            setFieldValue('territory', '');
                             if (valueOption) {
                               getRegionAreaTerritory({
                                 channelId: valueOption?.value,
                                 setter: setRegionList,
                                 setLoading: setDisabled,
-                                value: "regionId",
-                                label: "regionName",
+                                value: 'regionId',
+                                label: 'regionName',
                               });
                             }
                             if (valueOption?.value === 0) {
-                              setFieldValue("region", {
+                              setFieldValue('region', {
                                 value: 0,
-                                label: "All",
+                                label: 'All',
                               });
-                              setFieldValue("area", { value: 0, label: "All" });
-                              setFieldValue("territory", {
+                              setFieldValue('area', { value: 0, label: 'All' });
+                              setFieldValue('territory', {
                                 value: 0,
-                                label: "All",
+                                label: 'All',
                               });
                             }
                           }}
@@ -261,23 +261,23 @@ export default function FormCmp({
                           value={values?.region}
                           label="Region"
                           onChange={(valueOption) => {
-                            setFieldValue("region", valueOption);
-                            setFieldValue("area", "");
-                            setFieldValue("territory", "");
+                            setFieldValue('region', valueOption);
+                            setFieldValue('area', '');
+                            setFieldValue('territory', '');
                             if (valueOption) {
                               getRegionAreaTerritory({
                                 channelId: values?.distributionChannel?.value,
                                 regionId: valueOption?.value,
                                 setter: setAreaList,
                                 setLoading: setDisabled,
-                                value: "areaId",
-                                label: "areaName",
+                                value: 'areaId',
+                                label: 'areaName',
                               });
                             }
                             if (valueOption?.value === 0) {
-                              setFieldValue("area", {
+                              setFieldValue('area', {
                                 value: 0,
-                                label: "All",
+                                label: 'All',
                               });
                             }
                           }}
@@ -291,7 +291,7 @@ export default function FormCmp({
                         />
                       </div>
 
-                      {["area", "territory", "point"].includes(
+                      {['area', 'territory', 'point'].includes(
                         values?.territoryType?.label?.toLowerCase()
                       ) ? (
                         <div className="col-lg-3">
@@ -301,8 +301,8 @@ export default function FormCmp({
                             value={values?.area}
                             label="Area"
                             onChange={(valueOption) => {
-                              setFieldValue("area", valueOption);
-                              setFieldValue("territory", "");
+                              setFieldValue('area', valueOption);
+                              setFieldValue('territory', '');
                               if (valueOption) {
                                 getRegionAreaTerritory({
                                   channelId: values?.distributionChannel?.value,
@@ -310,8 +310,8 @@ export default function FormCmp({
                                   areaId: valueOption?.value,
                                   setter: setTerritoryList,
                                   setLoading: setDisabled,
-                                  value: "territoryId",
-                                  label: "territoryName",
+                                  value: 'territoryId',
+                                  label: 'territoryName',
                                 });
                               }
                             }}
@@ -325,7 +325,7 @@ export default function FormCmp({
                         </div>
                       ) : null}
 
-                      {["territory", "point"].includes(
+                      {['territory', 'point'].includes(
                         values?.territoryType?.label?.toLowerCase()
                       ) ? (
                         <div className="col-lg-3">
@@ -337,7 +337,7 @@ export default function FormCmp({
                             onChange={(valueOption) => {
                               if (
                                 values?.territoryType?.label?.toLowerCase() ===
-                                "point"
+                                'point'
                               ) {
                                 getRegionAreaTerritory({
                                   channelId: values?.distributionChannel?.value,
@@ -345,13 +345,13 @@ export default function FormCmp({
                                   areaId: values?.area?.value,
                                   setter: setPointList,
                                   setLoading: setDisabled,
-                                  value: "zoneId",
-                                  label: "zoneName",
+                                  value: 'zoneId',
+                                  label: 'zoneName',
                                   territoryId: valueOption?.value,
                                 });
                               }
 
-                              setFieldValue("territory", valueOption);
+                              setFieldValue('territory', valueOption);
                             }}
                             placeholder="Territory"
                             errors={errors}
@@ -368,7 +368,7 @@ export default function FormCmp({
                   ) : null}
                 </>
 
-                {["area", "region", "territory", "point"].includes(
+                {['area', 'region', 'territory', 'point'].includes(
                   values?.territoryType?.label?.toLowerCase()
                 ) === false ? (
                   <div className="col-lg-3">
@@ -385,7 +385,7 @@ export default function FormCmp({
                   </div>
                 ) : null}
 
-                {["point"].includes(
+                {['point'].includes(
                   values?.territoryType?.label?.toLowerCase()
                 ) ? (
                   <div className="col-lg-3">
@@ -405,10 +405,10 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>Select Sales Person</label>
                     <SearchAsyncSelect
-                      style={{ height: "60px" }}
+                      style={{ height: '60px' }}
                       selectedValue={values?.employee}
                       handleChange={(valueOption) => {
-                        setFieldValue("employee", valueOption);
+                        setFieldValue('employee', valueOption);
                       }}
                       loadOptions={loadSupervisorAndLineManagerList}
                       placeholder="Search by Enroll/ID No/Name (min 3 letter)"
@@ -424,7 +424,7 @@ export default function FormCmp({
                     <ISelect
                       label="Select Sales Person"
                       options={[
-                        { value: 0, label: "Not Applicable" },
+                        { value: 0, label: 'Not Applicable' },
                         ...empDDL,
                       ]}
                       defaultValue={values.employee}
@@ -447,19 +447,19 @@ export default function FormCmp({
                         email: values.employee.email,
                         employeeCode: values?.employee?.code,
                         channelId: values?.distributionChannel?.value,
-                        salesForceType: values?.salesForceType?.value || "",
+                        salesForceType: values?.salesForceType?.value || '',
                       };
 
                       if (!obj?.territoryId) {
                         return toast.warn(
-                          "Please select territory or area or region or point"
+                          'Please select territory or area or region or point'
                         );
                       }
                       if (
                         [7].includes(values?.territoryType?.levelPosition) &&
                         !obj?.salesForceType
                       ) {
-                        return toast.warn("Please Select SalesForce Type");
+                        return toast.warn('Please Select SalesForce Type');
                       }
                       setter(obj);
                     }}
@@ -482,7 +482,7 @@ export default function FormCmp({
                             <th>Sl</th>
                             <th>
                               {getTerritoryNameForRowTableHeaderLabel(values) ||
-                                "Territory Name"}
+                                'Territory Name'}
                             </th>
                             <th>Sales Person</th>
                             <th>Email</th>
@@ -508,23 +508,23 @@ export default function FormCmp({
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

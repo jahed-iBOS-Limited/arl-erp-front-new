@@ -89,16 +89,15 @@ export default function ErpComparativeStatementLanding() {
 
   useEffect(() => {
     getPurchaseOrgListDDL(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
 
     getPlantListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
       (data) => {
         setPlantListDDL([{ value: 0, label: 'All' }, ...data]);
-      },
+      }
     );
-
   }, []);
   const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {};
@@ -222,7 +221,7 @@ export default function ErpComparativeStatementLanding() {
                               { value: 0, label: 'All' },
                               ...data,
                             ]);
-                          },
+                          }
                         );
                       } else {
                         setFieldValue('plant', '');
@@ -308,7 +307,7 @@ export default function ErpComparativeStatementLanding() {
                         }&partnerId=${0}&status=${values?.status?.label}`,
                         (data) => {
                           setBaseLanding(data);
-                        },
+                        }
                       );
 
                       // getData(values, pageNo, pageSize)
@@ -337,8 +336,8 @@ export default function ErpComparativeStatementLanding() {
                       baseLanding?.filter((item) =>
                         item?.requestForQuotationCode
                           ?.toLowerCase()
-                          .includes(searchValue.toLowerCase()),
-                      ),
+                          .includes(searchValue.toLowerCase())
+                      )
                     );
                   }}
                   values={values}
@@ -526,7 +525,7 @@ export default function ErpComparativeStatementLanding() {
                                             (data) => {
                                               setLandingData(data);
                                               setBaseLanding(data);
-                                            },
+                                            }
                                           );
                                         },
                                       });

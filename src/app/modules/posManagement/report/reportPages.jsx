@@ -17,7 +17,7 @@ import { SalesStatementTable } from './salesStatementReport/Table/tableHeader';
 export function ReportPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   let POSSalaryDeductUser = null;

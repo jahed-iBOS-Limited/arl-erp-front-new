@@ -19,7 +19,7 @@ export default function ProductionEntryApproveTable() {
     GetMESConfigurationBusinessUnitWiseByAccountId(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setData,
+      setData
     );
   }, [profileData, selectedBusinessUnit]);
 

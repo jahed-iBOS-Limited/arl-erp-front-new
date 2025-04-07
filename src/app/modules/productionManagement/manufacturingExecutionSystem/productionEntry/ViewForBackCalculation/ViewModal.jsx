@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ProductionEntryViewForm from "./ViewForm";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ProductionEntryViewForm from './ViewForm';
 
 export default function BackCalculationPEViewModal({ data, show, onHide }) {
   const [isLoading, setLoading] = useState(true);

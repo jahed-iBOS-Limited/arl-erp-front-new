@@ -1,26 +1,24 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
 import {
   editSalesPlanning,
   getSalesPlanById,
   saveItemRequest,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  fiscalYear: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
+  plant: '',
+  fiscalYear: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
 };
 export default function PurchasePlanCreateForm({
   history,
@@ -28,11 +26,9 @@ export default function PurchasePlanCreateForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   // const [salesPlanData, setSalesPlanData] = useState([]);
-
 
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
@@ -74,7 +70,7 @@ export default function PurchasePlanCreateForm({
 
   const saveHandler = (values, cb) => {
     if (rowDto?.length === 0) {
-      toast.warning("Please add Item and quantity");
+      toast.warning('Please add Item and quantity');
     }
 
     if (values && profileData.accountId && selectedBusinessUnit) {
@@ -103,7 +99,7 @@ export default function PurchasePlanCreateForm({
                 : values?.fiscalYear?.value + 1,
             strFiscalYear: values?.fiscalYear?.label,
             monthId: values?.horizon?.monthId,
-            version: "string",
+            version: 'string',
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             plantId: values?.plant?.value,
@@ -125,13 +121,13 @@ export default function PurchasePlanCreateForm({
               entryItemPlanQty: +item?.purchaseQty || 0,
               rate: +item?.numRate || 0,
               bomid: 0,
-              bomname: "",
+              bomname: '',
             })),
         };
         if (payload?.objRow?.length > 0) {
           saveItemRequest(payload, cb, setLoading);
         } else {
-          toast.warning("You have to add purchase quantity and rate");
+          toast.warning('You have to add purchase quantity and rate');
         }
       }
     }
@@ -154,7 +150,7 @@ export default function PurchasePlanCreateForm({
 
   return (
     <IForm
-      title={params?.id ? "Procurement Plan" : "Procurement Plan Create"}
+      title={params?.id ? 'Procurement Plan' : 'Procurement Plan Create'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

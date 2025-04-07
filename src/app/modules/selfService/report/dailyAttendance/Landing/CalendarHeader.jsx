@@ -1,40 +1,39 @@
-
-import React, { useEffect, useState } from "react";
-import CalendarBody from "./CalendarBody";
-import { getEmployeeAttendenceDetailsReport } from "./helper";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import CalendarBody from './CalendarBody';
+import { getEmployeeAttendenceDetailsReport } from './helper';
+import { useSelector, shallowEqual } from 'react-redux';
 
 const weekdays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
 ];
 
 function CalendarHeader({ value, setValue, allDayList }) {
   const [attendanceListDate, setAttendanceListDate] = useState([]);
 
   function currMonthName() {
-    return value.format("MMMM");
+    return value.format('MMMM');
   }
 
   function currMonth() {
-    return value.format("MM");
+    return value.format('MM');
   }
 
   function currYear() {
-    return value.format("YYYY");
+    return value.format('YYYY');
   }
 
   function prevMonth() {
-    return value.clone().subtract(1, "month");
+    return value.clone().subtract(1, 'month');
   }
 
   function nextMonth() {
-    return value.clone().add(1, "month");
+    return value.clone().add(1, 'month');
   }
 
   // get user profile data from store
@@ -52,7 +51,6 @@ function CalendarHeader({ value, setValue, allDayList }) {
         allDayList
       );
     }
-
   }, [allDayList]); // This dependancy must need for change the date and fetch next or prev month day's data
 
   return (

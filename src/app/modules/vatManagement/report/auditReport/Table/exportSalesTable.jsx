@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import SearchForAuditReport from "./search";
+import React from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import SearchForAuditReport from './search';
 
 function ExportSalesTable({ rowDto, setRowDto, gridAllData }) {
   let totalQty = 0,

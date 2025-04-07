@@ -1,21 +1,20 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import LighterVesselForm from "../Form/addEditForm";
-import { getLighterVesselList } from "../helper";
-import LighterVesselMasterInformation from "../_lighterVesselMasterInfo/Form/addEditForm";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import LighterVesselForm from '../Form/addEditForm';
+import { getLighterVesselList } from '../helper';
+import LighterVesselMasterInformation from '../_lighterVesselMasterInfo/Form/addEditForm';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const headers = [
-  { name: "SL" },
-  { name: "Lighter Vessel Name" },
-  { name: "Capacity" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Lighter Vessel Name' },
+  { name: 'Capacity' },
+  { name: 'Actions' },
 ];
 
 export default function LighterVesselInfo() {
@@ -59,7 +58,7 @@ export default function LighterVesselInfo() {
           <div>
             <button
               type="button"
-              className={"btn btn-primary px-3 py-2"}
+              className={'btn btn-primary px-3 py-2'}
               onClick={() => {
                 setSingleData({});
                 setOpen(true);
@@ -73,12 +72,12 @@ export default function LighterVesselInfo() {
         <ICustomTable ths={headers}>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td className="text-center" style={{ width: "40px" }}>
+              <td className="text-center" style={{ width: '40px' }}>
                 {index + 1}
               </td>
               <td>{item?.lighterVesselName}</td>
               <td>{item?.capacity}</td>
-              <td className="text-center" style={{ width: "130px" }}>
+              <td className="text-center" style={{ width: '130px' }}>
                 <span className="mr-1">
                   <IEdit
                     clickHandler={() => {

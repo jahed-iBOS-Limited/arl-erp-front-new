@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import IButton from "../../../_helper/iButton";
-import ICustomCard from "../../../_helper/_customCard";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { GetLighterVesselDDL, getMotherVesselDDL } from "./helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import IButton from '../../../_helper/iButton';
+import ICustomCard from '../../../_helper/_customCard';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { GetLighterVesselDDL, getMotherVesselDDL } from './helper';
 
 const StockAnalysis = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -21,17 +21,17 @@ const StockAnalysis = () => {
     type: '',
     fromDate: _todayDate(),
     toDate: _todayDate(),
-    motherVessel: "",
-    lighterVessel: "",
+    motherVessel: '',
+    lighterVessel: '',
   };
 
   const parameterValues = (values) => {
     return [
-      { name: "intPartid", value: `${+values?.type?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "intMotherVesselId", value: `${+values?.motherVessel?.value}` },
-      { name: "intLighterVesselId", value: `${+values?.lighterVessel?.value}` },
+      { name: 'intPartid', value: `${+values?.type?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'intMotherVesselId', value: `${+values?.motherVessel?.value}` },
+      { name: 'intLighterVesselId', value: `${+values?.lighterVessel?.value}` },
     ];
   };
 
@@ -42,7 +42,6 @@ const StockAnalysis = () => {
 
   useEffect(() => {
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
-
   }, [accId, buId]);
 
   return (
@@ -56,14 +55,14 @@ const StockAnalysis = () => {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Lighter Vessel" },
-                      { value: 2, label: "Mother Vessel" },
+                      { value: 1, label: 'Lighter Vessel' },
+                      { value: 2, label: 'Mother Vessel' },
                     ]}
                     label="Type"
                     value={values?.type}
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                     }}
                     placeholder="Type"
                   />
@@ -71,21 +70,20 @@ const StockAnalysis = () => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="motherVessel"
-                    options={[
-                      { value: 0, label: "All" },
-                      ...motherVesselDDL
-                    ] || []}
+                    options={
+                      [{ value: 0, label: 'All' }, ...motherVesselDDL] || []
+                    }
                     value={values?.motherVessel}
                     label="Mother Vessel"
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("motherVessel", valueOption);
+                      setFieldValue('motherVessel', valueOption);
                       valueOption &&
                         GetLighterVesselDDL(
                           valueOption?.value,
                           setLighterVessel
                         );
-                      setFieldValue("lighterVessel", "");
+                      setFieldValue('lighterVessel', '');
                     }}
                     placeholder="Mother Vessel"
                   />
@@ -93,15 +91,14 @@ const StockAnalysis = () => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="lighterVessel"
-                    options={[
-                      { value: 0, label: "All" },
-                      ...lighterVessel
-                    ] || []}
+                    options={
+                      [{ value: 0, label: 'All' }, ...lighterVessel] || []
+                    }
                     label="Lighter Vessel"
                     value={values?.lighterVessel}
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("lighterVessel", valueOption);
+                      setFieldValue('lighterVessel', valueOption);
                     }}
                     placeholder="Lighter Vessel"
                   />
@@ -113,11 +110,11 @@ const StockAnalysis = () => {
                     onChange: () => {
                       setShowReport(false);
                     },
-                    colSize: "col-lg-3",
+                    colSize: 'col-lg-3',
                   }}
                 />
                 <IButton
-                  colSize={"col-lg-1"}
+                  colSize={'col-lg-1'}
                   onClick={() => {
                     setShowReport(false);
                     setShowReport(true);

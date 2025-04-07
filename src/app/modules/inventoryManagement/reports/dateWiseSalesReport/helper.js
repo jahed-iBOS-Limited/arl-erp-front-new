@@ -1,6 +1,6 @@
-import axios from "axios";
-import moment from "moment";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 export const GetDateWiseSalesReport = async (
   accId,
@@ -13,11 +13,11 @@ export const GetDateWiseSalesReport = async (
   setter,
   orgId
 ) => {
-  const fromDateTime = moment(`${fromDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const fromDateTime = moment(`${fromDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
-  const toDateTime = moment(`${toDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const toDateTime = moment(`${toDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
   try {
     const res = await axios.get(

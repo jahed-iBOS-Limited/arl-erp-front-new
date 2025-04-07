@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //bank ddl
 export const getBankDDL = async (setter, setLoading) => {
@@ -34,7 +34,7 @@ export const getBankDDLAll = async (setter, setLoading) => {
   try {
     setLoading(true);
     const res = await Axios.get(`/hcm/HCMDDL/GetBankDDL`);
-    setter([{ label: "ALL", value: 0 }, ...res?.data]);
+    setter([{ label: 'ALL', value: 0 }, ...res?.data]);
     setLoading(false);
   } catch (error) {
     setLoading(false);
@@ -46,8 +46,10 @@ export const getBankDDLAll = async (setter, setLoading) => {
 export const getFacilityDLL = async (buiId, bankId, setter, setLoading) => {
   try {
     setLoading(true);
-    const res = await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${bankId ||
-      0}
+    const res =
+      await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${
+        bankId || 0
+      }
     `);
     setter(res?.data);
     setLoading(false);
@@ -67,7 +69,7 @@ export const createFundLimit = async (payload, setDisabled, cb) => {
     );
     setDisabled(false);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -132,7 +134,7 @@ export const getFDRLandingData = async (
   pageSize,
   setter,
   setLoading,
-  status = "Active"
+  status = 'Active'
 ) => {
   try {
     setLoading(true);
@@ -155,10 +157,10 @@ export const createAndUpdateFDR = async (payload, setDisabled, cb) => {
       `/fino/FundManagement/CreateAndUpdateFDR`,
       payload
     );
-    console.log("res=>", res);
+    console.log('res=>', res);
     setDisabled(false);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -174,7 +176,7 @@ export const renewFDR = async (payload, setDisabled, cb) => {
     const res = await Axios.post(`/fino/FundManagement/FDRRenew`, payload);
     setDisabled(false);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -204,10 +206,10 @@ export const getLoanRegisterLanding = async (
       ? `&isLoanApproved=${false}`
       : applicationType === 2
         ? `&isLoanApproved=${true}`
-        : "";
-  const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : "";
-  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
-  const dateParam2 = toDate ? `&toDate=${toDate}` : "";
+        : '';
+  const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : '';
+  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : '';
+  const dateParam2 = toDate ? `&toDate=${toDate}` : '';
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -229,8 +231,8 @@ export const getLoanRegisterLogs = async (
   fromDate,
   toDate
 ) => {
-  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
-  const dateParam2 = toDate ? `&toDate=${toDate}` : "";
+  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : '';
+  const dateParam2 = toDate ? `&toDate=${toDate}` : '';
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -263,8 +265,8 @@ export const createLoanRegister = async (
   cb,
   isConfirm = false,
   loanAccountId = 0,
-  facilityRemarks = "",
-  remarks = ""
+  facilityRemarks = '',
+  remarks = ''
 ) => {
   setDisabled(true);
   try {
@@ -286,24 +288,24 @@ export const createLoanRegister = async (
       numIntRate: interest,
       actionById: actionId,
       disbursementPurposeId: disbursementPurposeId,
-      disbursementPurposeName: disbursementPurposeName || "",
+      disbursementPurposeName: disbursementPurposeName || '',
       isConfirm: isConfirm,
       loanAccountId: loanAccountId,
       facilityRemarks: facilityRemarks,
       remarks: remarks,
     };
     const res = await Axios.post(
-      "/fino/FundManagement/FundLoanAccountCreate",
+      '/fino/FundManagement/FundLoanAccountCreate',
       requestBody
     );
 
     setDisabled(false);
     if (res?.data?.statuscode === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
     }
     if (res?.data?.statuscode > 200) {
-      toast.warn(res?.data?.message || "Something went wrong");
+      toast.warn(res?.data?.message || 'Something went wrong');
       cb();
     }
   } catch (error) {
@@ -330,11 +332,12 @@ export const createRepay = async (
 ) => {
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount ||
-      0}&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
+      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${
+        interestAmount || 0
+      }&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -349,7 +352,7 @@ export const loadRegisterEdit = async ({ editPayload, setDisabled, cb }) => {
       `/fino/FundManagement/EditLoanRegister`,
       editPayload
     );
-    toast.success(res?.message || "Submitted successfully");
+    toast.success(res?.message || 'Submitted successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -398,10 +401,10 @@ export const getFdrById = async (id, setter, setLoading, setOldPrincipal) => {
     const res = await Axios.get(`/fino/FundManagement/GetFDRById?id=${id}`);
     const newData = {
       bank: { label: res?.data?.strBankName, value: res?.data?.intBankId },
-      fdrNo: res?.data?.strFdrAccountNo || "",
-      leanTo: res?.data?.strLienTo || "",
-      openingDate: "",
-      termDays: "",
+      fdrNo: res?.data?.strFdrAccountNo || '',
+      leanTo: res?.data?.strLienTo || '',
+      openingDate: '',
+      termDays: '',
       principle: getNewPrinciple(
         res?.data?.numPrinciple,
         res?.data?.numInterestRate,
@@ -412,14 +415,14 @@ export const getFdrById = async (id, setter, setLoading, setOldPrincipal) => {
         res?.data?.numInterestRate,
         res?.data?.intTenureDays
       ),
-      interestRate: "",
+      interestRate: '',
       bankBranch: res?.data?.strBankBranchName
         ? {
-          label: res?.data?.strBankBranchName,
-          value: res?.data?.intBankBranchId,
-        }
-        : "",
-      bankAccount: "",
+            label: res?.data?.strBankBranchName,
+            value: res?.data?.intBankBranchId,
+          }
+        : '',
+      bankAccount: '',
     };
     setter(newData);
     setOldPrincipal(res?.data?.numPrinciple);
@@ -540,18 +543,18 @@ export const getAttachments = async (
 export const fundManagementAttch = async (attachment, setUploadImage) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file);
+    formData.append('files', file);
   });
   try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await Axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     setUploadImage(data);
     return data;
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Document not upload");
+    toast.error(error?.response?.data?.message || 'Document not upload');
   }
 };
 
@@ -564,5 +567,5 @@ export const getBusinessUnitDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };

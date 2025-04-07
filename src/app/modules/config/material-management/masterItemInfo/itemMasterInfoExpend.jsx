@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 const initData = {
-  businessUnit: "",
-  itemSubCategoryName: "",
-  itemCategoryName: "",
-  itemTypeName: "",
-  itemMasterName: "",
-  uomName: "",
-  stdPurchaseRate: "",
-  stdSalesRate: "",
+  businessUnit: '',
+  itemSubCategoryName: '',
+  itemCategoryName: '',
+  itemTypeName: '',
+  itemMasterName: '',
+  uomName: '',
+  stdPurchaseRate: '',
+  stdSalesRate: '',
 };
 
 export default function MasterItemExpend() {
@@ -79,7 +79,7 @@ export default function MasterItemExpend() {
           true
         );
       } else {
-        toast.warn("Please add minimum one new Business Unit");
+        toast.warn('Please add minimum one new Business Unit');
       }
     }
   };
@@ -91,7 +91,7 @@ export default function MasterItemExpend() {
         (item) => item?.businessUnitId === values?.businessUnit?.value
       )
     ) {
-      return toast.warn("Business Unit already added");
+      return toast.warn('Business Unit already added');
     }
     try {
       // Create the new row object
@@ -122,7 +122,7 @@ export default function MasterItemExpend() {
       console.log(e);
     }
   };
-  console.log("ee", uomDTO);
+  console.log('ee', uomDTO);
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -130,7 +130,7 @@ export default function MasterItemExpend() {
         itemCategoryName: itemMasterCategoryName,
         itemTypeName: itemMasterTypeName,
         itemMasterName: itemMasterName,
-        businessUnit: "",
+        businessUnit: '',
         isSerialMaintain: false,
         uomName: uomDTO?.baseUomName,
       };
@@ -145,7 +145,6 @@ export default function MasterItemExpend() {
         }
       );
     }
-
   }, [id]);
   return (
     <Formik
@@ -158,7 +157,7 @@ export default function MasterItemExpend() {
             resetForm(initData);
           });
         } else {
-          toast.warn("Please add minimum one Business Unit");
+          toast.warn('Please add minimum one Business Unit');
         }
       }}
     >
@@ -186,7 +185,7 @@ export default function MasterItemExpend() {
                     type="text"
                     placeholder="Item Name"
                     onChange={(e) => {
-                      setFieldValue("itemMasterName", e.target.value);
+                      setFieldValue('itemMasterName', e.target.value);
                     }}
                   />
                 </div>
@@ -199,7 +198,7 @@ export default function MasterItemExpend() {
                     type="text"
                     placeholder="UOM"
                     onChange={(e) => {
-                      setFieldValue("uomName", e.target.value);
+                      setFieldValue('uomName', e.target.value);
                     }}
                   />
                 </div>
@@ -212,7 +211,7 @@ export default function MasterItemExpend() {
                     type="text"
                     placeholder="Item Type Name"
                     onChange={(e) => {
-                      setFieldValue("itemTypeName", e.target.value);
+                      setFieldValue('itemTypeName', e.target.value);
                     }}
                   />
                 </div>
@@ -225,7 +224,7 @@ export default function MasterItemExpend() {
                     type="text"
                     placeholder="Item Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemCategoryName", e.target.value);
+                      setFieldValue('itemCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -238,7 +237,7 @@ export default function MasterItemExpend() {
                     type="text"
                     placeholder="Item Sub Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemSubCategoryName", e.target.value);
+                      setFieldValue('itemSubCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -250,9 +249,9 @@ export default function MasterItemExpend() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
-                      setFieldValue("stdPurchaseRate", "");
-                      setFieldValue("stdSalesRate", "");
+                      setFieldValue('businessUnit', valueOption);
+                      setFieldValue('stdPurchaseRate', '');
+                      setFieldValue('stdSalesRate', '');
                     }}
                     // isDisabled={id}
                   />
@@ -260,37 +259,35 @@ export default function MasterItemExpend() {
 
                 {values?.businessUnit?.value === 239 && (
                   <>
-                  <div className="col-lg-3">
-                    <InputField
-                      name="stdPurchaseRate"
-                      value={values?.stdPurchaseRate}
-                      label="Standard Purchase Rate"
-                      type="number"
-                      placeholder="Standard Purchase Rate"
-                      onChange={(e) => {
-                        if(e.target.value < 0) return
-                        setFieldValue("stdPurchaseRate", e.target.value);
-                      }}
-                    />
-                  </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        name="stdPurchaseRate"
+                        value={values?.stdPurchaseRate}
+                        label="Standard Purchase Rate"
+                        type="number"
+                        placeholder="Standard Purchase Rate"
+                        onChange={(e) => {
+                          if (e.target.value < 0) return;
+                          setFieldValue('stdPurchaseRate', e.target.value);
+                        }}
+                      />
+                    </div>
 
-                  <div className="col-lg-3">
-                    <InputField
-                      name="stdSalesRate"
-                      value={values?.stdSalesRate}
-                      label="Standard Sales Rate"
-                      type="number"
-                      placeholder="Standard Sales Rate"
-                      onChange={(e) => {
-                        if(e.target.value < 0) return
-                        setFieldValue("stdSalesRate", e.target.value);
-                      }}
-                    />
-                  </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        name="stdSalesRate"
+                        value={values?.stdSalesRate}
+                        label="Standard Sales Rate"
+                        type="number"
+                        placeholder="Standard Sales Rate"
+                        onChange={(e) => {
+                          if (e.target.value < 0) return;
+                          setFieldValue('stdSalesRate', e.target.value);
+                        }}
+                      />
+                    </div>
                   </>
                 )}
-
-
 
                 {(values?.businessUnit?.value === 138 ||
                   values?.businessUnit?.value === 186) && (
@@ -303,7 +300,7 @@ export default function MasterItemExpend() {
                       checked={values?.isSerialMaintain}
                       id="isSerialMaintain"
                       onChange={(e) => {
-                        setFieldValue("isSerialMaintain", e.target.checked);
+                        setFieldValue('isSerialMaintain', e.target.checked);
                       }}
                     />
                   </div>
@@ -315,13 +312,20 @@ export default function MasterItemExpend() {
                     className="btn btn-primary"
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("isSerialMaintain", false);
-                        setFieldValue("stdPurchaseRate", "");
-                        setFieldValue("stdSalesRate", "");
+                        setFieldValue('businessUnit', '');
+                        setFieldValue('isSerialMaintain', false);
+                        setFieldValue('stdPurchaseRate', '');
+                        setFieldValue('stdSalesRate', '');
                       });
                     }}
-                    disabled={!values?.businessUnit || (values?.businessUnit?.value === 239 && (!values?.stdPurchaseRate || !values?.stdSalesRate || values?.stdPurchaseRate < 1 || values?.stdSalesRate < 1))}
+                    disabled={
+                      !values?.businessUnit ||
+                      (values?.businessUnit?.value === 239 &&
+                        (!values?.stdPurchaseRate ||
+                          !values?.stdSalesRate ||
+                          values?.stdPurchaseRate < 1 ||
+                          values?.stdSalesRate < 1))
+                    }
                   >
                     + Add
                   </button>
@@ -332,7 +336,7 @@ export default function MasterItemExpend() {
                 <div className="table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -349,25 +353,25 @@ export default function MasterItemExpend() {
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td className="text-left">{item?.businessUnitName}</td>
                         <td className="text-left">{itemMasterName}</td>
                         <td className="text-left">
-                          {itemMasterTypeName || ""}
+                          {itemMasterTypeName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterCategoryName || ""}
+                          {itemMasterCategoryName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterSubCategoryName || ""}
+                          {itemMasterSubCategoryName || ''}
                         </td>
                         <td className="text-left">
-                            {item?.stdPurchaseRate || ""}
+                          {item?.stdPurchaseRate || ''}
                         </td>
                         <td className="text-left">
-                            {item?.stdSalesRate || ""}
+                          {item?.stdSalesRate || ''}
                         </td>
                       </tr>
                     ))}
@@ -376,14 +380,14 @@ export default function MasterItemExpend() {
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

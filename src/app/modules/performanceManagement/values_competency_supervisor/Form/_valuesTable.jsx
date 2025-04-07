@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export default function ValuesTable({
   headerName,
@@ -20,10 +20,7 @@ export default function ValuesTable({
         ..._data?.values,
       });
     }
-
   }, [_data]);
-
-
 
   return (
     <>
@@ -56,22 +53,23 @@ export default function ValuesTable({
                         {itm?.measureIdBySupervisor ? (
                           <td> {itm?.measureNameByEmployee} </td>
                         ) : (
-                          ""
+                          ''
                         )}
                         <td className="text-center align-middle">
                           <button
                             type="button"
                             style={{
-                              cursor: "text",
-                              minHeight: "20px",
-                              minWidth: "90%",
+                              cursor: 'text',
+                              minHeight: '20px',
+                              minWidth: '90%',
                             }}
                             className="btn p-0 border text-left border-primary"
                             placeholder="scale"
                             onClick={() => {
                               history.push({
-                                pathname: `${viewModalPath}/?id=${index +
-                                  1}&type=values`,
+                                pathname: `${viewModalPath}/?id=${
+                                  index + 1
+                                }&type=values`,
                                 valuesOrComId: itm?.valuesOrComId,
                                 typeId: 2,
                                 name: itm?.valuesOrComName,
@@ -83,7 +81,11 @@ export default function ValuesTable({
                               valuesData[index + 1]?.label}
                           </button>
                         </td>
-                        <td className="text-center">{(valuesData[index + 1]?.measureValue  || itm?.numMeasureValueBySupervisor || 0) - (itm?.numMeasureValueByEmployee || 0)}</td>
+                        <td className="text-center">
+                          {(valuesData[index + 1]?.measureValue ||
+                            itm?.numMeasureValueBySupervisor ||
+                            0) - (itm?.numMeasureValueByEmployee || 0)}
+                        </td>
                       </tr>
                     )
                 )}

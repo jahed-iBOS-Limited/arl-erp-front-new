@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
@@ -155,7 +154,7 @@ export default function AttachmentUploadForm({
                             {getFileType(item) === 'pdf' ? (
                               <i class="far fa-file-pdf"></i>
                             ) : ['png', 'jpg', 'jpeg'].includes(
-                                getFileType(item),
+                                getFileType(item)
                               ) ? (
                               <i class="fad fa-file-image"></i>
                             ) : (
@@ -269,7 +268,7 @@ export default function AttachmentUploadForm({
                           onDelete={(deleteFileObj) => {
                             const newData = fileObjects.filter(
                               (item) =>
-                                item.file.name !== deleteFileObj.file.name,
+                                item.file.name !== deleteFileObj.file.name
                             );
                             setFileObjects(newData);
                           }}
@@ -279,12 +278,12 @@ export default function AttachmentUploadForm({
                             setOpen(false);
 
                             const compressedFile = await compressfile(
-                              fileObjects?.map((f) => f.file),
+                              fileObjects?.map((f) => f.file)
                             );
 
                             fundManagementAttch(
                               compressedFile,
-                              setUploadedFiles,
+                              setUploadedFiles
                             )
                               .then((data) => {
                                 if (data?.length) {
@@ -292,7 +291,7 @@ export default function AttachmentUploadForm({
                                   onChangeHandler(
                                     i,
                                     'fileName',
-                                    data[0]?.fileName,
+                                    data[0]?.fileName
                                   );
                                   setOpen(false);
                                   toast.success('Uploaded Successfully!');

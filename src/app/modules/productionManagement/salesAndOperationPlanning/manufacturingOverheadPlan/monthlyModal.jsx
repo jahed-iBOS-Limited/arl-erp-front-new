@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import { monthData } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import { monthData } from './helper';
 const initData = {
-  profitCenter: "",
+  profitCenter: '',
 };
 
 function MonthlyModal({
@@ -29,9 +29,9 @@ function MonthlyModal({
     return state.authData;
   }, shallowEqual);
 
-  console.log("landingValues", landingValues);
+  console.log('landingValues', landingValues);
   let defoultProfitCenter =
-    landingValues?.profitCenter?.value === 0 ? "" : landingValues?.profitCenter;
+    landingValues?.profitCenter?.value === 0 ? '' : landingValues?.profitCenter;
   useEffect(() => {
     const profitCenter = singleData?.item?.intProfitCenterId
       ? {
@@ -54,8 +54,9 @@ function MonthlyModal({
         // }&ProfitCenterId=${profitCenter?.value}`,
         `/fino/BudgetFinancial/GetMonthlyConversion?accountId=${
           profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
-          ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
+        }&businessUnitId=${selectedBusinessUnit?.value}&year=${
+          singleData?.item?.intYear || singleData?.values?.fiscalYear?.value
+        }&typeId=${
           singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
         }&ProfitCenterId=${profitCenter?.value}&PlantId=${
           landingValues?.plant?.value
@@ -71,7 +72,7 @@ function MonthlyModal({
                   ?.monthlyConversionValue || 0,
               strManagementUomName:
                 res.find((resItem) => resItem.intMonthId === item?.intMonthId)
-                  ?.strManagementUomName || "",
+                  ?.strManagementUomName || '',
             };
           });
           setSingleData({
@@ -81,13 +82,11 @@ function MonthlyModal({
         }
       );
     }
-
-
   }, []);
 
   const saveHandler = (values, cb) => {
     if (!values?.profitCenter?.label) {
-      return toast.warn("Please Select Profit Center");
+      return toast.warn('Please Select Profit Center');
     }
 
     // const matchingItem = singleData?.item?.monthList?.find(item => +item.monthlyConversionValue === 0);
@@ -133,8 +132,8 @@ function MonthlyModal({
           intMonthId: item?.intMonthId,
           IntYearId:
             index < 6
-              ? singleData?.values?.fiscalYear?.label?.split("-")[0]
-              : singleData?.values?.fiscalYear?.label?.split("-")[1],
+              ? singleData?.values?.fiscalYear?.label?.split('-')[0]
+              : singleData?.values?.fiscalYear?.label?.split('-')[1],
           strMonthName: monthData.find(
             (month) => month.intMonthId === item?.intMonthId
           )?.strMonthName,
@@ -197,7 +196,7 @@ function MonthlyModal({
                     value={values?.profitCenter}
                     label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -220,8 +219,8 @@ function MonthlyModal({
                                 <th>
                                   {singleData?.values?.gl
                                     ?.intGeneralLedgerId === 93
-                                    ? "Production Quantity"
-                                    : "Sales Quantity"}
+                                    ? 'Production Quantity'
+                                    : 'Sales Quantity'}
                                 </th>
                                 <th>UM</th>
                                 <th>Multiplication Result</th>
@@ -242,17 +241,17 @@ function MonthlyModal({
                                     )?.strMonthName
                                   }
                                 </td>
-                                <td style={{ minWidth: "70px" }}>
+                                <td style={{ minWidth: '70px' }}>
                                   <InputField
-                                    value={+item?.intMonthLyValue || ""}
+                                    value={+item?.intMonthLyValue || ''}
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       let modiFyRow = [
                                         ...singleData?.item?.monthList,
                                       ];
-                                      modiFyRow[i]["intMonthLyValue"] =
-                                        +e.target.value || "";
+                                      modiFyRow[i]['intMonthLyValue'] =
+                                        +e.target.value || '';
                                       setSingleData({
                                         ...singleData,
                                         item: {
@@ -273,7 +272,7 @@ function MonthlyModal({
                                     <td className="text-center">
                                       {(+item?.intMonthLyValue || 0) *
                                         (+item?.monthlyConversionValue || 0) ||
-                                        ""}
+                                        ''}
                                     </td>
                                   </>
                                 ) : null}
@@ -288,14 +287,14 @@ function MonthlyModal({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

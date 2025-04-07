@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { createAndUpdateSupplierByShippoint } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { createAndUpdateSupplierByShippoint } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
 
 function SupplierAndShippingPointTable({
   landingCB,
@@ -25,8 +25,8 @@ function SupplierAndShippingPointTable({
   return (
     <>
       {loading && <Loading />}
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -39,14 +39,14 @@ function SupplierAndShippingPointTable({
             {landingSupplierByShippoint?.data?.data?.map((item, index) => {
               return (
                 <tr key={index}>
-                  <td className='text-center'> {index + 1}</td>
+                  <td className="text-center"> {index + 1}</td>
                   <td>{item?.supplierName}</td>
                   <td>
                     {item?.isEdit ? (
                       <>
-                        {" "}
+                        {' '}
                         <NewSelect
-                          name='shipPoint'
+                          name="shipPoint"
                           options={shipPointDDL || []}
                           value={
                             item?.shipPointId
@@ -54,7 +54,7 @@ function SupplierAndShippingPointTable({
                                   value: item?.shipPointId,
                                   label: item?.shipPointName,
                                 }
-                              : ""
+                              : ''
                           }
                           onChange={(valueOption) => {
                             const copyRowDto = [
@@ -72,24 +72,24 @@ function SupplierAndShippingPointTable({
                             });
                           }}
                           isClearable={false}
-                          menuPosition='fixed'
+                          menuPosition="fixed"
                         />
                       </>
                     ) : (
                       item?.shipPointName
                     )}
                   </td>
-                  <td className='text-center'>
+                  <td className="text-center">
                     <span>
                       {item?.isEdit ? (
                         <>
                           <button
-                            type='button'
+                            type="button"
                             style={{
-                              padding: "1px 6px",
-                              margin: "0",
+                              padding: '1px 6px',
+                              margin: '0',
                             }}
-                            className='btn btn-primary'
+                            className="btn btn-primary"
                             onClick={() => {
                               const payload = [
                                 {
@@ -114,14 +114,14 @@ function SupplierAndShippingPointTable({
                         </>
                       ) : (
                         <>
-                          {" "}
+                          {' '}
                           <button
-                            type='button'
+                            type="button"
                             style={{
-                              padding: "1px 6px",
-                              margin: "0",
+                              padding: '1px 6px',
+                              margin: '0',
                             }}
-                            className='btn btn-primary'
+                            className="btn btn-primary"
                             onClick={() => {
                               const copyRowDto = [
                                 ...landingSupplierByShippoint?.data?.data,

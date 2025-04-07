@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import TripCostDetailsTable from "./details";
-import "./style.css";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import Loading from '../../../../_helper/_loading';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import TripCostDetailsTable from './details';
+import './style.css';
 
 const Table = ({ obj }) => {
   const { accId, buId, gridData, values, buName, printRef } = obj;
@@ -58,7 +58,7 @@ const Table = ({ obj }) => {
                   <tr>
                     <th>SL</th>
                     <th>Bill No</th>
-                    <th style={{ width: "143px" }}>Vehicle No.</th>
+                    <th style={{ width: '143px' }}>Vehicle No.</th>
                     {/* <th style={{ width: "143px" }}>Vehicle Type</th> */}
                     <th>Millage (KM)</th>
                     <th>Addition Millage (Km)</th>
@@ -128,7 +128,9 @@ const Table = ({ obj }) => {
                     return (
                       <tr key={index}>
                         <td className="text-center"> {index + 1}</td>
-                        <td className="text-center">{item?.billregisterCode}</td>
+                        <td className="text-center">
+                          {item?.billregisterCode}
+                        </td>
                         <td className="text-center">{item?.vehicleNo}</td>
                         {/* <td className="text-center">{item?.vehicleType}</td> */}
                         <td className="text-center">{item?.millage}</td>
@@ -159,7 +161,7 @@ const Table = ({ obj }) => {
                         <td className="text-center">{item?.netPayable}</td>
                         <td className="text-center">
                           <InfoCircle
-                            title={"View Details"}
+                            title={'View Details'}
                             clickHandler={() => {
                               getDetails(
                                 `/tms/ShipmentExpReport/GetTripCostReportByVehicleId?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&vehicleid=${item?.vehicelId}`,
@@ -167,7 +169,7 @@ const Table = ({ obj }) => {
                                   if (resData?.length) {
                                     setOpen(true);
                                   } else {
-                                    toast.warn("Data not found");
+                                    toast.warn('Data not found');
                                   }
                                 }
                               );
@@ -235,7 +237,7 @@ const Table = ({ obj }) => {
       <IViewModal
         show={open}
         onHide={() => setOpen(false)}
-        title={"Trip Cost Details"}
+        title={'Trip Cost Details'}
       >
         <TripCostDetailsTable obj={{ rowData }} />
       </IViewModal>

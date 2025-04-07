@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -61,12 +60,14 @@ export default function OffHireTable() {
     const typeId = values?.viewType?.value;
     if (typeId === 1) {
       getLandingData(
-        `${imarineBaseUrl}/domain/OffHire/GetOffHireLanding?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${values?.voyageNo?.value || 0
+        `${imarineBaseUrl}/domain/OffHire/GetOffHireLanding?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${
+          values?.voyageNo?.value || 0
         }&VesselId=${values?.vesselName?.value || 0}`,
         (resData) => {
           setGridData(resData);
-        },
+        }
       );
     } else if (typeId === 2) {
       getOffHireLandingData(
@@ -78,7 +79,7 @@ export default function OffHireTable() {
         _pageSize,
         '',
         setGridData,
-        setLoading,
+        setLoading
       );
     }
   };
@@ -100,7 +101,7 @@ export default function OffHireTable() {
     getVesselDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setVesselDDL,
+      setVesselDDL
     );
     getGridData(initData);
     if (initData?.vesselName) {
@@ -114,15 +115,18 @@ export default function OffHireTable() {
 
   const getDetails = (item) => {
     getLandingData(
-      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?AccountId=${profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${item?.voyageId
-      }&VesselId=${item?.vesselId
+      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${
+        item?.voyageId
+      }&VesselId=${
+        item?.vesselId
       }&viewOrder=asc&PageNo=${0}&PageSize=${1000}${''}`,
       (resData) => {
         if (resData?.data?.length > 0) {
           setShow(true);
         }
-      },
+      }
     );
   };
 
@@ -133,7 +137,7 @@ export default function OffHireTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => { }}
+        onSubmit={(values) => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
@@ -277,7 +281,7 @@ export default function OffHireTable() {
                           <IView
                             clickHandler={() => {
                               history.push(
-                                `/chartering/offHire/view/${item?.offHireId}`,
+                                `/chartering/offHire/view/${item?.offHireId}`
                               );
                             }}
                           />
@@ -285,7 +289,7 @@ export default function OffHireTable() {
                             <IEdit
                               clickHandler={() => {
                                 history.push(
-                                  `/chartering/offHire/edit/${item?.offHireId}`,
+                                  `/chartering/offHire/edit/${item?.offHireId}`
                                 );
                               }}
                             />
@@ -308,7 +312,7 @@ export default function OffHireTable() {
               <IViewModal
                 show={show}
                 onHide={() => setShow(false)}
-              // title={`Off Hire Details - ${singleItem?.vesselName}, V${singleItem?.voyageNumber}`}
+                // title={`Off Hire Details - ${singleItem?.vesselName}, V${singleItem?.voyageNumber}`}
               >
                 <OffHireDetails obj={{ gridData: detailsData, singleItem }} />
               </IViewModal>

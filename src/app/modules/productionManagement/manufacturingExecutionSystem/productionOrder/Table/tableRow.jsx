@@ -1,38 +1,38 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
 import {
   getItemTransferInPagination,
   getPlantDDL_api,
   getShopFloorDDL,
   itemRequest_api,
   productionOrderClose,
-} from "../helper";
+} from '../helper';
 // import itemRequest from "../../../../_helper/images/item_request.png";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import Select from "react-select";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import customStyles from "../../../../selectCustomStyle";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Select from 'react-select';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import customStyles from '../../../../selectCustomStyle';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import PaginationSearch from "../../../../_helper/_search";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ProductionOrderViewFormModel from "./viewModal";
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import PaginationSearch from '../../../../_helper/_search';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ProductionOrderViewFormModel from './viewModal';
 // import findIndex from "./../../../../_helper/_findIndex";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { SetManufacturePOTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
-import ItemRequestModal from "./itemRequestModal";
-import ProductionDetails from "./productionDetails";
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { SetManufacturePOTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { ItemReqViewTableRow } from '../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow';
+import ItemRequestModal from './itemRequestModal';
+import ProductionDetails from './productionDetails';
 
 export function TableRow() {
   const { manufacturePOTableLanding } = useSelector(
@@ -101,7 +101,7 @@ export function TableRow() {
 
   const pushData = () => {
     history.push({
-      pathname: "/production-management/mes/productionorder/create",
+      pathname: '/production-management/mes/productionorder/create',
     });
   };
 
@@ -149,15 +149,14 @@ export function TableRow() {
     getWarehouseDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${selectedPlant?.value}&OrgUnitTypeId=8`
     );
-
   }, []);
 
   // Delete Grid Data
   const singlePOHandler = (index, poId) => {
     if (index && profileData?.accountId && selectedBusinessUnit?.value) {
       let confirmObject = {
-        title: "Are you sure to close?",
-        message: "If you close this, it can not be undone",
+        title: 'Are you sure to close?',
+        message: 'If you close this, it can not be undone',
         yesAlertFunc: async () => {
           // Delete Data and Fetch Grid Data
           productionOrderClose(
@@ -172,7 +171,7 @@ export function TableRow() {
           );
         },
         noAlertFunc: () => {
-          history.push("/production-management/mes/productionorder");
+          history.push('/production-management/mes/productionorder');
         },
       };
       IConfirmModal(confirmObject);
@@ -182,8 +181,8 @@ export function TableRow() {
   // one item select
   const itemSlectedHandler = (value, index) => {
     const copyRowDto = [...gridData?.data];
-    copyRowDto[index].isItemRequestCheck = !copyRowDto[index]
-      .isItemRequestCheck;
+    copyRowDto[index].isItemRequestCheck =
+      !copyRowDto[index].isItemRequestCheck;
     setGridData({
       ...gridData,
       data: copyRowDto,
@@ -259,8 +258,8 @@ export function TableRow() {
                     onChange={(valueOption) => {
                       setGridData([]);
                       setSelectedPlant(valueOption);
-                      setselectedDDLShop("");
-                      setSelectedStatus("");
+                      setselectedDDLShop('');
+                      setSelectedStatus('');
                       getShopFloorDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -273,8 +272,8 @@ export function TableRow() {
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: valueOption,
-                          shopfloor: "",
-                          status: "",
+                          shopfloor: '',
+                          status: '',
                         })
                       );
                     }}
@@ -296,12 +295,12 @@ export function TableRow() {
                     onChange={(valueOption) => {
                       setGridData([]);
                       setselectedDDLShop(valueOption);
-                      setSelectedStatus("");
+                      setSelectedStatus('');
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: selectedPlant,
                           shopfloor: valueOption,
-                          status: "",
+                          status: '',
                         })
                       );
                     }}
@@ -316,9 +315,9 @@ export function TableRow() {
                   <Select
                     name={selectedStatus}
                     options={[
-                      { value: "0", label: "All" },
-                      { value: "1", label: "Open" },
-                      { value: "2", label: "Closed" },
+                      { value: '0', label: 'All' },
+                      { value: '1', label: 'Open' },
+                      { value: '2', label: 'Closed' },
                     ]}
                     value={selectedStatus}
                     label="Status"
@@ -359,7 +358,7 @@ export function TableRow() {
                   placeholder="Production Order Code Search"
                   paginationSearchHandler={paginationSearchHandler}
                 />
-                <div className="ml-2" style={{ marginTop: "0px" }}>
+                <div className="ml-2" style={{ marginTop: '0px' }}>
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -380,7 +379,7 @@ export function TableRow() {
                         selectedItemRequest?.length > 1
                       ) {
                         return toast.warn(
-                          "You cannot have multiple item requests for Shop Floor => Contract Manufacturing (Rice)"
+                          'You cannot have multiple item requests for Shop Floor => Contract Manufacturing (Rice)'
                         );
                       }
                       itemRequestHandler();
@@ -397,7 +396,7 @@ export function TableRow() {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "23px" }}>
+                        <th style={{ width: '23px' }}>
                           <input
                             type="checkbox"
                             id="parent"
@@ -415,7 +414,7 @@ export function TableRow() {
                         <th>Order Qty</th>
                         <th>Uom Name</th>
                         <th>Item Request Code</th>
-                        <th style={{ width: "120px" }}>Action</th>
+                        <th style={{ width: '120px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -477,11 +476,11 @@ export function TableRow() {
                                 setIsShowModal(true);
                               }}
                             >
-                              <span style={{ color: "rgb(3 88 176)" }}>
+                              <span style={{ color: 'rgb(3 88 176)' }}>
                                 {item?.isBackCalculation === 2 ||
                                 item?.isBackCalculation === 0
                                   ? item?.itemRequestCode
-                                  : ""}
+                                  : ''}
                               </span>
                             </td>
                             <td>
@@ -530,7 +529,7 @@ export function TableRow() {
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">
-                                            {"Create Sub-PO"}
+                                            {'Create Sub-PO'}
                                           </Tooltip>
                                         }
                                       >
@@ -556,7 +555,7 @@ export function TableRow() {
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">
-                                            {"Production Details"}
+                                            {'Production Details'}
                                           </Tooltip>
                                         }
                                       >
@@ -587,7 +586,7 @@ export function TableRow() {
                                         <OverlayTrigger
                                           overlay={
                                             <Tooltip id="delete-icon">
-                                              {"Close"}
+                                              {'Close'}
                                             </Tooltip>
                                           }
                                         >
@@ -621,7 +620,7 @@ export function TableRow() {
                                         <OverlayTrigger
                                           overlay={
                                             <Tooltip id="delete-icon">
-                                              {"Close"}
+                                              {'Close'}
                                             </Tooltip>
                                           }
                                         >
@@ -718,7 +717,7 @@ export function TableRow() {
                 setGridData,
                 pageNo,
                 pageSize,
-                ""
+                ''
               );
             }}
             show={itemRequestModal}

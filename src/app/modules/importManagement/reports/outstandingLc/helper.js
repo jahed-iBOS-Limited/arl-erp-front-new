@@ -1,7 +1,12 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-export const GetOutstandingLCReport = async (accId, businessUnit, setter, setLoader) => {
+export const GetOutstandingLCReport = async (
+  accId,
+  businessUnit,
+  setter,
+  setLoader
+) => {
   setLoader(true);
   try {
     const res = await axios.get(

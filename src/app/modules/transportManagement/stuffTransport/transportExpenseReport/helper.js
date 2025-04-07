@@ -4,9 +4,9 @@ export function getFormattedMonthYear(monthId, yearId) {
   const date = new Date(yearId, monthId - 1, 1);
 
   // Formatting the date to get the month abbreviation and year
-  const formattedDate = date.toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    year: 'numeric',
   });
 
   return formattedDate;

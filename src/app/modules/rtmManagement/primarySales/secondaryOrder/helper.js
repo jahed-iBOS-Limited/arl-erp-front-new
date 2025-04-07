@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getRouteDDL = async (accId, buId, setter) => {
   try {
@@ -9,9 +9,7 @@ export const getRouteDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getBeatNameDDL = async (routeId, setter) => {
@@ -20,9 +18,7 @@ export const getBeatNameDDL = async (routeId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getOutletNameDDL = async (routeId, setter) => {
@@ -31,33 +27,31 @@ export const getOutletNameDDL = async (routeId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemDDL = async (setter, accId, buId, chId) => {
   try {
-    const res = await Axios.get(`/rtm/RTMCommonProcess/GetOutletItemInfo?AccountId=${accId}&BUnitId=${buId}&ChannelId=${chId}`);
+    const res = await Axios.get(
+      `/rtm/RTMCommonProcess/GetOutletItemInfo?AccountId=${accId}&BUnitId=${buId}&ChannelId=${chId}`
+    );
     if (res?.status === 200 && res?.data) {
-      let newArray = res.data.map((item)=>{
+      let newArray = res.data.map((item) => {
         return {
           orderId: 0,
           rowId: 0,
           itemId: item.itemId,
           itemName: item.itemName,
-          uomId:item.uomId,
+          uomId: item.uomId,
           orderQty: 0,
           rate: item?.itemRate,
           uomName: item?.uomName,
           amount: 0,
         };
-      })
+      });
       setter(newArray);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getOutletInfoDDL = async (accId, busId, setter) => {
@@ -68,9 +62,7 @@ export const getOutletInfoDDL = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getSecondaryOrderLanding = async (
@@ -89,11 +81,10 @@ export const getSecondaryOrderLanding = async (
     if (res.status === 200 && res?.data) {
       setLoading(false);
       setter(res?.data);
-      console.log(res?.data, "data");
+      console.log(res?.data, 'data');
     }
   } catch (error) {
     setLoading(false);
-    
   }
 };
 
@@ -105,7 +96,7 @@ export const savSecondaryOrderAction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -120,7 +111,7 @@ export const saveEditedSecondaryOrder = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/rtm/SecondaryOrder/EditSecondaryOrder`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -137,7 +128,7 @@ export const getSingleData = async (ordrId, setter) => {
 
     let header = res?.data?.objHeader;
     let objRow = res?.data?.objRow;
-    
+
     const obj = {
       routeName: {
         value: header[0]?.routeId,
@@ -163,22 +154,18 @@ export const getSingleData = async (ordrId, setter) => {
         value: header[0]?.distributionChannelId,
         label: header[0]?.distributionChannelName,
       },
-      item: "",
-      uomName: "",
-      orderQuantity: "",
-      rate: "",
-      orderAmount: "",
+      item: '',
+      uomName: '',
+      orderQuantity: '',
+      rate: '',
+      orderAmount: '',
       orderId: header[0]?.orderId,
       receivedAmount: header[0]?.receiveAmount,
       row: objRow,
     };
     setter(obj);
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
-
-
 
 export const getTerrotoryDDL = async (accId, buId, setter) => {
   try {
@@ -190,30 +177,39 @@ export const getTerrotoryDDL = async (accId, buId, setter) => {
     }
   } catch (err) {
     if (err?.response?.status === 500) {
-      toast.warning(err?.response?.data?.message)
+      toast.warning(err?.response?.data?.message);
     }
   }
 };
 
-
-export const getdistributorNameDDL = async (accId, buId,tId, setter,setFieldValue) => {
+export const getdistributorNameDDL = async (
+  accId,
+  buId,
+  tId,
+  setter,
+  setFieldValue
+) => {
   try {
     let res = await Axios.get(
       `/rtm/RTMDDL/GetCustomerDDL?AccountId=${accId}&BusinessUnitId=${buId}&TerrytoryId=${tId}`
     );
     if (res?.status === 200) {
       setter(res?.data);
-      setFieldValue("distributionChannel", res?.data[0] || "" )
+      setFieldValue('distributionChannel', res?.data[0] || '');
     }
   } catch (err) {
     if (err?.response?.status === 500) {
-      toast.warning(err?.response?.data?.message)
+      toast.warning(err?.response?.data?.message);
     }
   }
 };
 
-
-export const getdistributorCahnelNameDDL = async (accId, buId,prId, setter) => {
+export const getdistributorCahnelNameDDL = async (
+  accId,
+  buId,
+  prId,
+  setter
+) => {
   try {
     let res = await Axios.get(
       `/rtm/RTMDDL/GetDistributinChannelByPartnerIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnetId=${prId}`
@@ -223,7 +219,7 @@ export const getdistributorCahnelNameDDL = async (accId, buId,prId, setter) => {
     }
   } catch (err) {
     if (err?.response?.status === 500) {
-      toast.warning(err?.response?.data?.message)
+      toast.warning(err?.response?.data?.message);
     }
   }
 };

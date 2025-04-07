@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function FuelConsumptionForm({
   initData,
@@ -50,15 +50,15 @@ export default function FuelConsumptionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -71,7 +71,7 @@ export default function FuelConsumptionForm({
                     value={values?.generatorName}
                     label="Generator Name"
                     onChange={(valueOption) => {
-                      setFieldValue("generatorName", valueOption);
+                      setFieldValue('generatorName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -85,7 +85,7 @@ export default function FuelConsumptionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return;
-                      setFieldValue("quantity", e.target.value);
+                      setFieldValue('quantity', e.target.value);
                     }}
                   />
                 </div>
@@ -93,14 +93,14 @@ export default function FuelConsumptionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

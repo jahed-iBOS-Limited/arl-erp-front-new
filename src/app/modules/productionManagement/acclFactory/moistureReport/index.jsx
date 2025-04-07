@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import MoistureDataView from "./view";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import MoistureDataView from './view';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -22,12 +22,8 @@ export default function MoistureReportLanding() {
   const [viewShift, setViewShift] = useState();
   const [viewRemarks, setViewRemarks] = useState();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [
-    moistureData,
-    getMoustureData,
-    moistureDataLoader,
-    setMoustureData,
-  ] = useAxiosGet();
+  const [moistureData, getMoustureData, moistureDataLoader, setMoustureData] =
+    useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const saveHandler = (values, cb) => {};
@@ -75,7 +71,7 @@ export default function MoistureReportLanding() {
                     className="btn btn-primary mr-2"
                     onClick={() => {
                       history.push(
-                        "/production-management/ACCLFactory/moistureTest/report"
+                        '/production-management/ACCLFactory/moistureTest/report'
                       );
                     }}
                   >
@@ -86,7 +82,7 @@ export default function MoistureReportLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/ACCLFactory/moistureTest/create"
+                        '/production-management/ACCLFactory/moistureTest/create'
                       );
                     }}
                   >
@@ -106,7 +102,7 @@ export default function MoistureReportLanding() {
                       type="date"
                       name="fromDate"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setMoustureData([]);
                       }}
                     />
@@ -118,7 +114,7 @@ export default function MoistureReportLanding() {
                       type="date"
                       name="toDate"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setMoustureData([]);
                       }}
                     />
@@ -127,7 +123,7 @@ export default function MoistureReportLanding() {
                     <button
                       type="button"
                       disabled={!values?.fromDate || !values?.toDate}
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="btn btn-primary"
                       onClick={() => {
                         getMoustureData(
@@ -145,7 +141,7 @@ export default function MoistureReportLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Date</th>
                             <th>Shift</th>
                             <th>Remarks</th>
@@ -166,8 +162,8 @@ export default function MoistureReportLanding() {
                                 <td>{item?.comments}</td>
                                 <td
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "space-evenly",
+                                    display: 'flex',
+                                    justifyContent: 'space-evenly',
                                   }}
                                   className="text-center"
                                 >

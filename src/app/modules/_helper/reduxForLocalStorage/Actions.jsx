@@ -291,11 +291,10 @@ export const SetFinancialsPaymentAdviceAction = (data) => (dispatch) => {
 export const SetFinancialsBankAdviceAction = (data) => (dispatch) => {
   dispatch(slice.setFinancialsBankadvice(data));
 };
-export const SetInvoicemanagementSystemClearSalesInvoiceAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setInvoicemanagementSystemClearSalesInvoice(data));
-};
+export const SetInvoicemanagementSystemClearSalesInvoiceAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setInvoicemanagementSystemClearSalesInvoice(data));
+  };
 export const SetReportPartnerLedgerAction = (data) => (dispatch) => {
   dispatch(slice.setReportPartnerLedger(data));
 };
@@ -345,21 +344,18 @@ export const SetFinancialsInventoryJournalAction = (data) => (dispatch) => {
 export const setPendingOrderShippointLandingAction = (data) => (dispatch) => {
   dispatch(slice.setPendingOrderShippointLanding(data));
 };
-export const SetFinancialManagementReportRegisterAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setFinancialManagementReportRegister(data));
-};
-export const SetFinancialManagementReportCashFlowStatementAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setFinancialManagementReportCashFlowStatement(data));
-};
-export const SetFinancialManagementReportAutoReconcileAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setFinancialManagementReportAutoReconcile(data));
-};
+export const SetFinancialManagementReportRegisterAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setFinancialManagementReportRegister(data));
+  };
+export const SetFinancialManagementReportCashFlowStatementAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setFinancialManagementReportCashFlowStatement(data));
+  };
+export const SetFinancialManagementReportAutoReconcileAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setFinancialManagementReportAutoReconcile(data));
+  };
 
 export const SetSalesInvoiceDataAction = (data) => (dispatch) => {
   console.log(data);
@@ -404,11 +400,10 @@ export const setRenewalRegInitDataAction = (key, value) => (dispatch) => {
 export const setInternalControlBudgetInitAction = (data) => (dispatch) => {
   dispatch(slice.setInternalControlBudgetInitData(data));
 };
-export const managementImportTransactionShipmentAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setManagementImportTransactionShipment(data));
-};
+export const managementImportTransactionShipmentAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setManagementImportTransactionShipment(data));
+  };
 export const setRebConsumptionLandingAction = (data) => (dispatch) => {
   dispatch(slice.setRebConsumptionLanding(data));
 };
@@ -437,11 +432,10 @@ export const setItemBasicInfoInitDataAction = (data) => (dispatch) => {
 export const setOEECapacityConfigurationAction = (data) => (dispatch) => {
   dispatch(slice.setOEECapacityConfigurationData(data));
 };
-export const setItemQualityCheckLandingInitDataAction = (data) => (
-  dispatch,
-) => {
-  dispatch(slice.setItemQualityCheckLandingInitData(data));
-};
+export const setItemQualityCheckLandingInitDataAction =
+  (data) => (dispatch) => {
+    dispatch(slice.setItemQualityCheckLandingInitData(data));
+  };
 export const setSalesCollectionInitDataAction = (data) => (dispatch) => {
   dispatch(slice.setSalesCollectionInitData(data));
 };

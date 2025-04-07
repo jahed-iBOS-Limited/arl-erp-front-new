@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 import {
   billRegisterForSalesCommission,
   getDistributionChannelDDL,
   GetSalesCommissionReport,
   GetShipPointDDL,
   getSoldToPartner,
-  GetAccOfPartnerDDl_api
-} from "../helper";
-import Form from "./form";
+  GetAccOfPartnerDDl_api,
+} from '../helper';
+import Form from './form';
 
 const SalesCommissionForm = () => {
   const initData = {
-    shipPoint: "",
-    remarks: "",
-    distributionChannel: "",
-    partner: "",
-    accOfPartner: "",
+    shipPoint: '',
+    remarks: '',
+    distributionChannel: '',
+    partner: '',
+    accOfPartner: '',
   };
 
   const [open, setOpen] = React.useState(false);
@@ -44,7 +44,7 @@ const SalesCommissionForm = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetShipPointDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -61,7 +61,6 @@ const SalesCommissionForm = () => {
         setAccOfPartnerDDl
       );
     }
-  
   }, [profileData, selectedBusinessUnit]);
 
   const getData = (ShipPointId, partnerId) => {
@@ -94,7 +93,7 @@ const SalesCommissionForm = () => {
     const IDs = filterData?.map((item) => item?.secondaryDeliveryId);
 
     //
-    if (IDs?.length < 1) return toast.warn("Please select at least one item");
+    if (IDs?.length < 1) return toast.warn('Please select at least one item');
 
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
@@ -103,7 +102,7 @@ const SalesCommissionForm = () => {
         refType: headerData?.billType?.value,
         plantId: headerData?.plant?.value,
         sbuId: headerData?.sbu?.value,
-        billRefNo: "",
+        billRefNo: '',
         refIds: IDs,
         remarks: values?.remarks,
         billRegisterDate: _todayDate(),
@@ -121,7 +120,7 @@ const SalesCommissionForm = () => {
         });
         return;
       } else {
-        toast.error("Account Of Name Should Be Same");
+        toast.error('Account Of Name Should Be Same');
       }
     }
   };

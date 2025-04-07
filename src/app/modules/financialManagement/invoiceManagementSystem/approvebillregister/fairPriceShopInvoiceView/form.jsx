@@ -55,7 +55,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       GetFairPriceInvoiceById_api(
         gridItem?.billRegisterId,
         setSingleData,
-        setDisabled,
+        setDisabled
       );
   }, [gridItem]);
 
@@ -88,7 +88,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       setDisabled,
       girdDataFunc,
       values,
-      setModalShow,
+      setModalShow
     );
   };
 
@@ -205,8 +205,8 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                             onClick={() => {
                               dispatch(
                                 getMultipleFileView_Action(
-                                  objHeaderDTO?.billImages,
-                                ),
+                                  objHeaderDTO?.billImages
+                                )
                               );
                             }}
                             className="btn btn-primary ml-2 printSectionNone"
@@ -358,13 +358,13 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                     {numberWithCommas(
                                       (
                                         item?.itemValue / item?.itemQuantity
-                                      ).toFixed(2),
+                                      ).toFixed(2)
                                     )}
                                   </td>
                                   <td> {item?.itemQuantity}</td>
                                   <td>
                                     {numberWithCommas(
-                                      (item?.referenceAmount || 0).toFixed(2),
+                                      (item?.referenceAmount || 0).toFixed(2)
                                     )}
                                   </td>
                                 </tr>
@@ -386,7 +386,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.header?.totalReferenceAmount ||
                                     0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -397,7 +397,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                 {numberWithCommas(
                                   (
                                     singleData?.header?.grossInvoiceAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -408,7 +408,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                 {numberWithCommas(
                                   (
                                     singleData?.header?.deductionAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -420,7 +420,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.header
                                       ?.advanceAdjustmentAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                                 {/* <span>
@@ -434,7 +434,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                 {numberWithCommas(
                                   (
                                     singleData?.header?.netPaymentAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>

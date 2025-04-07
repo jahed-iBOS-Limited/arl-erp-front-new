@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import Axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import Axios from 'axios';
 
 export default function ViewForm({ id }) {
-  const [businessUnitData, setData] = useState("");
+  const [businessUnitData, setData] = useState('');
   useEffect(() => {
     getBusinessUnitById(id);
-
   }, []);
 
   const getBusinessUnitById = async (id, accountId) => {
     const res = await Axios.get(
-      `/domain/BusinessUnitDomain/GetBusinessunitDomainByID?AccountId=${accountId ||
-        1}&BusinessUnitId=${id}`
+      `/domain/BusinessUnitDomain/GetBusinessunitDomainByID?AccountId=${
+        accountId || 1
+      }&BusinessUnitId=${id}`
     );
     const { data, status } = res;
     // console.log(res)

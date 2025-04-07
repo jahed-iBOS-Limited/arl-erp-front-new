@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 function LocalPurchaseTable({ rowDto }) {
   let totalQty = 0,

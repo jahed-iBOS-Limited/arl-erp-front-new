@@ -1,15 +1,14 @@
-
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { useHistory } from "react-router-dom";
-import { PortAndMotherVessel } from "../../../common/components";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { useHistory } from 'react-router-dom';
+import { PortAndMotherVessel } from '../../../common/components';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import { toast } from 'react-toastify';
 
 const Form = ({ obj }) => {
   const {
@@ -35,7 +34,7 @@ const Form = ({ obj }) => {
         {({ values, setFieldValue, errors, touched }) => (
           <>
             <ICustomCard
-              title={"Rate Enrolment"}
+              title={'Rate Enrolment'}
               backHandler={() => {
                 history.goBack();
               }}
@@ -54,12 +53,12 @@ const Form = ({ obj }) => {
                         values,
                         setFieldValue,
                         onChange: (fieldName, allValues) => {
-                          if (fieldName === "motherVessel") {
+                          if (fieldName === 'motherVessel') {
                             if (allValues?.motherVessel?.value === 0) {
                               toast.warn(
-                                "Please select a specific mother Vessel"
+                                'Please select a specific mother Vessel'
                               );
-                              setFieldValue("motherVessel", "");
+                              setFieldValue('motherVessel', '');
                             }
                           }
                         },
@@ -72,13 +71,13 @@ const Form = ({ obj }) => {
                       <NewSelect
                         name="businessPartner"
                         options={[
-                          { value: 73244, label: "G2G BADC" },
-                          { value: 73245, label: "G2G BCIC" },
+                          { value: 73244, label: 'G2G BADC' },
+                          { value: 73245, label: 'G2G BCIC' },
                         ]}
                         value={values?.businessPartner}
                         label="Business Partner"
                         onChange={(e) => {
-                          setFieldValue("businessPartner", e);
+                          setFieldValue('businessPartner', e);
                           if (e) {
                             getData({ ...values, businessPartner: e });
                           }
@@ -95,12 +94,12 @@ const Form = ({ obj }) => {
               {rowData?.data?.length > 0 && (
                 <div className="loan-scrollable-table inventory-statement-report">
                   <div
-                    style={{ maxHeight: "500px" }}
+                    style={{ maxHeight: '500px' }}
                     className="scroll-table _table"
                   >
                     <table
                       className={
-                        "table table-striped table-bordered bj-table bj-table-landing "
+                        'table table-striped table-bordered bj-table bj-table-landing '
                       }
                     >
                       <thead>
@@ -108,7 +107,7 @@ const Form = ({ obj }) => {
                           <th
                             rowSpan={2}
                             onClick={() => allSelect(!selectedAll(), values)}
-                            style={{ minWidth: "30px" }}
+                            style={{ minWidth: '30px' }}
                           >
                             <input
                               type="checkbox"
@@ -117,74 +116,74 @@ const Form = ({ obj }) => {
                               onChange={() => {}}
                             />
                           </th>
-                          <th style={{ minWidth: "30px" }} rowSpan={2}>
+                          <th style={{ minWidth: '30px' }} rowSpan={2}>
                             SL
                           </th>
-                          <th style={{ minWidth: "200px" }} rowSpan={2}>
+                          <th style={{ minWidth: '200px' }} rowSpan={2}>
                             Description of Route
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Distance (km)
                           </th>
-                          <th style={{ minWidth: "500px" }} colSpan={5}>
+                          <th style={{ minWidth: '500px' }} colSpan={5}>
                             Rate per Kilo
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Total Rate <br />
                             17.30
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Tax & Vat <br />
                             17.50%
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Invoice <br />
                             10 tk
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Labour Bill
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Transport Cost
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Additional Cost (ReBag + short)
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Total Cost
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Total Received
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Quantity
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Bill Amount
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Cost Amount
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                          <th style={{ minWidth: '100px' }} rowSpan={2}>
                             Profit Amount
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '100px' }}>
                             0-100 <br /> (10.00)
                           </th>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '100px' }}>
                             101-200 <br />
                             (3.00)
                           </th>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '100px' }}>
                             201-300 <br />
                             (1.50)
                           </th>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '100px' }}>
                             301-400 <br /> (1.50)
                           </th>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '100px' }}>
                             401-500 <br />
                             (1.30)
                           </th>
@@ -216,7 +215,7 @@ const Form = ({ obj }) => {
                               <td
                                 onClick={() => {
                                   rowDataHandler(
-                                    "isSelected",
+                                    'isSelected',
                                     i,
                                     !item.isSelected
                                   );
@@ -241,7 +240,7 @@ const Form = ({ obj }) => {
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "distance",
+                                      'distance',
                                       i,
                                       e?.target?.value
                                     );
@@ -272,11 +271,11 @@ const Form = ({ obj }) => {
                                   name="invoice"
                                   placeholder="Invoice"
                                   type="number"
-                                  value={item?.invoice || ""}
+                                  value={item?.invoice || ''}
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "invoice",
+                                      'invoice',
                                       i,
                                       e?.target?.value
                                     );
@@ -292,7 +291,7 @@ const Form = ({ obj }) => {
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "labourBill",
+                                      'labourBill',
                                       i,
                                       e?.target?.value
                                     );
@@ -308,7 +307,7 @@ const Form = ({ obj }) => {
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "transportCost",
+                                      'transportCost',
                                       i,
                                       e?.target?.value
                                     );
@@ -324,7 +323,7 @@ const Form = ({ obj }) => {
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "additionalCost",
+                                      'additionalCost',
                                       i,
                                       e?.target?.value
                                     );
@@ -346,7 +345,7 @@ const Form = ({ obj }) => {
                                   disabled={false}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "quantity",
+                                      'quantity',
                                       i,
                                       e?.target?.value
                                     );

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import NewSelect from './../../../../_helper/_select';
 import InputField from './../../../../_helper/_inputField';
@@ -295,7 +294,7 @@ export const BasicInfo = ({
           }}
           onDelete={(deleteFileObj) => {
             const newData = fileObjects.filter(
-              (item) => item.file.name !== deleteFileObj.file.name,
+              (item) => item.file.name !== deleteFileObj.file.name
             );
             setFileObjects(newData);
           }}

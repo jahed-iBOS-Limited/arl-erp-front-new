@@ -1,24 +1,23 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { useEffect } from "react";
-import { GetBankDDL, getInsuranceCoverNoteReport } from "../helper";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { useEffect } from 'react';
+import { GetBankDDL, getInsuranceCoverNoteReport } from '../helper';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -33,64 +32,64 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "30px",
+        minWidth: '30px',
       },
     },
     {
-      name: "PO Number",
+      name: 'PO Number',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Provider Name",
+      name: 'Provider Name',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Shipped By",
+      name: 'Shipped By',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Cover Note No",
+      name: 'Cover Note No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "CN Date",
+      name: 'CN Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "LC/PI Amount(FC)",
+      name: 'LC/PI Amount(FC)',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "CN Currency",
+      name: 'CN Currency',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "PI Amount (BDT)",
+      name: 'PI Amount (BDT)',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "CN PO Amount",
+      name: 'CN PO Amount',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     // {
@@ -104,8 +103,8 @@ const TableRow = () => {
   const initData = {
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
-    lcNumber: "",
-    provider: "",
+    lcNumber: '',
+    provider: '',
   };
 
   useEffect(() => {
@@ -123,10 +122,10 @@ const TableRow = () => {
       getInsuranceCoverNoteReport(
         selectedBusinessUnit?.value,
         profileData?.accountId,
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
         setRowDto,
         setLoader
       );
@@ -182,7 +181,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -219,7 +218,7 @@ const TableRow = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
-                        setFieldValue("lcNumber", valueOption);
+                        setFieldValue('lcNumber', valueOption);
                         getReport(
                           valueOption?.label,
                           values?.provider?.value,
@@ -237,7 +236,7 @@ const TableRow = () => {
                       options={bankDDL || []}
                       value={values?.provider}
                       onChange={(valueOption) => {
-                        setFieldValue("provider", valueOption);
+                        setFieldValue('provider', valueOption);
                         // getReport(
                         //   values?.lcNumber?.label,
                         //   valueOption?.value,
@@ -260,7 +259,7 @@ const TableRow = () => {
                       type="date"
                       max={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                         // getReport(
                         //   values?.lcNumber?.label,
                         //   values?.provider?.value,
@@ -280,7 +279,7 @@ const TableRow = () => {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                         // getReport(
                         //   values?.lcNumber?.label,
                         //   values?.provider?.value,
@@ -291,7 +290,7 @@ const TableRow = () => {
                       // disabled={routeState === "view"}
                     />
                   </div>
-                  <div className="col-lg-2" style={{ marginTop: "18px" }}>
+                  <div className="col-lg-2" style={{ marginTop: '18px' }}>
                     <button
                       type="button"
                       className="btn btn-primary btn-sm"

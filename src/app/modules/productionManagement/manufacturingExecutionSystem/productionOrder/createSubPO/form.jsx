@@ -1,17 +1,16 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import NewSelect from '../../../../_helper/_select';
 import {
   createSFGProductionOrder,
   getPTRNumberDDL,
   getProductionOrderSFGById,
   getRoutingToBOMDDL,
   getRoutingToWorkCenterDDL,
-} from "../helper";
+} from '../helper';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
 
@@ -40,7 +39,6 @@ export default function FormCmp({
   const [bomName, setBomName] = useState([]);
   const { state } = useLocation();
 
-
   // console.log("SingleData",productionId)
   // api's
   useEffect(() => {
@@ -52,7 +50,6 @@ export default function FormCmp({
         setPrtNumber
       );
     }
-
   }, [profileData, selectedBusinessUnit, singleData || productionId]);
   useEffect(() => {
     getRoutingToWorkCenterDDL(
@@ -61,12 +58,10 @@ export default function FormCmp({
       gridData[0]?.itemId,
       setWorkCenter
     );
-
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
-    console.log("gridData", gridData);
+    console.log('gridData', gridData);
   }, [gridData]);
 
   const getGrid = () => {
@@ -104,7 +99,7 @@ export default function FormCmp({
             <Form>
               <div
                 className="table-responsive"
-                style={{ padding: ".5rem 0", minHeight: "300px" }}
+                style={{ padding: '.5rem 0', minHeight: '300px' }}
               >
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
@@ -129,24 +124,24 @@ export default function FormCmp({
                       gridData?.map((item, index) => (
                         <tr>
                           <td className="text-center">
-                            <div style={{ width: "30px" }}>{index + 1}</div>
+                            <div style={{ width: '30px' }}>{index + 1}</div>
                           </td>
                           <td>
-                            <div style={{ width: "120px" }} className="pl-2">
+                            <div style={{ width: '120px' }} className="pl-2">
                               {item?.itemName}
                             </div>
                           </td>
                           <td>
                             <div
                               className="text-center"
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                             >
                               {item?.uomName}
                             </div>
                           </td>
                           <td>
                             <div
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {/* {item?.orderQty} */}
@@ -217,14 +212,14 @@ export default function FormCmp({
                             </div>
                           </td>
                           <td className="sub-po-dropdown">
-                            <div style={{ width: "100px" }}>
+                            <div style={{ width: '100px' }}>
                               <NewSelect
                                 name="prtNumber"
                                 options={prtNumber || []}
-                                value={item?.prtNumber || ""}
+                                value={item?.prtNumber || ''}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
-                                    "prtNumber",
+                                    'prtNumber',
                                     valueOption,
                                     index
                                   );
@@ -236,18 +231,18 @@ export default function FormCmp({
                           </td>
 
                           <td className="sub-po-dropdown">
-                            <div style={{ width: "100px" }}>
+                            <div style={{ width: '100px' }}>
                               <NewSelect
                                 name="workCenter"
                                 options={
                                   item?.getRoutingToWorkCenterDDL || []
                                   // workCenter
                                 }
-                                value={item?.workCenter || ""}
+                                value={item?.workCenter || ''}
                                 onChange={(valueOption) => {
                                   // setFieldValue("workCenter", valueOption);
                                   rowDtoHandler(
-                                    "workCenter",
+                                    'workCenter',
                                     valueOption,
                                     index
                                   );
@@ -268,15 +263,15 @@ export default function FormCmp({
                           </td>
 
                           <td className="sub-po-dropdown">
-                            <div style={{ width: "100px" }}>
+                            <div style={{ width: '100px' }}>
                               <NewSelect
                                 name="bomName"
                                 options={bomName || []}
-                                value={item?.bomName || ""}
+                                value={item?.bomName || ''}
                                 onChange={(valueOption) => {
-                                  setFieldValue("bomName", valueOption);
+                                  setFieldValue('bomName', valueOption);
                                   rowDtoHandler(
-                                    "proOrderQty",
+                                    'proOrderQty',
                                     item?.orderQty,
                                     index
                                   );
@@ -288,7 +283,7 @@ export default function FormCmp({
                                   //   ).toFixed(2),
                                   //   index
                                   // );
-                                  rowDtoHandler("bomName", valueOption, index);
+                                  rowDtoHandler('bomName', valueOption, index);
                                 }}
                                 errors={errors}
                                 touched={touched}
@@ -298,12 +293,12 @@ export default function FormCmp({
                           <td>
                             <div className="text-center">
                               <IInput
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 value={item?.proOrderQty}
                                 name="proOrderQty"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "proOrderQty",
+                                    'proOrderQty',
                                     e.target.value,
                                     index,
                                     item
@@ -315,7 +310,7 @@ export default function FormCmp({
                           <td>
                             {!item?.poStatus ? (
                               <div
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                                 className="d-flex justify-content-around"
                               >
                                 <button
@@ -330,7 +325,7 @@ export default function FormCmp({
                               </div>
                             ) : (
                               <div
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                                 className="d-flex justify-content-around"
                               >
                                 <button
@@ -364,14 +359,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

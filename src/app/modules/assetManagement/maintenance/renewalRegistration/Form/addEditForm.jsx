@@ -1,22 +1,21 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getActivityByRenewalServiceId,
   getSingleDataById,
   saveRenewalReg,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
   renewalDate: _todayDate(),
-  expiredDate: "",
-  nextRenewal: "",
+  expiredDate: '',
+  nextRenewal: '',
 };
 
 const RenewalRegForm = ({
@@ -48,15 +47,12 @@ const RenewalRegForm = ({
   useEffect(() => {
     if (singleData?.objHeader) {
       setRowDto(singleData?.objRow);
-      const {
-        dteRenewalDate,
-        dteValidityDate,
-        dteNextRenewalDate,
-      } = singleData?.objHeader;
+      const { dteRenewalDate, dteValidityDate, dteNextRenewalDate } =
+        singleData?.objHeader;
       const data = {
-        renewalDate: _dateFormatter(dteRenewalDate) || "",
-        expiredDate: _dateFormatter(dteValidityDate) || "",
-        nextRenewal: _dateFormatter(dteNextRenewalDate) || "",
+        renewalDate: _dateFormatter(dteRenewalDate) || '',
+        expiredDate: _dateFormatter(dteValidityDate) || '',
+        nextRenewal: _dateFormatter(dteNextRenewalDate) || '',
       };
       setModifiedInitData(data);
     }
@@ -93,15 +89,15 @@ const RenewalRegForm = ({
 
   const saveHandler = async (values, cb) => {
     if (totalAmount <= 0)
-      return toast.warn("Total amount must be greater than zero");
-  
+      return toast.warn('Total amount must be greater than zero');
+
     setDisabled(true);
-  
+
     if (!values || !profileData?.accountId || !selectedBusinessUnit?.value) {
       setDisabled(false);
       return;
     }
-  
+
     const attribute = rowDto?.map((item) => ({
       rowId: item?.rowId,
       attributeId: item?.attributeId,
@@ -110,7 +106,7 @@ const RenewalRegForm = ({
       validityDate: values?.expiredDate,
       nextRenewalDate: values?.nextRenewal,
     }));
-  
+
     const commonPayload = {
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
@@ -122,7 +118,7 @@ const RenewalRegForm = ({
       renewalServiceName: prevData?.renewalType?.label,
       itemId: prevData?.vehicleNo?.itemId,
       itemName: prevData?.vehicleNo?.itemName,
-      documentId: "",
+      documentId: '',
       renewalDate: values?.renewalDate,
       validityDate: values?.expiredDate || null,
       nextRenewalDate: values?.nextRenewal || null,
@@ -134,7 +130,7 @@ const RenewalRegForm = ({
         prevData?.vehicleNo?.brtaVehicelTypeName || values?.brtaType?.label,
       attribute,
     };
-  
+
     const payload = currentRowId
       ? {
           ...commonPayload,
@@ -142,7 +138,7 @@ const RenewalRegForm = ({
           isApproved: false,
         }
       : commonPayload;
-  
+
     saveRenewalReg(
       payload,
       () => {
@@ -164,7 +160,7 @@ const RenewalRegForm = ({
   return (
     <IForm
       title={
-        currentRowId ? "Edit Renewal Registration" : "Renewal Registration"
+        currentRowId ? 'Edit Renewal Registration' : 'Renewal Registration'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

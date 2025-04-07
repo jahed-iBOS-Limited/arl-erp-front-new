@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
-  currentChatUser: "",
+  currentChatUser: '',
   notifications: {
     status: false,
-    from: "",
+    from: '',
   },
 };
 
 export const chatAppSlice = createSlice({
-  name: "chatApp",
+  name: 'chatApp',
   initialState: initState,
   reducers: {
     setCurrentChatUser: (state, action) => {
@@ -17,7 +17,7 @@ export const chatAppSlice = createSlice({
       state.currentChatUser = payload;
     },
     setCurrentChatUserEmpty: (state, action) => {
-      state.currentChatUser = "";
+      state.currentChatUser = '';
     },
 
     setNotifications: (state, action) => {

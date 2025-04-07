@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation } from 'react-router-dom';
 import {
   getExpenseForDDL,
   getSbuDDL,
@@ -13,8 +12,8 @@ import {
   getExpenseRowData,
   saveVehicleLExpenseRegister,
   getPaymentType,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
 import { toast } from 'react-toastify';
 export default function VehicleLogExpenseForm({
   history,
@@ -26,18 +25,18 @@ export default function VehicleLogExpenseForm({
   const { state } = useLocation();
 
   const initData = {
-    expenseFor: "",
-    sbu: "",
-    country: "",
-    currency: "",
-    expenseCategory: "",
+    expenseFor: '',
+    sbu: '',
+    country: '',
+    currency: '',
+    expenseCategory: '',
     experiencePeriodFrom: state.values.travelDateFrom,
     experiencePeriodTo: state.values.travelDateTo,
-    costCenter: "",
-    projectName: "",
-    paymentType: "",
-    disbursementCenter: "",
-    reference: "",
+    costCenter: '',
+    projectName: '',
+    paymentType: '',
+    disbursementCenter: '',
+    reference: '',
   };
 
   // get user profile data from store
@@ -137,12 +136,11 @@ export default function VehicleLogExpenseForm({
           },
           objRow: rowDtoFormet,
         };
-        if(rowDtoFormet?.length > 0) {
+        if (rowDtoFormet?.length > 0) {
           saveVehicleLExpenseRegister(payload, cb, history, setDisabled);
-        }else {
-          toast.warn("Please add at least one");
+        } else {
+          toast.warn('Please add at least one');
         }
-
       }
     } else {
       setDisabled(false);

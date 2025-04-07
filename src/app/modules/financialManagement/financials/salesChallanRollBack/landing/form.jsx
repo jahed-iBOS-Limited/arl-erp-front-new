@@ -1,24 +1,23 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { getCustomerDDL } from "../../../../salesManagement/report/salesOrderHistory/helper";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import TextArea from "../../../../_helper/TextArea";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getAndInactiveAPI } from "../helper";
-import Table from "./table";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { getCustomerDDL } from '../../../../salesManagement/report/salesOrderHistory/helper';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import TextArea from '../../../../_helper/TextArea';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getAndInactiveAPI } from '../helper';
+import Table from './table';
 
 const initData = {
-  channel: "",
-  customer: "",
-  challanNo: "",
-  narration: "",
+  channel: '',
+  customer: '',
+  challanNo: '',
+  narration: '',
 };
 
 const SalesChallanRollBack = () => {
@@ -36,7 +35,7 @@ const SalesChallanRollBack = () => {
       challan: values?.challanNo,
       buId,
       partId, // 3 == inactive , 1 == view
-      narration: values?.narration || "on user request",
+      narration: values?.narration || 'on user request',
       inactiveBy: userId || 0,
       customerId: values?.customer?.value,
       setter: setRows,
@@ -78,7 +77,7 @@ const SalesChallanRollBack = () => {
                         value={values?.customer}
                         label="Customer Name"
                         onChange={(e) => {
-                          setFieldValue("customer", e);
+                          setFieldValue('customer', e);
                         }}
                         placeholder="Customer Name"
                       />
@@ -104,14 +103,14 @@ const SalesChallanRollBack = () => {
                     </div>
 
                     <IButton
-                      colSize={"col-10"}
+                      colSize={'col-10'}
                       onClick={() => {
                         apiAction(values, 1);
                       }}
                       disabled={!values?.customer || !values?.challanNo}
                     />
                     <div className="col-lg-2 mt-3 text-right">
-                      <ICon title={"Roll Back this challan"}>
+                      <ICon title={'Roll Back this challan'}>
                         <button
                           className="btn btn-danger"
                           type="button"

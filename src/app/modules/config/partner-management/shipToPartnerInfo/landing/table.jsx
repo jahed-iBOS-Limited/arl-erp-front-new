@@ -1,10 +1,10 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getChannelDDL } from "../../../../salesManagement/configuration/territoryInfo/helper";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ICard from "../../../../_helper/_card";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getChannelDDL } from '../../../../salesManagement/configuration/territoryInfo/helper';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ICard from '../../../../_helper/_card';
 import {
   getRegionAreaTerritoryDDL,
   getShipToPartnerInformation,
@@ -13,37 +13,37 @@ import {
   getOperationalZoneInfo,
   shiptopartnerOperationalZoneSave,
   GetEmployeeLoginInfo_api,
-} from "../helper";
+} from '../helper';
 import {
   getCustomerNameDDL,
   GetSalesOrganizationDDL_api,
   getShipToParty,
-} from "../../../../salesManagement/report/shipToPartyDelivery/helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import Update from "./update";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../salesManagement/report/shipToPartyDelivery/helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import Update from './update';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  channel: "",
-  reportType: { value: 2, label: "Sold To Partner Base" },
-  shipToPartner: "",
-  soldToPartner: "",
-  territory: "",
-  area: "",
-  region: "",
-  zone: "",
+  channel: '',
+  reportType: { value: 2, label: 'Sold To Partner Base' },
+  shipToPartner: '',
+  soldToPartner: '',
+  territory: '',
+  area: '',
+  region: '',
+  zone: '',
 };
 
 const reportTypeDDL = [
-  { value: 1, label: "Ship To Partner Base" },
-  { value: 2, label: "Sold To Partner Base" },
-  { value: 3, label: "Territory Base" },
-  { value: 4, label: "Area Base" },
-  { value: 5, label: "Region Base" },
-  { value: 6, label: "Channel Base" },
-  { value: 7, label: "Unit Base" },
+  { value: 1, label: 'Ship To Partner Base' },
+  { value: 2, label: 'Sold To Partner Base' },
+  { value: 3, label: 'Territory Base' },
+  { value: 4, label: 'Area Base' },
+  { value: 5, label: 'Region Base' },
+  { value: 6, label: 'Channel Base' },
+  { value: 7, label: 'Unit Base' },
 ];
 
 export function ShipToPartnerInfoTable() {
@@ -92,7 +92,7 @@ export function ShipToPartnerInfoTable() {
 
   const getTerritory = (typeId) => {
     let id = typeId;
-    id = typeId === 3 ? 73 : typeId === 4 ? 72 : typeId === 5 ? 71 : "";
+    id = typeId === 3 ? 73 : typeId === 4 ? 72 : typeId === 5 ? 71 : '';
     if (id) {
       getRegionAreaTerritoryDDL(
         profileData?.accountId,
@@ -122,14 +122,13 @@ export function ShipToPartnerInfoTable() {
   // if default reportType Sold To Partner Base select
   useEffect(() => {
     getTerritory(reportTypeDDL?.[0]?.value);
-
   }, []);
 
   const soldToPartnerHandle = (valueOption, values) => {
     // reportType Sold To Partner Base select
     if (values?.reportType?.value === 2) {
       // if user Corporate
-      if (profileData?.workPlaceName.includes("Corporate")) {
+      if (profileData?.workPlaceName.includes('Corporate')) {
         if ([521235, 57933].includes(profileData?.userId)) {
           getSoldToPartners(
             `/partner/BusinessPartnerSales/BusinessPartnerByEmployeeIdForHeadOffice?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&EmployeeId=${profileData?.userId}`,
@@ -230,8 +229,8 @@ export function ShipToPartnerInfoTable() {
                         value={values?.salesOrg}
                         label="Sales Org"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
-                          setFieldValue("customerNameDDL", "");
+                          setFieldValue('salesOrg', valueOption);
+                          setFieldValue('customerNameDDL', '');
                           setSoldToPartnerDDL([]);
                           if (valueOption) {
                             soldToPartnerHandle(valueOption, values);
@@ -249,9 +248,9 @@ export function ShipToPartnerInfoTable() {
                         value={values?.soldToPartner}
                         label="Sold To Partner"
                         onChange={(valueOption) => {
-                          setFieldValue("soldToPartner", valueOption);
-                          setFieldValue("shipToParty", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('soldToPartner', valueOption);
+                          setFieldValue('shipToParty', '');
+                          setFieldValue('territory', '');
                           setShipToPartyDDL([]);
                           setZoneDDL([]);
                           getShipToParty(
@@ -277,7 +276,7 @@ export function ShipToPartnerInfoTable() {
                           value={values?.shipToPartner}
                           label="Ship To Partner"
                           onChange={(valueOption) => {
-                            setFieldValue("shipToPartner", valueOption);
+                            setFieldValue('shipToPartner', valueOption);
                           }}
                           placeholder="Ship To Partner"
                           isDisabled={!values?.reportType}
@@ -294,7 +293,7 @@ export function ShipToPartnerInfoTable() {
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
+                        setFieldValue('territory', valueOption);
                         setGridData([]);
                       }}
                       options={regionAreaTerritoryDDL || []}
@@ -309,7 +308,7 @@ export function ShipToPartnerInfoTable() {
                       value={values?.area}
                       label="Area"
                       onChange={(valueOption) => {
-                        setFieldValue("area", valueOption);
+                        setFieldValue('area', valueOption);
                         setGridData([]);
                       }}
                       options={regionAreaTerritoryDDL || []}
@@ -324,7 +323,7 @@ export function ShipToPartnerInfoTable() {
                       value={values?.region}
                       label="Region"
                       onChange={(valueOption) => {
-                        setFieldValue("region", valueOption);
+                        setFieldValue('region', valueOption);
                         setGridData([]);
                       }}
                       options={regionAreaTerritoryDDL || []}
@@ -339,7 +338,7 @@ export function ShipToPartnerInfoTable() {
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
+                        setFieldValue('channel', valueOption);
                         setGridData([]);
                       }}
                       options={channelDDL}
@@ -354,7 +353,7 @@ export function ShipToPartnerInfoTable() {
                       value={values?.zone}
                       label="Zone"
                       onChange={(valueOption) => {
-                        setFieldValue("zone", valueOption);
+                        setFieldValue('zone', valueOption);
                         // setGridData([]);
                       }}
                       options={zoneDDL || []}
@@ -448,7 +447,7 @@ export function ShipToPartnerInfoTable() {
                     <thead>
                       <tr>
                         {values?.reportType?.value === 2 && (
-                          <th style={{ width: "25px" }}>
+                          <th style={{ width: '25px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -473,7 +472,7 @@ export function ShipToPartnerInfoTable() {
                         <th>Territory</th>
                         <th>Zone</th>
                         <th>Creation Date</th>
-                        {profileData?.workPlaceName.includes("Corporate") && (
+                        {profileData?.workPlaceName.includes('Corporate') && (
                           <th>Action</th>
                         )}
                       </tr>
@@ -512,7 +511,7 @@ export function ShipToPartnerInfoTable() {
                           <td>{item?.nl7}</td>
                           <td>{item?.nl8}</td>
                           <td>{_dateFormatter(item?.dteServerDateTimesa)}</td>
-                          {profileData?.workPlaceName.includes("Corporate") && (
+                          {profileData?.workPlaceName.includes('Corporate') && (
                             <td>
                               <button
                                 type="button"

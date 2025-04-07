@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import moment from "moment";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   getSupplyInputputTaxReport,
   getSupplyOutputTaxReport,
@@ -23,8 +23,8 @@ import {
   CreateMonthlyReturn_api,
   savePostTaxMonthEndNineNineJvApi,
   GetMonthlyReturn_api,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 import {
   ModalProgressBar,
@@ -32,8 +32,8 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({});
 const initData = {
   id: undefined,
   mushakDate: _todayDate(),
-  taxBranch: "",
+  taxBranch: '',
   isRefundYes: false,
   isRefundNo: false,
 };
@@ -55,25 +55,25 @@ export default function HeaderForm() {
     note44: 0,
   });
   let allGridData = [];
-  const [monthlyReturn, setMonthlyReturn] = useState("");
+  const [monthlyReturn, setMonthlyReturn] = useState('');
   const [outputTaxData, setOutputTaxData] = useState([]);
   const [inputTaxData, setInputTaxData] = useState([]);
   const [penaltyMonth, setPenaltyMonth] = useState(0);
   const [isLateReturn65, setLateReturn65] = useState(false);
   const [isAmendReturn66, setAmendReturn66] = useState(false);
-  const [taxPayerInfo, setTaxPayerInfo] = useState("");
+  const [taxPayerInfo, setTaxPayerInfo] = useState('');
   const [incrAdjustmentData, setIncrAdjustmentData] = useState([]);
   const [decreAdjustmentData, setDecreAdjustmentData] = useState([]);
   const [noteData, setNoteData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [taxDataTable, setTaxDataTable] = useState(false);
-  const [employeeBasicInfo, setEmployeeBasicInfo] = useState("");
+  const [employeeBasicInfo, setEmployeeBasicInfo] = useState('');
   const [treasuryDepositInfo, setTreasuryDepositInfo] = useState([]);
   const [taxLedgerSdVat, setTaxLedgerSdVat] = useState([]);
   const [payableSurcharge, setPayableSurcharge] = useState([]);
   const [closingbalance, setClosingbalance] = useState([]);
-  const [employeeBasicDetails, setEmployeeBasicDetails] = useState("");
-  const [cbLastTax, setCBLastTax] = useState("");
+  const [employeeBasicDetails, setEmployeeBasicDetails] = useState('');
+  const [cbLastTax, setCBLastTax] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -94,7 +94,7 @@ export default function HeaderForm() {
       note44: 0,
     });
     setMonthlyReturn([]);
-    setTaxPayerInfo("");
+    setTaxPayerInfo('');
     setOutputTaxData([]);
     setInputTaxData([]);
     setIncrAdjustmentData([]);
@@ -106,16 +106,16 @@ export default function HeaderForm() {
       objHeader: {
         accountingId: profileData?.accountId,
         businessunitId: selectedBusinessUnit?.value,
-        monthId: +moment(values?.mushakDate).format("M"),
-        yearId: +moment(values?.mushakDate).format("YYYY"),
+        monthId: +moment(values?.mushakDate).format('M'),
+        yearId: +moment(values?.mushakDate).format('YYYY'),
         insertby: profileData?.userId,
         isLateReturn: isLateReturn65 || false,
         isAmendReturn: isAmendReturn66 || false,
       },
       objRowList: allGridData?.map((itm) => {
-        const noteNumber = itm.noteNo.split("note_");
+        const noteNumber = itm.noteNo.split('note_');
         return {
-          noteNo: +noteNumber[1] || "",
+          noteNo: +noteNumber[1] || '',
           value: +itm?.value || 0,
           sd: +itm?.sd || 0,
           vat: +itm?.vat || 0,
@@ -131,13 +131,13 @@ export default function HeaderForm() {
 
     if (allGridData?.length) {
       allGridData.forEach((itm) => {
-        if (itm.noteNo === "note_04") {
+        if (itm.noteNo === 'note_04') {
           vatAmountObj.vat4 = itm?.value || 0;
         }
-        if (itm.noteNo === "note_23") {
+        if (itm.noteNo === 'note_23') {
           vatAmountObj.vat23 = itm?.value || 0;
         }
-        if (itm.noteNo === "note_30") {
+        if (itm.noteNo === 'note_30') {
           vatAmountObj.vat30 = itm?.vat || 0;
         }
       });
@@ -145,8 +145,8 @@ export default function HeaderForm() {
     const payloadTow = {
       accountId: profileData?.accountId,
       bussinessUnitId: selectedBusinessUnit?.value,
-      monthName: moment(values?.mushakDate).format("MMMM"),
-      yearId: +moment(values?.mushakDate).format("YYYY"),
+      monthName: moment(values?.mushakDate).format('MMMM'),
+      yearId: +moment(values?.mushakDate).format('YYYY'),
       vat4: vatAmountObj?.vat4 || 0,
       vat23: vatAmountObj?.vat23 || 0,
       vat30: vatAmountObj?.vat30 || 0,
@@ -177,12 +177,12 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Mushak 9.1"}>
+              <CardHeader title={'Mushak 9.1'}>
                 <CardHeaderToolbar>
                   {monthlyReturn?.objRowList?.length > 0 ? null : (
                     <button
                       type="button"
-                      className={"btn btn-primary ml-2"}
+                      className={'btn btn-primary ml-2'}
                       onClick={() => {
                         saveHandler(values);
                       }}
@@ -204,7 +204,7 @@ export default function HeaderForm() {
                         placeholder="Mushak Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("mushakDate", e.target.value);
+                          setFieldValue('mushakDate', e.target.value);
                           commonSetStateEmpty();
                         }}
                       />
@@ -228,15 +228,15 @@ export default function HeaderForm() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          setFieldValue("isRefundYes", false);
-                          setFieldValue("isRefundNo", false);
+                          setFieldValue('isRefundYes', false);
+                          setFieldValue('isRefundNo', false);
                           setTaxDataTable(true);
                           commonSetStateEmpty();
                           GetMonthlyReturn_api(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
-                            moment(values?.mushakDate).format("M"),
-                            moment(values?.mushakDate).format("YYYY"),
+                            moment(values?.mushakDate).format('M'),
+                            moment(values?.mushakDate).format('YYYY'),
                             setMonthlyReturn
                           );
                           getPenaltyMonth_api(
@@ -299,7 +299,7 @@ export default function HeaderForm() {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.taxBranch?.value,
-                            moment(values?.mushakDate).format("M"),
+                            moment(values?.mushakDate).format('M'),
                             setTaxLedgerSdVat,
                             setLoading
                           );
@@ -324,8 +324,8 @@ export default function HeaderForm() {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.taxBranch?.value,
-                            moment(values?.mushakDate).format("M"),
-                            moment(values?.mushakDate).format("YYYY"),
+                            moment(values?.mushakDate).format('M'),
+                            moment(values?.mushakDate).format('YYYY'),
                             setCBLastTax
                           );
                         }}

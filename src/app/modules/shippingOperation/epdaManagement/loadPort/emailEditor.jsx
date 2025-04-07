@@ -3,7 +3,10 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { marineBaseUrlPythonAPI } from '../../../../../App';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import EmailTemplate from '../../utils/emailTemplate';
-import { initialStateOfEmailData, initialStateOfError } from '../../utils/helper';
+import {
+  initialStateOfEmailData,
+  initialStateOfError,
+} from '../../utils/helper';
 
 const EmailEditor = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
@@ -43,12 +46,10 @@ const EmailEditor = ({ emailEditorProps }) => {
               emailBody: data?.body || '',
             });
           },
-          false,
+          false
         );
       }
     }
-
-
   }, [intId, singleRowData]);
 
   // Regular expression to validate a single email address
@@ -140,11 +141,10 @@ const EmailEditor = ({ emailEditorProps }) => {
         `${marineBaseUrlPythonAPI}/automation/agency_appointment_portwise_mail_sent`,
         payload,
         cb,
-        true,
+        true
       );
     }
   };
-
 
   return (
     <EmailTemplate
@@ -155,7 +155,6 @@ const EmailEditor = ({ emailEditorProps }) => {
       handleSend={handleSend}
       errors={errors}
       setEmailData={setEmailData}
-
     />
   );
 };

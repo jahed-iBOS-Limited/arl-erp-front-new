@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function CategoryWiseCard({
   categoryWiseCardObj,
@@ -11,29 +11,30 @@ function CategoryWiseCard({
       className={`categoryWiseCard ${className}`}
       onClick={() => {
         customCardOnClick &&
-        customCardOnClick({
+          customCardOnClick({
             ...categoryWiseCardObj,
           });
       }}
     >
-      <div className='title'>
+      <div className="title">
         <b>{categoryWiseCardObj?.title}</b>
       </div>
-      <div className='cagegoryList'>
+      <div className="cagegoryList">
         {categoryWiseCardObj?.categoryList?.map((item, index) => {
           return (
             <div
-              className='item'
+              className="item"
               key={index}
               onClick={() => {
-                customOnClick&& customOnClick({
-                  ...item,
-                  index: index,
-                });
+                customOnClick &&
+                  customOnClick({
+                    ...item,
+                    index: index,
+                  });
               }}
             >
-              <div className='itemTitle'>{item?.title}</div>
-              <div className='itemValue'>{item?.value}</div>
+              <div className="itemTitle">{item?.title}</div>
+              <div className="itemValue">{item?.value}</div>
             </div>
           );
         })}

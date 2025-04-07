@@ -1,19 +1,18 @@
-
-import React from "react";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const header = [
-  "SL",
-  "Name",
-  "Address",
-  "Contact No.",
-  "NID No",
-  "Project Status",
-  "Storied Type",
-  "Start Date",
-  "End Date (approximate)",
-  "Action",
+  'SL',
+  'Name',
+  'Address',
+  'Contact No.',
+  'NID No',
+  'Project Status',
+  'Storied Type',
+  'Start Date',
+  'End Date (approximate)',
+  'Action',
 ];
 
 const HomeBuildersInfoLandingTable = ({ obj }) => {
@@ -32,7 +31,7 @@ const HomeBuildersInfoLandingTable = ({ obj }) => {
       {gridData?.objdata?.length > 0 && (
         <table
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>

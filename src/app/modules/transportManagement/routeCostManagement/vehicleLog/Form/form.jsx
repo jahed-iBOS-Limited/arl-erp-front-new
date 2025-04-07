@@ -145,7 +145,7 @@ export default function FormCmp({
                         setFieldValue('endMileage', e.target.value);
                         setFieldValue(
                           'consumedMileage',
-                          e.target.value - values.startMileage,
+                          e.target.value - values.startMileage
                         );
                       }}
                       disabled={isEdit}
@@ -205,12 +205,12 @@ export default function FormCmp({
                               background: '#ffff99',
                             }
                           : values?.purchaseType === 'cash'
-                          ? {
-                              background: '#ccff66',
-                            }
-                          : {
-                              background: '#f2f2f2',
-                            }
+                            ? {
+                                background: '#ccff66',
+                              }
+                            : {
+                                background: '#f2f2f2',
+                              }
                       }
                     >
                       <label className="d-flex">
@@ -348,7 +348,7 @@ export default function FormCmp({
                           onChange={(valueOption) => {
                             getFuelStationDDL(
                               valueOption?.value,
-                              setFuelStationDDL,
+                              setFuelStationDDL
                             );
                             setFieldValue('fuelStation', '');
                             setFieldValue('supplier', valueOption);
@@ -411,7 +411,7 @@ export default function FormCmp({
                             setFieldValue(
                               'totalAmount',
                               Number(e?.target?.value) +
-                                Number(values?.creditAmount),
+                                Number(values?.creditAmount)
                             );
                           } else {
                             setFieldValue('totalAmount', e?.target?.value);
@@ -434,7 +434,7 @@ export default function FormCmp({
                             setFieldValue(
                               'totalAmount',
                               Number(e?.target?.value) +
-                                Number(values?.cashAmount),
+                                Number(values?.cashAmount)
                             );
                           } else {
                             setFieldValue('totalAmount', e?.target?.value);
@@ -551,7 +551,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

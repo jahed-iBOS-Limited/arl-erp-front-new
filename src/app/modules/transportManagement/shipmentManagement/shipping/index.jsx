@@ -1,11 +1,11 @@
-import React from "react";
-import { ShipmentTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./shippingUnitView/ViewModal";
-import IncompleteViewModal from "./incompletgeShippingUnitView/ViewModal";
-import IViewModal from "../../../_helper/_viewModal";
-import VehicleWeight from "./vehicleWeigth/vehicleWeight";
+import React from 'react';
+import { ShipmentTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './shippingUnitView/ViewModal';
+import IncompleteViewModal from './incompletgeShippingUnitView/ViewModal';
+import IViewModal from '../../../_helper/_viewModal';
+import VehicleWeight from './vehicleWeigth/vehicleWeight';
 // import { IncompleteViewModal } from "./incompletgeShippingUnitView/ViewModal";
 
 export default function SalesQuotation({ history }) {
@@ -21,7 +21,7 @@ export default function SalesQuotation({ history }) {
             shipmentCode={match && match.params.shipmentCode}
             history={history}
             onHide={() => {
-              history.push("/transport-management/shipmentmanagement/shipping");
+              history.push('/transport-management/shipmentmanagement/shipping');
             }}
           />
         )}
@@ -34,7 +34,7 @@ export default function SalesQuotation({ history }) {
             // shipmentCode={match && match.params.shipmentCode}
             history={history}
             onHide={() => {
-              history.push("/transport-management/shipmentmanagement/shipping");
+              history.push('/transport-management/shipmentmanagement/shipping');
             }}
           />
         )}
@@ -45,7 +45,7 @@ export default function SalesQuotation({ history }) {
             show={match != null}
             history={history}
             onHide={() => {
-              history.push("/transport-management/shipmentmanagement/shipping");
+              history.push('/transport-management/shipmentmanagement/shipping');
             }}
           >
             <VehicleWeight id={match && match.params.id} />

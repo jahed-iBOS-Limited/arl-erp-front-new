@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCancelInvGridData = async (
   accId,
@@ -13,11 +13,13 @@ export const getCancelInvGridData = async (
   whId,
   search
 ) => {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   setLoading(true);
   try {
-    const res = await Axios.get(`/wms/CancelInventory/CancelInventoryTransectionLanding?${searchPath}accountId=${accId}&businessUnitId=${buId}&sbuId=${sbuId}&plantId=${plantId}&warehouse=${whId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`)
-    if (res.status === 200 && res?.data) {     
+    const res = await Axios.get(
+      `/wms/CancelInventory/CancelInventoryTransectionLanding?${searchPath}accountId=${accId}&businessUnitId=${buId}&sbuId=${sbuId}&plantId=${plantId}&warehouse=${whId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    );
+    if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
@@ -26,13 +28,14 @@ export const getCancelInvGridData = async (
   }
 };
 
-
 export const saveCanceInvRequest = async (data, cb, setDisabled) => {
   setDisabled(true);
   try {
-    const res = await Axios.put(`/wms/CancelInventory/CancelInventoryTransection?AccountId=${data?.accId}&BusinessUnitId=${data?.buId}&ReferenceTypeId=${1}&InventoryTransactionCode=${data?.code}`);
+    const res = await Axios.put(
+      `/wms/CancelInventory/CancelInventoryTransection?AccountId=${data?.accId}&BusinessUnitId=${data?.buId}&ReferenceTypeId=${1}&InventoryTransactionCode=${data?.code}`
+    );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -41,28 +44,34 @@ export const saveCanceInvRequest = async (data, cb, setDisabled) => {
   }
 };
 
-
-export const getRowAndHeaderLabelData = async (invTransCode,accId,buId,sbuId,plId,whId, setter) => {
+export const getRowAndHeaderLabelData = async (
+  invTransCode,
+  accId,
+  buId,
+  sbuId,
+  plId,
+  whId,
+  setter
+) => {
   try {
     const res = await Axios.get(
-     `/wms/InventoryTransaction/GetGrninfofromInventoryTransactionDetails?InventoryTransactionCode=${invTransCode}&AccountId=${accId}&businessUnitId=${buId}&SbuId=${sbuId}&PlantId=${plId}&WearhouseId=${whId}`
+      `/wms/InventoryTransaction/GetGrninfofromInventoryTransactionDetails?InventoryTransactionCode=${invTransCode}&AccountId=${accId}&businessUnitId=${buId}&SbuId=${sbuId}&PlantId=${plId}&WearhouseId=${whId}`
     );
     if (res.status === 200 && res?.data) {
-      if(res?.data?.transactionId === 0){
-        toast.warning("Data not found")
+      if (res?.data?.transactionId === 0) {
+        toast.warning('Data not found');
       }
       setter(res?.data);
     }
   } catch (error) {}
 };
 
-
 export const saveItemReqEdit = async (data, cb, setDisabled) => {
   setDisabled(true);
   try {
     const res = await Axios.put(`/wms/ItemRequest/EditItemRequest`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
       setDisabled(false);
     }
@@ -71,32 +80,31 @@ export const saveItemReqEdit = async (data, cb, setDisabled) => {
   }
 };
 
-
 /// cancel inv
-
 
 //get request type
 export const getRefTypeDDL = async (setter) => {
   try {
-    const res = await Axios.get(`/wms/InventoryTransaction/GetReferenceTypeDDL?InvTGoupId=8`);
+    const res = await Axios.get(
+      `/wms/InventoryTransaction/GetReferenceTypeDDL?InvTGoupId=8`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {}
 };
-
 
 //get request type
-export const getTransTypeDDL = async (refTyId,setter) => {
+export const getTransTypeDDL = async (refTyId, setter) => {
   try {
-    const res = await Axios.get(`/wms/InventoryTransaction/GetTransectionTypeDDL?InvTGoupId=8&RefenceTypeId=${refTyId}`);
+    const res = await Axios.get(
+      `/wms/InventoryTransaction/GetTransectionTypeDDL?InvTGoupId=8&RefenceTypeId=${refTyId}`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {}
 };
-
-
 
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
@@ -119,7 +127,6 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     }
   } catch (error) {}
 };
-
 
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
   try {

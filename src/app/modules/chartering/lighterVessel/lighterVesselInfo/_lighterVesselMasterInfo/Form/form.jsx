@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getBankBranchDDL } from "../../../../helper";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../../_chartinghelper/icons/_edit";
+import { Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { getBankBranchDDL } from '../../../../helper';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../../_chartinghelper/icons/_edit';
 // import IEdit from "../../../../_chartinghelper/icons/_edit";
-import ICustomTable from "../../../../_chartinghelper/_customTable";
-import { editRowDataClick, rowDataEditHandler } from "../utils";
+import ICustomTable from '../../../../_chartinghelper/_customTable';
+import { editRowDataClick, rowDataEditHandler } from '../utils';
 
 export default function FormCmp({
   title,
@@ -55,7 +55,7 @@ export default function FormCmp({
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-default ml-2 px-3 py-2"}
+                    className={'btn btn-default ml-2 px-3 py-2'}
                     onClick={() => resetForm(initData)}
                     disabled={false}
                   >
@@ -64,7 +64,7 @@ export default function FormCmp({
                   </button>
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={!gridData?.length}
                   >
@@ -99,7 +99,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.strBankName || ""}
+                      value={values?.strBankName || ''}
                       isSearchable={true}
                       options={bankDDL || []}
                       styles={customStyles}
@@ -108,8 +108,8 @@ export default function FormCmp({
                       placeholder="Bank Name"
                       onChange={(valueOption) => {
                         getBankBranchDDL(valueOption?.value, setBranchDDL);
-                        setFieldValue("strBankName", valueOption);
-                        setFieldValue("strBankBranchName", "");
+                        setFieldValue('strBankName', valueOption);
+                        setFieldValue('strBankBranchName', '');
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -118,7 +118,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.strBankBranchName || ""}
+                      value={values?.strBankBranchName || ''}
                       isSearchable={true}
                       options={branchDDL || []}
                       styles={customStyles}
@@ -126,7 +126,7 @@ export default function FormCmp({
                       label="Branch Name"
                       placeholder="Branch Name"
                       onChange={(valueOption) => {
-                        setFieldValue("strBankBranchName", valueOption);
+                        setFieldValue('strBankBranchName', valueOption);
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -244,7 +244,7 @@ export default function FormCmp({
               <ICustomTable ths={headers}>
                 {gridData?.map((item, index) => (
                   <tr key={index}>
-                    <td className="text-center" style={{ width: "40px" }}>
+                    <td className="text-center" style={{ width: '40px' }}>
                       {index + 1}
                     </td>
                     <td>{item?.strAccountHolderName}</td>
@@ -258,7 +258,7 @@ export default function FormCmp({
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Inactive"}
+                              {'Click here to Inactive'}
                             </Tooltip>
                           }
                         >
@@ -278,7 +278,7 @@ export default function FormCmp({
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Active"}
+                              {'Click here to Active'}
                             </Tooltip>
                           }
                         >

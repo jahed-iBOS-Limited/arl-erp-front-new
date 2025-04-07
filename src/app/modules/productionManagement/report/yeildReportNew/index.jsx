@@ -1,38 +1,38 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import WIPTable from "./wipTable";
-import YeildReport from "./yeildReport";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import WIPTable from './wipTable';
+import YeildReport from './yeildReport';
+import { toast } from 'react-toastify';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: { value: 1, label: "Yeild Report" },
-  shopFloor: "",
-  plant: "",
+  reportType: { value: 1, label: 'Yeild Report' },
+  shopFloor: '',
+  plant: '',
   bomType: {
     value: 1,
-    label: "Main (Paddy to Rice)",
+    label: 'Main (Paddy to Rice)',
   },
 };
 const bomTypeDDL = [
   {
     value: 1,
-    label: "Main (Paddy to Rice)",
+    label: 'Main (Paddy to Rice)',
   },
   {
     value: 2,
-    label: "Conversion (Rice to Rice)",
+    label: 'Conversion (Rice to Rice)',
   },
   {
     value: 3,
-    label: "Re-Process (Rice to Rice)",
+    label: 'Re-Process (Rice to Rice)',
   },
 ];
 export default function Yeildreport() {
@@ -53,7 +53,6 @@ export default function Yeildreport() {
         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       );
     }
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   return (
@@ -78,7 +77,7 @@ export default function Yeildreport() {
         <>
           {(tableDataLoader || YearldReportPivotLoading) && <Loading />}
           <IForm
-            title='Yield Report'
+            title="Yield Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -87,18 +86,18 @@ export default function Yeildreport() {
             }}
           >
             <Form>
-              <div className='form-group  global-form row'>
-                <div className='col-lg-3'>
+              <div className="form-group  global-form row">
+                <div className="col-lg-3">
                   <NewSelect
-                    name='reportType'
+                    name="reportType"
                     options={[
-                      { value: 1, label: "Yeild Report" },
-                      { value: 2, label: "WIP" },
+                      { value: 1, label: 'Yeild Report' },
+                      { value: 2, label: 'WIP' },
                     ]}
                     value={values?.reportType}
-                    label='Report Type'
+                    label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
@@ -108,26 +107,26 @@ export default function Yeildreport() {
 
                 {[1, 2].includes(values?.reportType?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.fromDate}
-                        label='From Date'
-                        name='fromDate'
-                        type='date'
+                        label="From Date"
+                        name="fromDate"
+                        type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setGridData([]);
                         }}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.toDate}
-                        label='To Date'
-                        name='toDate'
-                        type='date'
+                        label="To Date"
+                        name="toDate"
+                        type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setGridData([]);
                         }}
                       />
@@ -138,48 +137,48 @@ export default function Yeildreport() {
                 {/*  if reportType Yeild Report */}
                 {[1].includes(values?.reportType?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='plant'
+                        name="plant"
                         options={plantDDL || []}
                         value={values?.plant}
-                        label='Select Plant'
+                        label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("shopFloor", "");
+                          setFieldValue('shopFloor', '');
                           getShopFloorDDL(
                             `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData.accountId}&BusinessUnitid=${selectedBusinessUnit.value}&PlantId=${valueOption?.value}`
                           );
                           setGridData([]);
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                         }}
-                        placeholder='Select Plant'
+                        placeholder="Select Plant"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='shopFloor'
+                        name="shopFloor"
                         options={shopFloorDDL || []}
                         value={values?.shopFloor}
-                        label='Shop Floor'
+                        label="Shop Floor"
                         onChange={(valueOption) => {
-                          setFieldValue("shopFloor", valueOption);
+                          setFieldValue('shopFloor', valueOption);
                           setGridData([]);
                         }}
-                        placeholder='Shop Floor'
+                        placeholder="Shop Floor"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='bomType'
+                        name="bomType"
                         options={bomTypeDDL || []}
                         value={values?.bomType}
-                        label='BOM Type'
+                        label="BOM Type"
                         onChange={(valueOption) => {
-                          setFieldValue("bomType", valueOption);
+                          setFieldValue('bomType', valueOption);
                           setGridData([]);
                         }}
                         errors={errors}
@@ -189,13 +188,13 @@ export default function Yeildreport() {
                   </>
                 )}
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <button
-                    className='btn btn-primary mr-2'
+                    className="btn btn-primary mr-2"
                     style={{
-                      marginTop: "20px",
+                      marginTop: '20px',
                     }}
-                    type='button'
+                    type="button"
                     disabled={
                       !values?.fromDate ||
                       !values?.toDate ||
@@ -206,13 +205,13 @@ export default function Yeildreport() {
                       if (values?.reportType?.value === 1) {
                         // plant, shopFloor, bomType empty check
                         if (!values?.plant) {
-                          return toast.warning("Plant is required");
+                          return toast.warning('Plant is required');
                         }
                         if (!values?.shopFloor) {
-                          return toast.warning("Shop Floor is required");
+                          return toast.warning('Shop Floor is required');
                         }
                         if (!values?.bomType) {
-                          return toast.warning("BOM Type is required");
+                          return toast.warning('BOM Type is required');
                         }
                         getYearldReportPivot(
                           `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=4&ShopFloorId=${values?.shopFloor?.value}&BillTypeId=${values?.bomType?.value}&Variant=''&ConsumptionQty=0`,

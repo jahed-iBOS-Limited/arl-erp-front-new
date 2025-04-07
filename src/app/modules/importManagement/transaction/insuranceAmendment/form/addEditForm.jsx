@@ -1,38 +1,35 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../_helper/_loading";
-import { useHistory } from "react-router";
-import { useLocation } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../../_helper/_loading';
+import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   createInsurancAmendment,
   getInsuranceSingleData,
   GetLcAmendmentDDL,
-} from "../helper";
-import IForm from "../../../../_helper/_form";
-import removeComma from "../../../../_helper/_removeComma";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import IForm from '../../../../_helper/_form';
+import removeComma from '../../../../_helper/_removeComma';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { toast } from 'react-toastify';
 
 const initData = {
-  coverNoteNumber: "",
-  poId: "",
-  ponumber: "",
-  lcnumber: "",
-  reason: "",
+  coverNoteNumber: '',
+  poId: '',
+  ponumber: '',
+  lcnumber: '',
+  reason: '',
   amendmentDate: _todayDate(),
-  numVatamount: "",
-  exchangeRate: "",
-  insuranceDate: "",
-  piamountFC: "",
-  piamountBDT: "",
+  numVatamount: '',
+  exchangeRate: '',
+  insuranceDate: '',
+  piamountFC: '',
+  piamountBDT: '',
   dueDate: _todayDate(),
-  totalCharge: "",
-  lcAmendment: "",
+  totalCharge: '',
+  lcAmendment: '',
 };
 
 export default function InsuranceAmendmentForm({ singleItem, type }) {
@@ -56,7 +53,7 @@ export default function InsuranceAmendmentForm({ singleItem, type }) {
   const { state } = useLocation();
   const saveHandler = async (values, cb) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      if(values?.totalCharge > +values?.numVatamount){
+      if (values?.totalCharge > +values?.numVatamount) {
         const payload = {
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
@@ -81,9 +78,10 @@ export default function InsuranceAmendmentForm({ singleItem, type }) {
           // lcAmendmentId: insuranceSingleData?.lcAmendmentId,
         };
         createInsurancAmendment(setDisabled, payload, cb);
-      }
-      else{
-        toast.warn('VAT can not be greater than Total Charge', {toastId: 'vat'})
+      } else {
+        toast.warn('VAT can not be greater than Total Charge', {
+          toastId: 'vat',
+        });
       }
     }
   };
@@ -93,7 +91,7 @@ export default function InsuranceAmendmentForm({ singleItem, type }) {
     setRowDto(filterArr);
   };
 
-  console.log(state, "new state");
+  console.log(state, 'new state');
 
   useEffect(() => {
     getInsuranceSingleData(
@@ -121,9 +119,9 @@ export default function InsuranceAmendmentForm({ singleItem, type }) {
         title="Insurance Amendment"
         getProps={setObjprops}
         isDisabled={isDisabled}
-        isHiddenReset={singleItem?.type === "view"}
-        isHiddenBack={singleItem?.type === "view"}
-        isHiddenSave={singleItem?.type === "view"}
+        isHiddenReset={singleItem?.type === 'view'}
+        isHiddenBack={singleItem?.type === 'view'}
+        isHiddenSave={singleItem?.type === 'view'}
       >
         {isDisabled && <Loading />}
 

@@ -1,6 +1,6 @@
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 function ItemWise({ gridData }) {
   let numVatAmount = 0,
@@ -17,7 +17,7 @@ function ItemWise({ gridData }) {
               <table className="table table-striped table-bordered global-table table-font-size-sm">
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: '30px' }}>SL</th>
                     <th>Purchase Order No</th>
                     <th>Partner Name</th>
                     <th>Purchase Order Date</th>

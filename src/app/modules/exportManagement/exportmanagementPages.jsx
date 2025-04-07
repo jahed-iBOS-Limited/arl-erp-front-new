@@ -1,7 +1,7 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../_metronic/layout";
-import ExportTransactionPages from "./exportTransaction/exportTransactionPages";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../_metronic/layout';
+import ExportTransactionPages from './exportTransaction/exportTransactionPages';
 
 export function ExportManagementPages() {
   return (

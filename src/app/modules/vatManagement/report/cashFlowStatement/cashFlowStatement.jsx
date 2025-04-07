@@ -1,36 +1,38 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import Loading from "../../../_helper/_loading";
+import { Formik, Form } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import Loading from '../../../_helper/_loading';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
+} from '../../../../../_metronic/_partials/controls';
 import {
   getCashFlowStatement,
   // getSbuDDLAction,
-} from "./helper";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import {SetFinancialManagementReportCashFlowStatementAction} from "../../../_helper/reduxForLocalStorage/Actions"
+} from './helper';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _firstDateofMonth } from '../../../_helper/_firstDateOfCurrentMonth';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import { SetFinancialManagementReportCashFlowStatementAction } from '../../../_helper/reduxForLocalStorage/Actions';
 export function CashFlowStatement() {
-
   const dispatch = useDispatch();
-  const {financialManagementReportCashFlowStatement} = useSelector(state=>state?.localStorage)
-  console.log(financialManagementReportCashFlowStatement)
+  const { financialManagementReportCashFlowStatement } = useSelector(
+    (state) => state?.localStorage
+  );
+  console.log(financialManagementReportCashFlowStatement);
   const initData = {
-    fromDate: financialManagementReportCashFlowStatement?.fromDate || _firstDateofMonth(),
+    fromDate:
+      financialManagementReportCashFlowStatement?.fromDate ||
+      _firstDateofMonth(),
     toDate: financialManagementReportCashFlowStatement?.toDate || _todayDate(),
   };
-
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
@@ -56,7 +58,6 @@ export function CashFlowStatement() {
     //   selectedBusinessUnit?.value,
     //   setSbuDDL
     // );
-
     // if (registerReport?.sbu?.value) {
     //   getRegisterReportAction(
     //     profileData?.accountId,
@@ -66,19 +67,15 @@ export function CashFlowStatement() {
     //     setLoading
     //   );
     // }
-
   }, [profileData, selectedBusinessUnit]);
   const printRef = useRef();
-
-
-
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, ...registerReport }}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -112,12 +109,16 @@ export function CashFlowStatement() {
                         name="fromDate"
                         placeholder="From Date"
                         type="date"
-                        onChange={e=>{
-                          setFieldValue("fromDate",e.target.value)
-                          dispatch(SetFinancialManagementReportCashFlowStatementAction({
-                            ...values,
-                            fromDate:e.target.value
-                          }))
+                        onChange={(e) => {
+                          setFieldValue('fromDate', e.target.value);
+                          dispatch(
+                            SetFinancialManagementReportCashFlowStatementAction(
+                              {
+                                ...values,
+                                fromDate: e.target.value,
+                              }
+                            )
+                          );
                         }}
                       />
                     </div>
@@ -128,12 +129,16 @@ export function CashFlowStatement() {
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        onChange={e=>{
-                          setFieldValue("toDate",e.target.value)
-                          dispatch(SetFinancialManagementReportCashFlowStatementAction({
-                            ...values,
-                            toDate:e.target.value
-                          }))
+                        onChange={(e) => {
+                          setFieldValue('toDate', e.target.value);
+                          dispatch(
+                            SetFinancialManagementReportCashFlowStatementAction(
+                              {
+                                ...values,
+                                toDate: e.target.value,
+                              }
+                            )
+                          );
                         }}
                       />
                     </div>
@@ -151,95 +156,147 @@ export function CashFlowStatement() {
                           );
                           // dispatch(setRegisterReportAction(values));
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                     <div className="col-auto">
-                      {
-                        rowDto?.length>0 &&    <ReactToPrint
-                        pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-                        }
-                        trigger={() => (
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-primary sales_invoice_btn ml-3"
-                          >
-
-                            Print
-                          </button>
-                        )}
-                        content={() => printRef.current}
-                      />
-
-                      }
-
+                      {rowDto?.length > 0 && (
+                        <ReactToPrint
+                          pageStyle={
+                            '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
+                          }
+                          trigger={() => (
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-primary sales_invoice_btn ml-3"
+                            >
+                              Print
+                            </button>
+                          )}
+                          content={() => printRef.current}
+                        />
+                      )}
                     </div>
                   </div>
-                  {
-                    rowDto?.length > 0 &&
-                    <div className="d-flex flex-column align-items-center" ref={printRef}>
+                  {rowDto?.length > 0 && (
+                    <div
+                      className="d-flex flex-column align-items-center"
+                      ref={printRef}
+                    >
                       <div className="text-center">
-                        <p className="mb-0" style={{fontWeight:"bold"}}>{selectedBusinessUnit?.label}</p>
+                        <p className="mb-0" style={{ fontWeight: 'bold' }}>
+                          {selectedBusinessUnit?.label}
+                        </p>
                         <h4 className="text-primary">Cash Flow Statement</h4>
-                        <p className="mt-4" style={{fontWeight:"bold"}}>{`For the period of: ${_dateFormatter(values?.fromDate)}  to  ${_dateFormatter(values?.toDate)}`} </p>
+                        <p className="mt-4" style={{ fontWeight: 'bold' }}>
+                          {`For the period of: ${_dateFormatter(values?.fromDate)}  to  ${_dateFormatter(values?.toDate)}`}{' '}
+                        </p>
                       </div>
 
-                      <table style={{ width: "65%" }} className="cashFlowStatement">
+                      <table
+                        style={{ width: '65%' }}
+                        className="cashFlowStatement"
+                      >
                         <tr>
-                          <td colSpan="2" className="pr-5 text-right">Opening Cash & Cash Equivalent</td>
-                          <td style={{
-                            border: "1px solid black",
-                            textAlign: "right"
-                          }}>{ numberWithCommas( parseInt(rowDto[0]["numOpening"]))}</td>
+                          <td colSpan="2" className="pr-5 text-right">
+                            Opening Cash & Cash Equivalent
+                          </td>
+                          <td
+                            style={{
+                              border: '1px solid black',
+                              textAlign: 'right',
+                            }}
+                          >
+                            {numberWithCommas(
+                              parseInt(rowDto[0]['numOpening'])
+                            )}
+                          </td>
                         </tr>
                         <tr>
-                          <td colSpan="3" style={{ height: "15px" }}></td>
+                          <td colSpan="3" style={{ height: '15px' }}></td>
                         </tr>
-                        {
-                          rowDto?.map((item, index) => {
-                            switch (item.intFSId) {
-                              case 9999:
-                                return (<tr style={{background:"#e6ecff"}}>
+                        {rowDto?.map((item, index) => {
+                          switch (item.intFSId) {
+                            case 9999:
+                              return (
+                                <tr style={{ background: '#e6ecff' }}>
                                   <td colSpan="3">{item?.strName}</td>
-                                </tr>)
-                              case 0:
-                                if (item.strName.startsWith("Net")) {
-                                  return (<tr style={{ background: "#f0f0f5" }}>
+                                </tr>
+                              );
+                            case 0:
+                              if (item.strName.startsWith('Net')) {
+                                return (
+                                  <tr style={{ background: '#f0f0f5' }}>
                                     <td colSpan="2">{item?.strName}</td>
-                                    <td className="text-right" style={{width:"120px"}}>{ numberWithCommas( parseInt(item?.numAmount))}</td>
-                                  </tr>)
-
-                                } else if (index === rowDto.length - 1) {
-                                  return (<tr style={{ background: "#e6ecff" }}>
+                                    <td
+                                      className="text-right"
+                                      style={{ width: '120px' }}
+                                    >
+                                      {numberWithCommas(
+                                        parseInt(item?.numAmount)
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              } else if (index === rowDto.length - 1) {
+                                return (
+                                  <tr style={{ background: '#e6ecff' }}>
                                     <td colSpan="2">{item?.strName}</td>
-                                    <td className="text-right" style={{ width:"120px"}}>{ numberWithCommas( parseInt(item?.numAmount))}</td>
-                                  </tr>)
-                                }
-                                return (<tr>
+                                    <td
+                                      className="text-right"
+                                      style={{ width: '120px' }}
+                                    >
+                                      {numberWithCommas(
+                                        parseInt(item?.numAmount)
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                              return (
+                                <tr>
                                   <td colSpan="3">{item?.strName}</td>
-                                </tr>)
-                              case null:
-                                return (<tr>
-                                  <td colSpan="3" style={{ height: "15px" }}></td>
-                                </tr>)
+                                </tr>
+                              );
+                            case null:
+                              return (
+                                <tr>
+                                  <td
+                                    colSpan="3"
+                                    style={{ height: '15px' }}
+                                  ></td>
+                                </tr>
+                              );
 
-                              default:
-                                return (<tr>
-                                  <td style={{padding:"0 0 0 40px",fontWeight:"normal"}}>{item?.strName}</td>
+                            default:
+                              return (
+                                <tr>
+                                  <td
+                                    style={{
+                                      padding: '0 0 0 40px',
+                                      fontWeight: 'normal',
+                                    }}
+                                  >
+                                    {item?.strName}
+                                  </td>
                                   <td></td>
-                                  <td style={{
-                                    border: "1px solid black",
-                                    textAlign: "right",
-                                    width:"120px",
-                                    padding:"0",
-                                    fontWeight:"normal"
-                                  }}>{ numberWithCommas( parseInt(item?.numAmount))}</td>
-                                </tr>)
-
-                            }
-                          })
-                        }
+                                  <td
+                                    style={{
+                                      border: '1px solid black',
+                                      textAlign: 'right',
+                                      width: '120px',
+                                      padding: '0',
+                                      fontWeight: 'normal',
+                                    }}
+                                  >
+                                    {numberWithCommas(
+                                      parseInt(item?.numAmount)
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                          }
+                        })}
 
                         {/*
                         <tr>
@@ -438,8 +495,7 @@ export function CashFlowStatement() {
                         </tr> */}
                       </table>
                     </div>
-
-                  }
+                  )}
 
                   {/* {rowDto?.length > 0 && values?.generalLedger?.value && (
                     <GeneralLedgerTable rowDto={rowDto} />

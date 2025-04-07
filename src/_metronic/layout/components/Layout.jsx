@@ -24,7 +24,7 @@ export function Layout({ children }) {
       subheaderDisplay: objectPath.get(uiService.config, 'subheader.display'),
       desktopHeaderDisplay: objectPath.get(
         uiService.config,
-        'header.self.fixed.desktop',
+        'header.self.fixed.desktop'
       ),
       contentCssClasses: uiService.getClasses('content', true),
       contentContainerClasses: uiService.getClasses('content_container', true),

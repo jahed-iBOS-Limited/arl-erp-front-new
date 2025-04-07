@@ -1,28 +1,28 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
 
 const validationSchema = Yup.object().shape({
   millageComponent: Yup.object().shape({
-    label: Yup.string().required("Millage Component is required"),
-    value: Yup.string().required("MillageMComponent is required"),
+    label: Yup.string().required('Millage Component is required'),
+    value: Yup.string().required('MillageMComponent is required'),
   }),
   millage: Yup.number()
-    .min(1, "Minimum 1 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Millage is required"),
+    .min(1, 'Minimum 1 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Millage is required'),
   minimumamount: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Minimum Amount is required"),
+    .min(0, 'Minimum 0 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Minimum Amount is required'),
   maximumamount: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Maximum Amount is required"),
+    .min(0, 'Minimum 0 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Maximum Amount is required'),
 });
 
 export default function FormCmp({
@@ -73,14 +73,14 @@ export default function FormCmp({
               <div className="row">
                 <div className="col-lg-8">
                   {/* Table Header input */}
-                  <div className={"row bank-journal-custom bj-right"}>
+                  <div className={'row bank-journal-custom bj-right'}>
                     <div className="col-lg-6 pl pr-1 mb-1">
                       <label>Millage Allowance Component</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("millageComponent", valueOption);
+                          setFieldValue('millageComponent', valueOption);
                         }}
-                        value={values?.millageComponent || ""}
+                        value={values?.millageComponent || ''}
                         isSearchable={true}
                         options={millageComponent || []}
                         styles={customStyles}
@@ -96,7 +96,7 @@ export default function FormCmp({
                     <div className="col-lg-6 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Millage </label>
                       <InputField
-                        value={values?.millage || ""}
+                        value={values?.millage || ''}
                         name="millage"
                         placeholder="Millage"
                         type="text"
@@ -105,7 +105,7 @@ export default function FormCmp({
                     <div className="col-lg-6 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Minimum Amount </label>
                       <InputField
-                        value={values?.minimumamount || ""}
+                        value={values?.minimumamount || ''}
                         name="minimumamount"
                         placeholder="Minimum Amount"
                         type="text"
@@ -114,7 +114,7 @@ export default function FormCmp({
                     <div className="col-lg-6 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Maximum Amount </label>
                       <InputField
-                        value={values?.maximumamount || ""}
+                        value={values?.maximumamount || ''}
                         name="maximumamount"
                         placeholder="Maximum Amount"
                         type="text"
@@ -127,13 +127,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

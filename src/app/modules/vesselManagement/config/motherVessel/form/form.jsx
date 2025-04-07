@@ -1,59 +1,58 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
-import { GetCountryDDL } from "../../../../chartering/helper";
-import { GetDomesticPortDDL } from "../../../allotment/generalInformation/helper";
-import { editMotherVessel } from "../helper";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../../_helper/iButton';
+import { GetCountryDDL } from '../../../../chartering/helper';
+import { GetDomesticPortDDL } from '../../../allotment/generalInformation/helper';
+import { editMotherVessel } from '../helper';
 
 const initData = {
-  vesselName: "",
-  programNo: "",
-  port: "",
+  vesselName: '',
+  programNo: '',
+  port: '',
   programDate: _todayDate(),
-  product: "",
-  origin: "",
-  lotNo: "",
-  organization: "",
-  supplier: "",
-  freightRateDollar: "",
-  freightRateTaka: "",
-  localRevenueRate: "",
-  freightCostRate: "",
-  freightCostRateBdt: "",
-  lighteringRate:"",
-  baggageNstorageRate:"",
+  product: '',
+  origin: '',
+  lotNo: '',
+  organization: '',
+  supplier: '',
+  freightRateDollar: '',
+  freightRateTaka: '',
+  localRevenueRate: '',
+  freightCostRate: '',
+  freightCostRateBdt: '',
+  lighteringRate: '',
+  baggageNstorageRate: '',
 };
 
 const THeaders = [
-  "SL",
-  "Port",
-  "Program No",
-  "Program Date",
-  "Organization",
-  "Product",
-  "Origin",
-  "Lot No",
-  "Local Revenue Rate",
-  "Lightering Rate",
-  "Baggage & Storage Rate",
-  "Action",
+  'SL',
+  'Port',
+  'Program No',
+  'Program Date',
+  'Organization',
+  'Product',
+  'Origin',
+  'Lot No',
+  'Local Revenue Rate',
+  'Lightering Rate',
+  'Baggage & Storage Rate',
+  'Action',
 ];
 
 const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
@@ -75,7 +74,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
     GetCountryDDL(setOriginDDL);
-    if (["view", "edit"].includes(formType)) {
+    if (['view', 'edit'].includes(formType)) {
       getRowData(
         `/wms/FertilizerOperation/GetMotherVesselProgramInfoById?MotherVesselId=${item?.mVesselId}`,
         (resData) => {
@@ -174,7 +173,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
       setRowData([...rowData, newRow]);
       cb();
     } else {
-      toast.warn("Duplicate program no is not allowed!");
+      toast.warn('Duplicate program no is not allowed!');
     }
   };
 
@@ -205,14 +204,14 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
     const url = `/wms/FertilizerOperation/CreateMotherVesselProgramInfo`;
 
     const cb = () => {
-      getData("", 0, 15);
+      getData('', 0, 15);
       setShow(false);
     };
 
-    if (formType === "create") {
+    if (formType === 'create') {
       postData(url, payload, cb, true);
     }
-    if (formType === "edit") {
+    if (formType === 'edit') {
       editMotherVessel(payload, setLoading, cb);
     }
   };
@@ -232,39 +231,39 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
       });
   };
 
-  const createOrEdit = ["create", "edit"].includes(formType);
+  const createOrEdit = ['create', 'edit'].includes(formType);
 
   const disableHandler = (values) => {
     const organization = values?.organization?.label
-      ?.split(" ")[1]
+      ?.split(' ')[1]
       .toLowerCase();
 
-    return organization !== "badc";
+    return organization !== 'badc';
   };
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={formType === "create" ? initData : singleData}
+        initialValues={formType === 'create' ? initData : singleData}
         onSubmit={() => {}}
       >
         {({ values, setFieldValue, errors, touched, setValues }) => (
           <>
             <ICustomCard
               title={
-                formType === "create"
-                  ? "Mother Vessel Entry"
-                  : formType === "edit"
-                  ? `Edit Mother vessel's info (${item?.mVesselName})`
-                  : `Mother vessel's other info (${item?.mVesselName})`
+                formType === 'create'
+                  ? 'Mother Vessel Entry'
+                  : formType === 'edit'
+                    ? `Edit Mother vessel's info (${item?.mVesselName})`
+                    : `Mother vessel's other info (${item?.mVesselName})`
               }
               saveHandler={
                 createOrEdit
                   ? () => {
                       saveHandler(values);
                     }
-                  : ""
+                  : ''
               }
               saveDisabled={loading || rowData?.length < 1}
             >
@@ -289,7 +288,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <SearchAsyncSelect
                           selectedValue={values?.supplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           loadOptions={loadOptions}
                           isDisabled={!createOrEdit}
@@ -310,12 +309,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           disabled={!createOrEdit}
                           onChange={(e) => {
                             setFieldValue(
-                              "freightRateDollar",
+                              'freightRateDollar',
                               e?.target?.value
                             );
                             if (values?.freightRateTaka) {
                               setFieldValue(
-                                "amount",
+                                'amount',
                                 e?.target?.value * values?.freightRateTaka
                               );
                             }
@@ -331,10 +330,10 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           type="number"
                           disabled={!createOrEdit}
                           onChange={(e) => {
-                            setFieldValue("freightRateTaka", e?.target?.value);
+                            setFieldValue('freightRateTaka', e?.target?.value);
                             if (values?.freightRateDollar) {
                               setFieldValue(
-                                "amount",
+                                'amount',
                                 e?.target?.value * values?.freightRateDollar
                               );
                             }
@@ -378,7 +377,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           value={values?.port}
                           label="Port"
                           onChange={(valueOption) => {
-                            setFieldValue("port", valueOption);
+                            setFieldValue('port', valueOption);
                           }}
                           placeholder="Port"
                           errors={errors}
@@ -412,8 +411,8 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           value={values?.organization}
                           label="Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("organization", valueOption);
-                            setFieldValue("localRevenueRate", "");
+                            setFieldValue('organization', valueOption);
+                            setFieldValue('localRevenueRate', '');
                           }}
                           placeholder="Organization"
                           errors={errors}
@@ -425,7 +424,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <SearchAsyncSelect
                           selectedValue={values?.product}
                           handleChange={(valueOption) => {
-                            setFieldValue("product", valueOption);
+                            setFieldValue('product', valueOption);
                           }}
                           placeholder="Search Product"
                           loadOptions={(v) => {
@@ -451,7 +450,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           value={values?.origin}
                           label="Origin"
                           onChange={(valueOption) => {
-                            setFieldValue("origin", valueOption);
+                            setFieldValue('origin', valueOption);
                           }}
                           placeholder="Origin"
                           errors={errors}
@@ -476,10 +475,14 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           name="lighteringRate"
                           onChange={(e) => {
                             if (+e.target.value < 0) {
-                              return toast.warning("Rate must be positive");
+                              return toast.warning('Rate must be positive');
                             }
-                            setFieldValue("lighteringRate", e.target.value);
-                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.baggageNstorageRate || 0));
+                            setFieldValue('lighteringRate', e.target.value);
+                            setFieldValue(
+                              'localRevenueRate',
+                              (+e.target.value || 0) +
+                                (+values?.baggageNstorageRate || 0)
+                            );
                           }}
                           type="number"
                           disabled={disableHandler(values)}
@@ -493,10 +496,17 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           name="baggageNstorageRate"
                           onChange={(e) => {
                             if (+e.target.value < 0) {
-                              return toast.warning("Rate must be positive");
+                              return toast.warning('Rate must be positive');
                             }
-                            setFieldValue("baggageNstorageRate", e.target.value);
-                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.lighteringRate || 0));
+                            setFieldValue(
+                              'baggageNstorageRate',
+                              e.target.value
+                            );
+                            setFieldValue(
+                              'localRevenueRate',
+                              (+e.target.value || 0) +
+                                (+values?.lighteringRate || 0)
+                            );
                           }}
                           type="number"
                           disabled={disableHandler(values)}
@@ -510,9 +520,9 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           name="localRevenueRate"
                           onChange={(e) => {
                             if (+e.target.value < 0) {
-                              return toast.warning("Rate must be positive");
+                              return toast.warning('Rate must be positive');
                             }
-                            setFieldValue("localRevenueRate", e.target.value);
+                            setFieldValue('localRevenueRate', e.target.value);
                           }}
                           type="number"
                           disabled={disableHandler(values)}
@@ -568,14 +578,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <td className="text-center">
                           {item?.localRevenueRate}
                         </td>
-                        <td className="text-center">
-                          {item?.lighteringRate}
-                        </td>
+                        <td className="text-center">{item?.lighteringRate}</td>
                         <td className="text-center">
                           {item?.baggageNstorageRate}
                         </td>
                         <td className="text-center">
-                          {formType !== "view" && (
+                          {formType !== 'view' && (
                             <div className="d-flex justify-content-around">
                               <span>
                                 <IEdit

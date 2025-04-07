@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { GetDetailsForNote30_api } from "../helper";
-import AdjustmentTaxDetailsModal30 from "./../adjustmentTaxModal/adjustmentTaxModal30";
-import AdjustmentTaxDetailsModal29 from "./../adjustmentTaxModal/adjustmentTaxModal29";
-import { GetDetailsForNote24AndNote29_api } from "./../helper";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { GetDetailsForNote30_api } from '../helper';
+import AdjustmentTaxDetailsModal30 from './../adjustmentTaxModal/adjustmentTaxModal30';
+import AdjustmentTaxDetailsModal29 from './../adjustmentTaxModal/adjustmentTaxModal29';
+import { GetDetailsForNote24AndNote29_api } from './../helper';
 
 export default function AddjustmentVatDecrementReport({
   gridData,
@@ -43,36 +43,36 @@ export default function AddjustmentVatDecrementReport({
   const getNote_33 = commonNoteFind(33);
 
   const note_29 = {
-    noteNo: "note_29",
+    noteNo: 'note_29',
     value: 0,
     sd: 0,
     vat: getNote_29?.vat || gridData?.[0]?.vat,
   };
 
   const note_30 = {
-    noteNo: "note_30",
+    noteNo: 'note_30',
     value: 0,
     sd: 0,
     vat: getNote_30?.vat || gridData?.[1]?.vat,
   };
 
   const note_31 = {
-    noteNo: "note_31",
+    noteNo: 'note_31',
     value: 0,
     sd: 0,
     vat: getNote_31?.vat || gridData?.[2]?.vat,
   };
   const note_32 = {
-    noteNo: "note_32",
+    noteNo: 'note_32',
     value: 0,
     sd: 0,
     vat: getNote_32?.vat || gridData?.[3]?.vat || 0,
   };
   const note_33 = {
-    noteNo: "note_33",
+    noteNo: 'note_33',
     value: 0,
     sd: 0,
-    vat: getNote_33?.vat || claculator(gridData, "vat"),
+    vat: getNote_33?.vat || claculator(gridData, 'vat'),
   };
 
   allGridData[28] = note_29;
@@ -210,7 +210,7 @@ export default function AddjustmentVatDecrementReport({
           </tr>
           {/* 5th row */}
           <tr>
-            <td style={{ height: "18px" }}>
+            <td style={{ height: '18px' }}>
               <div className="pl-2">{gridData?.[3]?.notes}</div>
             </td>
           </tr>
@@ -244,7 +244,6 @@ export default function AddjustmentVatDecrementReport({
         parentValues={parentValues}
         setSingleOutputTax={setSingleAdjustmentTax}
         singleAdjustmentTax={singleAdjustmentTax}
- 
       />
       <AdjustmentTaxDetailsModal29
         show={adjustmentTaxModal29}

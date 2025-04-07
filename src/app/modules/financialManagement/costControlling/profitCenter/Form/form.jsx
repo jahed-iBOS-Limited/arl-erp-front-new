@@ -1,31 +1,31 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getGetProfitCenterGroupNameDDL_api } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getGetProfitCenterGroupNameDDL_api } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   controllingUnitName: Yup.object().shape({
-    label: Yup.string().required("Controlling Unit is required"),
-    value: Yup.string().required("Controlling Unit is required"),
+    label: Yup.string().required('Controlling Unit is required'),
+    value: Yup.string().required('Controlling Unit is required'),
   }),
   profitCenterName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Profit Center Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Profit Center Name is required'),
   profitCenterCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100000, "Maximum 100 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100000, 'Maximum 100 symbols')
+    .required('Code is required'),
   profitCenterGroupName: Yup.object().shape({
-    label: Yup.string().required("Group Name  is required"),
-    value: Yup.string().required("Group Name is required"),
+    label: Yup.string().required('Group Name  is required'),
+    value: Yup.string().required('Group Name is required'),
   }),
   responsiblePersonName: Yup.object().shape({
-    label: Yup.string().required("Responsible Person is required"),
-    value: Yup.string().required("Responsible Person is required"),
+    label: Yup.string().required('Responsible Person is required'),
+    value: Yup.string().required('Responsible Person is required'),
   }),
 });
 
@@ -73,7 +73,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Profit Center Name</label>
                   <InputField
-                    value={values?.profitCenterName || ""}
+                    value={values?.profitCenterName || ''}
                     name="profitCenterName"
                     placeholder="Profit Center Name"
                     type="text"
@@ -83,7 +83,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Code</label>
                   <InputField
-                    value={values?.profitCenterCode || ""}
+                    value={values?.profitCenterCode || ''}
                     name="profitCenterCode"
                     placeholder="Code"
                     type="text"
@@ -99,7 +99,7 @@ export default function FormCmp({
                     value={values?.controllingUnitName}
                     label="Controlling Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("controllingUnitName", valueOption);
+                      setFieldValue('controllingUnitName', valueOption);
                       getGetProfitCenterGroupNameDDL_api(
                         accountId,
                         selectedBusinessUnit,
@@ -122,7 +122,7 @@ export default function FormCmp({
                     label="
                     Group Name"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenterGroupName", valueOption);
+                      setFieldValue('profitCenterGroupName', valueOption);
                     }}
                     placeholder="
                     Group Name"
@@ -139,7 +139,7 @@ export default function FormCmp({
                     value={values?.responsiblePersonName}
                     label="Responsible Person"
                     onChange={(valueOption) => {
-                      setFieldValue("responsiblePersonName", valueOption);
+                      setFieldValue('responsiblePersonName', valueOption);
                     }}
                     placeholder="Responsible Person"
                     errors={errors}
@@ -150,14 +150,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

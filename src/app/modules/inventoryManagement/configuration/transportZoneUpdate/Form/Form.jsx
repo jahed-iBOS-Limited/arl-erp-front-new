@@ -1,16 +1,16 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { ISelect } from '../../../../_helper/_inputDropDown';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  shiptoPartyName: Yup.string().required("Ship to Party Name is required"),
-  address: Yup.string().required("Address is required"),
+  shiptoPartyName: Yup.string().required('Ship to Party Name is required'),
+  address: Yup.string().required('Address is required'),
   transportZone: Yup.object().shape({
-    value: Yup.string().required("Transport Zone is required"),
-    label: Yup.string().required("Transport Zone is required"),
+    value: Yup.string().required('Transport Zone is required'),
+    label: Yup.string().required('Transport Zone is required'),
   }),
 });
 
@@ -46,16 +46,16 @@ export default function FormCmp({
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log("values", values)}
+              {console.log('values', values)}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <ISelect
-                    options={[{ label: "challan base", value: 1 }]}
+                    options={[{ label: 'challan base', value: 1 }]}
                     label="Type"
                     value={values?.type}
                     placeholder="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                     }}
                   />
                 </div>
@@ -67,7 +67,7 @@ export default function FormCmp({
                   />
                 </div>
 
-                <div style={{ marginTop: "18px" }} className="col-lg-3">
+                <div style={{ marginTop: '18px' }} className="col-lg-3">
                   <button
                     onClick={() => handleZoneInfo(values, setFieldValue)}
                     disabled={!values?.type || !values?.challanNo}
@@ -107,7 +107,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("transportZone", valueOption);
+                      setFieldValue('transportZone', valueOption);
                     }}
                   />
                 </div>
@@ -132,14 +132,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

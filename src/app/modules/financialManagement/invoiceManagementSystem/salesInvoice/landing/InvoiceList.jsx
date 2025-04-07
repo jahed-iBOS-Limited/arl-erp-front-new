@@ -69,9 +69,7 @@ export default function InvoiceList({ item, setInvoiceDataShow, data }) {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     dispatch(
-                                      getDownlloadFileView_Action(
-                                        i?.attachment,
-                                      ),
+                                      getDownlloadFileView_Action(i?.attachment)
                                     );
                                   }}
                                   className="mt-2 ml-2"

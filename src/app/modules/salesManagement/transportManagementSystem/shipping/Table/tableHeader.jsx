@@ -1,34 +1,33 @@
-
-import React, { useEffect, useState } from 'react'
-import { TableRow } from './tableRow'
-import { ITable } from '../../../../_helper/_table'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { TableRow } from './tableRow';
+import { ITable } from '../../../../_helper/_table';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   getIsPGICheck_Action,
   saveShipmentId_action,
-} from '../../../orderManagement/pgi/_redux/Actions'
+} from '../../../orderManagement/pgi/_redux/Actions';
 
 const initialData = {
   pgiShippoint: '',
-}
+};
 
 const initData = {
   itemCheck: false,
-}
+};
 
 export function ShipmentTable() {
-  const [rowDto, setRowDto] = useState([])
+  const [rowDto, setRowDto] = useState([]);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData
-  }, shallowEqual)
+    return state.authData.profileData;
+  }, shallowEqual);
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit
-  }, shallowEqual)
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
 
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -36,13 +35,13 @@ export function ShipmentTable() {
 
   // get info to Check PGI exists or not
   const IsPGICheck = useSelector((state) => {
-    return state.pgi?.IsPGICheck
-  }, shallowEqual)
+    return state.pgi?.IsPGICheck;
+  }, shallowEqual);
 
   // get PGI list  from store
   const gridData = useSelector((state) => {
-    return state.pgi?.gridData
-  }, shallowEqual)
+    return state.pgi?.gridData;
+  }, shallowEqual);
 
   //Dispatch Get emplist action for get emplist ddl
   //Dispatch PGI check action for enabling create PGI button
@@ -50,40 +49,35 @@ export function ShipmentTable() {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
         getIsPGICheck_Action(profileData.accountId, selectedBusinessUnit.value)
-      )
+      );
     }
-
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     const modifyGridData = gridData?.map((itm) => ({
       ...itm,
       itemCheck: false,
-    }))
+    }));
 
-    setRowDto(modifyGridData)
-
-
-  }, [gridData])
-
+    setRowDto(modifyGridData);
+  }, [gridData]);
 
   const savePgiData = (id, gridRefresh) => {
-    dispatch(saveShipmentId_action({ data: id, gridRefresh }))
-  }
+    dispatch(saveShipmentId_action({ data: id, gridRefresh }));
+  };
 
   const itemSlectedHandler = (value, index) => {
-    const copyRowDto = [...rowDto]
-    copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck
-    setRowDto(copyRowDto)
-  }
+    const copyRowDto = [...rowDto];
+    copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck;
+    setRowDto(copyRowDto);
+  };
   const allGridCheck = (value) => {
     const modifyGridData = gridData?.map((itm) => ({
       ...itm,
       itemCheck: value,
-    }))
-    setRowDto(modifyGridData)
-  }
+    }));
+    setRowDto(modifyGridData);
+  };
 
   return (
     <ITable
@@ -103,5 +97,5 @@ export function ShipmentTable() {
         allGridCheck={allGridCheck}
       />
     </ITable>
-  )
+  );
 }

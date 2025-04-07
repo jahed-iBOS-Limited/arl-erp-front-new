@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPointVat } from "../../../../_helper/_fixedPointVat";
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPointVat } from '../../../../_helper/_fixedPointVat';
 
 const GridData = ({ rowDto, values }) => {
   // get selected business unit from store
@@ -49,12 +49,12 @@ const GridData = ({ rowDto, values }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -116,17 +116,17 @@ const DayTable = ({ rowDto, totalCalculation, total }) => {
     <table className="table table-striped table-bordered mt-3">
       <thead>
         <tr>
-          <th style={{ width: "20px" }}>SL</th>
+          <th style={{ width: '20px' }}>SL</th>
 
-          <th style={{ width: "100px" }}>M-6.1 Entery Date</th>
+          <th style={{ width: '100px' }}>M-6.1 Entery Date</th>
 
-          <th style={{ width: "100px" }}>Quantity</th>
-          <th style={{ width: "100px" }}>Without SD/VAT</th>
-          <th style={{ width: "100px" }}>VAT Amount</th>
-          <th style={{ width: "100px" }}>AIT Amount</th>
-          <th style={{ width: "100px" }}>AT Amount</th>
-          <th style={{ width: "100px" }}>TOTAL</th>
-          <th style={{ width: "100px" }}>Name of port</th>
+          <th style={{ width: '100px' }}>Quantity</th>
+          <th style={{ width: '100px' }}>Without SD/VAT</th>
+          <th style={{ width: '100px' }}>VAT Amount</th>
+          <th style={{ width: '100px' }}>AIT Amount</th>
+          <th style={{ width: '100px' }}>AT Amount</th>
+          <th style={{ width: '100px' }}>TOTAL</th>
+          <th style={{ width: '100px' }}>Name of port</th>
         </tr>
       </thead>
       <tbody>
@@ -138,19 +138,36 @@ const DayTable = ({ rowDto, totalCalculation, total }) => {
               <td className="text-center">
                 {tableData?.entryDate && _dateFormatter(tableData?.entryDate)}
               </td>
-              <td className="text-center"> { _fixedPointVat(tableData?.quantity, 3)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.amount)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.vatTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.aitTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.atvTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.grandTotal)}</td>
+              <td className="text-center">
+                {' '}
+                {_fixedPointVat(tableData?.quantity, 3)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.amount)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.vatTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.aitTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.atvTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.grandTotal)}
+              </td>
               <td></td>
             </tr>
           );
         })}
-        <tr style={{ fontWeight: "bold" }}>
+        <tr style={{ fontWeight: 'bold' }}>
           <td colSpan="2">Total</td>
-          <td className="text-center">{_fixedPointVat(total?.totalQuantity,3)}</td>
+          <td className="text-center">
+            {_fixedPointVat(total?.totalQuantity, 3)}
+          </td>
           <td className="text-right">
             {(total?.totalWithOutSdVat).toFixed(2)}
           </td>
@@ -170,20 +187,20 @@ const ProductTable = ({ rowDto, totalCalculation, total }) => {
     <table className="table table-striped table-bordered mt-3">
       <thead>
         <tr>
-          <th style={{ width: "20px" }}>SL</th>
-          <th style={{ width: "100px" }}>HS.code</th>
-          <th style={{ width: "100px" }}>Meterial Name</th>
-          <th style={{ width: "100px" }}>Supplier Name</th>
-          <th style={{ width: "100px" }}>M-6.1 Entery Date</th>
-          <th style={{ width: "100px" }}>Challan/Boe No</th>
-          <th style={{ width: "100px" }}>Challan/Boe Date</th>
-          <th style={{ width: "100px" }}>Quantity</th>
-          <th style={{ width: "100px" }}>Without SD/VAT</th>
-          <th style={{ width: "100px" }}>VAT Amount</th>
-          <th style={{ width: "100px" }}>AIT Amount</th>
-          <th style={{ width: "100px" }}>AT Amount</th>
-          <th style={{ width: "100px" }}>TOTAL</th>
-          <th style={{ width: "100px" }}>Name of port</th>
+          <th style={{ width: '20px' }}>SL</th>
+          <th style={{ width: '100px' }}>HS.code</th>
+          <th style={{ width: '100px' }}>Meterial Name</th>
+          <th style={{ width: '100px' }}>Supplier Name</th>
+          <th style={{ width: '100px' }}>M-6.1 Entery Date</th>
+          <th style={{ width: '100px' }}>Challan/Boe No</th>
+          <th style={{ width: '100px' }}>Challan/Boe Date</th>
+          <th style={{ width: '100px' }}>Quantity</th>
+          <th style={{ width: '100px' }}>Without SD/VAT</th>
+          <th style={{ width: '100px' }}>VAT Amount</th>
+          <th style={{ width: '100px' }}>AIT Amount</th>
+          <th style={{ width: '100px' }}>AT Amount</th>
+          <th style={{ width: '100px' }}>TOTAL</th>
+          <th style={{ width: '100px' }}>Name of port</th>
         </tr>
       </thead>
       <tbody>
@@ -200,19 +217,36 @@ const ProductTable = ({ rowDto, totalCalculation, total }) => {
               </td>
               <td> {tableData?.challanNo}</td>
               <td className="text-center">{_dateFormatter(tableData?.date)}</td>
-              <td className="text-center"> {_fixedPointVat(tableData?.quantity,3)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.amount)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.vatTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.aitTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.atvTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.grandTotal)}</td>
+              <td className="text-center">
+                {' '}
+                {_fixedPointVat(tableData?.quantity, 3)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.amount)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.vatTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.aitTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.atvTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.grandTotal)}
+              </td>
               <td></td>
             </tr>
           );
         })}
-        <tr style={{ fontWeight: "bold" }}>
+        <tr style={{ fontWeight: 'bold' }}>
           <td colSpan="7">Total</td>
-          <td className="text-center">{_fixedPointVat(total?.totalQuantity,3)}</td>
+          <td className="text-center">
+            {_fixedPointVat(total?.totalQuantity, 3)}
+          </td>
           <td className="text-right">
             {(total?.totalWithOutSdVat).toFixed(2)}
           </td>
@@ -232,15 +266,15 @@ const TypePurchaseTable = ({ rowDto, totalCalculation, total }) => {
     <table className="table table-striped table-bordered mt-3">
       <thead>
         <tr>
-          <th style={{ width: "20px" }}>SL</th>
-          <th style={{ width: "100px" }}>Trade Type</th>
-          <th style={{ width: "100px" }}>Quantity</th>
-          <th style={{ width: "100px" }}>Without SD/VAT</th>
-          <th style={{ width: "100px" }}>VAT Amount</th>
-          <th style={{ width: "100px" }}>AIT Amount</th>
-          <th style={{ width: "100px" }}>AT Amount</th>
-          <th style={{ width: "100px" }}>TOTAL</th>
-          <th style={{ width: "100px" }}>Name of port</th>
+          <th style={{ width: '20px' }}>SL</th>
+          <th style={{ width: '100px' }}>Trade Type</th>
+          <th style={{ width: '100px' }}>Quantity</th>
+          <th style={{ width: '100px' }}>Without SD/VAT</th>
+          <th style={{ width: '100px' }}>VAT Amount</th>
+          <th style={{ width: '100px' }}>AIT Amount</th>
+          <th style={{ width: '100px' }}>AT Amount</th>
+          <th style={{ width: '100px' }}>TOTAL</th>
+          <th style={{ width: '100px' }}>Name of port</th>
         </tr>
       </thead>
       <tbody>
@@ -250,19 +284,36 @@ const TypePurchaseTable = ({ rowDto, totalCalculation, total }) => {
             <tr key={index}>
               <td> {index + 1} </td>
               <td> {tableData?.tradeTypeName}</td>
-              <td className="text-center"> {_fixedPointVat(tableData?.quantity, 3)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.amount)}</td>
-              <td className="text-right"> {_fixedPointVat(tableData?.vatTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.aitTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.atvTotal)}</td>
-              <td className="text-right">{_fixedPointVat(tableData?.grandTotal)}</td>
+              <td className="text-center">
+                {' '}
+                {_fixedPointVat(tableData?.quantity, 3)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.amount)}
+              </td>
+              <td className="text-right">
+                {' '}
+                {_fixedPointVat(tableData?.vatTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.aitTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.atvTotal)}
+              </td>
+              <td className="text-right">
+                {_fixedPointVat(tableData?.grandTotal)}
+              </td>
               <td></td>
             </tr>
           );
         })}
-        <tr style={{ fontWeight: "bold" }}>
+        <tr style={{ fontWeight: 'bold' }}>
           <td colSpan="3">Total</td>
-          <td className="text-center">{_fixedPointVat(total?.totalQuantity,3)}</td>
+          <td className="text-center">
+            {_fixedPointVat(total?.totalQuantity, 3)}
+          </td>
           <td className="text-right">
             {(total?.totalWithOutSdVat).toFixed(2)}
           </td>
@@ -282,21 +333,21 @@ const BySupplierTable = ({ rowDto, totalCalculation, total }) => {
     <table className="table table-striped table-bordered mt-3">
       <thead>
         <tr>
-          <th style={{ width: "20px" }}>SL</th>
+          <th style={{ width: '20px' }}>SL</th>
           {/* <th style={{ width: "100px" }}>HS.code</th>
           <th style={{ width: "100px" }}>Meterial Name</th> */}
           {/* <th style={{ width: "100px" }}>Supplier Name</th>
           <th style={{ width: "100px" }}>M-6.1 Entery Date</th>
           <th style={{ width: "100px" }}>Challan/Boe No</th>
           <th style={{ width: "100px" }}>Challan/Boe Date</th> */}
-          <th style={{ width: "100px" }}>Supplier Name</th>
-          <th style={{ width: "100px" }}>Quantity</th>
-          <th style={{ width: "100px" }}>Without SD/VAT</th>
-          <th style={{ width: "100px" }}>VAT Amount</th>
-          <th style={{ width: "100px" }}>AIT Amount</th>
-          <th style={{ width: "100px" }}>AT Amount</th>
-          <th style={{ width: "100px" }}>TOTAL</th>
-          <th style={{ width: "100px" }}>Name of port</th>
+          <th style={{ width: '100px' }}>Supplier Name</th>
+          <th style={{ width: '100px' }}>Quantity</th>
+          <th style={{ width: '100px' }}>Without SD/VAT</th>
+          <th style={{ width: '100px' }}>VAT Amount</th>
+          <th style={{ width: '100px' }}>AIT Amount</th>
+          <th style={{ width: '100px' }}>AT Amount</th>
+          <th style={{ width: '100px' }}>TOTAL</th>
+          <th style={{ width: '100px' }}>Name of port</th>
         </tr>
       </thead>
       <tbody>
@@ -315,15 +366,15 @@ const BySupplierTable = ({ rowDto, totalCalculation, total }) => {
               <td className="text-center">{_dateFormatter(tableData?.date)}</td> */}
               <td> {tableData?.supplierName}</td>
               <td className="text-center">
-                {" "}
+                {' '}
                 {_fixedPointVat(tableData?.quantity, 3)}
               </td>
               <td className="text-right">
-                {" "}
+                {' '}
                 {_fixedPointVat(tableData?.amount)}
               </td>
               <td className="text-right">
-                {" "}
+                {' '}
                 {_fixedPointVat(tableData?.vatTotal)}
               </td>
               <td className="text-right">
@@ -339,7 +390,7 @@ const BySupplierTable = ({ rowDto, totalCalculation, total }) => {
             </tr>
           );
         })}
-        <tr style={{ fontWeight: "bold" }}>
+        <tr style={{ fontWeight: 'bold' }}>
           <td colSpan="2">Total</td>
           <td className="text-center">
             {_fixedPointVat(total?.totalQuantity, 3)}

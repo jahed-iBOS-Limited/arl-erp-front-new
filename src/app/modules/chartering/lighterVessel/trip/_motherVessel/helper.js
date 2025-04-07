@@ -12,7 +12,7 @@ export const createMotherVessel = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CreateLighterMotherVessel`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();

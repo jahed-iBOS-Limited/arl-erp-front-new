@@ -1,9 +1,8 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   getBankNameDDL,
   getBeneficaryDDL,
@@ -19,26 +18,26 @@ import {
   // getUoMDDL,
   // getSBUDDL,
   validationSchema,
-} from "../helper";
+} from '../helper';
 // import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 // import Axios from "axios";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { setRowAmount } from "../utils";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { setRowAmount } from '../utils';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 const header = [
-  "SL",
-  "Reference No",
-  "Item",
+  'SL',
+  'Reference No',
+  'Item',
   // "",
-  "HS Code",
-  "UoM",
-  "Quantity",
-  "Rate",
-  "Amount",
+  'HS Code',
+  'UoM',
+  'Quantity',
+  'Rate',
+  'Amount',
 ];
 export default function FormCmp({
   initData,
@@ -130,16 +129,15 @@ export default function FormCmp({
       .then((res) => res?.data);
   };
   useEffect(() => {
-    if (params?.pid && params?.type === "edit" && initData) {
+    if (params?.pid && params?.type === 'edit' && initData) {
       const purchaseRequestOrContractId = initData?.purchaseRequestNo?.label
         ? initData?.purchaseRequestNo?.label
         : initData?.purchaseContractNo?.label;
       const refType = initData?.referenceType?.value;
-    if(refType && purchaseRequestOrContractId)  getItemDDL(purchaseRequestOrContractId, refType, setItemDDL);
+      if (refType && purchaseRequestOrContractId)
+        getItemDDL(purchaseRequestOrContractId, refType, setItemDDL);
     }
   }, [initData]);
-
-
 
   return (
     <>
@@ -170,20 +168,20 @@ export default function FormCmp({
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
-                  {viewType !== "edit" && (
+                  {viewType !== 'edit' && (
                     <div className="col-lg3 col-md-3">
                       <NewSelect
                         name="referenceType"
                         options={[
-                          { value: 1, label: "Purchase Contract" },
-                          { value: 2, label: "Purchase Request" },
+                          { value: 1, label: 'Purchase Contract' },
+                          { value: 2, label: 'Purchase Request' },
                         ]}
                         value={values?.referenceType}
                         label="Reference Type"
                         onChange={(valueOption) => {
-                          setFieldValue("referenceType", valueOption);
-                          setFieldValue("purchaseContractNo", "");
-                          setFieldValue("purchaseRequestNo", "");
+                          setFieldValue('referenceType', valueOption);
+                          setFieldValue('purchaseContractNo', '');
+                          setFieldValue('purchaseRequestNo', '');
                         }}
                       />
                     </div>
@@ -197,14 +195,14 @@ export default function FormCmp({
                       placeholder="SBU"
                       name="sbu"
                       type="text"
-                      isDisabled={viewType === "edit"}
+                      isDisabled={viewType === 'edit'}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         } else {
-                          setFieldValue("sbu", "");
-                          setFieldValue("plantDDL", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('sbu', '');
+                          setFieldValue('plantDDL', '');
+                          setFieldValue('warehouse', '');
                         }
                       }}
                       errors={errors}
@@ -219,15 +217,15 @@ export default function FormCmp({
                       placeholder="Plant"
                       name="plant"
                       type="text"
-                      isDisabled={viewType === "edit"}
+                      isDisabled={viewType === 'edit'}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8
                         `);
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                         }
                       }}
                       errors={errors}
@@ -242,9 +240,9 @@ export default function FormCmp({
                       placeholder="Warehouse"
                       name="warehouse"
                       type="text"
-                      isDisabled={viewType === "edit"}
+                      isDisabled={viewType === 'edit'}
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('warehouse', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -255,45 +253,44 @@ export default function FormCmp({
                     <div className="col-lg-3 col-md-3">
                       <label>
                         Purchase Contract No
-                        {viewType !== "view" &&
-                          values?.purchaseContractNo && (
-                            <span>
-                              <small
-                                style={{
-                                  color: `${
-                                    purchaseRequestValidity === true
-                                      ? "green"
-                                      : "red"
-                                  }`,
-                                }}
-                              >
-                                {purchaseRequestValidity === true
-                                  ? "Purchase Request No Valid"
-                                  : purchaseRequestValidity === false
-                                  ? "Purchase Request No Invalid"
-                                  : ""}
-                              </small>
-                            </span>
-                          )}{" "}
+                        {viewType !== 'view' && values?.purchaseContractNo && (
+                          <span>
+                            <small
+                              style={{
+                                color: `${
+                                  purchaseRequestValidity === true
+                                    ? 'green'
+                                    : 'red'
+                                }`,
+                              }}
+                            >
+                              {purchaseRequestValidity === true
+                                ? 'Purchase Request No Valid'
+                                : purchaseRequestValidity === false
+                                  ? 'Purchase Request No Invalid'
+                                  : ''}
+                            </small>
+                          </span>
+                        )}{' '}
                       </label>
                       <SearchAsyncSelect
-                        isDisabled={viewType === "view" || viewType === "edit"}
+                        isDisabled={viewType === 'view' || viewType === 'edit'}
                         paddingRight="10px"
                         name="purchaseContractNo"
                         placeholder="Purchase Contract No"
                         type="text"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                         selectedValue={values?.purchaseContractNo}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
                           if (valueOption) {
                             // setFieldValue("itemDDL", "");
-                            setFieldValue("purchaseContractNo", valueOption);
+                            setFieldValue('purchaseContractNo', valueOption);
                             // setFieldValue("sbu", {
                             //   value: valueOption?.sbuId,
                             //   label: valueOption?.sbuName,
                             // });
-                            setFieldValue("plantDDL", {
+                            setFieldValue('plantDDL', {
                               value: valueOption?.plantId,
                               label: valueOption?.plantName,
                             });
@@ -308,14 +305,14 @@ export default function FormCmp({
                             //   setItemDDL
                             // );
                             setRowDto([]);
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
+                            setFieldValue('isAllItem', false);
+                            setFieldValue('itemDDL', '');
                           } else {
-                            setFieldValue("sbu", "");
-                            setFieldValue("plantDDL", "");
+                            setFieldValue('sbu', '');
+                            setFieldValue('plantDDL', '');
                             setRowDto([]);
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
+                            setFieldValue('isAllItem', false);
+                            setFieldValue('itemDDL', '');
                           }
                         }}
                         loadOptions={loadParsContractList}
@@ -327,29 +324,29 @@ export default function FormCmp({
                     <div className="col-lg-3 col-md-3">
                       <label>
                         Purchase Request No
-                        {viewType !== "view" && values?.purchaseRequestNo && (
+                        {viewType !== 'view' && values?.purchaseRequestNo && (
                           <span>
                             <small
                               style={{
                                 color: `${
                                   purchaseRequestValidity?.status === true
-                                    ? "green"
-                                    : "red"
+                                    ? 'green'
+                                    : 'red'
                                 }`,
                               }}
                             >
                               {purchaseRequestValidity?.status === true
-                                ? "Purchase Request No Valid"
+                                ? 'Purchase Request No Valid'
                                 : purchaseRequestValidity?.status === false
-                                ? "Purchase Request No Invalid"
-                                : ""}
+                                  ? 'Purchase Request No Invalid'
+                                  : ''}
                             </small>
                           </span>
-                        )}{" "}
+                        )}{' '}
                       </label>
                       <SearchAsyncSelect
                         isDisabled={
-                          viewType === "view" ||
+                          viewType === 'view' ||
                           !values?.sbu ||
                           !values?.plant ||
                           !values?.warehouse
@@ -361,10 +358,10 @@ export default function FormCmp({
                         selectedValue={values?.purchaseRequestNo}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("itemDDL", "");
+                          setFieldValue('itemDDL', '');
                           if (valueOption) {
-                            setFieldValue("purchaseRequestNo", valueOption);
-                            setFieldValue("plantDDL", {
+                            setFieldValue('purchaseRequestNo', valueOption);
+                            setFieldValue('plantDDL', {
                               value: valueOption?.plantId,
                               label: valueOption?.plantName,
                             });
@@ -380,13 +377,13 @@ export default function FormCmp({
                               values,
                               itemDDL
                             );
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
+                            setFieldValue('isAllItem', false);
+                            setFieldValue('itemDDL', '');
                           } else {
-                            setFieldValue("sbu", "");
-                            setFieldValue("plantDDL", "");
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
+                            setFieldValue('sbu', '');
+                            setFieldValue('plantDDL', '');
+                            setFieldValue('isAllItem', false);
+                            setFieldValue('itemDDL', '');
                           }
                         }}
                         loadOptions={(v) =>
@@ -407,7 +404,7 @@ export default function FormCmp({
                       name="pinumber"
                       placeholder="PI No"
                       type="text"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -417,12 +414,12 @@ export default function FormCmp({
                       value={values?.beneficiaryNameDDL}
                       label="Beneficiary Name"
                       onChange={(valueOption) => {
-                        setFieldValue("beneficiaryNameDDL", valueOption);
+                        setFieldValue('beneficiaryNameDDL', valueOption);
                       }}
                       placeholder="Beneficiary Name"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -432,7 +429,7 @@ export default function FormCmp({
                       name="expireDate"
                       placeholder="Expire Date"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3 ">
@@ -442,12 +439,12 @@ export default function FormCmp({
                       value={values?.lcTypeDDL}
                       label="LC Type"
                       onChange={(valueOption) => {
-                        setFieldValue("lcTypeDDL", valueOption);
+                        setFieldValue('lcTypeDDL', valueOption);
                       }}
                       placeholder="LC Type"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3 ">
@@ -457,7 +454,7 @@ export default function FormCmp({
                       name="lastShipDate"
                       placeholder="Last Shioment Date"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3 ">
@@ -466,9 +463,9 @@ export default function FormCmp({
                       value={values?.etaDate}
                       name="etaDate"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                       onChange={(e) => {
-                        setFieldValue("etaDate", e.target.value);
+                        setFieldValue('etaDate', e.target.value);
                       }}
                     />
                   </div>
@@ -478,9 +475,9 @@ export default function FormCmp({
                       value={values?.dteEstimatedLaycanDate}
                       name="dteEstimatedLaycanDate"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                       onChange={(e) => {
-                        setFieldValue("dteEstimatedLaycanDate", e.target.value);
+                        setFieldValue('dteEstimatedLaycanDate', e.target.value);
                       }}
                     />
                   </div>
@@ -492,12 +489,12 @@ export default function FormCmp({
                       value={values?.incoTermsDDL}
                       label="Inco Terms"
                       onChange={(valueOption) => {
-                        setFieldValue("incoTermsDDL", valueOption);
+                        setFieldValue('incoTermsDDL', valueOption);
                       }}
                       placeholder="Inco Terms"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
 
@@ -508,13 +505,13 @@ export default function FormCmp({
                       value={values?.materialTypeDDL}
                       label="Material Type"
                       onChange={(valueOption) => {
-                        setFieldValue("materialTypeDDL", valueOption);
+                        setFieldValue('materialTypeDDL', valueOption);
                         // setMaterialTypeId(valueOption);
                       }}
                       placeholder="Material Type"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3 ">
@@ -524,12 +521,12 @@ export default function FormCmp({
                       value={values?.countryOriginDDL}
                       label="Country Origin"
                       onChange={(valueOption) => {
-                        setFieldValue("countryOriginDDL", valueOption);
+                        setFieldValue('countryOriginDDL', valueOption);
                       }}
                       placeholder="Country Origin"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
 
@@ -540,7 +537,7 @@ export default function FormCmp({
                       name="loadingPort"
                       placeholder="Loading Port"
                       type="text"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
@@ -551,12 +548,12 @@ export default function FormCmp({
                       value={values?.finalDestinationDDL}
                       label="Final Destination"
                       onChange={(valueOption) => {
-                        setFieldValue("finalDestinationDDL", valueOption);
+                        setFieldValue('finalDestinationDDL', valueOption);
                       }}
                       placeholder="Final Distination"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3 ">
@@ -566,12 +563,12 @@ export default function FormCmp({
                       value={values?.currencyDDL}
                       label="Currency"
                       onChange={(valueOption) => {
-                        setFieldValue("currencyDDL", valueOption);
+                        setFieldValue('currencyDDL', valueOption);
                       }}
                       placeholder="Currency"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
 
@@ -582,7 +579,7 @@ export default function FormCmp({
                       name="tolerance"
                       placeholder="Tolerance"
                       type="number"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -593,7 +590,7 @@ export default function FormCmp({
                       placeholder="Usance"
                       type="number"
                       min="0"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -604,7 +601,7 @@ export default function FormCmp({
                       placeholder="Presentation(Days)"
                       type="number"
                       min="0"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-6">
@@ -614,16 +611,16 @@ export default function FormCmp({
                       name="otherTerms"
                       placeholder="Other Terms"
                       type="text"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
                     <InputField
-                      value={values?.strRemarks || ""}
+                      value={values?.strRemarks || ''}
                       name="strRemarks"
                       label="Remarks"
                       type="text"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                 </div>
@@ -632,17 +629,22 @@ export default function FormCmp({
               {/* extra code */}
 
               <div className="global-form">
-                {viewType !== "view" && (
+                {viewType !== 'view' && (
                   <div className="row">
                     <div className="col-lg-3">
                       <NewSelect
                         name="itemDDL"
-                        options={itemDDL?.map(item => ({value:item.value, label:`${item?.label} - ${values?.purchaseRequestNo?.label}`}))}
+                        options={itemDDL?.map((item) => ({
+                          value: item.value,
+                          label: `${item?.label} - ${values?.purchaseRequestNo?.label}`,
+                        }))}
                         value={values?.itemDDL}
                         label="Item"
                         onChange={(valueOption) => {
-                          const selectedItem = itemDDL?.find(item => item?.value === valueOption?.value)
-                          setFieldValue("itemDDL", selectedItem);
+                          const selectedItem = itemDDL?.find(
+                            (item) => item?.value === valueOption?.value
+                          );
+                          setFieldValue('itemDDL', selectedItem);
                         }}
                         placeholder="Select Item"
                         errors={errors}
@@ -656,7 +658,7 @@ export default function FormCmp({
                     </div>
                     <div
                       className="col-lg-1 d-flex align-items-center"
-                      style={{ marginTop: "11px", marginLeft: "17px" }}
+                      style={{ marginTop: '11px', marginLeft: '17px' }}
                     >
                       <input
                         type="checkbox"
@@ -669,14 +671,14 @@ export default function FormCmp({
                           // || rowDto.length > 0
                         }
                         onChange={(e) => {
-                          setFieldValue("isAllItem", e?.target?.checked);
+                          setFieldValue('isAllItem', e?.target?.checked);
                         }}
                       />
                       <label className="">All Item</label>
                     </div>
                     <div
                       className="col-lg-3"
-                      style={{ marginTop: "17px", marginLeft: "17px" }}
+                      style={{ marginTop: '17px', marginLeft: '17px' }}
                     >
                       <button
                         type="button"
@@ -707,40 +709,40 @@ export default function FormCmp({
                 )}
                 <ICustomTable
                   ths={
-                    viewType === "view"
+                    viewType === 'view'
                       ? header
                       : [
-                          "SL",
+                          'SL',
                           values?.referenceType?.value === 2
-                            ? "PR No"
-                            : "PC No",
-                          "Item",
+                            ? 'PR No'
+                            : 'PC No',
+                          'Item',
                           // "Ref Qty",
-                          "HS Code",
-                          "UoM",
-                          "Quantity",
-                          "Rate",
-                          "Amount",
-                          "Action",
+                          'HS Code',
+                          'UoM',
+                          'Quantity',
+                          'Rate',
+                          'Amount',
+                          'Action',
                         ]
                   }
                 >
                   {rowDto?.length > 0 &&
                     rowDto?.map((item, index) => {
-                      console.log({viewType, rowId: item?.rowId})
+                      console.log({ viewType, rowId: item?.rowId });
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
-                          <td style={{ width: "250px" }}>
+                          <td style={{ width: '250px' }}>
                             {item?.referenceCode}
                           </td>
-                          <td style={{ width: "250px" }}>{item?.label}</td>
+                          <td style={{ width: '250px' }}>{item?.label}</td>
                           {/* <td style={{ width: "250px", textAlign: "center" }}>
                             {item?.refQty}
                           </td> */}
-                          <td style={{ width: "250px" }}>
+                          <td style={{ width: '250px' }}>
                             <InputField
                               name={item?.hscode}
                               value={item?.hscode}
@@ -750,16 +752,16 @@ export default function FormCmp({
                               }}
                               errors={errors}
                               touched={touched}
-                              disabled={viewType === "view" || item?.rowId}
+                              disabled={viewType === 'view' || item?.rowId}
                               // disabled={viewType === "view"}
                             />
                           </td>
-                          <td style={{ width: "150px" }}>
+                          <td style={{ width: '150px' }}>
                             <NewSelect
                               name="uom"
                               value={item?.uom}
                               onChange={(valueOption) => {
-                                setFieldValue("uom", valueOption);
+                                setFieldValue('uom', valueOption);
                               }}
                               errors={errors}
                               touched={touched}
@@ -767,7 +769,7 @@ export default function FormCmp({
                             />
                           </td>
                           <td
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                             className="text-center"
                           >
                             <InputField
@@ -781,20 +783,19 @@ export default function FormCmp({
                               required
                               onChange={(e) => {
                                 setRowAmount(
-                                  "quantity",
+                                  'quantity',
                                   index,
                                   +e?.target?.value,
                                   rowDto,
                                   setRowDto
                                 );
                               }}
-                              disabled={viewType === "view" || item?.rowId}
+                              disabled={viewType === 'view' || item?.rowId}
                               // disabled={viewType === "view"}
-
                             />
                           </td>
                           <td
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                             className="text-center"
                           >
                             <InputField
@@ -807,20 +808,20 @@ export default function FormCmp({
                               step="any"
                               onChange={(e) => {
                                 setRowAmount(
-                                  "rate",
+                                  'rate',
                                   index,
                                   +e?.target?.value,
                                   rowDto,
                                   setRowDto
                                 );
                               }}
-                              disabled={viewType === "view" || item?.rowId}
+                              disabled={viewType === 'view' || item?.rowId}
                               // disabled={viewType === "view"}
                             />
                           </td>
 
                           <td
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                             className="text-center"
                           >
                             <InputField
@@ -832,9 +833,9 @@ export default function FormCmp({
                               disabled
                             />
                           </td>
-                          {viewType !== "view" && (
+                          {viewType !== 'view' && (
                             <td
-                              style={{ width: "150px" }}
+                              style={{ width: '150px' }}
                               className="text-center"
                             >
                               <IDelete
@@ -848,8 +849,8 @@ export default function FormCmp({
                     })}
                   <tr>
                     <td colspan="7"></td>
-                    <td style={{ fontWeight: "700" }}>Total</td>
-                    <td className="text-right" style={{ fontWeight: "700" }}>
+                    <td style={{ fontWeight: '700' }}>Total</td>
+                    <td className="text-right" style={{ fontWeight: '700' }}>
                       {_formatMoney(
                         rowDto?.reduce(
                           (acc, item) => acc + item?.totalAmount,
@@ -857,21 +858,21 @@ export default function FormCmp({
                         )
                       )}
                     </td>
-                    {viewType !== "view" && <td></td>}
+                    {viewType !== 'view' && <td></td>}
                   </tr>
                 </ICustomTable>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

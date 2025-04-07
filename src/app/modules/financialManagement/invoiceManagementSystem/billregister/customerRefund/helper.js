@@ -1,17 +1,17 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const tableHeader = [
-  "SL",
-  "Customer Name",
-  "Bank Name",
-  "Branch Name",
-  "Account No",
-  "Routing No",
-  "Amount",
-  "Remarks",
-  "Action",
-]
+  'SL',
+  'Customer Name',
+  'Bank Name',
+  'Branch Name',
+  'Account No',
+  'Routing No',
+  'Amount',
+  'Remarks',
+  'Action',
+];
 
 export const removeDataFromRow = (index, rowData, setRowData) => {
   const rows = [...rowData];
@@ -19,10 +19,23 @@ export const removeDataFromRow = (index, rowData, setRowData) => {
   setRowData(rows);
 };
 
-export const rowDataHandler = (values, rowData, setRowData, accId, buId, location, userId, cb) => {
-  const checkDuplicate = rowData?.find(item => item?.customerName === values?.customer?.label && item?.customerId === values?.customer?.value)
+export const rowDataHandler = (
+  values,
+  rowData,
+  setRowData,
+  accId,
+  buId,
+  location,
+  userId,
+  cb
+) => {
+  const checkDuplicate = rowData?.find(
+    (item) =>
+      item?.customerName === values?.customer?.label &&
+      item?.customerId === values?.customer?.value
+  );
   if (checkDuplicate) {
-    return toast.warn("Duplicate Customer Not Allowed")
+    return toast.warn('Duplicate Customer Not Allowed');
   }
 
   const newRow = {
@@ -30,7 +43,7 @@ export const rowDataHandler = (values, rowData, setRowData, accId, buId, locatio
     businessUnitID: buId,
     plantID: location?.state?.plant?.value,
     sbuid: location?.state?.sbu?.value,
-    billName: "",
+    billName: '',
     partnerName: values?.customer?.label,
     partnerId: values?.customer?.value,
     bankID: values?.bankName?.value,
@@ -53,9 +66,9 @@ export const convertBalance = (number) => {
   if (number < 0) {
     return Math.abs(number);
   } else {
-    return -number
+    return -number;
   }
-}
+};
 
 export const debounce = (func, delay) => {
   let timeoutId;
@@ -67,16 +80,16 @@ export const debounce = (func, delay) => {
       func.apply(this, args);
     }, delay);
   };
-}
+};
 
 export const uploadAtt = async (attachment) => {
-  const formData = new FormData()
-  attachment.forEach(file => {
-    formData.append("files", file)
-  })
-  return axios.post("/domain/Document/UploadFile", formData, {
+  const formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append('files', file);
+  });
+  return axios.post('/domain/Document/UploadFile', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
-  })
-}
+  });
+};

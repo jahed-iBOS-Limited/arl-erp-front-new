@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { GetShipPointDDL } from "../../generalInformation/helper";
-import Form from "./form";
-import MotherVesselTransferForm from "./MVesselTransferForm";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { GetShipPointDDL } from '../../generalInformation/helper';
+import Form from './form';
+import MotherVesselTransferForm from './MVesselTransferForm';
 
 const initData = {
   transactionDate: _todayDate(),
-  transactionType: "",
-  shipPoint: "",
-  toShipPoint: "",
-  comment: "",
-  itemType: "",
-  item: "",
-  quantity: "",
+  transactionType: '',
+  shipPoint: '',
+  toShipPoint: '',
+  comment: '',
+  itemType: '',
+  item: '',
+  quantity: '',
 };
 
 const initDataTwo = {
-  fromPort: "",
-  fromMotherVessel: "",
-  toPort: "",
-  toMotherVessel: "",
-  quantity: "",
-  reason: "",
-  organization: "",
-  item: "",
+  fromPort: '',
+  fromMotherVessel: '',
+  toPort: '',
+  toMotherVessel: '',
+  quantity: '',
+  reason: '',
+  organization: '',
+  item: '',
 };
 
 export default function TransferInfoForm() {
@@ -50,7 +50,6 @@ export default function TransferInfoForm() {
 
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
-
   }, [accId, buId]);
 
   const getTransferOutedItems = (values) => {
@@ -66,7 +65,7 @@ export default function TransferInfoForm() {
     let transferInData = [];
     const selectedItems = rowDto?.filter((item) => item?.isSelected);
     if (values?.transactionType?.value === 5 && selectedItems?.length < 1) {
-      return toast.warn("Please select at least one item!");
+      return toast.warn('Please select at least one item!');
     }
     transferInData = selectedItems?.map((item) => {
       return {
@@ -100,10 +99,10 @@ export default function TransferInfoForm() {
 
     const URL =
       transferTypeId === 1
-        ? "/wms/FertilizerOperation/CreateG2GInventoryTransfer"
+        ? '/wms/FertilizerOperation/CreateG2GInventoryTransfer'
         : transferTypeId === 2
-        ? "/tms/LigterLoadUnload/CreateMotherVesselTransfer"
-        : "";
+          ? '/tms/LigterLoadUnload/CreateMotherVesselTransfer'
+          : '';
 
     postData(
       URL,
@@ -150,7 +149,7 @@ export default function TransferInfoForm() {
           e?.toMotherVesselId === values?.toMotherVessel?.value
       );
       if (isExist?.length) {
-        return toast.warn("Duplicate entry is not allowed!");
+        return toast.warn('Duplicate entry is not allowed!');
       }
 
       const newRow = {
@@ -163,7 +162,7 @@ export default function TransferInfoForm() {
         itemId: values?.fromMotherVessel?.itemId,
         transferQuantity: values?.quantity,
         transactionTypeId: 19,
-        transactionTypeName: "Transfer Out",
+        transactionTypeName: 'Transfer Out',
         actionBy: userId,
         accountId: accId,
         businessUnitId: buId,
@@ -217,7 +216,7 @@ export default function TransferInfoForm() {
     setRowDto(_data);
   };
 
-  const title = `${type === "view" ? "View " : "Create"} Transfer Information`;
+  const title = `${type === 'view' ? 'View ' : 'Create'} Transfer Information`;
 
   return (
     <>

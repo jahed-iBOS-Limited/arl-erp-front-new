@@ -1,8 +1,7 @@
-
-import React, { useState } from "react";
-import { getGridData } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import { getGridData } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 import {
   Card,
@@ -10,11 +9,11 @@ import {
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import PaginationSearch from "../../../../_helper/_search";
-import ICustomTable from "../../../../_helper/_customTable";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import PaginationSearch from '../../../../_helper/_search';
+import ICustomTable from '../../../../_helper/_customTable';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -36,7 +35,7 @@ export default function TableRow() {
   // useEffect(() => {
   //   getInsurancePolicyDDL(setTest);
   // }, []);
-  const header = ["Bill No", "Payment Date", "Amount (BDT)"];
+  const header = ['Bill No', 'Payment Date', 'Amount (BDT)'];
   return (
     <>
       <Formik

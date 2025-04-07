@@ -1,25 +1,23 @@
-
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "./../../../../_helper/_loading";
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from './../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  attribute: "",
-  itemCategoryId: "",
-  uom: "",
+  attribute: '',
+  itemCategoryId: '',
+  uom: '',
 };
 
 export default function ItemCategoryAddForm({
@@ -48,11 +46,11 @@ export default function ItemCategoryAddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/ItemAttriute/CreateItemAttribute",
+          '/item/ItemAttriute/CreateItemAttribute',
           warehouseData
         );
         cb(initProduct);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDebitNoteReport_api = async (
   accid,
@@ -9,17 +9,17 @@ export const getDebitNoteReport_api = async (
   setLoading
 ) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await axios.get(
       `/vat/DebitCreditReport/GetDebitNoteReport?accountId=${accid}&BusinessUnitId=${buid}&invoiceId=${invoiceId}`
     );
     if (res.status === 200 && res?.data) {
       if (res?.data?.objRow.length > 0) {
         setter(res?.data);
-        setLoading(false)
+        setLoading(false);
       } else {
-        toast.warning("Data Not Found");
-        setLoading(false)
+        toast.warning('Data Not Found');
+        setLoading(false);
         setter([]);
       }
     }

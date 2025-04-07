@@ -110,7 +110,7 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
         CB();
         commonGetByIdHandler();
         setIsInvoiceValueChange(false);
-      },
+      }
     );
   };
 
@@ -211,7 +211,7 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
           setHtmlContent(obj2);
         }
         setIsWaiting(false);
-      },
+      }
     );
   };
 
@@ -219,7 +219,6 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
     if (bookingRequestId) {
       commonGetByIdHandler();
     }
-
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

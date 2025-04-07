@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCheckPostListDDL = async (userId, accId, unitId, setter) => {
   try {
@@ -12,7 +12,7 @@ export const getCheckPostListDDL = async (userId, accId, unitId, setter) => {
 
     if (res.status === 200 && res?.data) {
       const data = res?.data;
-      console.log("got data", data);
+      console.log('got data', data);
       // const newData = data.map((itm) => {
       //   return {
       //     value: itm?.organizationUnitReffId,
@@ -49,8 +49,8 @@ export const getVehicleInfobyId = async (
     );
     if (res.status === 200 && res?.data) {
       const data = res?.data;
-      setFieldValue("driverName", data?.driverName);
-      setFieldValue("driverContact", data?.driverContact);
+      setFieldValue('driverName', data?.driverName);
+      setFieldValue('driverContact', data?.driverContact);
       // setter(data);
     }
   } catch (error) {
@@ -112,7 +112,7 @@ export const saveCheckpostVehicleInOut = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -136,7 +136,7 @@ export const updateCheckpostVehicleInOut = async (
       payload?.data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Checkout Close successfully");
+      toast.success(res.data?.message || 'Checkout Close successfully');
       setRowDto(updateRowDto);
       payload.cb();
       setDisabled(false);
@@ -154,7 +154,7 @@ export const checkoutAction = async (id, updateRowDto, setRowDto) => {
       `/tms/CheckpostVehicleInOut/CheckOut?InOutId=${id}`
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Checkout successfully");
+      toast.success(res.data?.message || 'Checkout successfully');
       setRowDto(updateRowDto);
     }
   } catch (error) {

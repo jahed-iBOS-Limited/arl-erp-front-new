@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getGatePassGridData, approvalApi } from "./helper";
-import PaginationSearch from "./../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewReport from "../../../../inventoryManagement/GatePass/gatePassApplication/View/viewReport";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getGatePassGridData, approvalApi } from './helper';
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewReport from '../../../../inventoryManagement/GatePass/gatePassApplication/View/viewReport';
+import IView from '../../../../_helper/_helperIcons/_view';
 
 let initData = {};
 
@@ -26,7 +26,7 @@ const GatePassApprovalGrid = ({
   const [rowDto, setRowDto] = useState([]);
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [gridDataId, setGridDataId] = useState("");
+  const [gridDataId, setGridDataId] = useState('');
 
   // const dispatch = useDispatch()
 
@@ -45,7 +45,6 @@ const GatePassApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -58,7 +57,7 @@ const GatePassApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -74,7 +73,7 @@ const GatePassApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -122,7 +121,7 @@ const GatePassApprovalGrid = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -173,7 +172,7 @@ const GatePassApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -230,7 +229,7 @@ const GatePassApprovalGrid = ({
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"
@@ -244,7 +243,7 @@ const GatePassApprovalGrid = ({
                       <th>Date</th>
                       <th>Warehouse Name</th>
                       <th>Total Quantity</th>
-                      <th style={{ width: "200px" }}>To Address</th>
+                      <th style={{ width: '200px' }}>To Address</th>
                       <th>Remarks</th>
                       <th className="text-right pr-3">Actions</th>
                     </tr>
@@ -294,7 +293,7 @@ const GatePassApprovalGrid = ({
                 </table>
               </div>
             ) : (
-              ""
+              ''
             )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

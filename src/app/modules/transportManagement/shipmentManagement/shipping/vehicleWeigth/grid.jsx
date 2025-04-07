@@ -1,9 +1,8 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getVehicleWeightInfo } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getVehicleWeightInfo } from '../helper';
 
 const VehicleWeightTable = ({ id, rowDto, setRowDto }) => {
   const [loading, setLoading] = useState(false);
@@ -40,8 +39,8 @@ const VehicleWeightTable = ({ id, rowDto, setRowDto }) => {
               <th>Delivery Code</th>
               <th>Item Name</th>
               <th>UoM Name</th>
-              <th style={{ width: "180px" }}>Total Bundle</th>
-              <th style={{ width: "180px" }}>Total Pieces</th>
+              <th style={{ width: '180px' }}>Total Bundle</th>
+              <th style={{ width: '180px' }}>Total Pieces</th>
             </tr>
           </thead>
           <tbody>
@@ -59,7 +58,7 @@ const VehicleWeightTable = ({ id, rowDto, setRowDto }) => {
                       type="text"
                       name="bundel"
                       onChange={(e) => {
-                        rowDtoModifier(i, "bundel", e?.target?.value);
+                        rowDtoModifier(i, 'bundel', e?.target?.value);
                       }}
                     />
                   </td>
@@ -70,7 +69,7 @@ const VehicleWeightTable = ({ id, rowDto, setRowDto }) => {
                       type="text"
                       name="pieces"
                       onChange={(e) => {
-                        rowDtoModifier(i, "pieces", e?.target?.value);
+                        rowDtoModifier(i, 'pieces', e?.target?.value);
                       }}
                     />
                   </td>

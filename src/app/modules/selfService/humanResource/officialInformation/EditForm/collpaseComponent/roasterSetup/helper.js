@@ -1,7 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { _todayDate } from './../../../../../../_helper/_todayDate';
-
 
 export const getCalenderDDL_api = async (accId, buId, setter) => {
   try {
@@ -12,9 +11,7 @@ export const getCalenderDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 export const getCalenderRoasterDDL_api = async (accId, buId, setter) => {
   try {
@@ -25,11 +22,8 @@ export const getCalenderRoasterDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
-
 
 // //administrativeId_api
 // export const administrativeId_api = async (id, setter) => {
@@ -42,7 +36,7 @@ export const getCalenderRoasterDDL_api = async (accId, buId, setter) => {
 //       setter(res.data);
 //     }
 //   } catch (error) {
-    
+
 //   }
 // };
 
@@ -55,9 +49,7 @@ export const runningCalender_api = async (roasterHeaderId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //CREATE ROASTER SETUP
@@ -79,13 +71,12 @@ export const createRoasterSetup_api = async (
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };
@@ -104,14 +95,13 @@ export const getRoasterSetupInfoById_api = async (employeeId, setter) => {
         intRosterGroupHeaderId,
         strRosterGroupHeaderName,
         intRunningCalendarId,
-        strRosterCalendarName
-       
+        strRosterCalendarName,
       } = res?.data;
 
       const newData = {
         calenderType: {
           value: intCalendarTypeId,
-          label: strCalendarType
+          label: strCalendarType,
         },
         calender: {
           value: intCalenderGeneralId || intRosterGroupHeaderId,
@@ -119,12 +109,10 @@ export const getRoasterSetupInfoById_api = async (employeeId, setter) => {
         },
         startingCalender: {
           value: intRunningCalendarId,
-          label: strRosterCalendarName
+          label: strRosterCalendarName,
         },
         generateDate: _todayDate(),
         nextChangeDate: _todayDate(),
-        
-        
       };
 
       setter(newData);
@@ -138,17 +126,16 @@ export const editAdministrativeInformation_api = async (
 ) => {
   try {
     const res = await axios.put(
-      "/hcm/AdministrativeInformation/EditAdministrativeInformation",
+      '/hcm/AdministrativeInformation/EditAdministrativeInformation',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
     }
   } catch (error) {
-    
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };
@@ -162,7 +149,5 @@ export const getEployeeGroupDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

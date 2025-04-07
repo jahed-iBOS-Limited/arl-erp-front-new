@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { getGridData } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import { getGridData } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 import {
   Card,
@@ -9,11 +9,11 @@ import {
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import PaginationSearch from "../../../../_helper/_search";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import PaginationSearch from '../../../../_helper/_search';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -37,8 +37,8 @@ export default function TableRow() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          shipment: "",
-          product: "",
+          shipment: '',
+          product: '',
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -70,11 +70,11 @@ export default function TableRow() {
                   {/* Header Start */}
                   <div className="global-form">
                     <div className="d-flex justify-content-between align-items-center">
-                      <div style={{ fontWeight: "900" }}>Unit: APMBD</div>
-                      <div style={{ fontWeight: "900" }}>
+                      <div style={{ fontWeight: '900' }}>Unit: APMBD</div>
+                      <div style={{ fontWeight: '900' }}>
                         PO Number: 46545651
                       </div>
-                      <div style={{ fontWeight: "900", marginRight: "30px" }}>
+                      <div style={{ fontWeight: '900', marginRight: '30px' }}>
                         LC Number: 65465
                       </div>
                     </div>
@@ -86,7 +86,7 @@ export default function TableRow() {
                           options={[]}
                           value={values?.shipment}
                           onChange={(valueOption) => {
-                            setFieldValue("shipment", valueOption);
+                            setFieldValue('shipment', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -99,7 +99,7 @@ export default function TableRow() {
                           label="Product"
                           value={values?.product}
                           onChange={(valueOption) => {
-                            setFieldValue("product", valueOption);
+                            setFieldValue('product', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -134,10 +134,10 @@ export default function TableRow() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "20px" }}>SL</th>
+                            <th style={{ width: '20px' }}>SL</th>
                             <th>Particles</th>
-                            <th style={{ width: "150px" }}>Amount BDT</th>
-                            <th style={{ width: "150px" }}>Amount (BDT)</th>
+                            <th style={{ width: '150px' }}>Amount BDT</th>
+                            <th style={{ width: '150px' }}>Amount (BDT)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -223,13 +223,13 @@ export default function TableRow() {
                             <td></td>
                             <td
                               colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
+                              style={{ fontWeight: '900', textAlign: 'right' }}
                             >
                               Interest Paid
                             </td>
                             <td></td>
                             <td
-                              style={{ fontWeight: "900", textAlign: "right" }}
+                              style={{ fontWeight: '900', textAlign: 'right' }}
                             >
                               12000
                             </td>
@@ -237,7 +237,7 @@ export default function TableRow() {
                           <tr>
                             <td></td>
                             <td
-                              style={{ fontWeight: "900", textAlign: "right" }}
+                              style={{ fontWeight: '900', textAlign: 'right' }}
                               colspan="1"
                             >
                               Deductions
@@ -267,14 +267,14 @@ export default function TableRow() {
                             <td></td>
                             <td
                               colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
+                              style={{ fontWeight: '900', textAlign: 'right' }}
                             >
                               Total Deduction of VAT and TAX
                             </td>
                             <td className="text-right"></td>
                             <td
                               className="text-right"
-                              style={{ fontWeight: "900" }}
+                              style={{ fontWeight: '900' }}
                             >
                               12000
                             </td>
@@ -283,14 +283,14 @@ export default function TableRow() {
                             <td></td>
                             <td
                               colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
+                              style={{ fontWeight: '900', textAlign: 'right' }}
                             >
                               Net Landing Cost Excluding VAT and TAX
                             </td>
                             <td className="text-right"></td>
                             <td
                               className="text-right"
-                              style={{ fontWeight: "900" }}
+                              style={{ fontWeight: '900' }}
                             >
                               12000
                             </td>

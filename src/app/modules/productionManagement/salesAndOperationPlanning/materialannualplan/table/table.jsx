@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import IViewModal from "../../../../_helper/_viewModal";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState, useRef } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import IViewModal from '../../../../_helper/_viewModal';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   getLandingData,
   getYearDDL,
@@ -9,26 +9,26 @@ import {
   getHorizonDDLCreate,
   createMaterialRequirementPlanning,
   getMrplanningInfoDetails_api,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import "./style.css";
-import PRCreateForm from "../createPr/addEditForm";
-import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
-import DetailsView from "./detailsView";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { Formik } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import './style.css';
+import PRCreateForm from '../createPr/addEditForm';
+import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
+import DetailsView from './detailsView';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  year: "",
-  horizonView: "",
-  horizonCreate: "",
+  plant: '',
+  year: '',
+  horizonView: '',
+  horizonCreate: '',
   viewMode: true,
 };
 
@@ -92,7 +92,7 @@ const MaterialReqPlanLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -117,7 +117,7 @@ const MaterialReqPlanLanding = () => {
                     checked={values?.viewMode}
                     onChange={(e) => {
                       resetForm({ ...initData, viewMode: true });
-                      setFieldValue("viewMode", true);
+                      setFieldValue('viewMode', true);
                     }}
                   />
 
@@ -130,7 +130,7 @@ const MaterialReqPlanLanding = () => {
                         checked={!values?.viewMode}
                         onChange={(e) => {
                           resetForm({ ...initData, viewMode: false });
-                          setFieldValue("viewMode", false);
+                          setFieldValue('viewMode', false);
                         }}
                       />
                     </>
@@ -145,12 +145,12 @@ const MaterialReqPlanLanding = () => {
                           <button
                             type="button"
                             className="btn btn-primary mr-2"
-                            style={{ padding: "2px 5px" }}
+                            style={{ padding: '2px 5px' }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -164,9 +164,9 @@ const MaterialReqPlanLanding = () => {
                       <ReactHTMLTableToExcel
                         id="test-table-xls-button-att-reports"
                         className="btn btn-primary"
-                        table={"table-to-xlsx"}
-                        filename={"MaterialRequirementPlan"}
-                        sheet={"Sheet"}
+                        table={'table-to-xlsx'}
+                        filename={'MaterialRequirementPlan'}
+                        sheet={'Sheet'}
                         buttonText="Export Excel"
                       />
                     </div>
@@ -184,8 +184,8 @@ const MaterialReqPlanLanding = () => {
                   label="Plant"
                   placeholder="Plant"
                   onChange={(valueOption) => {
-                    setFieldValue("plant", valueOption);
-                    setFieldValue("year", "");
+                    setFieldValue('plant', valueOption);
+                    setFieldValue('year', '');
                     setGridData([]);
                     getYearDDL(
                       profileData?.accountId,
@@ -207,9 +207,9 @@ const MaterialReqPlanLanding = () => {
                   label="Year"
                   placeholder="Year"
                   onChange={(valueOption) => {
-                    setFieldValue("year", valueOption);
-                    setFieldValue("horizonCreate", "");
-                    setFieldValue("horizonView", "");
+                    setFieldValue('year', valueOption);
+                    setFieldValue('horizonCreate', '');
+                    setFieldValue('horizonView', '');
                     setGridData([]);
                     if (!values?.viewMode) {
                       getHorizonDDLCreate(
@@ -244,7 +244,7 @@ const MaterialReqPlanLanding = () => {
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
-                        setFieldValue("horizonView", valueOption);
+                        setFieldValue('horizonView', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -263,7 +263,7 @@ const MaterialReqPlanLanding = () => {
                           setGridData
                         );
                       }}
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="btn btn-primary"
                       disabled={
                         !values?.plant ||
@@ -286,7 +286,7 @@ const MaterialReqPlanLanding = () => {
                           setLoading
                         );
                       }}
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="btn btn-primary ml-2"
                       disabled={
                         !values?.plant ||
@@ -308,7 +308,7 @@ const MaterialReqPlanLanding = () => {
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
-                        setFieldValue("horizonCreate", valueOption);
+                        setFieldValue('horizonCreate', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -321,7 +321,7 @@ const MaterialReqPlanLanding = () => {
                           resetForm(initData);
                         });
                       }}
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="btn btn-primary"
                       disabled={
                         !values?.plant ||
@@ -342,7 +342,7 @@ const MaterialReqPlanLanding = () => {
                   <h2>{selectedBusinessUnit?.label.toUpperCase()}</h2>
                   <h4
                     style={{
-                      fontWeight: "bold",
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.plant?.label}
@@ -372,13 +372,13 @@ const MaterialReqPlanLanding = () => {
                         {gridData?.objList?.map((item, index) => {
                           const total = isNaN(
                             item?.numItemQty01 +
-                            item?.numItemQty02 +
-                            item?.numItemQty03
+                              item?.numItemQty02 +
+                              item?.numItemQty03
                           )
                             ? 0
                             : item?.numItemQty01 +
-                            item?.numItemQty02 +
-                            item?.numItemQty03;
+                              item?.numItemQty02 +
+                              item?.numItemQty03;
                           return (
                             <tr key={index + 1}>
                               <td>{index + 1}</td>
@@ -393,8 +393,9 @@ const MaterialReqPlanLanding = () => {
                               <td className="text-right">
                                 {numberWithCommas(item?.numItemQty03)}
                               </td>
-                              <td className="text-right">{`${isNaN(total) ? 0 : numberWithCommas(total)
-                                }`}</td>
+                              <td className="text-right">{`${
+                                isNaN(total) ? 0 : numberWithCommas(total)
+                              }`}</td>
                               <td className="text-center printSectionNone">
                                 <span
                                   className="extend"
@@ -406,7 +407,7 @@ const MaterialReqPlanLanding = () => {
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">
-                                        {"Create PR"}
+                                        {'Create PR'}
                                       </Tooltip>
                                     }
                                   >

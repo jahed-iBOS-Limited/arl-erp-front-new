@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
 const initData = {};
-export default function     () {
+export default function () {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
   return (
@@ -28,32 +28,34 @@ export default function     () {
         touched,
       }) => (
         <>
-            {false && <Loading />}
-            <IForm
-              title="Sales Incentive"
-              isHiddenReset
-              isHiddenBack
-              isHiddenSave
-              renderProps={() => {
-                return (
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => {
-                        history.push("/sales-management/ordermanagement/salesincentive/create");
-                      }}
-                    >
-                      Create
-                    </button>
-                  </div>
-                );
-              }}
-            >
-              <Form>
+          {false && <Loading />}
+          <IForm
+            title="Sales Incentive"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return (
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(
+                        '/sales-management/ordermanagement/salesincentive/create'
+                      );
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
+            }}
+          >
+            <Form>
               <div>Landing here...</div>
-              </Form>
-            </IForm>
+            </Form>
+          </IForm>
         </>
       )}
     </Formik>

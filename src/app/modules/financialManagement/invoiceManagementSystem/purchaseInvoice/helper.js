@@ -13,13 +13,13 @@ export const getPurchaseInvoiceGridData = async (
   setLoading,
   pageNo,
   pageSize,
-  search,
+  search
 ) => {
   try {
     setLoading(true);
     const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceSearchPasignation?${searchPath}AccountId=${accId}&UnitId=${buId}&SbuId=${SbuId}&Plant=${plantId}&WearHouse=${wareId}&PurchaseOrganizationId=${purId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `/procurement/SupplierInvoice/GetSupplierInvoiceSearchPasignation?${searchPath}AccountId=${accId}&UnitId=${buId}&SbuId=${SbuId}&Plant=${plantId}&WearHouse=${wareId}&PurchaseOrganizationId=${purId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -33,12 +33,12 @@ export const getPurchaseInvoiceGridData = async (
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const savePurchaseInvoice = async (
@@ -47,13 +47,13 @@ export const savePurchaseInvoice = async (
   setgrnGridData,
   geGrossAmount,
   setGinvoice,
-  setDisabled,
+  setDisabled
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
       `/procurement/SupplierInvoice/CreateSupplierInvoice`,
-      data,
+      data
     );
     // if (res.status === 200) {
     if (res?.data?.statuscode === 200) {
@@ -79,7 +79,7 @@ export const CreateAdvanceForSupplier = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/fino/SupplierInvoiceInfo/CreateAdvanceForSupplier`,
-      data,
+      data
     );
     if (res?.data?.statuscode === 200) {
       toast.success(res.data?.message || 'Submitted successfully');
@@ -99,56 +99,56 @@ export const getPurchaseOrgDDL = async (accId, buId, sbuId, setter) => {
   try {
     const res = await Axios.get(
       // `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}`
-      `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}&SbuId=${sbuId}`,
+      `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDDL?AccountId=${accId}&BusniessUnitId=${buId}&SbuId=${sbuId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSupplierDDL = async (accId, buId, SBUId, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${SBUId}`,
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${SBUId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetAdvanceForSupplierById = async (poId, setter) => {
   try {
     const res = await Axios.get(
-      `/fino/SupplierInvoiceInfo/GetAdvanceForSupplierById?PoId=${poId}`,
+      `/fino/SupplierInvoiceInfo/GetAdvanceForSupplierById?PoId=${poId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPurchaseDDL = async (
@@ -158,11 +158,11 @@ export const getPurchaseDDL = async (
   pogId,
   plantId,
   wId,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PurchaseOrganizationId=${pogId}&PlantId=${plantId}&WarehouseId=${wId}`,
+      `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PurchaseOrganizationId=${pogId}&PlantId=${plantId}&WarehouseId=${wId}`
     );
     if (res.status === 200 && res?.data) {
       const options = res.data
@@ -183,7 +183,7 @@ export const getPurchaseDDL = async (
       setter(options);
       // setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getGRNDDL = async (
@@ -194,23 +194,23 @@ export const getGRNDDL = async (
   wareId,
   refId,
   refCode,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
       // `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}`
-      `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}&ReferenceId=${refId}&ReferenceCode=${refCode}`,
+      `/wms/InventoryTransaction/GetGrnDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${SBUId}&PlantId=${plantId}&WarehouseId=${wareId}&ReferenceId=${refId}&ReferenceCode=${refCode}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSingleDataForEdit = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`,
+      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`
     );
     if (res.status === 200 && res?.data) {
       let setDtoValue = res?.data?.objHeaderDTO;
@@ -254,31 +254,31 @@ export const getSingleDataForEdit = async (id, setter) => {
       };
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSingleData = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`,
+      `/procurement/SupplierInvoice/GetSupplierInvoiceById?SupplierInvoiceId=${id}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const savePurchaseEditInvoice = async (
   data,
   cb,
   setDisabled,
-  singleDataCB,
+  singleDataCB
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.put(
       `/procurement/SupplierInvoice/EditSupplierInvoice`,
-      data,
+      data
     );
     if (res.status === 200) {
       toast.success(res?.message || 'Update successfully');
@@ -313,13 +313,13 @@ export const purchaseInvoiceAttachment_action = async (attachment, cb) => {
 export const purchaseInvoiceImageFile_api = async (id) => {
   try {
     const res = await Axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
     );
 
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const postCancelInvoiceAction = async (POId) => {

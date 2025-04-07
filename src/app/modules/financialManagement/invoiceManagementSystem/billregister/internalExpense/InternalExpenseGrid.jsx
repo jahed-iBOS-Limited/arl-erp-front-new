@@ -1,6 +1,6 @@
-import React from "react";
-import TableGroup from "./tableGroup";
-import TableWidthOutGroup from "./tableWidthOutGroup";
+import React from 'react';
+import TableGroup from './tableGroup';
+import TableWidthOutGroup from './tableWidthOutGroup';
 
 function InternalExpenseGrid({
   gridData,
@@ -18,7 +18,6 @@ function InternalExpenseGrid({
           allGridCheck={allGridCheck}
           itemSlectedHandler={itemSlectedHandler}
           parentValues={parentValues}
-  
         />
       ) : (
         <TableWidthOutGroup

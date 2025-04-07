@@ -1,50 +1,57 @@
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
 
-import { Form, Formik } from "formik";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import { _todayDate } from '../../../_helper/_todayDate';
 
-import * as Yup from "yup";
-import { IInput } from "../../../_helper/_input";
-import NewSelect from "../../../_helper/_select";
+import * as Yup from 'yup';
+import { IInput } from '../../../_helper/_input';
+import NewSelect from '../../../_helper/_select';
 
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import {
-  getDamageReportData,
-  getWareHouseDDL
-} from "../helper";
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import { getDamageReportData, getWareHouseDDL } from '../helper';
 
-const ths = ["Sl", "Warehouse", "Narration", "Damage Date", "Product Code", "Product Name", "UoM", " Damage QTY", "Damage Amount"];
+const ths = [
+  'Sl',
+  'Warehouse',
+  'Narration',
+  'Damage Date',
+  'Product Code',
+  'Product Name',
+  'UoM',
+  ' Damage QTY',
+  'Damage Amount',
+];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
-  toDate: Yup.date().required("To Date is required"),
+  fromDate: Yup.date().required('From Date is required'),
+  toDate: Yup.date().required('To Date is required'),
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
   customerNameDDL: Yup.object().shape({
-    label: Yup.string().required("Customer Name is required"),
-    value: Yup.string().required("Customer Name is required"),
+    label: Yup.string().required('Customer Name is required'),
+    value: Yup.string().required('Customer Name is required'),
   }),
   shippointDDL: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
 });
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
-  shippointDDL: "",
-  customerNameDDL: "",
-  salesOrg: "",
+  reportType: '',
+  shippointDDL: '',
+  customerNameDDL: '',
+  salesOrg: '',
 };
 
 export default function DamageReport() {
@@ -52,7 +59,7 @@ export default function DamageReport() {
 
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [whNameDDL, setWhNameDDL] = useState([])
+  const [whNameDDL, setWhNameDDL] = useState([]);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -73,16 +80,18 @@ export default function DamageReport() {
       values?.toDate,
       setLoading,
       setRowDto
-    )
+    );
   };
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, setWhNameDDL)
+      getWareHouseDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setWhNameDDL
+      );
     }
-  }, [profileData, selectedBusinessUnit])
-
-
+  }, [profileData, selectedBusinessUnit]);
 
   let totalAmount = 0;
   let totalProductQTY = 0;
@@ -125,7 +134,7 @@ export default function DamageReport() {
                             label="Outlet Name"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("whName", valueOption)
+                              setFieldValue('whName', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -138,7 +147,7 @@ export default function DamageReport() {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -150,16 +159,20 @@ export default function DamageReport() {
                             label="To date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                             }}
                           />
                         </div>
-                        <div style={{ marginTop: "18px" }} className="col-lg-1">
+                        <div style={{ marginTop: '18px' }} className="col-lg-1">
                           <button
-                            disabled={!values?.fromDate || !values?.toDate || !values?.whName}
+                            disabled={
+                              !values?.fromDate ||
+                              !values?.toDate ||
+                              !values?.whName
+                            }
                             className="btn btn-primary"
                             onClick={() => {
-                              setPositionHandler(values)
+                              setPositionHandler(values);
                             }}
                             type="button"
                           >
@@ -187,7 +200,7 @@ export default function DamageReport() {
                         <td> {itm.itemName}</td>
                         <td> {itm.uoMName}</td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           {numberWithCommas(itm.damageQty)}
                         </td>
                         <td className="text-right">

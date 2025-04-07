@@ -1,39 +1,38 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData, GetBankDDL, getPoForLcOpen } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import Axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData, GetBankDDL, getPoForLcOpen } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import Axios from 'axios';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik } from "formik";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+} from '../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik } from 'formik';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const header = [
-  "PO No",
-  "LC No",
-  "LC Date",
-  "Expire Date",
-  "LC Amount (FC)",
-  "Currency",
-  "Action",
+  'PO No',
+  'LC No',
+  'LC Date',
+  'Expire Date',
+  'LC Amount (FC)',
+  'Currency',
+  'Action',
 ];
 
 const TableRow = () => {
@@ -83,8 +82,8 @@ const TableRow = () => {
       selectedBusinessUnit?.value,
       null,
       null,
-      "",
-      "",
+      '',
+      '',
       setGridData,
       setIsLoading,
       pageNo,
@@ -104,8 +103,8 @@ const TableRow = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          poNo: "",
-          bankDDL: "",
+          poNo: '',
+          bankDDL: '',
           fromDate: _dateFormatter(_firstDateofMonth()),
           toDate: _dateFormatter(new Date()),
         }}
@@ -126,11 +125,11 @@ const TableRow = () => {
                         if (response?.status === 200) {
                           history.push({
                             pathname:
-                              "/managementImport/transaction/lc-open/create",
+                              '/managementImport/transaction/lc-open/create',
                             state: {
                               poNo: response?.data[0],
                               searchableLandingPoNo: values?.poNo,
-                              routeState: "create",
+                              routeState: 'create',
                             },
                           });
                         }
@@ -153,14 +152,14 @@ const TableRow = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
-                        setFieldValue("poNo", valueOption);
+                        setFieldValue('poNo', valueOption);
                         getLandingData(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           valueOption?.label ?? null,
                           values?.bankDDL?.value ?? null,
-                          "",
-                          "",
+                          '',
+                          '',
                           setGridData,
                           setIsLoading,
                           pageNo,
@@ -178,7 +177,7 @@ const TableRow = () => {
                       label="Bank Name"
                       placeholder="Bank name"
                       onChange={(valueOption) => {
-                        setFieldValue("bankDDL", valueOption);
+                        setFieldValue('bankDDL', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -192,7 +191,7 @@ const TableRow = () => {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -204,7 +203,7 @@ const TableRow = () => {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -237,32 +236,32 @@ const TableRow = () => {
                     gridData?.data?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "100px" }} className="text-left">
+                          <td style={{ width: '100px' }} className="text-left">
                             {item?.ponumber}
                           </td>
-                          <td style={{ width: "100px" }}>{item?.lcnumber}</td>
+                          <td style={{ width: '100px' }}>{item?.lcnumber}</td>
                           <td
                             className="text-center"
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                           >
                             {_dateFormatter(item?.dteLcdate)}
                           </td>
                           <td
                             className="text-center"
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                           >
                             {_dateFormatter(item?.dteLcexpireDate)}
                           </td>
-                          <td style={{ width: "120px" }} className="text-right">
+                          <td style={{ width: '120px' }} className="text-right">
                             {numberWithCommas(
                               (item?.numTotalPiamountFC).toFixed(2)
                             )}
                           </td>
-                          <td style={{ width: "120px" }}>
+                          <td style={{ width: '120px' }}>
                             {item?.currencyName}
                           </td>
                           <td
-                            style={{ width: "150px" }}
+                            style={{ width: '150px' }}
                             className="text-center"
                           >
                             <div className="d-flex justify-content-center">
@@ -287,7 +286,7 @@ const TableRow = () => {
                               >
                                 <IEdit />
                               </span>
-                              <span style={{ minWidth: "50px" }}>
+                              <span style={{ minWidth: '50px' }}>
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">LC Amendment</Tooltip>

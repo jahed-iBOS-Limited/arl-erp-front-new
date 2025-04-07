@@ -50,7 +50,7 @@ export default function FormCmp({
 
   const selectedTotalAmount = gridData?.reduce(
     (a, b) => Number(a) + (b.checked ? Number(b.netPayable) : 0),
-    0,
+    0
   );
 
   return (
@@ -155,7 +155,7 @@ export default function FormCmp({
                             values?.fromDate,
                             values?.toDate,
                             setGridData,
-                            setDisabled,
+                            setDisabled
                           );
                           // InternalTransport_api(
                           //   accountId,
@@ -227,8 +227,8 @@ export default function FormCmp({
                               clickHandler={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.attachmentId,
-                                  ),
+                                    values?.attachmentId
+                                  )
                                 );
                               }}
                             />
@@ -305,7 +305,7 @@ export default function FormCmp({
                                       ...item,
                                       checked: e?.target?.checked,
                                     };
-                                  }),
+                                  })
                                 );
                               }}
                             />
@@ -412,7 +412,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

@@ -1,5 +1,5 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   fetchCardNoDetails,
   initData,
@@ -8,18 +8,18 @@ import {
   setCardNoFormFieldEmpty,
   setGateOutCurrentTime,
   validationSchema,
-} from "./helper";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import IViewModal from "../../../_helper/_viewModal";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from './helper';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import IViewModal from '../../../_helper/_viewModal';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const ForcedGateOutPage = () => {
   // redux
@@ -53,7 +53,7 @@ const ForcedGateOutPage = () => {
   //   use effect
   useEffect(() => {
     if (formikRef?.current) {
-      formikRef.current.setFieldValue("businessUnit", selectedBusinessUnit);
+      formikRef.current.setFieldValue('businessUnit', selectedBusinessUnit);
     }
   }, [selectedBusinessUnit]);
 
@@ -91,24 +91,24 @@ const ForcedGateOutPage = () => {
     return (
       <span
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: "5px",
-          cursor: "pointer",
-          marginTop: "20px",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginLeft: '5px',
+          cursor: 'pointer',
+          marginTop: '20px',
         }}
         onClick={() => {
           setCardNoDetails([]);
-          setFieldValue("cardNo", "");
-          setFieldValue("outTime", "");
-          document.getElementById("cardNo").disabled = false;
-          document.getElementById("cardNo").focus();
+          setFieldValue('cardNo', '');
+          setFieldValue('outTime', '');
+          document.getElementById('cardNo').disabled = false;
+          document.getElementById('cardNo').focus();
         }}
       >
         <i
           style={{
-            color: "blue",
+            color: 'blue',
           }}
           className="fa fa-refresh"
           aria-hidden="true"
@@ -129,8 +129,8 @@ const ForcedGateOutPage = () => {
         saveHandler(values, () => {
           resetForm(initData);
           setCardNoDetails([]);
-          document.getElementById("cardNo").disabled = false;
-          document.getElementById("cardNo").focus();
+          document.getElementById('cardNo').disabled = false;
+          document.getElementById('cardNo').focus();
         });
       }}
       innerRef={formikRef}
@@ -156,7 +156,7 @@ const ForcedGateOutPage = () => {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                     }}
                   />
                 </div>
@@ -172,7 +172,7 @@ const ForcedGateOutPage = () => {
                     QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                   </div>
 
-                  <div style={{ width: "inherit" }}>
+                  <div style={{ width: 'inherit' }}>
                     <InputField
                       id="cardNo"
                       autoFocus
@@ -182,25 +182,25 @@ const ForcedGateOutPage = () => {
                       type="text"
                       onKeyPress={(e) => {
                         e.preventDefault();
-                        if (e.key === "Enter") {
+                        if (e.key === 'Enter') {
                           setGateOutCurrentTime(setFieldValue);
-                          document.getElementById("cardNo").disabled = true;
+                          document.getElementById('cardNo').disabled = true;
 
                           fetchCardNoDetails({
                             values,
                             getCardNoDetails,
-                            cb: function(data) {
+                            cb: function (data) {
                               if (data?.length <= 0) {
                                 setCardNoFormFieldEmpty(setFieldValue);
                               }
                             },
                           });
                         } else {
-                          document.getElementById("cardNo").disabled = false;
+                          document.getElementById('cardNo').disabled = false;
                         }
                       }}
                       onChange={(e) => {
-                        setFieldValue("cardNo", e.target.value);
+                        setFieldValue('cardNo', e.target.value);
                       }}
                     />
                   </div>
@@ -214,7 +214,7 @@ const ForcedGateOutPage = () => {
                     name="outTime"
                     type="time"
                     onChange={(e) => {
-                      setFieldValue("outTime", e.target.value);
+                      setFieldValue('outTime', e.target.value);
                     }}
                   />
                 </div>
@@ -225,13 +225,13 @@ const ForcedGateOutPage = () => {
               {/* Default Button */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -247,7 +247,7 @@ const ForcedGateOutPage = () => {
               <QRCodeScanner
                 QrCodeScannerCB={(result) => {
                   setShowQRCodeScannerModal(false);
-                  setFieldValue("cardNo", result);
+                  setFieldValue('cardNo', result);
                   qrCodeScannerHandler({
                     setFieldValue,
                     values: {

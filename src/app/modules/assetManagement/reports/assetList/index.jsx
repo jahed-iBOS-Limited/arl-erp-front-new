@@ -1,8 +1,6 @@
-import React from "react";
-import AssetListTable  from "./Table/table";
+import React from 'react';
+import AssetListTable from './Table/table';
 
 export default function AssetList() {
-  return (  
-      <AssetListTable />
-  );
-};
+  return <AssetListTable />;
+}

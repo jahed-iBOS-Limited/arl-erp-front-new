@@ -1,46 +1,46 @@
-import axios from "axios";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import customStyles from "../../../../selectCustomStyle";
+import axios from 'axios';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import customStyles from '../../../../selectCustomStyle';
 import {
   GetPendingDeliveryDDLAction,
   getLoadingPointDDLAction,
-} from "../_redux/Actions";
-import IViewModal from "../../../../_helper/_viewModal";
-import QRCodeScanner from "../../../../_helper/qrCodeScanner";
-import NewSelect from "../../../../_helper/_select";
-import TransferOutListModal from "./transferOutListModal";
+} from '../_redux/Actions';
+import IViewModal from '../../../../_helper/_viewModal';
+import QRCodeScanner from '../../../../_helper/qrCodeScanner';
+import NewSelect from '../../../../_helper/_select';
+import TransferOutListModal from './transferOutListModal';
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
 
   loadingPoint: Yup.object().shape({
-    label: Yup.string().required("Loading Point is required"),
-    value: Yup.string().required("Loading Point is required"),
+    label: Yup.string().required('Loading Point is required'),
+    value: Yup.string().required('Loading Point is required'),
   }),
   // pendingDelivery: Yup.object().shape({
   //   label: Yup.string().required("Pending Delivery is required"),
@@ -52,37 +52,37 @@ const validationSchema = Yup.object().shape({
   //     value: Yup.string().required("Labor Supplier Name is required"),
   //   })
   //   .typeError("Labor Supplier Name is required"),
-  supplierName: Yup.object().when("Vehicle", (Vehicle, Schema) => {
+  supplierName: Yup.object().when('Vehicle', (Vehicle, Schema) => {
     if (Vehicle?.isRental)
-      return Schema.required("Vehicle Supplier Name is required");
+      return Schema.required('Vehicle Supplier Name is required');
   }),
-  shipmentdate: Yup.date().required("Shipment Date required"),
+  shipmentdate: Yup.date().required('Shipment Date required'),
 
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
 });
 const validationSchemaEdit = Yup.object().shape({
   lastDistance: Yup.number()
-    .min(0, "Minimum 0 strings")
-    .max(1000000, "Maximum 1000000 strings")
-    .required("Last Distance is required"),
+    .min(0, 'Minimum 0 strings')
+    .max(1000000, 'Maximum 1000000 strings')
+    .required('Last Distance is required'),
 
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
 
-  shipmentdate: Yup.date().required("Shipment Date required"),
-  supplierName: Yup.object().when("Vehicle", (Vehicle, Schema) => {
-    if (Vehicle?.isRental) return Schema.required("Supplier Name is required");
+  shipmentdate: Yup.date().required('Shipment Date required'),
+  supplierName: Yup.object().when('Vehicle', (Vehicle, Schema) => {
+    if (Vehicle?.isRental) return Schema.required('Supplier Name is required');
   }),
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
   // laborSupplierName: Yup.object()
   //   .shape({
@@ -133,8 +133,8 @@ export default function FormCmp({
   useEffect(() => {
     setControls([
       {
-        label: "Select Ship Point",
-        name: "shipPoint",
+        label: 'Select Ship Point',
+        name: 'shipPoint',
         options: ShippointDDL,
         value: initData.shipPoint,
         isDisabled: true,
@@ -153,26 +153,26 @@ export default function FormCmp({
               currentValue
             )
           );
-          setter("loadingPoint", "");
-          setter("pendingDelivery", "");
+          setter('loadingPoint', '');
+          setter('pendingDelivery', '');
         },
       },
       {
-        label: "Get Entry Card No",
-        name: "strCardNo",
+        label: 'Get Entry Card No',
+        name: 'strCardNo',
         value: initData.strCardNo,
-        type: "cardInput",
+        type: 'cardInput',
       },
       {
-        label: "Gate Entry Code",
-        name: "gateEntryCode",
+        label: 'Gate Entry Code',
+        name: 'gateEntryCode',
         value: initData.gateEntryCode,
         isDisabled: false,
-        type: "asyncSelect",
+        type: 'asyncSelect',
       },
       {
-        label: "Select Vehicle",
-        name: "Vehicle",
+        label: 'Select Vehicle',
+        name: 'Vehicle',
         options: vehicleDDL,
         value: initData.Vehicle,
         dependencyFunc: (currentValue, values, setter, label) => {
@@ -185,22 +185,21 @@ export default function FormCmp({
         },
       },
       {
-        label: "Select Route",
-        name: "route",
+        label: 'Select Route',
+        name: 'route',
         options: routeListDDL || [],
         value: initData.route,
         isDisabled: !routeListDDL?.length,
         dependencyFunc: (currentValue, values, setter) => {},
       },
       {
-        label: "Loading Point",
-        name: "loadingPoint",
+        label: 'Loading Point',
+        name: 'loadingPoint',
         options: loadingPointDDL,
         value: initData.loadingPoint,
         isDisabled: false,
       },
     ]);
-
   }, [
     ShippointDDL,
     vehicleDDL,
@@ -224,12 +223,12 @@ export default function FormCmp({
   )?.isGateMaintain;
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    document.getElementById("cardNoInput").disabled = true;
+    document.getElementById('cardNoInput').disabled = true;
     getEntryCodeDDL(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
       (data) => {
         if (data[0]?.strEntryCode) {
-          setFieldValue("gateEntryCode", {
+          setFieldValue('gateEntryCode', {
             value: data[0]?.value,
             label: data[0]?.label,
           });
@@ -246,16 +245,16 @@ export default function FormCmp({
                 (i) => i.veichleId === data[0]?.vehicleId
               );
               if (find) {
-                setFieldValue("laborSupplierName", "");
+                setFieldValue('laborSupplierName', '');
                 vehicleSingeDataView(
                   find?.label,
                   accountId,
                   selectedBusinessUnit?.value,
                   setFieldValue
                 );
-                setFieldValue("Vehicle", find || "");
-                setFieldValue("supplierName", "");
-                setFieldValue("laborSupplierName", "");
+                setFieldValue('Vehicle', find || '');
+                setFieldValue('supplierName', '');
+                setFieldValue('laborSupplierName', '');
                 const controlsModify = [...controls];
                 controlsModify[2].isDisabled = true;
                 setControls(controlsModify);
@@ -267,10 +266,10 @@ export default function FormCmp({
             }
           );
         } else {
-          document.getElementById("cardNoInput").disabled = false;
-          document.getElementById("cardNoInput").focus();
-          setFieldValue("strCardNo", "");
-          toast.warn("Card Number Not Found");
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
+          setFieldValue('strCardNo', '');
+          toast.warn('Card Number Not Found');
         }
       }
     );
@@ -295,11 +294,11 @@ export default function FormCmp({
         validationSchema={isEdit ? validationSchemaEdit : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           if (isGateMaintain && !values?.gateEntryCode?.value)
-            return toast.warn("Gate Entry Code is required");
+            return toast.warn('Gate Entry Code is required');
           saveHandler(values, () => {
             resetForm(initData);
-            document.getElementById("cardNoInput").disabled = false;
-            document.getElementById("cardNoInput").focus();
+            document.getElementById('cardNoInput').disabled = false;
+            document.getElementById('cardNoInput').focus();
             dispatch(
               GetPendingDeliveryDDLAction(
                 values?.shipPoint?.value,
@@ -326,11 +325,11 @@ export default function FormCmp({
                 <div className="col-lg-12 p-0 m-0">
                   <div
                     className="row global-form m-0"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingBottom: '10px' }}
                   >
                     <>
                       {controls.map((itm) => {
-                        return itm?.type === "asyncSelect" ? (
+                        return itm?.type === 'asyncSelect' ? (
                           isGateMaintain && (
                             <>
                               <div className="col-lg-3">
@@ -338,22 +337,22 @@ export default function FormCmp({
                                 <SearchAsyncSelect
                                   selectedValue={values[itm?.name]}
                                   handleChange={(valueOption) => {
-                                    setFieldValue(itm?.name, valueOption || "");
+                                    setFieldValue(itm?.name, valueOption || '');
                                     const find = vehicleDDL?.find(
                                       (i) =>
                                         i.veichleId === valueOption?.vehicleId
                                     );
                                     if (find) {
-                                      setFieldValue("laborSupplierName", "");
+                                      setFieldValue('laborSupplierName', '');
                                       vehicleSingeDataView(
                                         find?.label,
                                         accountId,
                                         selectedBusinessUnit?.value,
                                         setFieldValue
                                       );
-                                      setFieldValue("Vehicle", find || "");
-                                      setFieldValue("supplierName", "");
-                                      setFieldValue("laborSupplierName", "");
+                                      setFieldValue('Vehicle', find || '');
+                                      setFieldValue('supplierName', '');
+                                      setFieldValue('laborSupplierName', '');
                                       const controlsModify = [...controls];
                                       controlsModify[2].isDisabled = true;
                                       setControls(controlsModify);
@@ -378,31 +377,31 @@ export default function FormCmp({
                               </div>
                             </>
                           )
-                        ) : itm?.type === "cardInput" ? (
+                        ) : itm?.type === 'cardInput' ? (
                           isGateMaintain && (
                             <div
                               className="col-lg-3 d-flex"
                               style={{
-                                position: "relative",
+                                position: 'relative',
                               }}
                             >
                               <div
                                 style={{
-                                  position: "absolute",
+                                  position: 'absolute',
                                   right: 0,
                                   top: 0,
-                                  cursor: "pointer",
-                                  color: "blue",
-                                  zIndex: "1",
+                                  cursor: 'pointer',
+                                  color: 'blue',
+                                  zIndex: '1',
                                 }}
                                 onClick={() => {
                                   setQRCodeScannerModal(true);
                                 }}
                               >
-                                QR Code{" "}
+                                QR Code{' '}
                                 <i class="fa fa-qrcode" aria-hidden="true"></i>
                               </div>
-                              <div style={{ width: "inherit" }}>
+                              <div style={{ width: 'inherit' }}>
                                 <InputField
                                   id="cardNoInput"
                                   autoFocus
@@ -411,15 +410,15 @@ export default function FormCmp({
                                   name="strCardNo"
                                   type="text"
                                   onKeyPress={(e) => {
-                                    if (e.key === "Enter") {
+                                    if (e.key === 'Enter') {
                                       document.getElementById(
-                                        "cardNoInput"
+                                        'cardNoInput'
                                       ).disabled = true;
                                       getEntryCodeDDL(
                                         `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
                                         (data) => {
                                           if (data[0]?.strEntryCode) {
-                                            setFieldValue("gateEntryCode", {
+                                            setFieldValue('gateEntryCode', {
                                               value: data[0]?.value,
                                               label: data[0]?.label,
                                             });
@@ -439,8 +438,8 @@ export default function FormCmp({
                                                 );
                                                 if (find) {
                                                   setFieldValue(
-                                                    "laborSupplierName",
-                                                    ""
+                                                    'laborSupplierName',
+                                                    ''
                                                   );
                                                   vehicleSingeDataView(
                                                     find?.label,
@@ -449,16 +448,16 @@ export default function FormCmp({
                                                     setFieldValue
                                                   );
                                                   setFieldValue(
-                                                    "Vehicle",
-                                                    find || ""
+                                                    'Vehicle',
+                                                    find || ''
                                                   );
                                                   setFieldValue(
-                                                    "supplierName",
-                                                    ""
+                                                    'supplierName',
+                                                    ''
                                                   );
                                                   setFieldValue(
-                                                    "laborSupplierName",
-                                                    ""
+                                                    'laborSupplierName',
+                                                    ''
                                                   );
                                                   const controlsModify = [
                                                     ...controls,
@@ -476,46 +475,46 @@ export default function FormCmp({
                                             );
                                           } else {
                                             document.getElementById(
-                                              "cardNoInput"
+                                              'cardNoInput'
                                             ).disabled = false;
                                             document
-                                              .getElementById("cardNoInput")
+                                              .getElementById('cardNoInput')
                                               .focus();
-                                            setFieldValue("strCardNo", "");
-                                            toast.warn("Card Number Not Found");
+                                            setFieldValue('strCardNo', '');
+                                            toast.warn('Card Number Not Found');
                                           }
                                         }
                                       );
                                     }
                                   }}
                                   onChange={(e) => {
-                                    setFieldValue("strCardNo", e.target.value);
+                                    setFieldValue('strCardNo', e.target.value);
                                   }}
                                 />
                               </div>
                               <span
                                 style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  marginLeft: "5px",
-                                  cursor: "pointer",
-                                  marginTop: "20px",
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  marginLeft: '5px',
+                                  cursor: 'pointer',
+                                  marginTop: '20px',
                                 }}
                                 onClick={() => {
                                   document.getElementById(
-                                    "cardNoInput"
+                                    'cardNoInput'
                                   ).disabled = false;
                                   document
-                                    .getElementById("cardNoInput")
+                                    .getElementById('cardNoInput')
                                     .focus();
                                   resetForm(initData);
-                                  setFieldValue("strCardNo", "");
+                                  setFieldValue('strCardNo', '');
                                 }}
                               >
                                 <i
                                   style={{
-                                    color: "blue",
+                                    color: 'blue',
                                   }}
                                   className="fa fa-refresh"
                                   aria-hidden="true"
@@ -554,7 +553,7 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <label>Estimated of Arrival Date </label>
                         <ICalendar
-                          value={values.estimatedTimeofArrival || ""}
+                          value={values.estimatedTimeofArrival || ''}
                           name="estimatedTimeofArrival"
                           disabled={id}
                         />
@@ -562,14 +561,14 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <label>Planned Loading Time </label>
                         <ICalendar
-                          value={values.planedLoadingTime || ""}
+                          value={values.planedLoadingTime || ''}
                           name="planedLoadingTime"
                           disabled={id}
                         />
                       </div>
                       <div className="col-lg-3">
                         <Field
-                          value={values.driverName || ""}
+                          value={values.driverName || ''}
                           placeholder="Driver Name"
                           name="driverName"
                           label="Driver Name"
@@ -580,7 +579,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-3">
                         <Field
-                          value={values.driverContactNo || ""}
+                          value={values.driverContactNo || ''}
                           placeholder="Driver Contact No"
                           name="driverContactNo"
                           label="Driver Contact No"
@@ -589,9 +588,9 @@ export default function FormCmp({
                           disabled
                         />
                       </div>
-                      <div className="col-lg-3" style={{ display: "none" }}>
+                      <div className="col-lg-3" style={{ display: 'none' }}>
                         <Field
-                          value={values.driverId || ""}
+                          value={values.driverId || ''}
                           placeholder="Driver Id"
                           name="driverId"
                           label="Driver Id"
@@ -607,15 +606,15 @@ export default function FormCmp({
                             <Select
                               options={
                                 PendingDeliveryDDL || {
-                                  value: "",
-                                  label: "",
+                                  value: '',
+                                  label: '',
                                 }
                               }
                               placeholder="Select Transfer List"
                               value={
                                 values.pendingDelivery || {
-                                  value: "",
-                                  label: "",
+                                  value: '',
+                                  label: '',
                                 }
                               }
                               onChange={(valueOption) => {
@@ -640,7 +639,7 @@ export default function FormCmp({
                           <SearchAsyncSelect
                             selectedValue={values.supplierName}
                             handleChange={(valueOption) => {
-                              setFieldValue("supplierName", valueOption);
+                              setFieldValue('supplierName', valueOption);
                               // setFieldValue("item", "");
                               // setFieldValue("referenceNo", "");
                             }}
@@ -676,7 +675,7 @@ export default function FormCmp({
                             selectedValue={values.truckTrallerSupplier}
                             handleChange={(valueOption) => {
                               setFieldValue(
-                                "truckTrallerSupplier",
+                                'truckTrallerSupplier',
                                 valueOption
                               );
                             }}
@@ -703,19 +702,19 @@ export default function FormCmp({
                           />
                         </div>
                       )}
-                      <div style={{ marginTop: "18px" }}>
+                      <div style={{ marginTop: '18px' }}>
                         <label>
                           <input
                             type="checkbox"
                             onChange={() => {
                               setFieldValue(
-                                "isRequiredLbrSplrName",
+                                'isRequiredLbrSplrName',
                                 !values?.isRequiredLbrSplrName
                               );
                             }}
                             checked={values?.isRequiredLbrSplrName}
                           />
-                          <span style={{ marginLeft: "5px" }}>
+                          <span style={{ marginLeft: '5px' }}>
                             is Required Labor Supplier Name
                           </span>
                         </label>
@@ -724,9 +723,9 @@ export default function FormCmp({
                         <div className="col-lg-3">
                           <label>Labor Supplier Name</label>
                           <SearchAsyncSelect
-                            selectedValue={values.laborSupplierName || ""}
+                            selectedValue={values.laborSupplierName || ''}
                             handleChange={(valueOption) => {
-                              setFieldValue("laborSupplierName", valueOption);
+                              setFieldValue('laborSupplierName', valueOption);
                               // setFieldValue("item", "");
                               // setFieldValue("referenceNo", "");
                             }}
@@ -762,16 +761,16 @@ export default function FormCmp({
                           options={packerList || []}
                           value={values?.packer}
                           onChange={(valueOption) => {
-                            setFieldValue("packer", valueOption);
+                            setFieldValue('packer', valueOption);
                           }}
                         />
                       </div>
                       <div className="col-lg-12"></div>
                       <div
                         className={
-                          "col d-flex justify-content-between align-items-center flex-4"
+                          'col d-flex justify-content-between align-items-center flex-4'
                         }
-                        style={{ marginTop: "10px", flex: 4 }}
+                        style={{ marginTop: '10px', flex: 4 }}
                       >
                         <div>
                           <b className="mr-2">
@@ -862,7 +861,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Transfer Id</th>
                             <th>Transfer No</th>
                             <th>Ship To Warehouse</th>
@@ -941,7 +940,7 @@ export default function FormCmp({
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNo", result);
+                        setFieldValue('strCardNo', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
@@ -957,7 +956,7 @@ export default function FormCmp({
               )}
               <IViewModal
                 show={showTransferOutModal}
-                title={"Shipment Transfer Out"}
+                title={'Shipment Transfer Out'}
                 onHide={() => {
                   setShowTransferOutModal(false);
                 }}
@@ -971,14 +970,14 @@ export default function FormCmp({
               </IViewModal>
               <button
                 type="button"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 // onSubmit={() => handleSubmit()}
                 onClick={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

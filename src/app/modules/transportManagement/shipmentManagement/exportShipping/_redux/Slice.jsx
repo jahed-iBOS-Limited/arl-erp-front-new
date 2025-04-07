@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   salesOfficeDDL: [],
   soldToPartyDDL: [],
   BUsalesOrgIncotermDDL: [],
@@ -18,19 +18,19 @@ const initState = {
   pendingDeliveryDDL: [],
   gridData: [],
   incompleteGridData: [],
-  deliverydata: "",
-  singleData: "",
-  vehicleSingeData: "",
-  deliveryItemVolumeInfo: "",
-  itemWeightInfo: "",
+  deliverydata: '',
+  singleData: '',
+  vehicleSingeData: '',
+  deliveryItemVolumeInfo: '',
+  itemWeightInfo: '',
   shipPointDDL: [],
   stockStatusOnShipment: false,
   isSubsidyRunning: false,
-  vehicleNo: "",
+  vehicleNo: '',
 };
 
 export const shipmentSlice = createSlice({
-  name: "shipment",
+  name: 'shipment',
   initialState: initState,
   reducers: {
     SetSalesOfficeDDL: (state, action) => {
@@ -107,15 +107,15 @@ export const shipmentSlice = createSlice({
       state.vehicleSingeData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
-      state.vehicleSingeData = "";
-      state.vehicleNo = "";
+      state.singleData = '';
+      state.vehicleSingeData = '';
+      state.vehicleNo = '';
     },
     setGridEmpty: (state) => {
       state.incompleteGridData = [];
       state.gridData = [];
-      state.vehicleSingeData = "";
-      state.vehicleNo = "";
+      state.vehicleSingeData = '';
+      state.vehicleNo = '';
     },
 
     SetDeliveryItemVolumeInfo: (state, action) => {

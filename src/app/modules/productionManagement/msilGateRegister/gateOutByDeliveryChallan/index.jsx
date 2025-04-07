@@ -1,31 +1,31 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import PaginationSearch from "./../../../_helper/_search";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import GateOutDelivary from "./gateOutDelivary";
-import PendingTable from "./table";
-import ChallanViewModal from "./viewModal";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import PaginationSearch from './../../../_helper/_search';
+import PaginationTable from './../../../_helper/_tablePagination';
+import GateOutDelivary from './gateOutDelivary';
+import PendingTable from './table';
+import ChallanViewModal from './viewModal';
 
 const initData = {
-  type: { value: 1, label: "Client Vehicle" },
-  businessUnit: "",
-  shipPoint: "",
+  type: { value: 1, label: 'Client Vehicle' },
+  businessUnit: '',
+  shipPoint: '',
 };
 
 function GateOutByDeliveryChallanLanding() {
@@ -38,7 +38,8 @@ function GateOutByDeliveryChallanLanding() {
   const [type, setType] = useState(1);
   const [fromDate, setFromDate] = useState(_todayDate());
   const [toDate, setToDate] = useState(_todayDate());
-  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] = useAxiosGet();
+  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] =
+    useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
@@ -57,9 +58,9 @@ function GateOutByDeliveryChallanLanding() {
   }, shallowEqual);
 
   const [selectedBU, setSelectedBU] = useState(selectedBusinessUnit);
-  const setPaginationHandler = (pageNo, pageSize, values, searchValue = "") => {
-    const fDate = fromDate ? `&fromDate=${fromDate}` : "";
-    const tDate = toDate ? `&toDate=${toDate}` : "";
+  const setPaginationHandler = (pageNo, pageSize, values, searchValue = '') => {
+    const fDate = fromDate ? `&fromDate=${fromDate}` : '';
+    const tDate = toDate ? `&toDate=${toDate}` : '';
     const url = searchValue
       ? `/mes/MSIL/VehicleGateOutLanding?intBusinessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&status=false&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
       : `/mes/MSIL/VehicleGateOutLanding?intGateOutTypeId=${type}&intBusinessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&status=false&pageNo=${pageNo}&pageSize=${pageSize}${fDate}${tDate}`;
@@ -74,10 +75,11 @@ function GateOutByDeliveryChallanLanding() {
   };
 
   const callAfterGateOut = () => {
-    const fDate = fromDate ? `&fromDate=${fromDate}` : "";
-    const tDate = toDate ? `&toDate=${toDate}` : "";
+    const fDate = fromDate ? `&fromDate=${fromDate}` : '';
+    const tDate = toDate ? `&toDate=${toDate}` : '';
     getRowData(
-      `/mes/MSIL/VehicleGateOutLanding?intGateOutTypeId=${type}&intBusinessUnitId=${selectedBU?.value
+      `/mes/MSIL/VehicleGateOutLanding?intGateOutTypeId=${type}&intBusinessUnitId=${
+        selectedBU?.value
       }&shipPointId=${initData?.shipPoint?.value}&status=false&pageNo=${pageNo}&pageSize=${pageSize}${fDate}${tDate}`
     );
   };
@@ -87,15 +89,16 @@ function GateOutByDeliveryChallanLanding() {
       initData.businessUnit = selectedBusinessUnit;
       setBu(selectedBusinessUnit?.value);
       setLoading(true);
-      getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${profileData?.userId
+      getShipPoint(
+        `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${
+          profileData?.userId
         }`,
         (data) => {
           initData.shipPoint = data[0];
           setLoading(false);
         }
-      )
+      );
     }
-
   }, []);
 
   return (
@@ -103,16 +106,14 @@ function GateOutByDeliveryChallanLanding() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate Out"}>
-                <CardHeaderToolbar>
-
-                </CardHeaderToolbar>
+              <CardHeader title={'Gate Out'}>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 {(lodar || shipPointLoader || loading) && <Loading />}
@@ -124,7 +125,7 @@ function GateOutByDeliveryChallanLanding() {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
                         }}
@@ -137,7 +138,7 @@ function GateOutByDeliveryChallanLanding() {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
                         }}
@@ -158,19 +159,22 @@ function GateOutByDeliveryChallanLanding() {
                             label="Business Unit"
                             onChange={(valueOption) => {
                               if (valueOption) {
-                                setFieldValue("shipPoint", "");
-                                setFieldValue("businessUnit", valueOption);
-                                getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
+                                setFieldValue('shipPoint', '');
+                                setFieldValue('businessUnit', valueOption);
+                                getShipPoint(
+                                  `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                                   (data) => {
-                                    if (data?.length === 0) return toast.warn("No Ship Point Found")
-                                    setFieldValue("shipPoint", data[0]);
-                                  })
+                                    if (data?.length === 0)
+                                      return toast.warn('No Ship Point Found');
+                                    setFieldValue('shipPoint', data[0]);
+                                  }
+                                );
                                 setRowData([]);
                                 setBu(valueOption?.value);
                                 setSelectedBU(valueOption);
                               } else {
-                                setFieldValue("businessUnit", "");
-                                setFieldValue("shipPoint", "");
+                                setFieldValue('businessUnit', '');
+                                setFieldValue('shipPoint', '');
                                 setRowData([]);
                                 setBu(selectedBusinessUnit?.value);
                                 setSelectedBU({});
@@ -187,10 +191,10 @@ function GateOutByDeliveryChallanLanding() {
                             label="Ship Point"
                             onChange={(valueOption) => {
                               if (valueOption) {
-                                setFieldValue("shipPoint", valueOption);
+                                setFieldValue('shipPoint', valueOption);
                                 setRowData([]);
                               } else {
-                                setFieldValue("shipPoint", "");
+                                setFieldValue('shipPoint', '');
                                 setRowData([]);
                               }
                             }}
@@ -224,19 +228,19 @@ function GateOutByDeliveryChallanLanding() {
                             label="Gate Out Type"
                             name="type"
                             options={[
-                              { value: 2, label: "Visitor Vehicle" },
-                              { value: 3, label: "Rental Vehicle" },
-                              { value: 1, label: "Client Vehicle" },
+                              { value: 2, label: 'Visitor Vehicle' },
+                              { value: 3, label: 'Rental Vehicle' },
+                              { value: 1, label: 'Client Vehicle' },
                             ]}
                             onChange={(valueOption) => {
                               if (valueOption) {
-                                setFieldValue("type", valueOption);
+                                setFieldValue('type', valueOption);
                                 setType(valueOption?.value);
                                 setRowData([]);
                               } else {
-                                setFieldValue("type", {
+                                setFieldValue('type', {
                                   value: 1,
-                                  label: "Client Vehicle",
+                                  label: 'Client Vehicle',
                                 });
                                 setType(1);
                                 setRowData([]);
@@ -246,14 +250,14 @@ function GateOutByDeliveryChallanLanding() {
                         </div>
                         <div className="col-lg-3">
                           <button
-                            style={{ marginTop: "18px" }}
+                            style={{ marginTop: '18px' }}
                             className="btn btn-primary ml-2"
                             disabled={!values.type || !values?.businessUnit}
                             onClick={() => {
                               const fDate = fromDate
                                 ? `&fromDate=${fromDate}`
-                                : "";
-                              const tDate = toDate ? `&toDate=${toDate}` : "";
+                                : '';
+                              const tDate = toDate ? `&toDate=${toDate}` : '';
                               getRowData(
                                 `/mes/MSIL/VehicleGateOutLanding?intGateOutTypeId=${values.type?.value}&intBusinessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&status=false&pageNo=${pageNo}&pageSize=${pageSize}${fDate}${tDate}`
                               );
@@ -262,7 +266,7 @@ function GateOutByDeliveryChallanLanding() {
                             Show
                           </button>
                           <button
-                            style={{ marginTop: "18px" }}
+                            style={{ marginTop: '18px' }}
                             className="btn btn-primary ml-2"
                             disabled={!values.type}
                             onClick={() => {

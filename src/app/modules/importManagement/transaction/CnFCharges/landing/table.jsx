@@ -1,28 +1,27 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
 
 const header = [
-  "SL",
-  "PO No",
-  "Bill No",
-  "Pay Date",
-  "Customs",
-  "Port",
-  "Shipping",
-  "Transport",
-  "Cnf/Other",
+  'SL',
+  'PO No',
+  'Bill No',
+  'Pay Date',
+  'Customs',
+  'Port',
+  'Shipping',
+  'Transport',
+  'Cnf/Other',
 ];
 
 const CnFChargesLanding = () => {
@@ -69,7 +68,7 @@ const CnFChargesLanding = () => {
           <CardHeaderToolbar>
             <button
               onClick={() =>
-                history.push("/managementImport/transaction/cnf-charges/create")
+                history.push('/managementImport/transaction/cnf-charges/create')
               }
               className="btn btn-primary"
             >
@@ -80,9 +79,8 @@ const CnFChargesLanding = () => {
         <CardBody>
           {isloading && <Loading />}
           <ICustomTable ths={header}>
-
             <tr>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 1
               </td>
               <td>

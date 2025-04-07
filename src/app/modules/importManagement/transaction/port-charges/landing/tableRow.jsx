@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import Loading from '../../../../_helper/_loading';
 import {
   getCNFPaymentPortCharge,
   getPortCharge,
   getPortChargeLanding,
   getShipmentDDL,
-} from "../helper";
-import serviceBreakdonw from "../serviceBreakdonw.png";
+} from '../helper';
+import serviceBreakdonw from '../serviceBreakdonw.png';
 
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   clickSaveBtn,
   disabledFunction,
   initData,
   setDataToGridData,
-} from "../utils";
+} from '../utils';
 // import ICustomTable from "../../../../_helper/_customTable";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import BreakDownModal from "../breakDown/breakDownModal";
-import ClosingModal from "../closing/closing";
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import BreakDownModal from '../breakDown/breakDownModal';
+import ClosingModal from '../closing/closing';
 // const header = [
 //   "SL",
 //   "Charge Type",
@@ -86,34 +86,34 @@ export default function TableRow() {
                 <div
                   className="d-flex align-items-center justify-content-center"
                   style={{
-                    flexWrap: "wrap",
-                    gap: "10px",
+                    flexWrap: 'wrap',
+                    gap: '10px',
                   }}
                 >
                   <span>
-                    <span style={{ fontWeight: "900" }}>
+                    <span style={{ fontWeight: '900' }}>
                       Beneficiary Name :
-                    </span>{" "}<br/>
+                    </span>{' '}
+                    <br />
                     {data?.beneficiaryName}
                   </span>
                   <span className="mx-4">
-                    <span style={{ fontWeight: "900" }}>PO No:</span>
-                    <br/>
+                    <span style={{ fontWeight: '900' }}>PO No:</span>
+                    <br />
                     {data?.poNo}
                   </span>
                   <span>
-                    <span style={{ fontWeight: "900" }}>LC No :</span>{" "}
-                    <br/>
+                    <span style={{ fontWeight: '900' }}>LC No :</span> <br />
                     {data?.lcNo}
                   </span>
                   <span className="ml-4">
-                    <span style={{ fontWeight: "900" }}>Total PI Amount :</span>{" "}
-                    <br/>
+                    <span style={{ fontWeight: '900' }}>Total PI Amount :</span>{' '}
+                    <br />
                     {numberWithCommas(data?.totalPiAmount)}
                   </span>
                   <span className="ml-4">
-                    <span style={{ fontWeight: "900" }}>Vassel Name :</span>{" "}
-                    <br/>
+                    <span style={{ fontWeight: '900' }}>Vassel Name :</span>{' '}
+                    <br />
                     {data?.vasselName}
                   </span>
                 </div>
@@ -130,8 +130,8 @@ export default function TableRow() {
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
                           setData(valueOption ? { ...data } : {});
-                          setFieldValue("shipmentExchangeRate", "");
-                          setFieldValue("poLcDDL", valueOption);
+                          setFieldValue('shipmentExchangeRate', '');
+                          setFieldValue('poLcDDL', valueOption);
                           setPolcNo(valueOption);
                           getShipmentDDL(
                             profileData?.accountId,
@@ -139,7 +139,7 @@ export default function TableRow() {
                             valueOption?.label,
                             setShipmentDDL
                           );
-                          setFieldValue("shipmentDDL", "");
+                          setFieldValue('shipmentDDL', '');
                           getPortCharge(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -159,9 +159,9 @@ export default function TableRow() {
                         label="Shipment"
                         value={values?.shipmentDDL}
                         onChange={(valueOption) => {
-                          setFieldValue("shipmentDDL", valueOption);
+                          setFieldValue('shipmentDDL', valueOption);
                           setShipmentId(valueOption?.value);
-                          setFieldValue("shipmentExchangeRate", "");
+                          setFieldValue('shipmentExchangeRate', '');
                           getPortChargeLanding(
                             profileData?.accountId,
                             selectedBusinessUnit.value,
@@ -189,18 +189,18 @@ export default function TableRow() {
                   <div className="text-wrap">
                     <div className="row mt-2 ">
                       <span className="col-auto">
-                        <span style={{ fontWeight: "900" }}>
+                        <span style={{ fontWeight: '900' }}>
                           {`Shipment Invoice Amount${
                             data?.currencyName
-                              ? " (" + data?.currencyName + ")"
-                              : ""
+                              ? ' (' + data?.currencyName + ')'
+                              : ''
                           } :`}
-                        </span>{" "}
+                        </span>{' '}
                         {numberWithCommas(data?.shipmentInvoiceAmountFc)}
                       </span>
 
                       <div className="col-auto d-flex">
-                        <label style={{ fontWeight: "900", width: "8rem" }}>
+                        <label style={{ fontWeight: '900', width: '8rem' }}>
                           Exchange Rate:
                         </label>
                         <input
@@ -212,8 +212,8 @@ export default function TableRow() {
                           min="0"
                           onChange={(e) => {
                             setFieldValue(
-                              "shipmentExchangeRate",
-                              e?.target?.value ? +e?.target.value : ""
+                              'shipmentExchangeRate',
+                              e?.target?.value ? +e?.target.value : ''
                             );
 
                             setData({
@@ -230,16 +230,16 @@ export default function TableRow() {
                               gridData,
                               setGridData,
                               2,
-                              "vendor",
-                              "CnF Payment"
+                              'vendor',
+                              'CnF Payment'
                             );
                           }}
                         />
                       </div>
                       <span className="col-auto">
-                        <span style={{ fontWeight: "900" }}>
+                        <span style={{ fontWeight: '900' }}>
                           Shipment Invoice Amount(BDT) :
-                        </span>{" "}
+                        </span>{' '}
                         {numberWithCommas(
                           data?.shippmentInvoiceAmountBDT?.toFixed(2)
                         ) || 0}
@@ -263,7 +263,7 @@ export default function TableRow() {
                                   <th>Total Amount (Including VAT)</th>
                                   <th>VAT Amount</th>
                                   <th>Payment/Due Date</th>
-                                  <th style={{ width: "150px" }}>Action</th>
+                                  <th style={{ width: '150px' }}>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -277,12 +277,12 @@ export default function TableRow() {
                                               {index + 1}
                                             </span>
                                           </td>
-                                          <td style={{ width: "220px" }}>
+                                          <td style={{ width: '220px' }}>
                                             <span className="pl-2">
                                               {item?.label}
                                             </span>
                                           </td>
-                                          <td style={{ width: "240px" }}>
+                                          <td style={{ width: '240px' }}>
                                             <NewSelect
                                               name="vendor"
                                               menuPosition="fixed"
@@ -297,11 +297,11 @@ export default function TableRow() {
                                               options={item?.row}
                                               onChange={(valueOption) => {
                                                 setFieldValue(
-                                                  "vendor",
+                                                  'vendor',
                                                   valueOption
                                                 );
                                                 setDataToGridData(
-                                                  "vendor",
+                                                  'vendor',
                                                   index,
                                                   valueOption,
                                                   gridData,
@@ -327,7 +327,7 @@ export default function TableRow() {
                                                 disabledFunction(
                                                   values?.shipmentExchangeRate,
                                                   item?.label,
-                                                  "vendor",
+                                                  'vendor',
                                                   gridData,
                                                   index
                                                 )
@@ -336,7 +336,7 @@ export default function TableRow() {
                                           </td>
                                           <td>
                                             <InputField
-                                              style={{ width: "135px" }}
+                                              style={{ width: '135px' }}
                                               name="serviceReceiveDate"
                                               value={_dateFormatter(
                                                 item?.serviceReceiveDate
@@ -347,7 +347,7 @@ export default function TableRow() {
                                                 //   e?.target?.value
                                                 // );
                                                 setDataToGridData(
-                                                  "serviceReceiveDate",
+                                                  'serviceReceiveDate',
                                                   index,
                                                   e?.target?.value,
                                                   gridData,
@@ -360,17 +360,17 @@ export default function TableRow() {
                                               disabled={item?.status === true}
                                             />
                                           </td>
-                                          <td style={{ width: "150px" }}>
+                                          <td style={{ width: '150px' }}>
                                             <InputField
                                               name="totalAmount"
                                               value={item?.totalAmount}
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "totalAmount",
+                                                  'totalAmount',
                                                   e?.target?.value
                                                 );
                                                 setDataToGridData(
-                                                  "totalAmount",
+                                                  'totalAmount',
                                                   index,
                                                   e?.target?.value,
                                                   gridData,
@@ -383,17 +383,17 @@ export default function TableRow() {
                                               disabled={item?.status === true}
                                             />
                                           </td>
-                                          <td style={{ width: "100px" }}>
+                                          <td style={{ width: '100px' }}>
                                             <InputField
                                               value={item?.vatAmount}
                                               name="vatAmount"
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "vatAmount",
+                                                  'vatAmount',
                                                   e?.target?.value
                                                 );
                                                 setDataToGridData(
-                                                  "vatAmount",
+                                                  'vatAmount',
                                                   index,
                                                   e?.target?.value,
                                                   gridData,
@@ -410,18 +410,18 @@ export default function TableRow() {
 
                                           <td>
                                             <InputField
-                                              style={{ width: "135px" }}
+                                              style={{ width: '135px' }}
                                               name="dueDate"
                                               value={_dateFormatter(
                                                 item?.dueDate
                                               )}
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "dueDate",
+                                                  'dueDate',
                                                   e?.target?.value
                                                 );
                                                 setDataToGridData(
-                                                  "dueDate",
+                                                  'dueDate',
                                                   index,
                                                   e?.target?.value,
                                                   gridData,
@@ -471,7 +471,7 @@ export default function TableRow() {
                                                 item?.value === 9 ||
                                                 item?.value === 10) ? (
                                                 <span
-                                                  style={{ marginLeft: "3px" }}
+                                                  style={{ marginLeft: '3px' }}
                                                 >
                                                   {/* <span>
                                               <img width="16px" src={serviceBreakdonw} alt="" />
@@ -514,32 +514,35 @@ export default function TableRow() {
                                                             data?.surveyReferenceId
                                                           )
                                                         : item?.value === 6
-                                                        ? setClosingReferenceId(
-                                                            data?.unloadingReferenceId
-                                                          )
-                                                        : item?.value === 7
-                                                        ? setClosingReferenceId(
-                                                            data?.cleaningReferenceId
-                                                          )
-                                                        : item?.value === 8
-                                                        ? setClosingReferenceId(
-                                                            data?.othersReferenceId
-                                                          )
-                                                        : item?.value === 4
-                                                        ? setClosingReferenceId(
-                                                            data?.transportReferenceId
-                                                          )
-                                                        : item?.value === 9
-                                                        ? setClosingReferenceId(
-                                                            data?.hatchReferenceId
-                                                          )
-                                                        : item?.value === 10
-                                                        ? setClosingReferenceId(
-                                                            data?.scavatoryReferenceId
-                                                          )
-                                                        : setClosingReferenceId(
-                                                            0
-                                                          );
+                                                          ? setClosingReferenceId(
+                                                              data?.unloadingReferenceId
+                                                            )
+                                                          : item?.value === 7
+                                                            ? setClosingReferenceId(
+                                                                data?.cleaningReferenceId
+                                                              )
+                                                            : item?.value === 8
+                                                              ? setClosingReferenceId(
+                                                                  data?.othersReferenceId
+                                                                )
+                                                              : item?.value ===
+                                                                  4
+                                                                ? setClosingReferenceId(
+                                                                    data?.transportReferenceId
+                                                                  )
+                                                                : item?.value ===
+                                                                    9
+                                                                  ? setClosingReferenceId(
+                                                                      data?.hatchReferenceId
+                                                                    )
+                                                                  : item?.value ===
+                                                                      10
+                                                                    ? setClosingReferenceId(
+                                                                        data?.scavatoryReferenceId
+                                                                      )
+                                                                    : setClosingReferenceId(
+                                                                        0
+                                                                      );
 
                                                       setClosingTotalBookedAmount(
                                                         item?.totalAmount
@@ -554,9 +557,9 @@ export default function TableRow() {
                                               ) : (
                                                 <button
                                                   style={{
-                                                    padding: "1px 5px",
-                                                    fontSize: "11px",
-                                                    width: "85px",
+                                                    padding: '1px 5px',
+                                                    fontSize: '11px',
+                                                    width: '85px',
                                                   }}
                                                   className="btn btn-outline-dark mr-1 pointer"
                                                   type="button"

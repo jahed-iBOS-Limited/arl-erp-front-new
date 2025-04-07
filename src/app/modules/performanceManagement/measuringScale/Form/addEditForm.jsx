@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getScaleForDDLAction,
   saveMeasuringScaleAction,
-} from "../_redux/Actions";
-import { isUniq } from "../../../_helper/uniqChecker";
-import IForm from "../../../_helper/_form";
-import { toast } from "react-toastify";
+} from '../_redux/Actions';
+import { isUniq } from '../../../_helper/uniqChecker';
+import IForm from '../../../_helper/_form';
+import { toast } from 'react-toastify';
 
 const initData = {
-  scaleFor: "",
-  scaleName: "",
-  value: "",
+  scaleFor: '',
+  scaleName: '',
+  value: '',
 };
 
 export default function MeasuringScaleForm({
@@ -37,7 +36,6 @@ export default function MeasuringScaleForm({
 
   useEffect(() => {
     dispatch(getScaleForDDLAction());
-
   }, []);
 
   const dispatch = useDispatch();
@@ -46,7 +44,7 @@ export default function MeasuringScaleForm({
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (!rowDto.length) {
-        toast.warning("Please add scale name and value");
+        toast.warning('Please add scale name and value');
       } else {
         let payload = rowDto.map((itm, index) => {
           return {
@@ -66,7 +64,7 @@ export default function MeasuringScaleForm({
   };
 
   const setter = (values) => {
-    if (isUniq("scaleName", values?.scaleName, rowDto)) {
+    if (isUniq('scaleName', values?.scaleName, rowDto)) {
       let obj = {
         scaleName: values?.scaleName,
         value: values?.value,

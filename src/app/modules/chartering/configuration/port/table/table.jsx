@@ -1,34 +1,33 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { GetCountryDDL } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationSearch from "../../../_chartinghelper/_search";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { GetCountryDDL } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationSearch from '../../../_chartinghelper/_search';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
 import {
   activeInactivePort,
   // deletePort,
   getPortLandingData,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  country: "",
+  country: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Port Name" },
-  { name: "Country" },
-  { name: "Port Address" },
-  { name: "Status" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Port Name' },
+  { name: 'Country' },
+  { name: 'Port Address' },
+  { name: 'Status' },
+  { name: 'Actions' },
 ];
 
 export default function PortTable() {
@@ -44,11 +43,11 @@ export default function PortTable() {
   }, shallowEqual);
 
   useEffect(() => {
-    getPortLandingData(pageNo, pageSize, "", "", setLoading, setGridData);
+    getPortLandingData(pageNo, pageSize, '', '', setLoading, setGridData);
     GetCountryDDL(setCountryDDL);
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getPortLandingData(
       pageNo,
       pageSize,
@@ -68,7 +67,7 @@ export default function PortTable() {
       getPortLandingData(
         pageNo,
         pageSize,
-        "",
+        '',
         values?.country?.label,
         setLoading,
         setGridData
@@ -103,9 +102,9 @@ export default function PortTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
-                      history.push("/chartering/configuration/port/create")
+                      history.push('/chartering/configuration/port/create')
                     }
                   >
                     Create
@@ -124,7 +123,7 @@ export default function PortTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.country || ""}
+                      value={values?.country || ''}
                       isSearchable={true}
                       options={countryDDL || []}
                       styles={customStyles}
@@ -132,12 +131,12 @@ export default function PortTable() {
                       placeholder="Country"
                       label="Country"
                       onChange={(valueOption) => {
-                        setFieldValue("country", valueOption);
+                        setFieldValue('country', valueOption);
                         if (valueOption) {
                           getPortLandingData(
                             pageNo,
                             pageSize,
-                            "",
+                            '',
                             valueOption?.label,
                             setLoading,
                             setGridData
@@ -146,8 +145,8 @@ export default function PortTable() {
                           getPortLandingData(
                             pageNo,
                             pageSize,
-                            "",
-                            "",
+                            '',
+                            '',
                             setLoading,
                             setGridData
                           );
@@ -164,18 +163,18 @@ export default function PortTable() {
               <ICustomTable ths={headers}>
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ width: "40px" }} className="text-center">
+                    <td style={{ width: '40px' }} className="text-center">
                       {index + 1}
                     </td>
                     <td>{item?.portName}</td>
                     <td>{item?.portCountry}</td>
                     <td>{item?.portAddress}</td>
-                    <td style={{ width: "80px" }} className="text-center">
+                    <td style={{ width: '80px' }} className="text-center">
                       {item?.isActive ? (
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Inactive"}
+                              {'Click here to Inactive'}
                             </Tooltip>
                           }
                         >
@@ -195,7 +194,7 @@ export default function PortTable() {
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Active"}
+                              {'Click here to Active'}
                             </Tooltip>
                           }
                         >
@@ -213,7 +212,7 @@ export default function PortTable() {
                         </OverlayTrigger>
                       )}
                     </td>
-                    <td style={{ width: "50px" }} className="text-center">
+                    <td style={{ width: '50px' }} className="text-center">
                       <div className="d-flex justify-content-around">
                         <IEdit
                           clickHandler={() => {

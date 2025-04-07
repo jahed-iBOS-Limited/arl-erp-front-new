@@ -1,5 +1,5 @@
-import React from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 export default function BrandItemRequisitionEntryTable({ obj }) {
   const { rowData, removeRow, type } = obj;
@@ -10,7 +10,7 @@ export default function BrandItemRequisitionEntryTable({ obj }) {
           <table className="table table-striped table-bordered bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Item Name</th>
                 <th>Item Code</th>
                 <th>UoM</th>
@@ -18,7 +18,7 @@ export default function BrandItemRequisitionEntryTable({ obj }) {
                 <th>Channel</th>
                 <th>Territory</th>
                 <th>Remarks</th>
-                {type !== "view" && <th>Action</th>}
+                {type !== 'view' && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@ export default function BrandItemRequisitionEntryTable({ obj }) {
                   <td>{td?.territoryName}</td>
                   <td>{td?.remarks}</td>
 
-                  {type !== "view" && (
+                  {type !== 'view' && (
                     <td className="text-center">
                       <IDelete remover={removeRow} id={index} />
                     </td>

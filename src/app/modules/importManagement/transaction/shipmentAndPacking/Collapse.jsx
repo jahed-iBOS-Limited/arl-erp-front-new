@@ -48,7 +48,6 @@ export default function InsurancePolicyCollapsePanel() {
     } else if (state?.checkbox === 'packingInformation') {
       setExpanded('panel3');
     }
-
   }, [state]);
 
   const backHandler = () => {

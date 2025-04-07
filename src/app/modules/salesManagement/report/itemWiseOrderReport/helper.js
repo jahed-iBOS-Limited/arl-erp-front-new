@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetSalesOrderReportByItemWise_api = async (
   accId,
@@ -16,7 +16,7 @@ export const GetSalesOrderReportByItemWise_api = async (
       `/oms/SalesOrder/GetSalesOrderReportByItemWise?AccountId=${accId}&BusinessUnitId=${buId}&ReportType=${reportType}&FromDate=${fromDate}&Todate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("No Data Found");
+      if (res?.data?.length === 0) toast.warning('No Data Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -38,7 +38,7 @@ export const GetSalesOrderReportInfoByItemWise_api = async (
       `/oms/SalesOrder/GetSalesOrderReportInfoByItemWise?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&ItemId=${itemId}&FromDate=${fromDate}&Todate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("No Data Found");
+      if (res?.data?.length === 0) toast.warning('No Data Found');
       setter(res?.data);
       setLoading(false);
     }

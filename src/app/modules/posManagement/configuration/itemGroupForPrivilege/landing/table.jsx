@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import IViewModal from "./../../../../_helper/_viewModal";
-import ItemGroupForPrivilegeView from "./../view/index";
+import React, { useState } from 'react';
+import IView from './../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import IViewModal from './../../../../_helper/_viewModal';
+import ItemGroupForPrivilegeView from './../view/index';
 import IActiveInActiveIcon from './../../../../_helper/_helperIcons/_activeInActiveIcon';
 
 function GridTable({ rowDto, values, acitveOnclickFunc }) {
   const [isShowModal, setisShowModal] = useState(false);
-  const [rowClickData, setRowClickData] = useState("");
+  const [rowClickData, setRowClickData] = useState('');
   return (
     <div className="table-responsive">
       <table className="table table-striped table-bordered global-table">
@@ -17,7 +17,7 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
             <th>Item Group</th>
             <th>Created Date</th>
             <th>Created By</th>
-            <th style={{ width: "125px" }}>Action</th>
+            <th style={{ width: '125px' }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -41,11 +41,11 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
                     <span
                       className="ml-2 pointer"
                       onClick={() => {
-                        acitveOnclickFunc({...values, ...item});
+                        acitveOnclickFunc({ ...values, ...item });
                       }}
                     >
                       <IActiveInActiveIcon
-                        iconTyee=  {values?.status?.value ? "inActive" : "Active"}
+                        iconTyee={values?.status?.value ? 'inActive' : 'Active'}
                       />
                     </span>
                   </div>
@@ -57,7 +57,7 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
       <IViewModal
         show={isShowModal}
         onHide={() => setisShowModal(false)}
-        title={"Item Group For Privilege View"}
+        title={'Item Group For Privilege View'}
       >
         <ItemGroupForPrivilegeView rowClickData={rowClickData} />
       </IViewModal>

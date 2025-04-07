@@ -58,12 +58,12 @@ export const getLandingData = async (
   fromDate,
   toDate,
   pageNo,
-  pageSize,
+  pageSize
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetShippingAgencyConfig?businessUnitId=${buId}&vesselTypeId=${vesselTypeId}&vesselId=${vesselId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/ASLLAgency/GetShippingAgencyConfig?businessUnitId=${buId}&vesselTypeId=${vesselTypeId}&vesselId=${vesselId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -75,7 +75,7 @@ export const getVesselTypeDDL = async (setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`,
+      `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
     );
     setter(res.data);
     setLoading(false);
@@ -87,7 +87,7 @@ export const getVesselDDL = async (buId, accId, setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res.data);
     setLoading(false);
@@ -100,7 +100,7 @@ export const createShippingAgency = async (payload, setLoading, cb) => {
     setLoading(true);
     await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateShippingAgencyConfig`,
-      payload,
+      payload
     );
 
     toast.success('Submitted Successfully');
@@ -116,7 +116,7 @@ export const updateShippingAgency = async (payload, setLoading, cb) => {
     setLoading(true);
     await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/EditShippingAgencyConfig`,
-      payload,
+      payload
     );
 
     toast.success('Submitted Successfully');
@@ -131,7 +131,7 @@ export const deleteShipAgency = async (id, buId, setLoading, cb) => {
   try {
     setLoading(true);
     await axios.post(
-      `${imarineBaseUrl}/domain/ASLLAgency/DeleteShippingAgencyConfig?businessUnitId=${buId}&id=${id}`,
+      `${imarineBaseUrl}/domain/ASLLAgency/DeleteShippingAgencyConfig?businessUnitId=${buId}&id=${id}`
     );
     toast.success('Deleted Successfully');
     cb();

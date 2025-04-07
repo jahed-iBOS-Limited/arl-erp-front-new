@@ -45,7 +45,7 @@ function EditModal({ clickedRow, landingCB }) {
       () => {
         landingCB();
       },
-      true,
+      true
     );
   };
 
@@ -54,19 +54,19 @@ function EditModal({ clickedRow, landingCB }) {
       const defaultValues = clickedRow || {};
       formikRef.current.setFieldValue(
         'productName',
-        defaultValues?.productName || '',
+        defaultValues?.productName || ''
       );
       formikRef.current.setFieldValue(
         'companyName',
-        defaultValues?.companyName || '',
+        defaultValues?.companyName || ''
       );
       formikRef.current.setFieldValue(
         'contactPersonName',
-        defaultValues?.contactPersonsName || '',
+        defaultValues?.contactPersonsName || ''
       );
       formikRef.current.setFieldValue(
         'contactNumber',
-        defaultValues?.contactNumber || '',
+        defaultValues?.contactNumber || ''
       );
       formikRef.current.setFieldValue(
         'activeInactive',
@@ -75,19 +75,19 @@ function EditModal({ clickedRow, landingCB }) {
               value: defaultValues?.activeInactive || '',
               label: defaultValues?.activeInactive || '',
             }
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         'accountManager',
-        defaultValues?.accountManager || '',
+        defaultValues?.accountManager || ''
       );
       formikRef.current.setFieldValue(
         'jobTitle',
-        defaultValues?.jobTitle || '',
+        defaultValues?.jobTitle || ''
       );
       formikRef.current.setFieldValue(
         'ageRange',
-        defaultValues?.ageRange || '',
+        defaultValues?.ageRange || ''
       );
       formikRef.current.setFieldValue(
         'gender',
@@ -96,49 +96,49 @@ function EditModal({ clickedRow, landingCB }) {
               value: defaultValues?.gender || '',
               label: defaultValues?.gender || '',
             }
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         'industry',
-        defaultValues?.industry || '',
+        defaultValues?.industry || ''
       );
       formikRef.current.setFieldValue(
         'locationDistrict',
-        defaultValues?.locationDistrict || '',
+        defaultValues?.locationDistrict || ''
       );
       formikRef.current.setFieldValue(
         'employeeNumber',
-        defaultValues?.employeeNumber || '',
+        defaultValues?.employeeNumber || ''
       );
       formikRef.current.setFieldValue(
         'incomeLevel',
-        defaultValues?.incomeLevel || '',
+        defaultValues?.incomeLevel || ''
       );
       formikRef.current.setFieldValue(
         'painPoints',
-        defaultValues?.painPoints || '',
+        defaultValues?.painPoints || ''
       );
       formikRef.current.setFieldValue('goals', defaultValues?.goals || '');
       formikRef.current.setFieldValue(
         'whyTheyChooseUs',
-        defaultValues?.whyTheyChooseUs || '',
+        defaultValues?.whyTheyChooseUs || ''
       );
       formikRef.current.setFieldValue(
         'buyingBehavior',
-        defaultValues?.buyingBehavior || '',
+        defaultValues?.buyingBehavior || ''
       );
       formikRef.current.setFieldValue(
         'preferredCommunicationChannels',
-        defaultValues?.preferredCommunicationChannels || '',
+        defaultValues?.preferredCommunicationChannels || ''
       );
       formikRef.current.setFieldValue(
         'competitorsBrandUsages',
-        defaultValues?.competitorsBrandUsages || '',
+        defaultValues?.competitorsBrandUsages || ''
       );
       formikRef.current.setFieldValue('enroll', defaultValues?.enroll || '');
       formikRef.current.setFieldValue(
         'customerId',
-        defaultValues?.customerId || '',
+        defaultValues?.customerId || ''
       );
       formikRef.current.setFieldValue(
         'channel',
@@ -147,10 +147,9 @@ function EditModal({ clickedRow, landingCB }) {
               value: defaultValues?.channel || '',
               label: defaultValues?.channel || '',
             }
-          : '',
+          : ''
       );
     }
-
   }, []);
   return (
     <>

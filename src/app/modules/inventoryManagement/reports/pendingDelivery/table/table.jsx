@@ -1,25 +1,25 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../_helper/_currentTime';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getSBUDDLDelivery_Aciton,
   GetShipPointDDLAction,
   GetWarehouseDDLAction,
-} from "../../../warehouseManagement/delivery/_redux/Actions";
+} from '../../../warehouseManagement/delivery/_redux/Actions';
 import {
   getAreaDDL,
   getDistributionChannelDDL,
@@ -27,24 +27,24 @@ import {
   GetSoldToPartyDDL,
   getTerritoryDDL,
   GetDataOfSalesOrderByTerriroryId_api,
-} from "../helper";
-import GridView from "./girdView";
-import NewSelect from "./../../../../_helper/_select";
-import { useHistory } from "react-router";
-import { pendingDeliveryReportLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import GridView from './girdView';
+import NewSelect from './../../../../_helper/_select';
+import { useHistory } from 'react-router';
+import { pendingDeliveryReportLandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  reportType: "",
-  sbu: "",
-  shippingPoint: "",
-  distributionChannel: "",
-  region: "",
-  area: "",
-  territory: "",
-  warehouse: "",
-  soldToParty: "",
+  reportType: '',
+  sbu: '',
+  shippingPoint: '',
+  distributionChannel: '',
+  region: '',
+  area: '',
+  territory: '',
+  warehouse: '',
+  soldToParty: '',
   fromDate: _todayDate(),
   fromTime: _todaysStartTime(),
   toDate: _todayDate(),
@@ -94,15 +94,14 @@ const PendingDeliveryReportTable = () => {
         GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getGridDataHandler = (values) => {
     const fromDate = moment(`${values?.fromDate} ${values?.fromTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
     const toDate = moment(`${values?.toDate} ${values?.toTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
 
     GetDataOfSalesOrderByTerriroryId_api({
@@ -130,13 +129,13 @@ const PendingDeliveryReportTable = () => {
         warehouse: values?.warehouse?.label,
         warehouseId: values?.warehouse?.value,
         shipToParty: values?.shipToParty?.label,
-        deliveryQty: ele?.objRowData?.pendingQty || "",
+        deliveryQty: ele?.objRowData?.pendingQty || '',
         salesOrderId: ele?.objRowData?.salesOrderId,
         salesOrderRowId: ele.objRowData.rowId,
         objLocation: ele?.objLocation,
         amount: ele.objRowData.numItemPrice * ele.objRowData.pendingQty,
         specification: ele.objRowData.specification,
-        selectLocation: ele?.objLocation?.[0] || "",
+        selectLocation: ele?.objLocation?.[0] || '',
       };
     });
     return modifyData;
@@ -147,7 +146,6 @@ const PendingDeliveryReportTable = () => {
     if (pendingDeliveryReportLanding?.sbu) {
       getGridDataHandler(pendingDeliveryReportLanding);
     }
-
   }, []);
 
   useEffect(() => {
@@ -203,7 +201,6 @@ const PendingDeliveryReportTable = () => {
           setSoldToPartyDDL
         );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -222,10 +219,10 @@ const PendingDeliveryReportTable = () => {
         setValues,
       }) => (
         <>
-        {loading && <Loading/>}
+          {loading && <Loading />}
           <Card>
             {true && <ModalProgressBar />}
-            <CardHeader title={"Pending Delivery Report"}>
+            <CardHeader title={'Pending Delivery Report'}>
               <CardHeaderToolbar>
                 <button
                   className="btn btn-primary"
@@ -259,7 +256,7 @@ const PendingDeliveryReportTable = () => {
                     dispatch(pendingDeliveryReportLandingAction(values));
                     history.push({
                       pathname:
-                        "/inventory-management/warehouse-management/delivery/add",
+                        '/inventory-management/warehouse-management/delivery/add',
                       state: {
                         ...createValues,
                         itemLists: modifyItemList(createValues),
@@ -278,14 +275,14 @@ const PendingDeliveryReportTable = () => {
                     <NewSelect
                       label="Select Report Type"
                       options={[
-                        { value: 1, label: "Pending Delivery Report" },
-                        { value: 2, label: "Pending Delivery-Shipment Report" },
+                        { value: 1, label: 'Pending Delivery Report' },
+                        { value: 2, label: 'Pending Delivery-Shipment Report' },
                       ]}
                       value={values?.reportType}
                       name="reportType"
                       setFieldValue={setFieldValue}
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -303,10 +300,10 @@ const PendingDeliveryReportTable = () => {
                         setValues({
                           ...values,
                           sbu: valueOption,
-                          distributionChannel: "",
-                          region: "",
-                          area: "",
-                          territory: "",
+                          distributionChannel: '',
+                          region: '',
+                          area: '',
+                          territory: '',
                         });
                         getDistributionChannelDDL(
                           profileData?.accountId,
@@ -329,8 +326,8 @@ const PendingDeliveryReportTable = () => {
                       errors={errors}
                       touched={touched}
                       onChange={(valueOption) => {
-                        setFieldValue("shippingPoint", valueOption);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('shippingPoint', valueOption);
+                        setFieldValue('warehouse', '');
                         dispatch(
                           GetWarehouseDDLAction(
                             profileData.accountId,
@@ -351,7 +348,7 @@ const PendingDeliveryReportTable = () => {
                       errors={errors}
                       touched={touched}
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('warehouse', valueOption);
                       }}
                     />
                   </div>
@@ -360,7 +357,7 @@ const PendingDeliveryReportTable = () => {
                       label="Select Distribution Channel"
                       options={
                         [
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...distributionChannelDDL,
                         ] || []
                       }
@@ -371,15 +368,15 @@ const PendingDeliveryReportTable = () => {
                         setRegionDDL([]);
                         setAreaDDL([]);
                         setTerritoryDDL([]);
-                        const obj = { value: 0, label: "All" };
+                        const obj = { value: 0, label: 'All' };
                         const ifAllSect = valueOption?.value === 0;
                         setValues({
                           ...values,
                           distributionChannel: valueOption,
-                          region: ifAllSect ? obj : "",
-                          area: ifAllSect ? obj : "",
-                          territory: ifAllSect ? obj : "",
-                          soldToParty: ifAllSect ? obj : "",
+                          region: ifAllSect ? obj : '',
+                          area: ifAllSect ? obj : '',
+                          territory: ifAllSect ? obj : '',
+                          soldToParty: ifAllSect ? obj : '',
                         });
                         getRegionDDL(
                           profileData?.accountId,
@@ -395,21 +392,21 @@ const PendingDeliveryReportTable = () => {
                   <div className="col-lg-2">
                     <NewSelect
                       label="Select Region"
-                      options={[{ value: 0, label: "All" }, ...regionDDL] || []}
+                      options={[{ value: 0, label: 'All' }, ...regionDDL] || []}
                       value={values?.region}
                       name="region"
                       setFieldValue={setFieldValue}
                       onChange={(valueOption) => {
-                        const obj = { value: 0, label: "All" };
+                        const obj = { value: 0, label: 'All' };
                         const ifAllSect = valueOption?.value === 0;
                         setAreaDDL([]);
                         setTerritoryDDL([]);
                         setValues({
                           ...values,
                           region: valueOption,
-                          area: ifAllSect ? obj : "",
-                          territory: ifAllSect ? obj : "",
-                          soldToParty: ifAllSect ? obj : "",
+                          area: ifAllSect ? obj : '',
+                          territory: ifAllSect ? obj : '',
+                          soldToParty: ifAllSect ? obj : '',
                         });
                         getAreaDDL(
                           profileData?.accountId,
@@ -426,19 +423,19 @@ const PendingDeliveryReportTable = () => {
                   <div className="col-lg-2">
                     <NewSelect
                       label="Select Area"
-                      options={[{ value: 0, label: "All" }, ...areaDDL] || []}
+                      options={[{ value: 0, label: 'All' }, ...areaDDL] || []}
                       value={values?.area}
                       name="area"
                       setFieldValue={setFieldValue}
                       onChange={(valueOption) => {
-                        const obj = { value: 0, label: "All" };
+                        const obj = { value: 0, label: 'All' };
                         const ifAllSect = valueOption?.value === 0;
                         setTerritoryDDL([]);
                         setValues({
                           ...values,
                           area: valueOption,
-                          territory: ifAllSect ? obj : "",
-                          soldToParty: ifAllSect ? obj : "",
+                          territory: ifAllSect ? obj : '',
+                          soldToParty: ifAllSect ? obj : '',
                         });
                         getTerritoryDDL(
                           profileData?.accountId,
@@ -456,16 +453,16 @@ const PendingDeliveryReportTable = () => {
                     <NewSelect
                       label="Select Territory"
                       options={
-                        [{ value: 0, label: "All" }, ...territoryDDL] || []
+                        [{ value: 0, label: 'All' }, ...territoryDDL] || []
                       }
                       value={values?.territory}
                       name="territory"
                       setFieldValue={setFieldValue}
                       onChange={(valueOption) => {
-                        const obj = { value: 0, label: "All" };
+                        const obj = { value: 0, label: 'All' };
                         const ifAllSect = valueOption?.value === 0;
-                        setFieldValue("territory", valueOption);
-                        setFieldValue("soldToParty", ifAllSect ? obj : "");
+                        setFieldValue('territory', valueOption);
+                        setFieldValue('soldToParty', ifAllSect ? obj : '');
 
                         GetSoldToPartyDDL(
                           profileData?.accountId,
@@ -482,7 +479,7 @@ const PendingDeliveryReportTable = () => {
                     <NewSelect
                       label="Select Sold To Party"
                       options={
-                        [{ value: 0, label: "All" }, ...soldToPartyDDL] || []
+                        [{ value: 0, label: 'All' }, ...soldToPartyDDL] || []
                       }
                       value={values?.soldToParty}
                       name="soldToParty"
@@ -490,7 +487,7 @@ const PendingDeliveryReportTable = () => {
                       errors={errors}
                       touched={touched}
                       onChange={(valueOption) => {
-                        setFieldValue("soldToParty", valueOption);
+                        setFieldValue('soldToParty', valueOption);
                       }}
                     />
                   </div>

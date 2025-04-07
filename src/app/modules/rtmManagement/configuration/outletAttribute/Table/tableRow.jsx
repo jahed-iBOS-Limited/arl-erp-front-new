@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getOutletAttributeLanding } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getOutletAttributeLanding } from '../helper';
 
 export function TableRow() {
-
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -38,7 +37,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler

@@ -1,15 +1,14 @@
-
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { put, takeLatest } from "redux-saga/effects";
-import { getUserByToken } from "./authCrud";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { put, takeLatest } from 'redux-saga/effects';
+import { getUserByToken } from './authCrud';
 
 export const actionTypes = {
-  Login: "[Login] Action",
-  Logout: "[Logout] Action",
-  Register: "[Register] Action",
-  UserRequested: "[Request User] Action",
-  UserLoaded: "[Load User] Auth API",
+  Login: '[Login] Action',
+  Logout: '[Logout] Action',
+  Register: '[Register] Action',
+  UserRequested: '[Request User] Action',
+  UserLoaded: '[Load User] Auth API',
 };
 
 const initialAuthState = {
@@ -18,13 +17,13 @@ const initialAuthState = {
 };
 
 export const reducer = persistReducer(
-  { storage, key: "demo1-auth" },
+  { storage, key: 'demo1-auth' },
   (state = initialAuthState, action) => {
     switch (action.type) {
       case actionTypes.Login: {
         const { authToken } = action.payload;
 
-        return { authToken, user: { user: { fullname: ["Alamin"] } } };
+        return { authToken, user: { user: { fullname: ['Alamin'] } } };
       }
 
       case actionTypes.Register: {
@@ -78,6 +77,6 @@ export function* saga() {
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
     const { data: user } = yield getUserByToken();
 
-    yield put(actions.fulfillUser("user"));
+    yield put(actions.fulfillUser('user'));
   });
 }

@@ -1,9 +1,9 @@
-import React from "react";
-import { ShippingPointTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import ViewForm from "./View/viewModal";
-import AddLatLong from "./Table/addLatLong";
+import React from 'react';
+import { ShippingPointTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import ViewForm from './View/viewModal';
+import AddLatLong from './Table/addLatLong';
 
 export default function ShippingPoint({ history }) {
   const uIEvents = {
@@ -32,7 +32,7 @@ export default function ShippingPoint({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/inventory-management/configuration/shippingpoint");
+              history.push('/inventory-management/configuration/shippingpoint');
             }}
           />
         )}
@@ -44,7 +44,7 @@ export default function ShippingPoint({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/inventory-management/configuration/shippingpoint");
+              history.push('/inventory-management/configuration/shippingpoint');
             }}
           />
         )}

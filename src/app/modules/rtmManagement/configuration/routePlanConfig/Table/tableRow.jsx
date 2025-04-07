@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getGridData } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getGridData } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 export function TableRow() {
   const history = useHistory();
@@ -30,7 +30,6 @@ export function TableRow() {
         pageSize
       );
     }
-
   }, []);
 
   // setPositionHandler
@@ -56,7 +55,7 @@ export function TableRow() {
             onClick={() =>
               history.push({
                 pathname:
-                  "/rtm-management/configuration/routePlanConfig/create",
+                  '/rtm-management/configuration/routePlanConfig/create',
               })
             }
           >
@@ -84,7 +83,7 @@ export function TableRow() {
                     <td className="text-center"> {item?.sl}</td>
                     <td>
                       <div className="pr-2 text-right">
-                        {" "}
+                        {' '}
                         {item?.lastRoutePlanEntryDay}
                       </div>
                     </td>

@@ -64,7 +64,7 @@ export default function FormCmp({
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList',
+        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
       );
       setItemTypeList(res.data);
     } catch (error) {
@@ -240,7 +240,7 @@ export default function FormCmp({
                       type="button"
                       onClick={() => {
                         dispatch(
-                          getDownlloadFileView_Action(values?.attachmentLink),
+                          getDownlloadFileView_Action(values?.attachmentLink)
                         );
                       }}
                     >
@@ -278,7 +278,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

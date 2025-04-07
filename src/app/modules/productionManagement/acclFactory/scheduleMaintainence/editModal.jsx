@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { Form, Formik } from "formik";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { Form, Formik } from 'formik';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 
 const initData = {
-  plant: "",
-  machineName: "",
-  maintenanceType: "",
-  scheduleEndDate: "",
-  frequency: "",
-  responsiblePerson: "",
-  maintenanceTask: "",
+  plant: '',
+  machineName: '',
+  maintenanceType: '',
+  scheduleEndDate: '',
+  frequency: '',
+  responsiblePerson: '',
+  maintenanceTask: '',
 };
 
 const EditModal = ({
@@ -33,12 +33,8 @@ const EditModal = ({
   const [objProps, setObjprops] = useState({});
   const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
-  const [
-    machineDDL,
-    getMachineDDL,
-    machineDDLloader,
-    setMachineDDL,
-  ] = useAxiosGet();
+  const [machineDDL, getMachineDDL, machineDDLloader, setMachineDDL] =
+    useAxiosGet();
 
   useEffect(() => {
     if (clickedRowData) {
@@ -76,30 +72,29 @@ const EditModal = ({
         }
       );
     }
-
   }, [clickedRowData]);
 
   const saveHandler = (values, cb) => {
     if (!values?.plant) {
-      return toast.warn("Plant is required");
+      return toast.warn('Plant is required');
     }
     if (!values?.machineName) {
-      return toast.warn("Machine Name is required");
+      return toast.warn('Machine Name is required');
     }
     if (!values?.maintenanceType) {
-      return toast.warn("Maintenance Type is required");
+      return toast.warn('Maintenance Type is required');
     }
     if (!values?.scheduleEndDate) {
-      return toast.warn("Schedule End Date is required");
+      return toast.warn('Schedule End Date is required');
     }
     if (!values?.frequency) {
-      return toast.warn("Frequency is required");
+      return toast.warn('Frequency is required');
     }
     if (!values?.responsiblePerson) {
-      return toast.warn("Responsible Person is required");
+      return toast.warn('Responsible Person is required');
     }
     if (!values?.maintenanceTask) {
-      return toast.warn("Maintenance Task is required");
+      return toast.warn('Maintenance Task is required');
     }
     const payload = {
       scheduleMaintenanceId: clickedRowData?.scheduleMaintenanceId,
@@ -180,14 +175,14 @@ const EditModal = ({
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("machineName", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('machineName', '');
                           getMachineDDL(
                             `/mes/ScheduleMaintenance/GetAllmachineListDDL?BusinessUnitId=${selectedBusinessUnit?.value}&Plant=${valueOption?.value}`
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("machineName", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('machineName', '');
                           setMachineDDL([]);
                         }
                       }}
@@ -201,9 +196,9 @@ const EditModal = ({
                       label="Machine Name"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("machineName", valueOption);
+                          setFieldValue('machineName', valueOption);
                         } else {
-                          setFieldValue("machineName", "");
+                          setFieldValue('machineName', '');
                         }
                       }}
                       placeholder="Machine Name"
@@ -214,16 +209,16 @@ const EditModal = ({
                     <NewSelect
                       name="maintenanceType"
                       options={[
-                        { value: 1, label: "Electrical" },
-                        { value: 2, label: "Mechanical" },
+                        { value: 1, label: 'Electrical' },
+                        { value: 2, label: 'Mechanical' },
                       ]}
                       value={values?.maintenanceType}
                       label="Maintainence Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("maintenanceType", valueOption);
+                          setFieldValue('maintenanceType', valueOption);
                         } else {
-                          setFieldValue("maintenanceType", "");
+                          setFieldValue('maintenanceType', '');
                         }
                       }}
                       placeholder="Maintainence Type"
@@ -236,9 +231,9 @@ const EditModal = ({
                       value={values?.scheduleEndDate}
                       name="scheduleEndDate"
                       placeholder="Date"
-                      type={"date"}
+                      type={'date'}
                       onChange={(e) => {
-                        setFieldValue("scheduleEndDate", e.target.value);
+                        setFieldValue('scheduleEndDate', e.target.value);
                       }}
                     />
                   </div>
@@ -246,18 +241,18 @@ const EditModal = ({
                     <NewSelect
                       name="frequency"
                       options={[
-                        { value: 1, label: "Daily" },
-                        { value: 2, label: "Weekly" },
-                        { value: 2, label: "Monthly" },
-                        { value: 2, label: "Yearly" },
+                        { value: 1, label: 'Daily' },
+                        { value: 2, label: 'Weekly' },
+                        { value: 2, label: 'Monthly' },
+                        { value: 2, label: 'Yearly' },
                       ]}
                       value={values?.frequency}
                       label="Frequency"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("frequency", valueOption);
+                          setFieldValue('frequency', valueOption);
                         } else {
-                          setFieldValue("frequency", "");
+                          setFieldValue('frequency', '');
                         }
                       }}
                       placeholder="Maintainence Type"
@@ -269,7 +264,7 @@ const EditModal = ({
                     <SearchAsyncSelect
                       selectedValue={values?.responsiblePerson}
                       handleChange={(valueOption) => {
-                        setFieldValue("responsiblePerson", valueOption);
+                        setFieldValue('responsiblePerson', valueOption);
                       }}
                       loadOptions={loadSupervisorAndLineManagerList}
                       placeholder="responsiblePerson"
@@ -283,7 +278,7 @@ const EditModal = ({
                       placeholder="Maintenance Task"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("maintenanceTask", e.target.value);
+                        setFieldValue('maintenanceTask', e.target.value);
                       }}
                     />
                   </div>
@@ -291,14 +286,14 @@ const EditModal = ({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

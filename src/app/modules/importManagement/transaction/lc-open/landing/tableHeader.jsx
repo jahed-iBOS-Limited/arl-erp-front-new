@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from "./tableRow";
+import React from 'react';
+import TableRow from './tableRow';
 
 const LcOpenLanding = () => {
-    return (
-        <>
-            <TableRow />
-        </>
-    )
-}
+  return (
+    <>
+      <TableRow />
+    </>
+  );
+};
 
-export default LcOpenLanding
+export default LcOpenLanding;

@@ -1,5 +1,5 @@
-import React from "react";
-import maintenanceImage from "./maintenance.png";
+import React from 'react';
+import maintenanceImage from './maintenance.png';
 
 function Maintenance() {
   return (

@@ -1,13 +1,13 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import InputField from "../../../_helper/_inputField";
-import { GetSalesInvoiceByBillNo } from "../helper";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import InputField from '../../../_helper/_inputField';
+import { GetSalesInvoiceByBillNo } from '../helper';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 // Validation schema
 const validationSchema = Yup.object().shape({
   // amount: Yup.string()
@@ -55,13 +55,13 @@ export default function FormCmp({
     );
 
     if (filterDuplicates?.length > 0) {
-      return toast.warning("Duplicate data not allowed");
+      return toast.warning('Duplicate data not allowed');
     }
     const amountSum = rowDto.reduce((acc, cur) => acc + +cur?.amount || 0, 0);
     const total = amountSum + +values?.amount || 0;
 
     if (total > (salesInvoice?.totalAmount || 0)) {
-      return toast.warning("Amount Not Greater than salesInvoice Amount");
+      return toast.warning('Amount Not Greater than salesInvoice Amount');
     }
 
     let data = {
@@ -112,7 +112,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.billNo}
                     handleChange={(valueOption) => {
-                      setFieldValue("billNo", valueOption);
+                      setFieldValue('billNo', valueOption);
                     }}
                     placeholder="Search Bill No"
                     loadOptions={(v) => {
@@ -126,7 +126,7 @@ export default function FormCmp({
                     }}
                   />
                 </div>
-                <div className="col-lg-2" style={{ marginTop: "19px" }}>
+                <div className="col-lg-2" style={{ marginTop: '19px' }}>
                   <button
                     onClick={() => {
                       GetSalesInvoiceByBillNo(values?.billNo, setSalesInvoice);
@@ -161,12 +161,12 @@ export default function FormCmp({
                   <div className="col-lg-2">
                     <label>PO No</label>
                     <InputField
-                      value={values?.poNo || ""}
+                      value={values?.poNo || ''}
                       name="poNo"
                       placeholder="PO No"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("poNo", e.target.value);
+                        setFieldValue('poNo', e.target.value);
                       }}
                       // disabled={values?.date}
                     />
@@ -174,24 +174,24 @@ export default function FormCmp({
                   <div className="col-lg-2">
                     <label>Amount</label>
                     <InputField
-                      value={values?.amount || ""}
+                      value={values?.amount || ''}
                       name="amount"
                       placeholder="Amount"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("amount", e.target.value);
+                        setFieldValue('amount', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-2">
                     <label>Deducted AIT</label>
                     <InputField
-                      value={values?.deductedAIT || ""}
+                      value={values?.deductedAIT || ''}
                       name="deductedAIT"
                       placeholder="Deducted AIT"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("deductedAIT", e.target.value);
+                        setFieldValue('deductedAIT', e.target.value);
                       }}
                       disabled={values?.openingBalance}
                     />
@@ -199,24 +199,24 @@ export default function FormCmp({
                   <div className="col-lg-2">
                     <label>Received AIT</label>
                     <InputField
-                      value={values?.receivedAIT || ""}
+                      value={values?.receivedAIT || ''}
                       name="receivedAIT"
                       placeholder="Received AIT"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("receivedAIT", e.target.value);
+                        setFieldValue('receivedAIT', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-2">
                     <label>AIT Challan</label>
                     <InputField
-                      value={values?.challan || ""}
+                      value={values?.challan || ''}
                       name="challan"
                       placeholder="AIT Challan"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("challan", e.target.value);
+                        setFieldValue('challan', e.target.value);
                       }}
                     />
                   </div>
@@ -238,12 +238,12 @@ export default function FormCmp({
                       placeholder="Remarks"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                   </div>
 
-                  <div className="col-lg-4" style={{ marginTop: "19px" }}>
+                  <div className="col-lg-4" style={{ marginTop: '19px' }}>
                     <button
                       onClick={() => {
                         addItem(values);
@@ -264,31 +264,31 @@ export default function FormCmp({
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
 
               {rowDto?.length > 0 && (
                 <div
-                  style={{ maxHeight: "450px" }}
+                  style={{ maxHeight: '450px' }}
                   className="scroll-table _table"
                 >
                   <table className="global-table table table-font-size-sm">
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "40px" }}>SL</th>
-                        <th style={{ minWidth: "70px" }}>Bill NO</th>
-                        <th style={{ minWidth: "70px" }}>Bill Date</th>
-                        <th style={{ minWidth: "70px" }}>Pay Date</th>
-                        <th style={{ minWidth: "70px" }}>PO NO</th>
-                        <th style={{ minWidth: "70px" }}>Pay Amount</th>
-                        <th style={{ minWidth: "70px" }}>Deducted AIT</th>
-                        <th style={{ minWidth: "70px" }}>Received AIT</th>
-                        <th style={{ minWidth: "70px" }}>AIT Challan No</th>
-                        <th style={{ minWidth: "70px" }}>Remarks</th>
-                        <th style={{ minWidth: "70px" }}>Action</th>
+                        <th style={{ minWidth: '40px' }}>SL</th>
+                        <th style={{ minWidth: '70px' }}>Bill NO</th>
+                        <th style={{ minWidth: '70px' }}>Bill Date</th>
+                        <th style={{ minWidth: '70px' }}>Pay Date</th>
+                        <th style={{ minWidth: '70px' }}>PO NO</th>
+                        <th style={{ minWidth: '70px' }}>Pay Amount</th>
+                        <th style={{ minWidth: '70px' }}>Deducted AIT</th>
+                        <th style={{ minWidth: '70px' }}>Received AIT</th>
+                        <th style={{ minWidth: '70px' }}>AIT Challan No</th>
+                        <th style={{ minWidth: '70px' }}>Remarks</th>
+                        <th style={{ minWidth: '70px' }}>Action</th>
                       </tr>
                     </thead>
-                    <tbody style={{ overflow: "scroll" }}>
+                    <tbody style={{ overflow: 'scroll' }}>
                       {rowDto.map((itm, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
@@ -305,8 +305,8 @@ export default function FormCmp({
                             <span
                               className="pointer alterUomDeleteIcon"
                               style={{
-                                width: "50%",
-                                marginTop: "3px",
+                                width: '50%',
+                                marginTop: '3px',
                               }}
                             >
                               <i
@@ -325,14 +325,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 disabled={rowDto?.length === 0}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,35 +1,34 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { editORDeletePartnerChequeSubmit } from "../helper";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getEmployeeList } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/helper";
-import PartnerCheckSubmitLandingForm from "./form";
-import PartnerCheckSubmitTable from "./table";
-import ExportPaymentPostingTable from "./tableTwo";
+} from '../../../../../../_metronic/_partials/controls';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { editORDeletePartnerChequeSubmit } from '../helper';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getEmployeeList } from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/helper';
+import PartnerCheckSubmitLandingForm from './form';
+import PartnerCheckSubmitTable from './table';
+import ExportPaymentPostingTable from './tableTwo';
 
 const initData = {
-  channel: "",
-  customer: "",
+  channel: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  employee: "",
-  salesType: { value: 1, label: "Local" },
-  chequeStatus: "",
+  employee: '',
+  salesType: { value: 1, label: 'Local' },
+  chequeStatus: '',
 };
 
 const PartnerCheckSubmitLanding = () => {
@@ -49,12 +48,12 @@ const PartnerCheckSubmitLanding = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getData = (values, pageNo = 0, pageSize = 100, searchTerm = "") => {
-    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
+  const getData = (values, pageNo = 0, pageSize = 100, searchTerm = '') => {
+    const search = searchTerm ? `&searchTerm=${searchTerm}` : '';
 
-    const detailsURL = `partner/PartnerOverDue/GetBusinessPartnerCheckLanding?AccountId=${accId}&BusniessUnitId=${buId}&BusinessPartnerId=${values
-      ?.customer?.value ||
-      0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${
+    const detailsURL = `partner/PartnerOverDue/GetBusinessPartnerCheckLanding?AccountId=${accId}&BusniessUnitId=${buId}&BusinessPartnerId=${
+      values?.customer?.value || 0
+    }&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${
       values?.fromDate
     }&ToDate=${values?.toDate}`;
 
@@ -68,15 +67,16 @@ const PartnerCheckSubmitLanding = () => {
       values?.customer?.value
     }&fromDate=${values?.fromDate}&toDate=${
       values?.toDate
-    }&pageNo=${pageNo}&pageSize=${pageSize}${search}&status=${values
-      ?.chequeStatus?.value || ""}`;
+    }&pageNo=${pageNo}&pageSize=${pageSize}${search}&status=${
+      values?.chequeStatus?.value || ''
+    }`;
 
     const url =
       values?.salesType?.value === 2
         ? foreignSalesURL
         : values?.viewType?.value === 1
-        ? detailsURL
-        : topSheetURL;
+          ? detailsURL
+          : topSheetURL;
 
     getRowData(url);
   };
@@ -142,7 +142,7 @@ const PartnerCheckSubmitLanding = () => {
     const payload = {
       create: [],
       edit:
-        key === "mrr"
+        key === 'mrr'
           ? [
               {
                 configId: +id,
@@ -162,7 +162,7 @@ const PartnerCheckSubmitLanding = () => {
             ]
           : [],
       delete:
-        key === "delete"
+        key === 'delete'
           ? [
               {
                 configId: +id,
@@ -172,11 +172,11 @@ const PartnerCheckSubmitLanding = () => {
           : [],
     };
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `${
-        key === "mrr"
-          ? "Are you sure MRR for this cheque is done?"
-          : "Are you sure you want to delete this cheque?"
+        key === 'mrr'
+          ? 'Are you sure MRR for this cheque is done?'
+          : 'Are you sure you want to delete this cheque?'
       }`,
       yesAlertFunc: () => {
         editORDeletePartnerChequeSubmit(payload, setLoading, () => {
@@ -217,12 +217,12 @@ const PartnerCheckSubmitLanding = () => {
                     <button
                       onClick={() => {
                         if (!values?.salesType) {
-                          toast.warn("Please select a sales type!");
+                          toast.warn('Please select a sales type!');
                         } else {
                           const path =
                             values?.salesType?.value === 2
-                              ? "/config/partner-management/partnerchecksubmit/export-payment-posting"
-                              : "/config/partner-management/partnerchecksubmit/create";
+                              ? '/config/partner-management/partnerchecksubmit/export-payment-posting'
+                              : '/config/partner-management/partnerchecksubmit/create';
 
                           history.push(path);
                         }

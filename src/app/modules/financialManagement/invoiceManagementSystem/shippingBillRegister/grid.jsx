@@ -1,17 +1,17 @@
-import { DropzoneDialogBase } from "react-mui-dropzone";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import { attachmentUpload } from "../../../_helper/attachmentUpload";
-import { compressfile } from "../../../_helper/compressfile";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import RejectModel from "../billregister/rejectModel/form";
-import ShippingInvoiceView from "./shippingInvoiceView";
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import { attachmentUpload } from '../../../_helper/attachmentUpload';
+import { compressfile } from '../../../_helper/compressfile';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import RejectModel from '../billregister/rejectModel/form';
+import ShippingInvoiceView from './shippingInvoiceView';
 const GridData = ({
   rowDto,
   values,
@@ -21,7 +21,7 @@ const GridData = ({
 }) => {
   // const billType = values?.billType?.value;
   const [mdalShow, setModalShow] = useState(false);
-  const [gridItem, setGridItem] = useState("");
+  const [gridItem, setGridItem] = useState('');
   const [isReject, setIsReject] = useState(false);
   // attachment states
   const [billId, setBillId] = useState(null);
@@ -37,14 +37,14 @@ const GridData = ({
     if (!fileObjects.length) return null;
     const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
     attachmentUpload(compressedFile, setDisabled).then((res) => {
-      const attachment = res?.[0] || "";
+      const attachment = res?.[0] || '';
       const payload = [
         {
           intAccountId: profileData?.accountId,
           intBusinessUnitId: selectedBusinessUnit?.value,
           intBillid: +billId,
-          strTitle: attachment?.fileName || "",
-          strAttatchment: attachment?.id || "",
+          strTitle: attachment?.fileName || '',
+          strAttatchment: attachment?.id || '',
         },
       ];
       if (attachment?.id) {
@@ -57,7 +57,7 @@ const GridData = ({
           true
         );
       } else {
-        toast.warning("Upload Failed");
+        toast.warning('Upload Failed');
       }
     });
   };
@@ -70,17 +70,17 @@ const GridData = ({
             <table className="table table-striped table-bordered global-table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "80px" }}>Register Code</th>
-                  <th style={{ width: "80px" }}>Register Date</th>
-                  <th style={{ width: "100px" }}>Partner</th>
-                  <th style={{ width: "100px" }}>Type Name</th>
-                  <th style={{ width: "80px" }}>Adj. Amount</th>
-                  <th style={{ width: "80px" }}>Total Amount</th>
-                  <th style={{ width: "80px" }}>Bill Status</th>
-                  <th style={{ width: "80px" }}>Progress</th>
-                  <th style={{ width: "150px" }}>Remarks</th>
-                  <th style={{ width: "50px" }}>Action</th>
+                  <th style={{ width: '20px' }}>SL</th>
+                  <th style={{ width: '80px' }}>Register Code</th>
+                  <th style={{ width: '80px' }}>Register Date</th>
+                  <th style={{ width: '100px' }}>Partner</th>
+                  <th style={{ width: '100px' }}>Type Name</th>
+                  <th style={{ width: '80px' }}>Adj. Amount</th>
+                  <th style={{ width: '80px' }}>Total Amount</th>
+                  <th style={{ width: '80px' }}>Bill Status</th>
+                  <th style={{ width: '80px' }}>Progress</th>
+                  <th style={{ width: '150px' }}>Remarks</th>
+                  <th style={{ width: '50px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,23 +90,23 @@ const GridData = ({
                     <td> {tableData?.sl} </td>
                     <td> {tableData?.billRegisterCode} </td>
                     <td className="text-center">
-                      {" "}
-                      {_dateFormatter(tableData?.billRegisterDate)}{" "}
+                      {' '}
+                      {_dateFormatter(tableData?.billRegisterDate)}{' '}
                     </td>
                     <td> {tableData?.partnerName} </td>
                     <td> {tableData?.billTypeName} </td>
                     <td
                       className="text-right"
                       style={
-                        tableData?.adjustmentAmount > 0 ? { color: "red" } : {}
+                        tableData?.adjustmentAmount > 0 ? { color: 'red' } : {}
                       }
                     >
-                      {" "}
-                      {_fixedPoint(tableData?.adjustmentAmount || 0)}{" "}
+                      {' '}
+                      {_fixedPoint(tableData?.adjustmentAmount || 0)}{' '}
                     </td>
                     <td className="text-right">
-                      {" "}
-                      {tableData?.monTotalAmount}{" "}
+                      {' '}
+                      {tableData?.monTotalAmount}{' '}
                     </td>
                     <td> {tableData?.billStatus} </td>
                     <td className="text-center"> {tableData?.progress} </td>
@@ -121,7 +121,7 @@ const GridData = ({
                               setModalShow(true);
                               setGridItem({
                                 ...tableData,
-                                billStatus: "Approved",
+                                billStatus: 'Approved',
                               });
                             }}
                           />
@@ -143,16 +143,16 @@ const GridData = ({
                             setBillId(tableData?.billRegisterId);
                           }}
                           style={{
-                            border: "none",
-                            background: "none",
-                            cursor: "pointer",
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer',
                             padding: 0,
                           }}
                         >
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Upload Attachment"}
+                                {'Upload Attachment'}
                               </Tooltip>
                             }
                           >
@@ -250,7 +250,7 @@ const GridData = ({
             show={isReject}
             onHide={() => {
               setIsReject(false);
-              setGridItem("");
+              setGridItem('');
             }}
           >
             <RejectModel
@@ -265,10 +265,10 @@ const GridData = ({
 
           <DropzoneDialogBase
             filesLimit={4}
-            acceptedFiles={["image/*", "application/pdf"]}
+            acceptedFiles={['image/*', 'application/pdf']}
             fileObjects={fileObjects}
-            cancelButtonText={"cancel"}
-            submitButtonText={"submit"}
+            cancelButtonText={'cancel'}
+            submitButtonText={'submit'}
             maxFileSize={1000000}
             open={billId}
             onAdd={(newFileObjs) => {

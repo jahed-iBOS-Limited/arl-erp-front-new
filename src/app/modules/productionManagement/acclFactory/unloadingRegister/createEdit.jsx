@@ -1,29 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 import {
   onGetUnloadingRegister,
   onUnloadingRegister,
   unloadingRegisterValidationSchema,
-} from "./helper";
+} from './helper';
 
 const initData = {
-  lighterVessel: "",
-  rawMaterialName: "",
-  uom: "",
-  startDTime: "",
-  endDTime: "",
-  unloadPoint: "",
-  remarks: "",
+  lighterVessel: '',
+  rawMaterialName: '',
+  uom: '',
+  startDTime: '',
+  endDTime: '',
+  unloadPoint: '',
+  remarks: '',
   //
   // for row
   rawMetarialItem: null,
@@ -31,19 +31,13 @@ const initData = {
 
 export default function UnloadingRegisterCreate() {
   const [objProps, setObjprops] = useState({});
-  const [
-    rawMaterialDDL,
-    getRawMaterialDDL,
-    loadingOnGetRawMaterialDDL,
-  ] = useAxiosGet();
+  const [rawMaterialDDL, getRawMaterialDDL, loadingOnGetRawMaterialDDL] =
+    useAxiosGet();
   const [selectedRawMaterial, setSelectedRawMaterial] = useState([]);
   const [, createHandler, loadingOnCreate] = useAxiosPost();
   const [modifyData, setModifyData] = useState({});
-  const [
-    lighterVesselDDL,
-    getLighterVesselDDL,
-    loadingOnGetLghtrVsslDDL,
-  ] = useAxiosGet();
+  const [lighterVesselDDL, getLighterVesselDDL, loadingOnGetLghtrVsslDDL] =
+    useAxiosGet();
 
   const { id } = useParams();
   const history = useHistory();
@@ -65,7 +59,6 @@ export default function UnloadingRegisterCreate() {
         setSelectedRawMaterial
       );
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -73,7 +66,6 @@ export default function UnloadingRegisterCreate() {
     getLighterVesselDDL(
       `/mes/MSIL/GetLighterVesselDDLFromCargoUnloading?intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   return (
@@ -131,7 +123,7 @@ export default function UnloadingRegisterCreate() {
                         value={values?.lighterVessel}
                         label="Lighter Vessel"
                         onChange={(valueOption) => {
-                          setFieldValue("lighterVessel", valueOption);
+                          setFieldValue('lighterVessel', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -143,7 +135,7 @@ export default function UnloadingRegisterCreate() {
                         name="lighterVessel"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("lighterVessel", e.target.value);
+                          setFieldValue('lighterVessel', e.target.value);
                         }}
                         touched={touched}
                       />
@@ -156,7 +148,7 @@ export default function UnloadingRegisterCreate() {
                       name="startDTime"
                       type="datetime-local"
                       onChange={(e) => {
-                        setFieldValue("startDTime", e.target.value);
+                        setFieldValue('startDTime', e.target.value);
                       }}
                     />
                   </div>
@@ -168,7 +160,7 @@ export default function UnloadingRegisterCreate() {
                       name="endDTime"
                       type="datetime-local"
                       onChange={(e) => {
-                        setFieldValue("endDTime", e.target.value);
+                        setFieldValue('endDTime', e.target.value);
                       }}
                     />
                   </div>
@@ -177,13 +169,13 @@ export default function UnloadingRegisterCreate() {
                     <NewSelect
                       name="unloadPoint"
                       options={[
-                        { value: 1, label: "Crane-1(700 Series) ACCL" },
-                        { value: 2, label: "Crane-2(1500 Series) VRM-2" },
+                        { value: 1, label: 'Crane-1(700 Series) ACCL' },
+                        { value: 2, label: 'Crane-2(1500 Series) VRM-2' },
                       ]}
                       value={values?.unloadPoint}
                       label="Unload Point"
                       onChange={(valueOption) => {
-                        setFieldValue("unloadPoint", valueOption);
+                        setFieldValue('unloadPoint', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -197,7 +189,7 @@ export default function UnloadingRegisterCreate() {
                       name="remarks"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                   </div>
@@ -205,14 +197,14 @@ export default function UnloadingRegisterCreate() {
 
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onClick={handleSubmit}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onClick={() => {
                     setSelectedRawMaterial([]);
@@ -235,14 +227,14 @@ export default function UnloadingRegisterCreate() {
                       if (alreadyExist) {
                         toast.warn(`${valueOption?.label} already added`);
                       } else {
-                        setFieldValue("rawMetarialItem", valueOption);
+                        setFieldValue('rawMetarialItem', valueOption);
                       }
                     }}
                   />
                 </div>
                 <div className="col-md-3">
                   <button
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     type="button"
                     className="btn btn-primary ml-3"
                     onClick={() => {
@@ -250,7 +242,7 @@ export default function UnloadingRegisterCreate() {
                         ...prev,
                         values?.rawMetarialItem,
                       ]);
-                      setFieldValue("rawMetarialItem", null);
+                      setFieldValue('rawMetarialItem', null);
                     }}
                     disabled={!values?.rawMetarialItem}
                   >
@@ -265,11 +257,11 @@ export default function UnloadingRegisterCreate() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
+                            <th style={{ width: '50px' }}>SL</th>
                             <th>Raw Material</th>
                             <th>UoM</th>
                             <th>Quantity</th>
-                            <th style={{ width: "70px" }}>Action</th>
+                            <th style={{ width: '70px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -284,16 +276,16 @@ export default function UnloadingRegisterCreate() {
                                   value={item?.quantity}
                                   type="number"
                                   onChange={(e) => {
-                                    const modifiedSelectedRawMaterial = selectedRawMaterial.map(
-                                      (nestedItem) =>
+                                    const modifiedSelectedRawMaterial =
+                                      selectedRawMaterial.map((nestedItem) =>
                                         nestedItem?.value === item?.value
                                           ? {
                                               ...nestedItem,
-                                              quantity: e.target.value || "",
+                                              quantity: e.target.value || '',
                                               quantityError: null,
                                             }
                                           : nestedItem
-                                    );
+                                      );
                                     setSelectedRawMaterial(
                                       modifiedSelectedRawMaterial
                                     );
@@ -302,11 +294,11 @@ export default function UnloadingRegisterCreate() {
                                 {item?.quantityError && (
                                   <p
                                     style={{
-                                      fontSize: "0.9rem",
+                                      fontSize: '0.9rem',
                                       fontWeight: 400,
-                                      width: "100%",
-                                      marginTop: "0",
-                                      marginBottom: "0",
+                                      width: '100%',
+                                      marginTop: '0',
+                                      marginBottom: '0',
                                     }}
                                     className="text-danger"
                                   >
@@ -316,14 +308,15 @@ export default function UnloadingRegisterCreate() {
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "60px" }}
+                                style={{ width: '60px' }}
                               >
                                 <IDelete
                                   remover={(givenValue) => {
-                                    let modifiedSelectedRawMaterial = selectedRawMaterial.filter(
-                                      (nestedItem) =>
-                                        nestedItem?.value !== givenValue
-                                    );
+                                    let modifiedSelectedRawMaterial =
+                                      selectedRawMaterial.filter(
+                                        (nestedItem) =>
+                                          nestedItem?.value !== givenValue
+                                      );
                                     setSelectedRawMaterial(
                                       modifiedSelectedRawMaterial
                                     );

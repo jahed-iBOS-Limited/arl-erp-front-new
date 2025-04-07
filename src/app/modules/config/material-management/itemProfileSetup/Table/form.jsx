@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { GetItemProfileConfigPagination_api } from "./../helper";
+} from './../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { GetItemProfileConfigPagination_api } from './../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -51,18 +51,17 @@ export default function HeaderForm({ createHandler }) {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      gridDataFunc(pageNo, pageSize)
+      gridDataFunc(pageNo, pageSize);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const setPositionHandler = (pageNo, pageSize) => {
-    gridDataFunc(pageNo, pageSize)
+    gridDataFunc(pageNo, pageSize);
   };
 
   const paginationSearchHandler = (searchValue) => {
-    gridDataFunc(pageNo, pageSize, searchValue)
-  }
+    gridDataFunc(pageNo, pageSize, searchValue);
+  };
 
   return (
     <>
@@ -76,12 +75,12 @@ export default function HeaderForm({ createHandler }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Item Profile Setup"}>
+              <CardHeader title={'Item Profile Setup'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
                       history.push(
-                        "/config/material-management/itemProfileSetup/add"
+                        '/config/material-management/itemProfileSetup/add'
                       );
                     }}
                     className="btn btn-primary"
@@ -104,7 +103,6 @@ export default function HeaderForm({ createHandler }) {
                   />
                 </Form>
               </CardBody>
-
             </Card>
           </>
         )}

@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -63,7 +62,7 @@ export default function BusinessPartnerTable() {
       '',
       0,
       setLoading,
-      setGridData,
+      setGridData
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -76,7 +75,7 @@ export default function BusinessPartnerTable() {
       searchValue,
       values?.stakeholderType?.value || 0,
       setLoading,
-      setGridData,
+      setGridData
     );
   };
 
@@ -94,7 +93,7 @@ export default function BusinessPartnerTable() {
         '',
         values?.stakeholderType?.value || 0,
         setLoading,
-        setGridData,
+        setGridData
       );
     });
   };
@@ -125,7 +124,7 @@ export default function BusinessPartnerTable() {
                     className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        '/chartering/configuration/stakeholder/create',
+                        '/chartering/configuration/stakeholder/create'
                       )
                     }
                     disabled={false}
@@ -168,7 +167,7 @@ export default function BusinessPartnerTable() {
                           valueOption?.value || 0,
                           setLoading,
                           setGridData,
-                          values?.port?.value || 0,
+                          values?.port?.value || 0
                         );
                       }}
                       errors={errors}
@@ -195,7 +194,7 @@ export default function BusinessPartnerTable() {
                           values?.stakeholderType?.value || 0,
                           setLoading,
                           setGridData,
-                          valueOption?.value || 0,
+                          valueOption?.value || 0
                         );
                       }}
                       errors={errors}
@@ -232,7 +231,7 @@ export default function BusinessPartnerTable() {
                                 changeStatus(
                                   item?.stakeholderId,
                                   false,
-                                  values,
+                                  values
                                 );
                               }}
                             >
@@ -267,14 +266,14 @@ export default function BusinessPartnerTable() {
                         <IView
                           clickHandler={() => {
                             history.push(
-                              `/chartering/configuration/stakeholder/view/${item?.stakeholderId}`,
+                              `/chartering/configuration/stakeholder/view/${item?.stakeholderId}`
                             );
                           }}
                         />
                         <IEdit
                           clickHandler={() => {
                             history.push(
-                              `/chartering/configuration/stakeholder/edit/${item?.stakeholderId}`,
+                              `/chartering/configuration/stakeholder/edit/${item?.stakeholderId}`
                             );
                           }}
                         />

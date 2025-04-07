@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { profitCenterGroupSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { profitCenterGroupSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 
 const { actions: slice } = profitCenterGroupSlice;
 
@@ -20,13 +20,12 @@ export const saveProfitCentedGroup = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -37,7 +36,7 @@ export const saveEditedControllingUnit = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -48,25 +47,19 @@ export const saveEditedControllingUnit = (payload, setDisabled) => () => {
     });
 };
 // ProfitCenter Gorup  action for get data of table
-export const getProfitCenterGroupData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getProfitCenterGroupData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // ProfitCenter Gorup  action for get single data by id
 export const getProfitCenterGroupDataById = (id) => (dispatch) => {
@@ -89,9 +82,7 @@ export const getProfitCenterGroupDataById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // ProfitCenter Gorup  single to empty
 export const setProfitCenterGroupDataSingleEmpty = () => async (dispatch) => {

@@ -1,10 +1,10 @@
-export const deepClone = x => JSON.parse(JSON.stringify(x));
+export const deepClone = (x) => JSON.parse(JSON.stringify(x));
 
 // deepclone the initial data for internal use, and assign uniq ids to each node
 // deepclone only happens once at initialization, other operations will be in-place
-export const initStateWithUniqIds = rootNode => {
+export const initStateWithUniqIds = (rootNode) => {
   let curId = 0;
-  const _addId = node => {
+  const _addId = (node) => {
     node._id = curId;
     curId += 1;
 
@@ -34,12 +34,11 @@ const setStatusDown = (node, status) => {
 };
 
 // set checked status for all nodes
-export const setAllCheckedStatus = (rootNode, status) => (
-  setStatusDown(rootNode, status)
-);
+export const setAllCheckedStatus = (rootNode, status) =>
+  setStatusDown(rootNode, status);
 
 // calculate the check status of a node based on the check status of it's children
-export const getNewCheckStatus = node => {
+export const getNewCheckStatus = (node) => {
   const { children } = node;
   if (!children?.length > 0) return node.checked;
 
@@ -48,18 +47,18 @@ export const getNewCheckStatus = node => {
     sum += c.checked;
   }
 
-  let newCheckStatus = 0.5;   // some checked
+  let newCheckStatus = 0.5; // some checked
   if (sum === children.length) {
-    newCheckStatus = 1;       // all checked
+    newCheckStatus = 1; // all checked
   } else if (sum === 0) {
-    newCheckStatus = 0;       // all unchecked
+    newCheckStatus = 0; // all unchecked
   }
 
   return newCheckStatus;
 };
 
 // recursively update check status up
-export const updateStatusUp = nodes => {
+export const updateStatusUp = (nodes) => {
   if (nodes.length === 0) return;
 
   const curNode = nodes.pop();
@@ -71,17 +70,17 @@ export const updateStatusUp = nodes => {
 // handle state change when user (un)check a TreeNode
 export const checkNode = (rootNode, path, status) => {
   let curNode = rootNode;
-  const parentNodes = [curNode];        // parent nodes for getNewCheckStatus() upwards
+  const parentNodes = [curNode]; // parent nodes for getNewCheckStatus() upwards
 
   for (const idx of path) {
     curNode = curNode.children[idx];
     parentNodes.push(curNode);
   }
 
-  setStatusDown(curNode, status);       // update check status of this node and all childrens, in place
+  setStatusDown(curNode, status); // update check status of this node and all childrens, in place
 
-  parentNodes.pop();            // don't need to check this node's level
-  updateStatusUp(parentNodes);  // update check status up, from this nodes parent, in place
+  parentNodes.pop(); // don't need to check this node's level
+  updateStatusUp(parentNodes); // update check status up, from this nodes parent, in place
 
   return { ...rootNode };
 };
@@ -115,19 +114,17 @@ export const deleteNode = (rootNode, path) => {
     parentNodes.push(curNode);
   }
 
-  curNode.children.splice(lastIdx, 1);    // remove target node
-  updateStatusUp(parentNodes);            // update check status up, from this nodes
+  curNode.children.splice(lastIdx, 1); // remove target node
+  updateStatusUp(parentNodes); // update check status up, from this nodes
 
   return { ...rootNode };
 };
 
-export const findMaxId = rootNode => {
+export const findMaxId = (rootNode) => {
   const { children } = rootNode;
   const curId = rootNode._id;
 
-  return children
-    ? Math.max(...[curId, ...children.map(findMaxId)])
-    : curId;
+  return children ? Math.max(...[curId, ...children.map(findMaxId)]) : curId;
 };
 
 export const addNode = (rootNode, path, type = 'file') => {
@@ -182,17 +179,14 @@ export const setAllOpenStatus = (node, isOpen) => {
 
   if (children) {
     newNode.isOpen = isOpen;
-    newNode.children = children.map(child => setAllOpenStatus(child, isOpen));
+    newNode.children = children.map((child) => setAllOpenStatus(child, isOpen));
   }
 
   return newNode;
 };
 
-export const isValidOpenStatus = node => {
-  const {
-    children,
-    isOpen,
-  } = node;
+export const isValidOpenStatus = (node) => {
+  const { children, isOpen } = node;
 
   if (children && isOpen === undefined) return false;
   if (!children && isOpen !== undefined) return false;
@@ -208,4 +202,4 @@ export const isValidOpenStatus = node => {
 
 // check if the initial custom checked status is valid
 // TODO: implement isValidCheckedStatus()
-export const isValidCheckedStatus = rootNode => true;
+export const isValidCheckedStatus = (rootNode) => true;

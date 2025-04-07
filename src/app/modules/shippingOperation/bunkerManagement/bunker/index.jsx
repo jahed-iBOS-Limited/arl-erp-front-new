@@ -82,13 +82,12 @@ export default function BunkerCalculatorLanding() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : '';
     getLandingData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetBunkerCalculatorLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
+      `${imarineBaseUrl}/domain/VesselNomination/GetBunkerCalculatorLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
   useEffect(() => {
     getGridData();
-
   }, []);
 
   const getVoyageDDL = (values) => {
@@ -157,7 +156,7 @@ export default function BunkerCalculatorLanding() {
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : '',
+                          valueOption?.value === 2 ? 2 : ''
                         );
                       } else {
                         getGridData();

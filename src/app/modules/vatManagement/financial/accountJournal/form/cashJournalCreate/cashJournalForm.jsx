@@ -1,31 +1,31 @@
-import React, { useCallback, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { saveAccountingJournal } from "../../helper";
-import Form from "./form";
+import React, { useCallback, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { saveAccountingJournal } from '../../helper';
+import Form from './form';
 
 const initData = {
   id: undefined,
-  partnerType: "",
-  sbu: "",
-  cashGLPlus: "",
-  receiveFrom: "",
-  headerNarration: "",
-  partner: "",
-  profitCenter: "",
-  transaction: "",
-  gl: "",
-  amount: "",
-  narration: "",
-  paidTo: "",
-  costCenter: "",
-  trasferTo: "",
-  gLBankAc: "",
+  partnerType: '',
+  sbu: '',
+  cashGLPlus: '',
+  receiveFrom: '',
+  headerNarration: '',
+  partner: '',
+  profitCenter: '',
+  transaction: '',
+  gl: '',
+  amount: '',
+  narration: '',
+  paidTo: '',
+  costCenter: '',
+  trasferTo: '',
+  gLBankAc: '',
   transactionDate: _todayDate(),
 };
 
@@ -34,8 +34,7 @@ export default function CashJournalForm({
   match: {
     params: { id },
   },
-})
- {
+}) {
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -49,7 +48,6 @@ export default function CashJournalForm({
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
 
-
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
     [rowDto]
@@ -62,7 +60,7 @@ export default function CashJournalForm({
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -73,81 +71,90 @@ export default function CashJournalForm({
     // dispatch(setBankJournalCreateAction(values));
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
-        toast.warn("Please add transaction");
+        toast.warn('Please add transaction');
       } else {
-
-         const objRow = rowDto.map((item) => {
+        const objRow = rowDto.map((item) => {
           return {
             journalId: 0,
-            journalCode: "",
+            journalCode: '',
             subGLTypeId: item?.partnerType?.reffPrtTypeId || 0,
-            subGLTypeName: item?.partnerType?.label || "",
+            subGLTypeName: item?.partnerType?.label || '',
             generalLedgerId: +item?.gl?.value || 0,
-            generalLedgerCode: item?.gl?.code || "",
-            generalLedgerName: item?.gl?.label || "",
+            generalLedgerCode: item?.gl?.code || '',
+            generalLedgerName: item?.gl?.label || '',
             subGLId: +item?.transaction?.value || 0,
-            subGlCode: item?.transaction?.code || "",
-            subGLName: item?.transaction?.label || "",
-            narration: item?.narration || "",
+            subGlCode: item?.transaction?.code || '',
+            subGLName: item?.transaction?.label || '',
+            narration: item?.narration || '',
             accountId: +profileData?.accountId,
             businessUnitId: +selectedBusinessUnit?.value,
             sbuId: location?.state?.sbu?.value,
             accountingJournalTypeId: location?.state?.accountingJournalTypeId,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
             transactionId: item?.transactionId || 0,
             transactionDate: values?.transactionDate || _todayDate(),
-            bankSortName:  "",
+            bankSortName: '',
             instrumentTypeID: 0,
-            instrumentTypeName:"",
-            instrumentNo:  "",
-            instrumentDate:null,
-            paytoName: "",
+            instrumentTypeName: '',
+            instrumentNo: '',
+            instrumentDate: null,
+            paytoName: '',
             actionBy: +profileData?.userId,
             isTransfer: false,
             numAmount: +item?.amount,
-            debit: location?.state?.accountingJournalTypeId !== 1 ?  +item?.amount : 0,
-            credit: location?.state?.accountingJournalTypeId === 1 ?  1 * -+item?.amount : 0,
+            debit:
+              location?.state?.accountingJournalTypeId !== 1
+                ? +item?.amount
+                : 0,
+            credit:
+              location?.state?.accountingJournalTypeId === 1
+                ? 1 * -+item?.amount
+                : 0,
           };
         });
 
         objRow.unshift({
           subGLTypeId: 5,
-          subGLTypeName: "Others",
+          subGLTypeName: 'Others',
           journalId: 0,
-          journalCode: "",
+          journalCode: '',
           generalLedgerId: +values?.cashGLPlus?.value || 0,
-          generalLedgerCode: values?.cashGLPlus?.generalLedgerCode || "",
-          generalLedgerName: values?.cashGLPlus?.label || "",
+          generalLedgerCode: values?.cashGLPlus?.generalLedgerCode || '',
+          generalLedgerName: values?.cashGLPlus?.label || '',
           subGLId: 0,
-          subGlCode: "",
-          subGLName: "",
+          subGlCode: '',
+          subGLName: '',
           narration: values?.narration,
           accountId: +profileData?.accountId,
           businessUnitId: +selectedBusinessUnit?.value,
           sbuId: location?.state?.sbu?.value,
           accountingJournalTypeId: location?.state?.accountingJournalTypeId,
           accountingJournalId: 0,
-          accountingJournalCode: "",
+          accountingJournalCode: '',
           transactionDate: values?.transactionDate || _todayDate(),
-          bankSortName: values?.bankAcc?.label.split(":")[0] || "",
+          bankSortName: values?.bankAcc?.label.split(':')[0] || '',
           instrumentTypeID: values?.instrumentType?.value || 0,
-          instrumentTypeName: values?.instrumentType?.label || "",
-          instrumentNo: values?.instrumentNo || "",
+          instrumentTypeName: values?.instrumentType?.label || '',
+          instrumentNo: values?.instrumentNo || '',
           instrumentDate: values?.instrumentDate || _todayDate(),
-          paytoName: values?.paidTo || "",
+          paytoName: values?.paidTo || '',
           actionBy: +profileData?.userId,
           isTransfer: false,
           numAmount: +netAmount,
-          debit: location?.state?.accountingJournalTypeId === 1 ? +netAmount : 0,
-          credit: location?.state?.accountingJournalTypeId !== 1 ? 1 * -+netAmount : 0,
-        })
+          debit:
+            location?.state?.accountingJournalTypeId === 1 ? +netAmount : 0,
+          credit:
+            location?.state?.accountingJournalTypeId !== 1
+              ? 1 * -+netAmount
+              : 0,
+        });
         saveAccountingJournal({
-          payload: {row:objRow},
+          payload: { row: objRow },
           setDisabled,
           cb,
-          IConfirmModal
-         });
+          IConfirmModal,
+        });
 
         // saveAccountingJournal({
         //   profileData,
@@ -174,7 +181,7 @@ export default function CashJournalForm({
     if (count === 0) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (id) => {
@@ -186,10 +193,10 @@ export default function CashJournalForm({
     <IForm
       title={`Create ${
         location?.state?.accountingJournalTypeId === 1
-          ? "Cash Receipts Journal"
+          ? 'Cash Receipts Journal'
           : location?.state?.accountingJournalTypeId === 2
-          ? "Cash Payments Journal"
-          : "Cash Transfer Journal"
+            ? 'Cash Payments Journal'
+            : 'Cash Transfer Journal'
       }`}
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { SalesTargetLanding } from "../helper";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { SalesTargetLanding } from '../helper';
 const GridData = ({
   gridData,
   pageNo,
@@ -56,13 +56,13 @@ const GridData = ({
             >
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "35px" }}>Item Name</th>
-                  <th style={{ width: "35px" }}>Quantity</th>
-                  <th style={{ width: "35px" }}>Price</th>
-                  <th style={{ width: "35px" }}>Total Amount</th>
-                  <th style={{ width: "35px" }}>Start Date</th>
-                  <th style={{ width: "35px" }}>End Date</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ width: '35px' }}>Item Name</th>
+                  <th style={{ width: '35px' }}>Quantity</th>
+                  <th style={{ width: '35px' }}>Price</th>
+                  <th style={{ width: '35px' }}>Total Amount</th>
+                  <th style={{ width: '35px' }}>Start Date</th>
+                  <th style={{ width: '35px' }}>End Date</th>
                   {/* <th style={{ width: "35px" }}>Action</th> */}
                 </tr>
               </thead>
@@ -77,19 +77,19 @@ const GridData = ({
                       <div className="pr-2">{tableData?.quantity}</div>
                     </td>
                     <td className="text-right">
-                      <div className="pr-2"> {tableData?.price}</div>{" "}
+                      <div className="pr-2"> {tableData?.price}</div>{' '}
                     </td>
                     <td className="text-right">
-                      {" "}
+                      {' '}
                       <div className="pr-2">{tableData?.totalAmount}</div>
                     </td>
                     <td className="text-center">
-                      {" "}
-                      {_dateFormatter(tableData?.fromdate)}{" "}
+                      {' '}
+                      {_dateFormatter(tableData?.fromdate)}{' '}
                     </td>
                     <td className="text-center">
-                      {" "}
-                      {_dateFormatter(tableData?.todate)}{" "}
+                      {' '}
+                      {_dateFormatter(tableData?.todate)}{' '}
                     </td>
                     {/* <td>
                       <div className='d-flex justify-content-around'>

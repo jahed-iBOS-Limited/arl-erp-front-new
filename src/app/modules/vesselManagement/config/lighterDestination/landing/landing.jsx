@@ -1,20 +1,19 @@
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import StevedoreCreateForm from '../form/form';
+import { deleteLighterDestination } from '../helper';
 
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import StevedoreCreateForm from "../form/form";
-import { deleteLighterDestination } from "../helper";
+const initData = { search: '' };
 
-const initData = { search: "" };
-
-const headers = ["SL", "Lighter Destination Name", "Action"];
+const headers = ['SL', 'Lighter Destination Name', 'Action'];
 
 const LighterDestination = () => {
   const [pageNo, setPageNo] = useState(0);
@@ -22,7 +21,7 @@ const LighterDestination = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   // const [singleData, setSingleData] = useState({});
 
   // get user profile data from store
@@ -38,12 +37,12 @@ const LighterDestination = () => {
   };
 
   useEffect(() => {
-    getData("", pageNo, pageSize);
+    getData('', pageNo, pageSize);
   }, [accId, buId]);
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getData("", pageNo, pageSize);
+    getData('', pageNo, pageSize);
   };
 
   // const paginationSearchHandler = (search) => {
@@ -52,11 +51,11 @@ const LighterDestination = () => {
 
   const deleteHandler = (id) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this Lighter Destination?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this Lighter Destination?',
       yesAlertFunc: () => {
         deleteLighterDestination(id, userId, setLoading, () => {
-          getData("", pageNo, pageSize);
+          getData('', pageNo, pageSize);
         });
       },
       noAlertFunc: () => {},
@@ -76,7 +75,7 @@ const LighterDestination = () => {
             title="Lighter Destination"
             isCreteBtn={true}
             createHandler={() => {
-              setFormType("create");
+              setFormType('create');
               setShow(true);
             }}
           >
@@ -94,7 +93,7 @@ const LighterDestination = () => {
                   <table
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -109,14 +108,14 @@ const LighterDestination = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {index + 1}
                             </td>
                             <td>{item?.destinationName}</td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-around">

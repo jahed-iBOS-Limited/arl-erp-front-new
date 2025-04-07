@@ -60,7 +60,7 @@ const paymentsJournal = Yup.object().shape({
     .min(1, 'Minimum 1 symbols')
     .max(
       1000000000000000000000000000000,
-      'Maximum 1000000000000000000000000000000 symbols',
+      'Maximum 1000000000000000000000000000000 symbols'
     )
     .required('Paid To required'),
   narration: Yup.string()
@@ -141,18 +141,17 @@ export default function FormCmp({
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
-          setGeneralLedgerDDL,
+          setGeneralLedgerDDL
         );
       } else if (headerData?.accountingJournalTypeId === 3) {
         getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
-          setGeneralLedgerDDL,
+          setGeneralLedgerDDL
         );
       }
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -160,7 +159,7 @@ export default function FormCmp({
     getCostCenterDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostCenterDDL,
+      setCostCenterDDL
     );
     getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
     getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
@@ -176,7 +175,7 @@ export default function FormCmp({
           selectedBusinessUnit?.value
         }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`,
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -198,8 +197,8 @@ export default function FormCmp({
           headerData?.accountingJournalTypeId === 1
             ? receiptsJournal
             : headerData?.accountingJournalTypeId === 2
-            ? paymentsJournal
-            : transferJournal
+              ? paymentsJournal
+              : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           let bankPaymentValues = { ...values }; //If you want to resetFrom write code after this line.
@@ -316,13 +315,13 @@ export default function FormCmp({
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,
-                                setGeneralLedgerDDL,
+                                setGeneralLedgerDDL
                               );
                               if (valueOption?.value === 3) {
                                 getBankAccountDDL_api(
                                   profileData?.accountId,
                                   selectedBusinessUnit.value,
-                                  setBankAccountDDL,
+                                  setBankAccountDDL
                                 );
                               }
 
@@ -402,7 +401,7 @@ export default function FormCmp({
                               if (headerData?.accountingJournalTypeId === 1) {
                                 setFieldValue(
                                   'receiveFrom',
-                                  valueOption?.label,
+                                  valueOption?.label
                                 );
                               } else if (
                                 headerData?.accountingJournalTypeId === 2
@@ -583,7 +582,7 @@ export default function FormCmp({
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
-                                  setCostElementDDL,
+                                  setCostElementDDL
                                 );
                                 setFieldValue('costElement', '');
                               } else {
@@ -692,8 +691,8 @@ export default function FormCmp({
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        attachmentFile,
-                                      ),
+                                        attachmentFile
+                                      )
                                     );
                                   }}
                                   className="ml-2"

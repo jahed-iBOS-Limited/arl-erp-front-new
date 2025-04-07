@@ -1,17 +1,16 @@
-
-import React, { useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { getDeliveryCollectionDueReport } from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React, { useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { getDeliveryCollectionDueReport } from '../helper';
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 const initData = {
-  dueType: { value: 0, label: "All" },
+  dueType: { value: 0, label: 'All' },
 };
 
 function CollectionReportLanding() {
@@ -41,14 +40,14 @@ function CollectionReportLanding() {
                     <NewSelect
                       name="dueType"
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Due" },
-                        { value: 2, label: "Over Due" },
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Due' },
+                        { value: 2, label: 'Over Due' },
                       ]}
                       value={values?.dueType}
                       label="Due Type"
                       onChange={(valueOption) => {
-                        setFieldValue("dueType", valueOption);
+                        setFieldValue('dueType', valueOption);
                         getDeliveryCollectionDueReport(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -95,11 +94,11 @@ function CollectionReportLanding() {
                           {gridData?.map((item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td style={{ textAlign: "left" }}>
+                              <td style={{ textAlign: 'left' }}>
                                 {item?.soldToPartnerName}
                               </td>
                               <td>{item?.soldToPartnerCode}</td>
-                              <td style={{ textAlign: "left" }}>
+                              <td style={{ textAlign: 'left' }}>
                                 {item?.shipToPartnerAddress}
                               </td>
                               <td>{_dateFormatter(item?.deliveryDate)}</td>

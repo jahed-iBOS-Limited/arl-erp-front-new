@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const createEmployeeTrainingInfo_api = async (
   payload,
@@ -9,17 +9,16 @@ export const createEmployeeTrainingInfo_api = async (
   try {
     setDisabled(true);
     const res = await Axios.post(
-      "/hcm/EmpTrainingInfo/CreateEmployeeTrainingInfo",
+      '/hcm/EmpTrainingInfo/CreateEmployeeTrainingInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
-    toast.error(error?.response?.data?.message || "Error");
+    toast.error(error?.response?.data?.message || 'Error');
     setDisabled(false);
   }
 };
@@ -33,15 +32,13 @@ export const getEmpTrainingInfoById_api = async (id, setter) => {
     if (res.status === 200 && res.data) {
       const data = res.data;
       if (res.data.length > 0) {
-        console.log(res?.data, "resdata")
+        console.log(res?.data, 'resdata');
         setter(data);
       } else {
         setter([]);
       }
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const editEmployeeTrainingInfo_api = async (
@@ -52,16 +49,15 @@ export const editEmployeeTrainingInfo_api = async (
   try {
     setDisabled(true);
     const res = await Axios.put(
-      "/hcm/EmpTrainingInfo/EditEmployeeTrainingInfo",
+      '/hcm/EmpTrainingInfo/EditEmployeeTrainingInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }

@@ -1,26 +1,26 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getShopFloorDDL } from "../../../manufacturingExecutionSystem/billOfMaterial/helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { getShopFloorDDL } from '../../../manufacturingExecutionSystem/billOfMaterial/helper';
 
 const validationSchema = Yup.object().shape({
   productionLineName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Production line name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Production line name is required'),
   productionLineCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Production line code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Production line code is required'),
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name is required"),
-    value: Yup.string().required("Plant Name is required"),
+    label: Yup.string().required('Plant Name is required'),
+    value: Yup.string().required('Plant Name is required'),
   }),
   shopFloorName: Yup.object().shape({
-    label: Yup.string().required("Shop Floor is required"),
-    value: Yup.string().required("Shop Floor is required"),
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor is required'),
   }),
 });
 
@@ -74,16 +74,15 @@ export default function FormCmp({
                         valueOption?.value,
                         setShopFloorDDL
                       );
-                      setFieldValue("plantName", valueOption);
-                      setFieldValue("shopFloorName", "");
+                      setFieldValue('plantName', valueOption);
+                      setFieldValue('shopFloorName', '');
                     }}
                     placeholder="Plant Name"
                     label="Plant Name"
                     errors={errors}
                     touched={touched}
                     isDisabled={isEdit}
-                  />{" "}
-
+                  />{' '}
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -91,7 +90,7 @@ export default function FormCmp({
                     options={shopFloorDDL}
                     value={values?.shopFloorName}
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloorName", valueOption);
+                      setFieldValue('shopFloorName', valueOption);
                     }}
                     placeholder="Shop Floor"
                     label="Shop Floor"
@@ -105,7 +104,7 @@ export default function FormCmp({
                     value={
                       values?.productionLineName
                         ? values?.productionLineName
-                        : ""
+                        : ''
                     }
                     label="Production Line Name"
                     name="productionLineName"
@@ -115,7 +114,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.productionLineCode || ""}
+                    value={values?.productionLineCode || ''}
                     label="Production Line Code"
                     name="productionLineCode"
                     type="text"
@@ -126,13 +125,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

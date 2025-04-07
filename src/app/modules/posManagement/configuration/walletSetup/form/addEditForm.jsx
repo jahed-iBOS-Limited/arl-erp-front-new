@@ -1,25 +1,28 @@
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import IForm from './../../../../_helper/_form';
 
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import IForm from "./../../../../_helper/_form";
-
-import { CreateWalletSetup, getWalletSetupLanding, getWalletSetupById } from "../helper";
+import {
+  CreateWalletSetup,
+  getWalletSetupLanding,
+  getWalletSetupById,
+} from '../helper';
 
 const initData = {
-  strWalletName: "",
-  strWalletType: "",
-  strBankAccountId: "",
-  strBankAccountNo: "",
-  strBankName: "",
+  strWalletName: '',
+  strWalletType: '',
+  strBankAccountId: '',
+  strBankAccountNo: '',
+  strBankName: '',
   numCommissionPercentage: 0,
 };
 
 const WalletSetupForm = () => {
   const [rowDto, setRowDto] = useState([]);
   const [objProps, setObjprops] = useState({});
-  const [id, setId] = useState("");
-  const [walletId, setWalletId] = useState("");
+  const [id, setId] = useState('');
+  const [walletId, setWalletId] = useState('');
   const [singleData, setSingleData] = useState({});
 
   // get user profile data from store
@@ -34,16 +37,16 @@ const WalletSetupForm = () => {
 
   const saveHandler = async (values) => {
     if (profileData?.accountId && selectedBusinessUnit?.value && values) {
-      if(walletId){
-        const updatedRowDto=rowDto.filter(data=>data.isUpdated===true)
-        await CreateWalletSetup(updatedRowDto)
+      if (walletId) {
+        const updatedRowDto = rowDto.filter((data) => data.isUpdated === true);
+        await CreateWalletSetup(updatedRowDto);
         getWalletSetupLanding(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          "",
+          '',
           setRowDto
         );
-      }else{
+      } else {
         const payload = {
           id: singleData?.id || 0,
           intAccountId: profileData.accountId,
@@ -60,7 +63,7 @@ const WalletSetupForm = () => {
         getWalletSetupLanding(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          "",
+          '',
           setRowDto
         );
       }
@@ -72,8 +75,8 @@ const WalletSetupForm = () => {
       getWalletSetupLanding(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
-        "",
+        '',
+        '',
         setRowDto
       );
     }
@@ -84,11 +87,11 @@ const WalletSetupForm = () => {
     setRowDto(filterData);
   };
 
-  useEffect(() =>{
-    if(id){
-      getWalletSetupById(id, setSingleData)
+  useEffect(() => {
+    if (id) {
+      getWalletSetupById(id, setSingleData);
     }
-  }, [id])
+  }, [id]);
 
   const updateStatus = (value, index) => {
     const rowData = [...rowDto];
@@ -101,20 +104,20 @@ const WalletSetupForm = () => {
     getWalletSetupLanding(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      "",
+      '',
       searchValue,
       setRowDto
     );
   };
 
-  console.log(rowDto)
+  console.log(rowDto);
 
   return (
     <>
-      <IForm title={"Wallet Setup"} getProps={setObjprops}>
+      <IForm title={'Wallet Setup'} getProps={setObjprops}>
         <Form
           {...objProps}
-          initData={id?singleData:initData}
+          initData={id ? singleData : initData}
           saveHandler={saveHandler}
           rowDto={rowDto}
           setRowDto={setRowDto}

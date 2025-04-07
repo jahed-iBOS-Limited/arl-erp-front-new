@@ -12,7 +12,7 @@ import './ViewInvoice.css';
 export default function ViewInvoice({ clickRowDto }) {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [
     singleChaShipmentBooking,
@@ -63,10 +63,9 @@ export default function ViewInvoice({ clickRowDto }) {
             ...resData,
             chaServiceCharges: modifyData,
           });
-        },
+        }
       );
     }
-
   }, [clickRowDto]);
 
   if (singleChaShipmentBookingLoading) {
@@ -182,7 +181,8 @@ export default function ViewInvoice({ clickRowDto }) {
                 <b>Bill To</b>
               </td>
               <td colSpan="3" style={cellStyle}>
-                Invoice No.: {singleChaShipmentBooking?.commercialInvoiceNo}{' '}
+                Invoice No.:{' '}
+                {singleChaShipmentBooking?.commercialInvoiceNo}{' '}
               </td>
             </tr>
             <tr>

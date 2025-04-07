@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -87,7 +86,7 @@ export default function FormCmp({
       getDistrictDDLAction(
         location?.state?.country?.value,
         location?.state?.division?.value,
-        setDistrictDDL,
+        setDistrictDDL
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -97,7 +96,7 @@ export default function FormCmp({
       getLeaveSummarySelfData(
         location?.state?.employee?.value,
         setLeaveSummaryRowDto,
-        setLoader,
+        setLoader
       );
     }
   }, [location]);
@@ -112,7 +111,7 @@ export default function FormCmp({
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -122,7 +121,7 @@ export default function FormCmp({
 
   const plLeaveBalance = useCallback(
     leaveSummaryRowDto.filter((item) => item?.leaveType === 'Previledge Leave'),
-    [leaveSummaryRowDto],
+    [leaveSummaryRowDto]
   );
 
   const plLeaveFromDateHandler = (setFieldValue, value) => {
@@ -140,7 +139,7 @@ export default function FormCmp({
     if (plLeaveBalance?.[0]?.remainingDays > 0) {
       let toDate = addDaysToADate(
         value,
-        plLeaveBalance?.[0]?.remainingDays - 1,
+        plLeaveBalance?.[0]?.remainingDays - 1
       );
       setFieldValue('toDate', toDate);
     } else {
@@ -230,7 +229,7 @@ export default function FormCmp({
                               getLeaveTypeDDL(
                                 0,
                                 values?.employeeName?.value,
-                                setLeaveTypeDDL,
+                                setLeaveTypeDDL
                               );
                             }
                             setFieldValue('leaveType', 0);
@@ -265,13 +264,13 @@ export default function FormCmp({
                               getLeaveSummarySelfData(
                                 valueOption?.value,
                                 setLeaveSummaryRowDto,
-                                setLoader,
+                                setLoader
                               );
                               // setEmployeeValue(valueOption);
                               getLeaveTypeDDL(
                                 values?.leaveType,
                                 valueOption?.value,
-                                setLeaveTypeDDL,
+                                setLeaveTypeDDL
                               );
                               if (values?.leaveType === 1) {
                                 setFieldValue('reasonType', '');
@@ -283,7 +282,7 @@ export default function FormCmp({
                               getEmpInfoById(
                                 valueOption,
                                 setFieldValue,
-                                'employeeName',
+                                'employeeName'
                               );
                             }}
                             loadOptions={loadUserList}
@@ -371,7 +370,7 @@ export default function FormCmp({
                           ) {
                             plLeaveFromDateHandler(
                               setFieldValue,
-                              e.target.value,
+                              e.target.value
                             );
                           } else {
                             setFieldValue('fromDate', e.target.value);
@@ -551,7 +550,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

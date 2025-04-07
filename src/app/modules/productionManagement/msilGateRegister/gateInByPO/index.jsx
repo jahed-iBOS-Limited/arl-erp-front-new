@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import GateInByPO from "./gateInByPO";
-import GateInByPoModal from "./viewModal";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import GateInByPO from './gateInByPO';
+import GateInByPoModal from './viewModal';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 const initData = {
   date: _todayDate(),
@@ -29,7 +29,7 @@ function GateInByPoLanding() {
   const [item, setItem] = useState(null);
   const [viewType, setViewType] = useState(1);
   const [date, setDate] = useState(_todayDate());
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -47,7 +47,7 @@ function GateInByPoLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate In By PO"}>
+              <CardHeader title={'Gate In By PO'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -73,7 +73,7 @@ function GateInByPoLanding() {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
                         }}
@@ -86,7 +86,7 @@ function GateInByPoLanding() {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
                         }}
@@ -106,14 +106,14 @@ function GateInByPoLanding() {
                             name="date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("date", e.target.value);
+                              setFieldValue('date', e.target.value);
                               setDate(e.target.value);
                             }}
                           />
                         </div>
                         <div>
                           <button
-                            style={{ marginTop: "18px" }}
+                            style={{ marginTop: '18px' }}
                             className="btn btn-primary ml-2"
                             disabled={!values.date}
                             onClick={() => {
@@ -173,7 +173,7 @@ function GateInByPoLanding() {
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                             <thead>
                               <tr>
-                                <th style={{ width: "30px" }}>SL</th>
+                                <th style={{ width: '30px' }}>SL</th>
                                 <th>Date</th>
                                 <th>PO Number</th>
                                 <th>Supplier Name</th>

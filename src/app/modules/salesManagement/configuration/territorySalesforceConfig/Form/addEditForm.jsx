@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getEmpDDLAction,
   getSaleForceTerritoryById,
@@ -10,20 +9,20 @@ import {
   getTerritoryDDLAction,
   getTerritoryTypeDDLAction,
   setSalesForceTerritorySingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  territoryType: "",
-  territory: "",
-  employee: "",
-  email: "",
-  point: "",
-  distributionChannel: "",
-  salesForceType:"",
+  territoryType: '',
+  territory: '',
+  employee: '',
+  email: '',
+  point: '',
+  distributionChannel: '',
+  salesForceType: '',
 };
 
 export default function TerritorySalesForceConfigForm({
@@ -61,7 +60,6 @@ export default function TerritorySalesForceConfigForm({
     } else {
       dispatch(setSalesForceTerritorySingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -77,8 +75,6 @@ export default function TerritorySalesForceConfigForm({
         )
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -135,7 +131,7 @@ export default function TerritorySalesForceConfigForm({
   };
 
   const setter = (payload) => {
-    if (isUniq("territoryId", payload.territoryId, rowDto)) {
+    if (isUniq('territoryId', payload.territoryId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };

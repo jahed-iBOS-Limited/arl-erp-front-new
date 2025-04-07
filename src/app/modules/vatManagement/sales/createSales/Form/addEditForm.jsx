@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { createSales, getSinglePurchase, editSales } from "../helper";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import { getItemAmounts } from "../helper";
-import moment from "moment";
-import Loading from "../../../../_helper/_loading";
-import { _currentTime } from "../../../../_helper/_currentTime";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { createSales, getSinglePurchase, editSales } from '../helper';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import { getItemAmounts } from '../helper';
+import moment from 'moment';
+import Loading from '../../../../_helper/_loading';
+import { _currentTime } from '../../../../_helper/_currentTime';
 
 const initData = {
-  supplier: "",
-  address: "",
+  supplier: '',
+  address: '',
   transactionDate: _todayDate(),
-  tradeType: "",
-  paymentTerm: "",
-  vehicalInfo: "",
-  refferenceNo: "",
+  tradeType: '',
+  paymentTerm: '',
+  vehicalInfo: '',
+  refferenceNo: '',
   refferenceDate: _todayDate(),
-  totalTdsAmount: "",
-  totalVdsAmount: "",
-  selectedItem: "",
-  deliveryAddress: "",
-  selectedUom: "",
-  quantity: "",
-  rate: "",
-  totalAtv: "",
-  totalAit: "",
-  deliveryTo: "",
+  totalTdsAmount: '',
+  totalVdsAmount: '',
+  selectedItem: '',
+  deliveryAddress: '',
+  selectedUom: '',
+  quantity: '',
+  rate: '',
+  totalAtv: '',
+  totalAit: '',
+  deliveryTo: '',
   taxDeliveryDateTime: _todayDate(),
-  customsHouse: "",
-  customsHouseCode: "",
-  port: "",
+  customsHouse: '',
+  customsHouseCode: '',
+  port: '',
 };
 
 export default function SalesForm() {
@@ -42,11 +42,9 @@ export default function SalesForm() {
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const location = useLocation();
-
-
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -69,14 +67,13 @@ export default function SalesForm() {
         rowDto
       );
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {
     // time format
     const time = _currentTime();
     const dateFormate = moment(`${values?.taxDeliveryDateTime} ${time}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
@@ -93,7 +90,7 @@ export default function SalesForm() {
             vatTotal: total.vatAmount,
             isFree: item.isFree,
             salesUomid: 0,
-            salesUomname: "string",
+            salesUomname: 'string',
             basePrice: +item.rate,
             baseTotal: 0,
             surchargeTotal: total.surchargeAmount,
@@ -126,7 +123,7 @@ export default function SalesForm() {
             grandTotal: 0,
             isFree: item.isFree,
             salesUomid: 0,
-            salesUomname: "string",
+            salesUomname: 'string',
             baseTotal: 0,
             subTotal: 0,
             surchargeTotal: total.surchargeAmount,
@@ -145,14 +142,14 @@ export default function SalesForm() {
             tradeTypeName: values.tradeType.label,
             soldtoPartnerId: values.supplier.value,
             soldtoPartnerName: values.supplier.label,
-            soldtoPartnerAddress: values.address || "",
+            soldtoPartnerAddress: values.address || '',
             shiptoPartnerId: values.deliveryTo.value,
             shiptoPartnerName: values.deliveryTo.label,
-            shiptoPartnerAddress: values.deliveryAddress || "",
+            shiptoPartnerAddress: values.deliveryAddress || '',
             // paymentTerms: values.paymentTerm.value,
             // paymentTermsName: values.paymentTerm.label,
             vehicleNo: values.vehicalInfo,
-            referenceNo: values.refferenceNo || "",
+            referenceNo: values.refferenceNo || '',
             referencedate: values.refferenceDate,
             actionBy: profileData?.userId,
             taxYear: 0,
@@ -161,14 +158,14 @@ export default function SalesForm() {
             // new field add
             portId: values?.port?.value || 0,
             customHouseId: values?.customsHouse?.value || 0,
-            customHouseName: values?.customsHouse?.withOutCodeLabel || "",
-            customHouseCode: values?.customsHouseCode || "",
+            customHouseName: values?.customsHouse?.withOutCodeLabel || '',
+            customHouseCode: values?.customsHouseCode || '',
           },
           objListRow: objRow,
         };
 
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           createSales(payload, cb, setDisabled);
         }
@@ -186,22 +183,22 @@ export default function SalesForm() {
     const total = getItemAmounts(values, selectedItemInfo);
 
     if (arr?.length > 0) {
-      toast.warn("Not allowed to duplicate items");
+      toast.warn('Not allowed to duplicate items');
     } else {
       const item = {
         ...values.selectedItem,
         uom: values.selectedUom,
         quantity: values.quantity,
         rate: values.rate,
-        cd: "",
-        rd: "",
+        cd: '',
+        rd: '',
         sd: selectedItemInfo.sdpercentage || 0,
         vat: selectedItemInfo.vatpercentage || 0,
         surcharge: selectedItemInfo.surchargePercentage || 0,
-        ait: "",
-        atv: "",
-        refund: "",
-        rebatAmount: "",
+        ait: '',
+        atv: '',
+        refund: '',
+        rebatAmount: '',
         totalAmount: total.totalAmount?.toFixed(2),
         isFree: false,
       };

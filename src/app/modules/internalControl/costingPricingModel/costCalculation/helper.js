@@ -1,60 +1,60 @@
 export const tblMaterialCostHeaders = [
-  "SL",
-  "Material Name",
-  "UOM",
+  'SL',
+  'Material Name',
+  'UOM',
   {
-    title: "Conv.",
-    style: { width: "115px" },
+    title: 'Conv.',
+    style: { width: '115px' },
   },
   {
-    title: "Percentige",
-    style: { width: "115px" },
+    title: 'Percentige',
+    style: { width: '115px' },
   },
   {
-    title: "Yield %",
-    style: { width: "115px" },
+    title: 'Yield %',
+    style: { width: '115px' },
   },
-  "Required Qty",
+  'Required Qty',
   {
-    title: "Current Qty",
-    style: { maxWidth: "50px" },
+    title: 'Current Qty',
+    style: { maxWidth: '50px' },
   },
-  "Current Inv Price",
+  'Current Inv Price',
   {
-    title: "New Qty",
-    style: { width: "115px" },
-  },
-  {
-    title: "New Price",
-    style: { width: "115px" },
-  },
-  "Current Cost",
-  {
-    title: "New Cost",
-    style: { maxWidth: "50px" },
+    title: 'New Qty',
+    style: { width: '115px' },
   },
   {
-    title: "Avg. Cost",
-    style: { maxWidth: "50px" },
+    title: 'New Price',
+    style: { width: '115px' },
+  },
+  'Current Cost',
+  {
+    title: 'New Cost',
+    style: { maxWidth: '50px' },
+  },
+  {
+    title: 'Avg. Cost',
+    style: { maxWidth: '50px' },
   },
 ];
 export const tblCostComponentHeaders = [
   {
-    title: "SL",
-    style: { width: "30px" },
+    title: 'SL',
+    style: { width: '30px' },
   },
-  "Cost Name",
+  'Cost Name',
   {
-    title: "Multiplier",
-    style: { width: "150px" },
-  },
-  {
-    title: "Multiplicand",
-    style: { width: "150px" },
+    title: 'Multiplier',
+    style: { width: '150px' },
   },
   {
-    title: "",
-    style: { width: "150px" },
+    title: 'Multiplicand',
+    style: { width: '150px' },
+  },
+  {
+    title: '',
+    style: { width: '150px' },
   },
 ];
 

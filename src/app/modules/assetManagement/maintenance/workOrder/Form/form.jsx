@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import MaintananceServiceDetailsForm from "../maintananceserviceDetails/addEditForm";
-import { IInput } from "../../../../_helper/_input";
-import "./customButton.css";
-import IAdd from "../../../../_helper/_helperIcons/_add";
-import IUpdate from "../../../../_helper/_helperIcons/_update";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import IViewModal from '../../../../_helper/_viewModal';
+import MaintananceServiceDetailsForm from '../maintananceserviceDetails/addEditForm';
+import { IInput } from '../../../../_helper/_input';
+import './customButton.css';
+import IAdd from '../../../../_helper/_helperIcons/_add';
+import IUpdate from '../../../../_helper/_helperIcons/_update';
 import {
   getMaintenanceTaskRowData,
   saveForItemReqData,
   saveForPurchaseRequestData,
-} from "../helpers";
-import FormikError from "../../../../_helper/_formikError";
-import Axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import SearchAsyncSelectMulti from "../../../../_helper/SearchAsyncSelectMulti";
+} from '../helpers';
+import FormikError from '../../../../_helper/_formikError';
+import Axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import SearchAsyncSelectMulti from '../../../../_helper/SearchAsyncSelectMulti';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  workOrder: Yup.string().required("Work Order is required"),
+  workOrder: Yup.string().required('Work Order is required'),
   status: Yup.object().shape({
-    label: Yup.string().required("Status is required"),
-    value: Yup.string().required("Status is required"),
+    label: Yup.string().required('Status is required'),
+    value: Yup.string().required('Status is required'),
   }),
   costCenter: Yup.object().shape({
-    label: Yup.string().required("Cost center is required"),
-    value: Yup.string().required("Cost center is required"),
+    label: Yup.string().required('Cost center is required'),
+    value: Yup.string().required('Cost center is required'),
   }),
-  assignTo: Yup.array().required("Assign to is required!")
+  assignTo: Yup.array().required('Assign to is required!'),
 });
 
 export default function FormCmp({
@@ -56,7 +56,7 @@ export default function FormCmp({
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentROwData] = useState([]);
   const [checkData, setCheckData] = useState([]);
-  console.log("checkData", checkData);
+  console.log('checkData', checkData);
   const history = useHistory();
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -125,7 +125,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-          {console.log(values)}
+            {console.log(values)}
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="global-form">
@@ -143,9 +143,9 @@ export default function FormCmp({
                     <ISelect
                       label="Select Status"
                       options={[
-                        { label: "Open", value: 1 },
-                        { label: "Pending", value: 2 },
-                        { label: "Close", value: 3 },
+                        { label: 'Open', value: 1 },
+                        { label: 'Pending', value: 2 },
+                        { label: 'Close', value: 3 },
                       ]}
                       value={values?.status}
                       name="status"
@@ -206,10 +206,10 @@ export default function FormCmp({
                     <SearchAsyncSelectMulti
                       selectedValue={values?.assignTo}
                       onChange={(valueOption) => {
-                        if(valueOption) {
-                          setFieldValue("assignTo", valueOption);
+                        if (valueOption) {
+                          setFieldValue('assignTo', valueOption);
                         } else {
-                          setFieldValue("assignTo", []);
+                          setFieldValue('assignTo', []);
                         }
                       }}
                       loadOptions={loadEmployeeInfo}
@@ -258,13 +258,13 @@ export default function FormCmp({
                     <button
                       type="button"
                       disabled={
-                        values.depService === "" || values.amount === ""
+                        values.depService === '' || values.amount === ''
                       }
                       onClick={() => {
                         onClickForServicesave(values);
-                        setFieldValue("depService", "");
-                        setFieldValue("amount", "");
-                        setFieldValue("description", "");
+                        setFieldValue('depService', '');
+                        setFieldValue('amount', '');
+                        setFieldValue('description', '');
                       }}
                       className="btn btn-primary mr-2"
                     >
@@ -344,7 +344,7 @@ export default function FormCmp({
                         {taskRowData &&
                           taskRowData?.map((item, i) => (
                             <tr key={i + 1}>
-                              <td style={{ width: "80px" }}>
+                              <td style={{ width: '80px' }}>
                                 <label className="">
                                   <input
                                     type="checkbox"
@@ -355,7 +355,7 @@ export default function FormCmp({
                                     disabled={item?.purchaseRequestId}
                                     onChange={(e) =>
                                       handleCheckBox(
-                                        "isCheck",
+                                        'isCheck',
                                         e.target.checked,
                                         i,
                                         taskRowData,
@@ -369,7 +369,7 @@ export default function FormCmp({
                               <td className="text-left">{item.serviceName}</td>
                               <td
                                 className="text-right"
-                                style={{ width: "130px" }}
+                                style={{ width: '130px' }}
                               >
                                 <IInput
                                   value={taskRowData[i]?.numAmount}
@@ -379,7 +379,7 @@ export default function FormCmp({
                                   required
                                   onChange={(e) => {
                                     rowDtoHandler(
-                                      "numAmount",
+                                      'numAmount',
                                       e.target.value,
                                       i
                                     );
@@ -398,7 +398,7 @@ export default function FormCmp({
                                   placeholder="Description"
                                   onChange={(e) => {
                                     rowDtoHandler(
-                                      "description",
+                                      'description',
                                       e.target.value,
                                       i
                                     );
@@ -411,7 +411,7 @@ export default function FormCmp({
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "130px" }}
+                                style={{ width: '130px' }}
                               >
                                 <button
                                   type="button"
@@ -451,14 +451,14 @@ export default function FormCmp({
               </IViewModal>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

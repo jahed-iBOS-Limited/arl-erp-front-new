@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   objective: [],
   target: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const indPmsAchievementSlice = createSlice({
-  name: "indPmsAchievement",
+  name: 'indPmsAchievement',
   initialState: initState,
   reducers: {
     SetTarget: (state, action) => {
@@ -26,7 +26,7 @@ export const indPmsAchievementSlice = createSlice({
       state.target = [];
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

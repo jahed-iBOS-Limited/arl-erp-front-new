@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // Get landing data for customs duty
 export const getLandingData = async (
@@ -116,7 +116,7 @@ export const CreateCustomsDuty = async (
   try {
     const res = await axios.post(`/imp/CustomDuty/CreateCustomDuty`, payload);
     if (res.status === 200) {
-      toast.success(res?.message || "Created Successfully");
+      toast.success(res?.message || 'Created Successfully');
       cb();
     }
   } catch (error) {
@@ -153,7 +153,7 @@ const dataSetForCreate = (
     bankId: values?.bank?.value || 0,
     customId: values?.custom?.value || 0,
     paymentInstrumentBy: values?.instrumentType?.value || 0,
-    boEnumber: values?.boeNo || "",
+    boEnumber: values?.boeNo || '',
     boEdate: values?.boeDate,
     paymentDate: values?.paymentDate,
     fineBdt: values?.fineBDT || 0,
@@ -163,7 +163,7 @@ const dataSetForCreate = (
     cnfIncomeTax: values?.CnFIncomeTax || 0,
     cnfVat: values?.cnfVat || 0,
     scanning: values?.scanning || 0,
-    customDutyDocumentId: "",
+    customDutyDocumentId: '',
     lastActionBy: profileData?.employeeId,
     grandTotal: values?.grandTotal || 0,
     invoiceAmount: values?.invoiceAmount || 0,
@@ -209,7 +209,7 @@ export const EditCustomsDuty = async (
   try {
     const res = await axios.put(`/imp/CustomDuty/EditCustomDuty`, payload);
     if (res.status === 200) {
-      toast.success(res?.message || "Updated Successfully");
+      toast.success(res?.message || 'Updated Successfully');
     }
   } catch (error) {
     toast.warning(error?.response?.data?.message);
@@ -226,7 +226,6 @@ const dataSetForEdit = (
   shipmentId,
   shipmentCode,
   hsCode
-
 ) => {
   const payload = {
     objHeader: {
@@ -246,12 +245,12 @@ const dataSetForEdit = (
       cnfVat: values?.cnfVat,
       scanning: values?.scanning,
       // totalCustomDuty: subTotal,
-      customDutyDocumentId: "string",
+      customDutyDocumentId: 'string',
       is78Guarantee: values?.is78Guarantee,
       guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0,
       lastActionBy: profileData?.employeeId,
-      totalCustomDuty:+values?.customDuty || 0,
-      grandTotal :values?.grandTotal || 0,
+      totalCustomDuty: +values?.customDuty || 0,
+      grandTotal: values?.grandTotal || 0,
       // grandTotal: grandTotal0,
       // refundBy: refundBy,
       // refundDate: refundDate,
@@ -408,106 +407,96 @@ export const GetHSCodeInfoForCustomDuty = async (
 
 export const validationSchema = Yup.object().shape({
   is78Guarantee: Yup.boolean(),
-  guarantee78Amount: Yup.number().when("is78Guarantee", {
+  guarantee78Amount: Yup.number().when('is78Guarantee', {
     is: true,
     then: Yup.number()
-      .required("Guarantee78 Amount is required")
-      .positive("Guarantee78 Amount Must be positive"),
+      .required('Guarantee78 Amount is required')
+      .positive('Guarantee78 Amount Must be positive'),
     otherwise: Yup.number(),
   }),
-  boeNo: Yup.string().when("is78Guarantee", {
+  boeNo: Yup.string().when('is78Guarantee', {
     is: false,
-    then: Yup.string().required("BoE No is required"),
+    then: Yup.string().required('BoE No is required'),
     otherwise: Yup.string(),
   }),
-  exRate: Yup.number().when("is78Guarantee", {
+  exRate: Yup.number().when('is78Guarantee', {
     is: false,
     then: Yup.number()
-      .required("Exchange Rate is required")
-      .positive("Exchange Rate Must be positive"),
+      .required('Exchange Rate is required')
+      .positive('Exchange Rate Must be positive'),
     otherwise: Yup.number(),
   }),
   // invoiceAmountBDT: Yup.string().required("Invoice Amount BDT is required"),
   cnfAgencyDDL: Yup.object().shape({
-    value: Yup.string().required("CnF Agency is required"),
+    value: Yup.string().required('CnF Agency is required'),
   }),
 
   custom: Yup.object().shape({
-    label: Yup.string().required("Custom is required"),
-    value: Yup.string().required("Custom is required"),
+    label: Yup.string().required('Custom is required'),
+    value: Yup.string().required('Custom is required'),
   }),
-  paidBy: Yup.object().when("is78Guarantee", {
+  paidBy: Yup.object().when('is78Guarantee', {
     is: false,
     then: Yup.object().shape({
-      label: Yup.string().required("Paid By is required"),
-      value: Yup.string().required("Paid By is required"),
+      label: Yup.string().required('Paid By is required'),
+      value: Yup.string().required('Paid By is required'),
     }),
     otherwise: Yup.object(),
   }),
   assessmentValue: Yup.number()
-    .positive("Assessment Value Must be a Positive Number")
+    .positive('Assessment Value Must be a Positive Number')
     .nullable(),
 
   customDuty: Yup.number()
-    .positive("Custom Duty Must be a Positive Number")
+    .positive('Custom Duty Must be a Positive Number')
     .nullable(),
 
   regulatoryDuty: Yup.number()
-    .positive("Regulatory Duty Must be a Positive Number")
+    .positive('Regulatory Duty Must be a Positive Number')
     .nullable(),
 
   supplementaryDuty: Yup.number()
-    .positive("Supplementary Duty Must be a Positive Number")
+    .positive('Supplementary Duty Must be a Positive Number')
     .nullable(),
 
-  vat: Yup.number()
-    .positive("VAT Must be a Positive Number")
-    .nullable(),
+  vat: Yup.number().positive('VAT Must be a Positive Number').nullable(),
 
-  bank: Yup.string().when("paidBy", {
-    is: (data) => data?.label === "Own Cheque",
-    then: Yup.string().required("Bank is required"),
+  bank: Yup.string().when('paidBy', {
+    is: (data) => data?.label === 'Own Cheque',
+    then: Yup.string().required('Bank is required'),
   }),
 
-  instrumentType: Yup.string().when("paidBy", {
-    is: (data) => data?.label === "Own Cheque",
-    then: Yup.string().required("Instrument Type is required"),
+  instrumentType: Yup.string().when('paidBy', {
+    is: (data) => data?.label === 'Own Cheque',
+    then: Yup.string().required('Instrument Type is required'),
   }),
 
   invoiceAmount: Yup.number().positive(
-    "Invoice Amount Must be a Positive Number"
+    'Invoice Amount Must be a Positive Number'
   ),
-  ait: Yup.number()
-    .positive("AIT Must be a Positive Number")
-    .nullable(),
+  ait: Yup.number().positive('AIT Must be a Positive Number').nullable(),
   advanceTradeVat: Yup.number()
-    .positive("Advance TradeVat Must be a Positive Number")
+    .positive('Advance TradeVat Must be a Positive Number')
     .nullable(),
-  psi: Yup.number()
-    .positive("PSI Must be a Positive Number")
-    .nullable(),
-  at: Yup.number()
-    .positive("AT Must be a Positive Number")
-    .nullable(),
+  psi: Yup.number().positive('PSI Must be a Positive Number').nullable(),
+  at: Yup.number().positive('AT Must be a Positive Number').nullable(),
   fineBDT: Yup.number()
-    .positive("Fine BDT Must be a Positive Number")
+    .positive('Fine BDT Must be a Positive Number')
     .nullable(),
   AITExemptionBDT: Yup.number()
-    .positive("AITExemptionBDT Must be a Positive Number")
+    .positive('AITExemptionBDT Must be a Positive Number')
     .nullable(),
   docProcessFee: Yup.number()
-    .positive("DOC Process Fee Must be a Positive Number")
+    .positive('DOC Process Fee Must be a Positive Number')
     .nullable(),
   CnFIncomeTax: Yup.number()
-    .positive("CnF Income Tax Must be a Positive Number")
+    .positive('CnF Income Tax Must be a Positive Number')
     .nullable(),
-  cnfVat: Yup.number()
-    .positive("CnF VAT Must be a Positive Number")
-    .nullable(),
+  cnfVat: Yup.number().positive('CnF VAT Must be a Positive Number').nullable(),
   scanning: Yup.number()
-    .positive("Scanning Must be a Positive Number")
+    .positive('Scanning Must be a Positive Number')
     .nullable(),
-  grandTotal: Yup.number().positive("Grand Total Must be a Positive Number"),
+  grandTotal: Yup.number().positive('Grand Total Must be a Positive Number'),
 });
 
 //cnf agency ddl

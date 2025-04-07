@@ -1,20 +1,18 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getEmpDDLAction,
   getYearDDLAction,
   SetEmployeeBasicInfoEmptyAction,
   updateValAndCompAction,
-} from "../../_redux/Actions";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
+} from '../../_redux/Actions';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
 
 const initData = {
-  searchEmployee: "",
-  year: "",
+  searchEmployee: '',
+  year: '',
 };
 
 export default function ValuesAndCompetencyPage() {
@@ -78,7 +76,6 @@ export default function ValuesAndCompetencyPage() {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
@@ -100,13 +97,12 @@ export default function ValuesAndCompetencyPage() {
       });
 
       if (isDisabled) {
-        toast.warning("Select all fields");
+        toast.warning('Select all fields');
       } else {
         dispatch(updateValAndCompAction({ data: payload, cb }));
       }
     } else {
       setDisabled(false);
-
     }
   };
 

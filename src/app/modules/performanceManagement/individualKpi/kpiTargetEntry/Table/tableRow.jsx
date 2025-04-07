@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import PaginationSearch from "./../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import PaginationSearch from './../../../../_helper/_search';
 import {
   getKpiLandingPagination,
   getDepartmentWithAccountIdDDL,
   getYearDDL,
   getDesignationDDLAction,
-} from "./../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
+} from './../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
 
 const initData = {
-  department: "",
-  designation: "",
-  yesr: "",
+  department: '',
+  designation: '',
+  yesr: '',
 };
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -77,7 +77,6 @@ export function TableRow({ saveHandler }) {
         setDesignationDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -146,7 +145,7 @@ export function TableRow({ saveHandler }) {
                           pageNo,
                           pageSize
                         );
-                        setFieldValue("department", valueOption);
+                        setFieldValue('department', valueOption);
                       }}
                       placeholder="Select Department"
                       errors={errors}
@@ -171,7 +170,7 @@ export function TableRow({ saveHandler }) {
                           pageNo,
                           pageSize
                         );
-                        setFieldValue("designation", valueOption);
+                        setFieldValue('designation', valueOption);
                       }}
                       placeholder="Select Designation"
                       errors={errors}
@@ -196,14 +195,14 @@ export function TableRow({ saveHandler }) {
                           pageNo,
                           pageSize
                         );
-                        setFieldValue("year", valueOption);
+                        setFieldValue('year', valueOption);
                       }}
                       placeholder="Select Year"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg">
+                  <div style={{ marginTop: '15px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -240,7 +239,7 @@ export function TableRow({ saveHandler }) {
                       <table className="table mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>Sl</th>
+                            <th style={{ width: '30px' }}>Sl</th>
                             <th>Employee</th>
                             <th>Depertment</th>
                             <th>Designation</th>
@@ -289,7 +288,7 @@ export function TableRow({ saveHandler }) {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"View/Edit"}
+                                          {'View/Edit'}
                                         </Tooltip>
                                       }
                                     >
@@ -311,7 +310,7 @@ export function TableRow({ saveHandler }) {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"Dashboard Setup"}
+                                          {'Dashboard Setup'}
                                         </Tooltip>
                                       }
                                     >

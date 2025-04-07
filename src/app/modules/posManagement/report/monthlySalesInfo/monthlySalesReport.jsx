@@ -1,29 +1,31 @@
- 
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector, shallowEqual } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import { Card, CardHeader, CardBody, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
-import { getMonthlySalesReport, getWarehouseDDL } from "../helper"
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, shallowEqual } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  ModalProgressBar,
+} from '../../../../../_metronic/_partials/controls';
+import { getMonthlySalesReport, getWarehouseDDL } from '../helper';
 
 const initData = {
-  outletName: "",
-  reportType: "",
+  outletName: '',
+  reportType: '',
 };
 
 // Validation schema
-const validationSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({});
 
-});
-
-const reportTypeDDL=[
-  {value: 1, label: "Sales Value"},
-  {value: 2, label: "Sales Beneficiaries"},
-  {value: 3, label: "Average Basket Size"},
-  {value: 4, label: "Basket Size > 2000 TK"},
-  {value: 5, label: "Basket Size < 500 TK"},
-]
+const reportTypeDDL = [
+  { value: 1, label: 'Sales Value' },
+  { value: 2, label: 'Sales Beneficiaries' },
+  { value: 3, label: 'Average Basket Size' },
+  { value: 4, label: 'Basket Size > 2000 TK' },
+  { value: 5, label: 'Basket Size < 500 TK' },
+];
 
 export default function MonthlySalesReport() {
   const [whName, setWhName] = useState([]);
@@ -49,25 +51,41 @@ export default function MonthlySalesReport() {
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
-    var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var monthName = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     var d = new Date();
     d.setDate(1);
-    let months=[]
-    for (let i=0; i<=11; i++) {
-      months.push({monthId:d.getMonth()+1, month:monthName[d.getMonth()] + ',' + d.getFullYear()})
+    let months = [];
+    for (let i = 0; i <= 11; i++) {
+      months.push({
+        monthId: d.getMonth() + 1,
+        month: monthName[d.getMonth()] + ',' + d.getFullYear(),
+      });
       d.setMonth(d.getMonth() - 1);
     }
     setMonths(months);
-  }, [])
+  }, []);
 
-  const getMonthSalesAmount=(monthId, data)=>{
-    const index=data.findIndex((item=>item.monthId === monthId))
-    if(index> -1){
-      return data[index].value
-    }else{
+  const getMonthSalesAmount = (monthId, data) => {
+    const index = data.findIndex((item) => item.monthId === monthId);
+    if (index > -1) {
+      return data[index].value;
+    } else {
       return 0;
     }
-  }
+  };
 
   return (
     <>
@@ -91,10 +109,8 @@ export default function MonthlySalesReport() {
         }) => (
           <div className="global-card-header">
             <Card>
-            {true && <ModalProgressBar />}
-              <CardHeader title={"Monthly Sales Report"}>
-
-              </CardHeader>
+              {true && <ModalProgressBar />}
+              <CardHeader title={'Monthly Sales Report'}></CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="global-form">
@@ -102,18 +118,18 @@ export default function MonthlySalesReport() {
                       <div className="col-lg-3">
                         <NewSelect
                           name="outletName"
-                          options={[{value:0, label:"All"}, ...whName]}
+                          options={[{ value: 0, label: 'All' }, ...whName]}
                           value={values?.outletName}
                           onChange={(valueOption) => {
-                            setFieldValue("outletName", valueOption)
-                            if(valueOption?.value===0){
-                              let outletList=[]
-                              for(let item of whName){
-                                outletList.push(item?.value)
+                            setFieldValue('outletName', valueOption);
+                            if (valueOption?.value === 0) {
+                              let outletList = [];
+                              for (let item of whName) {
+                                outletList.push(item?.value);
                               }
-                              setFieldValue("outletList", outletList)
-                            }else{
-                              setFieldValue("outletList", [valueOption?.value]);
+                              setFieldValue('outletList', outletList);
+                            } else {
+                              setFieldValue('outletList', [valueOption?.value]);
                             }
                           }}
                           placeholder="Outlet Name"
@@ -127,14 +143,14 @@ export default function MonthlySalesReport() {
                           options={reportTypeDDL}
                           value={values?.reportType}
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                           }}
                           placeholder="Report Type"
                           errors={errors}
                           touched={touched}
                         />
                       </div>
-                      <div style={{ marginTop: "18px" }} className="col-lg-1">
+                      <div style={{ marginTop: '18px' }} className="col-lg-1">
                         <button
                           //disabled={!values?.whName || !values?.counter}
                           className="btn btn-primary"
@@ -158,11 +174,9 @@ export default function MonthlySalesReport() {
                         <tr>
                           <th>SL</th>
                           <th>Outlet Name</th>
-                          {
-                            months.map(data=>(
-                              <th>{data.month}</th>
-                            ))
-                          }
+                          {months.map((data) => (
+                            <th>{data.month}</th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>
@@ -170,11 +184,14 @@ export default function MonthlySalesReport() {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.outletName}</td>
-                            {
-                              months.map(data=>(
-                                <td>{getMonthSalesAmount(data?.monthId, item?.value)}</td>
-                              ))
-                            }
+                            {months.map((data) => (
+                              <td>
+                                {getMonthSalesAmount(
+                                  data?.monthId,
+                                  item?.value
+                                )}
+                              </td>
+                            ))}
                           </tr>
                         ))}
                       </tbody>

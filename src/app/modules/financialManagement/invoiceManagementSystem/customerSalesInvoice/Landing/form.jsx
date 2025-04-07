@@ -60,27 +60,27 @@ export default function HeaderForm({
   // const [customerDDL, setCustomerDDL] = useState([]);
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const plantDDL = useSelector((state) => state?.commonDDL?.plantDDL);
   const wareHouseDDL = useSelector((state) => state?.commonDDL?.wareHouseDDL);
   const orderTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.orderTypeDDL,
+    (state) => state?.purchaseOrder?.orderTypeDDL
   );
   const { pageNo, setPageNo, pageSize, setPageSize } = paginationState;
   const poReferenceTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.poReferenceTypeDDL,
+    (state) => state?.purchaseOrder?.poReferenceTypeDDL
   );
   const [createDisabledBtn, setCreateBtnDisabled] = useState(false);
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
 
   // const getCustomerDDL_api = async (accId, buId, setter) => {
@@ -97,16 +97,13 @@ export default function HeaderForm({
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
-      getPurchaseOrgDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+      getPurchaseOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
-      getPlantDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getPlantDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(getOrderTypeListDDLAction());
     // getCustomerDDL_api(
@@ -114,7 +111,6 @@ export default function HeaderForm({
     //   selectedBusinessUnit?.value,
     //   setCustomerDDL
     // );
-
   }, [profileData, selectedBusinessUnit]);
 
   // Get po ref type ddl on ordertype ddl onChange
@@ -158,12 +154,11 @@ export default function HeaderForm({
           gridDataFunc(
             { ...values, ReportType: { value: payload, label: label } },
             pageNo,
-            pageSize,
+            pageSize
           );
         },
       },
     ]);
-
   }, [
     sbuDDL,
     purchaseOrgDDL,
@@ -185,7 +180,6 @@ export default function HeaderForm({
       };
       gridDataFunc(values, pageNo, pageSize);
     }
-
   }, [initData, sbuDDL]);
   return (
     <>
@@ -356,12 +350,12 @@ export default function HeaderForm({
                                   values.ReportType.value,
                                   values.fromDate,
                                   values.toDate,
-                                  gridRefresh,
+                                  gridRefresh
                                 );
                                 gridRefresh(
                                   values.ReportType.value,
                                   values.fromDate,
-                                  values.toDate,
+                                  values.toDate
                                 );
                               } else {
                                 toast.warn('Please Select Incomplete Data', {

@@ -25,16 +25,12 @@ export default function IscomponentDetails() {
 
   const [gridData, getGridData, loading] = useAxiosGet();
   const [profitCenterDDL, getProfitCenterDDL] = useAxiosGet();
-  const [
-    isComponentDDL,
-    getIsComponentDDL,
-    ,
-    setIsComponentDDL,
-  ] = useAxiosGet();
+  const [isComponentDDL, getIsComponentDDL, , setIsComponentDDL] =
+    useAxiosGet();
 
   useEffect(() => {
     getProfitCenterDDL(
-      `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`,
+      `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
     getIsComponentDDL(`/fino/Report/GetISComponentDDL`, (res) => {
       const data = res.map((item) => ({
@@ -43,7 +39,6 @@ export default function IscomponentDetails() {
       }));
       setIsComponentDDL(data);
     });
-
   }, [selectedBusinessUnit]);
   const saveHandler = (values, cb) => {};
 
@@ -53,8 +48,9 @@ export default function IscomponentDetails() {
     getGridData(
       `/fino/Report/GetIncomeStatementComponentDetails?BusinessUnitId=${
         selectedBusinessUnit?.value
-      }&ProfitCenter=${values?.profitCenter?.value || 0}&FsComId=${values
-        ?.isComponentDetails?.value || 0}${strFromDate}${strToDate}`,
+      }&ProfitCenter=${values?.profitCenter?.value || 0}&FsComId=${
+        values?.isComponentDetails?.value || 0
+      }${strFromDate}${strToDate}`
     );
   };
 

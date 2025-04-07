@@ -1,41 +1,40 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import RebShutdownForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import RebShutdownForm from './form';
 
 const initData = {
-  date: "",
-  shift: "",
-  startTime: "",
-  endTime: "",
-  totalHour: "",
+  date: '',
+  shift: '',
+  startTime: '',
+  endTime: '',
+  totalHour: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  startTime: Yup.string().required("Start time is required"),
-  totalHour: Yup.string().required("Total hour is required"),
-  endTime: Yup.string().required("End time is required"),
+  date: Yup.string().required('Date is required'),
+  startTime: Yup.string().required('Start time is required'),
+  totalHour: Yup.string().required('Total hour is required'),
+  endTime: Yup.string().required('End time is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
 });
 
 export default function RebShutdownCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [productDDL, getProductDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
   const params = useParams();
@@ -46,8 +45,9 @@ export default function RebShutdownCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-
+    getProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
   }, []);
 
   const { profileData } = useSelector((state) => {
@@ -67,7 +67,6 @@ export default function RebShutdownCreate() {
         totalHour: location?.state?.tmTotalHour,
       });
     }
-
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {
@@ -97,7 +96,7 @@ export default function RebShutdownCreate() {
 
   return (
     <IForm
-      title={params?.id ? "Edit REB Shutdown" : "Create REB Shutdown"}
+      title={params?.id ? 'Edit REB Shutdown' : 'Create REB Shutdown'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

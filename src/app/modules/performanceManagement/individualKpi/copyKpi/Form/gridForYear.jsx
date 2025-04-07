@@ -1,6 +1,5 @@
-import React from "react";
+import React from 'react';
 function KpiYearGrid({ setGridData, gridData }) {
-
   const checkAllHandler = (name, value, grid, setGrid) => {
     const newData = grid?.map((item) => ({ ...item, [name]: value }));
     setGrid([...newData]);
@@ -12,7 +11,6 @@ function KpiYearGrid({ setGridData, gridData }) {
     setGrid([...newData]);
   };
 
- 
   return (
     <div className="row mt-4">
       <table className="table table-striped table-bordered">
@@ -30,7 +28,6 @@ function KpiYearGrid({ setGridData, gridData }) {
                     setGridData
                   );
                 }}
-                
               ></input>
             </th>
             <th>SL</th>

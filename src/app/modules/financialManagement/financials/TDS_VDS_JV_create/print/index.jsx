@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import Print from "./print";
-import "./style.scss";
-import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
+import React, { useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import Print from './print';
+import './style.scss';
+import { commonGetLetterHead } from '../../../../_helper/letterHead/commonGetLetterHead';
 
-export default function PrintView({ selectedRow,currentSelectedAccNo }) {
+export default function PrintView({ selectedRow, currentSelectedAccNo }) {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -14,7 +14,7 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
   const handleInvoicePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
 
   return (
@@ -31,20 +31,20 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
         </button>
       </div>
       <div ref={printRef} id="tds-vds-print-wrapper">
-        <div style={{ margin: "-13px 50px 51px 50px" }}>
+        <div style={{ margin: '-13px 50px 51px 50px' }}>
           <div
             className="invoice-header"
             style={{
               backgroundImage: `url(${commonGetLetterHead({
                 buId: selectedBusinessUnit?.value,
               })})`,
-              backgroundRepeat: "no-repeat",
-              height: "150px",
-              backgroundPosition: "left 10px",
-              backgroundSize: "cover",
-              position: "fixed",
-              width: "100%",
-              top: "-50px",
+              backgroundRepeat: 'no-repeat',
+              height: '150px',
+              backgroundPosition: 'left 10px',
+              backgroundSize: 'cover',
+              position: 'fixed',
+              width: '100%',
+              top: '-50px',
             }}
           ></div>
           <div
@@ -53,13 +53,13 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
               backgroundImage: `url(${commonGetLetterHead({
                 buId: selectedBusinessUnit?.value,
               })})`,
-              backgroundRepeat: "no-repeat",
-              height: "100px",
-              backgroundPosition: "left bottom",
-              backgroundSize: "cover",
-              bottom: "-0px",
-              position: "fixed",
-              width: "100%",
+              backgroundRepeat: 'no-repeat',
+              height: '100px',
+              backgroundPosition: 'left bottom',
+              backgroundSize: 'cover',
+              bottom: '-0px',
+              position: 'fixed',
+              width: '100%',
             }}
           ></div>
           <table>
@@ -67,13 +67,13 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
               <tr>
                 <td
                   style={{
-                    border: "none",
+                    border: 'none',
                   }}
                 >
                   {/* place holder for the fixed-position header */}
                   <div
                     style={{
-                      height: "110px",
+                      height: '110px',
                     }}
                   ></div>
                 </td>
@@ -81,19 +81,22 @@ export default function PrintView({ selectedRow,currentSelectedAccNo }) {
             </thead>
             {/* CONTENT GOES HERE (Send selected row & current selected account number which is selected in formik*/}
             <tbody>
-              <Print selectedRow={selectedRow}  currentSelectedAccNo={currentSelectedAccNo}/>
+              <Print
+                selectedRow={selectedRow}
+                currentSelectedAccNo={currentSelectedAccNo}
+              />
             </tbody>
             <tfoot>
               <tr>
                 <td
                   style={{
-                    border: "none",
+                    border: 'none',
                   }}
                 >
                   {/* place holder for the fixed-position footer */}
                   <div
                     style={{
-                      height: "150px",
+                      height: '150px',
                     }}
                   ></div>
                 </td>

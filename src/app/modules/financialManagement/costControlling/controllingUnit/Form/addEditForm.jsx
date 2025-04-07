@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getEmpDDLAction,
   saveControllingUnit,
   saveEditedControllingUnit,
   getControllingUnitById,
   setControllingUnitSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  controllingUnitCode: "",
-  controllingUnitName: "",
-  responsiblePerson: "",
+  controllingUnitCode: '',
+  controllingUnitName: '',
+  responsiblePerson: '',
 };
 
 export default function CostControllingForm({
@@ -55,7 +55,6 @@ export default function CostControllingForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -65,8 +64,6 @@ export default function CostControllingForm({
         getEmpDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {

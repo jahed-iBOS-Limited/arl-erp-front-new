@@ -1,40 +1,39 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
 import {
   createRetailPrice,
   editRetailPrice,
   getDistributionChannelDDL,
   // retailPriceAttachment_action,
-} from "../helper";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { getRetailPriceId, getItemDDL } from "./../helper";
+} from '../helper';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { getRetailPriceId, getItemDDL } from './../helper';
 // import { editRetailPrice } from "./../helper";
 
 const initData = {
-  distribution: "",
-  item: "",
-  UomId: "",
-  UoM: "",
-  rate: "",
-  itemBanglaName: "",
-  productImage: "",
-  packageQuantity: "",
-  tprate: "",
-  dprate: "",
-  productType: "",
+  distribution: '',
+  item: '',
+  UomId: '',
+  UoM: '',
+  rate: '',
+  itemBanglaName: '',
+  productImage: '',
+  packageQuantity: '',
+  tprate: '',
+  dprate: '',
+  productType: '',
 };
 
 const RetailPriceForm = () => {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [uploadImage, setUploadImage] = useState("");
-  const [singleData, setSingleData] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
+  const [singleData, setSingleData] = useState('');
   const [rowData, setRowData] = useState([]);
 
   // iamge attachment
@@ -98,7 +97,7 @@ const RetailPriceForm = () => {
           editRetailPrice(rowData);
         }
       } else {
-        toast.warning("Please select at least one item");
+        toast.warning('Please select at least one item');
       }
     }
   };
@@ -135,33 +134,33 @@ const RetailPriceForm = () => {
       if (fileObjects.length > 0) {
         const modifyPlyload = {
           ...payload,
-          productImage: uploadImage[0]?.id || "",
+          productImage: uploadImage[0]?.id || '',
         };
         setRowData([...rowData, modifyPlyload]);
-        setFieldValue("tprate", "");
-        setFieldValue("dprate", "");
-        setFieldValue("packageQuantity", "");
-        setFieldValue("rate", "");
-        setFieldValue("itemBanglaName", "");
-        setFieldValue("productImage", "");
-        setFieldValue("productType", "");
+        setFieldValue('tprate', '');
+        setFieldValue('dprate', '');
+        setFieldValue('packageQuantity', '');
+        setFieldValue('rate', '');
+        setFieldValue('itemBanglaName', '');
+        setFieldValue('productImage', '');
+        setFieldValue('productType', '');
         setFileObjects([]);
       } else {
         const modifyPlyload = {
           ...payload,
-          productImage: "",
+          productImage: '',
         };
         setRowData([...rowData, modifyPlyload]);
-        setFieldValue("tprate", "");
-        setFieldValue("dprate", "");
-        setFieldValue("packageQuantity", "");
-        setFieldValue("rate", "");
-        setFieldValue("itemBanglaName", "");
-        setFieldValue("productImage", "");
-        setFieldValue("productType", "");
+        setFieldValue('tprate', '');
+        setFieldValue('dprate', '');
+        setFieldValue('packageQuantity', '');
+        setFieldValue('rate', '');
+        setFieldValue('itemBanglaName', '');
+        setFieldValue('productImage', '');
+        setFieldValue('productType', '');
       }
     } else {
-      toast.warning("Data already exits", { toastId: "Dupi" });
+      toast.warning('Data already exits', { toastId: 'Dupi' });
     }
   };
 
@@ -175,7 +174,7 @@ const RetailPriceForm = () => {
   return (
     <>
       <IForm
-        title={!id ? "Create Retail Price Set Up" : "Edit Retail Price Set Up"}
+        title={!id ? 'Create Retail Price Set Up' : 'Edit Retail Price Set Up'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

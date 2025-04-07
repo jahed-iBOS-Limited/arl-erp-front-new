@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Form from './form';
@@ -64,12 +62,12 @@ export default function CSForm({
 
     if (csGridData.length > 0) {
       const rfqId = history?.location?.pathname?.split(
-        '/mngProcurement/purchase-management/rfq/cs/',
+        '/mngProcurement/purchase-management/rfq/cs/'
       )[1];
       getRFQSupplierList(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        rfqId,
+        rfqId
       ).then((res) => {
         setRfqSupplier(res.data);
         let itemList = [];
@@ -109,9 +107,9 @@ export default function CSForm({
           const minValue = Math.min(
             ...item.supplierList
               .filter(
-                (a) => a.rate != null && a.rate != undefined && a.rate != '',
+                (a) => a.rate != null && a.rate != undefined && a.rate != ''
               )
-              .map((a) => a.rate),
+              .map((a) => a.rate)
           );
           item.supplierList.forEach((supplier) => {
             if (minValue === supplier.rate) {
@@ -134,7 +132,6 @@ export default function CSForm({
         setRowDto(toArray(itemList));
       });
     }
-
   }, [csGridData, supplier]);
 
   // Dispatch action
@@ -145,18 +142,17 @@ export default function CSForm({
           getCsDataAction(
             profileData?.accountId,
             selectedBusinessUnit?.value,
-            id,
-          ),
+            id
+          )
         );
       }
       dispatch(
         getSupplierDDLAction(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData, id]);
 
   // useEffect(() => {

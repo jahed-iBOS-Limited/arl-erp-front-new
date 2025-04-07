@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function LiftingPlanVsActualDeliveryTable({ obj }) {
   const { gridData, printRef, values } = obj;
@@ -9,7 +9,7 @@ function LiftingPlanVsActualDeliveryTable({ obj }) {
       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
         <div className="sta-scrollable-table scroll-table-auto">
           <div
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: '500px' }}
             className="scroll-table _table scroll-table-auto"
           >
             <table
@@ -43,8 +43,8 @@ function LiftingPlanVsActualDeliveryTable({ obj }) {
                       <td className="">{_dateFormatter(item?.dtedate)}</td>
                       <td className="">{item?.Region}</td>
                       <td className="">{item?.Area}</td>
-                      <td className="">{item?.TerritoryName }</td>
-                      <td className="">{item?.ItemID ||item?.ItemId}</td>
+                      <td className="">{item?.TerritoryName}</td>
+                      <td className="">{item?.ItemID || item?.ItemId}</td>
                       <td className="">{item?.ItemName}</td>
                       <td className="">{item?.ItemCode}</td>
                       <td className="text-right">

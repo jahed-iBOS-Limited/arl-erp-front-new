@@ -1,17 +1,19 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
-import { getAssetPlantDDL, getassetWarehouseData, getAssetListByUnit } from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import Loading from "../../../../_helper/_loading";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import AssetListForm from "../Form/addEditForm";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
+import {
+  getAssetPlantDDL,
+  getassetWarehouseData,
+  getAssetListByUnit,
+} from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import Loading from '../../../../_helper/_loading';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import AssetListForm from '../Form/addEditForm';
 
 export function TableRow(props) {
   //const dispatch = useDispatch();
@@ -27,22 +29,33 @@ export function TableRow(props) {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
-  const [plantName, setPlantName] = useState("");
-  const [warehouseName, setWarehouseName] = useState("");
+  const [plantName, setPlantName] = useState('');
+  const [warehouseName, setWarehouseName] = useState('');
   const [plant, setPlant] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
-  const [sbuName, setSbuName] = useState("");
+  const [sbuName, setSbuName] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAssetPlantDDL(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value, setPlant);
+    getAssetPlantDDL(
+      profileData?.userId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setPlant
+    );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const onChangeforPlant = (value) => {
-    getassetWarehouseData(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value, value?.value, setWarehouse);
+    getassetWarehouseData(
+      profileData?.userId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      value?.value,
+      setWarehouse
+    );
   };
 
   const viewGridData = () => {
@@ -54,7 +67,7 @@ export function TableRow(props) {
     });
   };
 
-  console.log("currentRowData", currentRowData);
+  console.log('currentRowData', currentRowData);
 
   return (
     <>
@@ -105,7 +118,11 @@ export function TableRow(props) {
             </div>
           </div>
           <div className="col-lg-2 mt-7">
-            <button className="btn btn-primary" disabled={!plantName || !warehouseName} onClick={viewGridData}>
+            <button
+              className="btn btn-primary"
+              disabled={!plantName || !warehouseName}
+              onClick={viewGridData}
+            >
               View
             </button>
           </div>
@@ -158,7 +175,10 @@ export function TableRow(props) {
             setCurrentRowData(null);
           }}
         >
-          <AssetListForm currentRowData={currentRowData} setIsShowModal={setIsShowModal} />
+          <AssetListForm
+            currentRowData={currentRowData}
+            setIsShowModal={setIsShowModal}
+          />
         </IViewModal>
 
         {/* <IViewModal show={isShowModalforCreate} onHide={() => setisShowModalforCreate(false)}>

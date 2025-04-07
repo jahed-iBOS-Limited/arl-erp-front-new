@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import IButton from "../../../../_helper/iButton";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import IButton from '../../../../_helper/iButton';
 
 export default function FormCmp({ obj }) {
   const {
@@ -52,7 +52,7 @@ export default function FormCmp({ obj }) {
                     value={values?.projectType}
                     label="Project Type"
                     onChange={(valueOption) => {
-                      setFieldValue("projectType", valueOption);
+                      setFieldValue('projectType', valueOption);
                     }}
                     placeholder="Project Type"
                   />
@@ -64,7 +64,7 @@ export default function FormCmp({ obj }) {
                     value={values?.testType}
                     label="Test Type"
                     onChange={(valueOption) => {
-                      setFieldValue("testType", valueOption);
+                      setFieldValue('testType', valueOption);
                     }}
                     placeholder="Test Type"
                   />
@@ -76,7 +76,7 @@ export default function FormCmp({ obj }) {
                     value={values?.testPerformPlace}
                     label="Test Perform Place"
                     onChange={(valueOption) => {
-                      setFieldValue("testPerformPlace", valueOption);
+                      setFieldValue('testPerformPlace', valueOption);
                     }}
                     placeholder="Test Perform Place"
                   />
@@ -98,9 +98,9 @@ export default function FormCmp({ obj }) {
                     label="Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("quantity", e?.target?.value);
+                      setFieldValue('quantity', e?.target?.value);
                       const amount = e?.target?.value * values?.rate;
-                      setFieldValue("amount", amount);
+                      setFieldValue('amount', amount);
                     }}
                   />
                 </div>
@@ -112,9 +112,9 @@ export default function FormCmp({ obj }) {
                     label="Rate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("rate", e?.target?.value);
+                      setFieldValue('rate', e?.target?.value);
                       const amount = e?.target?.value * values?.quantity;
-                      setFieldValue("amount", amount);
+                      setFieldValue('amount', amount);
                     }}
                   />
                 </div>

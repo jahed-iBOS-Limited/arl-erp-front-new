@@ -1,34 +1,34 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const ths1 = [
-  "SL",
-  "Delivery Code",
-  "Delivery Quantity",
-  "Load Amount",
-  "Unload Amount",
+  'SL',
+  'Delivery Code',
+  'Delivery Quantity',
+  'Load Amount',
+  'Unload Amount',
 ];
 
 const ths2 = [
-  "SL",
-  "Shipment Code",
-  "Challan No",
-  "Item Qty",
+  'SL',
+  'Shipment Code',
+  'Challan No',
+  'Item Qty',
   // "Labour Qty",
-  "Labour Rate",
-  "Net Amount",
-  "Bill Amount",
+  'Labour Rate',
+  'Net Amount',
+  'Bill Amount',
 ];
 
 const ths3 = [
-  "SL",
-  "Supplier Name",
-  "Shipment Code",
-  "Challan No",
-  "Item Qty",
-  "Labour Rate",
-  "Labour Bill Amount",
+  'SL',
+  'Supplier Name',
+  'Shipment Code',
+  'Challan No',
+  'Item Qty',
+  'Labour Rate',
+  'Labour Bill Amount',
 ];
 
 const Table = ({ rowData, buId, values }) => {
@@ -56,7 +56,7 @@ const Table = ({ rowData, buId, values }) => {
 
   let totalLabourBillAmount = 0;
   let totalItemQty = 0;
-  
+
   return (
     <>
       <ICustomTable ths={headers()}>
@@ -85,7 +85,7 @@ const Table = ({ rowData, buId, values }) => {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td colSpan={3} className="text-right">
                   <b>Total</b>
                 </td>
@@ -116,7 +116,7 @@ const Table = ({ rowData, buId, values }) => {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td colSpan={4} className="text-right">
                   <b>Total</b>
                 </td>
@@ -142,7 +142,7 @@ const Table = ({ rowData, buId, values }) => {
                 </tr>
               );
             })}
-            <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+            <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
               <td colSpan={2} className="text-right">
                 <b>Total</b>
               </td>

@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import ICard from "../../../../_helper/_card";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import ICard from '../../../../_helper/_card';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  zone: "",
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  zone: '',
 };
 
-const reportTypeList = [{ value: 1, label: "Salesforce KPI" }];
+const reportTypeList = [{ value: 1, label: 'Salesforce KPI' }];
 
 export default function EmployeeCostReport() {
   const printRef = useRef();
@@ -38,14 +38,14 @@ export default function EmployeeCostReport() {
 
   const parameterValues = (values) => {
     return [
-      { name: "intunit", value: `${buId}` },
-      { name: "intchannelid", value: `${values?.channel?.value}` },
-      { name: "RegionId", value: `${values?.region?.value}` },
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
-      { name: "AreaId", value: `${values?.area?.value}` },
-      { name: "TerritoryId", value: `${values?.territory?.value}` },
-      { name: "ZoneId", value: `${values?.zone?.value}` },
+      { name: 'intunit', value: `${buId}` },
+      { name: 'intchannelid', value: `${values?.channel?.value}` },
+      { name: 'RegionId', value: `${values?.region?.value}` },
+      { name: 'fromdate', value: `${values?.fromDate}` },
+      { name: 'todate', value: `${values?.toDate}` },
+      { name: 'AreaId', value: `${values?.area?.value}` },
+      { name: 'TerritoryId', value: `${values?.territory?.value}` },
+      { name: 'ZoneId', value: `${values?.zone?.value}` },
     ];
   };
 
@@ -77,7 +77,7 @@ export default function EmployeeCostReport() {
                         label="Report Type"
                         onChange={(valueOption) => {
                           setBIReport(false);
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                         }}
                         placeholder="Report Type"
                         errors={errors}

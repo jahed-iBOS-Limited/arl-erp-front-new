@@ -1,25 +1,24 @@
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../../../_helper/_loading';
 const initProduct = {
-  accountName: "",
-  accountNo: "",
-  branchName: "",
-  bankName: "",
-  routingNo: "",
+  accountName: '',
+  accountNo: '',
+  branchName: '',
+  bankName: '',
+  routingNo: '',
 };
 
 export default function PartnerBank() {
@@ -34,7 +33,7 @@ export default function PartnerBank() {
   }, shallowEqual);
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [partnerBankInfo, setPartnerBankInfo] = useState("");
+  const [partnerBankInfo, setPartnerBankInfo] = useState('');
 
   useEffect(() => {
     getBusinessPartnerBankInfoByPartnerId(
@@ -42,7 +41,6 @@ export default function PartnerBank() {
       selectedBusinessUnit?.value,
       id
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value, id]);
 
   const getBusinessPartnerBankInfoByPartnerId = async (accId, buId, id) => {
@@ -86,7 +84,7 @@ export default function PartnerBank() {
         try {
           setDisabled(true);
           const res = await Axios.put(
-            "/partner/BusinessPartnerBankInfo/EditBusinessPartnerBankInfo",
+            '/partner/BusinessPartnerBankInfo/EditBusinessPartnerBankInfo',
             partnerBankEditInfo
           );
           getBusinessPartnerBankInfoByPartnerId(
@@ -95,7 +93,7 @@ export default function PartnerBank() {
             id
           );
           cb();
-          toast.success(res.data?.message || "Submitted successfully", {
+          toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
           });
           setDisabled(false);
@@ -140,7 +138,7 @@ export default function PartnerBank() {
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/partner/BusinessPartnerBankInfo/CreateBusinessPartnerBankInfo",
+            '/partner/BusinessPartnerBankInfo/CreateBusinessPartnerBankInfo',
             partnerBankInfo
           );
           if (res.status === 200) {
@@ -148,7 +146,7 @@ export default function PartnerBank() {
           }
           cb(initProduct);
           setDisabled(false);
-          toast.success("Submitted Successfully", {
+          toast.success('Submitted Successfully', {
             toastId: shortid(),
           });
         } catch (error) {
@@ -157,7 +155,7 @@ export default function PartnerBank() {
         }
       }
     } else {
-      toast.error("Submit Unsuccesful!", { toastId: shortid() });
+      toast.error('Submit Unsuccesful!', { toastId: shortid() });
     }
   };
 
@@ -227,7 +225,7 @@ export default function PartnerBank() {
     const { accountId, userId: actionBy } = profileData;
     const { value: businessunitid } = selectedBusinessUnit;
     if (duplicate) {
-      toast.warn("Not allowed to duplicate item!");
+      toast.warn('Not allowed to duplicate item!');
     } else {
       if (rowDto.length > 0) {
         setRowDto([

@@ -1,9 +1,8 @@
-import React from "react";
-import { Card } from "./../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "./../../../../_metronic/_partials/controls/ModalProgressBar";
-import StrategicmapLanding from "./landing";
-import "./style.css";
-
+import React from 'react';
+import { Card } from './../../../../_metronic/_partials/controls/Card';
+import { ModalProgressBar } from './../../../../_metronic/_partials/controls/ModalProgressBar';
+import StrategicmapLanding from './landing';
+import './style.css';
 
 function Strategicmap() {
   return (

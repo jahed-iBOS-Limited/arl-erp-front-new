@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function ScrapusedCreateForm({
   initData,
@@ -15,7 +15,7 @@ export default function ScrapusedCreateForm({
   setTotal,
   numberInfo,
   setNumberInfo,
-  id
+  id,
 }) {
   const updateNumber = (name, value) => {
     let newNumber = {
@@ -57,8 +57,8 @@ export default function ScrapusedCreateForm({
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           saveHandler(values, setFieldValue, () => {
             // resetForm(initData);
-            setFieldValue("date", "");
-            setFieldValue("shift", "");
+            setFieldValue('date', '');
+            setFieldValue('shift', '');
           });
         }}
       >
@@ -88,14 +88,14 @@ export default function ScrapusedCreateForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -110,7 +110,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.grade}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("grade", e.target.value);
+                      updateNumber('grade', e.target.value);
                     }}
                   />
                 </div>
@@ -123,7 +123,7 @@ export default function ScrapusedCreateForm({
                     name="forignScrap"
                     type="number"
                     onChange={(e) => {
-                      updateNumber("forignScrap", e.target.value);
+                      updateNumber('forignScrap', e.target.value);
                     }}
                   />
                 </div>
@@ -136,7 +136,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.hundredSuper}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("hundredSuper", e.target.value);
+                      updateNumber('hundredSuper', e.target.value);
                     }}
                   />
                 </div>
@@ -149,7 +149,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.castIron}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("castIron", e.target.value);
+                      updateNumber('castIron', e.target.value);
                     }}
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.hardScrap}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("hardScrap", e.target.value);
+                      updateNumber('hardScrap', e.target.value);
                     }}
                   />
                 </div>
@@ -175,7 +175,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.railwayWheel}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("railwayWheel", e.target.value);
+                      updateNumber('railwayWheel', e.target.value);
                     }}
                   />
                 </div>
@@ -188,7 +188,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.mediumSuper}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("mediumSuper", e.target.value);
+                      updateNumber('mediumSuper', e.target.value);
                     }}
                   />
                 </div>
@@ -201,7 +201,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.msBabri}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("msBabri", e.target.value);
+                      updateNumber('msBabri', e.target.value);
                     }}
                   />
                 </div>
@@ -214,7 +214,7 @@ export default function ScrapusedCreateForm({
                     disabled={total === 100 && !numberInfo?.tinBundle}
                     type="number"
                     onChange={(e) => {
-                      updateNumber("tinBundle", e.target.value);
+                      updateNumber('tinBundle', e.target.value);
                     }}
                   />
                 </div>
@@ -227,7 +227,7 @@ export default function ScrapusedCreateForm({
                     name="spongeIron"
                     type="number"
                     onChange={(e) => {
-                      updateNumber("spongeIron", e.target.value);
+                      updateNumber('spongeIron', e.target.value);
                     }}
                   />
                 </div>
@@ -240,7 +240,7 @@ export default function ScrapusedCreateForm({
                     type="number"
                     disabled={total === 100 && !numberInfo?.scapAvgGrade}
                     onChange={(e) => {
-                      updateNumber("scapAvgGrade", e.target.value);
+                      updateNumber('scapAvgGrade', e.target.value);
                     }}
                   />
                 </div>
@@ -257,14 +257,14 @@ export default function ScrapusedCreateForm({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,9 +1,8 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { useDispatch } from 'react-redux';
 import {
   getVatBranches,
   getSupplierDDL,
@@ -11,10 +10,10 @@ import {
   getPaymentTermDDL,
   getTaxConfig,
   getTaxPortDDL,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+} from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 export default function FormCmp({
   initData,
@@ -69,7 +68,6 @@ export default function FormCmp({
         setTaxConfig
       );
     }
-
   }, [profileData, selectedBusinessUnit, initData]);
 
   return (
@@ -102,7 +100,7 @@ export default function FormCmp({
                   <div
                     className="row bank-journal  "
                     // style={{ paddingBottom: "20px" }}
-                    style={{ paddingBottom: "20px 0" }}
+                    style={{ paddingBottom: '20px 0' }}
                   >
                     <div className="col-lg-3 pl pr-1 mb-1">
                       <NewSelect
@@ -111,7 +109,7 @@ export default function FormCmp({
                         value={values?.tradeType}
                         label="Trade Type"
                         onChange={(valueOption) => {
-                          setFieldValue("tradeType", valueOption);
+                          setFieldValue('tradeType', valueOption);
                         }}
                         placeholder="Unit"
                         errors={errors}
@@ -126,8 +124,8 @@ export default function FormCmp({
                         value={values?.supplier}
                         label="Supplier Name"
                         onChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
-                          setFieldValue("address", valueOption?.address || "");
+                          setFieldValue('supplier', valueOption);
+                          setFieldValue('address', valueOption?.address || '');
                         }}
                         placeholder="Supplier Name"
                         errors={errors}
@@ -168,7 +166,7 @@ export default function FormCmp({
                       />
                     </div>
 
-                    {values?.tradeType?.label === "Import" && (
+                    {values?.tradeType?.label === 'Import' && (
                       <>
                         <div className="col-lg-3 mb-1">
                           <NewSelect
@@ -200,18 +198,18 @@ export default function FormCmp({
 
                     <div className="col-lg-3 pl pr-1 mb-1">
                       <label>
-                        {" "}
-                        {values?.tradeType?.label === "Local Purchase"
-                          ? "Challan No"
-                          : "Bill Of Entry No"}
+                        {' '}
+                        {values?.tradeType?.label === 'Local Purchase'
+                          ? 'Challan No'
+                          : 'Bill Of Entry No'}
                       </label>
                       <InputField
                         value={values?.refferenceNo}
                         name="refferenceNo"
                         placeholder={
-                          values?.tradeType?.label === "Local Purchase"
-                            ? "Challan No"
-                            : "Bill Of Entry No"
+                          values?.tradeType?.label === 'Local Purchase'
+                            ? 'Challan No'
+                            : 'Bill Of Entry No'
                         }
                         type="text"
                         disabled
@@ -220,9 +218,9 @@ export default function FormCmp({
 
                     <div className="col-lg-3 mb-1">
                       <label>
-                        {values?.tradeType?.label === "Local Purchase"
-                          ? "Challan Date"
-                          : "Bill of Entry Date"}
+                        {values?.tradeType?.label === 'Local Purchase'
+                          ? 'Challan Date'
+                          : 'Bill of Entry Date'}
                       </label>
                       <InputField
                         value={values?.refferenceDate}
@@ -233,7 +231,7 @@ export default function FormCmp({
                       />
                     </div>
 
-                    {values?.tradeType?.label === "Import" && (
+                    {values?.tradeType?.label === 'Import' && (
                       <>
                         <div className="col-lg-3 mb-1">
                           <label>LC No.</label>
@@ -263,7 +261,7 @@ export default function FormCmp({
                             value={values?.country}
                             label="Country Of Origin"
                             onChange={(valueOption) => {
-                              setFieldValue("country", valueOption);
+                              setFieldValue('country', valueOption);
                             }}
                             placeholder="Country Of Origin"
                             errors={errors}
@@ -279,7 +277,7 @@ export default function FormCmp({
                             value={values?.port}
                             label="Port"
                             onChange={(valueOption) => {
-                              setFieldValue("port", valueOption);
+                              setFieldValue('port', valueOption);
                             }}
                             placeholder="Port"
                             errors={errors}
@@ -302,7 +300,7 @@ export default function FormCmp({
                       </>
                     )}
 
-                    {values?.tradeType?.label === "Local Purchase" && (
+                    {values?.tradeType?.label === 'Local Purchase' && (
                       <>
                         <div className="col-lg-3 pl pr-1 mb-1">
                           <label>Total TDS Amount(%)</label>
@@ -342,7 +340,7 @@ export default function FormCmp({
                         />
                       </div>
                     )}
-                    {values?.tradeType?.label === "Import" && (
+                    {values?.tradeType?.label === 'Import' && (
                       <div className="col-lg-3">
                         <label>CPC Code</label>
                         <InputField
@@ -385,11 +383,12 @@ export default function FormCmp({
                     )}
 
                     <div
-                      class={`col-lg-3 d-flex flex-column justify-content-end align-items-end ${values
-                        ?.tradeType?.label !== "Import" && "offset-6"}`}
+                      class={`col-lg-3 d-flex flex-column justify-content-end align-items-end ${
+                        values?.tradeType?.label !== 'Import' && 'offset-6'
+                      }`}
                     >
                       <p className="mb-1">
-                        <strong>Amount (Without SD/VAT): </strong>{" "}
+                        <strong>Amount (Without SD/VAT): </strong>{' '}
                         {rowDto
                           ?.reduce(
                             (acc, cur) => acc + cur?.quantity * cur?.rate,
@@ -420,28 +419,28 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered mt-3 global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "120px" }}>Item Name</th>
-                        <th style={{ width: "100px" }}>UOM</th>
-                        <th style={{ width: "50px" }}>Quantity</th>
-                        <th style={{ width: "50px" }}>Rate</th>
+                        <th style={{ width: '20px' }}>SL</th>
+                        <th style={{ width: '120px' }}>Item Name</th>
+                        <th style={{ width: '100px' }}>UOM</th>
+                        <th style={{ width: '50px' }}>Quantity</th>
+                        <th style={{ width: '50px' }}>Rate</th>
                         {taxConfig?.isCd && (
-                          <th style={{ width: "50px" }}>CD</th>
+                          <th style={{ width: '50px' }}>CD</th>
                         )}
                         {taxConfig?.isRd && (
-                          <th style={{ width: "50px" }}>RD</th>
+                          <th style={{ width: '50px' }}>RD</th>
                         )}
                         {taxConfig?.isSd && (
-                          <th style={{ width: "50px" }}>SD</th>
+                          <th style={{ width: '50px' }}>SD</th>
                         )}
                         {taxConfig?.isVat && (
-                          <th style={{ width: "50px" }}>VAT</th>
+                          <th style={{ width: '50px' }}>VAT</th>
                         )}
                         {taxConfig?.isAt && (
-                          <th style={{ width: "50px" }}>AT</th>
+                          <th style={{ width: '50px' }}>AT</th>
                         )}
-                        <th style={{ width: "50px" }}>Rebate/Refund</th>
-                        <th style={{ width: "50px" }}>Rebate Amount</th>
+                        <th style={{ width: '50px' }}>Rebate/Refund</th>
+                        <th style={{ width: '50px' }}>Rebate Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -520,14 +519,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

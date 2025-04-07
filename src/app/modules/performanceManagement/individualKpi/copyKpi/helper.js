@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getYearDDL = async (empId, setter) => {
   try {
@@ -59,7 +59,6 @@ export const getGridDataForCopyYearAction = async (yearId, buId, setter) => {
       });
       setter(rowData);
     }
-    
   } catch (error) {
     setter([]);
   }
@@ -79,12 +78,12 @@ export const getKpiLandingPagination = async (
   search
 ) => {
   setLoader(true);
-  const searchPath = search ? `Search=${search}&` : "";
-  const departmentSearch = departmentId ? `DepartmentId=${departmentId}&` : "";
+  const searchPath = search ? `Search=${search}&` : '';
+  const departmentSearch = departmentId ? `DepartmentId=${departmentId}&` : '';
   const designationSearch = designationId
     ? `DesignationId=${designationId}&`
-    : "";
-  const yearSearch = yearId ? `Year=${yearId}&` : "";
+    : '';
+  const yearSearch = yearId ? `Year=${yearId}&` : '';
   try {
     const res = await axios.get(
       `/pms/KPI/GetKpiLanding?${departmentSearch}${designationSearch}${yearSearch}${searchPath}AccountId=${accId}&BusinessUnit=${buId}&Emp_Dept_SbuType=1&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -104,22 +103,20 @@ export const saveCopyKpiForEmployee = async (data, cb, setDisabled) => {
     const res = await axios.post(`/pms/CopyKpi/CreateCopyKpiForEmployee`, data);
     if (res.status === 200) {
       cb();
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {
     setDisabled(false);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
-
 export const saveCopyKpiForYear = async (gridData, values, cb, setDisabled) => {
-  
   let filteredData = gridData?.filter((item) => item?.isChecked === true);
 
   if (filteredData?.length < 1)
-    return toast.warn("Please select all or atleast one");
+    return toast.warn('Please select all or atleast one');
 
   setDisabled(true);
   try {
@@ -134,7 +131,7 @@ export const saveCopyKpiForYear = async (gridData, values, cb, setDisabled) => {
       rowData
     );
     cb();
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     setDisabled(false);
   } catch (error) {
     toast.warn(error?.response?.data?.message);

@@ -1,16 +1,20 @@
-import React from "react";
-import { CoreValuesTable } from "./Table/tableHeader";
-import { UiProvider } from "../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import ViewForm from "./View/viewModal";
+import React from 'react';
+import { CoreValuesTable } from './Table/tableHeader';
+import { UiProvider } from '../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import ViewForm from './View/viewModal';
 
 export function CoreValues({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
-      history.push(`/performance-management/configuration/core_values/edit/${id}`);
+      history.push(
+        `/performance-management/configuration/core_values/edit/${id}`
+      );
     },
     openViewDialog: (id) => {
-      history.push(`/performance-management/configuration/core_values/view/${id}`);
+      history.push(
+        `/performance-management/configuration/core_values/view/${id}`
+      );
     },
   };
 
@@ -24,7 +28,7 @@ export function CoreValues({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/performance-management/configuration/core_values");
+              history.push('/performance-management/configuration/core_values');
             }}
           />
         )}

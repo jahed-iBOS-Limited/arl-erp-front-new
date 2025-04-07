@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { PlantTable } from "./PlantTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { PlantTable } from './PlantTableCard';
 
 export function UOMLandingCard() {
   let history = useHistory();
@@ -19,7 +19,7 @@ export function UOMLandingCard() {
             className="btn btn-primary"
             onClick={() =>
               history.push(
-                "/config/material-management/unit-of-measurement/add"
+                '/config/material-management/unit-of-measurement/add'
               )
             }
           >

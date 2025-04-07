@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export const getPortChargeLanding = async (
   accountId,
@@ -26,12 +26,12 @@ export const getPortChargeLanding = async (
     // }
     const newData = res?.data?.map((data) => ({
       ...data,
-      totalAmount: data?.totalAmount === 0 ? "" : data?.totalAmount,
-      vatAmount: data?.vatAmount === 0 ? "" : data?.vatAmount,
+      totalAmount: data?.totalAmount === 0 ? '' : data?.totalAmount,
+      vatAmount: data?.vatAmount === 0 ? '' : data?.vatAmount,
       dueDate: _dateFormatter(data?.dueDate) || _todayDate(),
       serviceReceiveDate:
         _dateFormatter(data?.serviceReceiveDate) || _todayDate(),
-      vendor: data?.label === "CnF Payment" ? data?.row[0] : "",
+      vendor: data?.label === 'CnF Payment' ? data?.row[0] : '',
     }));
     setter(newData);
   } catch (error) {
@@ -88,7 +88,7 @@ export const createShipmentCharge = async (
   try {
     let res = await Axios.post(`/imp/AllCharge/AllChargeCreate`, obj);
     setDisabled(false);
-    toast.success(res?.data?.message || "Create successfully");
+    toast.success(res?.data?.message || 'Create successfully');
     cb && cb();
   } catch (error) {
     setDisabled(false);
@@ -148,7 +148,7 @@ export const getCNFPaymentPortCharge = async (
       );
       if (label && key) {
         let newGridData = [...gridData];
-        newGridData[index]["totalAmount"] = res?.data;
+        newGridData[index]['totalAmount'] = res?.data;
         setGridData([...newGridData]);
       }
     }
@@ -166,7 +166,7 @@ export const saveServicezbreakdown = async (
   try {
     setIsLoading(true);
     const res = await Axios.post(
-      "/imp/AllCharge/CreateCommercialCostingServiceBreakdown",
+      '/imp/AllCharge/CreateCommercialCostingServiceBreakdown',
       payload
     );
     if (res.status === 200 && res?.data) {
@@ -180,7 +180,6 @@ export const saveServicezbreakdown = async (
     setIsLoading(false);
   }
 };
-
 
 export const getClosingInfoForBillAndAdvance = async (
   referenceId,
@@ -199,7 +198,18 @@ export const getClosingInfoForBillAndAdvance = async (
   }
 };
 
-export const createCommercialMultiSupplierBillClose = async (accId, buId, plantId, sbuId, transactionDate, referenceId, billWithVat, userId, vat, setLoading) => {
+export const createCommercialMultiSupplierBillClose = async (
+  accId,
+  buId,
+  plantId,
+  sbuId,
+  transactionDate,
+  referenceId,
+  billWithVat,
+  userId,
+  vat,
+  setLoading
+) => {
   setLoading(true);
   try {
     const res = await Axios.post(

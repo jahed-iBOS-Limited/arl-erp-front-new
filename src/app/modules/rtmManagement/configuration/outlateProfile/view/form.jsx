@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { Field } from "formik";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { Field } from 'formik';
 
+import FormikError from '../../../../_helper/_formikError';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { getBusinessTypeDDL, getRouteNameDDL } from '../helper';
 
-import FormikError from "../../../../_helper/_formikError";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getBusinessTypeDDL, getRouteNameDDL } from "../helper";
-
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -28,13 +27,11 @@ export default function FormCmp({
   imageDTO,
   collerCompanyDDL,
 }) {
-
-
   const [businessTypeDDL, setBusinessDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getBusinessTypeDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
@@ -50,7 +47,7 @@ export default function FormCmp({
   }, [profileData, selectedBusinessUnit]);
 
   const renderFields = (item, values, setFieldValue, errors, touched) => {
-    if (item?.objAttribute?.uicontrolType === "DDL") {
+    if (item?.objAttribute?.uicontrolType === 'DDL') {
       return (
         <div className="col-lg-3">
           <NewSelect
@@ -70,7 +67,7 @@ export default function FormCmp({
       );
     }
 
-    if (item?.objAttribute?.uicontrolType === "Date") {
+    if (item?.objAttribute?.uicontrolType === 'Date') {
       return (
         <div className="col-lg-3">
           <label>{item.objAttribute.outletAttributeName}</label>
@@ -87,12 +84,12 @@ export default function FormCmp({
       );
     }
 
-    if (item?.objAttribute?.uicontrolType === "TextBox") {
+    if (item?.objAttribute?.uicontrolType === 'TextBox') {
       return (
         <div className="col-lg-3">
           <label>{item.objAttribute.outletAttributeName}</label>
           <InputField
-            value={values[item.objAttribute.outletAttributeName] || ""}
+            value={values[item.objAttribute.outletAttributeName] || ''}
             name={item.objAttribute.outletAttributeName}
             placeholder={item.objAttribute.outletAttributeName}
             type="text"
@@ -137,7 +134,7 @@ export default function FormCmp({
                     options={routeNameDDL}
                     value={values?.routeName}
                     onChange={(valueOption) => {
-                      setFieldValue("routeName", valueOption);
+                      setFieldValue('routeName', valueOption);
                     }}
                     placeholder="Select Route Name"
                     errors={errors}
@@ -152,7 +149,7 @@ export default function FormCmp({
                     options={[]}
                     value={values?.beatName}
                     onChange={(valueOption) => {
-                      setFieldValue("beatName", valueOption);
+                      setFieldValue('beatName', valueOption);
                     }}
                     placeholder="Select Market Name"
                     errors={errors}
@@ -179,7 +176,7 @@ export default function FormCmp({
                     options={businessTypeDDL}
                     value={values?.businessType}
                     onChange={(valueOption) => {
-                      setFieldValue("businessType", valueOption);
+                      setFieldValue('businessType', valueOption);
                     }}
                     placeholder="Outlet Type"
                     errors={errors}
@@ -284,7 +281,7 @@ export default function FormCmp({
                     options={[]}
                     value={values?.marriageSatus}
                     onChange={(valueOption) => {
-                      setFieldValue("marriageSatus", valueOption);
+                      setFieldValue('marriageSatus', valueOption);
                     }}
                     placeholder="Select Marriage Satus"
                     errors={errors}
@@ -346,10 +343,10 @@ export default function FormCmp({
                   <NewSelect
                     name="maxSales"
                     options={[]}
-                    value={values?.maxSales || ""}
+                    value={values?.maxSales || ''}
                     label="Max Sales Item"
                     onChange={(valueOption) => {
-                      setFieldValue("maxSales", valueOption);
+                      setFieldValue('maxSales', valueOption);
                     }}
                     placeholder="Max Sales Item"
                     errors={errors}
@@ -383,20 +380,20 @@ export default function FormCmp({
                 </div>
                 <div
                   className="col-xl-1 col-lg-2 d-flex"
-                  style={{ marginTop: "20px" }}
+                  style={{ marginTop: '20px' }}
                 >
                   <input
                     style={{
-                      width: "15px",
-                      height: "15px",
-                      position: "relative",
-                      top: "3px",
+                      width: '15px',
+                      height: '15px',
+                      position: 'relative',
+                      top: '3px',
                     }}
                     name="isColler"
                     checked={values?.isColler}
                     onChange={(e) => {
-                      setFieldValue("collerCompany", "");
-                      setFieldValue("isColler", e.target.checked);
+                      setFieldValue('collerCompany', '');
+                      setFieldValue('isColler', e.target.checked);
                     }}
                     className=" mr-2"
                     type="checkbox"
@@ -412,7 +409,7 @@ export default function FormCmp({
                       value={values?.collerCompany}
                       label="Coller Company"
                       onChange={(valueOption) => {
-                        setFieldValue("collerCompany", valueOption);
+                        setFieldValue('collerCompany', valueOption);
                       }}
                       isDisabled={true}
                       placeholder="Coller Company"
@@ -467,14 +464,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

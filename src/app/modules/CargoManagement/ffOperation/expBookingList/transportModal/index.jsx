@@ -63,7 +63,7 @@ function TransportModal({ rowClickData, CB }) {
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [, SaveShippingTransportPlanning, shippingTransportPlanningLoading] =
     useAxiosPost();
@@ -114,7 +114,7 @@ function TransportModal({ rowClickData, CB }) {
 
     const totalNumberOfPackages = data?.rowsData?.reduce(
       (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
-      0,
+      0
     );
 
     const shipperOrshipperId =
@@ -130,19 +130,19 @@ function TransportModal({ rowClickData, CB }) {
       : '';
     formikRef.current.setFieldValue(
       `rows[0].transportId`,
-      transportPlanning?.transportId || 0,
+      transportPlanning?.transportId || 0
     );
     formikRef.current.setFieldValue(
       `rows[0].transportPlanning`,
-      modeOfTransportObj,
+      modeOfTransportObj
     );
     formikRef.current.setFieldValue(
       `transportPlanningMode`,
-      modeOfTransportObj,
+      modeOfTransportObj
     );
     formikRef.current.setFieldValue(
       `rows[0].pickupLocation`,
-      transportPlanning?.pickupLocation || data?.pickupPlace || '',
+      transportPlanning?.pickupLocation || data?.pickupPlace || ''
     );
     formikRef.current.setFieldValue(
       `rows[0].airLineOrShippingLine`,
@@ -151,7 +151,7 @@ function TransportModal({ rowClickData, CB }) {
             value: transportPlanning?.airLineOrShippingLineId || 0,
             label: transportPlanning?.airLineOrShippingLine,
           }
-        : '',
+        : ''
     );
     formikRef.current.setFieldValue(
       `rows[0].gsa`,
@@ -160,24 +160,24 @@ function TransportModal({ rowClickData, CB }) {
             value: transportPlanning?.gsaId || 0,
             label: transportPlanning?.gsaName,
           }
-        : '',
+        : ''
     );
 
     formikRef.current.setFieldValue(
       `rows[0].estimatedTimeOfDepart`,
       transportPlanning?.estimatedTimeOfDepart
         ? moment(transportPlanning?.estimatedTimeOfDepart).format('YYYY-MM-DD')
-        : '',
+        : ''
     );
     formikRef.current.setFieldValue(
       `rows[0].strSbNo`,
-      transportPlanning?.strSbNo || '',
+      transportPlanning?.strSbNo || ''
     );
     formikRef.current.setFieldValue(
       `rows[0].dteSbDate`,
       transportPlanning?.dteSbDate
         ? moment(transportPlanning?.dteSbDate).format('YYYY-MM-DD')
-        : '',
+        : ''
     );
     formikRef.current.setFieldValue(
       `rows[0].airTransportRow`,
@@ -191,7 +191,7 @@ function TransportModal({ rowClickData, CB }) {
         flightDate: item?.flightDate
           ? moment(item?.flightDate).format('YYYY-MM-DD')
           : '',
-      })) || [],
+      })) || []
     );
 
     //==== Air data set ===
@@ -199,19 +199,19 @@ function TransportModal({ rowClickData, CB }) {
       //noOfPallets, iatanumber, carton,
       formikRef.current.setFieldValue(
         `rows[0].noOfPallets`,
-        transportPlanning?.noOfPallets || '',
+        transportPlanning?.noOfPallets || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].iatanumber`,
-        transportPlanning?.iatanumber || '',
+        transportPlanning?.iatanumber || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].carton`,
-        transportPlanning?.carton || totalNumberOfPackages || 0,
+        transportPlanning?.carton || totalNumberOfPackages || 0
       );
       formikRef.current.setFieldValue(
         `rows[0].rate`,
-        transportPlanning?.rate || 0,
+        transportPlanning?.rate || 0
       );
     }
 
@@ -220,43 +220,43 @@ function TransportModal({ rowClickData, CB }) {
       //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate ,subidhaAccessDate,subidhaAccessNumber
       formikRef.current.setFieldValue(
         `rows[0].noOfContainer`,
-        transportPlanning?.noOfContainer || '',
+        transportPlanning?.noOfContainer || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].vesselName`,
-        transportPlanning?.vesselName || '',
+        transportPlanning?.vesselName || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].subidhaAccessNumber`,
-        transportPlanning?.subidhaAccessNumber || '',
+        transportPlanning?.subidhaAccessNumber || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].voyagaNo`,
-        transportPlanning?.voyagaNo || '',
+        transportPlanning?.voyagaNo || ''
       );
       formikRef.current.setFieldValue(
         `rows[0].arrivalDateTime`,
         transportPlanning?.arrivalDateTime
           ? moment(transportPlanning?.arrivalDateTime).format('YYYY-MM-DD')
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         `rows[0].berthDate`,
         transportPlanning?.berthDate
           ? moment(transportPlanning?.berthDate).format('YYYY-MM-DD')
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         `rows[0].cutOffDate`,
         transportPlanning?.cutOffDate
           ? moment(transportPlanning?.cutOffDate).format('YYYY-MM-DD')
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         `rows[0].subidhaAccessDate`,
         transportPlanning?.subidhaAccessDate
           ? moment(transportPlanning?.subidhaAccessDate).format('YYYY-MM-DD')
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         `rows[0].containerDesc`,
@@ -274,7 +274,7 @@ function TransportModal({ rowClickData, CB }) {
           style: item?.style || '',
           color: item?.color || '',
           containerDescId: item?.containerDescId || 0,
-        })) || [],
+        })) || []
       );
 
       const getUniqueOptions = (key) => {
@@ -361,11 +361,9 @@ function TransportModal({ rowClickData, CB }) {
               });
             }
           }
-        },
+        }
       );
     }
-
-
   }, []);
 
   useEffect(() => {
@@ -379,15 +377,14 @@ function TransportModal({ rowClickData, CB }) {
           };
         });
         setAirPortShortCodeDDL(getShortCode);
-      },
+      }
     );
     getTruckSize(`${imarineBaseUrl}/domain/ShippingService/GetTruckSize`);
-
   }, []);
   const GetAirServiceProviderDDLFunc = (
     shipperOrshipperId,
     typeId,
-    modeOfTransportId,
+    modeOfTransportId
   ) => {
     // tradeTypeId  = 1 export
     if (tradeTypeId === 1) {
@@ -395,10 +392,10 @@ function TransportModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${shipperOrshipperId}&participntTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        },
+        }
       );
       setGSADDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${shipperOrshipperId}&participntTypeId=7`,
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${shipperOrshipperId}&participntTypeId=7`
       );
     }
     // tradeTypeId  = 2 import
@@ -416,10 +413,10 @@ function TransportModal({ rowClickData, CB }) {
           `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=${typeId}`,
           (res) => {
             setAirServiceProviderDDL(res);
-          },
+          }
         );
         setGSADDL(
-          `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=7`,
+          `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=7`
         );
       }
     }
@@ -455,7 +452,7 @@ function TransportModal({ rowClickData, CB }) {
       }),
       ...(row?.estimatedTimeOfDepart && {
         estimatedTimeOfDepart: moment(row?.estimatedTimeOfDepart).format(
-          'YYYY-MM-DD',
+          'YYYY-MM-DD'
         ),
       }),
       gsaName: row?.gsa?.label || '',
@@ -505,14 +502,14 @@ function TransportModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/EditShippingTransportPlanning`,
         payload,
         CB,
-        'Transport Planning Saved Successfully',
+        'Transport Planning Saved Successfully'
       );
     } else {
       SaveShippingTransportPlanning(
         `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
         payload,
         CB,
-        'Transport Planning Saved Successfully',
+        'Transport Planning Saved Successfully'
       );
     }
   };
@@ -668,7 +665,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(valueOption) => {
                               setFieldValue(
                                 `rows[${index}].transportPlanning`,
-                                valueOption,
+                                valueOption
                               );
                             }}
                             placeholder="Transport Planning Type"
@@ -688,7 +685,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].pickupLocation`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                             placeholder="Pickup Location"
@@ -713,7 +710,7 @@ function TransportModal({ rowClickData, CB }) {
                                 handleChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].airLineOrShippingLine`,
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 loadOptions={(v) => {
@@ -746,7 +743,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].airLineOrShippingLine`,
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 placeholder={
@@ -774,7 +771,7 @@ function TransportModal({ rowClickData, CB }) {
 
                         {/* GSA */}
                         {[1, 2, 3].includes(
-                          values?.rows?.[0]?.transportPlanning?.value,
+                          values?.rows?.[0]?.transportPlanning?.value
                         ) && (
                           <div className="col-lg-3">
                             <NewSelect
@@ -784,7 +781,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].gsa`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="GSA"
@@ -815,7 +812,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].noOfPallets`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -838,7 +835,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].iatanumber`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -859,7 +856,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].carton`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -876,7 +873,7 @@ function TransportModal({ rowClickData, CB }) {
 
                         {/* for SEA and land */}
                         {[2, 4].includes(
-                          values?.rows?.[0]?.transportPlanning?.value,
+                          values?.rows?.[0]?.transportPlanning?.value
                         ) && (
                           <>
                             {/* no Of Container */}
@@ -897,7 +894,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].noOfContainer`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -923,7 +920,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].vesselName`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -951,7 +948,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].subidhaAccessNumber`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -980,7 +977,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].voyagaNo`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -1011,7 +1008,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].arrivalDateTime`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -1035,7 +1032,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].berthDate`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -1063,7 +1060,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].cutOffDate`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -1091,7 +1088,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].subidhaAccessDate`,
-                                      e.target.value,
+                                      e.target.value
                                     )
                                   }
                                 />
@@ -1123,7 +1120,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].estimatedTimeOfDepart`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1145,7 +1142,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].strSbNo`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1168,7 +1165,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].dteSbDate`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1181,7 +1178,7 @@ function TransportModal({ rowClickData, CB }) {
                             )}
                         </div>
                         {[1].includes(
-                          values?.rows?.[0]?.transportPlanning?.value,
+                          values?.rows?.[0]?.transportPlanning?.value
                         ) && (
                           <div className="col-lg-3">
                             <InputField
@@ -1192,7 +1189,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].rate`,
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -1207,7 +1204,7 @@ function TransportModal({ rowClickData, CB }) {
 
                       {/* container details  for sea and land */}
                       {[2, 4].includes(
-                        values?.rows[0]?.transportPlanning?.value,
+                        values?.rows[0]?.transportPlanning?.value
                       ) && (
                         <div className="form-group row global-form">
                           {/* PO Number */}
@@ -1220,21 +1217,21 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].poNumber`,
-                                  valueOption,
+                                  valueOption
                                 );
                                 setFieldValue(`rows[${index}].style`, '');
                                 setFieldValue(`rows[${index}].color`, '');
                                 setFieldValue(
                                   `rows[${index}].quantity`,
-                                  valueOption?.numberOfPackage || '',
+                                  valueOption?.numberOfPackage || ''
                                 );
                                 setFieldValue(
                                   `rows[${index}].cbm`,
-                                  valueOption?.perUnitCbm || '',
+                                  valueOption?.perUnitCbm || ''
                                 );
                                 setFieldValue(
                                   `rows[${index}].kgs`,
-                                  valueOption?.perUnitGrossWeight || '',
+                                  valueOption?.perUnitGrossWeight || ''
                                 );
                               }}
                               placeholder="Select"
@@ -1251,7 +1248,7 @@ function TransportModal({ rowClickData, CB }) {
                                   (i) =>
                                     i?.bookingRequestRowId ===
                                     values?.rows?.[index]?.poNumber
-                                      ?.bookingRequestRowId,
+                                      ?.bookingRequestRowId
                                 ) || []
                               }
                               value={values?.rows?.[index]?.style}
@@ -1259,7 +1256,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].style`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="Select"
@@ -1276,7 +1273,7 @@ function TransportModal({ rowClickData, CB }) {
                                   (i) =>
                                     i?.bookingRequestRowId ===
                                     values?.rows?.[index]?.poNumber
-                                      ?.bookingRequestRowId,
+                                      ?.bookingRequestRowId
                                 ) || []
                               }
                               value={values?.rows?.[index]?.color || ''}
@@ -1284,7 +1281,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].color`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="Select"
@@ -1310,7 +1307,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].containerNumber`,
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -1328,7 +1325,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].sealNumber`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -1377,7 +1374,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].size`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="Select"
@@ -1397,7 +1394,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].rate`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -1414,7 +1411,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].cbm`,
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -1426,7 +1423,7 @@ function TransportModal({ rowClickData, CB }) {
                               value={values?.rows?.[index]?.kgs || ''}
                               label={
                                 [3].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
+                                  values?.rows[0]?.transportPlanning?.value
                                 )
                                   ? 'Chargeable Weight'
                                   : 'KGS'
@@ -1436,7 +1433,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].kgs`,
-                                  e.target.value,
+                                  e.target.value
                                 )
                               }
                             />
@@ -1453,7 +1450,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].quantity`,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               />
@@ -1547,14 +1544,14 @@ function TransportModal({ rowClickData, CB }) {
                                 });
                                 setFieldValue(
                                   `rows[${index}].containerDesc`,
-                                  containerDesc,
+                                  containerDesc
                                 );
                                 setFieldValue(`rows[${index}].poNumber`, '');
                                 setFieldValue(`rows[${index}].style`, '');
                                 setFieldValue(`rows[${index}].color`, '');
                                 setFieldValue(
                                   `rows[${index}].containerNumber`,
-                                  '',
+                                  ''
                                 );
                                 setFieldValue(`rows[${index}].sealNumber`, '');
                                 setFieldValue(`rows[${index}].size`, '');
@@ -1640,7 +1637,7 @@ function TransportModal({ rowClickData, CB }) {
                                           containerDesc.splice(index, 1);
                                           setFieldValue(
                                             `rows[${0}].containerDesc`,
-                                            containerDesc,
+                                            containerDesc
                                           );
                                         }}
                                         color="error"
@@ -1661,14 +1658,14 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="col-lg-12">
                           <p style={{ fontSize: 16, fontWeight: 600 }}>
                             {[2].includes(
-                              values?.rows[0]?.transportPlanning?.value,
+                              values?.rows[0]?.transportPlanning?.value
                             )
                               ? 'Shipping Schedule'
                               : [4].includes(
-                                  values?.rows[0]?.transportPlanning?.value,
-                                )
-                              ? 'Transport Schedule'
-                              : 'Flight Schedule'}
+                                    values?.rows[0]?.transportPlanning?.value
+                                  )
+                                ? 'Transport Schedule'
+                                : 'Flight Schedule'}
                           </p>
                         </div>
                         {/* truck type ddl */}
@@ -1682,7 +1679,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].truckType`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="Truck Type"
@@ -1694,7 +1691,7 @@ function TransportModal({ rowClickData, CB }) {
                         {/* From date */}
                         <div className="col-lg-3">
                           {[2, 4].includes(
-                            values?.rows[0]?.transportPlanning?.value,
+                            values?.rows[0]?.transportPlanning?.value
                           ) ? (
                             <InputField
                               label="From"
@@ -1720,7 +1717,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].fromPort`,
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 placeholder="From"
@@ -1732,7 +1729,7 @@ function TransportModal({ rowClickData, CB }) {
                         </div>
                         <div className="col-lg-3">
                           {[2, 4].includes(
-                            values?.rows[0]?.transportPlanning?.value,
+                            values?.rows[0]?.transportPlanning?.value
                           ) ? (
                             <InputField
                               label="To"
@@ -1754,7 +1751,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].toPort`,
-                                  valueOption,
+                                  valueOption
                                 );
                               }}
                               placeholder="To"
@@ -1770,9 +1767,9 @@ function TransportModal({ rowClickData, CB }) {
                               values?.rows[0]?.transportPlanning?.value === 2
                                 ? 'Vessel Name'
                                 : values?.rows[0]?.transportPlanning?.value ===
-                                  4
-                                ? 'Truck No'
-                                : 'Flight Number'
+                                    4
+                                  ? 'Truck No'
+                                  : 'Flight Number'
                             }
                             type="text"
                             name="flightNumber"
@@ -1780,7 +1777,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].flightNumber`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1794,7 +1791,7 @@ function TransportModal({ rowClickData, CB }) {
                             onChange={(e) =>
                               setFieldValue(
                                 `rows[${index}].flightDate`,
-                                e.target.value,
+                                e.target.value
                               )
                             }
                           />
@@ -1822,7 +1819,7 @@ function TransportModal({ rowClickData, CB }) {
                                     values?.rows[0]?.transportPlanning
                                       ?.value === 4
                                       ? 'Please fill Truck No'
-                                      : 'Please fill Flight Number',
+                                      : 'Please fill Flight Number'
                                   );
                                   return;
                                 }
@@ -1864,7 +1861,7 @@ function TransportModal({ rowClickData, CB }) {
                               });
                               setFieldValue(
                                 `rows[${index}].airTransportRow`,
-                                containerDesc,
+                                containerDesc
                               );
                               setFieldValue(`rows[${index}].truckType`, '');
                               setFieldValue(`rows[${index}].fromPort`, '');
@@ -1900,9 +1897,9 @@ function TransportModal({ rowClickData, CB }) {
                                   2
                                     ? 'Vessel Name'
                                     : values?.rows[0]?.transportPlanning
-                                        ?.value === 4
-                                    ? 'Truck No'
-                                    : 'Flight Number'}
+                                          ?.value === 4
+                                      ? 'Truck No'
+                                      : 'Flight Number'}
                                 </th>
 
                                 <th style={{ width: '30px' }}>Action</th>
@@ -1932,7 +1929,7 @@ function TransportModal({ rowClickData, CB }) {
                                           containerDesc.splice(0, 1);
                                           setFieldValue(
                                             `rows[${0}].airTransportRow`,
-                                            containerDesc,
+                                            containerDesc
                                           );
                                         }}
                                         color="error"

@@ -1,30 +1,28 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import { getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import { getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
 import {
   createAndEditCertificate,
   getCertificateDDL,
   getCertificateLanding,
-} from "../helper";
-import Form from "./form";
-
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  strCertificateTypeName: "",
-  strCertificateName: "",
+  vesselName: '',
+  strCertificateTypeName: '',
+  strCertificateName: '',
   dteIssueDate: _todayDate(),
-  strIssuePlace: "",
-  strIssuingAuthority: "",
+  strIssuePlace: '',
+  strIssuingAuthority: '',
   dteLastSurvey: _todayDate(),
   dteFromDate: _todayDate(),
   dteToDate: _todayDate(),
-  strRemarks: "",
+  strRemarks: '',
 };
 
 export default function CertificateManagementForm() {
@@ -34,7 +32,7 @@ export default function CertificateManagementForm() {
   const [loading, setLoading] = useState(false);
 
   //  attachment file
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
 
   // State For DDL
   const [vesselDDL, setVesselDDL] = useState([]);
@@ -48,13 +46,13 @@ export default function CertificateManagementForm() {
     return state?.authData;
   }, shallowEqual);
 
-  console.log("singleData", singleData);
+  console.log('singleData', singleData);
   /* Fetch DDL */
   const getByIdCalled = () => {
     if (id) {
       getCertificateLanding(
         setSingleData,
-        "VesselCertificateLanding",
+        'VesselCertificateLanding',
         {
           intAccountId: profileData?.accountId,
           intBusinessUnitId: selectedBusinessUnit?.value,
@@ -72,8 +70,7 @@ export default function CertificateManagementForm() {
 
   useEffect(() => {
     getByIdCalled();
-
-  },[id])
+  }, [id]);
 
   useEffect(() => {
     getVesselDDL(
@@ -81,40 +78,39 @@ export default function CertificateManagementForm() {
       selectedBusinessUnit?.value,
       setVesselDDL
     );
-    getCertificateDDL(setCertificateTypeDDL, "CertificateTypeDDL", {
+    getCertificateDDL(setCertificateTypeDDL, 'CertificateTypeDDL', {
       intAccountId: profileData?.accountId,
       intBusinessUnitId: selectedBusinessUnit?.value,
       intCertificateTypeId: 0,
     });
-
   }, [profileData, selectedBusinessUnit]);
 
   /* Save Handler */
   const saveHandler = (values, cb) => {
-      /* Create Part */
-      const payload = {
-        intVesselCertificateId: +id ? +id : 0,
-        intAccountId: profileData?.accountId,
-        intBusinessUnitId: selectedBusinessUnit?.value,
-        intVesselId: values?.vesselName?.value,
-        intCertificateTypeId: values?.strCertificateTypeName?.value,
-        strCertificateTypeName: values?.strCertificateTypeName?.label,
-        intCertificateId: values?.strCertificateName?.value,
-        strCertificateName: values?.strCertificateName?.label,
-        dteIssueDate: values?.dteIssueDate,
-        dteFromDate: values?.dteFromDate || "",
-        dteToDate: values?.dteToDate || "",
-        strIssuePlace: values?.strIssuePlace,
-        strIssuingAuthority: values?.strIssuingAuthority,
-        dteLastSurvey: values?.dteLastSurvey,
-        dteNextSurvey: _todayDate(),
-        strRemarks: values?.strRemarks,
-        strAttachment: attachmentFile,
-        intActionBy: profileData.actionBy,
-        intDateRangeTypeId: "",
-        strDateRangeTypeName: "",
-      };
-      createAndEditCertificate(payload, setLoading, cb);
+    /* Create Part */
+    const payload = {
+      intVesselCertificateId: +id ? +id : 0,
+      intAccountId: profileData?.accountId,
+      intBusinessUnitId: selectedBusinessUnit?.value,
+      intVesselId: values?.vesselName?.value,
+      intCertificateTypeId: values?.strCertificateTypeName?.value,
+      strCertificateTypeName: values?.strCertificateTypeName?.label,
+      intCertificateId: values?.strCertificateName?.value,
+      strCertificateName: values?.strCertificateName?.label,
+      dteIssueDate: values?.dteIssueDate,
+      dteFromDate: values?.dteFromDate || '',
+      dteToDate: values?.dteToDate || '',
+      strIssuePlace: values?.strIssuePlace,
+      strIssuingAuthority: values?.strIssuingAuthority,
+      dteLastSurvey: values?.dteLastSurvey,
+      dteNextSurvey: _todayDate(),
+      strRemarks: values?.strRemarks,
+      strAttachment: attachmentFile,
+      intActionBy: profileData.actionBy,
+      intDateRangeTypeId: '',
+      strDateRangeTypeName: '',
+    };
+    createAndEditCertificate(payload, setLoading, cb);
   };
 
   return (
@@ -122,11 +118,11 @@ export default function CertificateManagementForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "view"
-            ? "View Certificate"
-            : type === "edit"
-            ? "Edit Certificate"
-            : "Create Certificate"
+          type === 'view'
+            ? 'View Certificate'
+            : type === 'edit'
+              ? 'Edit Certificate'
+              : 'Create Certificate'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

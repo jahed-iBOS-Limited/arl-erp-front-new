@@ -1,45 +1,45 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/challanInformationUpdate/helper";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/challanInformationUpdate/helper';
 import {
   createSalesInvoiceNew,
   getEmployeeList,
   // getInvoiceDataByDate,
-} from "../helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
-import Form from "./form";
-import { useCementInvoicePrintHandler } from "../Form/formHandlerBluePill";
+} from '../helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InvoiceReceptForCement from '../invoiceCement/invoiceRecept';
+import Form from './form';
+import { useCementInvoicePrintHandler } from '../Form/formHandlerBluePill';
 
 const invoiceInitData = {
-  distributionChannel: "",
-  customer: "",
+  distributionChannel: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  refNumber: "",
-  projectLocation: "",
-  invoiceNo: "",
-  ait: { value: true, label: "Include" },
-  paymentTerms: "",
-  salesOrderCreatedBy: "",
-  soldBy: "",
-  remarks: "",
-  particulars: "",
-  customerType: "",
-  invoiceType: { value: 2, label: "SO Base" },
+  refNumber: '',
+  projectLocation: '',
+  invoiceNo: '',
+  ait: { value: true, label: 'Include' },
+  paymentTerms: '',
+  salesOrderCreatedBy: '',
+  soldBy: '',
+  remarks: '',
+  particulars: '',
+  customerType: '',
+  invoiceType: { value: 2, label: 'SO Base' },
 };
 
 const validationSchema = Yup.object().shape({});
@@ -54,12 +54,8 @@ const SalesInvoiceForm = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
   const [channelId, setChannelId] = useState(0);
-  const [
-    customerList,
-    getCustomerList,
-    customerLoading,
-    setCustomerList,
-  ] = useAxiosGet();
+  const [customerList, getCustomerList, customerLoading, setCustomerList] =
+    useAxiosGet();
   const [SOList, getSOList, soLoading, setSOList] = useAxiosGet();
   const [, getRowsBySO, loading] = useAxiosGet();
   const [, getSOInfo] = useAxiosGet();
@@ -77,10 +73,8 @@ const SalesInvoiceForm = () => {
     }
   }, [buId, accId]);
 
-  const {
-    printRefCement,
-    handleInvoicePrintCement,
-  } = useCementInvoicePrintHandler();
+  const { printRefCement, handleInvoicePrintCement } =
+    useCementInvoicePrintHandler();
 
   const getCustomers = (values) => {
     getCustomerList(
@@ -133,7 +127,6 @@ const SalesInvoiceForm = () => {
       //   setRowDto
       // );
     }
-
   }, [accId, buId, state]);
 
   const allSelect = (value) => {
@@ -187,13 +180,13 @@ const SalesInvoiceForm = () => {
           intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
           strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
           strPaymentTerms: values?.paymentTerms?.label,
-          remarks: values?.remarks || "",
+          remarks: values?.remarks || '',
           actionBy: userId,
         });
       }
     }
     if (payload?.length === 0) {
-      return toast.warning("Please Select Item");
+      return toast.warning('Please Select Item');
     }
     createSalesInvoiceNew(payload, setDisabled, setInvoiceData, () => {
       cb();
@@ -231,14 +224,14 @@ const SalesInvoiceForm = () => {
                 value: state?.intChannelId,
                 label: state?.strChannelName,
               }
-            : "",
+            : '',
           customer: state?.intPartnerId
             ? {
                 value: state?.intPartnerId,
                 label: state?.strPartnerName,
                 name: state?.strPartnerName,
               }
-            : "",
+            : '',
           fromDate: state?.fromDate,
           toDate: state?.toDate,
         }}

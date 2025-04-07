@@ -1,21 +1,20 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { Formik } from "formik";
-import GridView from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../../../_metronic/_partials/controls';
+import { Formik } from 'formik';
+import GridView from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
@@ -62,7 +61,7 @@ const MarketShareEntryLandingPage = () => {
                     <button
                       onClick={() => {
                         history.push(
-                          "/config/partner-management/marketshareentry/entry"
+                          '/config/partner-management/marketshareentry/entry'
                         );
                       }}
                       className="btn btn-primary ml-2"

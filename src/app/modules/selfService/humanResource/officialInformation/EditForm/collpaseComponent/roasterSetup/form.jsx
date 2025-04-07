@@ -1,49 +1,48 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../../../_metronic/_partials/controls";
-import { runningCalender_api } from "./helper";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router";
+} from './../../../../../../../../_metronic/_partials/controls';
+import { runningCalender_api } from './helper';
+import { toast } from 'react-toastify';
+import { useLocation } from 'react-router';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   generateDate: Yup.string()
-    .min(1, "Minimum 1 symbol")
-    .max(100, "Maximum 100 symbols")
-    .required("Date of Joining is required")
-    .typeError("Date of Joining is required"),
+    .min(1, 'Minimum 1 symbol')
+    .max(100, 'Maximum 100 symbols')
+    .required('Date of Joining is required')
+    .typeError('Date of Joining is required'),
   calenderType: Yup.object()
     .shape({
-      label: Yup.string().required("Calendar Type is required"),
-      value: Yup.string().required("Calendar Type is required"),
+      label: Yup.string().required('Calendar Type is required'),
+      value: Yup.string().required('Calendar Type is required'),
     })
-    .typeError("Calendar Type is required"),
+    .typeError('Calendar Type is required'),
   calender: Yup.object()
     .shape({
-      label: Yup.string().required("Calendar is required"),
-      value: Yup.string().required("Calendar is required"),
+      label: Yup.string().required('Calendar is required'),
+      value: Yup.string().required('Calendar is required'),
     })
-    .typeError("Calendar is required"),
+    .typeError('Calendar is required'),
   nextChangeDate: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Next Change Date is required")
-    .typeError("Next Change Date is required"),
-  startingCalender: Yup.string().when("calenderType", {
+    .min(1, 'Minimum 1 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Next Change Date is required')
+    .typeError('Next Change Date is required'),
+  startingCalender: Yup.string().when('calenderType', {
     is: (val) => val?.value == 2,
     then: Yup.string()
-      .required("Starting calender is required")
-      .typeError("Starting calender is required"),
+      .required('Starting calender is required')
+      .typeError('Starting calender is required'),
   }),
 });
 
@@ -61,7 +60,7 @@ export default function FormCmp({
 }) {
   const location = useLocation();
 
-//Starting Calenderddl load for edit
+  //Starting Calenderddl load for edit
   const startingCalender = (value) => {
     runningCalender_api(value?.calender?.value, setRunningCalender);
   };
@@ -76,7 +75,7 @@ export default function FormCmp({
             values?.calenderType?.value === 2 &&
             !values?.startingCalender?.label
           )
-            return toast.warning("Starting calender is required");
+            return toast.warning('Starting calender is required');
           saveHandler(values, () => {
             getRosterByIdCb();
           });
@@ -91,10 +90,10 @@ export default function FormCmp({
           setFieldValue,
           isValid,
         }) => (
-          <div className={!edit ? "editForm" : ""}>
+          <div className={!edit ? 'editForm' : ''}>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Create Work Schedule"}>
+              <CardHeader title={'Create Work Schedule'}>
                 {!location?.state?.fromReRegistration && (
                   <CardHeaderToolbar>
                     {edit ? (
@@ -135,7 +134,7 @@ export default function FormCmp({
                   </CardHeaderToolbar>
                 )}
               </CardHeader>
-              {console.log(values, "valuesjj")}
+              {console.log(values, 'valuesjj')}
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="row global-form global-form-custom bj-left pb-2">
@@ -147,8 +146,8 @@ export default function FormCmp({
                         placeholder="Generate Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("nextChangeDate", e.target.value);
-                          setFieldValue("generateDate", e.target.value);
+                          setFieldValue('nextChangeDate', e.target.value);
+                          setFieldValue('generateDate', e.target.value);
                         }}
                         disabled={!edit || location?.state?.fromReRegistration}
                       />
@@ -159,23 +158,25 @@ export default function FormCmp({
                         options={[
                           {
                             value: 1,
-                            label: "Calendar General",
+                            label: 'Calendar General',
                           },
-                          { value: 2, label: "Roster Group Name" },
+                          { value: 2, label: 'Roster Group Name' },
                         ]}
                         value={values?.calenderType}
                         label="Calendar Type"
                         onChange={(valueOption) => {
                           if (valueOption?.value === 1) {
-                            setFieldValue("startingCalender", "");
+                            setFieldValue('startingCalender', '');
                           }
-                          setFieldValue("calender", "");
-                          setFieldValue("calenderType", valueOption);
+                          setFieldValue('calender', '');
+                          setFieldValue('calenderType', valueOption);
                         }}
                         placeholder="Calendar Type"
                         errors={errors}
                         touched={touched}
-                        isDisabled={!edit || location?.state?.fromReRegistration}
+                        isDisabled={
+                          !edit || location?.state?.fromReRegistration
+                        }
                       />
                     </div>
                     <div className="col-lg-3">
@@ -189,8 +190,8 @@ export default function FormCmp({
                         value={values?.calender}
                         label={values?.calenderType?.label}
                         onChange={(valueOption) => {
-                          setFieldValue("startingCalender", "");
-                          setFieldValue("calender", valueOption);
+                          setFieldValue('startingCalender', '');
+                          setFieldValue('calender', valueOption);
                           runningCalender_api(
                             valueOption?.value,
                             setRunningCalender
@@ -199,7 +200,11 @@ export default function FormCmp({
                         placeholder="Calendar"
                         errors={errors}
                         touched={touched}
-                        isDisabled={!edit || !values?.calenderType || location?.state?.fromReRegistration}
+                        isDisabled={
+                          !edit ||
+                          !values?.calenderType ||
+                          location?.state?.fromReRegistration
+                        }
                       />
                     </div>
                     {values?.calenderType?.value !== 1 && (
@@ -210,12 +215,16 @@ export default function FormCmp({
                           value={values?.startingCalender}
                           label="Starting Calendar"
                           onChange={(valueOption) => {
-                            setFieldValue("startingCalender", valueOption);
+                            setFieldValue('startingCalender', valueOption);
                           }}
                           placeholder="Starting Calendar"
                           errors={errors}
                           touched={touched}
-                          isDisabled={!edit || !values?.calender || location?.state?.fromReRegistration}
+                          isDisabled={
+                            !edit ||
+                            !values?.calender ||
+                            location?.state?.fromReRegistration
+                          }
                           hide={values?.calenderType?.value === 1}
                         />
                       </div>
@@ -231,7 +240,11 @@ export default function FormCmp({
                           placeholder="Next Change Date"
                           type="date"
                           min={values?.generateDate}
-                          disabled={!edit || !values?.calenderType || location?.state?.fromReRegistration}
+                          disabled={
+                            !edit ||
+                            !values?.calenderType ||
+                            location?.state?.fromReRegistration
+                          }
                         />
                       </div>
                     )}

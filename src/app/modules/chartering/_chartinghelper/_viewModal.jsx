@@ -1,7 +1,6 @@
-
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import ISpinner from "../../_helper/_spinner";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import ISpinner from '../../_helper/_spinner';
 
 export default function IViewModal({
   id,
@@ -27,14 +26,14 @@ export default function IViewModal({
       <Modal
         show={show}
         onHide={onHide}
-        size={size ? size : "xl"}
+        size={size ? size : 'xl'}
         aria-labelledby="example-modal-sizes-title-xl"
       >
         {isShow ? (
           <ISpinner isShow={isShow} />
         ) : (
           <>
-            {" "}
+            {' '}
             <Modal.Header className="bg-custom">
               <Modal.Title className="text-center">{title}</Modal.Title>
             </Modal.Header>
@@ -42,14 +41,14 @@ export default function IViewModal({
             <Modal.Body id="example-modal-sizes-title-xl">
               {children}
             </Modal.Body>
-            <Modal.Footer style={{ padding: ".5rem" }}>
+            <Modal.Footer style={{ padding: '.5rem' }}>
               <div>
                 <button
                   type="button"
                   onClick={() => onHide()}
                   className="btn btn-danger px-3 py-2"
                 >
-                  {btnText ? btnText : "Cancel"}
+                  {btnText ? btnText : 'Cancel'}
                 </button>
                 <> </>
               </div>

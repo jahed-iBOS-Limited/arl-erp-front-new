@@ -1,10 +1,10 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
-const DepoPendingChart = ({DCDepotPending}) => {
+const DepoPendingChart = ({ DCDepotPending }) => {
   const series = [
     {
-      name: "Depot Pending",
+      name: 'Depot Pending',
       data: DCDepotPending?.data,
     },
   ];
@@ -15,81 +15,81 @@ const DepoPendingChart = ({DCDepotPending}) => {
         show: false,
       },
       height: 350,
-      type: "bar",
+      type: 'bar',
     },
 
-    colors: ["#1BD6FF", "#00FF00", "#6E1FEC"],
+    colors: ['#1BD6FF', '#00FF00', '#6E1FEC'],
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
+        columnWidth: '55%',
+        endingShape: 'rounded',
       },
     },
     dataLabels: {
       enabled: true,
-      formatter: function(val) {
+      formatter: function (val) {
         return val;
       },
       offsetY: -20,
       style: {
-        fontSize: "12px",
-        colors: ["#304758"],
+        fontSize: '12px',
+        colors: ['#304758'],
       },
     },
     legend: {
-      position: "bottom",
-      horizontalAlign: "center",
+      position: 'bottom',
+      horizontalAlign: 'center',
     },
     xaxis: {
       labels: {
         style: {
-          fontSize: "11px",
+          fontSize: '11px',
           fontWeight: 700,
-          fontFamily: "Poppins",
+          fontFamily: 'Poppins',
         },
         // rotateAlways: true,
         rotate: -45,
       },
       categories: DCDepotPending?.categories || [],
-      tickPlacement: "on",
+      tickPlacement: 'on',
     },
     fill: {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
         shadeIntensity: 0.1,
         opacityFrom: 1,
         opacityTo: 0.7,
         stops: [0, 90, 100],
-        type: "vertical",
+        type: 'vertical',
       },
     },
     tooltip: {
-      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
         return (
           '<div class="arrow_box">' +
           '<span class="">' +
           w.globals.categoryLabels[dataPointIndex] +
-          "</span>" +
-          "<span>" +
+          '</span>' +
+          '<span>' +
           series[seriesIndex][dataPointIndex] +
-          "</span>" +
-          "</div>"
+          '</span>' +
+          '</div>'
         );
       },
     },
   };
 
   return (
-    <div className='DepoPendingChart'>
-      <p className=''>
+    <div className="DepoPendingChart">
+      <p className="">
         <h6>Depot Pending</h6>
       </p>
-      <div id='chart'>
+      <div id="chart">
         <ReactApexChart
           options={options}
           series={series}
-          type='bar'
+          type="bar"
           height={300}
         />
       </div>

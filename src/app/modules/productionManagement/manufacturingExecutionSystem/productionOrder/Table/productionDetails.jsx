@@ -20,10 +20,9 @@ export default function ProductionDetails({
   useEffect(() => {
     if (productionOrderId) {
       getReportData(
-        `/mes/ProductionOrder/GetProductionDetailsById?BuId=${selectedBusinessUnit?.value}&ProductionOrderId=${productionOrderId}`,
+        `/mes/ProductionOrder/GetProductionDetailsById?BuId=${selectedBusinessUnit?.value}&ProductionOrderId=${productionOrderId}`
       );
     }
-
   }, [productionOrderId]);
 
   // pdfExport function
@@ -73,7 +72,7 @@ export default function ProductionDetails({
                         `/mes/ProductionOrder/GetProductionDetailsById?BuId=${selectedBusinessUnit?.value}&ProductionOrderId=${productionOrderId}&isDownload=true`,
                         'Production Details',
                         'xlsx',
-                        setLoading,
+                        setLoading
                       );
                     }}
                   >
@@ -258,7 +257,7 @@ export default function ProductionDetails({
                                 </td>
                                 <td className="text-center">{item?.percent}</td>
                               </tr>
-                            ),
+                            )
                           )}
                         <tr>
                           {reportData?.outputMaterialDetails?.length > 0 && (
@@ -303,7 +302,9 @@ export default function ProductionDetails({
                   >
                     <strong>
                       Last Entry Date :{' '}
-                      {_dateFormatter(reportData?.headerDetails?.lastEntryDate)}{' '}
+                      {_dateFormatter(
+                        reportData?.headerDetails?.lastEntryDate
+                      )}{' '}
                     </strong>
                   </p>
                   <p

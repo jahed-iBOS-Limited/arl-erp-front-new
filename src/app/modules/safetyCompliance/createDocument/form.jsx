@@ -1,43 +1,43 @@
-import { Form, Formik } from "formik";
-import React, { useRef } from "react";
-import ReactQuill from "react-quill";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import ICustomTable from "../../_helper/_customTable";
-import IDelete from "../../_helper/_helperIcons/_delete";
-import InputField from "../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../_helper/_redux/Actions";
-import NewSelect from "../../_helper/_select";
-import { attachmentUpload } from "../../_helper/attachmentUpload";
-import ButtonStyleOne from "../../_helper/button/ButtonStyleOne";
-import placeholderImg from "../../_helper/images/placeholderImg.png";
-import { nameCutter } from "../legalDocRegistration/helper";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import React, { useRef } from 'react';
+import ReactQuill from 'react-quill';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import ICustomTable from '../../_helper/_customTable';
+import IDelete from '../../_helper/_helperIcons/_delete';
+import InputField from '../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../_helper/_redux/Actions';
+import NewSelect from '../../_helper/_select';
+import { attachmentUpload } from '../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../_helper/button/ButtonStyleOne';
+import placeholderImg from '../../_helper/images/placeholderImg.png';
+import { nameCutter } from '../legalDocRegistration/helper';
+import './style.css';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   documentName: Yup.string()
-    .min(1, "Minimum 1 number")
-    .max(1000, "Maximum 100 number")
-    .required("Document Name is required"),
+    .min(1, 'Minimum 1 number')
+    .max(1000, 'Maximum 100 number')
+    .required('Document Name is required'),
   unit: Yup.object().shape({
-    label: Yup.string().required("Unit is required"),
-    value: Yup.string().required("Unit is required"),
+    label: Yup.string().required('Unit is required'),
+    value: Yup.string().required('Unit is required'),
   }),
   workplaceGroup: Yup.object().shape({
-    label: Yup.string().required("Workplace Group is required"),
-    value: Yup.string().required("Workplace Group is required"),
+    label: Yup.string().required('Workplace Group is required'),
+    value: Yup.string().required('Workplace Group is required'),
   }),
   workplace: Yup.object().shape({
-    label: Yup.string().required("Workplace is required"),
-    value: Yup.string().required("Workplace is required"),
+    label: Yup.string().required('Workplace is required'),
+    value: Yup.string().required('Workplace is required'),
   }),
-  reminderDate: Yup.string().required("Remainder Date is required"),
+  reminderDate: Yup.string().required('Remainder Date is required'),
   frequency: Yup.string()
-    .min(1, "Minimum 1 number")
-    .max(1000, "Maximum 100 number")
-    .required("Frequency is required"),
+    .min(1, 'Minimum 1 number')
+    .max(1000, 'Maximum 100 number')
+    .required('Frequency is required'),
 });
 
 const FormCmp = ({
@@ -73,33 +73,33 @@ const FormCmp = ({
   };
 
   const formats = [
-    "font",
-    "header",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "align",
-    "list",
-    "bullet",
-    "indent",
-    "link",
+    'font',
+    'header',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'align',
+    'list',
+    'bullet',
+    'indent',
+    'link',
   ];
 
   const modules = {
     toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [
-        { align: "" },
-        { align: "center" },
-        { align: "right" },
-        { align: "justify" },
+        { align: '' },
+        { align: 'center' },
+        { align: 'right' },
+        { align: 'justify' },
       ],
-      [{ list: "ordered" }, { list: "bullet" }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
     ],
   };
 
@@ -109,7 +109,7 @@ const FormCmp = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          textEditorData: singleData?.strDescriptionHTML || "",
+          textEditorData: singleData?.strDescriptionHTML || '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -117,7 +117,7 @@ const FormCmp = ({
             resetForm(initData);
             regId && getDataById();
             !regId && setAttachmentFileArray([]);
-            setAttachmentFile("");
+            setAttachmentFile('');
           });
         }}
       >
@@ -147,13 +147,13 @@ const FormCmp = ({
                       <div className="col-lg-4">
                         <NewSelect
                           name="unit"
-                          options={[{ value: 0, label: "All" }, ...unitDDL]}
+                          options={[{ value: 0, label: 'All' }, ...unitDDL]}
                           value={values?.unit}
                           label="Unit"
                           onChange={(valueOption) => {
-                            setFieldValue("workplace", "");
-                            setFieldValue("workplaceGroup", "");
-                            setFieldValue("unit", valueOption);
+                            setFieldValue('workplace', '');
+                            setFieldValue('workplaceGroup', '');
+                            setFieldValue('unit', valueOption);
                             getWpGroup(
                               `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=WorkplaceGroupIdByBusinessUnitId&intBusinessUnitId=${valueOption?.value}`
                             );
@@ -168,14 +168,14 @@ const FormCmp = ({
                         <NewSelect
                           name="workplaceGroup"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...workplaceGroupDDL,
                           ]}
                           value={values?.workplaceGroup}
                           label="Workplace Group"
                           onChange={(valueOption) => {
-                            setFieldValue("workplace", "");
-                            setFieldValue("workplaceGroup", valueOption);
+                            setFieldValue('workplace', '');
+                            setFieldValue('workplaceGroup', valueOption);
                             getWp(
                               `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=WorkplaceByWorkplaceGroupId&intBusinessUnitId=${values?.unit?.value}&intWorkplaceGroupId=${valueOption?.value}`
                             );
@@ -190,13 +190,13 @@ const FormCmp = ({
                         <NewSelect
                           name="workplace"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...workplaceDDL,
                           ]}
                           value={values?.workplace}
                           label="Workplace"
                           onChange={(valueOption) => {
-                            setFieldValue("workplace", valueOption);
+                            setFieldValue('workplace', valueOption);
                           }}
                           placeholder="Workplace"
                           errors={errors}
@@ -229,7 +229,7 @@ const FormCmp = ({
                         <ReactQuill
                           theme="snow"
                           onChange={(e) => {
-                            setFieldValue("textEditorData", e);
+                            setFieldValue('textEditorData', e);
                           }}
                           value={values?.textEditorData}
                           modules={modules}
@@ -239,7 +239,7 @@ const FormCmp = ({
 
                       <div
                         className="col-lg-3 mt-2"
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                       >
                         <div className="d-flex flex-column my-2">
                           Attachment
@@ -256,8 +256,8 @@ const FormCmp = ({
                                 className="fa fa-eye"
                                 aria-hidden="true"
                                 style={{
-                                  marginRight: "10px",
-                                  color: "#0072E5",
+                                  marginRight: '10px',
+                                  color: '#0072E5',
                                 }}
                               ></i>
                             </span>
@@ -266,14 +266,14 @@ const FormCmp = ({
                         <div
                           className={
                             attachmentFile
-                              ? "image-upload-box with-img"
-                              : "image-upload-box"
+                              ? 'image-upload-box with-img'
+                              : 'image-upload-box'
                           }
                           onClick={onButtonAttachmentClick}
                           style={{
-                            cursor: "pointer",
-                            position: "relative",
-                            height: "35px",
+                            cursor: 'pointer',
+                            position: 'relative',
+                            height: '35px',
                           }}
                         >
                           <input
@@ -285,20 +285,20 @@ const FormCmp = ({
                                     setAttachmentFileName(data[0]);
                                   })
                                   .catch(() => {
-                                    toast.warn("Failed, try again");
+                                    toast.warn('Failed, try again');
                                   });
                               }
                             }}
                             type="file"
                             ref={inputAttachFile}
                             id="file"
-                            style={{ display: "none" }}
+                            style={{ display: 'none' }}
                           />
 
                           <div>
                             {!attachmentFile && (
                               <img
-                                style={{ maxWidth: "65px" }}
+                                style={{ maxWidth: '65px' }}
                                 src={placeholderImg}
                                 className="img-fluid"
                                 alt="Upload or drag documents"
@@ -310,11 +310,11 @@ const FormCmp = ({
                             <div className="d-flex align-items-center">
                               <p
                                 style={{
-                                  fontSize: "12px",
-                                  fontWeight: "500",
-                                  color: "#0072E5",
-                                  cursor: "pointer",
-                                  margin: "0px",
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                  color: '#0072E5',
+                                  cursor: 'pointer',
+                                  margin: '0px',
                                 }}
                               >
                                 {nameCutter(0, 10, attachmentFile)}
@@ -324,13 +324,13 @@ const FormCmp = ({
                         </div>
                       </div>
 
-                      <div className="col-lg-1" style={{ marginTop: "38px" }}>
+                      <div className="col-lg-1" style={{ marginTop: '38px' }}>
                         <ButtonStyleOne
                           type="button"
                           label="Add"
                           onClick={() => {
                             if (!attachmentFile)
-                              return toast.warn("File not found!", {
+                              return toast.warn('File not found!', {
                                 toastId: 457,
                               });
 
@@ -342,11 +342,11 @@ const FormCmp = ({
 
                             if (isFound)
                               return toast.warn(
-                                "Not allowed to duplicate item!",
+                                'Not allowed to duplicate item!',
                                 {
                                   toastId: 456,
                                 },
-                                setAttachmentFile("")
+                                setAttachmentFile('')
                               );
 
                             let prevData = [...attachmentFileArray];
@@ -356,7 +356,7 @@ const FormCmp = ({
                               isDelete: false,
                             });
                             setAttachmentFileArray(prevData);
-                            setAttachmentFile("");
+                            setAttachmentFile('');
                           }}
                         />
                       </div>
@@ -364,7 +364,7 @@ const FormCmp = ({
                   </div>
                 </div>
               </div>
-              <ICustomTable ths={["SL", "Document File Name", "Action"]}>
+              <ICustomTable ths={['SL', 'Document File Name', 'Action']}>
                 {attachmentFileArray?.length !== 0 &&
                   attachmentFileArray?.map((item, index) => (
                     <tr key={index}>
@@ -376,7 +376,7 @@ const FormCmp = ({
                             if (
                               regId &&
                               item?.intDocumentNameId &&
-                              window?.location?.pathname?.includes("edit")
+                              window?.location?.pathname?.includes('edit')
                             ) {
                               const data = [...deletedRow];
                               data.push({
@@ -389,7 +389,7 @@ const FormCmp = ({
                             remover(index);
                           }}
                         >
-                          <IDelete remover={() => ""} id={index} />
+                          <IDelete remover={() => ''} id={index} />
                         </span>
                       </td>
                     </tr>
@@ -398,13 +398,13 @@ const FormCmp = ({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

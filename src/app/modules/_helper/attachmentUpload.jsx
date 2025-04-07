@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 export const attachmentUpload = async (attachment, setLoading) => {
   let formData = new FormData();
   Array.from(attachment)?.forEach((file) => {
-    formData.append('files', file?.file ||file);
+    formData.append('files', file?.file || file);
   });
   try {
     setLoading && setLoading(true);
@@ -22,7 +22,6 @@ export const attachmentUpload = async (attachment, setLoading) => {
     return error;
   }
 };
-
 
 export const empAttachment_action = async (attachment, cb) => {
   let formData = new FormData();
@@ -51,32 +50,32 @@ export const attachment_action = async (
   setLoading(true);
   let formData = new FormData();
   Array.from(attachment)?.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
-  setFieldValue("attachment", "");
+  setFieldValue('attachment', '');
   try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
-    toast.success("Upload  successfully");
-    setFieldValue("attachmentRow", data?.[0]?.id);
+    toast.success('Upload  successfully');
+    setFieldValue('attachmentRow', data?.[0]?.id);
     setLoading(false);
   } catch (error) {
     setLoading(false);
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
 export const uploadAttachment = (attachment) => {
   let formData = new FormData();
   Array.from(attachment)?.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
-  return axios.post("/domain/Document/UploadFile", formData, {
+  return axios.post('/domain/Document/UploadFile', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 };

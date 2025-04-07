@@ -23,19 +23,11 @@ export default function DistributionPlanLanding() {
   const [detailsView, setDetailsView] = useState([]);
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
-  const [
-    regionDDL,
-    getRegionDDL,
-    regionDDLloader,
-    setRegionDDL,
-  ] = useAxiosGet();
+  const [regionDDL, getRegionDDL, regionDDLloader, setRegionDDL] =
+    useAxiosGet();
   const [areaDDL, getAreaDDL, areaDDLloader, setAreaDDl] = useAxiosGet();
-  const [
-    territoryDDL,
-    getTerritoryDDL,
-    territoryDDLloader,
-    setTerritoryDDL,
-  ] = useAxiosGet();
+  const [territoryDDL, getTerritoryDDL, territoryDDLloader, setTerritoryDDL] =
+    useAxiosGet();
   const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
   const [, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
   const [yearDDL, getYearDDL, yearDDLloader] = useAxiosGet();
@@ -52,26 +44,29 @@ export default function DistributionPlanLanding() {
   const setPositionHandler = (pageNo, pageSize, values) => {
     getRowDto(
       // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
-      `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-        ?.plant?.value || 0}&yearId=${values?.year?.value}&monthId=${
+      `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${
+        values?.plant?.value || 0
+      }&yearId=${values?.year?.value}&monthId=${
         values?.horizon?.monthId
-      }&warehosueId=${values?.warehouse?.value || 0}&channelId=${values?.channel
-        ?.value || 0}&regionId=${values?.region?.value || 0}&areaId=${values
-        ?.area?.value || 0}&territoryId=${values?.territory?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      }&warehosueId=${values?.warehouse?.value || 0}&channelId=${
+        values?.channel?.value || 0
+      }&regionId=${values?.region?.value || 0}&areaId=${
+        values?.area?.value || 0
+      }&territoryId=${
+        values?.territory?.value || 0
+      }&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
   // get landing data on mount
   useEffect(() => {
     getPlantDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
 
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`
     );
-
   }, [buId]);
 
   const getRegionDDLHandler = (valueOption) => {
@@ -85,7 +80,7 @@ export default function DistributionPlanLanding() {
             label: item?.regionName,
           }));
           setRegionDDL(newDDL);
-        },
+        }
       );
     }
   };
@@ -102,7 +97,7 @@ export default function DistributionPlanLanding() {
             label: item?.areaName,
           }));
           setAreaDDl(newDDL);
-        },
+        }
       );
     }
   };
@@ -119,7 +114,7 @@ export default function DistributionPlanLanding() {
             label: item?.territoryName,
           }));
           setTerritoryDDL(newDDL);
-        },
+        }
       );
     }
   };
@@ -128,7 +123,7 @@ export default function DistributionPlanLanding() {
   const getWarehouseDDLHandler = (plantId) => {
     if (plantId) {
       getWarehouseDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
       );
     }
   };
@@ -137,7 +132,7 @@ export default function DistributionPlanLanding() {
   const getYearDDLHandler = (plantId) => {
     if (plantId) {
       getYearDDL(
-        `/mes/MesDDL/GetYearDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}`,
+        `/mes/MesDDL/GetYearDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}`
       );
     }
   };
@@ -145,7 +140,7 @@ export default function DistributionPlanLanding() {
   const getHorizonDDLHandler = (plantId, yearId) => {
     if (plantId && yearId) {
       getHorizonDDL(
-        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`,
+        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
       );
     }
   };
@@ -196,7 +191,7 @@ export default function DistributionPlanLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/internal-control/budget/DistributionPlanning/create',
+                        '/internal-control/budget/DistributionPlanning/create'
                       );
                     }}
                   >
@@ -326,7 +321,7 @@ export default function DistributionPlanLanding() {
                         setFieldValue('horizon', '');
                         getHorizonDDLHandler(
                           values.plant?.value,
-                          valueOption?.value,
+                          valueOption?.value
                         );
                       }}
                       placeholder="Select year"
@@ -346,7 +341,7 @@ export default function DistributionPlanLanding() {
                         setFieldValue('horizon', valueOption);
                         setFieldValue(
                           'fromDate',
-                          valueOption?.startdatetime || '',
+                          valueOption?.startdatetime || ''
                         );
                         setFieldValue('toDate', valueOption?.enddatetime || '');
                       }}
@@ -367,17 +362,17 @@ export default function DistributionPlanLanding() {
                       }
                       onClick={() => {
                         getRowDto(
-                          `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-                            ?.plant?.value || 0}&yearId=${
-                            values?.year?.value
-                          }&monthId=${
+                          `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${
+                            values?.plant?.value || 0
+                          }&yearId=${values?.year?.value}&monthId=${
                             values?.horizon?.monthId
-                          }&warehosueId=${values?.warehouse?.value ||
-                            0}&channelId=${values?.channel?.value ||
-                            0}&regionId=${values?.region?.value ||
-                            0}&areaId=${values?.area?.value ||
-                            0}&territoryId=${values?.territory?.value ||
-                            0}&pageNo=${pageNo}&pageSize=${pageSize}`,
+                          }&warehosueId=${
+                            values?.warehouse?.value || 0
+                          }&channelId=${values?.channel?.value || 0}&regionId=${
+                            values?.region?.value || 0
+                          }&areaId=${values?.area?.value || 0}&territoryId=${
+                            values?.territory?.value || 0
+                          }&pageNo=${pageNo}&pageSize=${pageSize}`
                         );
                       }}
                     >

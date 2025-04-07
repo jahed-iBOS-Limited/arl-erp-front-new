@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getChannelWiseSalesReportLandingData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getChannelWiseSalesReportLandingData } from '../helper';
 
 const initData = {
-  sbu: "",
+  sbu: '',
 };
 
 export default function BalanceInfoReportLanding() {
@@ -54,7 +54,7 @@ export default function BalanceInfoReportLanding() {
           isShowPrintBtn={true}
           componentRef={printRef}
           isExcelBtn={true}
-          excelFileNameWillbe={"Balance Info"}
+          excelFileNameWillbe={'Balance Info'}
           pageStyle="@page { size: 10in 15in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
         >
           <div>
@@ -85,7 +85,7 @@ export default function BalanceInfoReportLanding() {
                             value={values?.sbu}
                             // label="SBU"
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
+                              setFieldValue('sbu', valueOption);
                               setRowDto([]);
                             }}
                             // placeholder="SBU"
@@ -102,7 +102,7 @@ export default function BalanceInfoReportLanding() {
                         <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
                           <div className="sta-scrollable-table scroll-table-auto">
                             <div
-                              style={{ maxHeight: "500px" }}
+                              style={{ maxHeight: '500px' }}
                               className="scroll-table _table scroll-table-auto"
                             >
                               <table
@@ -122,17 +122,17 @@ export default function BalanceInfoReportLanding() {
                                     return (
                                       <tr key={i}>
                                         <td
-                                          style={{ width: "30px" }}
+                                          style={{ width: '30px' }}
                                           className="text-center"
                                         >
                                           {i + 1}
                                         </td>
 
                                         <td
-                                          style={{ width: "90px" }}
+                                          style={{ width: '90px' }}
                                           className="text-center"
                                         >
-                                          {item?.partnerid || ""}
+                                          {item?.partnerid || ''}
                                         </td>
                                         <td className="text-right">
                                           {item?.SLamount || 0}

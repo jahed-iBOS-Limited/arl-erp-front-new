@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   getEmpStatusDDL,
   employeeBasicInformation_landing_api_Fof_Filtering,
   getempInfoGridforOwnView,
   getWorkplaceGroupDDLAction,
-} from "../helper";
+} from '../helper';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -46,7 +46,7 @@ export default function BasicInformationlLanding() {
   }, [selectedBusinessUnit, profileData]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    console.log("values", values);
+    console.log('values', values);
     employeeBasicInformation_landing_api_Fof_Filtering(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -54,7 +54,7 @@ export default function BasicInformationlLanding() {
       setLoading,
       values?.employeeStatus?.value || 0,
       values?.workplaceGroup?.value || 0,
-      values?.search || "",
+      values?.search || '',
       pageNo,
       pageSize
     );
@@ -72,7 +72,7 @@ export default function BasicInformationlLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Basic Information"}>
+              <CardHeader title={'Basic Information'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>

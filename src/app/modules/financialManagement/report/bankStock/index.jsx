@@ -89,15 +89,15 @@ export default function BankStock() {
                           `/fino/BankLetter/GetBankStockReport?businessUnitId=${
                             values?.businessUnit?.value
                           }&dteDate=${getLastDateOfMonth(
-                            values?.monthYear?.split('-')[1],
-                          )}`,
+                            values?.monthYear?.split('-')[1]
+                          )}`
                         );
                         getTotalAmount(
                           `/fino/BankLetter/GetReceableAmount?businessUnitId=${
                             values?.businessUnit?.value
                           }&dteDate=${getLastDateOfMonth(
-                            values?.monthYear?.split('-')[1],
-                          )}`,
+                            values?.monthYear?.split('-')[1]
+                          )}`
                         );
                       }}
                       type="button"

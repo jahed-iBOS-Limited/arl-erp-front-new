@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import ICustomTable from "../../../../_helper/_customTable";
-import { useSelector, useDispatch } from "react-redux";
-import { setAssetTableLastAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../attachmentView/viewForm";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ICustomTable from '../../../../_helper/_customTable';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAssetTableLastAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../attachmentView/viewForm';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 // import IClose from "../../../../_helper/_helperIcons/_close";
-import { inventoryTransactionCancelAction } from "../helper/Actions";
+import { inventoryTransactionCancelAction } from '../helper/Actions';
 const headers = [
-  "SL",
-  "Receive Code",
-  "PO Number",
-  "PO Qty",
-  "PO Amount",
-  "Receive Qty",
-  "Receive Amount",
-  "Supplier",
-  "Action",
+  'SL',
+  'Receive Code',
+  'PO Number',
+  'PO Qty',
+  'PO Amount',
+  'Receive Qty',
+  'Receive Amount',
+  'Supplier',
+  'Action',
 ];
 
 const TBody = ({ gridData, viewGridData, setLoading }) => {
@@ -38,10 +38,12 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
   const assetTable = useSelector((state) => {
     return state?.localStorage.assetTableIndex;
   });
-  const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData)
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData
+  );
   const cancelPopUp = (td) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Code : ${td?.assetCode}`,
       yesAlertFunc: () => {
         inventoryTransactionCancelAction(
@@ -52,7 +54,7 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
           setLoading
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -64,19 +66,19 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
         gridData?.map((item, index) => {
           return (
             <tr key={index}>
-              <td style={{ textAlign: "center" }}>{item?.sl}</td>
+              <td style={{ textAlign: 'center' }}>{item?.sl}</td>
               <td>{item?.assetCode}</td>
               <td>{item?.purchaseOrderNo}</td>
-              <td style={{ textAlign: "center" }}>{item?.poQuantity}</td>
-              <td style={{ textAlign: "center" }}>{item?.poAmount}</td>
-              <td style={{ textAlign: "center" }}>{item?.receiveQuantity}</td>
-              <td style={{ textAlign: "center" }}>
+              <td style={{ textAlign: 'center' }}>{item?.poQuantity}</td>
+              <td style={{ textAlign: 'center' }}>{item?.poAmount}</td>
+              <td style={{ textAlign: 'center' }}>{item?.receiveQuantity}</td>
+              <td style={{ textAlign: 'center' }}>
                 {item?.receiveAmount?.toFixed(4)}
               </td>
-              <td style={{ textAlign: "center" }}>
+              <td style={{ textAlign: 'center' }}>
                 {item?.businessPartnerName}
               </td>
-              <td colSpan="" style={{ textAlign: "center" }}>
+              <td colSpan="" style={{ textAlign: 'center' }}>
                 {/* {!item?.isInvoicePosted && (
                   <span
                     className="mr-3"
@@ -94,12 +96,13 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                   }}
                 >
                   <OverlayTrigger
-                    overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                    overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                   >
-                    <span style={{ cursor: "pointer" }}>
+                    <span style={{ cursor: 'pointer' }}>
                       <i
-                        className={`fas fa-eye ${assetTable === item?.assetId ? "text-primary" : ""
-                          }`}
+                        className={`fas fa-eye ${
+                          assetTable === item?.assetId ? 'text-primary' : ''
+                        }`}
                         aria-hidden="true"
                       ></i>
                     </span>
@@ -111,27 +114,25 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                     setPOData(item);
                   }}
                   style={{
-                    border: "none",
-                    background: "none",
-                    cursor: "pointer",
+                    border: 'none',
+                    background: 'none',
+                    cursor: 'pointer',
                   }}
                 >
                   <OverlayTrigger
                     overlay={
-                      <Tooltip id="cs-icon">{"PO Receive Attachment"}</Tooltip>
+                      <Tooltip id="cs-icon">{'PO Receive Attachment'}</Tooltip>
                     }
                   >
                     <i class="far fa-file-image"></i>
                   </OverlayTrigger>
                 </button>
-                {
-                  !item?.isBillPosted  && <span
-                    onClick={() => cancelPopUp(item)}
-                  >
+                {!item?.isBillPosted && (
+                  <span onClick={() => cancelPopUp(item)}>
                     <OverlayTrigger
-                      overlay={<Tooltip id="cs-icon">{"Cancel"}</Tooltip>}
+                      overlay={<Tooltip id="cs-icon">{'Cancel'}</Tooltip>}
                     >
-                      <span style={{ cursor: "pointer" }}>
+                      <span style={{ cursor: 'pointer' }}>
                         <i
                           className="fa fa-times-circle closeBtn"
                           aria-hidden="true"
@@ -139,8 +140,7 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                       </span>
                     </OverlayTrigger>
                   </span>
-                }
-
+                )}
               </td>
             </tr>
           );
@@ -158,8 +158,22 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
   );
 };
 
-export default function AssetReceiveLandingTable({ gridData, setLoading, viewGridData }) {
+export default function AssetReceiveLandingTable({
+  gridData,
+  setLoading,
+  viewGridData,
+}) {
   return (
-    <ICustomTable ths={headers} className="table-font-size-sm" children={<TBody gridData={gridData} setLoading={setLoading} viewGridData={viewGridData} />} />
+    <ICustomTable
+      ths={headers}
+      className="table-font-size-sm"
+      children={
+        <TBody
+          gridData={gridData}
+          setLoading={setLoading}
+          viewGridData={viewGridData}
+        />
+      }
+    />
   );
 }

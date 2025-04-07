@@ -96,10 +96,9 @@ export default function FormCmp({
         initData?.warehouseId,
         initData?.purchaseOrderId,
         initData?.purchaseOrderNo,
-        setgrnDDLData,
+        setgrnDDLData
       );
     }
-
   }, [id, initData]);
   return (
     <>
@@ -180,11 +179,11 @@ export default function FormCmp({
                             values?.warehouse?.value,
                             valueOption?.value,
                             valueOption?.label,
-                            setgrnDDLData,
+                            setgrnDDLData
                           );
                           GetAdvanceForSupplierById(
                             valueOption?.value,
-                            setAdvanceForSupplierById,
+                            setAdvanceForSupplierById
                           );
                           setgrnGridData([]);
                         }}
@@ -192,7 +191,7 @@ export default function FormCmp({
                           if (v?.length < 3) return [];
                           return axios
                             .get(
-                              `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${values?.SBU?.value}&PurchaseOrganizationId=${purchaseOrg}&PlantId=${plantValue}&WarehouseId=${warehouseValue}&searchTerm=${v}`,
+                              `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${values?.SBU?.value}&PurchaseOrganizationId=${purchaseOrg}&PlantId=${plantValue}&WarehouseId=${warehouseValue}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -336,7 +335,7 @@ export default function FormCmp({
                           classes="purchaseInvoiceAttachIcon"
                           clickHandler={() => {
                             dispatch(
-                              getDownlloadFileView_Action(values?.attachmentId),
+                              getDownlloadFileView_Action(values?.attachmentId)
                             );
                           }}
                         />
@@ -540,7 +539,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

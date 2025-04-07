@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState, useRef } from "react";
-import { getSingleGenerateData, getTreasuryChallanNoDDL } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import govLogo from "../images/govLogo.png";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useEffect, useState, useRef } from 'react';
+import { getSingleGenerateData, getTreasuryChallanNoDDL } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import govLogo from '../images/govLogo.png';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function ReportBodyGenerate({ viewClick }) {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [rowDto, setRowDto] = useState([]);
   const printRef = useRef();
 
@@ -40,12 +39,12 @@ function ReportBodyGenerate({ viewClick }) {
             <button
               type="button"
               className="btn btn-primary"
-              style={{ padding: "2px 5px" }}
+              style={{ padding: '2px 5px' }}
             >
               <img
                 style={{
-                  width: "25px",
-                  paddingRight: "5px",
+                  width: '25px',
+                  paddingRight: '5px',
                 }}
                 src={printIcon}
                 alt="print-icon"
@@ -61,7 +60,7 @@ function ReportBodyGenerate({ viewClick }) {
         {/* Header Part */}
         <div className="text-center d-flex justify-content-between mt-4 mb-8">
           <div>
-            <img src={govLogo} alt={"Ibos"} />
+            <img src={govLogo} alt={'Ibos'} />
           </div>
           <div>
             <h5 className="text-center">
@@ -80,8 +79,8 @@ function ReportBodyGenerate({ viewClick }) {
           <div>
             <sapn
               style={{
-                border: "2px solid #808080",
-                padding: "2px",
+                border: '2px solid #808080',
+                padding: '2px',
               }}
               className="text-right font-weight-bold"
             >
@@ -91,21 +90,21 @@ function ReportBodyGenerate({ viewClick }) {
         </div>
         {/* Header Part End */}
 
-        <div style={{ width: "100%" }} className="row row-wrapper">
-          <div style={{ width: "50%" }} className="col-lg-6">
+        <div style={{ width: '100%' }} className="row row-wrapper">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>
               Name of withholding Entity : {singleData?.nameofWithholdingEntity}
             </h6>
             <h6>
-              Address of Withholding Entity :{" "}
+              Address of Withholding Entity :{' '}
               {singleData?.addressofWithholdingEntity}
             </h6>
             <h6>
-              BIN Of withholding Entity (if applicable) :{" "}
+              BIN Of withholding Entity (if applicable) :{' '}
               {singleData?.binofWithholdingEntity}
             </h6>
           </div>
-          <div style={{ width: "50%" }} className="col-lg-6">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>Certificate No : {singleData?.certificateNo} </h6>
             <h6>Date of issue : {_dateFormatter(singleData?.dateofIssue)}</h6>
             <h6 className="d-flex">
@@ -115,7 +114,7 @@ function ReportBodyGenerate({ viewClick }) {
             </h6>
             <h6 className="d-flex align-items-center">
               <span>
-                Tr. Deposit Date :{" "}
+                Tr. Deposit Date :{' '}
                 {_dateFormatter(singleData?.treasuryDepositDate)}
               </span>
             </h6>
@@ -203,7 +202,7 @@ function ReportBodyGenerate({ viewClick }) {
           <h6 className="mb-10">Signature of In-Charge</h6>
         </div>
         <div>
-          <span style={{ borderTop: "1px solid #808080", fontSize: "1rem" }}>
+          <span style={{ borderTop: '1px solid #808080', fontSize: '1rem' }}>
             1 VAT & SD (if any inclusive price)
           </span>
         </div>

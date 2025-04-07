@@ -1,5 +1,5 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 function TableGirdThree({ rowDto, values }) {
   let numLabourCost = 0,
@@ -7,7 +7,7 @@ function TableGirdThree({ rowDto, values }) {
     numLabourRate = 0;
   return (
     <div className="react-bootstrap-table table-responsive">
-      <table className={"table table-striped table-bordered global-table "}>
+      <table className={'table table-striped table-bordered global-table '}>
         <thead>
           <tr>
             <th>SL </th>
@@ -57,7 +57,7 @@ function TableGirdThree({ rowDto, values }) {
             </td>
             <td className="text-right">
               <b>{_fixedPoint(numLabourRate, true, 0)}</b>
-            </td>{" "}
+            </td>{' '}
             <td className="text-right">
               <b>{_fixedPoint(numLabourCost, true, 0)}</b>
             </td>

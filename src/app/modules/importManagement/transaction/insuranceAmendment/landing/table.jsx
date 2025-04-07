@@ -1,25 +1,31 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import { getLandingData, getTableData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { getLandingData, getTableData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import InsuranceAmendmentForm from "../form/addEditForm";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import InsuranceAmendmentForm from '../form/addEditForm';
 import { GetInsuranceAmendmentById } from './../helper';
 
-const header = ["SL", "Amendment No", "Reason", "PI Amount (FC)", "Date", "Action"];
+const header = [
+  'SL',
+  'Amendment No',
+  'Reason',
+  'PI Amount (FC)',
+  'Date',
+  'Action',
+];
 
 const InsuranceAmendmentLanding = () => {
   const history = useHistory();
@@ -33,7 +39,6 @@ const InsuranceAmendmentLanding = () => {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -68,9 +73,9 @@ const InsuranceAmendmentLanding = () => {
     GetInsuranceAmendmentById(
       insuranceAmendmentId,
       setIsLoading,
-      setSingleItem,
-    )
-  }
+      setSingleItem
+    );
+  };
 
   return (
     <>
@@ -89,7 +94,7 @@ const InsuranceAmendmentLanding = () => {
               onClick={() =>
                 history.push({
                   pathname:
-                    "/managementImport/transaction/insurance-amendment/create",
+                    '/managementImport/transaction/insurance-amendment/create',
                   state,
                 })
               }
@@ -102,11 +107,11 @@ const InsuranceAmendmentLanding = () => {
         <CardBody>
           {isloading && <Loading />}
           <div className="d-flex justify-content-center align-items-center">
-            <div style={{ fontWeight: "900", marginLeft: "30px" }}>
+            <div style={{ fontWeight: '900', marginLeft: '30px' }}>
               PO : {state?.poNumber}
             </div>
-            <div style={{ fontWeight: "900", marginLeft: "30px" }}>
-              LC : {gridData?.map(item => item?.lcnumber)}
+            <div style={{ fontWeight: '900', marginLeft: '30px' }}>
+              LC : {gridData?.map((item) => item?.lcnumber)}
             </div>
           </div>
           <ICustomTable ths={header}>
@@ -122,16 +127,17 @@ const InsuranceAmendmentLanding = () => {
                   <td className="text-center">
                     {_dateFormatter(item?.amendmentDate)}
                   </td>
-                  <td style={{ width: "100px" }} className="text-center">
+                  <td style={{ width: '100px' }} className="text-center">
                     <div className="d-flex justify-content-center">
                       <span className="view">
                         <IView
                           clickHandler={() => {
                             setIsShowModal(true);
-                            getData(item?.insuranceAmendmentId)
+                            getData(item?.insuranceAmendmentId);
                             setType({
-                              ...item, type: 'view'
-                            })
+                              ...item,
+                              type: 'view',
+                            });
 
                             // setSingleItem({
                             //   ...item,

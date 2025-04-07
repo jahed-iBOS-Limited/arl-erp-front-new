@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import PrayerForIssuanceOfLC from "./prayerForIssuanceOfLC";
-import "./style.scss";
-import RequestForOriginalDocuments from "./requestForOriginalDocuments";
-import RequestForIssuance from "./requestForIssuance";
-import { UpdateLcApi } from "../../helper";
-import Loading from "../../../../../_helper/_loading";
-import { commonGetLetterHead } from "../../../../../_helper/letterHead/commonGetLetterHead";
+import React, { useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import PrayerForIssuanceOfLC from './prayerForIssuanceOfLC';
+import './style.scss';
+import RequestForOriginalDocuments from './requestForOriginalDocuments';
+import RequestForIssuance from './requestForIssuance';
+import { UpdateLcApi } from '../../helper';
+import Loading from '../../../../../_helper/_loading';
+import { commonGetLetterHead } from '../../../../../_helper/letterHead/commonGetLetterHead';
 
 const PrayerForIssuance = ({ obj }) => {
   const [disabled, setDisabled] = React.useState(false);
@@ -33,7 +33,7 @@ const PrayerForIssuance = ({ obj }) => {
     }`,
   });
 
-  console.log(singleData, "singleData")
+  console.log(singleData, 'singleData');
   return (
     <>
       {disabled && <Loading />}
@@ -47,12 +47,12 @@ const PrayerForIssuance = ({ obj }) => {
           onClick={() => {
             handleInvoicePrint();
             const payload = {
-              intLoCId: singleData?.lcId ||0,
+              intLoCId: singleData?.lcId || 0,
               isBankInfoComplete: true,
               dteUpdateDate: new Date(),
               intUpdateDateBy: profileData?.userId,
             };
-            UpdateLcApi(setDisabled,payload);
+            UpdateLcApi(setDisabled, payload);
           }}
         >
           Print
@@ -65,14 +65,14 @@ const PrayerForIssuance = ({ obj }) => {
             backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value,
             })})`,
-            backgroundRepeat: "no-repeat",
-            height: "150px",
-            backgroundPosition: "left 10px",
-            backgroundSize: "cover",
-            position: "fixed",
-            width: "100%",
-            top: "-30px",
-            left: "-40px",
+            backgroundRepeat: 'no-repeat',
+            height: '150px',
+            backgroundPosition: 'left 10px',
+            backgroundSize: 'cover',
+            position: 'fixed',
+            width: '100%',
+            top: '-30px',
+            left: '-40px',
           }}
         ></div>
         <div
@@ -81,14 +81,14 @@ const PrayerForIssuance = ({ obj }) => {
             backgroundImage: `url(${commonGetLetterHead({
               buId: selectedBusinessUnit?.value,
             })})`,
-            backgroundRepeat: "no-repeat",
-            height: "100px",
-            backgroundPosition: "left bottom",
-            backgroundSize: "cover",
-            bottom: "-0px",
-            position: "fixed",
-            width: "100%",
-            left: "0px",
+            backgroundRepeat: 'no-repeat',
+            height: '100px',
+            backgroundPosition: 'left bottom',
+            backgroundSize: 'cover',
+            bottom: '-0px',
+            position: 'fixed',
+            width: '100%',
+            left: '0px',
           }}
         ></div>
 

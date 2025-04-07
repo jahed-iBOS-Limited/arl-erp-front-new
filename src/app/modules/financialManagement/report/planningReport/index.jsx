@@ -32,10 +32,9 @@ export default function PlanningReport() {
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
     );
     getYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-
   }, [profileData]);
 
   const [subDivisionDDL, getSubDivisionDDL, ,] = useAxiosGet([]);
@@ -106,7 +105,7 @@ export default function PlanningReport() {
                           setFieldValue('businessUnit', '');
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -133,7 +132,7 @@ export default function PlanningReport() {
                                 valueOption
                                   ? `&SubGroup=${valueOption?.value}`
                                   : ''
-                              }`,
+                              }`
                             );
                           }
                         }}
@@ -204,8 +203,8 @@ export default function PlanningReport() {
                       let url = [1]?.includes(values?.reportType?.value)
                         ? `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
                         : [2]?.includes(values?.reportType?.value)
-                        ? `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.businessUnit?.value}&strYear=${values?.year?.label}`
-                        : '';
+                          ? `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.businessUnit?.value}&strYear=${values?.year?.label}`
+                          : '';
                       getRowData(url);
                     }}
                     className="btn btn-primary"

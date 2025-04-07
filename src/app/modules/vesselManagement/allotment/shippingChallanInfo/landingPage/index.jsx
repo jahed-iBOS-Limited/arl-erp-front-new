@@ -1,35 +1,34 @@
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICard from '../../../../_helper/_card';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getGodownDDL, getTotal } from '../../../common/helper';
+import { GetShipPointDDL } from '../../loadingInformation/helper';
+import { getLandingDataForConfirmation, updateSalesOrders } from '../helper';
+import Form from './form';
+import Table from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICard from "../../../../_helper/_card";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getGodownDDL, getTotal } from "../../../common/helper";
-import { GetShipPointDDL } from "../../loadingInformation/helper";
-import { getLandingDataForConfirmation, updateSalesOrders } from "../helper";
-import Form from "./form";
-import Table from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-
-const ALL = { value: 0, label: "All" };
+const ALL = { value: 0, label: 'All' };
 
 const initData = {
-  confirmationType: { value: 2, label: "Supervisor Confirmation" },
-  type: "badc",
+  confirmationType: { value: 2, label: 'Supervisor Confirmation' },
+  type: 'badc',
   shipPoint: ALL,
   shipToPartner: ALL,
   port: ALL,
   motherVessel: ALL,
-  status: { value: 1, label: "Pending" },
+  status: { value: 1, label: 'Pending' },
   jvDate: _todayDate(),
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  remarks: "",
-  billRef: "",
+  remarks: '',
+  billRef: '',
 };
 
 const ShippingChallanInfo = () => {
@@ -49,7 +48,7 @@ const ShippingChallanInfo = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   // ______ landing data fetching functions __________
-  const getData = (values, pageNo, pageSize, searchTerm = "") => {
+  const getData = (values, pageNo, pageSize, searchTerm = '') => {
     getLandingDataForConfirmation(
       accId,
       buId,
@@ -106,7 +105,7 @@ const ShippingChallanInfo = () => {
   const saveHandler = (values) => {
     const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one item.");
+      return toast.warn('Please select at least one item.');
     }
 
     const checkBeforeSubmitData = selectedItems.find(
@@ -114,8 +113,8 @@ const ShippingChallanInfo = () => {
     );
 
     if (checkBeforeSubmitData) {
-      return toast("Please enter sales order no on all selected rows", {
-        type: "warning",
+      return toast('Please enter sales order no on all selected rows', {
+        type: 'warning',
       });
     }
 
@@ -139,35 +138,35 @@ const ShippingChallanInfo = () => {
   // _______ form data changing handler function _________
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "type":
-        setFieldValue("type", currentValue);
-        setFieldValue("shipToPartner", {
+      case 'type':
+        setFieldValue('type', currentValue);
+        setFieldValue('shipToPartner', {
           value: 0,
-          label: "All",
+          label: 'All',
         });
         setRowData([]);
         if (currentValue) {
           getGodownDDL(
             buId,
-            currentValue === "badc" ? 73244 : 73245,
+            currentValue === 'badc' ? 73244 : 73245,
             setGodownDDL,
             setLoading
           );
         }
-        getData(values, pageNo, pageSize, "");
+        getData(values, pageNo, pageSize, '');
         break;
 
-      case "organization":
-        setFieldValue("organization", currentValue);
-        setFieldValue("shipToPartner", {
+      case 'organization':
+        setFieldValue('organization', currentValue);
+        setFieldValue('shipToPartner', {
           value: 0,
-          label: "All",
+          label: 'All',
         });
         setRowData([]);
         if (currentValue) {
           getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
-        getData(values, pageNo, pageSize, "");
+        getData(values, pageNo, pageSize, '');
         break;
 
       default:
@@ -243,7 +242,7 @@ const ShippingChallanInfo = () => {
   };
 
   //  ________ calculations of totals that showing on top the table __________
-  const totalQty = getTotal(rowData?.data, "quantity", "isSelected");
+  const totalQty = getTotal(rowData?.data, 'quantity', 'isSelected');
 
   const totalBill = (values) => {
     return _fixedPoint(
@@ -255,8 +254,8 @@ const ShippingChallanInfo = () => {
               (values?.confirmationType?.value === 2
                 ? +y?.transportRate
                 : values?.confirmationType?.value === 3
-                ? +y?.godownUnloadingRate
-                : 0) * +y?.quantity),
+                  ? +y?.godownUnloadingRate
+                  : 0) * +y?.quantity),
           0
         ),
       true
@@ -284,7 +283,7 @@ const ShippingChallanInfo = () => {
               createHandler={() => {
                 saveHandler(values);
               }}
-              createBtnText={"Update Sales Orders"}
+              createBtnText={'Update Sales Orders'}
               // createBtnClass='btn-info'
               disableCreateBtn={disabled(values)}
             >

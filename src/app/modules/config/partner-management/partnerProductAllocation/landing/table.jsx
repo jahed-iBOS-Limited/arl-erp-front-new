@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -79,7 +78,7 @@ const PartnerProductAllocation = () => {
       pageNo,
       pageSize,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
   useEffect(() => {
@@ -87,7 +86,7 @@ const PartnerProductAllocation = () => {
     getBusinessPartnerDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setPartnerDDL,
+      setPartnerDDL
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -101,7 +100,7 @@ const PartnerProductAllocation = () => {
       pageNo,
       pageSize,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -120,7 +119,7 @@ const PartnerProductAllocation = () => {
                   <button
                     onClick={() => {
                       history.push(
-                        '/config/partner-management/partner-prod-allocation/add',
+                        '/config/partner-management/partner-prod-allocation/add'
                       );
                     }}
                     className="btn btn-primary"
@@ -297,7 +296,7 @@ const PartnerProductAllocation = () => {
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

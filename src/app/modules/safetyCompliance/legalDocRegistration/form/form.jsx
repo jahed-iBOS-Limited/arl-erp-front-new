@@ -1,40 +1,40 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useRef } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../_helper/TextArea";
-import ICustomTable from "../../../_helper/_customTable";
-import FormikError from "../../../_helper/_formikError";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import NewSelect from "../../../_helper/_select";
-import { attachmentUpload } from "../../../_helper/attachmentUpload";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import placeholderImg from "../../../_helper/images/placeholderImg.png";
-import { nameCutter } from "../helper";
-import "./form.css";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useRef } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../_helper/TextArea';
+import ICustomTable from '../../../_helper/_customTable';
+import FormikError from '../../../_helper/_formikError';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import NewSelect from '../../../_helper/_select';
+import { attachmentUpload } from '../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import placeholderImg from '../../../_helper/images/placeholderImg.png';
+import { nameCutter } from '../helper';
+import './form.css';
 
 const validationSchema = Yup.object().shape({
   unit: Yup.object().shape({
-    label: Yup.string().required("Unit is required"),
-    value: Yup.string().required("Unit is required"),
+    label: Yup.string().required('Unit is required'),
+    value: Yup.string().required('Unit is required'),
   }),
   workplaceGroup: Yup.object().shape({
-    label: Yup.string().required("Workplace group is required"),
-    value: Yup.string().required("Workplace group is required"),
+    label: Yup.string().required('Workplace group is required'),
+    value: Yup.string().required('Workplace group is required'),
   }),
   workplace: Yup.object().shape({
-    label: Yup.string().required("Workplace is required"),
-    value: Yup.string().required("Workplace is required"),
+    label: Yup.string().required('Workplace is required'),
+    value: Yup.string().required('Workplace is required'),
   }),
   documentName: Yup.object().shape({
-    label: Yup.string().required("Document name is required"),
-    value: Yup.string().required("Document name is required"),
+    label: Yup.string().required('Document name is required'),
+    value: Yup.string().required('Document name is required'),
   }),
 });
 
@@ -100,7 +100,7 @@ export default function FormCmp({
             resetForm(initData);
             regId && getDataById();
             !regId && setAttachmentFileArray([]);
-            setAttachmentFile("");
+            setAttachmentFile('');
           });
         }}
       >
@@ -123,8 +123,8 @@ export default function FormCmp({
                     value={values?.unit}
                     label="Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("unit", "");
-                      setFieldValue("unit", valueOption);
+                      setFieldValue('unit', '');
+                      setFieldValue('unit', valueOption);
                       setBusinessUnit(
                         valueOption?.value
                           ? valueOption?.value
@@ -133,9 +133,9 @@ export default function FormCmp({
                       getWpGroup(
                         `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=WorkplaceGroupIdByBusinessUnitId&intBusinessUnitId=${valueOption?.value}`
                       );
-                      setFieldValue("workplaceGroup", "");
-                      setFieldValue("workplace", "");
-                      setFieldValue("documentName", "");
+                      setFieldValue('workplaceGroup', '');
+                      setFieldValue('workplace', '');
+                      setFieldValue('documentName', '');
                     }}
                     placeholder="Unit"
                     errors={errors}
@@ -149,12 +149,12 @@ export default function FormCmp({
                     value={values?.workplaceGroup}
                     label="Workplace Group"
                     onChange={(valueOption) => {
-                      setFieldValue("workplaceGroup", valueOption);
+                      setFieldValue('workplaceGroup', valueOption);
                       getWp(
                         `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=WorkplaceByWorkplaceGroupId&intBusinessUnitId=${values?.unit?.value}&intWorkplaceGroupId=${valueOption?.value}`
                       );
-                      setFieldValue("workplace", "");
-                      setFieldValue("documentName", "");
+                      setFieldValue('workplace', '');
+                      setFieldValue('documentName', '');
                     }}
                     isDisabled={!values?.unit}
                     placeholder="Workplace Group"
@@ -169,11 +169,11 @@ export default function FormCmp({
                     value={values?.workplace}
                     label="Workplace"
                     onChange={(valueOption) => {
-                      setFieldValue("workplace", valueOption);
+                      setFieldValue('workplace', valueOption);
                       getLegalDocument(
                         `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameDDL&intBusinessUnitId=${values?.unit?.value}&intWorkplaceGroupId=${values?.workplaceGroup?.value}&intWorkplaceId=${valueOption?.value}`
                       );
-                      setFieldValue("documentName", "");
+                      setFieldValue('documentName', '');
                     }}
                     isDisabled={!values?.workplaceGroup}
                     placeholder="Workplace"
@@ -188,7 +188,7 @@ export default function FormCmp({
                     value={values?.documentName}
                     label="Documents Name"
                     onChange={(valueOption) => {
-                      setFieldValue("documentName", valueOption);
+                      setFieldValue('documentName', valueOption);
                     }}
                     placeholder="Document Name"
                     isDisabled={!values?.workplace}
@@ -201,34 +201,34 @@ export default function FormCmp({
                     name="renewalType"
                     options={[
                       {
-                        value: "One Year",
-                        label: "One Year",
+                        value: 'One Year',
+                        label: 'One Year',
                       },
                       {
-                        value: "Two Year",
-                        label: "Two Year",
+                        value: 'Two Year',
+                        label: 'Two Year',
                       },
                       {
-                        value: "Three Year",
-                        label: "Three Year",
+                        value: 'Three Year',
+                        label: 'Three Year',
                       },
                       {
-                        value: "Four Year",
-                        label: "Four Year",
+                        value: 'Four Year',
+                        label: 'Four Year',
                       },
                       {
-                        value: "Five Year",
-                        label: "Five Year",
+                        value: 'Five Year',
+                        label: 'Five Year',
                       },
                       {
-                        value: "Life Time",
-                        label: "Life Time",
+                        value: 'Life Time',
+                        label: 'Life Time',
                       },
                     ]}
                     value={values?.renewalType}
                     label="Renewal Type"
                     onChange={(valueOption) => {
-                      setFieldValue("renewalType", valueOption);
+                      setFieldValue('renewalType', valueOption);
                     }}
                     placeholder="Renewal Type"
                     errors={errors}
@@ -264,7 +264,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.contPerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("contPerson", valueOption);
+                      setFieldValue('contPerson', valueOption);
                     }}
                     loadOptions={loadEmpList}
                     placeholder="Search by Enroll/ID No/Name (min 3 letter)"
@@ -298,22 +298,22 @@ export default function FormCmp({
                     name="documentStatus"
                     options={[
                       {
-                        value: "Updated",
-                        label: "Updated",
+                        value: 'Updated',
+                        label: 'Updated',
                       },
                       {
-                        value: "Pending",
-                        label: "Pending",
+                        value: 'Pending',
+                        label: 'Pending',
                       },
                       {
-                        value: "Under Process",
-                        label: "Under Process",
+                        value: 'Under Process',
+                        label: 'Under Process',
                       },
                     ]}
                     value={values?.documentStatus}
                     label="Document Status"
                     onChange={(valueOption) => {
-                      setFieldValue("documentStatus", valueOption);
+                      setFieldValue('documentStatus', valueOption);
                     }}
                     placeholder="Document Status"
                     errors={errors}
@@ -359,7 +359,7 @@ export default function FormCmp({
                         <i
                           className="fa fa-eye"
                           aria-hidden="true"
-                          style={{ marginRight: "10px", color: "#0072E5" }}
+                          style={{ marginRight: '10px', color: '#0072E5' }}
                         ></i>
                       </span>
                     )}
@@ -367,14 +367,14 @@ export default function FormCmp({
                   <div
                     className={
                       attachmentFile
-                        ? "image-upload-box with-img"
-                        : "image-upload-box"
+                        ? 'image-upload-box with-img'
+                        : 'image-upload-box'
                     }
                     onClick={onButtonAttachmentClick}
                     style={{
-                      cursor: "pointer",
-                      position: "relative",
-                      height: "35px",
+                      cursor: 'pointer',
+                      position: 'relative',
+                      height: '35px',
                     }}
                   >
                     <input
@@ -386,20 +386,20 @@ export default function FormCmp({
                               setAttachmentFileName(data[0]);
                             })
                             .catch(() => {
-                              toast.warn("Failed, try again");
+                              toast.warn('Failed, try again');
                             });
                         }
                       }}
                       type="file"
                       ref={inputAttachFile}
                       id="file"
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     />
 
                     <div>
                       {!attachmentFile && (
                         <img
-                          style={{ maxWidth: "65px" }}
+                          style={{ maxWidth: '65px' }}
                           src={placeholderImg}
                           className="img-fluid"
                           alt="Upload or drag documents"
@@ -411,11 +411,11 @@ export default function FormCmp({
                       <div className="d-flex align-items-center">
                         <p
                           style={{
-                            fontSize: "12px",
-                            fontWeight: "500",
-                            color: "#0072E5",
-                            cursor: "pointer",
-                            margin: "0px",
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            color: '#0072E5',
+                            cursor: 'pointer',
+                            margin: '0px',
                           }}
                         >
                           {nameCutter(0, 10, attachmentFile)}
@@ -425,13 +425,13 @@ export default function FormCmp({
                   </div>
                 </div>
 
-                <div className="col-lg-1" style={{ marginTop: "20px" }}>
+                <div className="col-lg-1" style={{ marginTop: '20px' }}>
                   <ButtonStyleOne
                     type="button"
                     label="Add"
                     onClick={() => {
                       if (!attachmentFile)
-                        return toast.warn("File not found!", {
+                        return toast.warn('File not found!', {
                           toastId: 457,
                         });
 
@@ -443,11 +443,11 @@ export default function FormCmp({
 
                       if (isFound)
                         return toast.warn(
-                          "Not allowed to duplicate item!",
+                          'Not allowed to duplicate item!',
                           {
                             toastId: 456,
                           },
-                          setAttachmentFile("")
+                          setAttachmentFile('')
                         );
 
                       let prevData = [...attachmentFileArray];
@@ -457,13 +457,13 @@ export default function FormCmp({
                         isDelete: false,
                       });
                       setAttachmentFileArray(prevData);
-                      setAttachmentFile("");
+                      setAttachmentFile('');
                     }}
                   />
                 </div>
               </div>
 
-              <ICustomTable ths={["SL", "Document File Name", "Action"]}>
+              <ICustomTable ths={['SL', 'Document File Name', 'Action']}>
                 {attachmentFileArray?.length !== 0 &&
                   attachmentFileArray?.map((item, index) => (
                     <tr key={index}>
@@ -475,7 +475,7 @@ export default function FormCmp({
                             if (
                               regId &&
                               item?.id &&
-                              window?.location?.pathname?.includes("edit")
+                              window?.location?.pathname?.includes('edit')
                             ) {
                               const data = [...deletedRow];
                               data.push({
@@ -488,7 +488,7 @@ export default function FormCmp({
                             remover(index);
                           }}
                         >
-                          <IDelete remover={() => ""} id={index} />
+                          <IDelete remover={() => ''} id={index} />
                         </span>
                       </td>
                     </tr>
@@ -497,14 +497,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

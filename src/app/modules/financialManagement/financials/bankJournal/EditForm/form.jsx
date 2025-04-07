@@ -20,7 +20,11 @@ import {
 } from '../../../../_helper/_commonApi';
 import FormikError from '../../../../_helper/_formikError';
 import { IInput } from '../../../../_helper/_input';
-import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../_helper/_validationSchema';
+import {
+  PaymentValidationSchema,
+  ReceiveValidationSchema,
+  TransferValidationSchema,
+} from '../../../../_helper/_validationSchema';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import customStyles from '../../../../selectCustomStyle';
 import DebitCredit from '../Create/DebitCredit';
@@ -29,11 +33,9 @@ import ReceiveAndPaymentsTable from '../../../../_helper/_commonComponent';
 
 // Validation schema for bank receive
 
-
 // Validation schema for bank payment
 
 // Validation schema for bank transfer
-
 
 export default function FormCmp({
   initData,
@@ -83,21 +85,20 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         3,
-        setSendToGLBank,
+        setSendToGLBank
       );
       //getCostElementDDL( selectedBusinessUnit.value, profileData.accountId, setCostElementDDL);
       getCostCenterDDL(
         selectedBusinessUnit.value,
         profileData.accountId,
-        setCostCenterDDL,
+        setCostCenterDDL
       );
       getRevenueElementListDDL(
         selectedBusinessUnit.value,
-        setRevenueElementDDL,
+        setRevenueElementDDL
       );
       getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -136,10 +137,13 @@ export default function FormCmp({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
-        }`,
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -155,16 +159,15 @@ export default function FormCmp({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                ...item,
-                value: item?.bankId,
-                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-              }))
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
               : [];
           setPartnerBank(newBankAcc);
-        },
+        }
       );
     }
-
   }, [initData]);
 
   return (
@@ -224,7 +227,7 @@ export default function FormCmp({
                           setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-6 pl pr-1 mb-2">
@@ -238,7 +241,7 @@ export default function FormCmp({
                         isSearchable={true}
                         styles={customStyles}
                         placeholder="Bank Ac"
-                      // isDisabled={isEdit}
+                        // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -318,7 +321,7 @@ export default function FormCmp({
                               if (jorunalType === 4) {
                                 setFieldValue(
                                   'receiveFrom',
-                                  valueOption?.label,
+                                  valueOption?.label
                                 );
                               } else if (jorunalType === 5) {
                                 setFieldValue('paidTo', valueOption?.label);
@@ -332,13 +335,13 @@ export default function FormCmp({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                        ...item,
-                                        value: item?.bankId,
-                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                      }))
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
                                       : [];
                                   setPartnerBank(newBankAcc);
-                                },
+                                }
                               );
                             }}
                             loadOptions={loadTransactionList}
@@ -353,7 +356,7 @@ export default function FormCmp({
                         {/* ["Supplier", "Customer", "Investment Partner"] */}
                         {jorunalType === 5 &&
                           ['Investment Partner']?.includes(
-                            values?.partnerType?.label,
+                            values?.partnerType?.label
                           ) && (
                             <div
                               style={{ marginBottom: '12px' }}
@@ -364,7 +367,7 @@ export default function FormCmp({
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     'partnerBankAccount',
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 // isDisabled={!values?.transaction}
@@ -407,7 +410,7 @@ export default function FormCmp({
                           value={values.receiveFrom}
                           label="Receive From"
                           name="receiveFrom"
-                        // disabled={isEdit}
+                          // disabled={isEdit}
                         />
                       </div>
                     ) : jorunalType === 5 ? (
@@ -416,7 +419,7 @@ export default function FormCmp({
                           value={values.paidTo}
                           label="Paid to"
                           name="paidTo"
-                        // disabled={isEdit}
+                          // disabled={isEdit}
                         />
                       </div>
                     ) : (
@@ -591,7 +594,7 @@ export default function FormCmp({
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
-                                  setCostElementDDL,
+                                  setCostElementDDL
                                 );
                                 setFieldValue('costElement', '');
                               } else {
@@ -721,7 +724,7 @@ export default function FormCmp({
                         options={instrumentType || []}
                         styles={customStyles}
                         placeholder="Instrument Type"
-                      // isDisabled={isEdit}
+                        // isDisabled={isEdit}
                       />
                       <FormikError
                         errors={errors}
@@ -735,7 +738,7 @@ export default function FormCmp({
                         value={values.instrumentNo}
                         label="Instrument No"
                         name="instrumentNo"
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
 
@@ -745,7 +748,7 @@ export default function FormCmp({
                         label="Instrument Date"
                         name="instrumentDate"
                         type="date"
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
 

@@ -54,10 +54,9 @@ export default function LcEatAddEditForm() {
               numberOfContainer: numberOfContainer || '',
             });
           }
-        },
+        }
       );
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -81,7 +80,7 @@ export default function LcEatAddEditForm() {
           cb(initData);
         }
       },
-      true,
+      true
     );
   };
   console.log(singleData, 'singleData');

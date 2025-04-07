@@ -1,32 +1,29 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { getShipmentByID } from "../helper";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { getShipmentByID } from '../helper';
+import { toast } from 'react-toastify';
 
 const initData = {
-  vehicleNo: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
-  shipmentDate: "",
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
+  vehicleNo: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
+  shipmentDate: '',
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
 };
 
 export default function ShipmentCostViewForm({ id }) {
-  const [reset, setReset] = useState({ func: "" });
+  const [reset, setReset] = useState({ func: '' });
   const [isDisabled, setDisabled] = useState(true);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -42,7 +39,6 @@ export default function ShipmentCostViewForm({ id }) {
     if (id) {
       getShipmentByID(id, setSingleData, setRowDto);
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -79,7 +75,7 @@ export default function ShipmentCostViewForm({ id }) {
     const arr = rowDto?.filter((item) => item?.value === values?.value);
 
     if (arr?.length > 0) {
-      toast.warn("Not allowed to duplicate items");
+      toast.warn('Not allowed to duplicate items');
     } else {
       console.log(values);
 

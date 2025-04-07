@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { TableRow } from "./tableRow";
-import { ITable } from "../../../../_helper/_table";
+import React, { useState } from 'react';
+import { TableRow } from './tableRow';
+import { ITable } from '../../../../_helper/_table';
 
 export function CheckPostTable() {
   const [rowDto, setRowDto] = useState([]);

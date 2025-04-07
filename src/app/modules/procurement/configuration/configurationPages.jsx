@@ -1,24 +1,25 @@
-import React from 'react'
-import { shallowEqual, useSelector } from 'react-redux'
-import { Redirect, Switch } from 'react-router-dom'
-import findIndex from '../../_helper/_findIndex'
-import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage'
-import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute'
-import GodownRateConfigLanding from './godown-rate'
-import GodownRateCreateEditForm from './godown-rate/godownRateCreateEditForm'
-import ItemRateUpdate from './itemRateUpdate'
-import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm'
-import { PurchaseOrganization } from './purchase-organization/index'
-import RateAgreement from './rateAgreement'
-import RateAgreementCreate from './rateAgreement/rateAgrementCreate'
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import findIndex from '../../_helper/_findIndex';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute';
+import GodownRateConfigLanding from './godown-rate';
+import GodownRateCreateEditForm from './godown-rate/godownRateCreateEditForm';
+import ItemRateUpdate from './itemRateUpdate';
+import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm';
+import { PurchaseOrganization } from './purchase-organization/index';
+import RateAgreement from './rateAgreement';
+import RateAgreementCreate from './rateAgreement/rateAgrementCreate';
 
 export function POConfigurationPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
     shallowEqual
-  )
+  );
 
-  const purchaseOrganization = userRole[findIndex(userRole, "Purchase Organization")]
+  const purchaseOrganization =
+    userRole[findIndex(userRole, 'Purchase Organization')];
 
   return (
     <Switch>
@@ -47,7 +48,6 @@ export function POConfigurationPages() {
         component={PurchaseOrganization}
       />
 
-     
       <ContentRoute
         from="/mngProcurement/purchase-configuration/item-rate-update"
         component={ItemRateUpdate}
@@ -69,20 +69,23 @@ export function POConfigurationPages() {
       <ContentRoute
         from="/mngProcurement/purchase-configuration/rate-agreement/edit/:id"
         component={
-          purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
+          purchaseOrganization?.isCreate
+            ? RateAgreementCreate
+            : NotPermittedPage
         }
       />
       <ContentRoute
         from="/mngProcurement/purchase-configuration/rate-agreement/create"
         component={
-          purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
+          purchaseOrganization?.isCreate
+            ? RateAgreementCreate
+            : NotPermittedPage
         }
       />
       <ContentRoute
         from="/mngProcurement/purchase-configuration/rate-agreement"
         component={RateAgreement}
       />
-
     </Switch>
-  )
+  );
 }

@@ -1,23 +1,23 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import { useState } from "react";
-import { getSbuDDLAction } from "../_redux/Actions";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import { useState } from 'react';
+import { getSbuDDLAction } from '../_redux/Actions';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getReportAction,
   getYearDDLAction,
   setReportEmpty,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import { useHistory } from "react-router-dom";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import { useHistory } from 'react-router-dom';
 // import IViewModal from "../../../../_helper/_viewModal";
 // import ReportView from "../../reportView/ReportView";
-import Help from "./../../../help/Help";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard";
-import { SetSBUBalancedScoreData } from "../../../../_helper/reduxForLocalStorage/Actions";
+import Help from './../../../help/Help';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard';
+import { SetSBUBalancedScoreData } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export default function BalancedTable() {
   let storeData = useSelector(
@@ -32,23 +32,18 @@ export default function BalancedTable() {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    monthDDL,
-    sbuDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, yearDDL, monthDDL, sbuDDL } =
+    storeData;
 
   const dispatch = useDispatch();
   const [sbu, setSbu] = useState({
     value: profileData?.sbuId,
     label: profileData?.sbuName,
   });
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [section, setSection] = useState("");
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [section, setSection] = useState('');
   const history = useHistory();
   // const [isShowModal, setIsShowModal] = useState(false);
   // const [currentItem, setCurrentItem] = useState("");
@@ -67,7 +62,6 @@ export default function BalancedTable() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -75,14 +69,12 @@ export default function BalancedTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-
   }, [yearDDL]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, []);
 
   useEffect(() => {
@@ -109,7 +101,6 @@ export default function BalancedTable() {
         3
       );
     }
-
   }, [selectedBusinessUnit, sbu]);
 
   useEffect(() => {
@@ -141,7 +132,7 @@ export default function BalancedTable() {
         // componentRef={printRef}
         clickHandler={() =>
           history.push({
-            pathname: "/performance-management/sbu-kpi/scorecard/print",
+            pathname: '/performance-management/sbu-kpi/scorecard/print',
             state: { sbu, year, from, to },
           })
         }
@@ -323,9 +314,9 @@ export default function BalancedTable() {
             <label>Select Section</label>
             <Select
               options={[
-                { value: 0, label: "None" },
-                { value: 1, label: "Production" },
-                { value: 2, label: "Sales" },
+                { value: 0, label: 'None' },
+                { value: 1, label: 'Production' },
+                { value: 2, label: 'Sales' },
               ]}
               name="section"
               styles={customStyles}
@@ -365,23 +356,25 @@ export default function BalancedTable() {
             actionHandler={(item) => {
               // setCurrentItem({ item, index: item?.flatIndex });
               // setIsShowModal(true);
-              dispatch(SetSBUBalancedScoreData({
-                newData: reports,
-                report:item,
-                currentItem: {
-                  item,
-                  index: item?.flatIndex,
-                },
-                heading: "SBU BALANCED SCORECARD",
-                from: from,
-                to: to,
-                year,
-                sbuName:sbu?.label
-              }))
+              dispatch(
+                SetSBUBalancedScoreData({
+                  newData: reports,
+                  report: item,
+                  currentItem: {
+                    item,
+                    index: item?.flatIndex,
+                  },
+                  heading: 'SBU BALANCED SCORECARD',
+                  from: from,
+                  to: to,
+                  year,
+                  sbuName: sbu?.label,
+                })
+              );
               window.open(
                 `${import.meta.env.PUBLIC_URL}/sbu-balanced-scorecard`,
-                "_blank"
-              )
+                '_blank'
+              );
             }}
           />
         </div>

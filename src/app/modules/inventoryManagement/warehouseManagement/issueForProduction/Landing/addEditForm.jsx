@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./landing";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './landing';
 // import Loading from "../../../../_helper/_loading";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getSBUDDL, getPlantDDL } from "../helper";
+import ICustomCard from '../../../../_helper/_customCard';
+import { getSBUDDL, getPlantDDL } from '../helper';
 
 let initData = {
-  sbu: "",
-  plant: "",
-  wereHouse: "",
-  shopFloor: "",
-  fromDate: "",
-  toDate: "",
+  sbu: '',
+  plant: '',
+  wereHouse: '',
+  shopFloor: '',
+  fromDate: '',
+  toDate: '',
 };
 
 export function IssueProduction({ history }) {
@@ -37,7 +37,7 @@ export function IssueProduction({ history }) {
 
   return (
     <ICustomCard
-      title={"Issue For Production"}
+      title={'Issue For Production'}
       createHandler={() =>
         history.push(
           `/inventory-management/warehouse-management/issueforproduction/create`

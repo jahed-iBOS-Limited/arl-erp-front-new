@@ -1,7 +1,6 @@
-
 import { Form, Formik } from 'formik';
 import React from 'react';
-import * as Yup from "yup";
+import * as Yup from 'yup';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 import InputField from '../../../../_helper/_inputField';
 import PaginationSearch from '../../../../_helper/_search';
@@ -9,7 +8,8 @@ import NewSelect from './../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({});
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -17,11 +17,8 @@ function FormCmp({  initData,
   updateStatus,
   setWalletId,
   setId,
-  paginationSearchHandler
+  paginationSearchHandler,
 }) {
-
-
-
   return (
     <>
       <Formik
@@ -48,10 +45,13 @@ function FormCmp({  initData,
                 <div className="col-lg-3">
                   <NewSelect
                     name="strWalletType"
-                    options={[{ label: "Bank", value: 1 }, { label: "MFS", value: 2 }]}
+                    options={[
+                      { label: 'Bank', value: 1 },
+                      { label: 'MFS', value: 2 },
+                    ]}
                     value={values?.strWalletType}
                     onChange={(valueOption) => {
-                      setFieldValue("strWalletType", valueOption);
+                      setFieldValue('strWalletType', valueOption);
                       // getItemDDL(accountId, bussinessUnitId, valueOption?.value, setRowDto);
                     }}
                     placeholder="Wallet Type"
@@ -130,47 +130,50 @@ function FormCmp({  initData,
                     </tr>
                   </thead>
                   <tbody className="itemList">
-                    {rowDto?.length > 0 && rowDto?.map((item, index) => {
-                      return (
-                        <tr key={item?.sl}>
-                          <td>{item?.sl}</td>
-                          <td className="text-left">{item?.strWalletName}</td>
-                          <td className="text-left">{item?.strWalletType}</td>
-                          <td>{item?.strBankAccountId}</td>
-                          <td>{item?.strBankAccountNo}</td>
-                          <td>{item?.strBankName}</td>
-                          <td className="text-center">{item?.numCommissionPercentage}</td>
-                          <td className="text-center">
-                            <input
-                              style={{ width: '80px', borderRadius: "5px" }}
-                              type="checkbox"
-                              checked={item?.isActive}
-                              onChange={() => {
-                                updateStatus(!item?.isActive, index)
-                                setWalletId(item?.id)
-                              }}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <span
-                              className="ml-3"
-                              onClick={() => {
-                                setId(item?.id)
-                              }}
-                            >
-                              <IEdit />
-                            </span>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                    {rowDto?.length > 0 &&
+                      rowDto?.map((item, index) => {
+                        return (
+                          <tr key={item?.sl}>
+                            <td>{item?.sl}</td>
+                            <td className="text-left">{item?.strWalletName}</td>
+                            <td className="text-left">{item?.strWalletType}</td>
+                            <td>{item?.strBankAccountId}</td>
+                            <td>{item?.strBankAccountNo}</td>
+                            <td>{item?.strBankName}</td>
+                            <td className="text-center">
+                              {item?.numCommissionPercentage}
+                            </td>
+                            <td className="text-center">
+                              <input
+                                style={{ width: '80px', borderRadius: '5px' }}
+                                type="checkbox"
+                                checked={item?.isActive}
+                                onChange={() => {
+                                  updateStatus(!item?.isActive, index);
+                                  setWalletId(item?.id);
+                                }}
+                              />
+                            </td>
+                            <td className="text-center">
+                              <span
+                                className="ml-3"
+                                onClick={() => {
+                                  setId(item?.id);
+                                }}
+                              >
+                                <IEdit />
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
             </div>
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
@@ -178,15 +181,14 @@ function FormCmp({  initData,
             <button
               ref={resetBtnRef}
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               onSubmit={() => resetForm(initData)}
             ></button>
           </Form>
-
         )}
       </Formik>
     </>
-  )
+  );
 }
 
-export default FormCmp
+export default FormCmp;

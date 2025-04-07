@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 import ICustomCard from '../../../../_helper/_customCard';
@@ -18,9 +16,9 @@ const GeneralLedgerModalForIncomeStatement = ({
   const selectedBusinessUnit = useMemo(
     () =>
       businessUnitList?.find(
-        (item) => item?.value === values?.businessUnit?.value,
+        (item) => item?.value === values?.businessUnit?.value
       ),
-    [values?.businessUnit?.value],
+    [values?.businessUnit?.value]
   );
   const [totalAmount, setTotalAmount] = useState(0);
   const [
@@ -40,22 +38,21 @@ const GeneralLedgerModalForIncomeStatement = ({
           values?.enterpriseDivision?.value
         }&BusinessUnitId=${values?.businessUnit?.value}&fsComponentId=${
           incomeStatementRow?.intFSId
-        }&ConvertionRate=${values?.conversionRate}&SubGroup=${values
-          ?.subDivision?.value || 0}&intProfitCenId=${values?.profitCenter?.value ||
-          0}`,
+        }&ConvertionRate=${values?.conversionRate}&SubGroup=${
+          values?.subDivision?.value || 0
+        }&intProfitCenId=${values?.profitCenter?.value || 0}`,
         (data) => {
           setTotalAmount(
-            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0,
+            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
           );
-        },
+        }
       );
     }
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);
-  const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] = useState(
-    false,
-  );
+  const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] =
+    useState(false);
 
   return (
     <>

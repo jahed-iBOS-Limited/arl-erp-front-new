@@ -1,23 +1,19 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import PaginationSearch from "./../../../../_helper/_search";
-import {
-  getShopfloorDDL,
-  getStockReportData,
-} from "../helper";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import PaginationSearch from './../../../../_helper/_search';
+import { getShopfloorDDL, getStockReportData } from '../helper';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
+  plant: '',
+  shopFloor: '',
 };
 
 function StockReportLanding() {
@@ -79,9 +75,9 @@ function StockReportLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", "");
+                        setFieldValue('shopFloor', '');
                         setGridData([]);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getShopfloorDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -101,14 +97,14 @@ function StockReportLanding() {
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", valueOption);
+                        setFieldValue('shopFloor', valueOption);
                       }}
                       placeholder="Select Shop Floor"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg">
+                  <div style={{ marginTop: '15px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -124,7 +120,7 @@ function StockReportLanding() {
                   </div>
                   {gridData?.length > 0 && (
                     <div
-                      style={{ marginTop: "15px" }}
+                      style={{ marginTop: '15px' }}
                       className="col-lg-3 d-flex justify-content-end"
                     >
                       <div>
@@ -135,7 +131,7 @@ function StockReportLanding() {
                               className="btn btn-primary px-4 py-1"
                             >
                               <img
-                                style={{ width: "25px", paddingRight: "5px" }}
+                                style={{ width: '25px', paddingRight: '5px' }}
                                 src={printIcon}
                                 alt="print-icon"
                               />

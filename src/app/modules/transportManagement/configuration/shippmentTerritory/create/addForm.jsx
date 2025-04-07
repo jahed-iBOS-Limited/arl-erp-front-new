@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   createShippmentTerritory,
   getAreaDDL,
   getShipPointDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  area: "",
-  shipPoint: "",
-  channel: "",
-  region: "",
+  area: '',
+  shipPoint: '',
+  channel: '',
+  region: '',
 };
 
 export default function ShippmentTerritoryForm() {
@@ -22,8 +22,8 @@ export default function ShippmentTerritoryForm() {
 
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
-  const [objProps, ] = useState({});
+  const [singleData, setSingleData] = useState('');
+  const [objProps] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
   const [areaDDL, setAreaDDL] = useState([]);
   const [shipPointDDL, setShipPointDDL] = useState([]);
@@ -39,7 +39,6 @@ export default function ShippmentTerritoryForm() {
     );
     getAreaDDL(accId, buId, setAreaDDL);
     getShipPointDDL(accId, buId, setShipPointDDL);
-
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {

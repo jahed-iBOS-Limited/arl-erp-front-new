@@ -1,7 +1,7 @@
-import React from 'react'
-import { ITableTwo } from '../../../_helper/_tableTwo'
-import HeaderForm from './Landing/form'
-import './index.css'
+import React from 'react';
+import { ITableTwo } from '../../../_helper/_tableTwo';
+import HeaderForm from './Landing/form';
+import './index.css';
 
 export default function InvTransaction() {
   return (
@@ -14,5 +14,5 @@ export default function InvTransaction() {
         //createLink="/mngProcurement/purchase-management/purchaseorder/create/po"
       ></ITableTwo>
     </div>
-  )
+  );
 }

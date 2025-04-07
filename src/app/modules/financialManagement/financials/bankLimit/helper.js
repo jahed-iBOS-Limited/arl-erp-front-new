@@ -1,12 +1,19 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
-export const getLandingAction = ({ selectedBusinessUnit, getBankLimitData }) => {
-  getBankLimitData(`/fino/BankBranch/GetBankLimitLanding?businessUnitId=${selectedBusinessUnit?.value}`);
+export const getLandingAction = ({
+  selectedBusinessUnit,
+  getBankLimitData,
+}) => {
+  getBankLimitData(
+    `/fino/BankBranch/GetBankLimitLanding?businessUnitId=${selectedBusinessUnit?.value}`
+  );
 };
 
 export const addButtonHandler = ({ values, rowDto, setRowDto }) => {
-  const found = rowDto.filter((item) => item?.bankId === values?.bankName?.value);
-  if (found.length > 0) return toast.warn("Bank Name Already exists");
+  const found = rowDto.filter(
+    (item) => item?.bankId === values?.bankName?.value
+  );
+  if (found.length > 0) return toast.warn('Bank Name Already exists');
 
   let obj = {
     date: values?.date,
@@ -20,7 +27,13 @@ export const addButtonHandler = ({ values, rowDto, setRowDto }) => {
   setRowDto([...rowDto, obj]);
 };
 
-export const saveHandler = ({ cb, selectedBusinessUnit, rowDto, setDisabled, saveData }) => {
+export const saveHandler = ({
+  cb,
+  selectedBusinessUnit,
+  rowDto,
+  setDisabled,
+  saveData,
+}) => {
   setDisabled(true);
   const payload = rowDto?.map((item) => ({
     intId: 0,

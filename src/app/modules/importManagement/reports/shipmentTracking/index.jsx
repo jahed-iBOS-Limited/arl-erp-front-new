@@ -208,7 +208,7 @@ export default function ShipmentTracking() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/imp/ImportCommonDDL/GetLCDDL?accountId=${accountId}&businessUnitId=${buId}&searchByLc=${v}`,
+        `/imp/ImportCommonDDL/GetLCDDL?accountId=${accountId}&businessUnitId=${buId}&searchByLc=${v}`
       )
       .then((res) => res?.data);
   };
@@ -220,9 +220,7 @@ export default function ShipmentTracking() {
   return (
     <>
       {loadGridData && <Loading />}
-      <ICustomCard
-        title="Shipment Tracking"
-      >
+      <ICustomCard title="Shipment Tracking">
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -279,9 +277,11 @@ export default function ShipmentTracking() {
                       type="button"
                       onClick={() => {
                         getGridData(
-                          `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values
-                            ?.lcnumber?.value || 0}&fromDate=${values?.fromDate
-                          }&toDate=${values?.toDate}`,
+                          `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${
+                            values?.lcnumber?.value || 0
+                          }&fromDate=${
+                            values?.fromDate
+                          }&toDate=${values?.toDate}`
                         );
                       }}
                       className="btn btn-primary"

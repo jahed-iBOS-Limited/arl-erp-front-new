@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetAllowForModificationLanding_api = async (
   buId,
@@ -44,7 +44,7 @@ export const GetAllowForModificationById_api = async (
       ...res?.data,
       employeeName: res?.data?.enrol
         ? { value: res?.data?.enrol, label: res?.data?.employeeName }
-        : "",
+        : '',
     });
   } catch (error) {
     isDisabled(false);
@@ -84,7 +84,7 @@ export const CreateAllowForModification = async (data, cb, setDisabled) => {
       `/tms/AllowForModify/CreateAllowForModification`,
       data
     );
-    toast.success(res?.message || "Submitted successfully");
+    toast.success(res?.message || 'Submitted successfully');
     cb();
     setDisabled(false);
   } catch (error) {

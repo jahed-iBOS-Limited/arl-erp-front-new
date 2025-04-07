@@ -1,12 +1,12 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
 // import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import NewSelect from "../../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import "./extra.css";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { IInput } from '../../../../_helper/_input';
+import NewSelect from '../../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import './extra.css';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 const validationSchema = Yup.object().shape({});
 
 export default function FormCmp({
@@ -22,7 +22,6 @@ export default function FormCmp({
   businessUnitDDL,
   remover,
 }) {
-
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -64,7 +63,7 @@ export default function FormCmp({
                     disabled={true}
                   />
                 </div>
-                <div className="col-lg-3 pt-5" style={{ marginTop: "7px" }}>
+                <div className="col-lg-3 pt-5" style={{ marginTop: '7px' }}>
                   <label>All Business Unit</label>
                   <Field
                     name="allBusinessUnitCheck"
@@ -72,7 +71,7 @@ export default function FormCmp({
                     className="checkbox ml-3 mb-3"
                     checked={values?.allBusinessUnitCheck}
                     onChange={(e) => {
-                      setFieldValue("allBusinessUnitCheck", e.target.checked);
+                      setFieldValue('allBusinessUnitCheck', e.target.checked);
                     }}
                   />
                 </div>
@@ -83,7 +82,7 @@ export default function FormCmp({
                     options={businessUnitDDL}
                     value={values?.businessUnit}
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -129,14 +128,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

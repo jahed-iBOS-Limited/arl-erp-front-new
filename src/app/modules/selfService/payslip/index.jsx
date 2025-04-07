@@ -1,21 +1,20 @@
-
-import axios from "axios";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../_helper/SearchAsyncSelect";
-import Loading from "../../_helper/_loading";
-import { _todayDate } from "../../_helper/_todayDate";
-import { downloadFile, getPDFAction } from "../../_helper/downloadFile";
+import axios from 'axios';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../_helper/SearchAsyncSelect';
+import Loading from '../../_helper/_loading';
+import { _todayDate } from '../../_helper/_todayDate';
+import { downloadFile, getPDFAction } from '../../_helper/downloadFile';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../_metronic/_partials/controls";
-import { getPaySlip_api } from "./helper";
-import "./style.css";
+} from './../../../../_metronic/_partials/controls';
+import { getPaySlip_api } from './helper';
+import './style.css';
 
 const PayslipReport = () => {
   const { profileData, selectedBusinessUnit, userRole } = useSelector(
@@ -27,7 +26,7 @@ const PayslipReport = () => {
 
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(moment());
-  const [gridData, setGridData] = useState("");
+  const [gridData, setGridData] = useState('');
   const [employee, setEmployee] = useState({
     value: profileData?.employeeId,
     label: profileData?.employeeFullName,
@@ -54,7 +53,7 @@ const PayslipReport = () => {
   };
 
   function currMonthName() {
-    return value.format("MMMM");
+    return value.format('MMMM');
   }
 
   // function currMonth() {
@@ -62,15 +61,15 @@ const PayslipReport = () => {
   // }
 
   function currYear() {
-    return value.format("YYYY");
+    return value.format('YYYY');
   }
 
   function prevMonth() {
-    return value.clone().subtract(1, "month");
+    return value.clone().subtract(1, 'month');
   }
 
   function nextMonth() {
-    return value.clone().add(1, "month");
+    return value.clone().add(1, 'month');
   }
 
   return (
@@ -78,21 +77,21 @@ const PayslipReport = () => {
       {loading && <Loading />}
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"Payslip"}>
+        <CardHeader title={'Payslip'}>
           <div className="currentMonthYear d-flex align-items-center pt-3">
             <span
               onClick={() => {
                 setValue(prevMonth());
                 getPaySlip_api(
                   employee?.value || profileData?.employeeId,
-                  prevMonth().format("yyyy-MM-DD"),
+                  prevMonth().format('yyyy-MM-DD'),
                   setGridData,
                   setLoading
                 );
               }}
             >
               <i
-                style={{ color: "black" }}
+                style={{ color: 'black' }}
                 className="icon fas fa-backward pointer ml-2"
               ></i>
             </span>
@@ -100,9 +99,9 @@ const PayslipReport = () => {
             <div className="monthDate">
               <span
                 style={{
-                  color: "#3B82F6",
-                  fontSize: "20px",
-                  fontWeight: "bold",
+                  color: '#3B82F6',
+                  fontSize: '20px',
+                  fontWeight: 'bold',
                 }}
                 className="month ml-2"
               >
@@ -110,8 +109,8 @@ const PayslipReport = () => {
               </span>
               <span
                 style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
+                  fontSize: '20px',
+                  fontWeight: 'bold',
                 }}
                 className="year ml-1"
               >
@@ -124,14 +123,14 @@ const PayslipReport = () => {
                 setValue(nextMonth());
                 getPaySlip_api(
                   employee?.value || profileData?.employeeId,
-                  nextMonth().format("yyyy-MM-DD"),
+                  nextMonth().format('yyyy-MM-DD'),
                   setGridData,
                   setLoading
                 );
               }}
             >
               <i
-                style={{ color: "black" }}
+                style={{ color: 'black' }}
                 className="icon fas fa-forward pointer ml-2"
               ></i>
             </span>
@@ -142,12 +141,11 @@ const PayslipReport = () => {
               className="btn btn-primary mr-2"
               onClick={() => {
                 downloadFile(
-                  `/hcm/PdfReport/PaySlipAPI?EmployeeId=${employee?.value ||
-                  profileData?.employeeId}&Date=${value.format(
-                    "yyyy-MM-DD"
-                  )}&isDownload=true`,
-                  "Employee Payslip",
-                  "xlsx",
+                  `/hcm/PdfReport/PaySlipAPI?EmployeeId=${
+                    employee?.value || profileData?.employeeId
+                  }&Date=${value.format('yyyy-MM-DD')}&isDownload=true`,
+                  'Employee Payslip',
+                  'xlsx',
                   setLoading
                 );
               }}
@@ -159,10 +157,9 @@ const PayslipReport = () => {
               className="btn btn-primary mr-2"
               onClick={() => {
                 getPDFAction(
-                  `/hcm/PdfReport/PdfPaySlip?EmployeeId=${employee?.value ||
-                  profileData?.employeeId}&Date=${value.format(
-                    "yyyy-MM-DD"
-                  )}`,
+                  `/hcm/PdfReport/PdfPaySlip?EmployeeId=${
+                    employee?.value || profileData?.employeeId
+                  }&Date=${value.format('yyyy-MM-DD')}`,
                   setLoading
                 );
               }}
@@ -173,7 +170,7 @@ const PayslipReport = () => {
         </CardHeader>
         <CardBody>
           {paySlipPublic?.isView && (
-            <div style={{ width: "300px" }} className="ml-2">
+            <div style={{ width: '300px' }} className="ml-2">
               <label>Employee</label>
               <SearchAsyncSelect
                 selectedValue={employee}
@@ -186,7 +183,7 @@ const PayslipReport = () => {
                   if (valueOption) {
                     getPaySlip_api(
                       valueOption?.value,
-                      value.format("yyyy-MM-DD"),
+                      value.format('yyyy-MM-DD'),
                       setGridData,
                       setLoading
                     );
@@ -199,11 +196,11 @@ const PayslipReport = () => {
           {gridData && (
             <div className="mt-0 self-payslip">
               <div class="report-header">
-                <h1 style={{ marginBottom: "0" }}>{gridData?.strUnit}</h1>
-                <h4 style={{ margin: "0" }}>
+                <h1 style={{ marginBottom: '0' }}>{gridData?.strUnit}</h1>
+                <h4 style={{ margin: '0' }}>
                   "Akij House" 198 Bir Uttam Mir Showkat Sarak, Tejgaon, Dhaka
                 </h4>
-                <h4 style={{ marginTop: "0", textDecoration: "underline" }}>
+                <h4 style={{ marginTop: '0', textDecoration: 'underline' }}>
                   {gridData?.strSubject}
                 </h4>
               </div>
@@ -214,21 +211,21 @@ const PayslipReport = () => {
                   <h4>Basic Information</h4>
                   <div className="basicInfoTable">
                     <div className="table-responsive">
-                      <table style={{ width: "100%", border: "0" }}>
+                      <table style={{ width: '100%', border: '0' }}>
                         <tbody>
                           <tr>
                             <td>Name</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strName || "N/A"}
+                                {gridData?.strName || 'N/A'}
                               </div>
                             </td>
                             <td>Enroll</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.enrollAndCode || "N/A"}
+                                {gridData?.enrollAndCode || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -237,14 +234,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strDesignation || "N/A"}
+                                {gridData?.strDesignation || 'N/A'}
                               </div>
                             </td>
                             <td>Grade</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strGradeName || "N/A"}
+                                {gridData?.strGradeName || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -253,14 +250,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strDepartment || "N/A"}
+                                {gridData?.strDepartment || 'N/A'}
                               </div>
                             </td>
                             <td>Joining Date</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.dteJoining || "N/A"}
+                                {gridData?.dteJoining || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -269,14 +266,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strUnit || "N/A"}
+                                {gridData?.strUnit || 'N/A'}
                               </div>
                             </td>
                             <td>Job Station</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strJobStationName || "N/A"}
+                                {gridData?.strJobStationName || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -285,14 +282,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strJobType || "N/A"}
+                                {gridData?.strJobType || 'N/A'}
                               </div>
                             </td>
                             <td>Serv. Length</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.joiningAndLength || "N/A"}
+                                {gridData?.joiningAndLength || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -301,14 +298,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.monGrossSalary || "N/A"}
+                                {gridData?.monGrossSalary || 'N/A'}
                               </div>
                             </td>
                             <td>Basic Salary</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.monBasicAmount || "N/A"}
+                                {gridData?.monBasicAmount || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -317,14 +314,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strBankName || "N/A"}
+                                {gridData?.strBankName || 'N/A'}
                               </div>
                             </td>
                             <td>Branch Name</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.strBankBranchName || "N/A"}
+                                {gridData?.strBankBranchName || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -333,14 +330,14 @@ const PayslipReport = () => {
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.bankRoutingAndACNo || "N/A"}
+                                {gridData?.bankRoutingAndACNo || 'N/A'}
                               </div>
                             </td>
                             <td>PF A/C No</td>
                             <td>
                               <div>
                                 <span className="mr-2"> : </span>
-                                {gridData?.bankRoutingAndACNo || "N/A"}
+                                {gridData?.bankRoutingAndACNo || 'N/A'}
                               </div>
                             </td>
                           </tr>
@@ -349,14 +346,14 @@ const PayslipReport = () => {
                     </div>
                   </div>
                 </div>
-                <hr style={{ backgroundColor: "#000" }} />
+                <hr style={{ backgroundColor: '#000' }} />
 
                 {/* attendence information */}
                 <div>
                   <h4>Attendance Information</h4>
                   <div className="basicInfoTable">
                     <div className="table-responsive">
-                      <table style={{ width: "100%", border: "0" }}>
+                      <table style={{ width: '100%', border: '0' }}>
                         <tbody>
                           <tr>
                             <td>Working</td>
@@ -432,31 +429,31 @@ const PayslipReport = () => {
                 {/* details information */}
                 <div className="detailsInfoTable">
                   <div className="table-responsive">
-                    <table style={{ width: "100%", border: "0" }}>
+                    <table style={{ width: '100%', border: '0' }}>
                       <tbody>
                         <tr
                           style={{
-                            textAlign: "center",
-                            fontWeight: "bold",
-                            color: "blue",
-                            textDecoration: "underline",
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            color: 'blue',
+                            textDecoration: 'underline',
                           }}
                         >
                           <td
                             style={{
-                              border: "1px solid black",
-                              borderLeft: "1px solid transparent",
+                              border: '1px solid black',
+                              borderLeft: '1px solid transparent',
                             }}
                           >
                             Details Information
                           </td>
-                          <td style={{ border: "1px solid black" }}>
+                          <td style={{ border: '1px solid black' }}>
                             Earning (Tk.)
                           </td>
                           <td
                             style={{
-                              border: "1px solid black",
-                              borderRight: "1px solid transparent",
+                              border: '1px solid black',
+                              borderRight: '1px solid transparent',
                             }}
                           >
                             Deduction (Tk.)
@@ -468,14 +465,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.monGrossSalary}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -483,14 +480,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.monMobileAllowance}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -498,14 +495,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.driverAndMotorCycleAllowance}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -513,14 +510,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.monSpecialSalaryAllowance}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -528,14 +525,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.monOTAmount}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         {/* <tr>
                         <td>
@@ -558,14 +555,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.incentive}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -573,15 +570,15 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
-                            {" "}
+                            {' '}
                             {gridData?.leaveEncashment}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -589,15 +586,15 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
-                            {" "}
+                            {' '}
                             {gridData?.exgratia}
                           </td>
-                          <td style={{ textAlign: "center" }}></td>
+                          <td style={{ textAlign: 'center' }}></td>
                         </tr>
                         <tr>
                           <td>
@@ -605,12 +602,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monPFAmount}
                           </td>
                         </tr>
@@ -620,13 +617,14 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
-                          >
+                          ></td>
+                          <td style={{ textAlign: 'center' }}>
+                            {gridData?.monTaxAmount}
                           </td>
-                          <td style={{ textAlign: "center" }}>{gridData?.monTaxAmount}</td>
                         </tr>
                         <tr>
                           <td>
@@ -634,12 +632,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monAbsentPunishmentAmount}
                           </td>
                         </tr>
@@ -649,12 +647,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monLeavePunishmentAmount}
                           </td>
                         </tr>
@@ -664,12 +662,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monLunch}
                           </td>
                         </tr>
@@ -679,12 +677,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monFlatInstallment}
                           </td>
                         </tr>
@@ -694,12 +692,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.fairPrice}
                           </td>
                         </tr>
@@ -709,12 +707,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monLoanAmount}
                           </td>
                         </tr>
@@ -724,12 +722,12 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.monLatePunishmentAmount}
                           </td>
                         </tr>
@@ -739,9 +737,9 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           >
                             {gridData?.allowanceOther}
@@ -754,39 +752,39 @@ const PayslipReport = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderRight: "1px solid black",
-                              borderLeft: "1px solid black",
+                              textAlign: 'center',
+                              borderRight: '1px solid black',
+                              borderLeft: '1px solid black',
                             }}
                           ></td>
-                          <td style={{ textAlign: "center" }}>
+                          <td style={{ textAlign: 'center' }}>
                             {gridData?.otherDeduction}
                           </td>
                         </tr>
                         <tr>
                           <td
                             style={{
-                              fontWeight: "bold",
-                              textAlign: "right",
-                              border: "1px solid black",
-                              borderLeft: "1px solid transparent",
+                              fontWeight: 'bold',
+                              textAlign: 'right',
+                              border: '1px solid black',
+                              borderLeft: '1px solid transparent',
                             }}
                           >
                             Total Taka =
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              border: "1px solid black",
+                              textAlign: 'center',
+                              border: '1px solid black',
                             }}
                           >
                             {gridData?.totalAddition}
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              border: "1px solid black",
-                              borderRight: "1px solid transparent",
+                              textAlign: 'center',
+                              border: '1px solid black',
+                              borderRight: '1px solid transparent',
                             }}
                           >
                             {gridData?.totalDeduction}
@@ -795,54 +793,54 @@ const PayslipReport = () => {
                         <tr>
                           <td
                             style={{
-                              fontWeight: "bold",
-                              textAlign: "right",
-                              border: "1px solid black",
-                              borderLeft: "1px solid transparent",
+                              fontWeight: 'bold',
+                              textAlign: 'right',
+                              border: '1px solid black',
+                              borderLeft: '1px solid transparent',
                             }}
                           >
                             Total Net Payable =
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              border: "1px solid black",
-                              borderRight: "1px solid transparent",
+                              textAlign: 'center',
+                              border: '1px solid black',
+                              borderRight: '1px solid transparent',
                             }}
                           >
                             {gridData?.monNetPayableSalary}
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderBottom: "1px solid black",
+                              textAlign: 'center',
+                              borderBottom: '1px solid black',
                             }}
                           ></td>
                         </tr>
                         <tr>
                           <td
                             style={{
-                              fontWeight: "bold",
-                              textAlign: "right",
-                              border: "1px solid black",
-                              borderLeft: "1px solid transparent",
+                              fontWeight: 'bold',
+                              textAlign: 'right',
+                              border: '1px solid black',
+                              borderLeft: '1px solid transparent',
                             }}
                           >
                             Employee PF Contribution =
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              border: "1px solid black",
-                              borderRight: "1px solid transparent",
+                              textAlign: 'center',
+                              border: '1px solid black',
+                              borderRight: '1px solid transparent',
                             }}
                           >
                             {gridData?.monPFEmployeeContribution}
                           </td>
                           <td
                             style={{
-                              textAlign: "center",
-                              borderBottom: "1px solid black",
+                              textAlign: 'center',
+                              borderBottom: '1px solid black',
                             }}
                           ></td>
                         </tr>
@@ -856,10 +854,10 @@ const PayslipReport = () => {
                   {gridData?.monNetPayableSalary && (
                     <h3
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                         marginBottom: 0,
                         marginTop: 0,
-                        paddingTop: "5px",
+                        paddingTop: '5px',
                       }}
                     >
                       In Word: {gridData?.inWord}
@@ -867,12 +865,12 @@ const PayslipReport = () => {
                   )}
                   <p
                     style={{
-                      color: "red",
+                      color: 'red',
                       marginTop: 0,
                       marginBottom: 0,
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      paddingTop: "5px",
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      paddingTop: '5px',
                     }}
                   >
                     {gridData?.strNB}

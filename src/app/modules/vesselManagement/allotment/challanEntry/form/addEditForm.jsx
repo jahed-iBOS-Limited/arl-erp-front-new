@@ -1,65 +1,64 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import {
   // getMotherVesselDDL,
   GetShipPointDDL,
-} from "../../loadingInformation/helper";
+} from '../../loadingInformation/helper';
 import {
   EditLighterChallanInfo,
   GetLighterChallanInfoById,
   getLightersForChallan,
   getVehicleDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  deliveryCode: "",
-  godown: "",
-  soldToPartner: "",
-  transportZone: "",
+  deliveryCode: '',
+  godown: '',
+  soldToPartner: '',
+  transportZone: '',
   deliveryDate: _todayDate(),
-  shipPoint: "",
-  address: "",
-  plant: "",
-  collectionDate: "",
-  totalLogisticFare: "",
-  advanceLogisticFare: "",
-  dueFare: "",
-  paymentDate: "",
-  cashAmount: "",
-  creditAmount: "",
-  cardNo: "",
-  shippingCharge: "",
-  emptyBag: "",
-  item: "",
-  uom: "",
-  quantity: "",
-  itemPrice: "",
-  deliveryValue: "",
-  totalDiscountValue: "",
-  totalShippingValue: "",
-  totalTax: "",
-  netValue: "",
-  transportRate: "",
-  logisticBy: "",
-  shippingChallanNo: "",
-  programNo: "",
-  vehicle: "",
-  motherVessel: "",
-  supplier: "",
-  type: "badc",
-  port: "",
-  deliveryType: "",
-  dumpDeliveryRate: "",
-  directRate: "",
+  shipPoint: '',
+  address: '',
+  plant: '',
+  collectionDate: '',
+  totalLogisticFare: '',
+  advanceLogisticFare: '',
+  dueFare: '',
+  paymentDate: '',
+  cashAmount: '',
+  creditAmount: '',
+  cardNo: '',
+  shippingCharge: '',
+  emptyBag: '',
+  item: '',
+  uom: '',
+  quantity: '',
+  itemPrice: '',
+  deliveryValue: '',
+  totalDiscountValue: '',
+  totalShippingValue: '',
+  totalTax: '',
+  netValue: '',
+  transportRate: '',
+  logisticBy: '',
+  shippingChallanNo: '',
+  programNo: '',
+  vehicle: '',
+  motherVessel: '',
+  supplier: '',
+  type: 'badc',
+  port: '',
+  deliveryType: '',
+  dumpDeliveryRate: '',
+  directRate: '',
   localRevenueRate: 0,
   internationalRevenueRate: 0,
   transportRevenueRate: 0,
@@ -89,12 +88,8 @@ export default function ChallanEntryForm() {
   const [vehicleDDL, setVehicleDDL] = useState([]);
   const [isTransportBill, getIsTransportBill] = useAxiosGet();
   // const [allotmentDDL, setAllotmentDDL] = useState([]);
-  const [
-    motherVesselDDL,
-    getMotherVesselDDL,
-    ,
-    setMotherVesselDDL,
-  ] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL, , setMotherVesselDDL] =
+    useAxiosGet();
   const [lighterDDL, setLighterDDL] = useState([]);
   const [itemList, getItemList] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
@@ -112,7 +107,7 @@ export default function ChallanEntryForm() {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
       if (buId === 94) {
@@ -131,19 +126,19 @@ export default function ChallanEntryForm() {
       (item) => item?.itemId === values?.item?.value
     );
     if (exists?.length > 0) {
-      return toast.warn("Duplicate Item not allowed!");
+      return toast.warn('Duplicate Item not allowed!');
     }
     try {
       const newRow = {
         rowId: values?.rowId || 0,
-        deliveryCode: "",
+        deliveryCode: '',
         itemId: values?.item?.value,
-        itemSalesCode: "",
-        itemSalesName: "",
-        itemCode: "",
+        itemSalesCode: '',
+        itemSalesName: '',
+        itemCode: '',
         itemName: values?.item?.label,
         uom: 0,
-        uomName: "",
+        uomName: '',
         quantity: values?.quantity,
         itemPrice: +values?.itemPrice || 0,
         deliveryValue: 0,
@@ -152,8 +147,8 @@ export default function ChallanEntryForm() {
         totalTax: 0,
         netValue: 0,
         locationId: 0,
-        locationName: "",
-        shipToPartnerContactNo: "",
+        locationName: '',
+        shipToPartnerContactNo: '',
         // transportRate: 0,
         emptyBag: +values?.emptyBag,
         transportRate: isTransportBill?.hasTransport
@@ -161,7 +156,7 @@ export default function ChallanEntryForm() {
           : 0,
         // transportRate:  values?.transportRate,
         ghatLoadUnloadLabourRate:
-          values?.deliveryType?.label === "Direct"
+          values?.deliveryType?.label === 'Direct'
             ? values?.directRate
             : values?.dumpDeliveryRate,
         goDownUnloadLabourRate: values?.goDownUnloadLabourRate,
@@ -194,36 +189,36 @@ export default function ChallanEntryForm() {
         shipToPartnerName: values?.godown?.label,
         soldToPartnerId:
           buId === 94
-            ? state?.type === "badc"
+            ? state?.type === 'badc'
               ? 73244
               : 73245
             : values?.organization?.value,
         soldToPartnerName:
           buId === 94
-            ? state?.type === "badc"
-              ? "BADC"
-              : "BCIC"
+            ? state?.type === 'badc'
+              ? 'BADC'
+              : 'BCIC'
             : values?.organization?.label,
-        shipToPartnerAddress: "",
+        shipToPartnerAddress: '',
         transportZoneId: 0,
-        transportZoneName: "",
+        transportZoneName: '',
         deliveryDate: values?.deliveryDate,
         shipPointId: values?.shipPoint?.value,
         shipPointName: values?.shipPoint?.label,
         address: values?.address,
         plantId: 0,
-        plantName: "",
+        plantName: '',
         totalDeliveryQuantity: 1,
         totalDeliveryValue: 1,
         actionBy: userId,
-        collectionDate: "2022-09-05T04:16:51.962Z",
+        collectionDate: '2022-09-05T04:16:51.962Z',
         totalLogsticFare: +values?.logisticAmount || 0,
         advanceLogisticeFare: +values?.advanceAmount || 0,
         dueFare: +values?.dueAmount || 0,
-        paymentDate: "2022-09-05T04:16:51.962Z",
+        paymentDate: '2022-09-05T04:16:51.962Z',
         cashAmount: 0,
         creditAmount: 0,
-        cardNo: "",
+        cardNo: '',
         shippingCharge: 0,
         emptyBag: +values?.emptyBag,
         shippingChallanNo: values?.shippingChallanNo,
@@ -249,7 +244,7 @@ export default function ChallanEntryForm() {
         // transportRate: values?.transportRate,
         // ghatLoadUnloadLabourRate: values?.labourRate,
         ghatLoadUnloadLabourRate:
-          values?.deliveryType?.label === "Direct"
+          values?.deliveryType?.label === 'Direct'
             ? values?.directRate
             : values?.dumpDeliveryRate,
         goDownUnloadLabourRate: values?.goDownUnloadLabourRate,
@@ -275,21 +270,21 @@ export default function ChallanEntryForm() {
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     const organizationId =
       buId === 94
-        ? values?.type === "badc"
+        ? values?.type === 'badc'
           ? 73244
           : 73245
         : values?.organization?.value;
 
     switch (fieldName) {
-      case "shipPoint":
-        setFieldValue("shipPoint", currentValue);
-        setFieldValue("motherVessel", "");
+      case 'shipPoint':
+        setFieldValue('shipPoint', currentValue);
+        setFieldValue('motherVessel', '');
         break;
 
-      case "port":
+      case 'port':
         if (currentValue) {
-          setFieldValue("port", currentValue);
-          setFieldValue("motherVessel", "");
+          setFieldValue('port', currentValue);
+          setFieldValue('motherVessel', '');
           getMotherVesselDDL(
             `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${currentValue?.value}&businessUnitId=${buId}`
           );
@@ -299,32 +294,32 @@ export default function ChallanEntryForm() {
           //   values?.motherVessel?.value || 0
           // );
         } else {
-          setFieldValue("port", "");
-          setFieldValue("motherVessel", "");
+          setFieldValue('port', '');
+          setFieldValue('motherVessel', '');
           setMotherVesselDDL([]);
         }
         break;
 
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
 
-        setFieldValue("lighterVessel", "");
-        setFieldValue("godown", "");
+        setFieldValue('lighterVessel', '');
+        setFieldValue('godown', '');
 
         if (currentValue) {
-          setFieldValue("programNo", currentValue?.programNo);
+          setFieldValue('programNo', currentValue?.programNo);
           getIsTransportBill(
             `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`,
             (resData) => {
               if (!resData?.hasTransport) {
                 // setFieldValue("logisticBy", { value: 3, label: "Customer" });
                 // setFieldValue("supplier", { value: 0, label: "N/A" });
-                setFieldValue("transportRate", 0);
+                setFieldValue('transportRate', 0);
                 getVehicleDDL(accId, buId, 3, setVehicleDDL, setLoading);
               } else {
                 // setFieldValue("logisticBy", "");
                 // setFieldValue("supplier", "");
-                setFieldValue("transportRate", "");
+                setFieldValue('transportRate', '');
               }
             }
           );
@@ -333,7 +328,7 @@ export default function ChallanEntryForm() {
             values?.port?.value,
             currentValue?.value
           );
-          setFieldValue("item", {
+          setFieldValue('item', {
             value: currentValue?.itemId,
             label: currentValue?.itemName,
             // value: currentValue?.intProductId,
@@ -347,7 +342,7 @@ export default function ChallanEntryForm() {
             setLoading
           );
         } else {
-          setFieldValue("programNo", "");
+          setFieldValue('programNo', '');
         }
         // is edit  & Mother Vessel onChnage than rowData itemName update
         rowDataItemNameUpdate({
@@ -357,8 +352,8 @@ export default function ChallanEntryForm() {
 
         break;
 
-      case "lighterVessel":
-        setFieldValue("lighterVessel", currentValue);
+      case 'lighterVessel':
+        setFieldValue('lighterVessel', currentValue);
         // setFieldValue("item", {
         //   value: currentValue?.itemId,
         //   label: currentValue?.itemName,
@@ -374,14 +369,14 @@ export default function ChallanEntryForm() {
       //   setFieldValue("program", currentValue);
       //   break;
 
-      case "supplier":
-        setFieldValue("supplier", currentValue);
+      case 'supplier':
+        setFieldValue('supplier', currentValue);
         break;
 
-      case "logisticBy":
-        setFieldValue("logisticBy", currentValue);
-        setFieldValue("vehicle", "");
-        setFieldValue("supplier", "");
+      case 'logisticBy':
+        setFieldValue('logisticBy', currentValue);
+        setFieldValue('vehicle', '');
+        setFieldValue('supplier', '');
 
         if (currentValue) {
           // if (currentValue?.value === 3) {
@@ -397,48 +392,48 @@ export default function ChallanEntryForm() {
         }
         break;
 
-      case "vehicle":
-        setFieldValue("vehicle", currentValue);
-        setFieldValue("driver", currentValue?.driverName);
-        setFieldValue("mobileNo", currentValue?.driverContact);
+      case 'vehicle':
+        setFieldValue('vehicle', currentValue);
+        setFieldValue('driver', currentValue?.driverName);
+        setFieldValue('mobileNo', currentValue?.driverContact);
         break;
 
-      case "godown":
-        setFieldValue("godown", currentValue);
-        setFieldValue("address", currentValue?.partnerShippingAddress);
+      case 'godown':
+        setFieldValue('godown', currentValue);
+        setFieldValue('address', currentValue?.partnerShippingAddress);
         break;
 
-      case "logisticAmount":
-        setFieldValue("logisticAmount", currentValue?.target?.value);
+      case 'logisticAmount':
+        setFieldValue('logisticAmount', currentValue?.target?.value);
         setFieldValue(
-          "dueAmount",
+          'dueAmount',
           +currentValue?.target?.value - (+values?.advanceAmount || 0)
         );
         break;
 
-      case "advanceAmount":
-        setFieldValue("advanceAmount", currentValue?.target?.value);
+      case 'advanceAmount':
+        setFieldValue('advanceAmount', currentValue?.target?.value);
         setFieldValue(
-          "dueAmount",
+          'dueAmount',
           +values?.logisticAmount - (+currentValue?.target?.value || 0)
         );
         break;
 
-      case "emptyBag":
-        setFieldValue("emptyBag", currentValue?.target?.value);
+      case 'emptyBag':
+        setFieldValue('emptyBag', currentValue?.target?.value);
         break;
 
-      case "quantity":
-        setFieldValue("quantity", Number(currentValue?.target?.value));
+      case 'quantity':
+        setFieldValue('quantity', Number(currentValue?.target?.value));
         // setFieldValue('emptyBag', Number(currentValue?.target?.value / 100));
         break;
 
-      case "item":
-        setFieldValue("item", currentValue);
+      case 'item':
+        setFieldValue('item', currentValue);
         break;
 
-      case "type":
-        setFieldValue("type", currentValue);
+      case 'type':
+        setFieldValue('type', currentValue);
         // getGodownDDL(
         //   buId,
         //   currentValue === "badc" ? 73244 : 73245,
@@ -453,10 +448,10 @@ export default function ChallanEntryForm() {
         );
         break;
 
-      case "organization":
-        setFieldValue("organization", currentValue);
-        setFieldValue("port", "");
-        setFieldValue("motherVessel", "");
+      case 'organization':
+        setFieldValue('organization', currentValue);
+        setFieldValue('port', '');
+        setFieldValue('motherVessel', '');
         if (currentValue) {
           // getDestinationList(
           //   currentValue?.value,
@@ -475,62 +470,62 @@ export default function ChallanEntryForm() {
 
   useEffect(() => {
     if (id) {
-      GetLighterChallanInfoById(id, "", (values) => {
+      GetLighterChallanInfoById(id, '', (values) => {
         const organizationId =
           buId === 94
-            ? values?.type === "badc"
+            ? values?.type === 'badc'
               ? 73244
               : 73245
             : values?.soldToPartnerId;
         // console.log(values?.rowList?.[0].transportRate);
         const data = {
-          deliveryCode: "",
-          transportZone: "",
-          plant: "",
-          totalLogisticFare: "",
-          advanceLogisticFare: "",
+          deliveryCode: '',
+          transportZone: '',
+          plant: '',
+          totalLogisticFare: '',
+          advanceLogisticFare: '',
           cashAmount: 0,
           creditAmount: 0,
-          cardNo: "",
+          cardNo: '',
           shippingCharge: 0,
-          uom: "",
-          itemPrice: "",
-          deliveryValue: "",
+          uom: '',
+          itemPrice: '',
+          deliveryValue: '',
 
-          totalDiscountValue: "",
-          totalShippingValue: "",
-          totalTax: "",
-          netValue: "",
-          transportRate: values?.rowList?.[0].transportRate || "",
-          goDownUnloadLabourRate: values?.rowList?.[0].godownLabourRate || "",
+          totalDiscountValue: '',
+          totalShippingValue: '',
+          totalTax: '',
+          netValue: '',
+          transportRate: values?.rowList?.[0].transportRate || '',
+          goDownUnloadLabourRate: values?.rowList?.[0].godownLabourRate || '',
           // nEED tO Confirm
-          emptyBag: values?.rowList?.[0].emptyBag || "",
+          emptyBag: values?.rowList?.[0].emptyBag || '',
 
           godown: values?.shipToPartnerId
             ? {
                 value: values?.shipToPartnerId,
                 label: values?.shipToPartnerName,
               }
-            : "",
+            : '',
           soldToPartner: values?.soldToPartnerId
             ? {
                 value: values?.soldToPartnerId,
                 label: values?.soldToPartnerName,
               }
-            : "",
+            : '',
           organization: values?.soldToPartnerId
             ? {
                 value: values?.soldToPartnerId,
                 label: values?.soldToPartnerName,
               }
-            : "",
+            : '',
           deliveryDate: _dateFormatter(values?.deliveryDate),
           shipPoint: values?.shipPointId
             ? {
                 value: values?.shipPointId,
                 label: values?.shipPointName,
               }
-            : "",
+            : '',
           address: values?.address,
           collectionDate: new Date(),
           paymentDate: new Date(),
@@ -540,45 +535,45 @@ export default function ChallanEntryForm() {
                 value: values?.ownerTyprId,
                 label: values?.ownerTypeName,
               }
-            : "",
+            : '',
           programNo: values?.program,
           vehicle: values?.vehicleId
             ? {
                 value: values?.vehicleId,
                 label: values?.vehicleRegNo,
               }
-            : "",
+            : '',
           motherVessel: values?.motherVesselId
             ? {
                 value: values?.motherVesselId,
                 label: values?.mothetrVesselName,
               }
-            : "",
+            : '',
           lighterVessel: values?.lighterVesselId
             ? {
                 value: values?.lighterVesselId,
                 label: values?.lighterVesselName,
               }
-            : "",
+            : '',
           supplier: values?.supplierId
             ? {
                 value: values?.supplierId,
                 label: values?.supplierName,
               }
-            : "",
-          type: "",
+            : '',
+          type: '',
           port: values?.portId
             ? {
                 value: values?.portId,
                 label: values?.portName,
               }
-            : "",
+            : '',
           deliveryType: values?.isDirectDelivery
-            ? { value: true, label: "Direct" }
-            : { value: false, label: "Indirect" },
+            ? { value: true, label: 'Direct' }
+            : { value: false, label: 'Indirect' },
           dueFare: values?.dueFare,
 
-          shippingChallanNo: values?.shippingChallanNo || "",
+          shippingChallanNo: values?.shippingChallanNo || '',
           driver: values?.driverName,
           mobileNo: values?.driverPhone,
           item: values?.lighterVesselId
@@ -586,8 +581,8 @@ export default function ChallanEntryForm() {
                 value: values?.rowList[0]?.itemId,
                 label: values?.rowList[0]?.itemName,
               }
-            : "",
-          quantity: values?.lighterVesselId ? values?.rowList[0]?.quantity : "",
+            : '',
+          quantity: values?.lighterVesselId ? values?.rowList[0]?.quantity : '',
           deliveryId: values?.deliveryId,
         };
         getMotherVesselDDL(
@@ -617,14 +612,14 @@ export default function ChallanEntryForm() {
         setRowData(
           values?.rowList?.map((itm) => ({
             ...itm,
-            deliveryCode: "",
+            deliveryCode: '',
             itemId: itm?.itemId,
-            itemSalesCode: "",
-            itemSalesName: "",
-            itemCode: "",
+            itemSalesCode: '',
+            itemSalesName: '',
+            itemCode: '',
             itemName: itm?.itemName,
             uom: 0,
-            uomName: "",
+            uomName: '',
             quantity: itm?.quantity,
             itemPrice: +itm?.itemPrice || 0,
             deliveryValue: 0,
@@ -633,8 +628,8 @@ export default function ChallanEntryForm() {
             totalTax: 0,
             netValue: 0,
             locationId: 0,
-            locationName: "",
-            shipToPartnerContactNo: "",
+            locationName: '',
+            shipToPartnerContactNo: '',
             transportRate: itm?.transportRate,
             emptyBag: +values?.emptyBag,
           }))
@@ -647,7 +642,7 @@ export default function ChallanEntryForm() {
   const rowDataItemNameUpdate = (valueOption) => {
     const newRowData = rowData?.map((itm) => ({
       ...itm,
-      itemName: valueOption?.label || "",
+      itemName: valueOption?.label || '',
       itemId: valueOption?.value || 0,
     }));
     setRowData(newRowData);

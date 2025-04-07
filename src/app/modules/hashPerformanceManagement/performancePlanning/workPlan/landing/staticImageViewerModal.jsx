@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ISpinner from "../../../../_helper/_spinner";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ISpinner from '../../../../_helper/_spinner';
 
 export default function ImageViewer({
   show,
@@ -27,7 +27,7 @@ export default function ImageViewer({
       <Modal
         show={show}
         onHide={onHide}
-        size={modelSize ? modelSize : "xl"}
+        size={modelSize ? modelSize : 'xl'}
         aria-labelledby="example-modal-sizes-title-xl"
         dialogClassName={dialogClassName}
       >
@@ -36,21 +36,17 @@ export default function ImageViewer({
           <ISpinner isShow={isShow} />
         ) : (
           <>
-            {" "}
+            {' '}
             <Modal.Header className="bg-custom ">
               <Modal.Title className="text-center">{title}</Modal.Title>
             </Modal.Header>
             {/* <p style={{ borderBottom: "1px solid gray" }} className="my-1"></p> */}
             <Modal.Body id="example-modal-sizes-title-xl">
-            <div style={{ border: "1px solid #cccccc61" }}>
-                   <div>
-                     <img
-                        src={image}
-                        alt=""
-                        style={{ width: "100%" }}
-                      />
-                  </div>
+              <div style={{ border: '1px solid #cccccc61' }}>
+                <div>
+                  <img src={image} alt="" style={{ width: '100%' }} />
                 </div>
+              </div>
             </Modal.Body>
             {isModalFooterActive && (
               <Modal.Footer>
@@ -60,7 +56,7 @@ export default function ImageViewer({
                     onClick={() => onHide()}
                     className="btn btn-light btn-elevate"
                   >
-                    {btnText ? btnText : "Close"}
+                    {btnText ? btnText : 'Close'}
                   </button>
                   <> </>
                 </div>
@@ -72,4 +68,3 @@ export default function ImageViewer({
     </div>
   );
 }
-

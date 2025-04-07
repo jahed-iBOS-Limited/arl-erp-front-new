@@ -1,6 +1,6 @@
-import React from "react";
-import { CustomerVisitTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { CustomerVisitTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export function CustomerVisitLanding({ history }) {
   const uIEvents = {

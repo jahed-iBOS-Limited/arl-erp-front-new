@@ -52,7 +52,6 @@ export default function InsurancePolicyCollapsePanel() {
     } else if (state?.checkbox === 'shipmentWiseInsurancePolicy') {
       setExpanded('panel3');
     }
-
   }, [state]);
 
   const backHandler = () => {

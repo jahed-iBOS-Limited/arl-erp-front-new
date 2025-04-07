@@ -45,7 +45,6 @@ export default function MoneyReceiptSubmitForm() {
   useEffect(() => {
     getBankDDL_api(setBankList);
     getRowData();
-
   }, [buId]);
 
   const rowDataHandler = (values) => {
@@ -102,7 +101,7 @@ export default function MoneyReceiptSubmitForm() {
         cb();
         getRowData();
       },
-      true,
+      true
     );
   };
 

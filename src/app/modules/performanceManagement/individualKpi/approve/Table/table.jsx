@@ -1,41 +1,40 @@
-
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import {
   getEmployeeBasicInfoByIdAction,
   getYearDDLAction,
-} from "../../../_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useState } from "react";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import { getEmployeeNameBySupervisorDDL_api } from "../View/helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+} from '../../../_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useState } from 'react';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import { getEmployeeNameBySupervisorDDL_api } from '../View/helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 import {
   saveAproveKPI_api_action,
   saveRejectKPI_api_action,
-} from "../_redux/Actions";
-import { getDepartmentDDL } from "../helper";
-import { getUnapprovedPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTable from "../../../_helper/pmsCommonTable/PmsCommonTable";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import { getDepartmentDDL } from '../helper';
+import { getUnapprovedPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 
 export default function ApproveTable() {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [departmentDDL, setDepartmentDDL] = useState([]);
-  const [employee, setEmployee] = useState("");
-  const [department, setDepartment] = useState("");
-  const [employeeSupervisor, setEmployeeSupervisor] = useState("");
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [employee, setEmployee] = useState('');
+  const [department, setDepartment] = useState('');
+  const [employeeSupervisor, setEmployeeSupervisor] = useState('');
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [loading, setLoading] = useState(false);
 
   let storeData = useSelector(
     (state) => {
@@ -68,8 +67,6 @@ export default function ApproveTable() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -133,22 +130,24 @@ export default function ApproveTable() {
         data.push(report.infoList[i].dynamicList[j].kpiId);
       }
     }
-    if (data.length < 1) return toast.warn("No data found for approve");
-    dispatch(saveAproveKPI_api_action({ids : data}, callbackFunc, setLoading));
+    if (data.length < 1) return toast.warn('No data found for approve');
+    dispatch(saveAproveKPI_api_action({ ids: data }, callbackFunc, setLoading));
   };
 
   const approvalHandler = (isApproved, id) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // if approve btn click
-      if (isApproved === "approve") {
+      if (isApproved === 'approve') {
         let confirmObject = {
-          title: "Are you sure?",
+          title: 'Are you sure?',
           message: `Do you want to post the selected Approve ?`,
           yesAlertFunc: async () => {
             const payload = {
               ids: [id],
             };
-            dispatch(saveAproveKPI_api_action(payload, callbackFunc,setLoading));
+            dispatch(
+              saveAproveKPI_api_action(payload, callbackFunc, setLoading)
+            );
           },
           noAlertFunc: () => {},
         };
@@ -156,7 +155,7 @@ export default function ApproveTable() {
       } else {
         // if reject btn click
         let confirmObject = {
-          title: "Are you sure?",
+          title: 'Are you sure?',
           message: `Do you want to post the selected Reject ?`,
           yesAlertFunc: async () => {
             const payload = {
@@ -184,7 +183,7 @@ export default function ApproveTable() {
                 value: valueOption?.value,
                 label: valueOption?.label,
               });
-              setEmployee("");
+              setEmployee('');
               getEmployeeNameBySupervisorDDL_api(
                 profileData?.accountId,
                 selectedBusinessUnit?.value,
@@ -322,7 +321,7 @@ export default function ApproveTable() {
           <button
             type="button"
             className="btn btn-primary mr-1"
-            style={{ marginTop: "15px" }}
+            style={{ marginTop: '15px' }}
             onClick={() => approveAllKpi()}
           >
             Approve All
@@ -331,26 +330,26 @@ export default function ApproveTable() {
       </div>
       {employeeBasicInfo && (
         <p className="mt-3 employee_info">
-          <b> Enroll</b> : {employeeBasicInfo?.employeeId}, <b> Designation</b>{" "}
-          : {employeeBasicInfo?.designationName}, <b> Department</b> :{" "}
-          {employeeBasicInfo?.departmentName}, <b> Supervisor</b> :{" "}
-          {employeeBasicInfo?.supervisorName}, <b> Sbu</b> :{" "}
-          {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{" "}
+          <b> Enroll</b> : {employeeBasicInfo?.employeeId}, <b> Designation</b>{' '}
+          : {employeeBasicInfo?.designationName}, <b> Department</b> :{' '}
+          {employeeBasicInfo?.departmentName}, <b> Supervisor</b> :{' '}
+          {employeeBasicInfo?.supervisorName}, <b> Sbu</b> :{' '}
+          {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{' '}
           {employeeBasicInfo?.businessUnitName}
         </p>
       )}
       <div className="achievement">
         <PmsCommonTable
           ths={[
-            { name: "BSC" },
-            { name: "Objective" },
-            { name: "KPI" },
-            { name: "SRF" },
-            { name: "Weight" },
-            { name: "Target" },
-            { name: "Ach." },
-            { name: "Progress" },
-            { name: "Action", style: { width: "50px" } },
+            { name: 'BSC' },
+            { name: 'Objective' },
+            { name: 'KPI' },
+            { name: 'SRF' },
+            { name: 'Weight' },
+            { name: 'Target' },
+            { name: 'Ach.' },
+            { name: 'Progress' },
+            { name: 'Action', style: { width: '50px' } },
           ]}
         >
           {report?.infoList?.map((itm, indx) => (
@@ -367,8 +366,8 @@ export default function ApproveTable() {
                   )}
                   {item?.isParent && (
                     <td className="obj" rowspan={item?.numberOfChild}>
-                      {" "}
-                      {item?.parentName}{" "}
+                      {' '}
+                      {item?.parentName}{' '}
                     </td>
                   )}
                   <td> {item?.label} </td>
@@ -386,10 +385,10 @@ export default function ApproveTable() {
                       >
                         <span
                           style={{
-                            padding: "16px 16px",
-                            cursor: "pointer",
-                            color: "blue",
-                            textDecoration: "underline",
+                            padding: '16px 16px',
+                            cursor: 'pointer',
+                            color: 'blue',
+                            textDecoration: 'underline',
                           }}
                           onClick={() =>
                             history.push({
@@ -408,7 +407,7 @@ export default function ApproveTable() {
                   <td>
                     {indx !== report?.infoList.length - 1 && (
                       <div className="text-right">
-                        {item?.progress}%{" "}
+                        {item?.progress}%{' '}
                         <i
                           className={`ml-2 fas fa-arrow-alt-${item?.arrowText}`}
                         ></i>
@@ -431,7 +430,7 @@ export default function ApproveTable() {
                       // />
                       <div className="text-center">
                         <button
-                          onClick={() => approvalHandler("reject", item?.kpiId)}
+                          onClick={() => approvalHandler('reject', item?.kpiId)}
                           className="btn btn-sm btn-danger"
                         >
                           Reject

@@ -1,8 +1,8 @@
-import React from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
+import React from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
 
 const RowDtoTable = ({
   rowDto,
@@ -27,10 +27,10 @@ const RowDtoTable = ({
                   <th>Uom</th>
                   <th>Current Stock</th>
                   <th>Location</th>
-                  {values.refType.label !== "NA (Without Reference)" && (
+                  {values.refType.label !== 'NA (Without Reference)' && (
                     <th>Ref Qty</th>
                   )}
-                  {values.refType.label !== "NA (Without Reference)" && (
+                  {values.refType.label !== 'NA (Without Reference)' && (
                     <th>Rest Qty</th>
                   )}
                   {/* <th>Stock Type</th> */}
@@ -45,8 +45,8 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="">{item?.uoMname}</td>
@@ -55,12 +55,12 @@ const RowDtoTable = ({
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "150px" }}
+                      style={{ width: '150px' }}
                     >
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "fromLocation",
+                            'fromLocation',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -69,12 +69,12 @@ const RowDtoTable = ({
                             index
                           );
                           rowDtoHandler(
-                            "availableStock",
+                            'availableStock',
                             valueOption?.currentStock,
                             index
                           );
                         }}
-                        defaultValue={item.fromLocation || ""}
+                        defaultValue={item.fromLocation || ''}
                         isSearchable={true}
                         name="fromLocation"
                         styles={customStyles}
@@ -82,12 +82,12 @@ const RowDtoTable = ({
                         placeholder="Location"
                       />
                     </td>
-                    {values.refType.label !== "NA (Without Reference)" && (
+                    {values.refType.label !== 'NA (Without Reference)' && (
                       <td className="text-center align-middle">
                         {item?.refQty}
                       </td>
                     )}
-                    {values.refType.label !== "NA (Without Reference)" && (
+                    {values.refType.label !== 'NA (Without Reference)' && (
                       <td className="text-center align-middle">
                         {item?.restQty}
                       </td>
@@ -158,7 +158,7 @@ const RowDtoTable = ({
                     />
                   </td> */}
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -168,12 +168,12 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          rowDtoHandler("quantity", e.target.value, index);
+                          rowDtoHandler('quantity', e.target.value, index);
                         }}
                         step="any"
                         min={0.1}
                         max={
-                          values.refType.label === "NA (Without Reference)"
+                          values.refType.label === 'NA (Without Reference)'
                             ? item?.availableStock
                             : item?.restQty
                         }

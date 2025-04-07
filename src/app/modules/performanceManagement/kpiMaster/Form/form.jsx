@@ -1,15 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { IInput } from "../../../_helper/_input";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { IInput } from '../../../_helper/_input';
+import NewSelect from '../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({
-  kpi: Yup.string().required("KPI name is required"),
+  kpi: Yup.string().required('KPI name is required'),
   bscPerspective: Yup.object().shape({
-    label: Yup.string().required("BSC Perspective is required"),
-    value: Yup.string().required("BSC Perspective is required"),
+    label: Yup.string().required('BSC Perspective is required'),
+    value: Yup.string().required('BSC Perspective is required'),
   }),
 });
 
@@ -31,15 +31,14 @@ export default function FormCmp({
         },
         kpi: editData?.strKpiMasterName,
         status: editData?.isActive
-          ? { value: 1, label: "Active" }
-          : { value: 2, label: "InActive" },
+          ? { value: 1, label: 'Active' }
+          : { value: 2, label: 'InActive' },
       });
     }
   }, [editData]);
 
   useEffect(() => {
     getBscPerspectiveDDL(`/pms/CommonDDL/BSCPerspectiveDDL`);
-
   }, []);
   return (
     <>
@@ -74,7 +73,7 @@ export default function FormCmp({
                     value={values?.bscPerspective}
                     label="BSC Perspective"
                     onChange={(valueOption) => {
-                      setFieldValue("bscPerspective", valueOption);
+                      setFieldValue('bscPerspective', valueOption);
                     }}
                     placeholder="BSC Perspective"
                     errors={errors}
@@ -90,13 +89,13 @@ export default function FormCmp({
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: "Active" },
-                        { value: 2, label: "Inactive" },
+                        { value: 1, label: 'Active' },
+                        { value: 2, label: 'Inactive' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                       }}
                       placeholder="Status"
                       errors={errors}
@@ -104,19 +103,19 @@ export default function FormCmp({
                     />
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

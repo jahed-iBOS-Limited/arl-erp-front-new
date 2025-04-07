@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -26,7 +25,7 @@ export function RoleExtensionTable() {
     const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
-        `/domain/RoleExtension/GetRoleExtensionSearchInformationPagination?${searchPath}AccountId=${accountId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/domain/RoleExtension/GetRoleExtensionSearchInformationPagination?${searchPath}AccountId=${accountId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       if (res.status === 200 && res?.data) {
         const newData = res?.data?.data?.map((item) => ({

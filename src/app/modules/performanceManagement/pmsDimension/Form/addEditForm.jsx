@@ -1,13 +1,12 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getDimensionTypeAction,
   savePmsDimensionAction,
-} from "../_redux/Actions";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
+} from '../_redux/Actions';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
 
 const initData = {
   id: undefined,
@@ -37,7 +36,6 @@ export default function PmsDimensionForm({
 
   useEffect(() => {
     dispatch(getDimensionTypeAction());
-
   }, []);
 
   useEffect(() => {
@@ -51,7 +49,7 @@ export default function PmsDimensionForm({
     let data = dimensionType?.map((itm, index) => {
       return {
         ...itm,
-        weight: "",
+        weight: '',
       };
     });
     setRowDto([...data]);
@@ -70,7 +68,7 @@ export default function PmsDimensionForm({
         };
       });
       if (total > 100 || total < 100) {
-        toast.warn("Total must be 100");
+        toast.warn('Total must be 100');
       } else {
         dispatch(savePmsDimensionAction({ data: payload, cb }));
       }

@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
   viewModalData: [],
   territoryTypeDDL: [],
@@ -12,14 +12,13 @@ const initState = {
   divisionDDL: [],
   districtDDL: [],
   thanaDDL: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const salesTerritorySlice = createSlice({
-  name: "salesTerritory",
+  name: 'salesTerritory',
   initialState: initState,
   reducers: {
-
     SetTerritoryTypeDDL: (state, action) => {
       const { payload } = action;
       state.territoryTypeDDL = payload;
@@ -32,28 +31,28 @@ export const salesTerritorySlice = createSlice({
 
     SetCountryNameDDL: (state, action) => {
       const { payload } = action;
-      state.divisionDDL = []
-      state.districtDDL = []
-      state.thanaDDL = []
+      state.divisionDDL = [];
+      state.districtDDL = [];
+      state.thanaDDL = [];
       state.countryNameDDL = payload;
     },
 
     SetDivisionDDL: (state, action) => {
       const { payload } = action;
-      state.districtDDL = []
-      state.thanaDDL = []
+      state.districtDDL = [];
+      state.thanaDDL = [];
       state.divisionDDL = payload;
     },
 
     SetDistrictDDL: (state, action) => {
       const { payload } = action;
-      state.thanaDDL = []
+      state.thanaDDL = [];
       state.districtDDL = payload;
     },
 
     SetThanaDDL: (state, action) => {
       const { payload } = action;
-      state.thanaDDL = []
+      state.thanaDDL = [];
       state.thanaDDL = payload;
     },
 
@@ -71,10 +70,8 @@ export const salesTerritorySlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

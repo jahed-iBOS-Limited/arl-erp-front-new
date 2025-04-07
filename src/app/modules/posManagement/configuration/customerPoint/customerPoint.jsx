@@ -1,16 +1,15 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
-import InputField from "../../../_helper/_inputField";
-import ICustomCard from "../../../_helper/_customCard";
-import "./style.css";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import InputField from '../../../_helper/_inputField';
+import ICustomCard from '../../../_helper/_customCard';
+import './style.css';
+import * as Yup from 'yup';
 // React Pivote Table module Import
-import Loading from "../../../_helper/_loading";
-import { CreateCustomerPoint, getCustomerInitPointAction } from "./helper";
+import Loading from '../../../_helper/_loading';
+import { CreateCustomerPoint, getCustomerInitPointAction } from './helper';
 
 const initData = {
   amount: 0,
@@ -19,14 +18,13 @@ const initData = {
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  amount: Yup.number().required("Amount is Required"),
-  point: Yup.number().required("Point is Required"),
+  amount: Yup.number().required('Amount is Required'),
+  point: Yup.number().required('Point is Required'),
 });
 
 function CustomerPoint() {
   const [loading, setLoading] = useState(false);
   const [pointData, setPointData] = useState({});
-
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -38,13 +36,13 @@ function CustomerPoint() {
 
   const { profileData, selectedBusinessUnit } = storeData;
 
-  useEffect(()=>{
+  useEffect(() => {
     getCustomerInitPointAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setPointData
-    )
-  },[])
+    );
+  }, []);
   const saveHandler = async (values, cb) => {
     const payload = {
       accountId: profileData?.accountId,
@@ -54,7 +52,7 @@ function CustomerPoint() {
       actionBy: profileData?.userId,
     };
 
-    CreateCustomerPoint(payload,setLoading)
+    CreateCustomerPoint(payload, setLoading);
   };
 
   return (
@@ -64,7 +62,7 @@ function CustomerPoint() {
         <Formik
           enableReinitialize={true}
           validationSchema={validationSchema}
-          initialValues={{...initData, ...pointData}}
+          initialValues={{ ...initData, ...pointData }}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values);
           }}
@@ -91,7 +89,7 @@ function CustomerPoint() {
                       type="number"
                     />
                   </div>
-                  <div style={{ marginTop: "18px" }} className="col-lg">
+                  <div style={{ marginTop: '18px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"

@@ -1,8 +1,8 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { Suspense } from "react";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import CustomerInquiryPages from "./customerInquiry/customerInquiryPages";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { Suspense } from 'react';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import CustomerInquiryPages from './customerInquiry/customerInquiryPages';
 import CallCenterReportPages from './report/reportPages';
 
 export default function CallCenterPages() {

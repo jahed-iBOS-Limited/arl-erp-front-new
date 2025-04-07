@@ -24,19 +24,18 @@ export default function ProjectAccounting() {
   // get account data
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   useEffect(() => {
     if (project?.id || project?.intProjectId) {
       getData(
         `/fino/ProjectAccounting/GetProjectById?accId=${
           profileData?.accountId
-        }&buId=${selectedBusinessUnit?.value}&id=${project?.id ||
-          project?.intProjectId}`,
+        }&buId=${selectedBusinessUnit?.value}&id=${
+          project?.id || project?.intProjectId
+        }`
       );
     }
-
-
   }, [project, profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -44,7 +43,6 @@ export default function ProjectAccounting() {
       setIsEdit(true);
       setProject(location.state.project);
     }
-
   }, []);
 
   const history = useHistory();

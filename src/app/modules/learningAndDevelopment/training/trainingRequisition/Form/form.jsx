@@ -1,14 +1,14 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { setData } from "./helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { setData } from './helper';
 
 export default function FormCmp({
   initData,
@@ -27,7 +27,6 @@ export default function FormCmp({
 
   useEffect(() => {
     getTrainingScheduleDDL(`/hcm/Training/TrainingScheduleDDL`);
-
   }, []);
 
   const loadSupervisorAndLineManagerList = (v) => {
@@ -44,14 +43,14 @@ export default function FormCmp({
 
   const addHandler = (values, resetForm, setFieldValue) => {
     if (!values?.trainingSchedule?.value)
-      return toast.warn("Training Schedule is required");
-    if (!values?.employee?.value) return toast.warn("Employee is required");
+      return toast.warn('Training Schedule is required');
+    if (!values?.employee?.value) return toast.warn('Employee is required');
 
     setRequisitionList([{ ...values }, ...requisitionList]);
     let trainingScheduleValue = values?.trainingSchedule;
     resetForm(initData);
-    setFieldValue("trainingSchedule", trainingScheduleValue);
-    setFieldValue("resourcePerson", trainingScheduleValue?.resourcePerson);
+    setFieldValue('trainingSchedule', trainingScheduleValue);
+    setFieldValue('resourcePerson', trainingScheduleValue?.resourcePerson);
   };
 
   const removeHandler = (index) => {
@@ -70,13 +69,7 @@ export default function FormCmp({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          setFieldValue,
-          errors,
-        }) => (
+        {({ handleSubmit, resetForm, values, setFieldValue, errors }) => (
           <>
             <Form className="form form-label-right">
               <div className="form-group row global-form">
@@ -88,14 +81,14 @@ export default function FormCmp({
                     label="Training Schedule"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("trainingSchedule", valueOption);
+                        setFieldValue('trainingSchedule', valueOption);
                         setFieldValue(
-                          "resourcePerson",
-                          valueOption?.resourcePerson || ""
+                          'resourcePerson',
+                          valueOption?.resourcePerson || ''
                         );
                       } else {
-                        setFieldValue("trainingSchedule", "");
-                        setFieldValue("resourcePerson", "");
+                        setFieldValue('trainingSchedule', '');
+                        setFieldValue('resourcePerson', '');
                       }
                     }}
                     errors={errors}
@@ -107,7 +100,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.employee}
                     handleChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                       setData(valueOption, setFieldValue);
                     }}
                     loadOptions={loadSupervisorAndLineManagerList}
@@ -131,7 +124,7 @@ export default function FormCmp({
                     value={values?.designation}
                     label="Designation"
                     onChange={(valueOption) => {
-                      setFieldValue("designation", valueOption);
+                      setFieldValue('designation', valueOption);
                     }}
                     errors={errors}
                   />
@@ -145,7 +138,7 @@ export default function FormCmp({
                     value={values?.jobType}
                     label="Job Type"
                     onChange={(valueOption) => {
-                      setFieldValue("jobType", valueOption);
+                      setFieldValue('jobType', valueOption);
                     }}
                     errors={errors}
                   />
@@ -186,7 +179,7 @@ export default function FormCmp({
                   />
                 </div>
 
-                <div style={{ marginTop: "15px" }} className="col-lg-1">
+                <div style={{ marginTop: '15px' }} className="col-lg-1">
                   <button
                     type="button"
                     onClick={() => {
@@ -204,7 +197,7 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "100px" }}>Enroll</th>
+                        <th style={{ width: '100px' }}>Enroll</th>
                         <th>Name</th>
                         <th>Training Name</th>
                         <th>Designation</th>
@@ -214,7 +207,7 @@ export default function FormCmp({
                         <th>Gender</th>
                         <th>Supervisor</th>
                         <th>Resource Person</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -222,21 +215,21 @@ export default function FormCmp({
                         requisitionList?.map((item, index) => (
                           <tr key={index}>
                             <td className="text-center">
-                              {item?.employee?.value || ""}
+                              {item?.employee?.value || ''}
                             </td>
-                            <td>{item?.employee?.name || ""}</td>
-                            <td>{item?.trainingSchedule?.name || ""}</td>
-                            <td>{item?.designation?.label || ""}</td>
-                            <td>{item?.jobType?.label || ""}</td>
-                            <td>{item?.email || ""}</td>
-                            <td>{item?.phone || ""}</td>
-                            <td>{item?.gender || ""}</td>
-                            <td>{item?.supervisor || ""}</td>
-                            <td>{item?.resourcePerson || ""}</td>
+                            <td>{item?.employee?.name || ''}</td>
+                            <td>{item?.trainingSchedule?.name || ''}</td>
+                            <td>{item?.designation?.label || ''}</td>
+                            <td>{item?.jobType?.label || ''}</td>
+                            <td>{item?.email || ''}</td>
+                            <td>{item?.phone || ''}</td>
+                            <td>{item?.gender || ''}</td>
+                            <td>{item?.supervisor || ''}</td>
+                            <td>{item?.resourcePerson || ''}</td>
                             <td className="text-center">
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                  <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                 }
                               >
                                 <span>
@@ -258,14 +251,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

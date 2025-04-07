@@ -1,5 +1,3 @@
-
-
 import Axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
@@ -111,13 +109,13 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCategory,
+        setCategory
       );
       getCostCenter(
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCostCenter,
+        setCostCenter
       );
       getPaymentType(setPaymentType);
 
@@ -125,21 +123,20 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setDisbustmentCenter,
+        setDisbustmentCenter
       );
       getVehicleDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setVehicleDDL,
+        setVehicleDDL
       );
     }
-
   }, [profileData, sbu?.value, selectedBusinessUnit]);
 
   const loadUserList = (v) => {
     if (v?.length < 2) return [];
     return Axios.get(
-      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
     )
       .then((res) => {
         return res?.data;
@@ -164,14 +161,15 @@ export default function FormCmp({
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
       getProfitcenterDDL(
-        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value
-        }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-          ? profileData?.employeeId
-          : 0
-        }`,
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${
+          selectedBusinessUnit.value
+        }&employeeId=${
+          [184].includes(selectedBusinessUnit?.value)
+            ? profileData?.employeeId
+            : 0
+        }`
       );
     }
-
   }, []);
 
   return (
@@ -185,20 +183,20 @@ export default function FormCmp({
           isEdit
             ? initData
             : {
-              ...initData,
-              // profitCenter: profitcenterDDL.length > 1 && "",
-              vehicle: {
-                value: vehicleDDL[0]?.value,
-                label: vehicleDDL[0]?.label,
-              },
-              disbursmentCenter:
-                disbustmentCenter?.length > 0
-                  ? {
-                    value: disbustmentCenter[0]?.value,
-                    label: disbustmentCenter[0]?.label,
-                  }
-                  : '',
-            }
+                ...initData,
+                // profitCenter: profitcenterDDL.length > 1 && "",
+                vehicle: {
+                  value: vehicleDDL[0]?.value,
+                  label: vehicleDDL[0]?.label,
+                },
+                disbursmentCenter:
+                  disbustmentCenter?.length > 0
+                    ? {
+                        value: disbustmentCenter[0]?.value,
+                        label: disbustmentCenter[0]?.label,
+                      }
+                    : '',
+              }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
@@ -246,8 +244,8 @@ export default function FormCmp({
                           setFieldValue(
                             'expenseTo',
                             _dateFormatter(
-                              moment(newDate).endOf('month').format(),
-                            ),
+                              moment(newDate).endOf('month').format()
+                            )
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -274,8 +272,8 @@ export default function FormCmp({
                           setFieldValue(
                             'expenseTo',
                             _dateFormatter(
-                              moment(newDate).endOf('month').format(),
-                            ),
+                              moment(newDate).endOf('month').format()
+                            )
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -318,7 +316,7 @@ export default function FormCmp({
                             .format();
                           setFieldValue(
                             'expenseTo',
-                            _dateFormatter(endOfMonth),
+                            _dateFormatter(endOfMonth)
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -327,13 +325,13 @@ export default function FormCmp({
                         min={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.firstDate
                         }
                         max={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.lestDate
                         }
                       />
@@ -353,13 +351,13 @@ export default function FormCmp({
                         min={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.firstDate
                         }
                         max={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.lestDate
                         }
                       />
@@ -401,7 +399,7 @@ export default function FormCmp({
                         }}
                         loadOptions={(value) => {
                           return Axios.get(
-                            `/fino/ProjectAccounting/ProjectNameDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
+                            `/fino/ProjectAccounting/ProjectNameDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
                           ).then((res) => {
                             return res.data;
                           });
@@ -478,23 +476,26 @@ export default function FormCmp({
                               profileData.accountId,
                               selectedBusinessUnit.value,
                               valueOption?.value,
-                              setCostElementDDL,
+                              setCostElementDDL
                             );
                             if (![184].includes(selectedBusinessUnit?.value)) {
                               setFieldValue('profitCenter', '');
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
-                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value
-                                }&businessUnitId=${selectedBusinessUnit.value
-                                }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-                                  ? profileData?.employeeId
-                                  : 0
+                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
+                                  valueOption?.value
+                                }&businessUnitId=${
+                                  selectedBusinessUnit.value
+                                }&employeeId=${
+                                  [184].includes(selectedBusinessUnit?.value)
+                                    ? profileData?.employeeId
+                                    : 0
                                 }`,
                                 (data) => {
                                   if (data?.length === 1) {
                                     setFieldValue('profitCenter', data[0]);
                                   }
-                                },
+                                }
                               );
                             }
                             setLoading(false);
@@ -517,8 +518,10 @@ export default function FormCmp({
                           setBugetHeadWiseBalance([]);
                           if (valueOption) {
                             getBugetHeadWiseBalance(
-                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value
-                              }&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId
+                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${
+                                selectedBusinessUnit?.value
+                              }&generalLedgerId=${valueOption?.glId}&subGlId=${
+                                valueOption?.subGlId
                               }&accountHeadId=0&dteJournalDate=${_todayDate()}`,
                               (res) => {
                                 const modiFyData = res?.map((item) => ({
@@ -528,7 +531,7 @@ export default function FormCmp({
                                 }));
 
                                 setBugetHeadWiseBalance(modiFyData);
-                              },
+                              }
                             );
                           }
                         }}
@@ -553,10 +556,13 @@ export default function FormCmp({
                               setFieldValue('accountHead', valueOption || '');
                               if (valueOption) {
                                 getAvailableBudgetAdvanceBalance(
-                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value
-                                  }&subGlId=${values?.costElement?.subGlId
-                                  }&accountHeadId=${valueOption?.value
-                                  }&dteJournalDate=${_todayDate()}`,
+                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&subGlId=${
+                                    values?.costElement?.subGlId
+                                  }&accountHeadId=${
+                                    valueOption?.value
+                                  }&dteJournalDate=${_todayDate()}`
                                 );
                               }
                             }}
@@ -658,17 +664,17 @@ export default function FormCmp({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.userNmae
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.userNmae
                               : !values?.expenseDate ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.costCenter ||
-                              !values?.costElement ||
-                              !values?.profitCenter ||
-                              (bugetHeadWiseBalance?.length > 0 &&
-                                !values?.accountHead)
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.costCenter ||
+                                !values?.costElement ||
+                                !values?.profitCenter ||
+                                (bugetHeadWiseBalance?.length > 0 &&
+                                  !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -680,7 +686,7 @@ export default function FormCmp({
                                 ?.numRemainAmount < values?.expenseAmount
                             ) {
                               return toast.warn(
-                                'Budget Advance Amount is Exceed',
+                                'Budget Advance Amount is Exceed'
                               );
                             }
                             setter(values, () => {
@@ -804,7 +810,7 @@ export default function FormCmp({
                                           if (
                                             location?.state?.isApproval &&
                                             e.target.value >
-                                            item?.prvExpenseAmount
+                                              item?.prvExpenseAmount
                                           ) {
                                             return false;
                                           }
@@ -837,8 +843,8 @@ export default function FormCmp({
                                           clickHandler={() => {
                                             dispatch(
                                               getDownlloadFileView_Action(
-                                                item?.attachmentLink,
-                                              ),
+                                                item?.attachmentLink
+                                              )
                                             );
                                           }}
                                         />
@@ -887,7 +893,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

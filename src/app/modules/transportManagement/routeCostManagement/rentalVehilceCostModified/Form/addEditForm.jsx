@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { GetTripInfoByTripCode } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { GetTripInfoByTripCode } from '../helper';
 
 const initData = {
   rentAmount: 0,
   additionalCost: 0,
-  additionalCostReason: "",
+  additionalCostReason: '',
   deductionCost: 0,
-  deductionCostReason: "",
+  deductionCostReason: '',
 };
 
 export default function RentalVehicleEditForm({
@@ -35,8 +35,6 @@ export default function RentalVehicleEditForm({
   const [fileObjects, setFileObjects] = useState([]);
   const [tripInfoData, setTripInfoData] = useState([]);
 
-
-
   // get initial data
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value && id) {
@@ -47,14 +45,9 @@ export default function RentalVehicleEditForm({
         setTripInfoData
       );
     }
-
   }, [id]);
 
-
-
-  const saveHandler = async () => {
-
-  };
+  const saveHandler = async () => {};
 
   const [objProps, setObjprops] = useState({});
 
@@ -65,16 +58,11 @@ export default function RentalVehicleEditForm({
     setTripInfoData(data);
   };
 
-
   return (
-    <IForm
-      title=" Trip Info"
-      getProps={setObjprops}
-      isDisabled={isDisabled}
-    >
+    <IForm title=" Trip Info" getProps={setObjprops} isDisabled={isDisabled}>
       <Form
         {...objProps}
-        initData={ initData }
+        initData={initData}
         saveHandler={saveHandler}
         fuelTypeList={fuelTypeList}
         fuelStationDDL={fuelStationDDL}

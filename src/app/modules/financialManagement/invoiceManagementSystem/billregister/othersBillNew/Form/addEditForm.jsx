@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { toast } from "react-toastify";
-import "./purchaseInvoice.css";
-import IForm from "../../../../../_helper/_form";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Loading from "../../../../../_helper/_loading";
-import { useLocation } from "react-router-dom";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { compressfile } from "../../../../../_helper/compressfile";
-import { othersBillEntries, uploadAtt } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { toast } from 'react-toastify';
+import './purchaseInvoice.css';
+import IForm from '../../../../../_helper/_form';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import Loading from '../../../../../_helper/_loading';
+import { useLocation } from 'react-router-dom';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { compressfile } from '../../../../../_helper/compressfile';
+import { othersBillEntries, uploadAtt } from '../helper';
 
 const initData = {
-  payeeName: "",
-  bankName: "",
-  branchName: "",
-  bankAccountingNo: "",
-  remarks: "",
-  amount: "",
+  payeeName: '',
+  bankName: '',
+  branchName: '',
+  bankAccountingNo: '',
+  remarks: '',
+  amount: '',
   billRegisterDate: _todayDate(),
-  businessTransaction: "",
-  profitCenter: "",
+  businessTransaction: '',
+  profitCenter: '',
 };
 
 export default function OthersBillCreateForm() {
@@ -42,8 +42,8 @@ export default function OthersBillCreateForm() {
   }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
-    if (rowData?.length === 0) return toast.warn("At least one bill add");
-    if (fileObjects.length < 1) return toast.warn("Please upload attachment");
+    if (rowData?.length === 0) return toast.warn('At least one bill add');
+    if (fileObjects.length < 1) return toast.warn('Please upload attachment');
     const payload = {
       head: rowData,
     };
@@ -54,7 +54,7 @@ export default function OthersBillCreateForm() {
           fileObjects?.map((f) => f.file)
         );
         const uploadedImage = await uploadAtt(compressedFile);
-        payload["image"] = uploadedImage?.data?.map((item) => ({
+        payload['image'] = uploadedImage?.data?.map((item) => ({
           imageId: item?.id,
         }));
       }
@@ -74,7 +74,7 @@ export default function OthersBillCreateForm() {
       plantID: location?.state?.plant?.value,
       sbuid: location?.state?.sbu?.value,
       payeeName: values?.payeeName,
-      billName: "",
+      billName: '',
       bankID: values?.bankName?.value,
       bankName: values?.bankName?.label,
       bankAccountNumber: values?.bankAccountingNo,
@@ -116,14 +116,14 @@ export default function OthersBillCreateForm() {
           plantID: location?.state?.plant?.value,
           sbuid: location?.state?.sbu?.value,
           payeeName: item?.name?.toString(),
-          billName: "",
+          billName: '',
           bankID: 0,
           bankName: item?.bankName?.toString(),
           bankAccountNumber: item?.accountNo?.toString(),
           branchID: 0,
           branchName: item?.branch?.toString(),
           routingNumber: item?.routing?.toString(),
-          remarks: item?.remarks?.toString() || "",
+          remarks: item?.remarks?.toString() || '',
           insertBy: profileData?.userId,
           billID: 0,
           amount: +item?.tk?.toFixed(2),

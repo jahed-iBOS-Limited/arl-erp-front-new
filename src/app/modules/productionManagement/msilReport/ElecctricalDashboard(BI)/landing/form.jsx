@@ -1,21 +1,21 @@
-import axios from "axios";
-import { Formik } from "formik";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
-  ModalProgressBar
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../../_helper/_loading";
-import "./style.css";
+  ModalProgressBar,
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import Loading from '../../../../_helper/_loading';
+import './style.css';
 
 const initData = {};
 
@@ -49,7 +49,7 @@ const ElectricalDashboardReport = () => {
           };
           try {
             const payload = {
-              "accessLevel": "View"
+              accessLevel: 'View',
             };
             // 3rd api
             const resGenerateToken = await axios.post(
@@ -80,24 +80,23 @@ const ElectricalDashboardReport = () => {
 
   useEffect(() => {
     getData();
-
   }, []);
 
   const generateTokenPoppup = () => {
     confirmAlert({
-      title: "Generate Token",
-      message: "Token excess timeout please generate token",
+      title: 'Generate Token',
+      message: 'Token excess timeout please generate token',
       buttons: [
         {
-          label: "Submit",
+          label: 'Submit',
           onClick: () => {
             dispatch(
               SetPowerBiAction({
-                testReportToken: "",
-                reportId: "",
-                datasetId: "",
-                generateToken: "",
-                embedUrl: "",
+                testReportToken: '',
+                reportId: '',
+                datasetId: '',
+                generateToken: '',
+                embedUrl: '',
               })
             );
             window.location.reload();
@@ -111,11 +110,11 @@ const ElectricalDashboardReport = () => {
   setTimeout(() => {
     dispatch(
       SetPowerBiAction({
-        testReportToken: "",
-        reportId: "",
-        datasetId: "",
-        generateToken: "",
-        embedUrl: "",
+        testReportToken: '',
+        reportId: '',
+        datasetId: '',
+        generateToken: '',
+        embedUrl: '',
       })
     );
     generateTokenPoppup();
@@ -144,7 +143,7 @@ const ElectricalDashboardReport = () => {
                       <PowerBIEmbed
                         embedConfig={{
                           id: localStorageData?.reportId,
-                          type: "report",
+                          type: 'report',
                           embedUrl: localStorageData?.embedUrl,
                           accessToken: localStorageData?.generateToken,
                           tokenType: models.TokenType.Embed,
@@ -161,19 +160,19 @@ const ElectricalDashboardReport = () => {
                         eventHandlers={
                           new Map([
                             [
-                              "loaded",
+                              'loaded',
                               function () {
-                                console.log("Report loaded");
+                                console.log('Report loaded');
                               },
                             ],
                             [
-                              "rendered",
+                              'rendered',
                               function () {
-                                console.log("Report rendered");
+                                console.log('Report rendered');
                               },
                             ],
                             [
-                              "error",
+                              'error',
                               function (event) {
                                 console.log(event.detail);
                               },
@@ -183,7 +182,7 @@ const ElectricalDashboardReport = () => {
                         getEmbeddedComponent={(embeddedReport) => {
                           window.report = embeddedReport;
                         }}
-                        cssClassName={"powerbi-report-style-class"}
+                        cssClassName={'powerbi-report-style-class'}
                       />
                     </>
                   )}

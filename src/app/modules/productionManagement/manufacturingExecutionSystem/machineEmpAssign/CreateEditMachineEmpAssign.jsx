@@ -1,31 +1,31 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import * as Yup from "yup";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import axios from "axios";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getPlantDDL } from "../billOfMaterial/helper";
+import * as Yup from 'yup';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getPlantDDL } from '../billOfMaterial/helper';
 import {
   getShopFloorDDL,
   getWorkCenterNameDDL,
-} from "../../configuration/routing/helper";
+} from '../../configuration/routing/helper';
 
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
   date: _todayDate(),
-  plant: "",
-  workCenter: "",
-  shopFloor: "",
-  assignTo: "",
+  plant: '',
+  workCenter: '',
+  shopFloor: '',
+  assignTo: '',
 };
 export default function CreateEditMachineEmpAssign() {
   const {
@@ -61,7 +61,6 @@ export default function CreateEditMachineEmpAssign() {
   };
   useEffect(() => {
     getPlantDDL(userId, accountId, buId, setPlantDDL);
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -78,8 +77,8 @@ export default function CreateEditMachineEmpAssign() {
       strPlantName: values?.plant?.label,
       intPlantId: values?.plant?.value,
       strMachineName: values?.workCenter?.label,
-      intMonthId: +`${moment(values?.date).format("MM")}`,
-      intYearId: +`${moment(values?.date).format("YYYY")}`,
+      intMonthId: +`${moment(values?.date).format('MM')}`,
+      intYearId: +`${moment(values?.date).format('YYYY')}`,
       isActive: true,
       strShopFloorName: values?.shopFloor?.label,
       intShopFloorId: values?.shopFloor?.value,
@@ -97,7 +96,7 @@ export default function CreateEditMachineEmpAssign() {
   const generateDate = (month, year) => {
     // Month is 0-indexed in JavaScript Date object, so we subtract 1 from the month
     const date = new Date(year, month - 1, 1);
-    return moment(date).format("YYYY-MM-DD");
+    return moment(date).format('YYYY-MM-DD');
   };
   const mapStateToInitialValues = (state) => ({
     businessUnit: { value: buId, label: label },
@@ -110,20 +109,20 @@ export default function CreateEditMachineEmpAssign() {
 
   const validationSchema = Yup.object().shape({
     businessUnit: Yup.object()
-      .required("Business Unit is required")
-      .typeError("Business Unit is required"),
+      .required('Business Unit is required')
+      .typeError('Business Unit is required'),
     assignTo: Yup.object()
-      .required("Employee is required")
-      .typeError("Employee is required"),
+      .required('Employee is required')
+      .typeError('Employee is required'),
     plant: Yup.object()
-      .required("Plant is required")
-      .typeError("Plant is required"),
+      .required('Plant is required')
+      .typeError('Plant is required'),
     workCenter: Yup.object()
-      .required("Work center is required")
-      .typeError("Work center is required"),
+      .required('Work center is required')
+      .typeError('Work center is required'),
     shopFloor: Yup.object()
-      .required("Shop Floor  is required")
-      .typeError("Shop Floor is required"),
+      .required('Shop Floor  is required')
+      .typeError('Shop Floor is required'),
   });
   return (
     <Formik
@@ -190,7 +189,7 @@ export default function CreateEditMachineEmpAssign() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue('businessUnit', valueOption || '');
                       getPlantDDL(
                         userId,
                         accountId,
@@ -208,7 +207,7 @@ export default function CreateEditMachineEmpAssign() {
                   <SearchAsyncSelect
                     selectedValue={values?.assignTo}
                     handleChange={(valueOption) => {
-                      setFieldValue("assignTo", valueOption);
+                      setFieldValue('assignTo', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -222,7 +221,7 @@ export default function CreateEditMachineEmpAssign() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       getShopFloorDDL(
                         accountId,
                         values?.businessUnit?.value,
@@ -252,9 +251,9 @@ export default function CreateEditMachineEmpAssign() {
                     value={values?.shopFloor}
                     label="Shop Floor"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloor", valueOption);
+                      setFieldValue('shopFloor', valueOption);
 
-                      setFieldValue("workCenter", "");
+                      setFieldValue('workCenter', '');
                       getWorkCenterNameDDL(
                         accountId,
                         values?.businessUnit?.value,
@@ -277,7 +276,7 @@ export default function CreateEditMachineEmpAssign() {
                     value={values?.workCenter}
                     label="Work Center"
                     onChange={(valueOption) => {
-                      setFieldValue("workCenter", valueOption);
+                      setFieldValue('workCenter', valueOption);
                     }}
                   />
                 </div>
@@ -292,7 +291,7 @@ export default function CreateEditMachineEmpAssign() {
                     name="date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                   />
                 </div>

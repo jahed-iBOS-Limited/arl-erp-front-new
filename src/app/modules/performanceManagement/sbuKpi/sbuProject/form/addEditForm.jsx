@@ -1,16 +1,15 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getYearDDL } from "../helper";
-import { getSbuDDLAction } from "../helper";
-import Help from "../../../help/Help";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getYearDDL } from '../helper';
+import { getSbuDDLAction } from '../helper';
+import Help from '../../../help/Help';
 
 let initData = {
-  sbu: "",
-  year: "",
+  sbu: '',
+  year: '',
 };
 
 export function SBUProjectForm() {
@@ -37,7 +36,7 @@ export function SBUProjectForm() {
 
   return (
     <IForm
-      title={"SBU Project"}
+      title={'SBU Project'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

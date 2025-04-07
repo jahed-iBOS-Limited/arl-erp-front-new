@@ -21,7 +21,6 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
   singleRowDataFromParent,
   values,
 }) {
-
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -35,20 +34,19 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState,
+    commonItemInitialState
   );
 
   const [autoRawMaterialData, getAutoRawMaterialData, loader] = useAxiosGet();
 
   const getData = () => {
     getAutoRawMaterialData(
-      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLandingNewReq?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`,
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLandingNewReq?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`
     );
   };
 
   useEffect(() => {
     getData();
-
   }, []);
 
   return (
@@ -56,17 +54,17 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
       {(loader || prLoading) && <Loading />}
       <div>
         {autoRawMaterialData?.length > 0 && (
-
           <>
-            <div className='text-right mr-2 mt-2'>
+            <div className="text-right mr-2 mt-2">
               <button
                 onClick={async () => {
-                  const positiveClosingBalanceList = autoRawMaterialData?.filter(
-                    (item) => item?.closingBlance > 0
-                  );
+                  const positiveClosingBalanceList =
+                    autoRawMaterialData?.filter(
+                      (item) => item?.closingBlance > 0
+                    );
 
                   if (!positiveClosingBalanceList?.length) {
-                    return toast.warning("No available stock to create PR");
+                    return toast.warning('No available stock to create PR');
                   }
 
                   const localPrList = positiveClosingBalanceList.filter(
@@ -78,31 +76,33 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
 
                   const createPayload = (prList) => ({
                     createPurchaseRequestHeader: {
-                      purchaseRequestCode: "",
-                      reffNo: "123456",
+                      purchaseRequestCode: '',
+                      reffNo: '123456',
                       purchaseRequestTypeId: 2,
-                      purchaseRequestTypeName: "Standard PR",
+                      purchaseRequestTypeName: 'Standard PR',
                       accountId: 1,
-                      accountName: "Akij Resource Limited",
+                      accountName: 'Akij Resource Limited',
                       businessUnitId: prList[0]?.businessUnitId || 0,
-                      businessUnitName: prList[0]?.businessUnitName || "",
+                      businessUnitName: prList[0]?.businessUnitName || '',
                       sbuid: prList[0]?.sbuId || 0,
-                      sbuname: prList[0]?.sbuName || "",
-                      purchaseOrganizationId: prList[0]?.intPurchaseOrganizationId || 0,
-                      purchaseOrganizationName: prList[0]?.strPurchaseOrganizationName || "",
+                      sbuname: prList[0]?.sbuName || '',
+                      purchaseOrganizationId:
+                        prList[0]?.intPurchaseOrganizationId || 0,
+                      purchaseOrganizationName:
+                        prList[0]?.strPurchaseOrganizationName || '',
                       plantId: prList[0]?.plantId || 0,
-                      plantName: prList[0]?.plantName || "",
+                      plantName: prList[0]?.plantName || '',
                       warehouseId: prList[0]?.warehouseId || 0,
-                      warehouseName: prList[0]?.warehouseName || "",
-                      deliveryAddress: prList[0]?.deliveryAddress || "",
+                      warehouseName: prList[0]?.warehouseName || '',
+                      deliveryAddress: prList[0]?.deliveryAddress || '',
                       supplyingWarehouseId: prList[0]?.warehouseId || 0,
-                      supplyingWarehouseName: prList[0]?.warehouseName || "",
+                      supplyingWarehouseName: prList[0]?.warehouseName || '',
                       requestDate: _todayDate(),
                       actionBy: profileData?.userId,
                       costControlingUnitId: 0,
-                      costControlingUnitName: "",
+                      costControlingUnitName: '',
                       requiredDate: _todayDate(),
-                      strPurpose: "Generate by MRP",
+                      strPurpose: 'Generate by MRP',
                     },
                     createPurchaseRequestRow: prList.map((item) => ({
                       itemId: item?.itemId,
@@ -111,7 +111,7 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                       numRequestQuantity: item?.closingBlance,
                       dteRequiredDate: _todayDate(),
                       billOfMaterialId: 0,
-                      remarks: "Requirement for Production",
+                      remarks: 'Requirement for Production',
                     })),
                   });
 
@@ -121,13 +121,13 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                   const onCreatePrPromise = (payload) => {
                     return new Promise((resolve, reject) => {
                       onCreatePr(
-                        "/procurement/PurchaseRequest/CreatePurchaseRequestInfo",
+                        '/procurement/PurchaseRequest/CreatePurchaseRequestInfo',
                         payload,
                         (res) => {
                           if (res?.message) {
                             resolve(res.message);
                           } else {
-                            reject("Failed to create PR");
+                            reject('Failed to create PR');
                           }
                         },
                         true
@@ -136,41 +136,45 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                   };
 
                   IConfirmModal({
-                    title: "Purchase Request",
-                    message: "Are you sure you want to create Purchase Request?",
+                    title: 'Purchase Request',
+                    message:
+                      'Are you sure you want to create Purchase Request?',
                     yesAlertFunc: async () => {
                       let messages = [];
 
                       try {
                         if (localPrList?.length > 0) {
-                          const localMessage = await onCreatePrPromise(localPrPayload);
+                          const localMessage =
+                            await onCreatePrPromise(localPrPayload);
                           messages.push(localMessage);
                         }
                         if (forignPrList?.length > 0) {
-                          const foreignMessage = await onCreatePrPromise(forignPrPayload);
+                          const foreignMessage =
+                            await onCreatePrPromise(forignPrPayload);
                           messages.push(foreignMessage);
                         }
 
                         confirmAlert({
-                          message: messages.join("\n"), // Use new line instead of space
-                          buttons: [{ label: "Ok", onClick: () => { } }],
+                          message: messages.join('\n'), // Use new line instead of space
+                          buttons: [{ label: 'Ok', onClick: () => {} }],
                         });
 
                         getData();
                       } catch (error) {
-                        console.error("Error during PR creation process:", error);
-                        toast.error("Failed to create Purchase Request");
+                        console.error(
+                          'Error during PR creation process:',
+                          error
+                        );
+                        toast.error('Failed to create Purchase Request');
                       }
                     },
-                    noAlertFunc: () => { },
+                    noAlertFunc: () => {},
                   });
                 }}
                 className="btn btn-primary"
               >
                 Create PR
               </button>
-
-
             </div>
             <div className="table-responsive">
               <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
@@ -242,7 +246,9 @@ export default function RawMaterialAutoPRNewModalViewVersionTwo({
                           <td className="text-right">
                             {item?.closingBlance || 0}
                           </td>
-                          <td className='text-center'><span>{item?.purchaseRequestCode || ""}</span></td>
+                          <td className="text-center">
+                            <span>{item?.purchaseRequestCode || ''}</span>
+                          </td>
                         </tr>
                       );
                     })}

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //ten days before
 export const getTenDaysAgoDate = () => {
@@ -46,7 +46,7 @@ export const getDutySummaryReport = async (
     if (customsPartnerID) {
       query += `&customsPartnerId=${customsPartnerID}`;
     }
-    query += fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : "";
+    query += fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : '';
 
     // let res = await axios.get(
     //   `/imp/ImportReport/GetCustomDutyReport?accountId=${accId}&businessUnitId=${buId}&customsPartnerId=${customsPartnerId}&fromDate=${FromDate}&toDate=${ToDate}`

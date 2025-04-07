@@ -1,23 +1,22 @@
+import React from 'react';
 
-import React from "react";
-
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import CreatePageTable from "./CreatePageTable";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { useParams, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import CreatePageTable from './CreatePageTable';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { useParams, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  comment: Yup.string().required("Comment is required"),
+  comment: Yup.string().required('Comment is required'),
 });
 
 // Validation schema for Edit
 const editValidationSchema = Yup.object().shape({
-  comment: Yup.string().required("Comment is required"),
+  comment: Yup.string().required('Comment is required'),
 });
 
 export default function FormCmp({
@@ -66,10 +65,13 @@ export default function FormCmp({
                     value={values?.poNumber}
                     name="poNumber"
                     onChange={(valueOption) => {
-                      setFieldValue("poNumber", valueOption);
-                      setFieldValue("poAmount", valueOption?.poAmount);
-                      setFieldValue("adjustedAmount", valueOption?.adjustAmount);
-                      setFieldValue("supplier", {
+                      setFieldValue('poNumber', valueOption);
+                      setFieldValue('poAmount', valueOption?.poAmount);
+                      setFieldValue(
+                        'adjustedAmount',
+                        valueOption?.adjustAmount
+                      );
+                      setFieldValue('supplier', {
                         value: valueOption?.supplierId,
                         label: valueOption?.supplierName,
                       });
@@ -136,7 +138,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     dependencyFunc={(payload, allvalues, setter) => {
-                      setter("projectName", "");
+                      setter('projectName', '');
                     }}
                   />
                 </div>
@@ -146,7 +148,7 @@ export default function FormCmp({
                     options={[]}
                     value={values?.projectName}
                     dependencyFunc={(payload, allvalues, setter) => {
-                      setter("costCenter", "");
+                      setter('costCenter', '');
                     }}
                     name="projectName"
                     setFieldValue={setFieldValue}
@@ -167,7 +169,7 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                <div className={"col-lg-6 mt-5"}>
+                <div className={'col-lg-6 mt-5'}>
                   {values?.strDocumentId && (
                     <button
                       className="btn btn-primary mt-2"
@@ -196,14 +198,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

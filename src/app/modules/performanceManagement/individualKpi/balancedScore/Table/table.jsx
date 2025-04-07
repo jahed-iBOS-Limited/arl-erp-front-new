@@ -1,33 +1,32 @@
-
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import { useState } from "react";
-import { getEmployeeDDLAction } from "../_redux/Actions";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import { useState } from 'react';
+import { getEmployeeDDLAction } from '../_redux/Actions';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getEmployeeBasicInfoByIdAction,
   getReportAction,
   getYearDDLAction,
   setReportEmpty,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import { useHistory } from "react-router-dom";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import { useHistory } from 'react-router-dom';
 // import IViewModal from "../../../../_helper/_viewModal";
 // import ReportView from "../../../sbuKpi/reportView/ReportView";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Help from "./../../../help/Help";
-import PmsCommonTable from "../../../_helper/pmsCommonTable/PmsCommonTable";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import { SetKPIScoreData } from "../../../../_helper/reduxForLocalStorage/Actions";
+import IView from '../../../../_helper/_helperIcons/_view';
+import Help from './../../../help/Help';
+import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import { SetKPIScoreData } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export default function BalancedTable() {
   const dispatch = useDispatch();
-  const [employee, setEmployee] = useState("");
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [employee, setEmployee] = useState('');
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
   const history = useHistory();
   // const [isShowModal, setIsShowModal] = useState(false);
   // const [currentItem, setCurrentItem] = useState("");
@@ -44,13 +43,8 @@ export default function BalancedTable() {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    monthDDL,
-    empDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, yearDDL, monthDDL, empDDL } =
+    storeData;
 
   const reports = useSelector((state) => state.performanceMgt?.reportData, {
     shallowEqual,
@@ -79,7 +73,6 @@ export default function BalancedTable() {
         label: profileData?.userName,
       });
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -87,15 +80,13 @@ export default function BalancedTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-
   }, [yearDDL]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
-      dispatch(SetKPIScoreData(null))
+      dispatch(SetKPIScoreData(null));
     };
-
   }, []);
 
   useEffect(() => {
@@ -123,7 +114,6 @@ export default function BalancedTable() {
         1
       );
     }
-
   }, [selectedBusinessUnit, employee]);
 
   useEffect(() => {
@@ -138,7 +128,6 @@ export default function BalancedTable() {
     if (employee?.value) {
       dispatch(getEmployeeBasicInfoByIdAction(employee?.value));
     }
-
   }, [employee]);
 
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -162,7 +151,7 @@ export default function BalancedTable() {
         clickHandler={() =>
           history.push({
             pathname:
-              "/performance-management/individual-kpi/individual-scorecard/print",
+              '/performance-management/individual-kpi/individual-scorecard/print',
             state: { employee, year, from, to, employeeBasicInfo },
           })
         }
@@ -336,27 +325,27 @@ export default function BalancedTable() {
         </div>
         {employeeBasicInfo && (
           <p className="mt-3 employee_info">
-            <b> Enroll</b> : {employeeBasicInfo?.employeeId},{" "}
-            <b> Designation</b> : {employeeBasicInfo?.designationName},{" "}
-            <b> Department</b> : {employeeBasicInfo?.departmentName},{" "}
-            <b> Supervisor</b> : {employeeBasicInfo?.supervisorName},{" "}
-            <b> Sbu</b> : {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{" "}
+            <b> Enroll</b> : {employeeBasicInfo?.employeeId},{' '}
+            <b> Designation</b> : {employeeBasicInfo?.designationName},{' '}
+            <b> Department</b> : {employeeBasicInfo?.departmentName},{' '}
+            <b> Supervisor</b> : {employeeBasicInfo?.supervisorName},{' '}
+            <b> Sbu</b> : {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{' '}
             {employeeBasicInfo?.businessUnitName}
           </p>
         )}
         <div className="achievement bsc-print kpi-presentation-table-individual kpi-presentation-table">
           <PmsCommonTable
             ths={[
-              { name: "BSC" },
-              { name: "Objective" },
-              { name: "KPI" },
-              { name: "SRF" },
-              { name: "Weight" },
-              { name: "Target" },
-              { name: "Achievement" },
-              { name: "Progress" },
-              { name: "Score" },
-              { name: "Action", style: { width: "50px" } },
+              { name: 'BSC' },
+              { name: 'Objective' },
+              { name: 'KPI' },
+              { name: 'SRF' },
+              { name: 'Weight' },
+              { name: 'Target' },
+              { name: 'Achievement' },
+              { name: 'Progress' },
+              { name: 'Score' },
+              { name: 'Action', style: { width: '50px' } },
             ]}
           >
             {report?.infoList?.map((itm, indx) => (
@@ -373,8 +362,8 @@ export default function BalancedTable() {
                     )}
                     {item?.isParent && (
                       <td className="obj" rowspan={item?.numberOfChild}>
-                        {" "}
-                        {item?.parentName}{" "}
+                        {' '}
+                        {item?.parentName}{' '}
                       </td>
                     )}
                     <td> {item?.label} </td>
@@ -386,7 +375,7 @@ export default function BalancedTable() {
                       <div className="d-flex">
                         {indx !== report?.infoList.length - 1 && (
                           <div className="text-right">
-                            {item?.progress}%{" "}
+                            {item?.progress}%{' '}
                             <i
                               className={`ml-2 fas fa-arrow-alt-${item?.arrowText}`}
                             ></i>
@@ -401,8 +390,8 @@ export default function BalancedTable() {
                             <i
                               className={
                                 item?.strURL
-                                  ? "fas fa-link text-primary"
-                                  : "fas fa-link"
+                                  ? 'fas fa-link text-primary'
+                                  : 'fas fa-link'
                               }
                             ></i>
                           </a>
@@ -416,29 +405,29 @@ export default function BalancedTable() {
                       {indx !== report?.infoList.length - 1 && (
                         <div
                           className="text-primary pointer kpi-presentation-view text-center"
-                          onClick={
-                            () => {
-                              dispatch(SetKPIScoreData({
-                                employeeName:employee,
+                          onClick={() => {
+                            dispatch(
+                              SetKPIScoreData({
+                                employeeName: employee,
                                 newData: reports,
-                                report:item,
-                                reports:report,
+                                report: item,
+                                reports: report,
                                 currentItem: {
                                   item,
                                   index: item?.flatIndex,
                                 },
-                                heading: "INDIVIDUAL BALANCED SCORECARD",
+                                heading: 'INDIVIDUAL BALANCED SCORECARD',
                                 from: from,
                                 to: to,
                                 year,
-                                reportIndex:indx
-                              }))
-                              window.open(
-                                `${import.meta.env.PUBLIC_URL}/individual-kpi-scorecard`,
-                                "_blank"
-                              );
-                            }
-                          }
+                                reportIndex: indx,
+                              })
+                            );
+                            window.open(
+                              `${import.meta.env.PUBLIC_URL}/individual-kpi-scorecard`,
+                              '_blank'
+                            );
+                          }}
                         >
                           <IView />
                         </div>

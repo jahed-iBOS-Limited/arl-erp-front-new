@@ -1,20 +1,20 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
 
 export const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
@@ -31,7 +31,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
 
 export const getBusinessUnitDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetBusinessunitDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetBusinessunitDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -70,7 +70,7 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
 
 export const getHRPositionDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetHRPositionDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetHRPositionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -91,7 +91,7 @@ export const getDesignationDDLAction = async (accId, buId, setter) => {
 
 export const getEmployeeGradeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeGradeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeGradeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -115,7 +115,7 @@ export const getEmpTypeDDL = async (accId, buId, setter) => {
 
 export const getEmpStatusDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeStatusDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeStatusDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -142,7 +142,7 @@ export const createEmpBasicInformation_api = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
 
       cb();
     }
@@ -196,7 +196,7 @@ export const getEmployeeBasicInfoById_api = async (
         },
         gender: data?.genderId
           ? { value: data?.genderId, label: data?.gender }
-          : "",
+          : '',
         email: data?.email,
         SBUName: { value: data?.sbuid, label: data?.sbuName },
         costCenter: { value: data?.costCenterId, label: data?.costCenterName },
@@ -225,13 +225,13 @@ export const getEmployeeBasicInfoById_api = async (
               label: data?.lineManagerName,
               code: data?.lineManagerCode,
             }
-          : "",
+          : '',
         superVisor: data?.supervisorId
           ? {
               value: data?.supervisorId,
               label: data?.supervisorName,
             }
-          : "",
+          : '',
         employeeCode: data?.employeeCode,
         employmentType: {
           value: data?.employmentTypeId,
@@ -244,12 +244,12 @@ export const getEmployeeBasicInfoById_api = async (
         },
         nanagerInfo: data?.lineManagerCode,
         dateOfJoining: _dateFormatter(data?.joiningDate),
-        basicSalary: data?.basicSalary || "",
-        grossSalary: data?.grossSalary || "",
+        basicSalary: data?.basicSalary || '',
+        grossSalary: data?.grossSalary || '',
         code: data?.employeeCode,
         religion: data?.religionId
           ? { value: data?.religionId, label: data?.religion }
-          : "",
+          : '',
       };
       setIsConsolidatedEmpRemu(data?.isConsolidated);
       setter(modifyGridData);
@@ -265,16 +265,16 @@ export const EditEmployeeBasicInformation = async (payload, setDisabled) => {
   setDisabled(true);
   try {
     const res = await axios.put(
-      "/hcm/EmployeeBasicInformation/EditEmployeeBasicInformationIBOS",
+      '/hcm/EmployeeBasicInformation/EditEmployeeBasicInformationIBOS',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };

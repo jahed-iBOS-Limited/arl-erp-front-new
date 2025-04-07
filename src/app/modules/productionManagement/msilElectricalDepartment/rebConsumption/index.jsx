@@ -1,20 +1,19 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { setRebConsumptionLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import IViewModal from "../../../_helper/_viewModal";
-import JVModalView from "./jvView";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { setRebConsumptionLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import IViewModal from '../../../_helper/_viewModal';
+import JVModalView from './jvView';
 
 export default function REBConsumption() {
   const [pageNo, setPageNo] = useState(0);
@@ -35,7 +34,6 @@ export default function REBConsumption() {
     getLandingData(
       `/mes/MSIL/GetElectricalRebconsumptionLanding?FromDate=${rebConsumptionLanding?.fromDate}&ToDate=${rebConsumptionLanding?.toDate}&Shift=${rebConsumptionLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -46,7 +44,7 @@ export default function REBConsumption() {
 
   const timeFormatter = (time) => {
     if (time) {
-      const timeArray = time.split(":");
+      const timeArray = time.split(':');
       const hour = timeArray[0];
       const min = timeArray[1];
       const sec = timeArray[2];
@@ -88,7 +86,7 @@ export default function REBConsumption() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/msil-Electrical/REBConsumption/create"
+                        '/production-management/msil-Electrical/REBConsumption/create'
                       );
                     }}
                   >
@@ -107,7 +105,7 @@ export default function REBConsumption() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setLandingData([]);
                     }}
                   />
@@ -120,7 +118,7 @@ export default function REBConsumption() {
                     type="date"
                     min={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setLandingData([]);
                     }}
                   />
@@ -129,23 +127,23 @@ export default function REBConsumption() {
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "", label: "ALL" },
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: '', label: 'ALL' },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                       setLandingData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div style={{ marginTop: "15px" }} className="col-lg-1">
+                <div style={{ marginTop: '15px' }} className="col-lg-1">
                   <button
                     type="button"
                     onClick={() => {
@@ -166,7 +164,7 @@ export default function REBConsumption() {
                     Show
                   </button>
                 </div>
-                <div className="col-lg-2" style={{ marginTop: "1px" }}>
+                <div className="col-lg-2" style={{ marginTop: '1px' }}>
                   <button
                     onClick={() => {
                       setShowJVModal(true);
@@ -179,13 +177,13 @@ export default function REBConsumption() {
                 </div>
               </div>
 
-              <div style={{ marginTop: "15px" }}>
+              <div style={{ marginTop: '15px' }}>
                 <div>
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ minWidth: "50px" }}>SL</th>
+                          <th style={{ minWidth: '50px' }}>SL</th>
                           <th>Date</th>
                           <th>Shift</th>
                           <th>REB Consumption Type Name</th>
@@ -264,7 +262,7 @@ export default function REBConsumption() {
                 )}
                 {showJVModal && (
                   <IViewModal
-                    title={"JV View for REB Consumption"}
+                    title={'JV View for REB Consumption'}
                     show={showJVModal}
                     onHide={() => {
                       setShowJVModal(false);

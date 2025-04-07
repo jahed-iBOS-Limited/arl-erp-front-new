@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
@@ -7,7 +7,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getCustomerBankRecLanding = async (
@@ -17,7 +17,7 @@ export const getCustomerBankRecLanding = async (
   toDate,
   setLoading,
   setter,
-  search = ""
+  search = ''
 ) => {
   setLoading(true);
   try {
@@ -29,7 +29,7 @@ export const getCustomerBankRecLanding = async (
       return {
         ...data,
         customerList: { value: data?.partnerId, label: data?.partnerName },
-        remarks: "",
+        remarks: '',
       };
     });
     setter(bankrecLanding);
@@ -45,7 +45,7 @@ export const savecustomerBankRec = async (data, setDisabled, cb) => {
       `/fino/BankBranch/CustomerBankReconcile`,
       data
     );
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     setDisabled(false);
     // getBankStatementData(values);
     cb();
@@ -64,7 +64,12 @@ export const getBankAccountNoDDL = async (accId, buId, setter) => {
     console.log(err);
   }
 };
-export const getInvoiceByPartnerApi = async (buId, setter, selectedItem, setLoading) => {
+export const getInvoiceByPartnerApi = async (
+  buId,
+  setter,
+  selectedItem,
+  setLoading
+) => {
   setLoading(true);
   try {
     const res = await Axios.get(
@@ -86,14 +91,18 @@ export const getInvoiceByPartnerApi = async (buId, setter, selectedItem, setLoad
   }
 };
 
-export const customerBankReconcileNSalesInvoiceApi = async (data, setDisabled, cb) => {
+export const customerBankReconcileNSalesInvoiceApi = async (
+  data,
+  setDisabled,
+  cb
+) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
       `/fino/BankStatment/CustomerBankReconcileNSalesInvoice?typeId=1`,
       data
     );
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     setDisabled(false);
     // getBankStatementData(values);
     cb();

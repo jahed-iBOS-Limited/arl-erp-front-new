@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../_metronic/_partials/controls";
+} from '../../../_metronic/_partials/controls';
 
 export default function ICustomCard({
   title,

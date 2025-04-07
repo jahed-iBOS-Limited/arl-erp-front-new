@@ -73,7 +73,6 @@ export default function WorkPlanLanding() {
 
   useEffect(() => {
     workPlan_landing_api(employeeId, 12, 1, setPlanList, setLoading);
-
   }, [employeeId]);
 
   useEffect(() => {
@@ -178,15 +177,16 @@ export default function WorkPlanLanding() {
             payload?.yearId,
             payload?.quarterId,
             setPlanList,
-            setLoading,
+            setLoading
           );
         },
-        setDisabled,
+        setDisabled
       );
     } else {
       const payload = {
         sl: 0,
-        workPlanHeaderId: planList?.workPlanHeaderId > 0 ? planList?.workPlanHeaderId : 0,
+        workPlanHeaderId:
+          planList?.workPlanHeaderId > 0 ? planList?.workPlanHeaderId : 0,
         workplaceGroupId: 0,
         yearId: Number(values?.yearDDLgroup?.value),
         year: values?.yearDDLgroup?.label,
@@ -209,10 +209,10 @@ export default function WorkPlanLanding() {
             payload?.yearId,
             payload?.quarterId,
             setPlanList,
-            setLoading,
+            setLoading
           );
         },
-        setDisabled,
+        setDisabled
       );
     }
   };
@@ -343,7 +343,7 @@ export default function WorkPlanLanding() {
                             values?.yearDDLgroup?.value,
                             valueOption?.value,
                             setPlanList,
-                            setLoading,
+                            setLoading
                           );
                         } else {
                           setPlanList([]);
@@ -377,7 +377,7 @@ export default function WorkPlanLanding() {
                             resetForm(initData);
                             setPlanList([]);
                           },
-                          true,
+                          true
                         );
                       }}
                     >
@@ -473,18 +473,18 @@ export default function WorkPlanLanding() {
                       className="btn btn-primary"
                       disabled={
                         !values?.activityName ||
-                          !values?.frequencyDDL?.label ||
-                          !values?.priorityDDL?.label ||
-                          !values?.quarterDDLgroup?.label ||
-                          !values?.yearDDLgroup?.label ||
-                          planList?.isConfirm
+                        !values?.frequencyDDL?.label ||
+                        !values?.priorityDDL?.label ||
+                        !values?.quarterDDLgroup?.label ||
+                        !values?.yearDDLgroup?.label ||
+                        planList?.isConfirm
                           ? true
                           : false
                       }
                       onClick={() => {
                         if (
                           planList?.row?.find(
-                            (item) => item.activity === values.activityName,
+                            (item) => item.activity === values.activityName
                           )
                         ) {
                           return toast.error('Activity Name Already Exists');
@@ -662,7 +662,7 @@ export default function WorkPlanLanding() {
                                           } else {
                                             return itm;
                                           }
-                                        },
+                                        }
                                       );
                                       setPlanList({
                                         ...planList,
@@ -690,7 +690,7 @@ export default function WorkPlanLanding() {
                                           } else {
                                             return itm;
                                           }
-                                        },
+                                        }
                                       );
                                       setPlanList({
                                         ...planList,

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetTransportZoneDDL APi
 export function getTZDDL(accId, buId) {

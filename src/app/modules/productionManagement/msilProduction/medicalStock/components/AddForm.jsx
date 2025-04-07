@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { validateDigit } from "../../../../_helper/validateDigit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import { IInput } from "../../../../_helper/_input";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { validateDigit } from '../../../../_helper/validateDigit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import { IInput } from '../../../../_helper/_input';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  itemName: "",
-  uom: "",
-  qty: "",
+  itemName: '',
+  uom: '',
+  qty: '',
 };
 
 export default function MedicalStockForm() {
@@ -32,7 +32,7 @@ export default function MedicalStockForm() {
   const [itemNameDDL, getItemName] = useAxiosGet([]);
   const [, saveMedicalStock, loading] = useAxiosPost([]);
   const saveHandler = (values, cb) => {
-    if (!itemList?.length) return toast.warn("Please select atleast one row");
+    if (!itemList?.length) return toast.warn('Please select atleast one row');
     const negativeQty = itemList?.every((item) => item?.numStockQty > 0);
     if (!negativeQty) return toast.warn("Quantity can't be empty or zero");
     const payload =
@@ -48,7 +48,7 @@ export default function MedicalStockForm() {
     const isExists = itemList.filter(
       (item) => item?.intMedicineItemId === values?.itemName?.value
     );
-    if (isExists?.length > 0) return toast.warn("Already exists item");
+    if (isExists?.length > 0) return toast.warn('Already exists item');
     setItemList([
       {
         sl: 0,
@@ -67,9 +67,9 @@ export default function MedicalStockForm() {
       },
       ...itemList,
     ]);
-    setFieldValue("itemName", "");
-    setFieldValue("uom", "");
-    setFieldValue("qty", "");
+    setFieldValue('itemName', '');
+    setFieldValue('uom', '');
+    setFieldValue('qty', '');
   };
 
   const removeHandler = (index) => {
@@ -81,7 +81,6 @@ export default function MedicalStockForm() {
     getItemName(
       `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`
     );
-
   }, [selectedBusinessUnit]);
 
   return (
@@ -123,11 +122,11 @@ export default function MedicalStockForm() {
                           label="Item Name"
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("itemName", valueOption);
-                              setFieldValue("uom", valueOption?.strUomName);
+                              setFieldValue('itemName', valueOption);
+                              setFieldValue('uom', valueOption?.strUomName);
                             } else {
-                              setFieldValue("uom", "");
-                              setFieldValue("itemName", "");
+                              setFieldValue('uom', '');
+                              setFieldValue('itemName', '');
                             }
                           }}
                           errors={errors}
@@ -152,12 +151,12 @@ export default function MedicalStockForm() {
                           label="Qty"
                           onChange={(e) => {
                             const validNum = validateDigit(e.target.value);
-                            setFieldValue("qty", validNum);
+                            setFieldValue('qty', validNum);
                           }}
                         />
                       </div>
                       <div className="col-lg-3">
-                        <div style={{ marginTop: "15px" }} className="col-lg-1">
+                        <div style={{ marginTop: '15px' }} className="col-lg-1">
                           <button
                             type="button"
                             onClick={() => {
@@ -180,12 +179,12 @@ export default function MedicalStockForm() {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: '30px' }}>SL</th>
                               <th className="text-left">Item Code</th>
                               <th>Item Name</th>
                               <th>UoM</th>
                               <th>Quantity</th>
-                              <th style={{ width: "50px" }}>Action</th>
+                              <th style={{ width: '50px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -209,7 +208,7 @@ export default function MedicalStockForm() {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"Remove"}
+                                          {'Remove'}
                                         </Tooltip>
                                       }
                                     >
@@ -233,7 +232,7 @@ export default function MedicalStockForm() {
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={objProps?.btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>

@@ -1,10 +1,9 @@
-
-import axios from "axios";
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
+import axios from 'axios';
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
 
 const PartnerCheckSubmitLandingForm = ({ obj }) => {
   const {
@@ -32,13 +31,13 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
               <NewSelect
                 name="salesType"
                 options={[
-                  { value: 1, label: "Local" },
-                  { value: 2, label: "Foreign" },
+                  { value: 1, label: 'Local' },
+                  { value: 2, label: 'Foreign' },
                 ]}
                 value={values?.salesType}
                 label="Sales Type"
                 onChange={(valueOption) => {
-                  setFieldValue("salesType", valueOption);
+                  setFieldValue('salesType', valueOption);
                   setFilteredData([]);
                 }}
                 placeholder="Select Sales Type"
@@ -49,14 +48,14 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                 <NewSelect
                   name="viewType"
                   options={[
-                    { value: 1, label: "Details" },
-                    { value: 2, label: "Top Sheet (Date base)" },
-                    { value: 3, label: "Top Sheet (Employee base)" },
+                    { value: 1, label: 'Details' },
+                    { value: 2, label: 'Top Sheet (Date base)' },
+                    { value: 3, label: 'Top Sheet (Employee base)' },
                   ]}
                   value={values?.viewType}
                   label="View Type"
                   onChange={(valueOption) => {
-                    setFieldValue("viewType", valueOption);
+                    setFieldValue('viewType', valueOption);
                     setFilteredData([]);
                   }}
                   placeholder="Select View Type"
@@ -69,11 +68,11 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="channel"
-                    options={[{ value: 0, label: "All" }, ...channelList]}
+                    options={[{ value: 0, label: 'All' }, ...channelList]}
                     value={values?.channel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption);
+                      setFieldValue('channel', valueOption);
                     }}
                     placeholder="Distribution Channel"
                   />
@@ -83,7 +82,7 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                   <SearchAsyncSelect
                     selectedValue={values?.customer}
                     handleChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                     }}
                     isDisabled={!values?.channel}
                     placeholder="Search Customer"
@@ -110,7 +109,7 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                     value={values?.employee}
                     label="Employee (Cheque Bearer)"
                     onChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                     }}
                     placeholder="Employee (Cheque Bearer)"
                   />
@@ -125,14 +124,14 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                   <NewSelect
                     name="chequeStatus"
                     options={[
-                      { value: "", label: "All" },
-                      { value: "Pending", label: "Pending" },
-                      { value: "Approved", label: "Approved" },
+                      { value: '', label: 'All' },
+                      { value: 'Pending', label: 'Pending' },
+                      { value: 'Approved', label: 'Approved' },
                     ]}
                     value={values?.chequeStatus}
                     label="Status"
                     onChange={(valueOption) => {
-                      setFieldValue("chequeStatus", valueOption);
+                      setFieldValue('chequeStatus', valueOption);
                     }}
                     placeholder="Status"
                   />
@@ -156,15 +155,15 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                 <NewSelect
                   name="status"
                   options={[
-                    { value: 0, label: "All" },
-                    { value: 1, label: "Pending" },
-                    { value: 2, label: "Completed" },
-                    { value: 3, label: "Cancelled" },
+                    { value: 0, label: 'All' },
+                    { value: 1, label: 'Pending' },
+                    { value: 2, label: 'Completed' },
+                    { value: 3, label: 'Cancelled' },
                   ]}
                   value={values?.status}
                   label="Filter by Status"
                   onChange={(valueOption) => {
-                    setFieldValue("status", valueOption);
+                    setFieldValue('status', valueOption);
                     handleFilter(valueOption?.value);
                   }}
                   placeholder="Select Status"

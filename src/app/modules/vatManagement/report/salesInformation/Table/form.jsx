@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,12 +12,16 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import NewSelect from "./../../../../_helper/_select";
-import { GetItemNameDDL_api, getVatBranches_api, SalesInformation_Report_api } from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { getHeaderData_api } from "./../../purchaseReg/helper";
+import NewSelect from './../../../../_helper/_select';
+import {
+  GetItemNameDDL_api,
+  getVatBranches_api,
+  SalesInformation_Report_api,
+} from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { getHeaderData_api } from './../../purchaseReg/helper';
 import { GetItemTypeDDL_api } from './../helper';
 import Loading from './../../../../_helper/_loading';
 
@@ -28,20 +32,19 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  itemType: "",
-  branch: "",
-  itemName: "",
-  type: "",
+  itemType: '',
+  branch: '',
+  itemName: '',
+  type: '',
 };
 
 export default function HeaderForm() {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [headerData, setHeaderData] = useState("");
+  const [headerData, setHeaderData] = useState('');
   const [branchDDL, setBranchDDL] = useState([]);
   const [itemTypeDDL, setitemType] = useState([]);
-  const [itemName, setItemName] = useState([])
-
+  const [itemName, setItemName] = useState([]);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -66,7 +69,7 @@ export default function HeaderForm() {
         selectedBusinessUnit?.value,
         setHeaderData
       );
-      GetItemTypeDDL_api(setitemType)
+      GetItemTypeDDL_api(setitemType);
     }
   }, [selectedBusinessUnit, profileData]);
 
@@ -80,15 +83,15 @@ export default function HeaderForm() {
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-          {loading && <Loading />}
+            {loading && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Sales Information"}>
+              <CardHeader title={'Sales Information'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  {console.log('values: ',values)}
+                  {console.log('values: ', values)}
                   <div className="row global-form">
                     <div className="col-lg-3">
                       <NewSelect
@@ -97,8 +100,8 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setRowDto([])
-                          setFieldValue("branch", valueOption);
+                          setRowDto([]);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -112,15 +115,15 @@ export default function HeaderForm() {
                         value={values?.itemType}
                         label="Item Type"
                         onChange={(valueOption) => {
-                          setRowDto([])
-                          setFieldValue('itemType', valueOption)
-                          setFieldValue('itemName', '')
+                          setRowDto([]);
+                          setFieldValue('itemType', valueOption);
+                          setFieldValue('itemName', '');
                           GetItemNameDDL_api(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
                             setItemName
-                          )
+                          );
                         }}
                         placeholder="Item Type"
                         errors={errors}
@@ -136,8 +139,8 @@ export default function HeaderForm() {
                         value={values?.itemName}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue('itemName', valueOption)
-                          setRowDto([])
+                          setFieldValue('itemName', valueOption);
+                          setRowDto([]);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -153,8 +156,8 @@ export default function HeaderForm() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value)
-                          setRowDto([])
+                          setFieldValue('fromDate', e.target.value);
+                          setRowDto([]);
                         }}
                       />
                     </div>
@@ -166,8 +169,8 @@ export default function HeaderForm() {
                         placeholder="Top Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value)
-                          setRowDto([])
+                          setFieldValue('toDate', e.target.value);
+                          setRowDto([]);
                         }}
                       />
                     </div>
@@ -175,14 +178,14 @@ export default function HeaderForm() {
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 1, label: "Sales" },
-                          { value: 2, label: "Transfer" },
+                          { value: 1, label: 'Sales' },
+                          { value: 2, label: 'Transfer' },
                         ]}
                         value={values?.type}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
-                          setRowDto([])
+                          setFieldValue('type', valueOption);
+                          setRowDto([]);
                         }}
                         placeholder="Report Type"
                         errors={errors}

@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 // import { _formatMoney } from './../../../_helper/_formatMoney';
 
 const createPayloadChange = (accountId, businessUnitId, values, userId) => {
@@ -14,7 +14,7 @@ const createPayloadChange = (accountId, businessUnitId, values, userId) => {
     numPaymentOfBeneficiary: 0,
     numPgadjustment: 0,
     numVatamount: 0,
-    openingLcdocumentId: "",
+    openingLcdocumentId: '',
     intLastActionBy: userId,
     isActive: true,
     dtePgdueDate: new Date(values.dtePgdueDate),
@@ -42,10 +42,10 @@ export const getPaymentOnMaturity = async (
     setLoading(false);
     const newData = res.data?.map((item) => ({
       ...item,
-      liborRate: item?.liborRate ? item?.liborRate : "",
-      bankRate: item?.bankRate ? item?.bankRate : "",
+      liborRate: item?.liborRate ? item?.liborRate : '',
+      bankRate: item?.bankRate ? item?.bankRate : '',
       paymentDate: _todayDate(),
-      totalAmount:item?.exchangeRate * item?.netPayAmount,
+      totalAmount: item?.exchangeRate * item?.netPayAmount,
     }));
     setter(newData);
   } catch (error) {
@@ -71,8 +71,8 @@ export const getLandingData = async (
     );
     if (res.status === 200 && res?.data) {
       res.data.data.forEach((item) => {
-        item["sentDate"] = _dateFormatter(
-          item["sentDate"] ? new Date(item["sentDate"]) : new Date()
+        item['sentDate'] = _dateFormatter(
+          item['sentDate'] ? new Date(item['sentDate']) : new Date()
         );
       });
       setter(res?.data);
@@ -126,7 +126,7 @@ export const createMaturityPayment = async (
     // https://localhost:44396/imp/BeneficiaryPayment/CreateBeneficiaryPayment
     await Axios.post(`/imp/BeneficiaryPayment/CreateBeneficiaryPayment`, obj);
     setDisabled(false);
-    toast.success("Create successfully");
+    toast.success('Create successfully');
     // cb();
   } catch (error) {
     setDisabled(false);
@@ -149,7 +149,7 @@ export const editBeneficiaryPayment = async (
   try {
     await Axios.put(`/imp/BeneficiaryPayment/EditBeneficiaryPayment`, obj);
     setDisabled(false);
-    toast.success("Update successfully");
+    toast.success('Update successfully');
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message);
@@ -235,7 +235,7 @@ const createPaymentSchedule = async (
       otherCharge: item?.otherCharge || 0,
       netActualPayAmount: item?.netPayAmount || 0,
       payDate: _dateFormatter(item?.paymentDate),
-      amountLocalC:item?.totalAmount
+      amountLocalC: item?.totalAmount,
     };
     setDisabled(true);
     const res = await Axios.post(
@@ -243,8 +243,8 @@ const createPaymentSchedule = async (
       payload
     );
     setDisabled(false);
-    toast.success(res?.data?.message || "Submitted successfully", {
-      toastId: "Created Successfully",
+    toast.success(res?.data?.message || 'Submitted successfully', {
+      toastId: 'Created Successfully',
     });
     cb && cb();
   } catch (error) {
@@ -263,7 +263,7 @@ export function cleckSent(
   cb
 ) {
   if (!item?.exchangeRate || !item?.totalAmount) {
-    return toast.warn("Please fill all field");
+    return toast.warn('Please fill all field');
   } else {
     return createPaymentSchedule(
       item,

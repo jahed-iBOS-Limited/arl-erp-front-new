@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { SecondaryOrderTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { SecondaryOrderTable } from './Table/tableHeader';
 
 export function SecondaryOrderLanding() {
   const uIEvents = {};
@@ -10,4 +10,4 @@ export function SecondaryOrderLanding() {
       <SecondaryOrderTable />
     </UiProvider>
   );
-};
+}

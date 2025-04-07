@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import NewSelect from './../../../../_helper/_select';
@@ -51,7 +50,7 @@ const BulkJVLanding = () => {
     getBusinessTransactionDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBuTransactionDDL,
+      setBuTransactionDDL
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -69,7 +68,7 @@ const BulkJVLanding = () => {
         values,
         fileObject,
         cb,
-        setLoading,
+        setLoading
       );
     }
   };
@@ -199,7 +198,7 @@ const BulkJVLanding = () => {
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObject.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name,
+                          (item) => item.file.name !== deleteFileObj.file.name
                         );
                         setFileObject(newData);
                       }}

@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import InputField from "./../../../../../_helper/_inputField";
-import ISpinner from "./../../../../../_helper/_spinner";
-import { Modal } from "react-bootstrap";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { createAdvAdjustmentInvoiceClear_api } from "../../helper";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from './../../../../../_helper/_inputField';
+import ISpinner from './../../../../../_helper/_spinner';
+import { Modal } from 'react-bootstrap';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { createAdvAdjustmentInvoiceClear_api } from '../../helper';
 
 // import { toast } from "react-toastify";
 // import IDelete from "./../../../../../_helper/_helperIcons/_delete";
-import Loading from "./../../../../../_helper/_loading";
+import Loading from './../../../../../_helper/_loading';
 
 const initData = {
-  invoiceAmount: "",
-  pendingAmount: "",
+  invoiceAmount: '',
+  pendingAmount: '',
   cash: false,
   bank: false,
-  advanceReceive: "",
-  advanceAmount: "",
-  balanceAmount: "",
+  advanceReceive: '',
+  advanceAmount: '',
+  balanceAmount: '',
 
-  currentLadger: "",
-  adjustAmount: "",
+  currentLadger: '',
+  adjustAmount: '',
 };
 
 // Validation schema
@@ -59,9 +59,9 @@ export default function AdjustmentViewForm({
           invoiceCode: item?.invoiceCode,
           clearedAmount: values?.adjustAmount,
           journalId: 0,
-          journalCode: "",
+          journalCode: '',
           actionBy: profileData?.userId,
-          cashOrBank: "",
+          cashOrBank: '',
           businessPartnerId: item?.businessPartnerId,
         },
       ];
@@ -123,12 +123,12 @@ export default function AdjustmentViewForm({
                         <Modal.Title className="w-100">
                           <div className="d-flex justify-content-between px-4 py-2">
                             <div className="title">
-                              {"Adjustment View Form"}
+                              {'Adjustment View Form'}
                             </div>
                             <div className="">
                               <button
                                 type="reset"
-                                className={"btn btn-light ml-2"}
+                                className={'btn btn-light ml-2'}
                                 onClick={() => {
                                   resetForm(initData);
                                 }}
@@ -138,7 +138,7 @@ export default function AdjustmentViewForm({
                               </button>
                               <button
                                 type="submit"
-                                className={"btn btn-primary ml-2"}
+                                className={'btn btn-primary ml-2'}
                                 // onClick={() => {
                                 //   saveHandler(values);
                                 // }}
@@ -384,7 +384,7 @@ export default function AdjustmentViewForm({
                             onClick={() => {
                               onHide();
                               // setRowDto([]);
-                              setFieldValue("balanceAmount", "");
+                              setFieldValue('balanceAmount', '');
                             }}
                             className="btn btn-light btn-elevate"
                           >

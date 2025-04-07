@@ -1,19 +1,18 @@
-
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const headers = [
-  "SL",
-  "Program No",
-  "Mother Vessel",
-  "Buffer",
-  "Delivery Code",
-  "Delivery Date",
-  "Item",
-  "Quantity (bag)",
-  "Quantity (ton)",
-  "Status",
-  "JV Code",
+  'SL',
+  'Program No',
+  'Mother Vessel',
+  'Buffer',
+  'Delivery Code',
+  'Delivery Date',
+  'Item',
+  'Quantity (bag)',
+  'Quantity (ton)',
+  'Status',
+  'JV Code',
 ];
 
 const ReceivePaymentInfoLandingTable = ({ obj }) => {
@@ -26,7 +25,7 @@ const ReceivePaymentInfoLandingTable = ({ obj }) => {
           <table
             id="table-to-xlsx"
             className={
-              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
             }
           >
             <thead>
@@ -62,14 +61,14 @@ const ReceivePaymentInfoLandingTable = ({ obj }) => {
               {gridData?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    {" "}
+                    {' '}
                     {[0, 1, 2].includes(values?.status?.value) && (
                       <td className="text-center align-middle">
                         <input
                           type="checkbox"
                           checked={item?.isSelected}
                           onChange={(e) => {
-                            item["isSelected"] = e.target.checked;
+                            item['isSelected'] = e.target.checked;
                             setGridData([...gridData]);
                           }}
                         />

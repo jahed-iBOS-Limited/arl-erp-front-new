@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { toast } from "react-toastify";
-import TextArea from "../../../../_helper/TextArea";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import TextArea from '../../../../_helper/TextArea';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  orderRequirement: "",
+  orderRequirement: '',
 };
 
 export default function CreateEditJobOrder() {
@@ -28,12 +28,8 @@ export default function CreateEditJobOrder() {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  const [
-    jobOrderData,
-    getJobOrderData,
-    jobOrderDataLoader,
-    setJobOrderData,
-  ] = useAxiosGet();
+  const [jobOrderData, getJobOrderData, jobOrderDataLoader, setJobOrderData] =
+    useAxiosGet();
 
   const [, saveJobOrder, jobOrderLoader] = useAxiosPost();
 
@@ -50,14 +46,13 @@ export default function CreateEditJobOrder() {
     if (salesQuotationId) {
       getData();
     }
-
   }, [profileData, selectedBusinessUnit, salesQuotationId]);
 
   const saveHandler = (values, cb) => {
     if (!jobOrderData?.HeaderData?.BatchNo) {
-      return toast.warn("Please enter batch no");
+      return toast.warn('Please enter batch no');
     }
-    console.log("jobOrderData", jobOrderData);
+    console.log('jobOrderData', jobOrderData);
 
     const payload = {
       actionBy: profileData?.userId,
@@ -83,14 +78,14 @@ export default function CreateEditJobOrder() {
   const selfLifeHandler = (MfgDate, BestBefore, itemIndex) => {
     if (!MfgDate || !BestBefore) {
       const updatedJobOrderData = { ...jobOrderData };
-      updatedJobOrderData.RowData[itemIndex]["SelfLife"] = 0;
+      updatedJobOrderData.RowData[itemIndex]['SelfLife'] = 0;
     }
 
     const diffTime = Math.abs(new Date(BestBefore) - new Date(MfgDate));
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     // set self life
     const updatedJobOrderData = { ...jobOrderData };
-    updatedJobOrderData.RowData[itemIndex]["SelfLife"] = diffDays;
+    updatedJobOrderData.RowData[itemIndex]['SelfLife'] = diffDays;
   };
 
   return (
@@ -134,40 +129,40 @@ export default function CreateEditJobOrder() {
               <div className="common-scrollable-table two-column-sticky">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px" }}
+                  style={{ maxHeight: '540px' }}
                 >
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
                     <thead>
                       <tr>
                         <th className="text-center">Sl</th>
-                        <th style={{ minWidth: "80px" }}>PRODUCT CODE</th>
+                        <th style={{ minWidth: '80px' }}>PRODUCT CODE</th>
                         <th>DESCRIPTION OF GOODS</th>
-                        <th style={{ minWidth: "100px" }}>PACKING SIZE</th>
+                        <th style={{ minWidth: '100px' }}>PACKING SIZE</th>
                         {jobOrderData?.Head?.map((item, index) => {
                           return (
                             <th
                               style={{
-                                minWidth: "80px",
+                                minWidth: '80px',
                               }}
                             >
                               {item?.HeaderName.toUpperCase()}
                             </th>
                           );
                         })}
-                        <th style={{ minWidth: "80px" }}>TOTAL PCS</th>
-                        <th style={{ minWidth: "120px" }}>FOB RATE PCS BDT</th>
-                        <th style={{ minWidth: "120px" }}>
-                          {" "}
+                        <th style={{ minWidth: '80px' }}>TOTAL PCS</th>
+                        <th style={{ minWidth: '120px' }}>FOB RATE PCS BDT</th>
+                        <th style={{ minWidth: '120px' }}>
+                          {' '}
                           TOTAL AMOUNT FOB BDT
                         </th>
-                        <th style={{ minWidth: "100px" }}>MFG DATE</th>
-                        <th style={{ minWidth: "100px" }}>BEST BEFORE</th>
-                        <th style={{ minWidth: "80px" }}>SELF LIFE</th>
-                        <th style={{ minWidth: "120px" }}>NET WEIGHT MANUAL</th>
-                        <th style={{ minWidth: "100px" }}>
+                        <th style={{ minWidth: '100px' }}>MFG DATE</th>
+                        <th style={{ minWidth: '100px' }}>BEST BEFORE</th>
+                        <th style={{ minWidth: '80px' }}>SELF LIFE</th>
+                        <th style={{ minWidth: '120px' }}>NET WEIGHT MANUAL</th>
+                        <th style={{ minWidth: '100px' }}>
                           SAMPLE FOR FOREIGN CUSTOMS
                         </th>
-                        <th style={{ minWidth: "100px" }}>
+                        <th style={{ minWidth: '100px' }}>
                           SAMPLE FOR BD CUSTOMS
                         </th>
                       </tr>
@@ -186,12 +181,12 @@ export default function CreateEditJobOrder() {
                           <td className="text-right">
                             {item?.FobRatePerPieceBDT
                               ? _formatMoney(item?.FobRatePerPieceBDT)
-                              : ""}
+                              : ''}
                           </td>
                           <td className="text-right">
                             {item?.TotalFobAmountBDT
                               ? _formatMoney(item?.TotalFobAmountBDT)
-                              : ""}
+                              : ''}
                           </td>
                           <td>
                             <InputField
@@ -206,7 +201,7 @@ export default function CreateEditJobOrder() {
                                 );
                                 rowDtoHandler(
                                   rowDataIndex,
-                                  "MfgDate",
+                                  'MfgDate',
                                   e.target.value
                                 );
                               }}
@@ -225,7 +220,7 @@ export default function CreateEditJobOrder() {
                                 );
                                 rowDtoHandler(
                                   rowDataIndex,
-                                  "BestBefore",
+                                  'BestBefore',
                                   e.target.value
                                 );
                               }}
@@ -247,7 +242,7 @@ export default function CreateEditJobOrder() {
                               onChange={(e) => {
                                 rowDtoHandler(
                                   rowDataIndex,
-                                  "NetWeightManual",
+                                  'NetWeightManual',
                                   e.target.value
                                 );
                               }}
@@ -261,7 +256,7 @@ export default function CreateEditJobOrder() {
                               onChange={(e) => {
                                 rowDtoHandler(
                                   rowDataIndex,
-                                  "ForeignCustomsSample",
+                                  'ForeignCustomsSample',
                                   e.target.value
                                 );
                               }}
@@ -275,7 +270,7 @@ export default function CreateEditJobOrder() {
                               onChange={(e) => {
                                 rowDtoHandler(
                                   rowDataIndex,
-                                  "BdCustomsSample",
+                                  'BdCustomsSample',
                                   e.target.value
                                 );
                               }}
@@ -299,7 +294,7 @@ export default function CreateEditJobOrder() {
                     type="textArea"
                     name="orderRequirement"
                     onChange={(e) => {
-                      setFieldValue("orderRequirement", e.target.value);
+                      setFieldValue('orderRequirement', e.target.value);
                     }}
                   />
                 </div>
@@ -321,12 +316,12 @@ export default function CreateEditJobOrder() {
                           newObj,
                         ];
                         setJobOrderData(newJobOrderData);
-                        setFieldValue("orderRequirement", "");
+                        setFieldValue('orderRequirement', '');
                       } else {
-                        toast.warning("Please enter order Requirement");
+                        toast.warning('Please enter order Requirement');
                       }
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                   >
                     Add
@@ -337,13 +332,13 @@ export default function CreateEditJobOrder() {
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
                 <thead>
                   <tr>
-                    <th className="text-center" style={{ width: "60px" }}>
+                    <th className="text-center" style={{ width: '60px' }}>
                       Sl
                     </th>
                     <th>Order Execution Requirements</th>
                     <th
                       style={{
-                        width: "80px",
+                        width: '80px',
                       }}
                     >
                       Action
@@ -359,9 +354,10 @@ export default function CreateEditJobOrder() {
                         <span>
                           <IDelete
                             remover={() => {
-                              const filterArr = jobOrderData?.JobOrderReq?.filter(
-                                (itm, idx) => idx !== index
-                              );
+                              const filterArr =
+                                jobOrderData?.JobOrderReq?.filter(
+                                  (itm, idx) => idx !== index
+                                );
                               const newJobOrderData = { ...jobOrderData };
                               newJobOrderData.JobOrderReq = filterArr;
                               setJobOrderData(newJobOrderData);
@@ -376,14 +372,14 @@ export default function CreateEditJobOrder() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

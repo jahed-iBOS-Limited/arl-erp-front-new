@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   referenceTypeDDL: [],
   referenceNoDDL: [],
   transactionTypeDDL: [],
@@ -19,7 +19,7 @@ const initState = {
 };
 
 export const invTransactionSlice = createSlice({
-  name: "invTransaction",
+  name: 'invTransaction',
   initialState: initState,
   reducers: {
     setreferenceTypeDDL: (state, action) => {

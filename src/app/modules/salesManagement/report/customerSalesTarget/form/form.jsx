@@ -65,7 +65,6 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-
   }, [singleRowData]);
 
   const removeHandler = (index) => {
@@ -78,11 +77,9 @@ export default function FormCmp({
       getBusinessUnitSalesOrgApi(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setSalesOrgDDL,
+        setSalesOrgDDL
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     if (itemListByPartner.length > 0 && !isEdit) {
@@ -99,7 +96,6 @@ export default function FormCmp({
       }));
       setRowDto(modifiedData);
     }
-
   }, [itemListByPartner]);
 
   const rowDtoHandler = (e, sl) => {
@@ -142,7 +138,6 @@ export default function FormCmp({
         }
       });
     }
-
   }, [fileObject]);
 
   useEffect(() => {
@@ -159,10 +154,9 @@ export default function FormCmp({
         selectedBusinessUnit?.value,
         initData?.distributionChannel?.value,
         initData?.salesOrg?.value,
-        setItemDDL,
+        setItemDDL
       );
     }
-
   }, [isEdit]);
 
   return (
@@ -275,9 +269,9 @@ export default function FormCmp({
                               values?.targetYear?.label ||
                                 new Date().getFullYear(),
                               valueOption?.value - 1,
-                              1,
-                            ),
-                          ),
+                              1
+                            )
+                          )
                         );
                         setFieldValue(
                           'targetEndDate',
@@ -286,9 +280,9 @@ export default function FormCmp({
                               values?.targetYear?.label ||
                                 new Date().getFullYear(),
                               valueOption?.value,
-                              0,
-                            ),
-                          ),
+                              0
+                            )
+                          )
                         );
                       }}
                       placeholder="Target Month"
@@ -313,9 +307,9 @@ export default function FormCmp({
                               valueOption?.label,
                               values?.targetMonth?.value - 1,
                               // || new Date().getMonth(),
-                              1,
-                            ),
-                          ),
+                              1
+                            )
+                          )
                         );
                         setFieldValue(
                           'targetEndDate',
@@ -324,9 +318,9 @@ export default function FormCmp({
                               valueOption?.label,
                               values?.targetMonth?.value,
                               // || new Date().getMonth(),
-                              0,
-                            ),
-                          ),
+                              0
+                            )
+                          )
                         );
                       }}
                       placeholder="Select Target Year"
@@ -410,7 +404,7 @@ export default function FormCmp({
                               selectedBusinessUnit?.value,
                               valueOption?.value,
                               values?.salesOrg?.value,
-                              setItemDDL,
+                              setItemDDL
                             );
                             getTerritory(
                               `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}`,
@@ -423,7 +417,7 @@ export default function FormCmp({
                                   };
                                 });
                                 setTerritory(modifiedData);
-                              },
+                              }
                             );
                           }}
                           placeholder="Distribution Channel"
@@ -445,7 +439,7 @@ export default function FormCmp({
                               selectedBusinessUnit?.value,
                               0,
                               valueOption?.value,
-                              setFieldValue,
+                              setFieldValue
                             );
                           }}
                           placeholder="Item"
@@ -484,7 +478,7 @@ export default function FormCmp({
                                     };
                                   });
                                   setTerritory(modifiedData);
-                                },
+                                }
                               );
                             }
                           }}
@@ -514,7 +508,7 @@ export default function FormCmp({
                                   };
                                 });
                                 setTerritory(modifiedData);
-                              },
+                              }
                             );
                           }}
                           placeholder="Area"
@@ -561,7 +555,7 @@ export default function FormCmp({
                                 selectedBusinessUnit?.value,
                                 values,
                                 setRowDto,
-                                setLoading,
+                                setLoading
                               );
                             }}
                           >
@@ -632,7 +626,7 @@ export default function FormCmp({
                     ?.filter((item) => item?.isSelected)
                     ?.reduce((a, b) => a + +b?.targetQuantity, 0),
                   true,
-                  0,
+                  0
                 )}
               </h4>
 

@@ -1,18 +1,17 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {
-  businessUnit: "",
-  itemSubCategoryName: "",
-  itemCategoryName: "",
-  itemTypeName: "",
-  itemMasterName: "",
+  businessUnit: '',
+  itemSubCategoryName: '',
+  itemCategoryName: '',
+  itemTypeName: '',
+  itemMasterName: '',
 };
 
 export default function MasterItemView() {
@@ -39,7 +38,7 @@ export default function MasterItemView() {
         itemCategoryName: itemMasterCategoryName,
         itemTypeName: itemMasterTypeName,
         itemMasterName: itemMasterName,
-        businessUnit: "",
+        businessUnit: '',
         isSerialMaintain: false,
       };
       setSingleData(editedInitData);
@@ -53,7 +52,6 @@ export default function MasterItemView() {
         }
       );
     }
-
   }, [id]);
   return (
     <Formik
@@ -66,7 +64,7 @@ export default function MasterItemView() {
             resetForm(initData);
           });
         } else {
-          toast.warn("Please add minimum one Business Unit");
+          toast.warn('Please add minimum one Business Unit');
         }
       }}
     >
@@ -99,7 +97,7 @@ export default function MasterItemView() {
                     type="text"
                     placeholder="Item Name"
                     onChange={(e) => {
-                      setFieldValue("itemMasterName", e.target.value);
+                      setFieldValue('itemMasterName', e.target.value);
                     }}
                   />
                 </div>
@@ -112,7 +110,7 @@ export default function MasterItemView() {
                     type="text"
                     placeholder="Item Type Name"
                     onChange={(e) => {
-                      setFieldValue("itemTypeName", e.target.value);
+                      setFieldValue('itemTypeName', e.target.value);
                     }}
                   />
                 </div>
@@ -125,7 +123,7 @@ export default function MasterItemView() {
                     type="text"
                     placeholder="Item Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemCategoryName", e.target.value);
+                      setFieldValue('itemCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -138,7 +136,7 @@ export default function MasterItemView() {
                     type="text"
                     placeholder="Item Sub Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemSubCategoryName", e.target.value);
+                      setFieldValue('itemSubCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -148,7 +146,7 @@ export default function MasterItemView() {
                 <div className="table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -164,22 +162,22 @@ export default function MasterItemView() {
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td className="text-left">{item?.businessUnitName}</td>
                         <td className="text-left">{itemMasterName}</td>
                         <td className="text-left">
-                          {itemMasterTypeName || ""}
+                          {itemMasterTypeName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterCategoryName || ""}
+                          {itemMasterCategoryName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterSubCategoryName || ""}
+                          {itemMasterSubCategoryName || ''}
                         </td>
                         <td className="text-left">
-                          {purchaseOrganizationName || ""}
+                          {purchaseOrganizationName || ''}
                         </td>
                       </tr>
                     ))}

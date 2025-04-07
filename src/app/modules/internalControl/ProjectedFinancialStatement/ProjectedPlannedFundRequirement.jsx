@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import InputField from "../../_helper/_inputField";
-import numberWithCommas from "../../_helper/_numberWithCommas";
-import ProjectedPlannedFundRequirementForAll from "./ProjectedPlannedFundRequirementForAll";
+import React, { useEffect, useState } from 'react';
+import InputField from '../../_helper/_inputField';
+import numberWithCommas from '../../_helper/_numberWithCommas';
+import ProjectedPlannedFundRequirementForAll from './ProjectedPlannedFundRequirementForAll';
 export default function ProjectedPlannedFundRequirement({ rowData, values }) {
   const [listData, setListData] = useState({
     typeOne: [],
@@ -261,7 +261,7 @@ export default function ProjectedPlannedFundRequirement({ rowData, values }) {
                       />
                     </td>
                     <td>
-                      {numberWithCommas(Math.round(financialCostOne)) || ""}
+                      {numberWithCommas(Math.round(financialCostOne)) || ''}
                     </td>
                   </tr>
                   <tr>
@@ -278,7 +278,7 @@ export default function ProjectedPlannedFundRequirement({ rowData, values }) {
                       )}
                     </td>
                     <td>
-                      {" "}
+                      {' '}
                       <InputField
                         type="number"
                         onChange={(e) => {
@@ -292,7 +292,7 @@ export default function ProjectedPlannedFundRequirement({ rowData, values }) {
                         }}
                       />
                     </td>
-                    <td>{setFinancialCostTwo || ""}</td>
+                    <td>{setFinancialCostTwo || ''}</td>
                   </tr>
                 </tbody>
               </table>
@@ -307,11 +307,11 @@ export default function ProjectedPlannedFundRequirement({ rowData, values }) {
             onClick={(e) => {
               e.preventDefault();
               window.open(
-                "https://docs.google.com/spreadsheets/d/1fqDF9_CW9sP6jc6HG851MFteC4Mw4zN_O07aYo1lfnI/edit#gid=0",
-                "_blank"
+                'https://docs.google.com/spreadsheets/d/1fqDF9_CW9sP6jc6HG851MFteC4Mw4zN_O07aYo1lfnI/edit#gid=0',
+                '_blank'
               );
             }}
-            style={{ textDecoration: "underline", cursor: "pointer" }}
+            style={{ textDecoration: 'underline', cursor: 'pointer' }}
             className="text-primary"
           >
             Forecasted Long-Term Loan Amortization

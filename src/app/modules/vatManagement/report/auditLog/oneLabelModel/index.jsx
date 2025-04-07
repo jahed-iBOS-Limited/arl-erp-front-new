@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import PurchaseModel from "./purchaseModel";
-import DebitNoteModel from "./debitNoteModel";
+import PurchaseModel from './purchaseModel';
+import DebitNoteModel from './debitNoteModel';
 import {
   GetPurchaseLog_api,
   GetDebitNoteLog_api,
   GetSalesLog_api,
   GetCreditNoteLog_api,
-  GetTreasuryDepositLog_api
-} from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
-import SalesModel from "./salesModel";
-import CrediteNoteModel from "./crediteNoteModel";
-import TreasuryDepositModel from "./treasuryDepositModel";
+  GetTreasuryDepositLog_api,
+} from '../helper';
+import { useSelector, shallowEqual } from 'react-redux';
+import SalesModel from './salesModel';
+import CrediteNoteModel from './crediteNoteModel';
+import TreasuryDepositModel from './treasuryDepositModel';
 import IViewModal from './../../../../_helper/_viewModal';
 function OneLabelModel({ onHide, show, values, parentRowClickData }) {
   const [oneLabelModelLoding, setOneLabelModelLoding] = useState(false);
@@ -58,14 +58,16 @@ function OneLabelModel({ onHide, show, values, parentRowClickData }) {
         setRowDto,
         setOneLabelModelLoding
       );
-    }else if(parentRowClickData?.treasuryId && values?.viewType?.value === 5){
+    } else if (
+      parentRowClickData?.treasuryId &&
+      values?.viewType?.value === 5
+    ) {
       GetTreasuryDepositLog_api(
         parentRowClickData?.treasuryId,
         setRowDto,
         setOneLabelModelLoding
       );
     }
-
   }, [parentRowClickData]);
 
   return (

@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 function DeliveryReportTable({ obj }) {
   const { gridData, printRef } = obj;
   return (
@@ -8,7 +8,7 @@ function DeliveryReportTable({ obj }) {
       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
         <div className="sta-scrollable-table scroll-table-auto">
           <div
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: '500px' }}
             className="scroll-table _table scroll-table-auto"
           >
             <table
@@ -86,12 +86,20 @@ function DeliveryReportTable({ obj }) {
                       <td className="text-center">{i + 1}</td>
                       <td className="">{_dateFormatter(item?.challanDate)}</td>
                       <td>{item?.challanNumber}</td>
-                      <td className="text-right">{_fixedPoint(item?.challanQty)}</td>
-                      <td className="text-right">{_fixedPoint(item?.challanValue)}</td>
-                      <td className="">{_dateFormatter(item?.salesOrderDate)}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.challanQty)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.challanValue)}
+                      </td>
+                      <td className="">
+                        {_dateFormatter(item?.salesOrderDate)}
+                      </td>
                       <td>{item?.salesOrderCode}</td>
                       <td className="text-right">{_fixedPoint(item?.soQty)}</td>
-                      <td className="text-right">{_fixedPoint(item?.soValue)}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.soValue)}
+                      </td>
                       {/* <td className="text-righ">{_fixedPoint(item?.pendingQty)}</td>
                       <td className="text-righ">{_fixedPoint(item?.pendingQtyValue)}</td> */}
                       <td>{item?.shippingPoint}</td>
@@ -112,16 +120,36 @@ function DeliveryReportTable({ obj }) {
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>
-                      <td className="text-right">{_fixedPoint(item?.dailyAllowance)}</td>
-                      <td className="text-right">{_fixedPoint(item?.bridgeTollChada)}</td>
-                      <td className="text-right">{_fixedPoint(item?.mileageAllowance)}</td>
-                      <td className="text-right">{_fixedPoint(item?.carryingAllowance)}</td>
-                      <td className="text-right">{_fixedPoint(item?.laborTips)}</td>
-                      <td className="text-right">{_fixedPoint(item?.policeTips)}</td>
-                      <td className="text-right">{_fixedPoint(item?.maintenance)}</td>
-                      <td className="text-right">{_fixedPoint(item?.downTripallowance)}</td>
-                      <td className="text-right">{_fixedPoint(item?.others)}</td>
-                      <td className="text-right">{_fixedPoint(item?.tripallowance)}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.dailyAllowance)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.bridgeTollChada)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.mileageAllowance)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.carryingAllowance)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.laborTips)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.policeTips)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.maintenance)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.downTripallowance)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.others)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.tripallowance)}
+                      </td>
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>
@@ -129,8 +157,12 @@ function DeliveryReportTable({ obj }) {
                       <td>{item?.driverContact}</td>
                       <td>{item?.supplierId}</td>
                       <td>{item?.supplierName}</td>
-                      <td className="text-right">{_fixedPoint(item?.transportCost)}</td>
-                      <td className="">{_dateFormatter(item?.loadingUnloading)}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.transportCost)}
+                      </td>
+                      <td className="">
+                        {_dateFormatter(item?.loadingUnloading)}
+                      </td>
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>
                       <td>{item?.demo}</td>

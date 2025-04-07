@@ -1,6 +1,6 @@
-import React from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
 
 const Table = ({
   rowDto,
@@ -34,7 +34,7 @@ const Table = ({
                 <th
                   onClick={() => allSelect(!selectedAll())}
                   className="text-center cursor-pointer"
-                  style={{ width: "40px" }}
+                  style={{ width: '40px' }}
                 >
                   <input
                     type="checkbox"
@@ -51,7 +51,7 @@ const Table = ({
                 <th>Region</th>
                 <th>Area</th>
                 <th>Territory</th>
-                <th style={{ width: "150px" }}>Target Quantity</th>
+                <th style={{ width: '150px' }}>Target Quantity</th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +101,7 @@ const Table = ({
                 <th
                   onClick={() => allSelect(!selectedAll())}
                   className="text-center cursor-pointer"
-                  style={{ width: "40px" }}
+                  style={{ width: '40px' }}
                 >
                   <input
                     type="checkbox"

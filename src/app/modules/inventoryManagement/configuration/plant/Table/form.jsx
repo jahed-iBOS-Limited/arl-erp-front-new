@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import GridData from "./grid";
-import Axios from "axios";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import GridData from './grid';
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 export default function HeaderForm({ createHandler }) {
   const [gridData, setGirdData] = useState([]);
@@ -45,7 +44,6 @@ export default function HeaderForm({ createHandler }) {
         setGirdData(res?.data);
       }
     } catch (error) {
-
       setLoading(false);
     }
   };
@@ -73,7 +71,7 @@ export default function HeaderForm({ createHandler }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Plant"}>
+              <CardHeader title={'Plant'}>
                 <CardHeaderToolbar>
                   <button onClick={createHandler} className="btn btn-primary">
                     Create

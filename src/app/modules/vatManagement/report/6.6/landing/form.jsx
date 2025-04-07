@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { getVatBranches, getPartnerDDL } from "../helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReportBody from "./reportBody";
-import ReportBodyOther from "./reportBodyOther";
-import ReportBodyGenerate from "./reportBodyGenerate";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { getVatBranches, getPartnerDDL } from '../helper';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReportBody from './reportBody';
+import ReportBodyOther from './reportBodyOther';
+import ReportBodyGenerate from './reportBodyGenerate';
 
 const initData = {
-  taxBranch: "",
+  taxBranch: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  partner: "",
-  viewType: "",
-  radio: "unGenerate",
+  partner: '',
+  viewType: '',
+  radio: 'unGenerate',
 };
 
 export function SearchForm({
@@ -53,8 +53,8 @@ export function SearchForm({
   const [partnerDDL, setPartnerDDL] = useState([]);
   const viewTypeDDL = [
     // { value: 0, label: "All Partner" },
-    { value: 1, label: "Single Partner" },
-    { value: 2, label: "Single Challan" },
+    { value: 1, label: 'Single Partner' },
+    { value: 2, label: 'Single Challan' },
   ];
 
   useEffect(() => {
@@ -75,7 +75,6 @@ export function SearchForm({
         setPartnerDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -87,7 +86,7 @@ export function SearchForm({
           taxBranch: taxBranchDDL[0],
           viewType: {
             value: 2,
-            label: "Single Challan",
+            label: 'Single Challan',
           },
           partner: {
             value: partnerDDL[0]?.value,
@@ -115,7 +114,7 @@ export function SearchForm({
                   value={values?.taxBranch}
                   label="Select Branch"
                   onChange={(valueOption) => {
-                    setFieldValue("taxBranch", valueOption);
+                    setFieldValue('taxBranch', valueOption);
                   }}
                   placeholder=" Branch"
                   errors={errors}
@@ -142,9 +141,9 @@ export function SearchForm({
                   placeholder="To Date"
                 />
               </div>
-              {values?.radio === "unGenerate" && (
+              {values?.radio === 'unGenerate' && (
                 <>
-                  {" "}
+                  {' '}
                   <div className="col-lg-3">
                     <NewSelect
                       name="viewType"
@@ -152,11 +151,11 @@ export function SearchForm({
                       value={values?.viewType}
                       label="Select Type"
                       onChange={(valueOption) => {
-                        setFieldValue("viewType", valueOption);
+                        setFieldValue('viewType', valueOption);
                         setGridData({});
                         setGridDataOthers({});
                       }}
-                      isDisabled={values?.radio === "generate"}
+                      isDisabled={values?.radio === 'generate'}
                       placeholder="Select Type"
                       errors={errors}
                       touched={touched}
@@ -174,7 +173,7 @@ export function SearchForm({
                     value={values?.partner}
                     label="Select Customer"
                     onChange={(valueOption) => {
-                      setFieldValue("partner", valueOption);
+                      setFieldValue('partner', valueOption);
                     }}
                     placeholder="Select Customer"
                     errors={errors}
@@ -187,12 +186,12 @@ export function SearchForm({
                   value={values?.radio}
                   type="radio"
                   name="radio"
-                  checked={values?.radio === "generate"}
+                  checked={values?.radio === 'generate'}
                   onChange={() => {
-                    setFieldValue("radio", "generate");
-                    setFieldValue("viewType", {
+                    setFieldValue('radio', 'generate');
+                    setFieldValue('viewType', {
                       value: 2,
-                      label: "Single Challan",
+                      label: 'Single Challan',
                     });
                     setGridData({});
                     setGridDataOthers({});
@@ -204,12 +203,12 @@ export function SearchForm({
                 </label>
                 <input
                   value={values?.radio}
-                  checked={values?.radio === "unGenerate"}
+                  checked={values?.radio === 'unGenerate'}
                   onChange={() => {
-                    setFieldValue("radio", "unGenerate");
-                    setFieldValue("viewType", {
+                    setFieldValue('radio', 'unGenerate');
+                    setFieldValue('viewType', {
                       value: 2,
-                      label: "Single Challan",
+                      label: 'Single Challan',
                     });
                     setGridData({});
                     setGridDataOthers({});
@@ -228,11 +227,11 @@ export function SearchForm({
                     !values?.fromDate ||
                     !values?.toDate ||
                     !values?.taxBranch ||
-                    (values?.radio === "unGenerate" ? !values?.viewType : false)
+                    (values?.radio === 'unGenerate' ? !values?.viewType : false)
                   }
                   type="submit"
                   class="btn btn-primary"
-                  style={{ marginTop: "16px" }}
+                  style={{ marginTop: '16px' }}
                   onSubmit={() => handleSubmit()}
                 >
                   View
@@ -241,7 +240,7 @@ export function SearchForm({
             </div>
 
             {/* Generate Table Data */}
-            {values?.radio === "generate" && (
+            {values?.radio === 'generate' && (
               <div className="row cash_journal">
                 {loading && <Loading />}
                 <div className="col-lg-12">
@@ -309,7 +308,7 @@ export function SearchForm({
             )}
 
             {/* UnGenerate Table Data */}
-            {values?.radio === "unGenerate" && (
+            {values?.radio === 'unGenerate' && (
               <div className="row cash_journal">
                 {loading && <Loading />}
                 <div className="col-lg-12">
@@ -399,7 +398,7 @@ export function SearchForm({
                 setModalShow(false);
                 onSubmit(values, setModalShowOther);
               }}
-              title={"6.6"}
+              title={'6.6'}
               btnText="Close"
             >
               <ReportBody viewClick={viewClick} />
@@ -412,7 +411,7 @@ export function SearchForm({
               onHide={() => {
                 setGenerateModalShow(false);
               }}
-              title={"6.6"}
+              title={'6.6'}
               btnText="Close"
             >
               <ReportBodyGenerate viewClick={viewClick} />
@@ -424,7 +423,7 @@ export function SearchForm({
               onHide={() => {
                 setModalShowOther(false);
               }}
-              title={"6.6"}
+              title={'6.6'}
               btnText="Close"
             >
               <ReportBodyOther

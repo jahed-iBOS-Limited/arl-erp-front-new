@@ -1,16 +1,16 @@
-import React from "react";
-import ReactApexChart from "react-apexcharts";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 function TargetVsSalesChart({ rowData, reportType }) {
   const categories = () => {
     switch (reportType) {
       case 2:
-        return rowData?.map((item) => item?.nl7 || "");
+        return rowData?.map((item) => item?.nl7 || '');
       case 3:
-        return rowData?.map((item) => item?.nl6 || "");
+        return rowData?.map((item) => item?.nl6 || '');
       case 4:
-        return rowData?.map((item) => item?.nl5 || "");
+        return rowData?.map((item) => item?.nl5 || '');
       default:
         return [];
     }
@@ -20,28 +20,28 @@ function TargetVsSalesChart({ rowData, reportType }) {
     <>
       <div>
         <strong className="ml-2">
-          Total Collection Amount:{" "}
+          Total Collection Amount:{' '}
           {_formatMoney(
             rowData?.reduce(
               (acc, obj) => acc + Math.abs(obj?.monCollectionAmount),
               0
             )
-          )}{" "}
+          )}{' '}
         </strong>
         <strong className="ml-2">
-          Total Revenue Target Amount:{" "}
+          Total Revenue Target Amount:{' '}
           {_formatMoney(
             rowData?.reduce(
               (acc, obj) => acc + Math.abs(obj?.monTotalRevenueTarget),
               0
             )
-          )}{" "}
+          )}{' '}
         </strong>
         <strong className="ml-2">
-          Total Sales Amount:{" "}
+          Total Sales Amount:{' '}
           {_formatMoney(
             rowData?.reduce((acc, obj) => acc + Math.abs(obj?.montsales), 0)
-          )}{" "}
+          )}{' '}
         </strong>
       </div>
 
@@ -50,7 +50,7 @@ function TargetVsSalesChart({ rowData, reportType }) {
           toolbar={true}
           options={{
             chart: {
-              type: "bar",
+              type: 'bar',
               height: 600,
               toolbar: {
                 show: true,
@@ -63,7 +63,7 @@ function TargetVsSalesChart({ rowData, reportType }) {
               bar: {
                 horizontal: true,
                 dataLabels: {
-                  position: "top",
+                  position: 'top',
                 },
               },
             },
@@ -71,21 +71,21 @@ function TargetVsSalesChart({ rowData, reportType }) {
               enabled: true,
               offsetX: -6,
               style: {
-                fontSize: "12px",
-                colors: ["#fff"],
+                fontSize: '12px',
+                colors: ['#fff'],
               },
             },
             stroke: {
               show: true,
               width: 1,
-              colors: ["#fff"],
+              colors: ['#fff'],
             },
             tooltip: {
               shared: true,
               intersect: false,
               y: {
-                formatter: function(val) {
-                  return _formatMoney(val) + " ৳";
+                formatter: function (val) {
+                  return _formatMoney(val) + ' ৳';
                 },
               },
             },
@@ -95,22 +95,22 @@ function TargetVsSalesChart({ rowData, reportType }) {
           }}
           series={[
             {
-              color: "#eab308",
-              name: "Total Revenue Target",
+              color: '#eab308',
+              name: 'Total Revenue Target',
               data: rowData?.map((item) =>
                 Math.abs(item?.monTotalRevenueTarget)
               ),
             },
             {
-              color: "#a78bfa",
-              name: "Seventy Percent Target Revenue",
+              color: '#a78bfa',
+              name: 'Seventy Percent Target Revenue',
               data: rowData?.map((item) =>
                 Math.abs(item?.monSeventyPercentTRT)
               ),
             },
             {
-              color: "#65a30d",
-              name: "Collection Amount",
+              color: '#65a30d',
+              name: 'Collection Amount',
               data: rowData?.map((item) => Math.abs(item?.monCollectionAmount)),
             },
             // {

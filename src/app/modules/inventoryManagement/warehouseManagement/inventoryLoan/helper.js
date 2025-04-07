@@ -1,45 +1,45 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 // Validation schema
 export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   partner: Yup.object().shape({
-    label: Yup.string().required("Partner is required"),
-    value: Yup.string().required("Partner is required"),
+    label: Yup.string().required('Partner is required'),
+    value: Yup.string().required('Partner is required'),
   }),
 
   plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
 
-  issueFrom: Yup.object().when("createType", {
+  issueFrom: Yup.object().when('createType', {
     is: 1,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("This field is required"),
-        label: Yup.string().required("This field is required"),
+        value: Yup.string().required('This field is required'),
+        label: Yup.string().required('This field is required'),
       })
-      .typeError("This Field is required"),
+      .typeError('This Field is required'),
     otherwise: Yup.object(),
   }),
-  warehouse: Yup.object().when("issueFrom", (issueFrom) => {
+  warehouse: Yup.object().when('issueFrom', (issueFrom) => {
     if (+issueFrom?.value === 1) {
       return Yup.object().shape({
-        value: Yup.string().required("Warehouse is required"),
-        label: Yup.string().required("Warehouse is required"),
+        value: Yup.string().required('Warehouse is required'),
+        label: Yup.string().required('Warehouse is required'),
       });
     } else {
       return Yup.string();
     }
   }),
 
-  shipment: Yup.object().when("issueFrom", (issueFrom) => {
+  shipment: Yup.object().when('issueFrom', (issueFrom) => {
     if (+issueFrom?.value === 2) {
       return Yup.object().shape({
-        value: Yup.string().required("Shipment is required"),
-        label: Yup.string().required("Shipment is required"),
+        value: Yup.string().required('Shipment is required'),
+        label: Yup.string().required('Shipment is required'),
       });
     } else {
       return Yup.string();
@@ -47,11 +47,10 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   }),
 
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
-  quantity: Yup.number().required("Quantity is required"),
-
+  quantity: Yup.number().required('Quantity is required'),
 });
 
 export const getLandingPaginationData = async (
@@ -113,9 +112,7 @@ export const getSBUListDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const getWarehouseDDL = async (accId, buId, setter) => {
@@ -123,7 +120,7 @@ export const getWarehouseDDL = async (accId, buId, setter) => {
     const res = await Axios.get(
       `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    setter(res?.data)
+    setter(res?.data);
   } catch (err) {
     setter([]);
   }
@@ -137,24 +134,23 @@ export const saveInventoryLoanCreate = async (payload, setLoading, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      console.log("res1", res);
+      console.log('res1', res);
       toast.success(res.data?.message, { toastId: 1234 });
       setLoading(false);
       cb();
     } else {
-      console.log("res", res);
+      console.log('res', res);
       toast.warning(res?.message, { toastId: 1234 });
       setLoading(false);
     }
   } catch (err) {
-    console.log("err", err);
+    console.log('err', err);
     setLoading(false);
     toast.warning(err?.message || err?.response?.message, {
       toastId: 12355,
     });
   }
 };
-
 
 export const getLoanSingleData = async (loanId, setter) => {
   try {

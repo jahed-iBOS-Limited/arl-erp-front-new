@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { coreValuesTwoSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { coreValuesTwoSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = coreValuesTwoSlice;
 
 // action for save created data
@@ -9,13 +9,12 @@ export const saveCoreValues = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setRowDto([]);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -25,8 +24,8 @@ export const saveEditedCoreValues = (payload, cb) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "editedcorevalues",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'editedcorevalues',
         });
         cb();
       }
@@ -34,7 +33,7 @@ export const saveEditedCoreValues = (payload, cb) => () => {
     .catch((err) => {
       console.log(err?.response);
       toast.error(err?.response?.data?.message, {
-        toastId: "editedcorevalues",
+        toastId: 'editedcorevalues',
       });
       cb();
     });
@@ -46,9 +45,7 @@ export const getCoreValuesGridData = (accId, buId) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetGridData(res.data?.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // action for get data by id single
@@ -61,16 +58,14 @@ export const getCoreValuesById = (id) => (dispatch) => {
           ...res?.data,
           objHeader: {
             ...res?.data?.objHeader,
-            demonstratedBehaviour: "",
+            demonstratedBehaviour: '',
             isPositive: true,
           },
         };
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setCoreValuesEmpty = () => async (dispatch) => {

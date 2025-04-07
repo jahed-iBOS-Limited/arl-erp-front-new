@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getAssetAssignReportData = async (
   accId,
@@ -9,11 +9,13 @@ export const getAssetAssignReportData = async (
   pageSize,
   search
 ) => {
-  const searchPath = search ? `searchTearm=${search}&` : "";
+  const searchPath = search ? `searchTearm=${search}&` : '';
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetReportForAsset?AccountId=${accId}&UnitId=${buId}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`)
-    if (res.status === 200 && res?.data) {     
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetReportForAsset?AccountId=${accId}&UnitId=${buId}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    );
+    if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
@@ -21,4 +23,3 @@ export const getAssetAssignReportData = async (
     setLoading(false);
   }
 };
-

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getRouteDDL = async (accId, buId, setter) => {
   try {
@@ -29,7 +29,7 @@ export const PrimaryCollectionLandingApi = async (
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      console.log(res?.data, "api");
+      console.log(res?.data, 'api');
       setLoading(false);
     }
   } catch (error) {
@@ -113,7 +113,7 @@ export const savSecondaryOrderAction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -131,7 +131,7 @@ export const saveEditedSecondaryOrder = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -164,7 +164,7 @@ export const approvePrimaryCollection = async (data, cb) => {
     );
     if (res.status === 200) {
       cb();
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);

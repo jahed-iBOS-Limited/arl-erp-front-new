@@ -1,20 +1,15 @@
-
-import React, { useEffect } from "react";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import React, { useEffect } from 'react';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
 
 const SalesCommissionConfigureLandingForm = ({ obj }) => {
   const { values, setFieldValue, pageNo, pageSize, getData, setGridData } = obj;
 
-  const [
-    commissionTypes,
-    getCommissionTypes,
-    ,
-    setCommissionTypes,
-  ] = useAxiosGet();
+  const [commissionTypes, getCommissionTypes, , setCommissionTypes] =
+    useAxiosGet();
 
   const {
     selectedBusinessUnit: { value: buId },
@@ -41,7 +36,7 @@ const SalesCommissionConfigureLandingForm = ({ obj }) => {
               label="Commission Type"
               placeholder="Commission Type"
               onChange={(e) => {
-                setFieldValue("commissionType", e);
+                setFieldValue('commissionType', e);
                 setGridData([]);
               }}
             />

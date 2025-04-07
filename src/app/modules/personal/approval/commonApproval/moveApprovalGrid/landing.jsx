@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { approveSelected, getNewApplicationData } from "./helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { approveSelected, getNewApplicationData } from './helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const initData = {
-  applicationType: "",
+  applicationType: '',
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const MovementApprovalGrid = () => {
@@ -32,7 +31,6 @@ const MovementApprovalGrid = () => {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-
 
   const params = useParams();
 
@@ -103,7 +101,7 @@ const MovementApprovalGrid = () => {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
         const payload = filterSelectedData?.map((item) => {
@@ -127,7 +125,7 @@ const MovementApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -137,7 +135,7 @@ const MovementApprovalGrid = () => {
   // rejectedSubmitlHandler btn submit handler
   const rejectedSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
         const payload = filterSelectedData?.map((item) => {
@@ -161,7 +159,7 @@ const MovementApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -173,7 +171,7 @@ const MovementApprovalGrid = () => {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -205,7 +203,7 @@ const MovementApprovalGrid = () => {
                           label="Application Type"
                           onChange={(valueOption) => {
                             setNewApplicationData([]);
-                            setFieldValue("applicationType", valueOption);
+                            setFieldValue('applicationType', valueOption);
 
                             getNewApplicationData(
                               valueOption?.value,
@@ -270,75 +268,75 @@ const MovementApprovalGrid = () => {
             </Form>
             {/* Table Start */}
             {newApplicationData?.data?.length > 0 && (
-             <div className="table-responsive">
-               <table className="table table-striped table-bordered bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    {values?.applicationType?.value === 1 && (
-                      <th style={{ width: "20px" }}>
-                        <input
-                          type="checkbox"
-                          id="parent"
-                          onChange={(event) => {
-                            allGridCheck(event.target.checked);
-                          }}
-                        />
-                      </th>
-                    )}
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      {values?.applicationType?.value === 1 && (
+                        <th style={{ width: '20px' }}>
+                          <input
+                            type="checkbox"
+                            id="parent"
+                            onChange={(event) => {
+                              allGridCheck(event.target.checked);
+                            }}
+                          />
+                        </th>
+                      )}
 
-                    <th>SL</th>
-                    <th>Name</th>
-                    <th>From-Date</th>
-                    <th>To-Date</th>
-                    <th>Leave Type</th>
-                    <th>Total Days</th>
-                    {/* {values?.applicationType?.value === 1 ? (
+                      <th>SL</th>
+                      <th>Name</th>
+                      <th>From-Date</th>
+                      <th>To-Date</th>
+                      <th>Leave Type</th>
+                      <th>Total Days</th>
+                      {/* {values?.applicationType?.value === 1 ? (
                         <th>Actions</th>
                       ) : null} */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {newApplicationData?.data?.length > 0 &&
-                    rowDto?.map((data, index) => (
-                      <tr key={index}>
-                        {values?.applicationType?.value === 1 && (
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newApplicationData?.data?.length > 0 &&
+                      rowDto?.map((data, index) => (
+                        <tr key={index}>
+                          {values?.applicationType?.value === 1 && (
+                            <td>
+                              <input
+                                id="itemCheck"
+                                type="checkbox"
+                                className=""
+                                value={data.itemCheck}
+                                checked={data.itemCheck}
+                                name={data.itemCheck}
+                                onChange={(e) => {
+                                  itemSlectedHandler(e.target.checked, index);
+                                }}
+                              />
+                            </td>
+                          )}
+                          <td>{index + 1}</td>
                           <td>
-                            <input
-                              id="itemCheck"
-                              type="checkbox"
-                              className=""
-                              value={data.itemCheck}
-                              checked={data.itemCheck}
-                              name={data.itemCheck}
-                              onChange={(e) => {
-                                itemSlectedHandler(e.target.checked, index);
-                              }}
-                            />
+                            <div className="pl-2">{data?.employeeName}</div>
                           </td>
-                        )}
-                        <td>{index + 1}</td>
-                        <td>
-                          <div className="pl-2">{data?.employeeName}</div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {_dateFormatter(data?.startDate)}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {_dateFormatter(data?.endDate)}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{data.moveType}</div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {data.totalDays}
-                          </div>
-                        </td>
-                        {/* {values?.applicationType?.value === 1 && (
+                          <td>
+                            <div className="text-center pr-2">
+                              {_dateFormatter(data?.startDate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="text-center pr-2">
+                              {_dateFormatter(data?.endDate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{data.moveType}</div>
+                          </td>
+                          <td>
+                            <div className="text-center pr-2">
+                              {data.totalDays}
+                            </div>
+                          </td>
+                          {/* {values?.applicationType?.value === 1 && (
                             <td>
                               <div className="d-flex justify-content-center">
                                 <span
@@ -377,11 +375,11 @@ const MovementApprovalGrid = () => {
                               </div>
                             </td>
                           )} */}
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-             </div>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             )}
             {newApplicationData?.data?.length > 0 && (
               <PaginationTable

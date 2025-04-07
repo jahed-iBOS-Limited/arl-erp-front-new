@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // index
 // calculate days difference
@@ -12,51 +12,51 @@ export const calculateDaysDifference = (startDate, endDate) => {
 };
 
 export const auditScheduleLandingTableHeader = [
-  "SL",
-  "Audit Engament Name",
-  "SBU Name",
-  "Priority",
+  'SL',
+  'Audit Engament Name',
+  'SBU Name',
+  'Priority',
   "Auditor's Name",
-  "Status",
-  "Start Date",
-  "End Date",
-  "Days to Complete/Period",
-  "Submit For Supervisor Review Date",
-  "Supervisor Review Complete Date",
-  "Sending for MGMT Response Date",
-  "Management Reponse Status",
-  "Final Audit Report BDO/CEO",
-  "Action",
+  'Status',
+  'Start Date',
+  'End Date',
+  'Days to Complete/Period',
+  'Submit For Supervisor Review Date',
+  'Supervisor Review Complete Date',
+  'Sending for MGMT Response Date',
+  'Management Reponse Status',
+  'Final Audit Report BDO/CEO',
+  'Action',
 ];
 
 // confidential audit form init data
 export const auditFormInitData = {
-  auditObservation: "",
-  financialImpact: "",
-  responsibleEmployee: "",
-  mgmtFeedback: "",
-  strAuditRecommendation: "",
+  auditObservation: '',
+  financialImpact: '',
+  responsibleEmployee: '',
+  mgmtFeedback: '',
+  strAuditRecommendation: '',
 };
 
 // confidential audit form table head
 export const confidentialAuditFormTableHead = [
-  "SL",
-  "Audit Observation Name",
-  "Impact",
-  "Responsible Persons of Management Feedback",
-  "Audit Evidence Attachted",
-  "Management Feedback (Specific)",
-  "Audit Recommendation",
+  'SL',
+  'Audit Observation Name',
+  'Impact',
+  'Responsible Persons of Management Feedback',
+  'Audit Evidence Attachted',
+  'Management Feedback (Specific)',
+  'Audit Recommendation',
 ];
 
 // confidential audit view table head
 export const confidentialAuditViewTableHead = [
-  "SL",
-  "Audit Observation Name",
-  "Impact",
-  "Responsible Persons of Management Feedback",
-  "Audit Evidence Attachted",
-  "Management Feedback (Specific)",
+  'SL',
+  'Audit Observation Name',
+  'Impact',
+  'Responsible Persons of Management Feedback',
+  'Audit Evidence Attachted',
+  'Management Feedback (Specific)',
 ];
 
 // confidential init data
@@ -66,12 +66,12 @@ export const generateConfidentialInitData = (
 ) => {
   // Destructure with default values to prevent errors
   const {
-    strAuditObservationName = "",
-    strFinancialImpact = "",
+    strAuditObservationName = '',
+    strFinancialImpact = '',
     intEmployeeIdResponsibleMgtfeedBack = null,
-    strEmployeeNameResponsibleMgtfeedBack = "",
-    strManagementFeedBack = "",
-    strAuditRecommendation = "",
+    strEmployeeNameResponsibleMgtfeedBack = '',
+    strManagementFeedBack = '',
+    strAuditRecommendation = '',
   } = singleConfidentialAuditData || {};
 
   if (!singleConfidentialAuditData) {
@@ -79,13 +79,13 @@ export const generateConfidentialInitData = (
   }
 
   return {
-    auditObservation: strAuditObservationName || "",
-    financialImpact: strFinancialImpact || "",
+    auditObservation: strAuditObservationName || '',
+    financialImpact: strFinancialImpact || '',
     responsibleEmployee: {
       value: intEmployeeIdResponsibleMgtfeedBack || null,
-      label: strEmployeeNameResponsibleMgtfeedBack || "",
+      label: strEmployeeNameResponsibleMgtfeedBack || '',
     },
-    mgmtFeedback: strManagementFeedBack || "",
+    mgmtFeedback: strManagementFeedBack || '',
     strAuditRecommendation: strAuditRecommendation,
   };
 };
@@ -139,8 +139,8 @@ export const handleConfidentialAuditSubmit = (objProps) => {
       );
     },
     true,
-    "Successfully Updated",
-    "Update Failed"
+    'Successfully Updated',
+    'Update Failed'
   );
 };
 

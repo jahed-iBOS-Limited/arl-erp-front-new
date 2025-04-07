@@ -1,10 +1,10 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../../../../_helper/_dateFormate';
 
 export const getNationalityDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetNationalityDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetNationalityDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -14,7 +14,7 @@ export const getNationalityDDL = async (setter) => {
 
 export const getBloodGroupDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetBloodGroupDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetBloodGroupDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -24,7 +24,7 @@ export const getBloodGroupDDL = async (setter) => {
 
 export const getGenderDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetGenderDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetGenderDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -34,7 +34,7 @@ export const getGenderDDL = async (setter) => {
 
 export const getEmpIdentificationTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeIdentificationTypeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeIdentificationTypeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -43,7 +43,7 @@ export const getEmpIdentificationTypeDDL = async (setter) => {
 };
 export const getMeritalStatusDDL_api = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/MeritalStatusDDL");
+    const res = await axios.get('/hcm/HCMDDL/MeritalStatusDDL');
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
@@ -51,7 +51,7 @@ export const getMeritalStatusDDL_api = async (setter) => {
 };
 export const religionDDL_api = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/ReligionDDL");
+    const res = await axios.get('/hcm/HCMDDL/ReligionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -68,16 +68,16 @@ export const createEmployeePersonalInformation = async (
   setDisabled(true);
   try {
     const res = await axios.post(
-      "/hcm/EmployeePersonalInformation/CreateEmployeePersonalInformation",
+      '/hcm/EmployeePersonalInformation/CreateEmployeePersonalInformation',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "API not Work");
+    toast.error(error?.response?.data?.message || 'API not Work');
     setDisabled(false);
   }
 };
@@ -100,7 +100,7 @@ export const getEmpPersonalInfoById_api = async (id, setter) => {
               value: data?.natinalityId,
               label: data?.natinalityName,
             }
-          : "",
+          : '',
         dateOfBirth: _dateFormatter(data?.dateOfBirth),
         placeofBirth: data?.placeOfBirth,
         identificationType: data?.identificationTypeId
@@ -108,20 +108,20 @@ export const getEmpPersonalInfoById_api = async (id, setter) => {
               value: data?.identificationTypeId,
               label: data?.identificationType,
             }
-          : "",
+          : '',
         identificationNo: data?.identificationNo,
         gender: data?.genderId
           ? { value: data?.genderId, label: data?.gender }
-          : "",
+          : '',
         religion: data?.religionId
           ? { value: data?.religionId, label: data?.religion }
-          : "",
+          : '',
         bloodGroup: data?.bloodGroupId
           ? {
               value: data?.bloodGroupId,
               label: data?.bloodGroupName,
             }
-          : "",
+          : '',
         height: data?.heightCm,
         weight: data?.weightKg,
         emailPersonal: data?.personalEmail,
@@ -134,17 +134,17 @@ export const getEmpPersonalInfoById_api = async (id, setter) => {
               value: data?.maritalStatusId,
               label: data?.maritalStatus,
             }
-          : "",
+          : '',
         dateofMarriage: _dateFormatter(data?.dateOfMarriage),
-        photograph: "",
-        cv: "",
+        photograph: '',
+        cv: '',
         identificationDoc: data?.identificationDocLink,
       };
 
       if (res.data.length > 0) {
         setter(modifyGridData);
       } else {
-        setter("");
+        setter('');
       }
     }
   } catch (error) {}
@@ -154,16 +154,16 @@ export const employeePersonalInformation_api = async (payload, setDisabled) => {
   setDisabled(true);
   try {
     const res = await axios.put(
-      "/hcm/EmployeePersonalInformation/EditEmployeePersonalInformation",
+      '/hcm/EmployeePersonalInformation/EditEmployeePersonalInformation',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };

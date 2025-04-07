@@ -1,32 +1,32 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import RenewalBillForm from "../RenewalBill/table";
-import CNFBill from "../cnfBill/Form/addEditForm";
-import { CommercialPayment } from "../commercialPayment/form/addEditForm";
-import DamDeliveryBill from "../damDelivery/Form/addEditForm";
-import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
-import FuelBillForm from "../fuelBill/Form/addEditForm";
-import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
-import G2GLighterBill from "../g2gLighterBill/Form/addEditForm";
-import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
-import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
-import HatchLaborBill from "../hatchLaborBill/Form/addEditForm";
-import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
-import OthersBillCreateForm from "../othersBillNew/Form/addEditForm";
-import PumpFoodingBillForm from "../pumpFoodingBill/Form/addEditForm";
-import SalesCommissionForm from "../salesCommission/form/addEditFrom";
-import StevedoreBill from "../stevedoreBill/Form/addEditForm";
-import SurveyorBill from "../surveyorBill/Form/addEditForm";
-import TransportBillForm from "../transportBill/Form/addEditForm";
-import InternalTransportBillForm from "./../internalTransportBill/Form/addEditForm";
-import LabourBillForm from "./../labourBill/Form/addEditForm";
-import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
-import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
-import HeaderForm from "./Table/form";
-import CustomerRefundCreateEditForm from "../customerRefund/addEditForm";
-import TruckToDampDeliveryBill from "../truckToDampDelivery/Form/addEditForm";
-import TrackTrallerLBCreate from "../../trackTrallerLoadingBill/Create";
-import SalesForceIncentiveCreate from "../salesForceIncentive/createEdit";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import RenewalBillForm from '../RenewalBill/table';
+import CNFBill from '../cnfBill/Form/addEditForm';
+import { CommercialPayment } from '../commercialPayment/form/addEditForm';
+import DamDeliveryBill from '../damDelivery/Form/addEditForm';
+import FairPriceShopForm from '../fairPriceInvoice/Form/addEditForm';
+import FuelBillForm from '../fuelBill/Form/addEditForm';
+import G2GGodownUnloadBill from '../g2gGodownUnloadBill/Form/addEditForm';
+import G2GLighterBill from '../g2gLighterBill/Form/addEditForm';
+import G2GTruckBill from '../g2gTruckBill/Form/addEditForm';
+import GhatLoadUnloadBill from '../ghatLoadUnloadBill/Form/addEditForm';
+import HatchLaborBill from '../hatchLaborBill/Form/addEditForm';
+import MotherVesselBill from '../motherVesselBill/Form/addEditForm';
+import OthersBillCreateForm from '../othersBillNew/Form/addEditForm';
+import PumpFoodingBillForm from '../pumpFoodingBill/Form/addEditForm';
+import SalesCommissionForm from '../salesCommission/form/addEditFrom';
+import StevedoreBill from '../stevedoreBill/Form/addEditForm';
+import SurveyorBill from '../surveyorBill/Form/addEditForm';
+import TransportBillForm from '../transportBill/Form/addEditForm';
+import InternalTransportBillForm from './../internalTransportBill/Form/addEditForm';
+import LabourBillForm from './../labourBill/Form/addEditForm';
+import SupplerInvoiceForm from './../supplerInvoice/Form/addEditForm';
+import SupplierAdvance from './../supplierAdvance/supplierAdvance';
+import HeaderForm from './Table/form';
+import CustomerRefundCreateEditForm from '../customerRefund/addEditForm';
+import TruckToDampDeliveryBill from '../truckToDampDelivery/Form/addEditForm';
+import TrackTrallerLBCreate from '../../trackTrallerLoadingBill/Create';
+import SalesForceIncentiveCreate from '../salesForceIncentive/createEdit';
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -85,7 +85,7 @@ function BillregisterCreate() {
       ) : billType === 34 ? (
         <TrackTrallerLBCreate />
       ) : billType === 35 ? (
-        <SalesForceIncentiveCreate headerData={headerData}/>
+        <SalesForceIncentiveCreate headerData={headerData} />
       ) : (
         <HeaderForm />
       )}

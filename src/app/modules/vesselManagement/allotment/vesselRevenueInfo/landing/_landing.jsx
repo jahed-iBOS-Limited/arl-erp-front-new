@@ -1,41 +1,38 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import TextArea from "../../../../_helper/TextArea";
-import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
-import {
-  GetDomesticPortDDL,
-} from "../../generalInformation/helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import TextArea from '../../../../_helper/TextArea';
+import { getMotherVesselDDL } from '../../../../_helper/_commonApi';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../../_helper/iButton';
+import { GetDomesticPortDDL } from '../../generalInformation/helper';
 
 const initData = {
-  port: "",
-  motherVessel: "",
-  carrierName: "",
+  port: '',
+  motherVessel: '',
+  carrierName: '',
   jvDate: _todayDate(),
-  narration: "",
-  billRef: "",
+  narration: '',
+  billRef: '',
 };
 const headers = [
-  "SL",
-  "Mother Vessel",
-  "Lighter Vessel",
-  "Program No",
-  "Carrier Agent",
-  "Survey Quantity",
-  "Carrier Rate",
-  "Bill Amount",
+  'SL',
+  'Mother Vessel',
+  'Lighter Vessel',
+  'Program No',
+  'Carrier Agent',
+  'Survey Quantity',
+  'Carrier Rate',
+  'Bill Amount',
   // "Action",
 ];
 
@@ -54,8 +51,8 @@ const VesselRevenueLanding = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const setLandingData = (values, searchValue = "") => {
-    const search = searchValue ? `&SearchTerm=${searchValue}` : "";
+  const setLandingData = (values, searchValue = '') => {
+    const search = searchValue ? `&SearchTerm=${searchValue}` : '';
     getGridData(
       `/tms/LigterLoadUnload/PreDataForLighterVesselCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&CarrierAgentId=${values?.carrierName?.value}${search}`,
       (resData) => {
@@ -88,7 +85,6 @@ const VesselRevenueLanding = () => {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
-
   }, [accId, buId]);
 
   const createJV = (values) => {
@@ -118,7 +114,7 @@ const VesselRevenueLanding = () => {
       `/tms/LigterLoadUnload/G2GLighterVesselCarrierBillJV?JVType=G2G%20Lighter%20Vessel%20Carrier%20Bill&ActionBy=${userId}&JVDate=${values?.jvDate}`,
       payload,
       () => {
-        setLandingData(values, "");
+        setLandingData(values, '');
       },
       true
     );
@@ -163,7 +159,7 @@ const VesselRevenueLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -179,8 +175,8 @@ const VesselRevenueLanding = () => {
                       value={values?.port}
                       label="Port"
                       onChange={(valueOption) => {
-                        setFieldValue("port", valueOption);
-                        setFieldValue("motherVessel", "");
+                        setFieldValue('port', valueOption);
+                        setFieldValue('motherVessel', '');
                         getMotherVesselDDL(
                           accId,
                           buId,
@@ -201,7 +197,7 @@ const VesselRevenueLanding = () => {
                       value={values?.motherVessel}
                       label="Mother Vessel"
                       onChange={(valueOption) => {
-                        setFieldValue("motherVessel", valueOption);
+                        setFieldValue('motherVessel', valueOption);
                       }}
                       placeholder="Mother Vessel"
                     />
@@ -220,7 +216,7 @@ const VesselRevenueLanding = () => {
                         })) || []
                       }
                       onChange={(e) => {
-                        setFieldValue("carrierName", e);
+                        setFieldValue('carrierName', e);
                       }}
                       isDisabled={false}
                     />
@@ -284,10 +280,10 @@ const VesselRevenueLanding = () => {
               {gridData?.length > 0 && (
                 <div className="row my-3">
                   <div className="col-lg-4">
-                    <h4>Total Quantity: {getTotal("surveyQuantity")}</h4>
+                    <h4>Total Quantity: {getTotal('surveyQuantity')}</h4>
                   </div>
                   <div className="col-lg-4">
-                    <h4>Total Amount: {getTotal("carrierTotalAmount")}</h4>
+                    <h4>Total Amount: {getTotal('carrierTotalAmount')}</h4>
                   </div>
 
                   <div className="col-lg-4 text-right">
@@ -301,7 +297,7 @@ const VesselRevenueLanding = () => {
                         !values?.narration ||
                         !values?.billRef ||
                         gridData?.filter((item) => item?.isSelected)?.length <
-                        1 ||
+                          1 ||
                         loader ||
                         loading
                       }
@@ -316,20 +312,20 @@ const VesselRevenueLanding = () => {
                   <table
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
                       <tr className="cursor-pointer">
                         <th
                           onClick={() => allSelect(!selectedAll())}
-                          style={{ width: "30px" }}
+                          style={{ width: '30px' }}
                         >
                           <input
                             type="checkbox"
                             value={selectedAll()}
                             checked={selectedAll()}
-                            onChange={() => { }}
+                            onChange={() => {}}
                           />
                         </th>
                         {headers?.map((th, index) => {
@@ -346,7 +342,7 @@ const VesselRevenueLanding = () => {
                             <td
                               onClick={() => {
                                 rowDataHandler(
-                                  "isSelected",
+                                  'isSelected',
                                   index,
                                   !item.isSelected
                                 );
@@ -355,17 +351,17 @@ const VesselRevenueLanding = () => {
                               style={
                                 item?.isSelected
                                   ? {
-                                    backgroundColor: "#aacae3",
-                                    width: "30px",
-                                  }
-                                  : { width: "30px" }
+                                      backgroundColor: '#aacae3',
+                                      width: '30px',
+                                    }
+                                  : { width: '30px' }
                               }
                             >
                               <input
                                 type="checkbox"
                                 value={item?.isSelected}
                                 checked={item?.isSelected}
-                                onChange={() => { }}
+                                onChange={() => {}}
                               />
                             </td>
                             <td> {index + 1}</td>
@@ -386,14 +382,14 @@ const VesselRevenueLanding = () => {
                         );
                       })}
                       {gridData?.length > 0 && (
-                        <tr style={{ fontWeight: "bold" }}>
+                        <tr style={{ fontWeight: 'bold' }}>
                           <td className="text-right" colSpan={6}>
                             Total
                           </td>
                           <td className="text-right">
                             {_fixedPoint(totalQty, true)}
                           </td>
-                          <td></td>{" "}
+                          <td></td>{' '}
                           <td className="text-right">
                             {_fixedPoint(totalAmount, true)}
                           </td>

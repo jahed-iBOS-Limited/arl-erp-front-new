@@ -58,7 +58,6 @@ export default function MainCollapsePanel() {
     } else if (state?.checkBox === 'itemWareHouseCostStatus') {
       setExpanded(6);
     }
-
   }, [state]);
 
   const components = [

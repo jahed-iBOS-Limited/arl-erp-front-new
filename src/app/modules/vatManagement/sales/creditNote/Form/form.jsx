@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import {
   getViewData_api,
   getAmountSdVat,
   getAllItemDetails,
   getPurchaseInvoiceDDl,
-} from "../helper";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   partnerName: Yup.object().shape({
-    label: Yup.string().required("Partner Name is required"),
-    value: Yup.string().required("Partner Name is required"),
+    label: Yup.string().required('Partner Name is required'),
+    value: Yup.string().required('Partner Name is required'),
   }),
   fiscalYear: Yup.object().shape({
-    label: Yup.string().required("Fiscal Year is required"),
-    value: Yup.string().required("Fiscal Year is required"),
+    label: Yup.string().required('Fiscal Year is required'),
+    value: Yup.string().required('Fiscal Year is required'),
   }),
   salesInvoice: Yup.object().shape({
-    label: Yup.string().required("Sales Invoice is required"),
-    value: Yup.string().required("Sales Invoice is required"),
+    label: Yup.string().required('Sales Invoice is required'),
+    value: Yup.string().required('Sales Invoice is required'),
   }),
 });
 
 const validationSchemaForEdit = Yup.object().shape({
   salesInvoice: Yup.object().shape({
-    label: Yup.string().required("Sales Invoice is required"),
-    value: Yup.string().required("Sales Invoice is required"),
+    label: Yup.string().required('Sales Invoice is required'),
+    value: Yup.string().required('Sales Invoice is required'),
   }),
 });
 
@@ -74,7 +74,7 @@ export default function FormCmp({
         (item) => item?.itemName?.value === values?.itemName?.value
       );
       if (found?.length > 0) {
-        toast.warn("Not allowed to duplicate items");
+        toast.warn('Not allowed to duplicate items');
       } else {
         setRowDto([
           ...rowDto,
@@ -87,9 +87,9 @@ export default function FormCmp({
             salesAmount: values?.salesAmount,
             salesSd: values?.salesSd,
             salesVat: values?.salesVat,
-            returnQty: "",
-            returnVat: "",
-            returnSd: "",
+            returnQty: '',
+            returnVat: '',
+            returnSd: '',
             uomid: values?.uomid,
             uomname: values?.uomname,
           },
@@ -97,7 +97,6 @@ export default function FormCmp({
       }
     } else {
       let data = itemNameDDL?.map((data) => {
-
         return {
           ...data,
           itemName: {
@@ -107,9 +106,9 @@ export default function FormCmp({
           salesAmount: data?.grandTotal,
           salesSd: data?.sdtotal,
           salesVat: data?.vatTotal,
-          returnQty: "",
-          returnVat: "",
-          returnSd: "",
+          returnQty: '',
+          returnVat: '',
+          returnSd: '',
           uomid: data?.uomid,
           uomname: data?.uomname,
         };
@@ -117,7 +116,7 @@ export default function FormCmp({
       if (data?.length > 0) {
         setRowDto(data);
       } else {
-        toast.warning("Data not found");
+        toast.warning('Data not found');
       }
     }
   };
@@ -152,37 +151,37 @@ export default function FormCmp({
         }) => (
           <>
             {/* {disableHandler(!isValid)} */}
-            <Form className='form form-label-right'>
-              <div className='row'>
-                <div className='col-lg-8 pr-1'>
-                  <div className=' global-form h-100'>
-                    <div className='row'>
-                      <div className='col-lg-4'>
+            <Form className="form form-label-right">
+              <div className="row">
+                <div className="col-lg-8 pr-1">
+                  <div className=" global-form h-100">
+                    <div className="row">
+                      <div className="col-lg-4">
                         <NewSelect
-                          name='partnerName'
+                          name="partnerName"
                           options={partnerNameDDL}
                           value={values?.partnerName}
                           onChange={(valueOption) => {
-                            setFieldValue("salesInvoice", "");
+                            setFieldValue('salesInvoice', '');
                             getPurchaseInvoiceDDl(
                               valueOption?.value,
                               setSalesInvoiceDDL
                             );
-                            setFieldValue("partnerName", valueOption);
+                            setFieldValue('partnerName', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
-                          label='Partner Name'
-                          placeholder='Partner Name'
+                          label="Partner Name"
+                          placeholder="Partner Name"
                         />
                       </div>
-                      <div className='col-lg-4 mb-1'>
+                      <div className="col-lg-4 mb-1">
                         <NewSelect
-                          name='salesInvoice'
+                          name="salesInvoice"
                           options={salesInvoiceDDL}
                           value={values?.salesInvoice}
-                          label='Sales Invoice'
+                          label="Sales Invoice"
                           onChange={(valueOption) => {
                             setRowDto([]);
                             getViewData_api(
@@ -195,37 +194,37 @@ export default function FormCmp({
                               valueOption?.value,
                               setItemNameDDL
                             );
-                            setFieldValue("salesInvoice", valueOption);
-                            setFieldValue("itemName", "");
+                            setFieldValue('salesInvoice', valueOption);
+                            setFieldValue('itemName', '');
                           }}
-                          placeholder='Sales Invoice'
+                          placeholder="Sales Invoice"
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-4 mb-1'>
+                      <div className="col-lg-4 mb-1">
                         <NewSelect
-                          name='fiscalYear'
+                          name="fiscalYear"
                           options={fiscalYear || []}
                           value={values?.fiscalYear}
-                          label='Fiscal Year'
+                          label="Fiscal Year"
                           onChange={(valueOption) => {
-                            setFieldValue("fiscalYear", valueOption);
+                            setFieldValue('fiscalYear', valueOption);
                           }}
-                          placeholder='Fiscal Year'
+                          placeholder="Fiscal Year"
                           uomname
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-4 mb-1'>
+                      <div className="col-lg-4 mb-1">
                         <NewSelect
-                          name='itemName'
+                          name="itemName"
                           options={itemNameDDL}
                           value={values?.itemName}
-                          label='Item Name'
+                          label="Item Name"
                           onChange={(valueOption) => {
                             if (valueOption) {
                               getAmountSdVat(
@@ -234,53 +233,53 @@ export default function FormCmp({
                                 setFieldValue
                               );
                             }
-                            setFieldValue("itemName", valueOption);
+                            setFieldValue('itemName', valueOption);
                           }}
-                          placeholder='Item Name'
+                          placeholder="Item Name"
                           errors={errors}
                           touched={touched}
                           isDisabled={values?.allItem === true}
                         />
                       </div>
-                      <div className='col-lg-5 my-5'>
-                        <label htmlFor='allItem'>All Item</label>
+                      <div className="col-lg-5 my-5">
+                        <label htmlFor="allItem">All Item</label>
                         <Field
-                          name='allItem'
+                          name="allItem"
                           component={() => (
                             <input
-                              id='allItem'
-                              type='checkbox'
-                              className='ml-2 mt-1'
+                              id="allItem"
+                              type="checkbox"
+                              className="ml-2 mt-1"
                               // disabled={
                               //   values.allItem === "NA (Without Reference)"
                               // }
-                              value={values?.allItem || ""}
+                              value={values?.allItem || ''}
                               checked={values?.allItem}
-                              name='allItem'
+                              name="allItem"
                               onChange={(e) => {
-                                setFieldValue("allItem", e.target.checked);
-                                setFieldValue("item", "");
+                                setFieldValue('allItem', e.target.checked);
+                                setFieldValue('item', '');
                               }}
                             />
                           )}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <button
-                          type='button'
+                          type="button"
                           style={{
-                            marginBottom: "-36px",
-                            marginLeft: "-135px",
+                            marginBottom: '-36px',
+                            marginLeft: '-135px',
                           }}
-                          className='btn btn-primary'
+                          className="btn btn-primary"
                           disabled={
                             !values?.fiscalYear ||
                             !values?.salesInvoice ||
                             (values?.allItem
                               ? false
                               : values?.itemName
-                              ? false
-                              : true)
+                                ? false
+                                : true)
                           }
                           onClick={() => addRowDtoData(values)}
                         >
@@ -290,46 +289,46 @@ export default function FormCmp({
                     </div>
                   </div>
                 </div>
-                <div className='col-lg-4 pl-0'>
-                  <div className={"row global-form h-100"}>
-                    <div className='col-lg-6'>
-                      <p className='mb-1'>
+                <div className="col-lg-4 pl-0">
+                  <div className={'row global-form h-100'}>
+                    <div className="col-lg-6">
+                      <p className="mb-1">
                         <b>Transaction Date: </b>
                         {viewData?.transactionDate &&
                           _dateFormatter(viewData?.transactionDate)}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Transaction Type: </b>fv
                         {viewData?.transactionType}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Trade Type: </b>
                         {viewData?.tradeType}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Customer Info: </b>
                         {viewData?.customerInfo}
                       </p>
                     </div>
-                    <div className='col-lg-6'>
-                      <p className='mb-1'>
+                    <div className="col-lg-6">
+                      <p className="mb-1">
                         <b>Deliverery Info: </b>
                         {viewData?.deliveryInfo}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Deliverery Date: </b>
                         {viewData?.deliveryDate &&
                           _dateFormatter(viewData?.deliveryDate)}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Vehicle Info: </b>
                         {viewData?.vehicleInfo}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Reference No:</b>
                         {viewData?.referenceNo}
                       </p>
-                      <p className='mb-1'>
+                      <p className="mb-1">
                         <b>Reference Date: </b>
                         {viewData?.referenceDate &&
                           _dateFormatter(viewData?.referenceDate)}
@@ -338,21 +337,21 @@ export default function FormCmp({
                   </div>
                 </div>
               </div>
-              <div className='row'>
-                <div className='col-lg-12 mt-4'>
-                  <table className={"table global-table"}>
-                    <thead className={rowDto?.length < 1 && "d-none"}>
+              <div className="row">
+                <div className="col-lg-12 mt-4">
+                  <table className={'table global-table'}>
+                    <thead className={rowDto?.length < 1 && 'd-none'}>
                       <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "35px" }}>Item Name</th>
-                        <th style={{ width: "35px" }}>Sales Quantity</th>
-                        <th style={{ width: "35px" }}>Sales Amount</th>
-                        <th style={{ width: "35px" }}>Sales SD</th>
-                        <th style={{ width: "35px" }}>Sales VAT</th>
-                        <th style={{ width: "35px" }}>Return Qty</th>
-                        <th style={{ width: "35px" }}>Return VAT</th>
-                        <th style={{ width: "35px" }}>Return SD</th>
-                        <th style={{ width: "30px" }}>Action</th>
+                        <th style={{ width: '20px' }}>SL</th>
+                        <th style={{ width: '35px' }}>Item Name</th>
+                        <th style={{ width: '35px' }}>Sales Quantity</th>
+                        <th style={{ width: '35px' }}>Sales Amount</th>
+                        <th style={{ width: '35px' }}>Sales SD</th>
+                        <th style={{ width: '35px' }}>Sales VAT</th>
+                        <th style={{ width: '35px' }}>Return Qty</th>
+                        <th style={{ width: '35px' }}>Return VAT</th>
+                        <th style={{ width: '35px' }}>Return SD</th>
+                        <th style={{ width: '30px' }}>Action</th>
                       </tr>
                     </thead>
                     {/*T-body  */}
@@ -361,95 +360,95 @@ export default function FormCmp({
                       {rowDto?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-center'>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-center">
                               {item?.itemName?.label}
                             </div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-center'>{item?.quantity}</div>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-center">{item?.quantity}</div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-center pl-2 '>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-center pl-2 ">
                               {item?.salesAmount}
                             </div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-center pl-2'>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-center pl-2">
                               {item?.salesSd}
                             </div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-center'>{item?.salesVat}</div>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-center">{item?.salesVat}</div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-left'>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-left">
                               <input
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "returnQty",
+                                    'returnQty',
                                     e.target.value,
                                     index
                                   );
                                 }}
-                                className='form-control'
-                                type='number'
-                                name='returnQty'
-                                min='0'
+                                className="form-control"
+                                type="number"
+                                name="returnQty"
+                                min="0"
                                 required
-                                placeholder='Return Qty'
+                                placeholder="Return Qty"
                                 value={item?.returnQty}
-                                step='any'
+                                step="any"
                                 max={item?.quantity}
                               />
                             </div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-left'>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-left">
                               <input
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "returnVat",
+                                    'returnVat',
                                     e.target.value,
                                     index
                                   );
                                 }}
-                                className='form-control'
-                                type='number'
-                                name='returnVat'
-                                min='0'
+                                className="form-control"
+                                type="number"
+                                name="returnVat"
+                                min="0"
                                 required
-                                placeholder='Return VAT'
+                                placeholder="Return VAT"
                                 value={item?.returnVat}
-                                step='any'
+                                step="any"
                                 max={item?.salesVat}
                               />
                             </div>
                           </td>
-                          <td style={{ width: "30px" }}>
-                            <div className='text-left'>
+                          <td style={{ width: '30px' }}>
+                            <div className="text-left">
                               <input
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "returnSd",
+                                    'returnSd',
                                     e.target.value,
                                     index
                                   );
                                 }}
-                                min='0'
+                                min="0"
                                 required
-                                className='form-control'
-                                type='number'
-                                name='returnSd'
-                                placeholder='Return SD'
+                                className="form-control"
+                                type="number"
+                                name="returnSd"
+                                placeholder="Return SD"
                                 value={item?.returnSd}
-                                step='any'
+                                step="any"
                                 max={item?.salesSd}
                               />
                             </div>
                           </td>
 
-                          <td className='text-center'>
+                          <td className="text-center">
                             <IDelete remover={remover} id={index} />
                           </td>
                         </tr>
@@ -459,14 +458,14 @@ export default function FormCmp({
                 </div>
               </div>
               <button
-                type='submit'
-                style={{ display: "none" }}
+                type="submit"
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
-                type='reset'
-                style={{ display: "none" }}
+                type="reset"
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

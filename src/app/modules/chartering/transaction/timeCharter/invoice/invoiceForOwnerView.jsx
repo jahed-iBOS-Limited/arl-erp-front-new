@@ -1,28 +1,26 @@
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import { ToWords } from "to-words";
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import { ToWords } from 'to-words';
 // import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import Loading from "../../../../_helper/_loading";
-import {
-  _formatMoneyWithDoller,
-} from "../../../_chartinghelper/_formatMoney";
+import Loading from '../../../../_helper/_loading';
+import { _formatMoneyWithDoller } from '../../../_chartinghelper/_formatMoney';
 // import akijResourceLogo from "../../../_chartinghelper/assets/images/logos/akij-resource.png";
 // import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/shipping.png";
 // import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
 // import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
 // import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
-import { useLocation } from "react-router-dom";
-import * as XLSX from "xlsx";
-import { ExportPDF } from "../../../_chartinghelper/exportPdf";
-import { getOwnerBankInfoDetailsById } from "../helper";
-import { BankInfoComponent } from "./bankInfoComponent";
-import "./style.css";
-import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { useLocation } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import { ExportPDF } from '../../../_chartinghelper/exportPdf';
+import { getOwnerBankInfoDetailsById } from '../helper';
+import { BankInfoComponent } from './bankInfoComponent';
+import './style.css';
+import { commonGetLetterHead } from '../../../../_helper/letterHead/commonGetLetterHead';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const toWords = new ToWords({
-  localeCode: "en-US",
+  localeCode: 'en-US',
   converterOptions: {
     currency: true,
     ignoreDecimal: false,
@@ -35,7 +33,7 @@ export default function InvoiceForOwnerView({
   invoiceHireData,
   formikprops,
   rowData,
-  buId
+  buId,
 }) {
   const [bankInfoData, setBankInfoData] = useState();
   const [loading, setLoading] = useState(false);
@@ -49,14 +47,12 @@ export default function InvoiceForOwnerView({
         invoiceHireData?.beneficiaryId,
         setBankInfoData
       );
-    } else if (location?.actionType === "view") {
+    } else if (location?.actionType === 'view') {
       getOwnerBankInfoDetailsById(
         location?.state?.beneficiaryId,
         setBankInfoData
       );
     }
-
-
   }, [invoiceHireData]);
 
   let totalCredit = 0;
@@ -67,58 +63,58 @@ export default function InvoiceForOwnerView({
   const exportToExcel = () => {
     const wsData = [
       [
-        "VESSEL & VOYAGE :",
+        'VESSEL & VOYAGE :',
         `${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`,
       ],
-      ["OWNER :", invoiceHireData?.ownerName],
-      ["CHTR :", invoiceHireData?.chtrName],
+      ['OWNER :', invoiceHireData?.ownerName],
+      ['CHTR :', invoiceHireData?.chtrName],
       [
-        "DELIVERY :",
-        moment(invoiceHireData?.deliveryDate).format("DD-MMM-YYYY HH:mm A"),
+        'DELIVERY :',
+        moment(invoiceHireData?.deliveryDate).format('DD-MMM-YYYY HH:mm A'),
       ],
       [
-        "REDELIVERY :",
+        'REDELIVERY :',
         moment(
           invoiceHireData?.reDeliveryDate || invoiceHireData?.dteReDeliveryDate
-        ).format("DD-MMM-YYYY HH:mm A"),
+        ).format('DD-MMM-YYYY HH:mm A'),
       ],
-      ["TOTAL DURATION :", invoiceHireData?.totalDuration],
-      ["BROKERAGE :", `${invoiceHireData?.brokerage}%`],
-      ["ADD COMM :", `${invoiceHireData?.comm}%`],
-      ["LSFO PRICE/MT :", `${_formatMoney(invoiceHireData?.lsfoprice)} USD`],
-      ["DATE OF INVOICE :", invoiceHireData?.invoiceDate],
-      ["REF :", invoiceHireData?.refNo],
-      ["DUE DATE :", moment(invoiceHireData?.dueDate).format("DD-MMM-YYYY")],
-      ["START PORT :", invoiceHireData?.startPortName],
-      ["END PORT :", invoiceHireData?.endPortName],
-      ["DAILY HIRE :", `${_formatMoney(invoiceHireData?.dailyHire)} USD`],
-      ["ILOHC :", `${_formatMoney(invoiceHireData?.ilohc)} USD`],
-      ["C/V/E /DAYS :", `${_formatMoney(invoiceHireData?.cveday)} USD`],
-      ["LSMGO PR/MT :", `${_formatMoney(invoiceHireData?.lsmgoprice)} USD`],
+      ['TOTAL DURATION :', invoiceHireData?.totalDuration],
+      ['BROKERAGE :', `${invoiceHireData?.brokerage}%`],
+      ['ADD COMM :', `${invoiceHireData?.comm}%`],
+      ['LSFO PRICE/MT :', `${_formatMoney(invoiceHireData?.lsfoprice)} USD`],
+      ['DATE OF INVOICE :', invoiceHireData?.invoiceDate],
+      ['REF :', invoiceHireData?.refNo],
+      ['DUE DATE :', moment(invoiceHireData?.dueDate).format('DD-MMM-YYYY')],
+      ['START PORT :', invoiceHireData?.startPortName],
+      ['END PORT :', invoiceHireData?.endPortName],
+      ['DAILY HIRE :', `${_formatMoney(invoiceHireData?.dailyHire)} USD`],
+      ['ILOHC :', `${_formatMoney(invoiceHireData?.ilohc)} USD`],
+      ['C/V/E /DAYS :', `${_formatMoney(invoiceHireData?.cveday)} USD`],
+      ['LSMGO PR/MT :', `${_formatMoney(invoiceHireData?.lsmgoprice)} USD`],
       [],
-      ["SR.", "DESCRIPTION", "Duration", "Quantity", "Debit", "Credit"],
+      ['SR.', 'DESCRIPTION', 'Duration', 'Quantity', 'Debit', 'Credit'],
       ...rowData.map((item, index) => [
         index + 1,
         item.description,
-        +item.duration > 0 ? `${item.duration} DAYS` : "",
-        +item.quantity > 0 ? `${+item.quantity} MT` : "",
+        +item.duration > 0 ? `${item.duration} DAYS` : '',
+        +item.quantity > 0 ? `${+item.quantity} MT` : '',
         _formatMoneyWithDoller(item.credit?.toFixed(2)),
         _formatMoneyWithDoller(item.debit?.toFixed(2)),
       ]),
       [
-        "Total",
-        "",
-        "",
-        "",
+        'Total',
+        '',
+        '',
+        '',
         _formatMoneyWithDoller(totalCredit?.toFixed(2)),
         _formatMoneyWithDoller(totalDebit?.toFixed(2)),
       ],
       [
-        "AMOUNT PAYABLE TO OWNERS",
-        "",
-        "",
-        "",
-        "",
+        'AMOUNT PAYABLE TO OWNERS',
+        '',
+        '',
+        '',
+        '',
         _formatMoneyWithDoller((totalCredit - totalDebit)?.toFixed(2)),
       ],
       [
@@ -130,10 +126,9 @@ export default function InvoiceForOwnerView({
 
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, "Invoice");
+    XLSX.utils.book_append_sheet(wb, ws, 'Invoice');
     XLSX.writeFile(wb, `${invoiceHireData?.vesselName}_Invoice.xlsx`);
   };
-
 
   return (
     <>
@@ -141,7 +136,7 @@ export default function InvoiceForOwnerView({
       <div className="d-flex justify-content-end my-2">
         <ReactToPrint
           pageStyle={
-            "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+            '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
           }
           trigger={() => (
             <button type="button" className="btn btn-primary px-3 py-2">
@@ -179,14 +174,14 @@ export default function InvoiceForOwnerView({
               backgroundImage: `url(${commonGetLetterHead({
                 buId: buId,
               })})`,
-              backgroundRepeat: "no-repeat",
-              height: "170px",
-              backgroundPosition: "left 10px",
-              backgroundSize: "cover",
-              position: "fixed",
-              width: "100%",
-              top: "-50px",
-              left: "-2px",
+              backgroundRepeat: 'no-repeat',
+              height: '170px',
+              backgroundPosition: 'left 10px',
+              backgroundSize: 'cover',
+              position: 'fixed',
+              width: '100%',
+              top: '-50px',
+              left: '-2px',
             }}
           ></div>
           <div
@@ -195,28 +190,28 @@ export default function InvoiceForOwnerView({
               backgroundImage: `url(${commonGetLetterHead({
                 buId: buId,
               })})`,
-              backgroundRepeat: "no-repeat",
-              height: "100px",
-              backgroundPosition: "left bottom",
-              backgroundSize: "cover",
-              bottom: "-0px",
-              position: "fixed",
-              width: "100%",
-              left: "-2px",
+              backgroundRepeat: 'no-repeat',
+              height: '100px',
+              backgroundPosition: 'left bottom',
+              backgroundSize: 'cover',
+              bottom: '-0px',
+              position: 'fixed',
+              width: '100%',
+              left: '-2px',
             }}
           ></div>
-          <table style={{ width: "100%" }}>
+          <table style={{ width: '100%' }}>
             <thead>
               <tr>
                 <td
                   style={{
-                    border: "none",
+                    border: 'none',
                   }}
                 >
                   {/* place holder for the fixed-position header */}
                   <div
                     style={{
-                      height: "110px",
+                      height: '110px',
                     }}
                   ></div>
                 </td>
@@ -224,15 +219,15 @@ export default function InvoiceForOwnerView({
             </thead>
             <tbody>
               <div
-                style={{ marginTop: "2px" }}
+                style={{ marginTop: '2px' }}
                 className="invoiceForChartererWraper"
               >
                 <h5
                   className="text-center uppercase mb-4 statementTitle"
-                // style={{ marginTop: "120px" }}
+                  // style={{ marginTop: "120px" }}
                 >
                   {values?.transactionName?.label ||
-                    invoiceHireData?.transactionName}{" "}
+                    invoiceHireData?.transactionName}{' '}
                   STATEMENT
                 </h5>
 
@@ -260,7 +255,7 @@ export default function InvoiceForOwnerView({
                       <div className="headerKey">DELIVERY :</div>
                       <div className="headerValue">
                         {moment(invoiceHireData?.deliveryDate).format(
-                          "DD-MMM-YYYY HH:mm A"
+                          'DD-MMM-YYYY HH:mm A'
                         )}
                       </div>
                     </div>
@@ -269,8 +264,8 @@ export default function InvoiceForOwnerView({
                       <div className="headerValue">
                         {moment(
                           invoiceHireData?.reDeliveryDate ||
-                          invoiceHireData?.dteReDeliveryDate
-                        ).format("DD-MMM-YYYY HH:mm A")}
+                            invoiceHireData?.dteReDeliveryDate
+                        ).format('DD-MMM-YYYY HH:mm A')}
                       </div>
                     </div>
                     <div className="headerWrapper">
@@ -322,7 +317,7 @@ export default function InvoiceForOwnerView({
                     <div className="headerWrapper">
                       <div className="headerKey">DUE DATE :</div>
                       <div className="headerValue">
-                        {moment(invoiceHireData?.dueDate).format("DD-MMM-YYYY")}
+                        {moment(invoiceHireData?.dueDate).format('DD-MMM-YYYY')}
                       </div>
                     </div>
                     <div className="headerWrapper">
@@ -370,7 +365,7 @@ export default function InvoiceForOwnerView({
                   <table className="table mt-1 bj-table bj-table-landing">
                     <thead>
                       <tr
-                        style={{ borderTop: "1px solid #d6d6d6" }}
+                        style={{ borderTop: '1px solid #d6d6d6' }}
                         className="text-center"
                       >
                         <th>SR.</th>
@@ -393,12 +388,12 @@ export default function InvoiceForOwnerView({
                             <td className={`text-right`}>
                               {+item?.duration > 0
                                 ? `${item?.duration} DAYS`
-                                : ""}
+                                : ''}
                             </td>
                             <td className={`text-right`}>
                               {+item?.quantity > 0
                                 ? `${+item?.quantity} MT`
-                                : ""}
+                                : ''}
                             </td>
                             {/*
                   N.B: Debit Will be Credit & Credit will be Debit For Owner View
@@ -479,13 +474,13 @@ export default function InvoiceForOwnerView({
               <tr>
                 <td
                   style={{
-                    border: "none",
+                    border: 'none',
                   }}
                 >
                   {/* place holder for the fixed-position footer */}
                   <div
                     style={{
-                      height: "150px",
+                      height: '150px',
                     }}
                   ></div>
                 </td>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call VehicleTypeddl APi
 export function getVehicleTypeDDL() {
@@ -10,7 +10,7 @@ export function getVehicleCapacityDDL() {
 }
 //getVehicleFuelTypeDDL
 export function getVehicleFuelTypeDDL() {
-  return axios.get("tms/Vehicle/GetVehicleFuelTypeDDL?IsActive=true");
+  return axios.get('tms/Vehicle/GetVehicleFuelTypeDDL?IsActive=true');
 }
 
 // Save created data
@@ -33,7 +33,7 @@ export function getGridData(
   shipPointId,
   ownerTypeId
 ) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/tms/Vehicle/VehicleInfosearchPasignation?${searchPath}VehicleNo=1&Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&OwnerTypeId=${ownerTypeId}&ShipPointId=${shipPointId}`

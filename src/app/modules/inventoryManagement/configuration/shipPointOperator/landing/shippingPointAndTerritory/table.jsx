@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import PaginationTable from "../../../../../_helper/_tablePagination";
+import React from 'react';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import PaginationTable from '../../../../../_helper/_tablePagination';
 
 const ShipmentPointAndTerritoryTable = ({
   values,
@@ -20,7 +20,7 @@ const ShipmentPointAndTerritoryTable = ({
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              <th style={{ width: "35px" }}>SL</th>
+              <th style={{ width: '35px' }}>SL</th>
               <th>Area</th>
               <th>Territory</th>
               <th>Ship Point</th>

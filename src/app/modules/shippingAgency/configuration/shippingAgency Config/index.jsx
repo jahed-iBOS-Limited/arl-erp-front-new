@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
 import {
   deleteShipAgency,
   getLandingData,
   getVesselDDL,
   getVesselTypeDDL,
-} from "./helper";
+} from './helper';
 const initData = {
-  vesselType: "",
-  vessel: "",
+  vesselType: '',
+  vessel: '',
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
 };
@@ -36,7 +36,7 @@ export default function ShippingAgencyLanding() {
     businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const history = useHistory();
   const commonGridData = (_pageNo = pageNo, _pageSize = pageSize, values) => {
     getLandingData(
@@ -56,8 +56,6 @@ export default function ShippingAgencyLanding() {
     if (buId && accId) {
       getVesselDDL(buId, accId, setVesselDDL, setLoading);
     }
-
-
   }, [buId, accId]);
   return (
     <Formik
@@ -97,7 +95,7 @@ export default function ShippingAgencyLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/ShippingAgency/Configuration/ShippingAgencyConfig/create"
+                        '/ShippingAgency/Configuration/ShippingAgencyConfig/create'
                       );
                     }}
                   >
@@ -117,7 +115,7 @@ export default function ShippingAgencyLanding() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       }
                     }}
                     errors={errors}
@@ -127,11 +125,11 @@ export default function ShippingAgencyLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="vesselType"
-                    options={[{ label: "All", value: 0 }, ...vesselTypeDDL]}
+                    options={[{ label: 'All', value: 0 }, ...vesselTypeDDL]}
                     value={values?.vesselType}
                     label="Vessel Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselType", valueOption);
+                      setFieldValue('vesselType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -140,11 +138,11 @@ export default function ShippingAgencyLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="vessel"
-                    options={[{ label: "All", value: 0 }, ...vesselDDL]}
+                    options={[{ label: 'All', value: 0 }, ...vesselDDL]}
                     value={values?.vessel}
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vessel", valueOption);
+                      setFieldValue('vessel', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -157,7 +155,7 @@ export default function ShippingAgencyLanding() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setRowData([]);
                     }}
                   />
@@ -169,7 +167,7 @@ export default function ShippingAgencyLanding() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setRowData([]);
                     }}
                   />
@@ -242,9 +240,9 @@ export default function ShippingAgencyLanding() {
                           <td className="text-center ">
                             <div
                               style={{
-                                display: "flex",
-                                gap: "2px",
-                                justifyContent: "center",
+                                display: 'flex',
+                                gap: '2px',
+                                justifyContent: 'center',
                               }}
                             >
                               <span
@@ -258,7 +256,7 @@ export default function ShippingAgencyLanding() {
                                 <IEdit />
                               </span>
                               <span
-                                style={{ marginLeft: "5px" }}
+                                style={{ marginLeft: '5px' }}
                                 onClick={() => {
                                   deleteShipAgency(
                                     item?.id,

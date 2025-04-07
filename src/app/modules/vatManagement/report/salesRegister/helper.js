@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 export const GetItemTypeDDL_api = async (setter) => {
   try {
     const res = await axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
@@ -27,7 +27,7 @@ export const getVatBranches_api = async (userId, accid, buid, setter) => {
     );
     if (res?.data?.length > 0) {
       const modify = res?.data;
-      const all = { value: 0, label: "All" };
+      const all = { value: 0, label: 'All' };
       modify.unshift(all);
       setter(modify);
     }

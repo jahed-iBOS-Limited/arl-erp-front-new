@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   unPavDDL: [],
-  reportData: []
+  reportData: [],
 };
 
 export const kipDeshboardTwoSlice = createSlice({
-  name: "kipDeshboardTwo",
+  name: 'kipDeshboardTwo',
   initialState: initState,
   reducers: {
     SetunPavDDL: (state, action) => {
@@ -18,7 +18,7 @@ export const kipDeshboardTwoSlice = createSlice({
     },
 
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
     SetReportData: (state, action) => {
       const { payload } = action;

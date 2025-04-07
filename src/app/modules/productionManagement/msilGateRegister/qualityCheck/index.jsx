@@ -1,29 +1,29 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import QcViewModal from "./qcViewModal";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import QcViewModal from './qcViewModal';
 
 const initData = {
-  date: "",
-  receiveType: "",
+  date: '',
+  receiveType: '',
 };
 
 function QualityCheck() {
@@ -46,13 +46,12 @@ function QualityCheck() {
     getRowData(
       `/mes/WeightBridge/GetAllQCLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
         profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}&search=${""}`
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&search=${''}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    let weightDate = values?.date ? `&WeightDate=${values?.date}` : "";
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    let weightDate = values?.date ? `&WeightDate=${values?.date}` : '';
     getRowData(
       `/mes/WeightBridge/GetAllQCLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}${weightDate}&search=${searchValue}`
     );
@@ -74,7 +73,7 @@ function QualityCheck() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"First Weight"}>
+              <CardHeader title={'First Weight'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -102,25 +101,25 @@ function QualityCheck() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary"
                         disabled={false}
                         onClick={() => {
                           let weightDate = values?.date
                             ? `&WeightDate=${values?.date}`
-                            : "";
+                            : '';
                           getRowData(
                             `/mes/WeightBridge/GetAllQCLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
                               profileData?.accountId
                             }&BusinessUnitId=${
                               selectedBusinessUnit?.value
-                            }${weightDate}&search=${""}`
+                            }${weightDate}&search=${''}`
                           );
                         }}
                       >
@@ -141,7 +140,7 @@ function QualityCheck() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>গাড়ীর নাম্বার</th>
                             <th>রেজি. নং</th>
@@ -154,10 +153,10 @@ function QualityCheck() {
                             {selectedBusinessUnit?.value === 171 ||
                             selectedBusinessUnit?.value === 224 ? (
                               <>
-                                <th style={{ width: "110px" }}>
+                                <th style={{ width: '110px' }}>
                                   Quality Checked
                                 </th>
-                                <th style={{ width: "60px" }}>Action</th>
+                                <th style={{ width: '60px' }}>Action</th>
                               </>
                             ) : null}
                           </tr>
@@ -192,15 +191,16 @@ function QualityCheck() {
                                     {item?.intClientTypeId === 1 ? (
                                       <td
                                         style={{
-                                          backgroundColor: item?.isQualityChecked
-                                            ? "#2EFF2E"
-                                            : "#FF5C5C",
+                                          backgroundColor:
+                                            item?.isQualityChecked
+                                              ? '#2EFF2E'
+                                              : '#FF5C5C',
                                         }}
                                         className="text-center"
                                       >
                                         {item?.isQualityChecked
-                                          ? "QC Passed"
-                                          : "QC Not Passed"}
+                                          ? 'QC Passed'
+                                          : 'QC Not Passed'}
                                       </td>
                                     ) : (
                                       <td></td>
@@ -212,18 +212,18 @@ function QualityCheck() {
                                             <OverlayTrigger
                                               overlay={
                                                 <Tooltip id="cs-icon">
-                                                  {"Grading"}
+                                                  {'Grading'}
                                                 </Tooltip>
                                               }
                                             >
                                               <span>
                                                 <i
                                                   className={`fas fa-plus-square`}
-                                                  style={{ cursor: "pointer" }}
+                                                  style={{ cursor: 'pointer' }}
                                                   onClick={() => {
                                                     if (item?.isQualityChecked)
                                                       return toast.warn(
-                                                        "QC already passed"
+                                                        'QC already passed'
                                                       );
                                                     history.push({
                                                       pathname: `/production-management/msil-gate-register/First-Weight/grading-two/${item?.intWeightmentId}`,
@@ -239,7 +239,7 @@ function QualityCheck() {
                                               onClick={() => {
                                                 if (!item?.isQualityChecked)
                                                   return toast.warn(
-                                                    "Please enter QC grade first"
+                                                    'Please enter QC grade first'
                                                   );
                                                 setWeightmentId(
                                                   item?.intWeightmentId
@@ -248,7 +248,7 @@ function QualityCheck() {
                                               }}
                                             >
                                               <IView
-                                                styles={{ fontSize: "17px" }}
+                                                styles={{ fontSize: '17px' }}
                                               />
                                             </span>
                                           </div>

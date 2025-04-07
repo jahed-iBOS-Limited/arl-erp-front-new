@@ -1,14 +1,14 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { setData } from "../../trainingRequisition/Form/helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { setData } from '../../trainingRequisition/Form/helper';
 
 export default function FormCmp({
   initData,
@@ -26,10 +26,9 @@ export default function FormCmp({
   setIsFromRequisition,
 }) {
   const [trainingScheduleDDL, getTrainingScheduleDDL] = useAxiosGet();
-  console.log(requisitionList, "requisitionList");
+  console.log(requisitionList, 'requisitionList');
   useEffect(() => {
     getTrainingScheduleDDL(`/hcm/Training/TrainingScheduleDDL`);
-
   }, []);
 
   const loadSupervisorAndLineManagerList = (v) => {
@@ -46,17 +45,17 @@ export default function FormCmp({
 
   const addHandler = (values, resetForm, setFieldValue) => {
     if (!values?.trainingSchedule?.value)
-      return toast.warn("Training Schedule is");
-    if (!values?.employee?.value) return toast.warn("Employee is required");
+      return toast.warn('Training Schedule is');
+    if (!values?.employee?.value) return toast.warn('Employee is required');
     if (
       requisitionList.some(
         (item) => item?.employee?.value === values?.employee?.value
       )
     )
-      return toast.warn("Employee already exist");
+      return toast.warn('Employee already exist');
     setRequisitionList([{ ...values, isFromRequisition }, ...requisitionList]);
     resetForm(initData);
-    setFieldValue("phone", "");
+    setFieldValue('phone', '');
   };
 
   const removeHandler = (index) => {
@@ -95,7 +94,7 @@ export default function FormCmp({
                     value={values?.trainingSchedule}
                     label="Training Schedule"
                     onChange={(valueOption) => {
-                      setFieldValue("trainingSchedule", valueOption);
+                      setFieldValue('trainingSchedule', valueOption);
                     }}
                     errors={errors}
                   />
@@ -106,7 +105,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.employee}
                     handleChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                       setData(valueOption, setFieldValue);
                     }}
                     loadOptions={loadSupervisorAndLineManagerList}
@@ -130,7 +129,7 @@ export default function FormCmp({
                     value={values?.designation}
                     label="Designation"
                     onChange={(valueOption) => {
-                      setFieldValue("designation", valueOption);
+                      setFieldValue('designation', valueOption);
                     }}
                     errors={errors}
                   />
@@ -144,7 +143,7 @@ export default function FormCmp({
                     value={values?.jobType}
                     label="Job Type"
                     onChange={(valueOption) => {
-                      setFieldValue("jobType", valueOption);
+                      setFieldValue('jobType', valueOption);
                     }}
                     errors={errors}
                   />
@@ -185,7 +184,7 @@ export default function FormCmp({
                   />
                 </div>
                 <div
-                  style={{ marginTop: "17px", marginLeft: "12px" }}
+                  style={{ marginTop: '17px', marginLeft: '12px' }}
                   className="d-flex"
                 >
                   <input
@@ -195,12 +194,12 @@ export default function FormCmp({
                       setIsFromRequisition(!isFromRequisition);
                     }}
                   />
-                  <div style={{ paddingLeft: "5px", paddingTop: "1px" }}>
+                  <div style={{ paddingLeft: '5px', paddingTop: '1px' }}>
                     <label>Is Requisition (Approval Needed)</label>
                   </div>
                 </div>
 
-                <div style={{ marginTop: "15px" }} className="col-lg-1">
+                <div style={{ marginTop: '15px' }} className="col-lg-1">
                   <button
                     type="button"
                     onClick={() => {
@@ -218,7 +217,7 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "100px" }}>Enroll</th>
+                        <th style={{ width: '100px' }}>Enroll</th>
                         <th>Name</th>
                         <th>Training Name</th>
                         <th>Designation</th>
@@ -228,7 +227,7 @@ export default function FormCmp({
                         <th>Gender</th>
                         <th>Supervisor</th>
                         <th>Resource Person</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -242,15 +241,15 @@ export default function FormCmp({
                             <td>{item?.trainingSchedule?.name}</td>
                             <td>{item?.designation?.label}</td>
                             <td>{item?.jobType?.label}</td>
-                            <td>{item?.email || ""}</td>
-                            <td>{item?.phone || ""}</td>
+                            <td>{item?.email || ''}</td>
+                            <td>{item?.phone || ''}</td>
                             <td>{item?.gender}</td>
                             <td>{item?.supervisor}</td>
                             <td>{item?.resourcePerson}</td>
                             <td className="text-center">
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                  <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                 }
                               >
                                 <span>
@@ -272,14 +271,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

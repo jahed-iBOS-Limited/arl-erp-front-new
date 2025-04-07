@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import ICustomTable from "../../../../_helper/_customTable";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useSelector, shallowEqual } from "react-redux";
-import { getPlantNameDDl, getWorkCenterLanding } from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "./../../../../_helper/_search";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import ICustomTable from '../../../../_helper/_customTable';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getPlantNameDDl, getWorkCenterLanding } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from './../../../../_helper/_search';
 
 const tableHeader = [
-  "SL",
-  "Work Center Name",
-  "Work Center Code",
+  'SL',
+  'Work Center Name',
+  'Work Center Code',
   // "Plant Name",   {/* Last Change Assign By Miraj Hossain (BA) */}
-  "Shop Floor",
-  "Action",
+  'Shop Floor',
+  'Action',
 ];
 
 export default function TableRow({ setSelectedDDLPlant }) {
@@ -106,8 +105,8 @@ export default function TableRow({ setSelectedDDLPlant }) {
             );
           }}
           value={selectedDDLItem}
-          errors={"errors"}
-          touched={"touched"}
+          errors={'errors'}
+          touched={'touched'}
         />
       </div>
       <div className="col-lg-12">
@@ -120,7 +119,7 @@ export default function TableRow({ setSelectedDDLPlant }) {
             {loader && <Loading />}
             {landingData?.data?.map((item, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "center" }}>{index + 1}</td>
+                <td style={{ textAlign: 'center' }}>{index + 1}</td>
                 <td>
                   <div className="pl-2">{item.workCenterName}</div>
                 </td>
@@ -134,7 +133,7 @@ export default function TableRow({ setSelectedDDLPlant }) {
                 <td>
                   <div className="pl-2">{item.shopFloor}</div>
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td style={{ textAlign: 'center' }}>
                   <span className="ml-3">
                     <IView
                       clickHandler={() => {

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -89,7 +88,7 @@ export default function FormCmp({
       getDistrictDDLAction(
         location?.state?.country?.value,
         location?.state?.division?.value,
-        setDistrictDDL,
+        setDistrictDDL
       );
       // setEmployeeValue({
       //   label: location?.state?.employee?.label,
@@ -101,7 +100,7 @@ export default function FormCmp({
   useEffect(() => {
     let data = [...leaveTypeDDL];
     const modifyData = data.filter(
-      (item) => item.value !== 7 && item?.value !== 9,
+      (item) => item.value !== 7 && item?.value !== 9
     );
     setUpdateLeaveTypeDDL([...modifyData]);
   }, [selectedBusinessUnit, profileData, leaveTypeDDL]);
@@ -111,7 +110,7 @@ export default function FormCmp({
       getLeaveSummarySelfData(
         location?.state?.employee?.value,
         setLeaveSummaryRowDto,
-        setLoader,
+        setLoader
       );
     }
   }, [location]);
@@ -126,7 +125,7 @@ export default function FormCmp({
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -136,7 +135,7 @@ export default function FormCmp({
 
   const plLeaveBalance = useCallback(
     leaveSummaryRowDto.filter((item) => item?.leaveType === 'Previledge Leave'),
-    [leaveSummaryRowDto],
+    [leaveSummaryRowDto]
   );
 
   const plLeaveFromDateHandler = (setFieldValue, value) => {
@@ -154,7 +153,7 @@ export default function FormCmp({
     if (plLeaveBalance?.[0]?.remainingDays > 0) {
       let toDate = addDaysToADate(
         value,
-        plLeaveBalance?.[0]?.remainingDays - 1,
+        plLeaveBalance?.[0]?.remainingDays - 1
       );
       setFieldValue('toDate', toDate);
     } else {
@@ -244,7 +243,7 @@ export default function FormCmp({
                               getLeaveTypeDDL(
                                 1,
                                 values?.employeeName?.value,
-                                setLeaveTypeDDL,
+                                setLeaveTypeDDL
                               );
                             }
                             setFieldValue('leaveType', 1);
@@ -361,7 +360,7 @@ export default function FormCmp({
                           ) {
                             plLeaveFromDateHandler(
                               setFieldValue,
-                              e.target.value,
+                              e.target.value
                             );
                           } else {
                             setFieldValue('fromDate', e.target.value);
@@ -543,7 +542,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

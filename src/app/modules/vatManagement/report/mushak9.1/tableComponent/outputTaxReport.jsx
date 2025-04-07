@@ -1,13 +1,12 @@
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import OutputTaxModal from "../outputTaxModal/outputTaxModal";
-import OutputTaxModal_6 from "../outputTaxModal/outputTaxModal_6";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import OutputTaxModal from '../outputTaxModal/outputTaxModal';
+import OutputTaxModal_6 from '../outputTaxModal/outputTaxModal_6';
+import Loading from '../../../../_helper/_loading';
 import {
   getSupplyOutputTax,
   // getOutputTaxDetailsFor4_api,
-} from "./../helper";
+} from './../helper';
 
 export default function OutPutTaxReport({
   gridData,
@@ -20,8 +19,8 @@ export default function OutPutTaxReport({
   const [outputTaxModal, setOutputTaxModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [singleOutputTax, setSingleOutputTax] = useState([]);
-  const [suplyTypeId, setSuplyTypeId] = useState("");
-  const [tradeTypeId, setTradeTypeId] = useState("");
+  const [suplyTypeId, setSuplyTypeId] = useState('');
+  const [tradeTypeId, setTradeTypeId] = useState('');
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -48,118 +47,118 @@ export default function OutPutTaxReport({
   const getNote_08 = commonNoteFind(8);
   const getNote_09 = commonNoteFind(9);
   const note_01 = {
-    noteNo: "note_01",
+    noteNo: 'note_01',
     value:
       getNote_01?.value ||
       (gridData[0]?.nameOfSupplyId === 1 && gridData[0]?.tradeTypeId === 3
         ? gridData[0]?.value_a
-        : ""),
+        : ''),
     sd:
       getNote_01?.sd ||
       (gridData[0]?.nameOfSupplyId === 1 && gridData[0]?.tradeTypeId === 3
         ? gridData[0]?.sD_b
-        : ""),
+        : ''),
     vat:
       getNote_01?.vat ||
       (gridData[0]?.nameOfSupplyId === 1 && gridData[0]?.tradeTypeId === 3
         ? gridData[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_02 = {
-    noteNo: "note_02",
+    noteNo: 'note_02',
     value:
       getNote_02?.value ||
       (gridData[1]?.nameOfSupplyId === 1 && gridData[1]?.tradeTypeId === 4
         ? gridData[1]?.value_a
-        : ""),
+        : ''),
     sd:
       getNote_02?.sd ||
       (gridData[1]?.nameOfSupplyId === 1 && gridData[1]?.tradeTypeId === 4
         ? gridData[1]?.sD_b
-        : ""),
+        : ''),
     vat:
       getNote_02?.vat ||
       (gridData[1]?.nameOfSupplyId === 1 && gridData[1]?.tradeTypeId === 4
         ? gridData[1]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_03 = {
-    noteNo: "note_03",
+    noteNo: 'note_03',
     value:
       getNote_03?.value ||
-      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.value_a : ""),
+      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.value_a : ''),
     sd:
       getNote_03?.sd ||
-      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.sD_b : ""),
+      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.sD_b : ''),
     vat:
       getNote_03?.vat ||
-      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.vaT_b : ""),
+      (gridData[2]?.nameOfSupplyId === 2 ? gridData[2]?.vaT_b : ''),
   };
 
   const note_04 = {
-    noteNo: "note_04",
+    noteNo: 'note_04',
     value:
       getNote_04?.value ||
-      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.value_a : ""),
+      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.value_a : ''),
     sd:
       getNote_04?.sd ||
-      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.sD_b : ""),
+      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.sD_b : ''),
     vat:
       getNote_04?.vat ||
-      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.vaT_b : ""),
+      (gridData[3]?.nameOfSupplyId === 3 ? gridData[3]?.vaT_b : ''),
   };
   const note_05 = {
-    noteNo: "note_05",
+    noteNo: 'note_05',
     value:
       getNote_05?.value ||
-      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.value_a : ""),
+      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.value_a : ''),
     sd:
       getNote_05?.sd ||
-      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.sD_b : ""),
+      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.sD_b : ''),
     vat:
       getNote_05?.vat ||
-      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.vaT_b : ""),
+      (gridData[4]?.nameOfSupplyId === 4 ? gridData[4]?.vaT_b : ''),
   };
 
   const note_06 = {
-    noteNo: "note_06",
+    noteNo: 'note_06',
     value:
       getNote_06?.value ||
-      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.value_a : ""),
+      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.value_a : ''),
     sd:
       getNote_06?.sd ||
-      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.sD_b : ""),
+      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.sD_b : ''),
     vat:
       getNote_06?.vat ||
-      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.vaT_b : ""),
+      (gridData[5]?.nameOfSupplyId === 5 ? gridData[5]?.vaT_b : ''),
   };
 
   const note_07 = {
-    noteNo: "note_07",
+    noteNo: 'note_07',
     value:
       getNote_07?.value ||
-      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.value_a : ""),
+      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.value_a : ''),
     sd:
       getNote_07?.sd ||
-      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.sD_b : ""),
+      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.sD_b : ''),
     vat:
       getNote_07?.vat ||
-      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.vaT_b : ""),
+      (gridData[6]?.nameOfSupplyId === 6 ? gridData[6]?.vaT_b : ''),
   };
 
   const note_08 = {
-    noteNo: "note_08",
+    noteNo: 'note_08',
     value:
       getNote_08?.value ||
-      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.value_a : ""),
+      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.value_a : ''),
     sd:
       getNote_08?.sd ||
-      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.sD_b : ""),
+      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.sD_b : ''),
     vat:
       getNote_08?.vat ||
-      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.vaT_b : ""),
+      (gridData[7]?.nameOfSupplyId === 7 ? gridData[7]?.vaT_b : ''),
   };
 
   const valueSome =
@@ -192,7 +191,7 @@ export default function OutPutTaxReport({
     Number(note_08.vat);
 
   const note_09 = {
-    noteNo: "note_09",
+    noteNo: 'note_09',
     value: getNote_09?.value || valueSome,
     sd: getNote_09?.sd || sdSome,
     vat: getNote_09?.vat || vatSome,
@@ -334,13 +333,13 @@ export default function OutPutTaxReport({
             </td>
             <td>
               <div className="text-right pr-2">
-                {" "}
+                {' '}
                 {commonNumberFormat(note_03?.sd)}
               </div>
             </td>
             <td>
               <div className="text-right pr-2">
-                {" "}
+                {' '}
                 {commonNumberFormat(note_03?.vat)}
               </div>
             </td>
@@ -382,13 +381,13 @@ export default function OutPutTaxReport({
             </td>
             <td>
               <div className="text-right pr-2">
-                {" "}
+                {' '}
                 {commonNumberFormat(note_04?.sd)}
               </div>
             </td>
             <td>
               <div className="text-right pr-2">
-                {" "}
+                {' '}
                 {commonNumberFormat(note_04?.vat)}
               </div>
             </td>

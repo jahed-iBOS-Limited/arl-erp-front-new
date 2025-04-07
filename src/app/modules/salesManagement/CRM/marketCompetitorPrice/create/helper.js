@@ -20,10 +20,10 @@ export function getUniqueGroups(field, dataset) {
 export function onFilterHandler(allData, values, setter) {
   const result = allData.filter((item) => {
     const filters = [
-      { key: "strGroup", label: values.group?.label },
-      { key: "strProductBrand", label: values.brandName?.label },
-      { key: "strProductCategory", label: values.subCategory?.label },
-      { key: "strProductSku", label: values.skuName?.label },
+      { key: 'strGroup', label: values.group?.label },
+      { key: 'strProductBrand', label: values.brandName?.label },
+      { key: 'strProductCategory', label: values.subCategory?.label },
+      { key: 'strProductSku', label: values.skuName?.label },
     ];
 
     return filters.every(({ key, label }) => !label || item[key] === label);
@@ -33,23 +33,23 @@ export function onFilterHandler(allData, values, setter) {
 }
 
 export function onResetFilterHandler(setFieldValue) {
-  setFieldValue("group", "");
-  setFieldValue("subCategory", "");
-  setFieldValue("skuName", "");
-  setFieldValue("brandName", "");
+  setFieldValue('group', '');
+  setFieldValue('subCategory', '');
+  setFieldValue('skuName', '');
+  setFieldValue('brandName', '');
 }
 
 export function filterAndMapOptions(allData, values, fieldName) {
   const filterLogic = (item) => {
     switch (fieldName) {
-      case "strProductCategory":
+      case 'strProductCategory':
         return (
           (!values?.group || item?.strGroup === values.group.label) &&
           (!values?.subCategory ||
             item.strProductCategory === values.subCategory.label)
         );
 
-      case "strProductSku":
+      case 'strProductSku':
         return (
           (!values?.group || item?.strGroup === values.group.label) &&
           (!values?.subCategory ||
@@ -57,7 +57,7 @@ export function filterAndMapOptions(allData, values, fieldName) {
           (!values?.skuName || item.strProductSku === values?.skuName?.label)
         );
 
-      case "strProductBrand":
+      case 'strProductBrand':
         return (
           (!values?.group || item?.strGroup === values.group.label) &&
           (!values?.subCategory ||
@@ -67,7 +67,7 @@ export function filterAndMapOptions(allData, values, fieldName) {
             item.strProductBrand === values?.brandName?.label)
         );
 
-      case "strGroup":
+      case 'strGroup':
         return true; // No additional filter for 'strGroup'
 
       default:

@@ -1,15 +1,15 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import SalesForm from "./createSales/Form/addEditForm";
-import { CreateSalesLanding } from "./createSales/Table/tableHeader";
-import CreditNoteLanding from "./creditNote";
-import CreditNoteCreateForm from "./creditNote/Form/addEditForm";
-import SalesInvoiceIbosLanding from "./salesInvoiceIbos/Table";
-import findIndex from "./../../_helper/_findIndex";
-import NotPermittedPage from "./../../_helper/notPermitted/NotPermittedPage";
-import AutoSalesInvoiceIbosLanding from "./autoSalesInvoiceIbos/Table";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import SalesForm from './createSales/Form/addEditForm';
+import { CreateSalesLanding } from './createSales/Table/tableHeader';
+import CreditNoteLanding from './creditNote';
+import CreditNoteCreateForm from './creditNote/Form/addEditForm';
+import SalesInvoiceIbosLanding from './salesInvoiceIbos/Table';
+import findIndex from './../../_helper/_findIndex';
+import NotPermittedPage from './../../_helper/notPermitted/NotPermittedPage';
+import AutoSalesInvoiceIbosLanding from './autoSalesInvoiceIbos/Table';
 
 export default function SalesPage() {
   const userRole = useSelector(
@@ -17,8 +17,8 @@ export default function SalesPage() {
     shallowEqual
   );
 
-  const salesInv63 = userRole[findIndex(userRole, "Sales Invoice (6.3)")];
-  const creditNote = userRole[findIndex(userRole, "Credit Note")];
+  const salesInv63 = userRole[findIndex(userRole, 'Sales Invoice (6.3)')];
+  const creditNote = userRole[findIndex(userRole, 'Credit Note')];
 
   return (
     <Switch>

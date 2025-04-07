@@ -1,38 +1,37 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import { BillApproved_api } from "../../../approvebillregister/helper";
-import { getG2GCarrierBillById } from "../../helper";
+} from '../../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import { BillApproved_api } from '../../../approvebillregister/helper';
+import { getG2GCarrierBillById } from '../../helper';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'Max Net Payable Amount', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -71,7 +70,7 @@ function ViewG2GLighterBill({
       unitId: buId,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -155,11 +154,11 @@ function ViewG2GLighterBill({
                   <div className="col-lg-12 ">
                     <div
                       className="text-center "
-                      style={{ position: "relative" }}
+                      style={{ position: 'relative' }}
                     >
                       <h2>{buName}</h2>
                       <h5>{buAddress} </h5>
-                      <h3>{"G2G Carrier Bill"}</h3>
+                      <h3>{'G2G Carrier Bill'}</h3>
                       {/* <button
                         style={{
                           padding: "4px 4px",
@@ -179,23 +178,23 @@ function ViewG2GLighterBill({
                       </button> */}
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                         trigger={() => (
                           <button
                             type="button"
                             className="btn btn-primary printSectionNone"
                             style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
+                              padding: '2px 5px',
+                              position: 'absolute',
+                              top: '0',
+                              right: '0',
                             }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -233,7 +232,7 @@ function ViewG2GLighterBill({
                               <>
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -278,13 +277,13 @@ function ViewG2GLighterBill({
                                               )
                                             );
                                           } else {
-                                            toast.warn("No Attachment Found");
+                                            toast.warn('No Attachment Found');
                                           }
                                         }}
                                         className="ml-2"
                                       >
                                         <i
-                                          style={{ fontSize: "16px" }}
+                                          style={{ fontSize: '16px' }}
                                           className={`fa pointer fa-eye`}
                                           aria-hidden="true"
                                         ></i>

@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { getMonth } from "./utils";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { getMonth } from './utils';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getBusinessUnitDDL = async (setter, accId, buId) => {
   try {
@@ -47,8 +47,9 @@ export const getSalesTargetPagination = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/CustomerSalesTarget/CustomerSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${buPartnerId ||
-        31}&userId=${userId}&vieworder=desc&PageNo=1&PageSize=1000000`
+      `/oms/CustomerSalesTarget/CustomerSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${
+        buPartnerId || 31
+      }&userId=${userId}&vieworder=desc&PageNo=1&PageSize=1000000`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data?.objdata);
@@ -68,7 +69,7 @@ export const createCustomerSalesTarget = async (data, setDisabled, cb) => {
     );
     if (res.status === 200 && res?.data) {
       setDisabled && setDisabled(false);
-      toast.success("created successfully");
+      toast.success('created successfully');
       cb && cb();
     }
   } catch (error) {
@@ -115,7 +116,7 @@ export const getSalesTargetById = async (
               value: objheader.distributionChannelId,
               label: objheader.distributionChannelName,
             }
-          : "",
+          : '',
       };
 
       let newRowData = [];
@@ -185,12 +186,12 @@ export const editCustomerSalesTarget = async (data, setDisabled) => {
       data
     );
     if (res.status === 200 && data?.isApproved) {
-      toast.success("Approved successfully");
+      toast.success('Approved successfully');
       setDisabled && setDisabled(false);
       // cb();
     }
     if (res.status === 200 && !data?.isApproved) {
-      toast.success("Edited successfully");
+      toast.success('Edited successfully');
       setDisabled && setDisabled(false);
       // cb();
     }
@@ -207,7 +208,7 @@ export const approveCustomerSalesTarget = async (data) => {
       data
     );
     if (res.status === 200) {
-      toast.success("Approved  successfully");
+      toast.success('Approved  successfully');
 
       // cb();
     }
@@ -293,7 +294,7 @@ export const saveFinancialStatement = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -338,31 +339,31 @@ export const getUoMitemPlantWarehouseDDL_api = async (
       `/wms/ItemPlantWarehouse/GetUoMitemPlantWarehouseDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&ItemId=${itemId}`
     );
     if (res.status === 200 && res?.data) {
-      setFieldValue("uom", res?.data?.[0] || "");
+      setFieldValue('uom', res?.data?.[0] || '');
     }
   } catch (error) {
-    setFieldValue("uom", "");
+    setFieldValue('uom', '');
   }
 };
 
 export const getGenerateDataFormat_api = async (attachment, cb) => {
   let formData = new FormData();
-  formData.append("uploadFile", attachment[0]);
+  formData.append('uploadFile', attachment[0]);
   try {
     let { data } = await Axios.post(
-      "/domain/GenerateDataFormat/GenerateDataFromExcel",
+      '/domain/GenerateDataFormat/GenerateDataFromExcel',
       formData,
       {
         headers: {
-          "Content-Type": false,
+          'Content-Type': false,
         },
       }
     );
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     console.log(data);
     return data;
   } catch (error) {
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
@@ -376,8 +377,8 @@ export const getRegionAreaTerritory = async ({
   label,
 }) => {
   setLoading(true);
-  const region = regionId ? `&regionId=${regionId}` : "";
-  const area = areaId ? `&areaId=${areaId}` : "";
+  const region = regionId ? `&regionId=${regionId}` : '';
+  const area = areaId ? `&areaId=${areaId}` : '';
   try {
     const res = await Axios.get(
       `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}`
@@ -412,9 +413,9 @@ export const GetSalesTargetEntry = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/CustomerSalesTarget/GetSalesTargetEntryForACCL?accId=${accId}&buId=${buId}&channelId=${channelId}&areaId=${areaId}&itemId=${itemId}&TerritoryId=${values
-        ?.territory?.value ||
-        0}&sbuid=${sbuid}&targetMonth=${targetMonth}&targetYear=${targetYear}`
+      `/oms/CustomerSalesTarget/GetSalesTargetEntryForACCL?accId=${accId}&buId=${buId}&channelId=${channelId}&areaId=${areaId}&itemId=${itemId}&TerritoryId=${
+        values?.territory?.value || 0
+      }&sbuid=${sbuid}&targetMonth=${targetMonth}&targetYear=${targetYear}`
     );
     setter(
       res?.data
@@ -422,13 +423,13 @@ export const GetSalesTargetEntry = async (
         ?.map((item) => ({
           ...item,
           isSelected: false,
-          itemCode: values?.item?.itemCode || values?.item?.code || "",
-          itemName: values?.item?.label || "",
+          itemCode: values?.item?.itemCode || values?.item?.code || '',
+          itemName: values?.item?.label || '',
           itemId: values?.item?.value || 0,
           itemSalesRate: 0,
           uomid: values?.uom?.value || 0,
-          uomcode: values?.uom?.uomcode || "",
-          uomname: values?.uom?.label || "",
+          uomcode: values?.uom?.uomcode || '',
+          uomname: values?.uom?.label || '',
           itemTypeId: 0,
         }))
     );

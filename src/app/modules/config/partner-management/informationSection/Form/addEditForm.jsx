@@ -1,17 +1,16 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   GetValueAdditionView,
   EditInformationSection,
   saveInformationSection,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  partnerSectionName: "",
+  partnerSectionName: '',
 };
 
 export default function InformationSectionCreateForm({
@@ -34,15 +33,15 @@ export default function InformationSectionCreateForm({
   }, shallowEqual);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get value addition view data
   useEffect(() => {
     if (id) {
       GetValueAdditionView(id, setSingleData);
       setSingleData({
-        partnerSectionName:localStorage.getItem("partnerSectionName")
-      })
+        partnerSectionName: localStorage.getItem('partnerSectionName'),
+      });
     }
   }, [id]);
 
@@ -54,21 +53,20 @@ export default function InformationSectionCreateForm({
           partnerSectionId: +id,
           partnerSectionName: values?.partnerSectionName,
           accountId: profileData?.accountId,
-          businessUnitId: +selectedBusinessUnit?.value
+          businessUnitId: +selectedBusinessUnit?.value,
         };
         EditInformationSection(payload, setDisabled);
-        localStorage.removeItem("partnerSectionName")
+        localStorage.removeItem('partnerSectionName');
       } else {
         const payload = {
           partnerSectionName: values?.partnerSectionName,
           accountId: profileData?.accountId,
-          businessUnitId: +selectedBusinessUnit?.value
+          businessUnitId: +selectedBusinessUnit?.value,
         };
         saveInformationSection(payload, cb, setDisabled);
       }
     } else {
       setDisabled(false);
-
     }
   };
 

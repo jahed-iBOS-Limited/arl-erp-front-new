@@ -1,12 +1,12 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { AdvanceForInternalExp } from "../../financialManagement/expense/advanceForInternalExp";
-import CashReceiveForm from "../../financialManagement/expense/advanceForInternalExp/CashReceive/addForm";
-import AdvanceCreateForm from "../../financialManagement/expense/advanceForInternalExp/Create/addForm";
-import ExpenseInfoModify from "../../financialManagement/expense/expenseInfoModify";
-import { ExpenseRegister } from "../../financialManagement/expense/expenseRegister";
-import ExpenseRegisterCreateForm from "../../financialManagement/expense/expenseRegister/Create/addForm";
-import { ContentRoute } from "./../../../../_metronic/layout/components/content/ContentRoute";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { AdvanceForInternalExp } from '../../financialManagement/expense/advanceForInternalExp';
+import CashReceiveForm from '../../financialManagement/expense/advanceForInternalExp/CashReceive/addForm';
+import AdvanceCreateForm from '../../financialManagement/expense/advanceForInternalExp/Create/addForm';
+import ExpenseInfoModify from '../../financialManagement/expense/expenseInfoModify';
+import { ExpenseRegister } from '../../financialManagement/expense/expenseRegister';
+import ExpenseRegisterCreateForm from '../../financialManagement/expense/expenseRegister/Create/addForm';
+import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute';
 
 export function ExpensePages() {
   return (

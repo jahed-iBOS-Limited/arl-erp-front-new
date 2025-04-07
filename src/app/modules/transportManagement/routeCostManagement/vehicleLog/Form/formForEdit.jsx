@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
-import TextArea from "../../../../_helper/TextArea";
-import NewSelect from "../../../../_helper/_select";
-import { getVehicleNoDDL, updateVehicle } from "../helper";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import TextArea from '../../../../_helper/TextArea';
+import NewSelect from '../../../../_helper/_select';
+import { getVehicleNoDDL, updateVehicle } from '../helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
 
 export default function VehicleEditForm({
   singleItem,
@@ -15,7 +15,7 @@ export default function VehicleEditForm({
   pageNo,
   pageSize,
 }) {
-  const initData = { preVehicleNo: "", updatedVehicleNo: "", reason: "" };
+  const initData = { preVehicleNo: '', updatedVehicleNo: '', reason: '' };
   const [vehicleNoList, setVehicleNoList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -86,7 +86,7 @@ export default function VehicleEditForm({
                       value={values?.updatedVehicleNo}
                       label="Updated Vehicle No."
                       onChange={(valueOption) => {
-                        setFieldValue("updatedVehicleNo", valueOption);
+                        setFieldValue('updatedVehicleNo', valueOption);
                       }}
                       placeholder="Updated Vehicle No."
                       errors={errors}

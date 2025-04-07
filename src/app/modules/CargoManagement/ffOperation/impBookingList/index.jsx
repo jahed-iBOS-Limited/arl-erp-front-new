@@ -39,11 +39,11 @@ const validationSchema = Yup.object().shape({});
 function ImpBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual,
+    shallowEqual
   );
   const [
     shipBookingReqLanding,
@@ -70,44 +70,46 @@ function ImpBookingList() {
 
     // Encrypt the token and userID using base64 encoding
     const encryptedToken = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(token),
+      CryptoJS.enc.Utf8.parse(token)
     );
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(userID),
+      CryptoJS.enc.Utf8.parse(userID)
     );
     // Encrypt the key using base64 encoding
     const superAdmin = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse('superAdmin'),
+      CryptoJS.enc.Utf8.parse('superAdmin')
     );
 
     window.open(
       `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isImportMode=true`,
-      '_blank',
+      '_blank'
     );
   };
 
   useEffect(() => {
     commonLandingApi();
-
   }, [profileData]);
 
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
-    modeOfTransportId = 1,
+    modeOfTransportId = 1
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue || ''
-      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
+        searchValue || ''
+      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`
     );
   };
 
   const selectedRow = shipBookingReqLanding?.data?.filter(
-    (item) => item?.isCheck,
+    (item) => item?.isCheck
   );
 
   // const [selectedRow, setSelectedRow] = useState([]);
@@ -131,7 +133,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-      item?.freightAgentReferenceId
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -162,7 +164,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -249,7 +251,7 @@ function ImpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        valueOption?.value,
+                        valueOption?.value
                       );
                     }}
                     placeholder="Booking Type"
@@ -266,7 +268,7 @@ function ImpBookingList() {
                       searchValue,
                       1,
                       100,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                 />
@@ -480,7 +482,7 @@ function ImpBookingList() {
                               <tr key={i + 1}>
                                 <td>
                                   {isCompletedMasterBl ||
-                                    values?.modeOfTransport?.value === 4 ? (
+                                  values?.modeOfTransport?.value === 4 ? (
                                     <></>
                                   ) : (
                                     <>
@@ -532,7 +534,7 @@ function ImpBookingList() {
                                 ) : (
                                   <td className="text-left">
                                     {item?.seaMasterBlCode &&
-                                      item?.airMasterBlCode ? (
+                                    item?.airMasterBlCode ? (
                                       <>
                                         {item?.seaMasterBlCode}{' '}
                                         {item?.airMasterBlCode
@@ -600,7 +602,7 @@ function ImpBookingList() {
                                               null,
                                               pageNo,
                                               pageSize,
-                                              values?.modeOfTransport?.value,
+                                              values?.modeOfTransport?.value
                                             );
                                           },
                                         });
@@ -820,7 +822,7 @@ function ImpBookingList() {
                       null,
                       pageNo,
                       pageSize,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                   values={values}
@@ -856,7 +858,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -889,7 +891,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -925,7 +927,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -978,7 +980,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1011,7 +1013,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1100,7 +1102,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1133,7 +1135,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1168,7 +1170,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1184,8 +1186,9 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                    } Report`}
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1202,7 +1205,7 @@ function ImpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        values?.modeOfTransport?.value,
+                        values?.modeOfTransport?.value
                       );
                     }}
                   />
@@ -1230,7 +1233,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                       }}
                       isEPBInvoice={true}
@@ -1262,7 +1265,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1295,7 +1298,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1331,7 +1334,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1386,7 +1389,7 @@ function ImpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,

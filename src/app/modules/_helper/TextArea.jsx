@@ -1,5 +1,5 @@
-import { useField } from "formik";
-import React from "react";
+import { useField } from 'formik';
+import React from 'react';
 
 const TextArea = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -10,11 +10,11 @@ const TextArea = ({ label, ...props }) => {
         <div
           className="text-danger"
           style={{
-            fontSize: "0.9rem",
+            fontSize: '0.9rem',
             fontWeight: 400,
-            width: "100%",
-            marginTop: "0",
-            marginBottom: "0",
+            width: '100%',
+            marginTop: '0',
+            marginBottom: '0',
           }}
         >
           {meta.error}

@@ -1,9 +1,9 @@
-import { toast } from "react-toastify";
-import { _todayDate } from "../../_chartinghelper/_todayDate";
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../_chartinghelper/_todayDate';
 
 export const addCargo = (values, setFieldValue, cargoList, setCargoList) => {
   if (!values?.cargoName?.value) {
-    toast.warn("Please select a cargo");
+    toast.warn('Please select a cargo');
     return;
   }
 
@@ -16,9 +16,9 @@ export const addCargo = (values, setFieldValue, cargoList, setCargoList) => {
     chartererId: values?.charterName?.value,
     cargoId: values?.cargoName?.value,
     cargoName: values?.cargoName?.label,
-    cargoQty: "",
-    freightRate: "",
-    totalFreight: "",
+    cargoQty: '',
+    freightRate: '',
+    totalFreight: '',
     cargoLoadPortId: values?.startPort?.value,
     cargoLoadPortName: values?.startPort?.label,
     cargoDischargePortId: values?.endPort?.value,
@@ -39,10 +39,10 @@ export const cargoRowDataHandler = (
   let newItemList = [...cargoList];
   newItemList[index][key] = +value;
   const freightValue =
-    key === "freightRate"
-      ? value * (+newItemList[index]["cargoQty"] || 0)
-      : value * (+newItemList[index]["freightRate"] || 0);
-  newItemList[index]["totalFreight"] = +freightValue;
+    key === 'freightRate'
+      ? value * (+newItemList[index]['cargoQty'] || 0)
+      : value * (+newItemList[index]['freightRate'] || 0);
+  newItemList[index]['totalFreight'] = +freightValue;
 
   setCargoList(newItemList);
 };
@@ -76,12 +76,12 @@ export const addCharterer = (
   cpList
 ) => {
   if (cargoList?.length === 0) {
-    toast.warning("Please Add at least one cargo", { toastId: 1245 });
+    toast.warning('Please Add at least one cargo', { toastId: 1245 });
     return;
   }
 
   if (cargoList?.filter((e) => e?.cargoQty < 1 || e?.freightRate < 1)?.length) {
-    toast.warn("Please fill up all cargo info");
+    toast.warn('Please fill up all cargo info');
     return;
   }
 
@@ -90,12 +90,12 @@ export const addCharterer = (
   );
 
   if (duplicateCheck) {
-    toast.warning("Charterer Already exists", { toastId: 124 });
+    toast.warning('Charterer Already exists', { toastId: 124 });
     return;
   }
 
   if (!values?.demurrageRate) {
-    toast.warning("Demurrage/Detention Rate is required", { toastId: 2124 });
+    toast.warning('Demurrage/Detention Rate is required', { toastId: 2124 });
     return;
   }
 
@@ -141,7 +141,7 @@ export const addCharterer = (
     cpClauseId: 0,
     voyageId: 0,
     chartererId: values?.charterName?.value,
-    attachment: uploadedFile[0]?.id || "",
+    attachment: uploadedFile[0]?.id || '',
     isActive: true,
   };
 
@@ -166,7 +166,7 @@ export const timeChartererSavePayloadMaker = (
       voyageTypeId: values?.voyageType?.value,
       fromCharterer: false, // Unknown
       chartererVoyageId: 0, // Unknown
-      chartererVoyageCode: "", // Unknown
+      chartererVoyageCode: '', // Unknown
       voyageTypeName: values?.voyageType?.label,
       voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
@@ -181,8 +181,8 @@ export const timeChartererSavePayloadMaker = (
       startPortName: values?.startPort?.label,
       endPortId: values?.endPort?.value,
       endPortName: values?.endPort?.label,
-      layCanFrom: values?.layCanFrom || "",
-      layCanTo: values?.layCanTo || "",
+      layCanFrom: values?.layCanFrom || '',
+      layCanTo: values?.layCanTo || '',
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
       insertby: profileData?.userId,
@@ -192,8 +192,8 @@ export const timeChartererSavePayloadMaker = (
         charterId: values?.charterName?.value,
         charterName: values?.charterName?.label,
         cpDate: values?.cpDate,
-        layCanFrom: values?.layCanFrom || "",
-        layCanTo: values?.layCanTo || "",
+        layCanFrom: values?.layCanFrom || '',
+        layCanTo: values?.layCanTo || '',
         loadPortId: values?.startPort?.value,
         loadPortName: values?.startPort?.label,
         dischargePortId: values?.endPort?.value,
@@ -231,7 +231,7 @@ export const timeChartererSavePayloadMaker = (
         businessUnitId: selectedBusinessUnit?.value,
         voyageId: 0,
         chartererId: values?.charterName?.value,
-        attachment: uploadedFile[0]?.id || "",
+        attachment: uploadedFile[0]?.id || '',
         isActive: true,
         // "actionBy": 0,
         // "dteLastActionDateTime": "2022-04-03T05:09:36.404Z",
@@ -258,7 +258,7 @@ export const voyageChartererSavePayloadMaker = (
       voyageTypeId: values?.voyageType?.value,
       fromCharterer: false, // Unknown
       chartererVoyageId: 0, // Unknown
-      chartererVoyageCode: "", // Unknown
+      chartererVoyageCode: '', // Unknown
       voyageTypeName: values?.voyageType?.label,
       voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
@@ -308,7 +308,7 @@ export const voyageChartererEditPayloadMaker = (
       voyageTypeId: values?.voyageType?.value,
       fromCharterer: false, // Unknown
       chartererVoyageId: 0, // Unknown
-      chartererVoyageCode: "", // Unknown
+      chartererVoyageCode: '', // Unknown
       voyageTypeName: values?.voyageType?.label,
       voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
@@ -365,10 +365,10 @@ export const timeChartererEditPayloadMaker = (
       endPortName: values?.endPort?.label,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
-      layCan: "",
+      layCan: '',
       insertby: profileData?.userId,
-      layCanFrom: values?.layCanFrom || "",
-      layCanTo: values?.layCanTo || "",
+      layCanFrom: values?.layCanFrom || '',
+      layCanTo: values?.layCanTo || '',
     },
     objRow: {
       voyageRowId: chartererRowData[0]?.voyageRowId,
@@ -380,7 +380,7 @@ export const timeChartererEditPayloadMaker = (
       loadPortName: values?.startPort?.label,
       dischargePortId: values?.endPort?.value,
       dischargePortName: values?.endPort?.label,
-      layCan: "",
+      layCan: '',
       othersAmount: +values?.others,
       brokerId: values?.brokerName?.value,
       brokerName: values?.brokerName?.label,

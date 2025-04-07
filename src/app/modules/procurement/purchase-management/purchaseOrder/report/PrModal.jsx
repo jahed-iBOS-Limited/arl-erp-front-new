@@ -1,5 +1,3 @@
-
-
 import { Form as FormikForm, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -38,7 +36,7 @@ export function PrModal({ prId }) {
     getReportListPurchaseReq(
       prId,
       selectedBusinessUnit?.value,
-      setPurchaseReport,
+      setPurchaseReport
     );
   }, [prId, selectedBusinessUnit]);
 
@@ -79,7 +77,7 @@ export function PrModal({ prId }) {
               onClick={() => {
                 setIsShowModal(true);
                 setSubject(
-                  `Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}`,
+                  `Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}`
                 );
                 setMessage(`Dear
                         A Purchase request has been sent from  Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}
@@ -178,7 +176,7 @@ export function PrModal({ prId }) {
                             <span className="font-weight-bold mr-2">
                               {_dateFormatter(
                                 purchaseReport?.getPurchaseRequestPrintHeader
-                                  ?.indentDate,
+                                  ?.indentDate
                               )}
                             </span>
                           </div>
@@ -187,7 +185,7 @@ export function PrModal({ prId }) {
                             <sapn className="font-weight-bold mr-2">
                               {_dateFormatter(
                                 purchaseReport?.getPurchaseRequestPrintHeader
-                                  ?.requiredDate,
+                                  ?.requiredDate
                               )}
                             </sapn>
                           </div>
@@ -230,7 +228,7 @@ export function PrModal({ prId }) {
                                   {data?.lastPrice}
                                 </td>
                               </tr>
-                            ),
+                            )
                           )}
                         </tbody>
                       </table>
@@ -249,7 +247,7 @@ export function PrModal({ prId }) {
                                 [
                                 {_dateFormatter(
                                   purchaseReport?.getPurchaseRequestPrintHeader
-                                    ?.dateTime,
+                                    ?.dateTime
                                 )}{' '}
                                 {purchaseReport?.getPurchaseRequestPrintHeader?.dateTime
                                   .split('T')[1]
@@ -278,7 +276,7 @@ export function PrModal({ prId }) {
                                 [
                                 {_dateFormatter(
                                   purchaseReport?.getPurchaseRequestPrintHeader
-                                    ?.approvedDateTime,
+                                    ?.approvedDateTime
                                 )}
                                 {purchaseReport?.getPurchaseRequestPrintHeader?.approvedDateTime
                                   .split('T')[1]

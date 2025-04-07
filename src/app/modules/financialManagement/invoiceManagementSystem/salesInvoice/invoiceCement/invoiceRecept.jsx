@@ -1,16 +1,22 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { ToWords } from "to-words";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { ToWords } from 'to-words';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 // import background from "../../../../_helper/letterheadImages/akij_cement_letterhead.jpg";
-import "./InvoiceRecept.css";
-import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
+import './InvoiceRecept.css';
+import { commonGetLetterHead } from '../../../../_helper/letterHead/commonGetLetterHead';
 
-
-const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, isWithVat, typedVat }) => {
+const InvoiceReceptForCement = ({
+  printRef,
+  invoiceData,
+  channelId,
+  isWorkable,
+  isWithVat,
+  typedVat,
+}) => {
   const toWords = new ToWords({
-    localeCode: "en-BD",
+    localeCode: 'en-BD',
     converterOptions: {
       currency: true,
       ignoreDecimal: false,
@@ -33,13 +39,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
   // let totalItemRate = 0;
 
   const getStyle = {
-    fontWeight: "bold",
-    fontSize: "16px",
-    color: "black !important",
-    verticalAlign: "middle",
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: 'black !important',
+    verticalAlign: 'middle',
   };
 
-  
   const isVatinclude = invoiceData?.[0]?.isVatinclude || false;
   const isVatIncludeFromDelivery = isWithVat || false;
   return (
@@ -48,27 +53,27 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
         <div
           className="invoice-header"
           style={{
-            backgroundImage: `url(${commonGetLetterHead({buId})})`,
-            backgroundRepeat: "no-repeat",
-            height: "150px",
-            backgroundPosition: "left 10px",
-            backgroundSize: "cover",
-            position: "fixed",
-            width: "100%",
-            top: "-40px",
+            backgroundImage: `url(${commonGetLetterHead({ buId })})`,
+            backgroundRepeat: 'no-repeat',
+            height: '150px',
+            backgroundPosition: 'left 10px',
+            backgroundSize: 'cover',
+            position: 'fixed',
+            width: '100%',
+            top: '-40px',
           }}
         ></div>
         <div
           className="invoice-footer"
           style={{
-            backgroundImage: `url(${commonGetLetterHead({buId})})`,
-            backgroundRepeat: "no-repeat",
-            height: "100px",
-            backgroundPosition: "left bottom",
-            backgroundSize: "cover",
-            bottom: "-0px",
-            position: "fixed",
-            width: "100%",
+            backgroundImage: `url(${commonGetLetterHead({ buId })})`,
+            backgroundRepeat: 'no-repeat',
+            height: '100px',
+            backgroundPosition: 'left bottom',
+            backgroundSize: 'cover',
+            bottom: '-0px',
+            position: 'fixed',
+            width: '100%',
           }}
         ></div>
         <table>
@@ -76,13 +81,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
             <tr>
               <td
                 style={{
-                  border: "none",
+                  border: 'none',
                 }}
               >
                 {/* place holder for the fixed-position header */}
                 <div
                   style={{
-                    height: "110px",
+                    height: '110px',
                   }}
                 ></div>
               </td>
@@ -90,20 +95,20 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
           </thead>
           {/* CONTENT GOES HERE */}
           <tbody>
-            <div style={{ margin: "-13px 50px 51px 50px" }}>
+            <div style={{ margin: '-13px 50px 51px 50px' }}>
               <div
                 style={{
-                  textAlign: "center",
-                  marginBottom: "10px",
+                  textAlign: 'center',
+                  marginBottom: '10px',
                   // marginTop: "120px",
                 }}
               >
                 <i>
                   <p
                     style={{
-                      fontSize: "30px",
-                      textDecoration: "underLine",
-                      fontWeight: "bold",
+                      fontSize: '30px',
+                      textDecoration: 'underLine',
+                      fontWeight: 'bold',
                     }}
                   >
                     Invoice: {invoiceData[0]?.strInvoiceNo}
@@ -112,7 +117,10 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
               </div>
               <div>
                 <p>
-                  <b>DATE: {_dateFormatter(invoiceData[0]?.invoiceDate || new Date())}</b>
+                  <b>
+                    DATE:{' '}
+                    {_dateFormatter(invoiceData[0]?.invoiceDate || new Date())}
+                  </b>
                 </p>
                 <p>
                   <b>Reference: {invoiceData[0]?.referance}</b>
@@ -123,12 +131,16 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                 </p>
                 <p>{invoiceData[0]?.businessPartnerAddress}</p>
 
-                <p style={{ margin: "2px 0" }}>
-                  <strong> Delivery Address:</strong> {invoiceData[0]?.projLocation}
+                <p style={{ margin: '2px 0' }}>
+                  <strong> Delivery Address:</strong>{' '}
+                  {invoiceData[0]?.projLocation}
                 </p>
 
                 <p>Dear Sir,</p>
-                <p>We are pleased to issue a bill in favour of our supply as per your purchase order.</p>
+                <p>
+                  We are pleased to issue a bill in favour of our supply as per
+                  your purchase order.
+                </p>
                 <br />
               </div>
               <div className="main_table">
@@ -140,23 +152,29 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                         <th style={getStyle}>Item</th>
                         <th style={getStyle}>Sales Order</th>
                         {/* <th style={getStyle}>Destination</th> */}
-                        <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
+                        <th style={{ width: '90px', ...getStyle }}>
+                          Delivery Date
+                        </th>
                         <th style={getStyle}>Challan No.</th>
-                        <th style={getStyle}>{`${channelId === 43 ? "Primary Qty" : "Qty"}`}</th>
+                        <th
+                          style={getStyle}
+                        >{`${channelId === 43 ? 'Primary Qty' : 'Qty'}`}</th>
                         <th style={getStyle}>UoM</th>
                         {channelId === 43 && <th style={getStyle}>Net Qty</th>}
 
-                        <th style={{ ...getStyle, width: "90px" }}>
+                        <th style={{ ...getStyle, width: '90px' }}>
                           {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
                           Unit Price (TK)
                         </th>
                         <th style={getStyle}>
                           Total Amount
-                          {isVatinclude || isVatIncludeFromDelivery ? " (Without VAT)" : ""}
+                          {isVatinclude || isVatIncludeFromDelivery
+                            ? ' (Without VAT)'
+                            : ''}
                         </th>
                         {(isVatinclude || isVatIncludeFromDelivery) && (
                           <>
-                            {" "}
+                            {' '}
                             <th style={getStyle}>Vat Amount</th>
                             <th style={getStyle}>Total Amount(Vat included)</th>
                           </>
@@ -186,14 +204,23 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                                 <td>{item?.deliveryCode}</td>
                                 <td className="text-right">{item?.quantity}</td>
                                 <td className="text-right">{item?.uom}</td>
-                                <td className="text-right" style={{ width: "60px" }}>
+                                <td
+                                  className="text-right"
+                                  style={{ width: '60px' }}
+                                >
                                   {item?.itemRate}
                                 </td>
-                                <td className="text-right">{_fixedPoint(totalAmount, true)}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(totalAmount, true)}
+                                </td>
                                 {isVatIncludeFromDelivery && (
                                   <>
-                                    <td className="text-right">{_fixedPoint(vatAmount, true)}</td>
-                                    <td className="text-right">{_fixedPoint(amountWithVat, true)}</td>
+                                    <td className="text-right">
+                                      {_fixedPoint(vatAmount, true)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_fixedPoint(amountWithVat, true)}
+                                    </td>
                                   </>
                                 )}
                               </tr>
@@ -201,7 +228,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                           );
                         })}
 
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                        <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                           <td colSpan={5}>Grand Total</td>
                           <td>{_fixedPoint(totalQty, true)}</td>
                           <td> </td>
@@ -214,7 +241,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                             </>
                           )}
                         </tr>
-                        <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                        <tr style={{ fontWeight: 'bold', textAlign: 'left' }}>
                           <td
                             colSpan={
                               channelId === 43
@@ -222,12 +249,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                                   ? 12
                                   : 10
                                 : isVatIncludeFromDelivery
-                                ? 11
-                                : 9
+                                  ? 11
+                                  : 9
                             }
                             className="text-left"
                           >
-                            IN WORDS:{" "}
+                            IN WORDS:{' '}
                             {toWords.convert(
                               isVatIncludeFromDelivery
                                 ? Number(grandTotalWithVat || 0).toFixed(0)
@@ -246,7 +273,9 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                           if ([8].includes(buId)) {
                             // if vat is included in the price
                             if (isVatinclude) {
-                              totalAmount = (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
+                              totalAmount =
+                                (+item?.totalAmount || 0) -
+                                (+item?.vatAmount || 0);
                               vatAmount = item?.vatAmount || 0;
                               amountWithVat = totalAmount + vatAmount;
                             } else {
@@ -283,16 +312,27 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                                   {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
                                 </td>
                                 <td className="text-right">{item?.uom}</td>
-                                {channelId === 43 && <td className="text-right">{item?.netQty}</td>}
+                                {channelId === 43 && (
+                                  <td className="text-right">{item?.netQty}</td>
+                                )}
 
-                                <td className="text-right" style={{ width: "60px" }}>
+                                <td
+                                  className="text-right"
+                                  style={{ width: '60px' }}
+                                >
                                   {item?.itemRate}
                                 </td>
-                                <td className="text-right">{_fixedPoint(totalAmount, true)}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(totalAmount, true)}
+                                </td>
                                 {isVatinclude && (
                                   <>
-                                    <td className="text-right">{_fixedPoint(item?.vatAmount, true)}</td>
-                                    <td className="text-right">{_fixedPoint(amountWithVat, true)}</td>
+                                    <td className="text-right">
+                                      {_fixedPoint(item?.vatAmount, true)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_fixedPoint(amountWithVat, true)}
+                                    </td>
                                   </>
                                 )}
                               </tr>
@@ -300,11 +340,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                           );
                         })}
 
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                        <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                           <td colSpan={5}>Grand Total</td>
                           <td>{_fixedPoint(totalQty, true)}</td>
                           <td> </td>
-                          {channelId === 43 && <td>{_fixedPoint(totalNetQty, true)}</td>}
+                          {channelId === 43 && (
+                            <td>{_fixedPoint(totalNetQty, true)}</td>
+                          )}
                           <td> </td>
                           <td>{_fixedPoint(grandTotal, true)}</td>
                           {isVatinclude && (
@@ -314,12 +356,20 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                             </>
                           )}
                         </tr>
-                        <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                        <tr style={{ fontWeight: 'bold', textAlign: 'left' }}>
                           <td
-                            colSpan={channelId === 43 ? (isVatinclude ? 12 : 10) : isVatinclude ? 11 : 9}
+                            colSpan={
+                              channelId === 43
+                                ? isVatinclude
+                                  ? 12
+                                  : 10
+                                : isVatinclude
+                                  ? 11
+                                  : 9
+                            }
                             className="text-left"
                           >
-                            IN WORDS:{" "}
+                            IN WORDS:{' '}
                             {toWords.convert(
                               isVatinclude
                                 ? Number(grandTotalWithVat || 0).toFixed(0)
@@ -333,11 +383,15 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
                 </div>
               </div>
               <p className="text-danger py-2">
-                Note : If you have any queries regarding this bill, please inform the concerned official within 10 days;
-                otherwise, any kind of objection will not be granted further.
+                Note : If you have any queries regarding this bill, please
+                inform the concerned official within 10 days; otherwise, any
+                kind of objection will not be granted further.
               </p>
               <p>On behalf of {buName}</p>
-              <div style={{ marginTop: "70px" }} className="d-flex justify-content-between">
+              <div
+                style={{ marginTop: '70px' }}
+                className="d-flex justify-content-between"
+              >
                 <p>
                   <b>Prepared By</b>
                 </p>
@@ -352,23 +406,24 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
               </div>
               <p>{designationName}</p>
               <p>{buName}</p>
-              <div style={{ marginTop: "25px" }}>
+              <div style={{ marginTop: '25px' }}>
                 <p>
                   <b>Enclose</b>
                 </p>
                 <p>1. Delivery Invoice</p>
               </div>
-              <div style={{ position: "relative" }}>
+              <div style={{ position: 'relative' }}>
                 <p
                   style={{
-                    bottom: "100px",
-                    textAlign: "center",
-                    position: "fixed",
-                    width: "100%",
-                    fontWeight: "bold",
+                    bottom: '100px',
+                    textAlign: 'center',
+                    position: 'fixed',
+                    width: '100%',
+                    fontWeight: 'bold',
                   }}
                 >
-                  This is an automatically generated invoice, no signature is required.
+                  This is an automatically generated invoice, no signature is
+                  required.
                 </p>
               </div>
             </div>
@@ -378,13 +433,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, 
             <tr>
               <td
                 style={{
-                  border: "none",
+                  border: 'none',
                 }}
               >
                 {/* place holder for the fixed-position footer */}
                 <div
                   style={{
-                    height: "150px",
+                    height: '150px',
                   }}
                 ></div>
               </td>

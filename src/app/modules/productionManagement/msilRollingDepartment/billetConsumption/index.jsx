@@ -1,25 +1,24 @@
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _todayDate } from "../../../_helper/_todayDate";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _todayDate } from '../../../_helper/_todayDate';
+import './style.css';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shift: "",
+  shift: '',
 };
 export default function BilletConsumption() {
   const [pageNo, setPageNo] = useState(0);
@@ -98,22 +97,22 @@ export default function BilletConsumption() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "", label: "ALL" },
-                        { value: "A", label: "A" },
-                        { value: "B", label: "B" },
-                        { value: "C", label: "C" },
-                        { value: "General", label: "General" },
+                        { value: '', label: 'ALL' },
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                        { value: 'General', label: 'General' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -132,7 +131,7 @@ export default function BilletConsumption() {
                 </div>
 
                 <div
-                  style={{ marginTop: "15px" }}
+                  style={{ marginTop: '15px' }}
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table billet-consumption-wrapper">
@@ -140,27 +139,27 @@ export default function BilletConsumption() {
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th style={{ minWidth: '50px' }}>SL</th>
                             <th>Date</th>
                             <th>Shift</th>
                             <th>Main Product Name</th>
-                            <th style={{ minWidth: "250px" }}>
+                            <th style={{ minWidth: '250px' }}>
                               Re-Heating Billet Consumed Wt Kgs Per Billet
                             </th>
                             <th>Re-Heating Billet Consumed in Pcs</th>
                             <th>Re-Heating Billet Consumed in Kgs</th>
-                            <th style={{ minWidth: "250px" }}>
+                            <th style={{ minWidth: '250px' }}>
                               Direct Charging Billet Consumed Wt Kgs Per Billet
                             </th>
-                            <th style={{ minWidth: "250px" }}>
+                            <th style={{ minWidth: '250px' }}>
                               Direct Charging Billet Consumed in Pcs
                             </th>
-                            <th style={{ minWidth: "250px" }}>
+                            <th style={{ minWidth: '250px' }}>
                               Direct Charging Billet Consumed in Kgs
                             </th>
                             <th>Total Billet consumption in pcs</th>
                             <th>Total Billet Consumed in Kgs</th>
-                            <th style={{ minWidth: "60px" }}>Action</th>
+                            <th style={{ minWidth: '60px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>

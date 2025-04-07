@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import NewSelect from '../../../../_helper/_select';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   priceComponentName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Name is required'),
   priceComponentCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Code is required'),
 
   priceComponentType: Yup.object().shape({
-    label: Yup.string().required("Component Type is required"),
-    value: Yup.string().required("Component Type is required"),
+    label: Yup.string().required('Component Type is required'),
+    value: Yup.string().required('Component Type is required'),
   }),
   factor: Yup.object().shape({
-    label: Yup.string().required("Factor is required"),
-    value: Yup.string().required("Factor is required"),
+    label: Yup.string().required('Factor is required'),
+    value: Yup.string().required('Factor is required'),
   }),
   roundingType: Yup.object().shape({
-    label: Yup.string().required("Rounding Type is required"),
-    value: Yup.string().required("Rounding Type is required"),
+    label: Yup.string().required('Rounding Type is required'),
+    value: Yup.string().required('Rounding Type is required'),
   }),
   generalledger: Yup.object().shape({
-    label: Yup.string().required("General Ledger is required"),
-    value: Yup.string().required("General Ledger is required"),
+    label: Yup.string().required('General Ledger is required'),
+    value: Yup.string().required('General Ledger is required'),
   }),
 });
 
 const FactorDDL = [
   {
     value: 1,
-    label: "Positive",
+    label: 'Positive',
   },
   {
     value: -1,
-    label: "Negative",
+    label: 'Negative',
   },
 ];
 
@@ -53,13 +53,13 @@ export default function FormCmp({
   accountId,
   selectedBusinessUnit,
 }) {
-  const [itemTypeList, setItemTypeList] = useState("");
-  const [roundingTypeList, setRoundingTypeList] = useState("");
-  const [generalLedgerList, setgeneralLedgerList] = useState("");
+  const [itemTypeList, setItemTypeList] = useState('');
+  const [roundingTypeList, setRoundingTypeList] = useState('');
+  const [generalLedgerList, setgeneralLedgerList] = useState('');
   // price stucture type ddl
   const priceStuctureTypeDDL = [
-    { value: 1, label: "Pruchase" },
-    { value: 2, label: "Sales" },
+    { value: 1, label: 'Pruchase' },
+    { value: 2, label: 'Sales' },
   ];
   useEffect(() => {
     getInfoData();
@@ -74,7 +74,7 @@ export default function FormCmp({
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        "/item/PriceComponent/GetPriceComponentTypeDDL"
+        '/item/PriceComponent/GetPriceComponentTypeDDL'
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -89,14 +89,12 @@ export default function FormCmp({
           });
         setItemTypeList(ItemType);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getroundingTypeData = async () => {
     try {
-      const res = await Axios.get("/item/PriceComponent/GetRoundingTypeDDL");
+      const res = await Axios.get('/item/PriceComponent/GetRoundingTypeDDL');
       const { status, data } = res;
       if (status === 200 && data.length) {
         let roundingType = [];
@@ -111,9 +109,7 @@ export default function FormCmp({
         setRoundingTypeList(roundingType);
         roundingType = null;
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getgeneralledgerdata = async (accId, buId) => {
@@ -122,7 +118,7 @@ export default function FormCmp({
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accId}&BusinessUnitId=${buId}&AccountGroupId=0`
       );
       const { status, data } = res;
-      console.log(data)
+      console.log(data);
       if (status === 200 && data && data.length) {
         let roundingType = [];
         data.forEach((item) => {
@@ -135,9 +131,7 @@ export default function FormCmp({
         setgeneralLedgerList(roundingType);
         roundingType = null;
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (
@@ -168,7 +162,7 @@ export default function FormCmp({
               <div className="form-group row global-form">
                 <div className="col-lg-4">
                   <Field
-                    value={values.priceComponentName || ""}
+                    value={values.priceComponentName || ''}
                     name="priceComponentName"
                     component={Input}
                     placeholder="Component Name"
@@ -181,7 +175,7 @@ export default function FormCmp({
                     component={Input}
                     placeholder="Code"
                     label="Code"
-                    value={values.priceComponentCode || ""}
+                    value={values.priceComponentCode || ''}
                   />
                 </div>
                 <div className="col-lg-4">
@@ -196,15 +190,15 @@ export default function FormCmp({
                           ...values,
                           priceComponentType: valueOption,
                           factor: {
-                            label: "Positive",
+                            label: 'Positive',
                             value: 1,
                           },
                           roundingType: {
-                            label: "No Rounding",
+                            label: 'No Rounding',
                             value: 2,
                           },
                           generalledger: {
-                            label: "null",
+                            label: 'null',
                             value: 0,
                           },
                         });
@@ -214,15 +208,15 @@ export default function FormCmp({
                           ...values,
                           priceComponentType: valueOption,
                           factor: {
-                            label: "Positive",
+                            label: 'Positive',
                             value: 1,
                           },
                           roundingType: {
-                            label: "No Rounding",
+                            label: 'No Rounding',
                             value: 2,
                           },
                           generalledger: {
-                            label: "null",
+                            label: 'null',
                             value: 0,
                           },
                         });
@@ -232,12 +226,12 @@ export default function FormCmp({
                           ...values,
                           priceComponentType: valueOption,
                           factor: {
-                            label: "",
-                            value: "",
+                            label: '',
+                            value: '',
                           },
                           roundingType: {
-                            label: "",
-                            value: "",
+                            label: '',
+                            value: '',
                           },
                         });
                         return;
@@ -255,7 +249,7 @@ export default function FormCmp({
                     value={values?.factor}
                     label="Factor"
                     onChange={(valueOption) => {
-                      setFieldValue("factor", valueOption);
+                      setFieldValue('factor', valueOption);
                     }}
                     placeholder="Select Factor"
                     errors={errors}
@@ -273,7 +267,7 @@ export default function FormCmp({
                     value={values?.roundingType}
                     label="Rounding Type"
                     onChange={(valueOption) => {
-                      setFieldValue("roundingType", valueOption);
+                      setFieldValue('roundingType', valueOption);
                     }}
                     placeholder="Select Rounding Type"
                     errors={errors}
@@ -291,12 +285,15 @@ export default function FormCmp({
                     value={values?.generalledger}
                     label="General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("generalledger", valueOption);
+                      setFieldValue('generalledger', valueOption);
                     }}
                     placeholder="Select General Ledger"
                     errors={errors}
                     touched={touched}
-                    isDisabled={values?.priceComponentType?.value === 1 || values?.priceComponentType?.value === 6}
+                    isDisabled={
+                      values?.priceComponentType?.value === 1 ||
+                      values?.priceComponentType?.value === 6
+                    }
                   />
                 </div>
                 <div className="col-lg-4">
@@ -306,7 +303,7 @@ export default function FormCmp({
                     value={values?.priceStuctureTypeDDL}
                     label="Price Structure Type"
                     onChange={(valueOption) => {
-                      setFieldValue("priceStuctureTypeDDL", valueOption);
+                      setFieldValue('priceStuctureTypeDDL', valueOption);
                     }}
                     placeholder="price Stucture Type DDL"
                     errors={errors}
@@ -317,14 +314,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

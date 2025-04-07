@@ -26,7 +26,7 @@ export default function AchievementTable() {
         monthDDL: state.corporatePerformanceChart.monthDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
   let {
     profileData,
@@ -52,15 +52,14 @@ export default function AchievementTable() {
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
       dispatch(
-        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
+        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
       getCorporateDepertmentDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCorporateDDL,
+        setCorporateDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export default function AchievementTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-
   }, [yearDDL]);
 
   const [report, setReport] = useState({});
@@ -83,10 +81,9 @@ export default function AchievementTable() {
         0,
         0,
         false,
-        4,
+        4
       );
     }
-
   }, [selectedBusinessUnit, corporate]);
 
   useEffect(() => {
@@ -131,7 +128,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                4,
+                4
               );
             }}
             isDisabled={!corKpiResultPublic?.isView}
@@ -160,7 +157,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                4,
+                4
               );
             }}
             className="mb-3"
@@ -188,7 +185,7 @@ export default function AchievementTable() {
                 valueOption?.value,
                 to?.value,
                 false,
-                4,
+                4
               );
             }}
             className="mb-3"
@@ -217,7 +214,7 @@ export default function AchievementTable() {
                 from?.value,
                 valueOption?.value,
                 false,
-                4,
+                4
               );
             }}
             className="mb-3"
@@ -312,8 +309,8 @@ export default function AchievementTable() {
                         ? item?.progress >= 80
                           ? 'green'
                           : item?.progress >= 60
-                          ? 'yellow'
-                          : 'red'
+                            ? 'yellow'
+                            : 'red'
                         : ''
                     }
                   >

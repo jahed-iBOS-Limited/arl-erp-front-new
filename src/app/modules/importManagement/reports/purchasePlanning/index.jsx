@@ -33,30 +33,27 @@ export default function PurchasePlanningAndScheduling() {
         }));
 
         setItemList(updateList);
-      },
+      }
     );
-
   }, []);
 
   const saveHandler = (values, cb) => {};
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
 
   const getData = (pageNo, pageSize, values) => {
     const url =
       values?.type?.value === 1
         ? `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${
             selectedBusinessUnit?.value
-          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
-            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+          }&asOnDate=${values?.date}&itemId=${
+            values?.item?.value || 0
+          }&pageNo=${pageNo}&pageSize=${pageSize}`
         : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${
             selectedBusinessUnit?.value
-          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
-            0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+          }&asOnDate=${values?.date}&itemId=${
+            values?.item?.value || 0
+          }&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     getTableData(url);
   };
@@ -239,7 +236,7 @@ export default function PurchasePlanningAndScheduling() {
                             <tr key={index}>
                               <td className="text-center">
                                 {_dateFormatter(
-                                  item?.dtePurchaseContractDate,
+                                  item?.dtePurchaseContractDate
                                 ) || 'N/A'}
                               </td>
                               <td>{item?.strItemCode || 'N/A'}</td>
@@ -248,12 +245,12 @@ export default function PurchasePlanningAndScheduling() {
                               <td>{item?.strPurchaseRequestNo || 'N/A'}</td>
                               <td>
                                 {_dateFormatter(
-                                  item?.dtePurchaseRequestDate || '',
+                                  item?.dtePurchaseRequestDate || ''
                                 ) || 'N/A'}
                               </td>
                               <td>
                                 {_dateFormatter(
-                                  item?.dtePurchaseRequestRequiredDate,
+                                  item?.dtePurchaseRequestRequiredDate
                                 ) || 'N/A'}
                               </td>
                               <td>{item?.numPurchaseRequestQty || 'N/A'}</td>
@@ -271,7 +268,7 @@ export default function PurchasePlanningAndScheduling() {
                               <td>{item?.intEstimatedSurviveDays || 'N/A'}</td>
                               <td className="text-center">
                                 {_dateFormatter(
-                                  item?.dteEstimatedSurviveDate,
+                                  item?.dteEstimatedSurviveDate
                                 ) || 'N/A'}
                               </td>
                               <td>{item?.strSupplierName || 'N/A'}</td>
@@ -362,7 +359,7 @@ export default function PurchasePlanningAndScheduling() {
 
                                   <td className="text-center">
                                     {_dateFormatter(
-                                      item?.lcAndStockCoverageDate,
+                                      item?.lcAndStockCoverageDate
                                     ) || 'N/A'}
                                   </td>
                                   <td>{item?.lcPendingQty || 0}</td>
@@ -373,7 +370,7 @@ export default function PurchasePlanningAndScheduling() {
                                   <td>{item?.piPendingQty}</td>
                                   <td className="text-center">
                                     {_dateFormatter(
-                                      item?.bookingCoverageDate,
+                                      item?.bookingCoverageDate
                                     ) || 'N/A'}
                                   </td>
                                 </tr>

@@ -1,6 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDeliveryCollectionDueReport = async (
   accId,
@@ -15,10 +14,9 @@ export const getDeliveryCollectionDueReport = async (
       `/wms/WmsReport/GetDeliveryCollectionDueReport?AccountId=${accId}&BusinessUnitId=${buId}&Type=${typeId}`
     );
     setter(res?.data);
-      setLoading(false);
-    }
-  catch (error) {
-    toast.error(error?.response?.data?.message || "Error occured")
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message || 'Error occured');
     setLoading(false);
   }
 };

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 // import { toast } from "react-toastify";
 
 export const getEmployeeDDLAction = async (accId, buId, setter) => {
@@ -61,7 +61,7 @@ export const getStrategicDataAction = async (
       `/pms/ActionPlan/GetActionPlanByBscAndObj?employeeId=${empId}&bscId=${bscId}&yearId=${yearId}&objectiveId=${objId}`
     );
     setter(res?.data);
-    let data = {...res?.data?.kpiWithActivityList?.[0]}
+    let data = { ...res?.data?.kpiWithActivityList?.[0] };
     setCurrentItem(data);
     setLoading(false);
   } catch (err) {
@@ -78,11 +78,11 @@ export const saveStrategicInitiativeRowAction = async (payload, setLoading) => {
       payload
     );
     setLoading(false);
-    toast.success(res?.data?.message || "Updated successfully");
+    toast.success(res?.data?.message || 'Updated successfully');
   } catch (err) {
     setLoading(false);
     toast.error(
-      err?.response?.data?.message || "Something went wrong, Try again"
+      err?.response?.data?.message || 'Something went wrong, Try again'
     );
   }
 };
@@ -102,8 +102,8 @@ export const getStatudDDLAction = async (setter) => {
 export const actionPlanSaveAction = async (payload) => {
   try {
     let res = await axios.post(`/pms/ActionPlan/SaveActionPlan`, payload);
-    toast.success(res?.data?.message || "Submitted Successfully")
+    toast.success(res?.data?.message || 'Submitted Successfully');
   } catch (err) {
-    toast.warn(err?.response?.data?.message || "Failed, try again")
+    toast.warn(err?.response?.data?.message || 'Failed, try again');
   }
 };

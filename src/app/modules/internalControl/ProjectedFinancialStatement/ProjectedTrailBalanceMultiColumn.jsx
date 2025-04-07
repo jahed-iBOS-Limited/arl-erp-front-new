@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ReactToPrint from "react-to-print";
-import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
-import numberWithCommas from "../../_helper/_numberWithCommas";
+import React, { useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ReactToPrint from 'react-to-print';
+import { dateFormatWithMonthName } from '../../_helper/_dateFormate';
+import numberWithCommas from '../../_helper/_numberWithCommas';
 
 export default function ProjectedTrailBalanceMultiColumn({
   rowData,
@@ -10,7 +10,7 @@ export default function ProjectedTrailBalanceMultiColumn({
   selectedBusinessUnit,
 }) {
   const printRef = useRef();
-  console.log("values", values);
+  console.log('values', values);
   return (
     <>
       <div>
@@ -19,7 +19,7 @@ export default function ProjectedTrailBalanceMultiColumn({
             <div>
               <div
                 className="d-flex justify-content-end"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: '25px' }}
               >
                 <ReactHTMLTableToExcel
                   id="test-table-xls-button"
@@ -31,7 +31,7 @@ export default function ProjectedTrailBalanceMultiColumn({
                 />
                 <ReactToPrint
                   pageStyle={
-                    "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                    '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                   }
                   trigger={() => (
                     <button
@@ -54,8 +54,8 @@ export default function ProjectedTrailBalanceMultiColumn({
                   </h4>
                   <p>
                     <strong>
-                      For the period from :{" "}
-                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{" "}
+                      For the period from :{' '}
+                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{' '}
                       To <span>{dateFormatWithMonthName(values?.toDate)}</span>
                     </strong>
                   </p>
@@ -65,7 +65,7 @@ export default function ProjectedTrailBalanceMultiColumn({
                 <table
                   id="table-to-xlsx"
                   className="table table-striped table-bordered global-table table-font-size-sm"
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
                   <thead>
                     <tr>

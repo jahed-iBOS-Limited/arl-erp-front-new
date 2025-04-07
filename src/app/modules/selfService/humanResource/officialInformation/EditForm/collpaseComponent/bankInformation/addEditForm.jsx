@@ -1,42 +1,38 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { _todayDate } from "./../../../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import { getEmployeeBankInformationById_api } from "./helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import { editEmployeeBankInformation_api } from "./helper";
-import { employeeBankInformation_api } from "./helper";
-import { getImageFile_api } from "./../../../helper";
-import Loading from "./../../../../../../_helper/_loading";
-import { isUniq } from "./../../../../../../_helper/uniqChecker";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { _todayDate } from './../../../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import { getEmployeeBankInformationById_api } from './helper';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import { editEmployeeBankInformation_api } from './helper';
+import { employeeBankInformation_api } from './helper';
+import { getImageFile_api } from './../../../helper';
+import Loading from './../../../../../../_helper/_loading';
+import { isUniq } from './../../../../../../_helper/uniqChecker';
 
 const initData = {
-  accountName: "",
-  accountNumber: "",
-  bank: "",
-  ibanNo: "",
-  swiftCode: "",
-  countryName: "",
-  bankBranch: "",
-  routingNumber: "",
+  accountName: '',
+  accountNumber: '',
+  bank: '',
+  ibanNo: '',
+  swiftCode: '',
+  countryName: '',
+  bankBranch: '',
+  routingNumber: '',
 };
 
-export default function BankInformation({empName}) {
+export default function BankInformation({ empName }) {
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState([]);
   const [edit, setEdit] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [isDisabled, setDisabled] = useState(false);
-  const [uploadImage, setUploadImage] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
   const { state: headerData } = useLocation();
   const [editClick, setEditClick] = useState(false);
-  const [editBtnIndex, setEditBtnIndex] = useState("");
-
+  const [editBtnIndex, setEditBtnIndex] = useState('');
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -50,13 +46,13 @@ export default function BankInformation({empName}) {
       bankId: values?.bank?.value || 0,
       bankName: values?.bank?.label || values?.bank,
       bankBranchId: values?.bankBranch?.value || 0,
-      bankBranchName: values?.bankBranch?.label || values?.bankBranch || "",
+      bankBranchName: values?.bankBranch?.label || values?.bankBranch || '',
       bankRoutingNumber:
-        values?.bankBranch?.routingNo || values?.routingNumber || "0",
+        values?.bankBranch?.routingNo || values?.routingNumber || '0',
       accountNumber: values?.accountNumber,
       accountName: values?.accountName,
-      documentPath: uploadImage[0]?.id || "",
-      path: "",
+      documentPath: uploadImage[0]?.id || '',
+      path: '',
       actionBy: profileData?.userId,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
@@ -71,16 +67,16 @@ export default function BankInformation({empName}) {
   };
 
   const rowDataAddHandler = (values) => {
-    if (isUniq("accountNumber", values?.accountNumber, rowDto)) {
+    if (isUniq('accountNumber', values?.accountNumber, rowDto)) {
       const newRowData = [...rowDto, singleRowdtoFunc(values)];
       newRowData[0].isDefaultAccount =
         rowDto?.length === 0
           ? true
           : rowDto[0]?.isDefaultAccount === true
-          ? true
-          : false;
+            ? true
+            : false;
       setRowDto(newRowData);
-      setUploadImage("");
+      setUploadImage('');
     }
   };
 
@@ -92,7 +88,6 @@ export default function BankInformation({empName}) {
 
   useEffect(() => {
     getEmployeeBankInformationById_api(headerData?.employeeId, setSingleData);
-
   }, []);
 
   useEffect(() => {
@@ -128,21 +123,21 @@ export default function BankInformation({empName}) {
         !values?.bank ||
         !values?.bankBranch)
     )
-      return toast.warn("Please fill up all fields");
+      return toast.warn('Please fill up all fields');
 
     if (
       editClick &&
-      values?.countryName?.label !== "Bangladesh" &&
+      values?.countryName?.label !== 'Bangladesh' &&
       (!values?.ibanNo || !values?.swiftCode)
     )
-      return toast.warn("Please fill up all fields");
+      return toast.warn('Please fill up all fields');
 
     const isFoundIsDeafult = rowDto?.filter(
       (item) => item?.isDefaultAccount == true
     );
 
     if (isFoundIsDeafult?.length < 1)
-      return toast.warn("Please add atleast one default account");
+      return toast.warn('Please add atleast one default account');
     if (singleData.length > 0) {
       // Edit api call
       const modifiedRowDto = rowDto.map((itm) => ({
@@ -162,8 +157,8 @@ export default function BankInformation({empName}) {
             documentPath: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.documentPath
-              ? values?.documentPath
-              : "",
+                ? values?.documentPath
+                : '',
           };
           editEmployeeBankInformation_api(copyRodto, cb, setDisabled).then(
             (data) => {
@@ -175,7 +170,7 @@ export default function BankInformation({empName}) {
             }
           );
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       } else {
         // edit btn false
@@ -189,7 +184,7 @@ export default function BankInformation({empName}) {
             }
           );
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       }
     } else {
@@ -202,7 +197,7 @@ export default function BankInformation({empName}) {
           );
         });
       } else {
-        toast.warn("Please add at least one");
+        toast.warn('Please add at least one');
       }
     }
   };
@@ -220,7 +215,7 @@ export default function BankInformation({empName}) {
       // accountNumber: itm?.accountName,
       // accountName: itm?.accountName,
       // documentPath: itm?.documentPath,
-      path: "",
+      path: '',
       actionBy: profileData?.userId,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
@@ -244,7 +239,7 @@ export default function BankInformation({empName}) {
     setEditClick(true);
     setEditBtnIndex(index);
 
-    console.log(obj, "obj");
+    console.log(obj, 'obj');
   };
 
   // one item select
@@ -253,8 +248,8 @@ export default function BankInformation({empName}) {
       ...itm,
       isDefaultAccount: false,
     }));
-    modifiedRowDto[index].isDefaultAccount = !modifiedRowDto[index]
-      .isDefaultAccount;
+    modifiedRowDto[index].isDefaultAccount =
+      !modifiedRowDto[index].isDefaultAccount;
     setRowDto(modifiedRowDto);
   };
 

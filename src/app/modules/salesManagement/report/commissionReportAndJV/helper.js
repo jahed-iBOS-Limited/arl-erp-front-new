@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCommissionReport = async (
   accId,
@@ -99,7 +99,7 @@ export const getTradeCommissionData = async (
         isEdit: false,
         tempCom: item?.commissiontaka,
         constCom: item?.commissiontaka,
-        rowNarration: "",
+        rowNarration: '',
       }))
     );
     setLoading && setLoading(false);

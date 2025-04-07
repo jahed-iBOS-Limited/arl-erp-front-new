@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getExternalData = async (
   accId,
@@ -53,18 +53,18 @@ export const getInternalData = async (
   }
 };
 
-export const approveItems = async (payload,cb, setLoading) => {
+export const approveItems = async (payload, cb, setLoading) => {
   setLoading(true);
   try {
     const res = await Axios.put(`/tms/Shipment/EditVCostAuditApprove`, payload);
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setLoading(false);
-      cb()
+      cb();
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setLoading(false);
   }
 };

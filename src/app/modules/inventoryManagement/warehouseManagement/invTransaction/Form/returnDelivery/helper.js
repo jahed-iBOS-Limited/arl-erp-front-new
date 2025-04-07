@@ -1,29 +1,29 @@
-import Axios from "axios";
-import * as Yup from "yup";
+import Axios from 'axios';
+import * as Yup from 'yup';
 
 export const initData = {
-  refType:"",
-  refNo:"",
-  transType:"",
-  busiPartner:"",
-  personnel:"",
-  remarks:"",
-  item:"",
-  costCenter:"",
-  projName:"",
-  isAllItem:false,
-  file: ""
+  refType: '',
+  refNo: '',
+  transType: '',
+  busiPartner: '',
+  personnel: '',
+  remarks: '',
+  item: '',
+  costCenter: '',
+  projName: '',
+  isAllItem: false,
+  file: '',
 };
 
 // // Validation schema
 export const validationSchema = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required("Refference Type is required"),
-    value: Yup.string().required("Refference Type is required"),
+    label: Yup.string().required('Refference Type is required'),
+    value: Yup.string().required('Refference Type is required'),
   }),
   transType: Yup.object().shape({
-    label: Yup.string().required("Transaction Type is required"),
-    value: Yup.string().required("Transaction Type is required"),
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
   }),
   // item: Yup.object().shape({
   //   label: Yup.string().required("Item is required"),
@@ -40,9 +40,7 @@ export const getPurchaseContractItem = async (refTypeId, refNoId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getBomList = async (accId, buId, plantId, itemId, setter) => {
@@ -53,7 +51,5 @@ export const getBomList = async (accId, buId, plantId, itemId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

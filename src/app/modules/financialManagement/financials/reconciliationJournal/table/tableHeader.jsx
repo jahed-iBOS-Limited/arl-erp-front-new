@@ -1,4 +1,3 @@
-
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Form, Formik } from 'formik';
@@ -63,7 +62,7 @@ function getMonthFirstLastDate(fromDate) {
 
 const ReconciliationJournal = () => {
   const { financialsInventoryJournal } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage
   );
 
   // get user profile data from store
@@ -95,8 +94,8 @@ const ReconciliationJournal = () => {
     const api = ['Create']?.includes(values?.tableMode?.label)
       ? `/fino/Expense/GetMonthlyBaddebtAmount?businessUnitId=${buId}&dteFromDate=${formattedStartDate}&dteToDate=${formattedEndDate}`
       : ['View']?.includes(values?.tableMode?.label)
-      ? `/fino/Expense/getBaddebitJournal?businessUnitId=${buId}`
-      : '';
+        ? `/fino/Expense/getBaddebitJournal?businessUnitId=${buId}`
+        : '';
 
     getBaddebtRowData(api);
   };
@@ -129,8 +128,6 @@ const ReconciliationJournal = () => {
   const [fileObject, setFileObject] = useState('');
   const [sbuDDL, setSbuDDL] = useState([]);
   const [typeDDL] = useState(getType());
-
-
 
   const [loading, setLoading] = useState(false);
   //storingData
@@ -168,7 +165,7 @@ const ReconciliationJournal = () => {
         values?.fromDate,
         values?.toDate,
         setJounalLedgerData,
-        setLoading,
+        setLoading
       );
     } else if (values?.type?.value === 2) {
       getDepreciationGenLedgerList(
@@ -177,7 +174,7 @@ const ReconciliationJournal = () => {
         values?.sbu?.value,
         values?.transactionDate,
         setJounalLedgerData,
-        setLoading,
+        setLoading
       );
       getDepreciationJournal(
         profileData?.accountId,
@@ -185,7 +182,7 @@ const ReconciliationJournal = () => {
         values?.sbu?.value,
         values?.transactionDate,
         setJournalData,
-        setLoading,
+        setLoading
       );
     } else if (values?.type?.value === 4) {
       // type 1 for view data
@@ -195,7 +192,7 @@ const ReconciliationJournal = () => {
         1,
         values?.closingDate,
         setClosingData,
-        setLoading,
+        setLoading
       );
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
@@ -228,7 +225,7 @@ const ReconciliationJournal = () => {
           businessUnitId: selectedBusinessUnit?.value,
           date: formattedDate,
           actionBy: profileData?.userId,
-        },
+        }
       );
     }
   };
@@ -249,7 +246,7 @@ const ReconciliationJournal = () => {
         values?.fromDate,
         values?.toDate,
         setJournalData,
-        setLoading,
+        setLoading
       );
     }
     if (values?.type?.value === 1 && values?.transactionType?.value !== 1) {
@@ -260,7 +257,7 @@ const ReconciliationJournal = () => {
         values?.transactionType?.value,
         isBaseTypeId,
         setJournalData,
-        setLoading,
+        setLoading
       );
     }
   };
@@ -278,7 +275,7 @@ const ReconciliationJournal = () => {
           values?.toDate,
           profileData?.userId,
           setLoading,
-          cb,
+          cb
         );
       } else if (values?.type?.value === 2) {
         postDepreciationJournal(
@@ -288,7 +285,7 @@ const ReconciliationJournal = () => {
           values?.transactionDate,
           profileData?.userId,
           setLoading,
-          cb,
+          cb
         );
       }
       // else if (values?.type?.value === 4) {
@@ -309,7 +306,7 @@ const ReconciliationJournal = () => {
   const totalJournalAmount = useMemo(() => {
     if (jounalLedgerData?.length > 0) {
       return _formatMoney(
-        jounalLedgerData?.reduce((acc, item) => (acc += item?.numAmount), 0),
+        jounalLedgerData?.reduce((acc, item) => (acc += item?.numAmount), 0)
       );
     } else {
       return 0;
@@ -331,7 +328,7 @@ const ReconciliationJournal = () => {
             getMonthFirstLastDate(values?.fromDate)?.lastDate === values?.toDate
           ) {
             return toast.warn(
-              "You can't create journal for continuous closing type, when you select full month. please change from date or to date",
+              "You can't create journal for continuous closing type, when you select full month. please change from date or to date"
             );
           }
 
@@ -415,7 +412,7 @@ const ReconciliationJournal = () => {
                             if (statusCode === 200) {
                               toast.success(message);
                             }
-                          },
+                          }
                         )
                       }
                       className="btn btn-primary ml-2"
@@ -438,9 +435,9 @@ const ReconciliationJournal = () => {
                             Math.round(
                               jounalLedgerData?.reduce(
                                 (acc, item) => acc + item.numAmount,
-                                0,
-                              ),
-                            ),
+                                0
+                              )
+                            )
                           ) ||
                           jounalLedgerData?.length === 0 ||
                           (values?.type?.value === 1 && !values?.closingType)
@@ -459,7 +456,7 @@ const ReconciliationJournal = () => {
                             selectedBusinessUnit?.value,
                             2,
                             values?.closingDate,
-                            setLoading,
+                            setLoading
                           );
                         }
                       }
@@ -499,7 +496,7 @@ const ReconciliationJournal = () => {
                             SetFinancialsInventoryJournalAction({
                               ...values,
                               sbu: valueOption,
-                            }),
+                            })
                           );
                         }}
                         placeholder="SBU"
@@ -521,7 +518,7 @@ const ReconciliationJournal = () => {
                             SetFinancialsInventoryJournalAction({
                               ...values,
                               type: valueOption,
-                            }),
+                            })
                           );
                         }}
                         placeholder="Type"
@@ -617,7 +614,7 @@ const ReconciliationJournal = () => {
                                 toDate: getMonthFirstLastDate(e.target.value)
                                   ?.lastDate,
                                 closingType: values?.closingType,
-                              }),
+                              })
                             );
                             setJounalLedgerData([]);
                             setJournalData([]);
@@ -662,7 +659,7 @@ const ReconciliationJournal = () => {
                                         ?.lastDate
                                     : e.target.value,
                                 closingType: values?.closingType,
-                              }),
+                              })
                             );
                             setJounalLedgerData([]);
                             setJournalData([]);
@@ -688,7 +685,7 @@ const ReconciliationJournal = () => {
                               SetFinancialsInventoryJournalAction({
                                 ...values,
                                 transactionDate: e.target.value,
-                              }),
+                              })
                             );
                           }}
                         />
@@ -805,7 +802,7 @@ const ReconciliationJournal = () => {
                                       ? getMonthFirstLastDate(values?.fromDate)
                                           ?.lastDate
                                       : values?.toDate,
-                                }),
+                                })
                               );
                               setJounalLedgerData([]);
                               setJournalData([]);
@@ -1085,7 +1082,7 @@ const ReconciliationJournal = () => {
                                   </td>
                                 </tr>
                               );
-                            },
+                            }
                           )}
                         </tbody>
                       </table>

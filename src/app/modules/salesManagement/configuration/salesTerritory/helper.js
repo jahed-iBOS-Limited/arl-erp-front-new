@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getParentTerritoryTypeDDL = async (accId, buId, setter) => {
   try {

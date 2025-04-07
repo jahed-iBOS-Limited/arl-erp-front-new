@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import useAxiosPost from "./useAxiosPost";
-import useDebounce from "./useDebounce";
+import { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import useAxiosPost from './useAxiosPost';
+import useDebounce from './useDebounce';
 
 export default function useMenuTracking() {
   const { menu, profileData } = useSelector(
@@ -15,7 +15,7 @@ export default function useMenuTracking() {
   const [, CreateMenuTracking] = useAxiosPost();
   const createMenuTracking = (payload) => {
     CreateMenuTracking(
-      "/partner/BusinessPartnerBasicInfo/CreateMenuTracking",
+      '/partner/BusinessPartnerBasicInfo/CreateMenuTracking',
       payload
     );
   };
@@ -60,7 +60,6 @@ export default function useMenuTracking() {
         }
       });
     }
-
   }, [locationPath, menu]);
 
   return null;

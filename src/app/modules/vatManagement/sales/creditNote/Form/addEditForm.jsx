@@ -1,33 +1,32 @@
 //
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   editCreditNote,
   GetCreditNoteSingleData,
   getFiscalYearDDL_api,
-
   getItemNameDDL_api,
   getPartnerNameDDL_api,
   // getSalesInvoiceByBranchIdDDL_api,
   saveCreditNote,
-} from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IForm from "../../../../_helper/_form";
+} from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IForm from '../../../../_helper/_form';
 
 const initData = {
-  partnerName: "",
-  branchName: "",
-  fiscalYear: "",
-  salesInvoice: "",
-  itemName: "",
+  partnerName: '',
+  branchName: '',
+  fiscalYear: '',
+  salesInvoice: '',
+  itemName: '',
   allItem: false,
-  salesAmount: "",
-  salesSd: "",
-  salesVat: "",
+  salesAmount: '',
+  salesSd: '',
+  salesVat: '',
 };
 
 export default function CreditNoteCreateForm({
@@ -62,20 +61,14 @@ export default function CreditNoteCreateForm({
       selectedBusinessUnit?.value,
       setPartnerNameDDL
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   useEffect(() => {
     if (params?.id) {
-      GetCreditNoteSingleData(
-        params?.id,
-        setSingleData,
-        setRowDto,
-      );
+      GetCreditNoteSingleData(params?.id, setSingleData, setRowDto);
     }
-
   }, [params?.id]);
 
   // Fiscal Year
@@ -87,7 +80,7 @@ export default function CreditNoteCreateForm({
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "returnQty" || "returnVat" || "returnSd") {
+    if (name === 'returnQty' || 'returnVat' || 'returnSd') {
       _sl[name] = value;
     } else {
       _sl[name] = value;
@@ -98,7 +91,6 @@ export default function CreditNoteCreateForm({
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (+params?.id) {
-
         const editRowDto = rowDto?.map((item, index) => ({
           rowId: item?.rowId || 0,
           taxSalesHeaderId: +params?.id,
@@ -124,7 +116,7 @@ export default function CreditNoteCreateForm({
           objRowList: editRowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           editCreditNote(payload, setDisabled);
         }
@@ -165,9 +157,9 @@ export default function CreditNoteCreateForm({
           objRowList: newRowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
-          console.log("Payload => ", payload);
+          console.log('Payload => ', payload);
           saveCreditNote(payload, cb, setDisabled);
         }
       }

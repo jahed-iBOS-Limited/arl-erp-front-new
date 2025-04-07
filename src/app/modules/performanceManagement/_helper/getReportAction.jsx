@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getPmsReportAction = async (
   setter,
@@ -33,14 +33,14 @@ export const getUnapprovedPmsReportAction = async (
   setLoading
 ) => {
   try {
-    setLoading && setLoading(true)
+    setLoading && setLoading(true);
     const res = await axios.get(
       `/pms/Kpi2/GetNewKpiReportDynamic?intUnitID=${buId}&ReportTypeReffId=${reportTypeRefId}&intYearId=${yearId}&intFromMonthId=${fromMonth}&intToMonthId=${toMonth}&isDashBoard=${isDashboard}&ReportType=${reportType}`
     );
     setter(res?.data);
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
   } catch (error) {
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
     setter({});
   }
 };

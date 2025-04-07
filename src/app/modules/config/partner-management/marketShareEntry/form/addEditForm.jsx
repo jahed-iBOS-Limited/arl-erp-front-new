@@ -1,29 +1,28 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation } from 'react-router';
 import {
   getDistributionChannelDDL_api,
   getRegionAreaTerritory,
-} from "../../../../salesManagement/report/customerSalesTargetReport/helper";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../salesManagement/report/customerSalesTargetReport/helper';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
 import {
   editMarketShareEntry,
   getCompanyList,
   getMarketShareByTerritoryId,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  month: "",
-  year: "",
-  company: "",
-  salesQty: "",
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  month: '',
+  year: '',
+  company: '',
+  salesQty: '',
 };
 
 export default function MarketShareEntryForm() {
@@ -47,7 +46,7 @@ export default function MarketShareEntryForm() {
   const [rowData, setRowData] = useState([]);
 
   useEffect(() => {
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       getDistributionChannelDDL_api(accId, buId, setChannelList);
       getCompanyList(buId, setRowData, setLoading);
     }
@@ -118,41 +117,41 @@ export default function MarketShareEntryForm() {
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "channel":
-        setFieldValue("channel", currentValue);
-        setFieldValue("region", "");
-        setFieldValue("area", "");
-        setFieldValue("territory", "");
+      case 'channel':
+        setFieldValue('channel', currentValue);
+        setFieldValue('region', '');
+        setFieldValue('area', '');
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: currentValue?.value,
             setter: setRegionList,
             setLoading: setLoading,
-            value: "regionId",
-            label: "regionName",
+            value: 'regionId',
+            label: 'regionName',
           });
         }
         break;
 
-      case "region":
-        setFieldValue("region", currentValue);
-        setFieldValue("area", "");
-        setFieldValue("territory", "");
+      case 'region':
+        setFieldValue('region', currentValue);
+        setFieldValue('area', '');
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: values?.channel?.value,
             regionId: currentValue?.value,
             setter: setAreaList,
             setLoading: setLoading,
-            value: "areaId",
-            label: "areaName",
+            value: 'areaId',
+            label: 'areaName',
           });
         }
         break;
 
-      case "area":
-        setFieldValue("area", currentValue);
-        setFieldValue("territory", "");
+      case 'area':
+        setFieldValue('area', currentValue);
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: values?.channel?.value,
@@ -160,8 +159,8 @@ export default function MarketShareEntryForm() {
             areaId: currentValue?.value,
             setter: setTerritoryList,
             setLoading: setLoading,
-            value: "territoryId",
-            label: "territoryName",
+            value: 'territoryId',
+            label: 'territoryName',
           });
         }
         break;

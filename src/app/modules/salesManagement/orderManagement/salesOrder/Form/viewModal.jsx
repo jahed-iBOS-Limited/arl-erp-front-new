@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ICustomTable from "../../../../_helper/_customTable";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import ICustomTable from '../../../../_helper/_customTable';
+import { useLocation } from 'react-router-dom';
 import {
   getAvailableBalance_Action,
   getDataBySalesOrderId_Action,
@@ -10,58 +10,58 @@ import {
   getPriceStructureCheck_Acion,
   getUndeliveryValues_action,
   getCreditLimitForInternalUser_action,
-} from "../_redux/Actions";
-import { setSalesOrderSingleEmpty } from "./../_redux/Actions";
-import { ISelect } from "./../../../../_helper/_inputDropDown";
-import { Field, Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICalendar from "../../../../_helper/_inputCalender";
-import InputField from "./../../../../_helper/_inputField";
+} from '../_redux/Actions';
+import { setSalesOrderSingleEmpty } from './../_redux/Actions';
+import { ISelect } from './../../../../_helper/_inputDropDown';
+import { Field, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICalendar from '../../../../_helper/_inputCalender';
+import InputField from './../../../../_helper/_inputField';
 const tableHeaders = (buId) => [
-  "SL",
-  "Reference No",
-  "specification",
-  "Ship To Party",
-  "Item Code",
-  "Item Name",
-  "Customer Item Name",
-  "Uom",
-  "Is Free",
-  "Quantity",
-  "Basic Price",
-  buId === 175 && "Water Proof Rate",
-  buId === 175 && "Pump Charge Rate",
-  "Amount",
-  "Discount",
-  "Net Value",
+  'SL',
+  'Reference No',
+  'specification',
+  'Ship To Party',
+  'Item Code',
+  'Item Name',
+  'Customer Item Name',
+  'Uom',
+  'Is Free',
+  'Quantity',
+  'Basic Price',
+  buId === 175 && 'Water Proof Rate',
+  buId === 175 && 'Pump Charge Rate',
+  'Amount',
+  'Discount',
+  'Net Value',
 ];
 
 const initData = {
   id: undefined,
-  soldtoParty: "",
-  partnerReffNo: "",
-  currency: "",
+  soldtoParty: '',
+  partnerReffNo: '',
+  currency: '',
   pricingDate: _todayDate(),
   dueShippingDate: _todayDate(),
   isTransshipment: false,
   isPartialShipment: false,
-  refType: "",
-  incoterm: "",
-  paymentTerms: "",
-  validity: "",
-  numItemPrice: "",
-  referenceNo: "",
-  shipToParty: "",
-  item: "",
+  refType: '',
+  incoterm: '',
+  paymentTerms: '',
+  validity: '',
+  numItemPrice: '',
+  referenceNo: '',
+  shipToParty: '',
+  item: '',
   allCheckbox: false,
-  numDiscountValue: "",
-  narration: "",
-  numRequestQuantity: "",
-  uom: "",
-  shipToPartnerContactNo: "",
+  numDiscountValue: '',
+  narration: '',
+  numRequestQuantity: '',
+  uom: '',
+  shipToPartnerContactNo: '',
 };
 
 export default function ViewForm({ id, show, onHide, createSaveData }) {
@@ -112,7 +112,6 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
     } else {
       dispatch(setSalesOrderSingleEmpty());
     }
-
   }, [createSaveData]);
 
   // get single sales order  unit from store
@@ -126,7 +125,7 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
         ...itm,
         netValue:
           itm.numOrderValue - (itm.numOrderValue * itm.numDiscountValue) / 100,
-        isFree: itm.isFreeItem ? "Yes" : "No",
+        isFree: itm.isFreeItem ? 'Yes' : 'No',
       }));
       setRowDto(newRowDto);
     }
@@ -143,7 +142,6 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
         getCreditLimitForInternalUser_action(createSaveData.soldToPartnerId)
       );
     }
-
   }, [createSaveData]);
 
   //total amount calculation
@@ -166,16 +164,15 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
       setRowDto([]);
       dispatch(setSalesOrderSingleEmpty());
     };
-
   }, []);
   return (
     <div>
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Sales Order"}
+        title={'Sales Order'}
         isShow={singleData?.objHeader && false}
-        btnText='Done'
+        btnText="Done"
       >
         <Formik
           enableReinitialize={true}
@@ -191,131 +188,131 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
             isValid,
           }) => (
             <>
-              <Form className='form form-label-right'>
-                <div className='form-group row'>
-                  <div className='col-lg-3'>
+              <Form className="form form-label-right">
+                <div className="form-group row">
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Select Sold to Party'
-                      options={""}
+                      label="Select Sold to Party"
+                      options={''}
                       value={values.soldtoParty}
-                      name='soldtoParty'
+                      name="soldtoParty"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Ship To Party'
-                      options={""}
+                      label="Ship To Party"
+                      options={''}
                       value={values.shipToParty}
-                      name='shipToParty'
+                      name="shipToParty"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <IInput
                       value={values.partnerReffNo}
-                      label='Party Ref. No'
-                      name='partnerReffNo'
+                      label="Party Ref. No"
+                      name="partnerReffNo"
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ICalendar
-                      label='Pricing Date'
-                      name='pricingDate'
-                      type='date'
+                      label="Pricing Date"
+                      name="pricingDate"
+                      type="date"
                       errors={errors}
                       touched={touched}
-                      value={_dateFormatter(values.pricingDate || "")}
+                      value={_dateFormatter(values.pricingDate || '')}
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ICalendar
-                      label='Delivery Date'
-                      name='dueShippingDate'
-                      type='date'
+                      label="Delivery Date"
+                      name="dueShippingDate"
+                      type="date"
                       errors={errors}
                       touched={touched}
                       value={_dateFormatter(values.dueShippingDate)}
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Incoterm'
-                      options={""}
+                      label="Incoterm"
+                      options={''}
                       value={values.incoterm}
-                      name='incoterm'
+                      name="incoterm"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Payment Terms'
-                      options={""}
+                      label="Payment Terms"
+                      options={''}
                       value={values.paymentTerms}
-                      name='paymentTerms'
+                      name="paymentTerms"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Select currency'
-                      options={""}
+                      label="Select currency"
+                      options={''}
                       value={values.currency}
-                      name='currency'
+                      name="currency"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      label='Reference Type'
-                      options={""}
+                      label="Reference Type"
+                      options={''}
                       value={values.refType}
-                      name='refType'
+                      name="refType"
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <IInput
                       value={values.narration || values.narration}
-                      label='Comments'
-                      name='narration'
+                      label="Comments"
+                      name="narration"
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Ship To Party Contact No.</label>
                     <InputField
                       value={values?.shipToPartnerContactNo}
-                      name='shipToPartnerContactNo'
-                      placeholder='Ship To Party Contact No.'
-                      type='text'
+                      name="shipToPartnerContactNo"
+                      placeholder="Ship To Party Contact No."
+                      type="text"
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3 mt-4 text-center d-flex justify-content-around'>
+                  <div className="col-lg-3 mt-4 text-center d-flex justify-content-around">
                     <div>
-                      <label className='d-block' for='isTransshipment'>
+                      <label className="d-block" for="isTransshipment">
                         Transshipment
                       </label>
                       <Field
@@ -323,25 +320,25 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                         component={() => (
                           <input
                             disabled={true}
-                            id='isTransshipment'
-                            type='checkbox'
-                            className='ml-2'
-                            value={values.isTransshipment || ""}
+                            id="isTransshipment"
+                            type="checkbox"
+                            className="ml-2"
+                            value={values.isTransshipment || ''}
                             checked={values.isTransshipment}
                             name={values.isTransshipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isTransshipment",
+                                'isTransshipment',
                                 e.target.checked
                               );
                             }}
                           />
                         )}
-                        label='Transshipment'
+                        label="Transshipment"
                       />
                     </div>
                     <div>
-                      <label className='d-block' for='isPartialShipment'>
+                      <label className="d-block" for="isPartialShipment">
                         Partial Shipment
                       </label>
                       <Field
@@ -349,34 +346,34 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                         component={() => (
                           <input
                             disabled={true}
-                            id='isPartialShipment'
-                            type='checkbox'
-                            className='ml-2'
-                            value={values.isPartialShipment || ""}
+                            id="isPartialShipment"
+                            type="checkbox"
+                            className="ml-2"
+                            value={values.isPartialShipment || ''}
                             checked={values.isPartialShipment}
                             name={values.isPartialShipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isPartialShipment",
+                                'isPartialShipment',
                                 e.target.checked
                               );
                             }}
                           />
                         )}
-                        label='PartialShipment'
+                        label="PartialShipment"
                       />
                     </div>
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
-                      name='logisticBy'
+                      name="logisticBy"
                       options={[]}
                       value={values?.logisticBy}
-                      label='Logistic By'
+                      label="Logistic By"
                       onChange={(valueOption) => {
-                        setFieldValue("logisticBy", valueOption);
+                        setFieldValue('logisticBy', valueOption);
                       }}
-                      placeholder='No Data Found'
+                      placeholder="No Data Found"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
@@ -385,32 +382,32 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
 
                   {selectedBusinessUnit?.value === 175 && (
                     <>
-                      {" "}
-                      <div className='col-lg-3'>
+                      {' '}
+                      <div className="col-lg-3">
                         <ISelect
-                          name='isWaterProof'
+                          name="isWaterProof"
                           options={[]}
                           value={values?.isWaterProof}
-                          label='Is Water Proof'
+                          label="Is Water Proof"
                           onChange={(valueOption) => {
-                            setFieldValue("isWaterProof", valueOption);
+                            setFieldValue('isWaterProof', valueOption);
                           }}
-                          placeholder='No Data Found'
+                          placeholder="No Data Found"
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
                         />
-                      </div>{" "}
-                      <div className='col-lg-3'>
+                      </div>{' '}
+                      <div className="col-lg-3">
                         <ISelect
-                          name='isPumpCharge'
+                          name="isPumpCharge"
                           options={[]}
                           value={values?.isPumpCharge}
-                          label='Is Pump Charge'
+                          label="Is Pump Charge"
                           onChange={(valueOption) => {
-                            setFieldValue("isPumpCharge", valueOption);
+                            setFieldValue('isPumpCharge', valueOption);
                           }}
-                          placeholder='No Data Found'
+                          placeholder="No Data Found"
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
@@ -418,33 +415,33 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                       </div>
                     </>
                   )}
-                  <div className='col-lg-12'>
+                  <div className="col-lg-12">
                     {partnerBalance && (
-                      <p className='m-0 my-2'>
+                      <p className="m-0 my-2">
                         <b>Ledger Balance: </b>
                         {partnerBalance.ledgerBalance},
-                        <b className='ml-2'>Credit Limit: </b>{" "}
+                        <b className="ml-2">Credit Limit: </b>{' '}
                         {creditLimitForInternalUser},
-                        <b className='ml-2'>Unbilled Amount: </b>
+                        <b className="ml-2">Unbilled Amount: </b>
                         {partnerBalance.unbilledAmount},
-                        <b className='ml-2'>Available Balance: </b>{" "}
+                        <b className="ml-2">Available Balance: </b>{' '}
                         {availableBalance},
-                        <b className='ml-2'>Undelivered Amount: </b>
+                        <b className="ml-2">Undelivered Amount: </b>
                         {undeliveryValues?.unlideliveredValues}
                       </p>
                     )}
                   </div>
                 </div>
                 <div>
-                  <span className='salesOrderCode'>
+                  <span className="salesOrderCode">
                     SO Number: {createSaveData?.salesOrderCode}
                   </span>
-                  <div className='row justify-content-end'>
-                    <div className='col-lg-2 d-flex'>
-                      <b className=''>Total Amount: </b> {total?.totalAmount}
+                  <div className="row justify-content-end">
+                    <div className="col-lg-2 d-flex">
+                      <b className="">Total Amount: </b> {total?.totalAmount}
                     </div>
-                    <div className='col-lg-2'>
-                      <b className=''>Total Qty: </b> {total?.totalQty}
+                    <div className="col-lg-2">
+                      <b className="">Total Qty: </b> {total?.totalQty}
                     </div>
                   </div>
                 </div>
@@ -453,40 +450,40 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
           )}
         </Formik>
         {/* Modal Grid */}
-        <div className='mt-5'>
+        <div className="mt-5">
           <ICustomTable ths={tableHeaders(selectedBusinessUnit?.value)}>
             {rowDto?.map((itm, index) => {
               return (
                 <tr key={index}>
-                  <td className='text-center'>{index + 1}</td>
-                  <td className='align-middle'>{itm.referenceNoName}</td>
-                  <td className='align-middle'>{itm.specification}</td>
-                  <td className='align-middle'>{itm.shipToPartnerName}</td>
-                  <td className='align-middle'>{itm.itemCode}</td>
-                  <td className='align-middle'>{itm.itemName}</td>
-                  <td className='align-middle'>{itm.customerItemName}</td>
-                  <td className='align-middle'>{itm.uomName}</td>
-                  <td className='align-middle'>{itm.isFree}</td>
-                  <td className='align-middle'>{itm.numRequestQuantity}</td>
-                  <td className='align-middle'>{itm.numItemPrice}</td>
+                  <td className="text-center">{index + 1}</td>
+                  <td className="align-middle">{itm.referenceNoName}</td>
+                  <td className="align-middle">{itm.specification}</td>
+                  <td className="align-middle">{itm.shipToPartnerName}</td>
+                  <td className="align-middle">{itm.itemCode}</td>
+                  <td className="align-middle">{itm.itemName}</td>
+                  <td className="align-middle">{itm.customerItemName}</td>
+                  <td className="align-middle">{itm.uomName}</td>
+                  <td className="align-middle">{itm.isFree}</td>
+                  <td className="align-middle">{itm.numRequestQuantity}</td>
+                  <td className="align-middle">{itm.numItemPrice}</td>
                   {selectedBusinessUnit?.value === 175 ? (
                     <>
-                      <td className='align-middle'>
+                      <td className="align-middle">
                         {itm?.numWaterProofRate || 0}
                       </td>
-                      <td className='align-middle'>
+                      <td className="align-middle">
                         {itm?.numPumpChargeRate || 0}
                       </td>
                     </>
                   ) : (
                     <></>
                   )}
-                  <td className='align-middle'>{itm.numOrderValue}</td>
-                  <td className='align-middle'>{itm.numDiscountValue}</td>
+                  <td className="align-middle">{itm.numOrderValue}</td>
+                  <td className="align-middle">{itm.numDiscountValue}</td>
 
-                  <td className='align-middle'>
+                  <td className="align-middle">
                     {itm.numOrderValue -
-                      (itm.numOrderValue * itm.numDiscountValue) / 100}{" "}
+                      (itm.numOrderValue * itm.numDiscountValue) / 100}{' '}
                   </td>
                 </tr>
               );

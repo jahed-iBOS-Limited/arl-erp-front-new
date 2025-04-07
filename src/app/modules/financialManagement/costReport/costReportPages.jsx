@@ -1,17 +1,17 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import CostSheetLanding from "../costReport/costSheet/landing";
-import InventoryAgingLanding from "../report/inventoryAging/landing";
-import { AccountPayableAnalysis } from "../report/accountPayableAnalysis/landing/form";
-import { PartnerAccAnalysisLanding } from "../report/partnerAccAnalysis/landing/form";
-import CostSheetRevisedLanding from "./costSheetRevised/landing";
-import { ProfitCenterReport } from "../report/profitCenterReport/Form/addEditForm";
-import { CashRegisterReport } from "../report/cashRegisterReport/Form/addEditForm";
-import { FinencialRatiosAnalysis } from "../report/finencialRatiosAnalysis/Form/addEditForm";
-import BudgetVsSalesVarient from "../../internalControl/budgetVSSalesVarient";
-import PlanningReport from "../report/planningReport";
-import COCReportLandingPage from "../report/cocReport";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import CostSheetLanding from '../costReport/costSheet/landing';
+import InventoryAgingLanding from '../report/inventoryAging/landing';
+import { AccountPayableAnalysis } from '../report/accountPayableAnalysis/landing/form';
+import { PartnerAccAnalysisLanding } from '../report/partnerAccAnalysis/landing/form';
+import CostSheetRevisedLanding from './costSheetRevised/landing';
+import { ProfitCenterReport } from '../report/profitCenterReport/Form/addEditForm';
+import { CashRegisterReport } from '../report/cashRegisterReport/Form/addEditForm';
+import { FinencialRatiosAnalysis } from '../report/finencialRatiosAnalysis/Form/addEditForm';
+import BudgetVsSalesVarient from '../../internalControl/budgetVSSalesVarient';
+import PlanningReport from '../report/planningReport';
+import COCReportLandingPage from '../report/cocReport';
 
 export function CostReportPages() {
   return (

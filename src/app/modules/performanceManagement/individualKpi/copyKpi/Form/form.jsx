@@ -1,52 +1,51 @@
-
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import KpiReportTable from "./reportTable";
-import axios from "axios";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import NewSelect from "../../../../_helper/_select";
-import { getGridDataForCopyYearAction, getYearDDL } from "../helper";
-import KpiYearGrid from "./gridForYear";
-import { getYearDDLForCopyKpiYear } from "./../helper";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import KpiReportTable from './reportTable';
+import axios from 'axios';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import NewSelect from '../../../../_helper/_select';
+import { getGridDataForCopyYearAction, getYearDDL } from '../helper';
+import KpiYearGrid from './gridForYear';
+import { getYearDDLForCopyKpiYear } from './../helper';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 const validationForEmployee = Yup.object().shape({
   selectedType: Yup.object().shape({
-    label: Yup.string().required("Selected Type is required"),
-    value: Yup.string().required("Selected Type is required"),
+    label: Yup.string().required('Selected Type is required'),
+    value: Yup.string().required('Selected Type is required'),
   }),
   employee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
   copyEmployee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
   copyYear: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
 });
 const validationForYear = Yup.object().shape({
   selectedType: Yup.object().shape({
-    label: Yup.string().required("Selected Type is required"),
-    value: Yup.string().required("Selected Type is required"),
+    label: Yup.string().required('Selected Type is required'),
+    value: Yup.string().required('Selected Type is required'),
   }),
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
   copyYear: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
 });
 
@@ -84,7 +83,7 @@ export default function FormCmp({
   const [allValue, setAllValue] = useState(0);
   const [employeeYearDDLFrom, setEmployeeYearDDLFrom] = useState([]);
   const [employeeYearDDLTo, setEmployeeYearDDLTo] = useState([]);
-  const [type, setType] = useState("Employee");
+  const [type, setType] = useState('Employee');
   const [yearDDLForCopyTypeYearTo, setYearDDLForCopyTypeYearTo] = useState([]);
   const [yearDDLForCopyTypeYearFrom, setYearDDLForCopyTypeYearFrom] = useState(
     []
@@ -103,7 +102,7 @@ export default function FormCmp({
 
   useEffect(() => {
     const size = strategicParticularsGrid?.length;
-    const key = frequencyId === 2 ? "monthId" : "quarterId";
+    const key = frequencyId === 2 ? 'monthId' : 'quarterId';
     if (size) {
       const tempObj = {};
       strategicParticularsGrid.forEach((itm, idx) => {
@@ -111,7 +110,6 @@ export default function FormCmp({
       });
       setObjRowTargetAchivment(tempObj);
     }
-
   }, [strategicParticularsGrid]);
 
   useEffect(() => {
@@ -124,13 +122,12 @@ export default function FormCmp({
             {
               ...objRowTargetAchivment[i],
               target: +allValue,
-              actualEndDate: "2020-09-27T12:37:16.694Z",
+              actualEndDate: '2020-09-27T12:37:16.694Z',
             },
           ])
         )
       );
     }
-
   }, [allValue]);
 
   useEffect(() => {
@@ -160,10 +157,10 @@ export default function FormCmp({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          selectedType: { value: 1, label: "Employee" },
+          selectedType: { value: 1, label: 'Employee' },
         }}
         validationSchema={
-          type === "Employee" ? validationForEmployee : validationForYear
+          type === 'Employee' ? validationForEmployee : validationForYear
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, gridData, () => {
@@ -192,16 +189,16 @@ export default function FormCmp({
                     <NewSelect
                       name="selectedType"
                       options={[
-                        { value: 1, label: "Employee" },
-                        { value: 2, label: "Year" },
+                        { value: 1, label: 'Employee' },
+                        { value: 2, label: 'Year' },
                       ]}
                       value={values?.selectedType}
                       onChange={(valueOption) => {
-                        setFieldValue("employee", "");
-                        setFieldValue("year", "");
-                        setFieldValue("copyEmployee", "");
-                        setFieldValue("copyYear", "");
-                        setFieldValue("selectedType", valueOption);
+                        setFieldValue('employee', '');
+                        setFieldValue('year', '');
+                        setFieldValue('copyEmployee', '');
+                        setFieldValue('copyYear', '');
+                        setFieldValue('selectedType', valueOption);
                         setType(valueOption?.label);
                       }}
                       placeholder="Copy Type"
@@ -221,9 +218,9 @@ export default function FormCmp({
                           selectedValue={values?.employee}
                           loadOptions={loadEmployeeList}
                           handleChange={(valueOption) => {
-                            setFieldValue("year", "");
-                            setFieldValue("copyYear", "");
-                            setFieldValue("employee", valueOption);
+                            setFieldValue('year', '');
+                            setFieldValue('copyYear', '');
+                            setFieldValue('employee', valueOption);
                             getYearDDL(
                               valueOption?.value,
                               setEmployeeYearDDLFrom
@@ -240,8 +237,8 @@ export default function FormCmp({
                           touched={touched}
                           value={values?.year}
                           onChange={(valueOption) => {
-                            setFieldValue("copyYear", "");
-                            setFieldValue("year", valueOption);
+                            setFieldValue('copyYear', '');
+                            setFieldValue('year', valueOption);
                             if (values?.copyEmployee?.value) {
                               filteredYear(valueOption?.value, values);
                             }
@@ -304,15 +301,15 @@ export default function FormCmp({
                           touched={touched}
                         />
                       </div> */}
-                       <div className="col-lg-5">
+                      <div className="col-lg-5">
                         <label>Employee</label>
                         <SearchAsyncSelect
                           name="copyEmployee"
                           selectedValue={values?.copyEmployee}
                           loadOptions={loadEmployeeList}
                           handleChange={(valueOption) => {
-                            setFieldValue("copyYear", "");
-                            setFieldValue("copyEmployee", valueOption);
+                            setFieldValue('copyYear', '');
+                            setFieldValue('copyEmployee', valueOption);
                             if (values?.year?.value) {
                               filteredYear(values?.year?.value, {
                                 ...values,
@@ -329,7 +326,7 @@ export default function FormCmp({
                           value={values?.copyYear}
                           label="Year"
                           onChange={(valueOption) => {
-                            setFieldValue("copyYear", valueOption);
+                            setFieldValue('copyYear', valueOption);
                           }}
                           min={values?.year}
                           placeholder="Year"
@@ -355,8 +352,8 @@ export default function FormCmp({
                           touched={touched}
                           value={values?.year}
                           onChange={(valueOption) => {
-                            setFieldValue("copyYear", "");
-                            setFieldValue("year", valueOption);
+                            setFieldValue('copyYear', '');
+                            setFieldValue('year', valueOption);
                             filteredYear(valueOption?.value);
                           }}
                           placeholder="Year"
@@ -392,7 +389,7 @@ export default function FormCmp({
                           value={values?.copyYear}
                           label="Year"
                           onChange={(valueOption) => {
-                            setFieldValue("copyYear", valueOption);
+                            setFieldValue('copyYear', valueOption);
                           }}
                           isDisabled={!values?.year}
                           min={values?.year}
@@ -421,18 +418,18 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => {
                   resetForm(initData);
-                  setType("");
+                  setType('');
                 }}
               ></button>
             </Form>

@@ -1,5 +1,5 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 import { PrimaryCollectionTable } from './Table/tableHeader';
 
 export function PrimaryCollectionPaginationLanding() {
@@ -10,4 +10,4 @@ export function PrimaryCollectionPaginationLanding() {
       <PrimaryCollectionTable />
     </UiProvider>
   );
-};
+}

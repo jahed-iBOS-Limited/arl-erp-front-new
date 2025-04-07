@@ -1,6 +1,6 @@
-import React from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import DeliveryReportTable from "./Table/table";
+import React from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import DeliveryReportTable from './Table/table';
 
 export default function ViewForm({ id, show, onHide }) {
   return (

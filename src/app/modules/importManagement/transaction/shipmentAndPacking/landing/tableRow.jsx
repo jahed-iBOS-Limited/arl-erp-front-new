@@ -1,6 +1,5 @@
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 // import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import {
   Card,
@@ -8,30 +7,30 @@ import {
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 import {
   cancelShipmentHeaderById,
   getShipmentLandingData,
-} from "../collapsePanels/shipment/helper";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+} from '../collapsePanels/shipment/helper';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 // import IWarningModal from "../../../../_helper/_warningModal";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
+import IView from '../../../../_helper/_helperIcons/_view';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { toast } from "react-toastify";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { useDispatch } from "react-redux";
-import { managementImportTransactionShipmentAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { toast } from 'react-toastify';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { useDispatch } from 'react-redux';
+import { managementImportTransactionShipmentAction } from './../../../../_helper/reduxForLocalStorage/Actions';
 export default function TableRow() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -108,8 +107,8 @@ export default function TableRow() {
         pageNo,
         setGridData,
         localStorageData?.searchPo?.label,
-        "",
-        ""
+        '',
+        ''
       );
     } else {
       getShipmentLandingData(
@@ -118,17 +117,17 @@ export default function TableRow() {
         pageSize,
         pageNo,
         setGridData,
-        "",
-        "",
-        ""
+        '',
+        '',
+        ''
       );
     }
   }, [profileData, selectedBusinessUnit, localStorageData]);
 
   const remover = (id) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you delete this, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you delete this, it can not be undone',
       yesAlertFunc: async () => {
         const cb = () => {
           getShipmentLandingData(
@@ -137,15 +136,15 @@ export default function TableRow() {
             pageSize,
             pageNo,
             setGridData,
-            "",
-            "",
-            ""
+            '',
+            '',
+            ''
           );
         };
         cancelShipmentHeaderById(id, cb);
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -158,7 +157,7 @@ export default function TableRow() {
         initialValues={{
           poDDL: localStorageData?.searchPo?.value
             ? localStorageData?.searchPo
-            : "",
+            : '',
           isCheck: true,
           fromDate: _firstDateofMonth(),
           toDate: _todayDate(),
@@ -174,13 +173,13 @@ export default function TableRow() {
                     onClick={() => {
                       values?.poDDL?.isInsuranceAmendment === false
                         ? toast.warn(
-                            "Please Create insurance amendment as you created lc amendment"
+                            'Please Create insurance amendment as you created lc amendment'
                           )
                         : history.push({
                             pathname: `/managementImport/transaction/shipment/create`,
                             state: {
-                              checkbox: "shipmentInformation",
-                              routeState: "create",
+                              checkbox: 'shipmentInformation',
+                              routeState: 'create',
                               values: values,
                             },
                           });
@@ -205,14 +204,14 @@ export default function TableRow() {
                           handleChange={(valueOption) => {
                             // setFieldValue("poNo", valueOption);
                             // if (valueOption) {
-                            setFieldValue("poDDL", valueOption);
+                            setFieldValue('poDDL', valueOption);
                             dispatch(
                               managementImportTransactionShipmentAction({
                                 ...localStorageData,
                                 searchPo: valueOption,
                               })
                             );
-                            getGrid(valueOption?.label, "", "");
+                            getGrid(valueOption?.label, '', '');
                             // }
                           }}
                           loadOptions={loadPoList || []}
@@ -221,13 +220,13 @@ export default function TableRow() {
                       {localStorageData?.searchPo?.value && (
                         <span
                           className="ml-2"
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: 'pointer' }}
                           onClick={(e) => {
                             e.stopPropagation();
                             dispatch(
                               managementImportTransactionShipmentAction({
                                 ...localStorageData,
-                                searchPo: "",
+                                searchPo: '',
                               })
                             );
                           }}
@@ -235,7 +234,7 @@ export default function TableRow() {
                           <i
                             class="fa fa-times-circle"
                             aria-hidden="true"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => {
                               getShipmentLandingData(
                                 profileData?.accountId,
@@ -243,9 +242,9 @@ export default function TableRow() {
                                 pageSize,
                                 pageNo,
                                 setGridData,
-                                "",
-                                "",
-                                ""
+                                '',
+                                '',
+                                ''
                               );
                             }}
                           ></i>
@@ -254,10 +253,10 @@ export default function TableRow() {
                     </div>
                     <div
                       className="col-lg-2 d-flex"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                     >
                       <input
-                        style={{ width: "15px", height: "15px" }}
+                        style={{ width: '15px', height: '15px' }}
                         name="isCheck"
                         type="checkbox"
                         checked={isCheckState}
@@ -277,7 +276,7 @@ export default function TableRow() {
                         disabled={isCheckState === false}
                         onChange={(e) => {
                           // if (e?.target?.value) {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                           // getGrid(
                           //   values?.poDDL?.label,
                           //   e?.target?.value,
@@ -298,7 +297,7 @@ export default function TableRow() {
                         disabled={isCheckState === false}
                         onChange={(e) => {
                           if (e?.target?.value) {
-                            setFieldValue("toDate", e?.target?.value);
+                            setFieldValue('toDate', e?.target?.value);
                             // getGrid(
                             //   values?.poDDL?.label,
                             //   values?.fromDate,
@@ -357,7 +356,7 @@ export default function TableRow() {
                           </td>
                           <td className="text-center">{item?.packingIds}</td>
                           <td className="text-center">
-                            {item?.isApprove ? "Approved" : "Pending"}
+                            {item?.isApprove ? 'Approved' : 'Pending'}
                           </td>
                           <td className="text-center justify-content-center">
                             <span className="view">
@@ -367,7 +366,7 @@ export default function TableRow() {
                                     pathname: `/managementImport/transaction/shipment/view/${item?.shipmentId}`,
                                     state: {
                                       ...item,
-                                      checkbox: "shipmentInformation",
+                                      checkbox: 'shipmentInformation',
                                     },
                                   });
                                 }}
@@ -380,7 +379,7 @@ export default function TableRow() {
                                   pathname: `/managementImport/transaction/shipment/edit/${item?.shipmentId}`,
                                   state: {
                                     ...item,
-                                    checkbox: "shipmentInformation",
+                                    checkbox: 'shipmentInformation',
                                   },
                                 });
                               }}
@@ -396,12 +395,12 @@ export default function TableRow() {
                                 <i
                                   class="fas fa-box-open"
                                   aria-hidden="true"
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: 'pointer' }}
                                   onClick={() => {
                                     history.push({
                                       pathname: `/managementImport/transaction/shipment/create`,
                                       state: {
-                                        checkbox: "packingInformation",
+                                        checkbox: 'packingInformation',
                                         shipmentId: item?.shipmentId,
                                         item: item,
                                         values: values,
@@ -421,7 +420,7 @@ export default function TableRow() {
                                   <i
                                     class="fa fa-trash deleteBtn text-danger"
                                     aria-hidden="true"
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     onClick={() => {
                                       remover(item?.shipmentId);
                                     }}

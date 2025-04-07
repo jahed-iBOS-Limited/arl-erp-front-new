@@ -1,43 +1,55 @@
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import * as Yup from "yup";
-import { IInput } from "../../../_helper/_input";
-import {
-  getSalesProfitReportData,
-  getWareHouseDDL
-} from "../helper";
-import Loading from "../../../_helper/_loading";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../_helper/_todayDate';
+import NewSelect from '../../../_helper/_select';
+import * as Yup from 'yup';
+import { IInput } from '../../../_helper/_input';
+import { getSalesProfitReportData, getWareHouseDDL } from '../helper';
+import Loading from '../../../_helper/_loading';
 //import numberWithCommas from "../../../_helper/_numberWithCommas";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-const challanBaseHeader = ["Sl", "Item", "Challan", "Date", "Total Quantity", "Total Amount", "Cost Amount", "Profit Amount"];
-const itemBaseHeader = ["Sl", "Item", "Total Quantity", "Total Amount", "Cost Amount", "Profit Amount"];
+const challanBaseHeader = [
+  'Sl',
+  'Item',
+  'Challan',
+  'Date',
+  'Total Quantity',
+  'Total Amount',
+  'Cost Amount',
+  'Profit Amount',
+];
+const itemBaseHeader = [
+  'Sl',
+  'Item',
+  'Total Quantity',
+  'Total Amount',
+  'Cost Amount',
+  'Profit Amount',
+];
 const reportDDL = [
-  { value: 1, label: "Challan Base" },
-  { value: 2, label: "Item Base" }
+  { value: 1, label: 'Challan Base' },
+  { value: 2, label: 'Item Base' },
 ];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
-  toDate: Yup.date().required("To Date is required"),
+  fromDate: Yup.date().required('From Date is required'),
+  toDate: Yup.date().required('To Date is required'),
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
-  })
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
+  }),
 });
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: ""
+  reportType: '',
 };
 
 export default function SalesProfit() {
@@ -46,9 +58,8 @@ export default function SalesProfit() {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15)
-  const [whNameDDL, setWhNameDDL] = useState([])
-
+  const [pageSize, setPageSize] = React.useState(15);
+  const [whNameDDL, setWhNameDDL] = useState([]);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -62,9 +73,13 @@ export default function SalesProfit() {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, setWhNameDDL)
+      getWareHouseDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setWhNameDDL
+      );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getSalesProfitReportData(
@@ -76,7 +91,7 @@ export default function SalesProfit() {
       values?.reportType?.value,
       setLoading,
       setRowDto
-    )
+    );
   };
 
   let totalAmount = 0;
@@ -108,7 +123,6 @@ export default function SalesProfit() {
                 enableReinitialize={true}
                 initialValues={initData}
                 validationSchema={validationSchema}
-
               >
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
@@ -122,7 +136,7 @@ export default function SalesProfit() {
                             value={values?.whName}
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("whName", valueOption)
+                              setFieldValue('whName', valueOption);
                             }}
                             placeholder="Outlet Name"
                             errors={errors}
@@ -136,7 +150,7 @@ export default function SalesProfit() {
                             type="date"
                             name="fromDate"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -148,7 +162,7 @@ export default function SalesProfit() {
                             name="toDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -160,19 +174,24 @@ export default function SalesProfit() {
                             label="Report Type"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("reportType", valueOption)
+                              setFieldValue('reportType', valueOption);
                             }}
                             placeholder="Report Type"
                             errors={errors}
                             touched={touched}
                           />
                         </div>
-                        <div style={{ marginTop: "18px" }} className="col-lg-1">
+                        <div style={{ marginTop: '18px' }} className="col-lg-1">
                           <button
-                            disabled={!values?.fromDate || !values?.toDate || !values?.reportType || !values?.whName}
+                            disabled={
+                              !values?.fromDate ||
+                              !values?.toDate ||
+                              !values?.reportType ||
+                              !values?.whName
+                            }
                             className="btn btn-primary"
                             onClick={() => {
-                              setPositionHandler(pageNo, pageSize, values)
+                              setPositionHandler(pageNo, pageSize, values);
                             }}
                             type="button"
                           >
@@ -183,7 +202,7 @@ export default function SalesProfit() {
                     </Form>
                     {loading && <Loading />}
                     <div className=" my-5">
-                      {values?.reportType?.value === 1 &&
+                      {values?.reportType?.value === 1 && (
                         <ICustomTable ths={challanBaseHeader}>
                           {rowDto.map((itm, i) => {
                             totalAmount += +itm?.totalAmount;
@@ -195,23 +214,58 @@ export default function SalesProfit() {
                                 <td className="text-center"> {i + 1}</td>
                                 <td className="text-left"> {itm.itemName}</td>
                                 <td> {itm.deliveryCode}</td>
-                                <td className="text-center"> {_dateFormatter(itm.deliveryDate)}</td>
-                                <td className="text-right"> {itm.totalQuantity}</td>
-                                <td className="text-right"> {itm.totalAmount.toFixed(2)}</td>
-                                <td className="text-right"> {itm.costAmount.toFixed(2)}</td>
-                                <td className="text-right"> {itm.profit.toFixed(2)}</td>
+                                <td className="text-center">
+                                  {' '}
+                                  {_dateFormatter(itm.deliveryDate)}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.totalQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.totalAmount.toFixed(2)}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.costAmount.toFixed(2)}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.profit.toFixed(2)}
+                                </td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colSpan={5}>Total</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalCostAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalProfitAmount.toFixed(2)}</td>
+                            <td className="text-center" colSpan={5}>
+                              Total
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {' '}
+                              {totalAmount.toFixed(2)}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {' '}
+                              {totalCostAmount.toFixed(2)}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {' '}
+                              {totalProfitAmount.toFixed(2)}
+                            </td>
                           </tr>
                         </ICustomTable>
-                      }
-                      {values?.reportType?.value === 2 &&
+                      )}
+                      {values?.reportType?.value === 2 && (
                         <ICustomTable ths={itemBaseHeader}>
                           {rowDto.map((itm, i) => {
                             totalAmount += +itm?.totalAmount;
@@ -222,21 +276,49 @@ export default function SalesProfit() {
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td className="text-center"> {itm.itemName}</td>
-                                <td className="text-right"> {itm.totalQuantity}</td>
-                                <td className="text-right"> {itm.totalAmount}</td>
-                                <td className="text-right"> {itm.costAmount}</td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.totalQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.totalAmount}
+                                </td>
+                                <td className="text-right">
+                                  {' '}
+                                  {itm.costAmount}
+                                </td>
                                 <td className="text-right"> {itm.profit}</td>
                               </tr>
                             );
                           })}
                           <tr>
-                            <td className="text-center" colSpan={3}>Total</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>{totalAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalCostAmount.toFixed(2)}</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}> {totalProfitAmount.toFixed(2)}</td>
+                            <td className="text-center" colSpan={3}>
+                              Total
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {totalAmount.toFixed(2)}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {' '}
+                              {totalCostAmount.toFixed(2)}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {' '}
+                              {totalProfitAmount.toFixed(2)}
+                            </td>
                           </tr>
                         </ICustomTable>
-                      }
+                      )}
                     </div>
                   </>
                 )}

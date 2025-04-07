@@ -1,6 +1,6 @@
-import { default as Axios, default as axios } from "axios";
-import moment from "moment";
-import { toast } from "react-toastify";
+import { default as Axios, default as axios } from 'axios';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 export const GetCustomerStatementLanding = async (
   accId,
@@ -19,11 +19,11 @@ export const GetCustomerStatementLanding = async (
     distributionChannel: { value: channelId },
     salesOrg: { value: salesOrgId },
   } = values;
-  const fromDateTime = moment(`${fromDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const fromDateTime = moment(`${fromDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
-  const toDateTime = moment(`${toDate} ${"00:00"}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+  const toDateTime = moment(`${toDate} ${'00:00'}`).format(
+    'YYYY-MM-DDTHH:mm:ss'
   );
   try {
     setLoading(true);
@@ -31,13 +31,13 @@ export const GetCustomerStatementLanding = async (
       `/oms/OManagementReport/GetCustomerDeliveryStatementModified?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDateTime}&ToDate=${toDateTime}&CustomerId=${customerId}&ShipPointId=${shipPointId}&salesOrgId=${salesOrgId}&DistribuitionChannelId=${channelId}`
     );
     const unique = [
-      ...new Map(res?.data?.map((item) => [item["customerId"], item])).values(),
+      ...new Map(res?.data?.map((item) => [item['customerId'], item])).values(),
     ];
 
     if (res?.data?.[0]?.objList?.length > 0) {
       setter(unique);
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
       setter([]);
     }
 
@@ -56,14 +56,14 @@ export const getCustomerNameDDL = async (
 ) => {
   let distributorStr =
     distributionChannelId === 0
-      ? ""
+      ? ''
       : `&DistribuitionChannelId=${distributionChannelId}`;
 
   try {
     const res = await Axios.get(
       `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${orgId}${distributorStr}`
     );
-    const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+    const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
     setter(modifiedData);
   } catch (error) {
     setter([]);
@@ -157,9 +157,9 @@ export const getRegionAreaTerritory = async ({
   territoryId,
 }) => {
   setLoading(true);
-  const region = regionId ? `&regionId=${regionId}` : "";
-  const area = areaId ? `&areaId=${areaId}` : "";
-  const territory = territoryId ? `&territoryId=${territoryId}` : "";
+  const region = regionId ? `&regionId=${regionId}` : '';
+  const area = areaId ? `&areaId=${areaId}` : '';
+  const territory = territoryId ? `&territoryId=${territoryId}` : '';
   try {
     const res = await axios.get(
       `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}${territory}`

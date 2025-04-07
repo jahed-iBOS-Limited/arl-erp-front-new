@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import govLogo from "../images/govLogo.png";
+import React, { useRef } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import govLogo from '../images/govLogo.png';
 
 function ReportBody({ gridData, headerData }) {
   const printRef = useRef();
@@ -14,12 +14,12 @@ function ReportBody({ gridData, headerData }) {
             <button
               type="button"
               className="btn btn-primary"
-              style={{ padding: "2px 5px" }}
+              style={{ padding: '2px 5px' }}
             >
               <img
                 style={{
-                  width: "25px",
-                  paddingRight: "5px",
+                  width: '25px',
+                  paddingRight: '5px',
                 }}
                 src={printIcon}
                 alt="print-icon"
@@ -37,7 +37,7 @@ function ReportBody({ gridData, headerData }) {
             <tr>
               <th className="sixOne-th" valign="center" halign="center">
                 <div>
-                  <img src={govLogo} alt={"Ibos"} />
+                  <img src={govLogo} alt={'Ibos'} />
                 </div>
               </th>
               <th className="sixOne-th">
@@ -193,7 +193,7 @@ function ReportBody({ gridData, headerData }) {
                 </th>
               </tr>
               <tr>
-                <th style={{ width: "100px" }} colSpan="1" rowSpan="1">
+                <th style={{ width: '100px' }} colSpan="1" rowSpan="1">
                   চালান পত্র নং
                 </th>
                 <th colSpan="1" rowSpan="1">

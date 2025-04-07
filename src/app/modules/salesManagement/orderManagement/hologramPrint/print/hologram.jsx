@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
-import Barcode from "react-barcode";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import { ToWords } from "to-words";
-import IButton from "../../../../_helper/iButton";
-import logo from "../../../../_helper/images/essential.png";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import "./InvoiceRecept.css";
+import React, { useRef } from 'react';
+import Barcode from 'react-barcode';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { ToWords } from 'to-words';
+import IButton from '../../../../_helper/iButton';
+import logo from '../../../../_helper/images/essential.png';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import './InvoiceRecept.css';
 // import QRCode from "qrcode.react";
 
 const HologramPrint = ({ printDataList }) => {
@@ -21,9 +21,9 @@ const HologramPrint = ({ printDataList }) => {
 
   const printHandler = useReactToPrint({
     content: () => printRef.current,
-    documentTitle: "Customer Copy",
+    documentTitle: 'Customer Copy',
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
 
   return (
@@ -45,7 +45,7 @@ const HologramPrint = ({ printDataList }) => {
           let totalQty = 0;
 
           const toWords = new ToWords({
-            localeCode: "en-BD",
+            localeCode: 'en-BD',
             converterOptions: {
               // currency: true,
               ignoreDecimal: false,
@@ -55,7 +55,7 @@ const HologramPrint = ({ printDataList }) => {
           });
           return (
             <div className="page-break">
-              <div style={{ borderBottom: "1px solid black" }}>
+              <div style={{ borderBottom: '1px solid black' }}>
                 <div className="hologram_header">
                   <div className="logo">
                     <img
@@ -66,7 +66,7 @@ const HologramPrint = ({ printDataList }) => {
                   </div>
 
                   <div className="text-center">
-                    <p style={{ fontSize: "35px", fontWeight: "500" }}>
+                    <p style={{ fontSize: '35px', fontWeight: '500' }}>
                       {/* Akij Essential Limited */}
                       {buName}
                     </p>
@@ -84,9 +84,9 @@ const HologramPrint = ({ printDataList }) => {
                 size={70}
               /> 
             </div> */}
-                  {salesOrderCode !== "" ? (
+                  {salesOrderCode !== '' ? (
                     <Barcode
-                      value={salesOrderCode ? salesOrderCode : ""}
+                      value={salesOrderCode ? salesOrderCode : ''}
                       lineColor="black"
                       displayValue={false}
                       height={60}
@@ -154,7 +154,7 @@ const HologramPrint = ({ printDataList }) => {
                               {item?.requestQuantity}
                             </td>
                             <td className="text-right">{item?.itemWeightKG}</td>
-                            <td>{"n/a"}</td>
+                            <td>{'n/a'}</td>
                           </tr>
                         );
                       })}
@@ -164,12 +164,12 @@ const HologramPrint = ({ printDataList }) => {
                     <tbody>
                       <tr>
                         <td className="text-left">
-                          Quantity in Words:{" "}
+                          Quantity in Words:{' '}
                           {toWords.convert(totalQty.toFixed(0))}
                           <br />
                           Unit Price: {rowList[0]?.itemPrice}
                           <br />
-                          Amount in Words:{" "}
+                          Amount in Words:{' '}
                           {toWords.convert(rowList[0]?.netValue.toFixed(0))}
                           <br />
                           Delivery Date: {_dateFormatter(salesOrderDate)}
@@ -182,7 +182,7 @@ const HologramPrint = ({ printDataList }) => {
                   </table>
                 </div>
                 <div
-                  style={{ writingMode: "vertical-rl" }}
+                  style={{ writingMode: 'vertical-rl' }}
                   className="text-center"
                 >
                   <h1>Customer Copy</h1>
@@ -203,9 +203,9 @@ const HologramPrint = ({ printDataList }) => {
               </div>
               <footer
                 className="footer"
-                style={{ bottom: 0, position: "fixed", display: "none" }}
+                style={{ bottom: 0, position: 'fixed', display: 'none' }}
               >
-                <h4 style={{ color: "#11067e" }}>
+                <h4 style={{ color: '#11067e' }}>
                   <b>
                     [N.B.: Delivery should be taken within 15 (Fifteen) Days
                     hereafter]

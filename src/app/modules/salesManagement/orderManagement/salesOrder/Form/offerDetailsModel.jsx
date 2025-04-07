@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
 function OfferDetailsModel({ tradeOffersList }) {
   return (
     <div>
       <div className="table-responsive">
-        <table className={"table global-table"}>
+        <table className={'table global-table'}>
           <thead>
             <tr>
-              <th style={{ width: "20px" }}>SL</th>
-              <th style={{ width: "120px" }}>Item Name </th>
+              <th style={{ width: '20px' }}>SL</th>
+              <th style={{ width: '120px' }}>Item Name </th>
               <th>Order Qty </th>
               <th>Offer Item Name </th>
               <th>Offer Qty </th>

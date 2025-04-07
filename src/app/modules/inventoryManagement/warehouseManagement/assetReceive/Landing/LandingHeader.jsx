@@ -1,28 +1,27 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getSBUDDL,
   getPlantDDL,
   getWarehouseDDL,
   fetchLandingData,
-} from "../helper/Actions";
-import AssetReceiveLandingTable from "./ServiceReceiveLandingTable";
+} from '../helper/Actions';
+import AssetReceiveLandingTable from './ServiceReceiveLandingTable';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { setAssetReceiveAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { setAssetReceiveAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 function LandingHeader() {
   const history = useHistory();
@@ -43,9 +42,9 @@ function LandingHeader() {
   const [warehouseDDL, setWareHouseDDL] = useState([]);
 
   // Selected DDL State
-  const [sbu, setSBU] = useState("");
-  const [plant, setPlant] = useState("");
-  const [warehouse, setWarehouse] = useState("");
+  const [sbu, setSBU] = useState('');
+  const [plant, setPlant] = useState('');
+  const [warehouse, setWarehouse] = useState('');
   const [fromDate, setFromDate] = useState(_todayDate());
   const [toDate, setToDate] = useState(_todayDate());
 
@@ -71,7 +70,7 @@ function LandingHeader() {
       setWarehouse(serviceData?.warehouse);
       setFromDate(serviceData?.fromDate);
       setToDate(serviceData?.toDate);
-      onChangeForPlant(serviceData?.plant)
+      onChangeForPlant(serviceData?.plant);
       if (serviceData?.sbu && serviceData?.plant && serviceData?.warehouse) {
         fetchLandingData(
           serviceData?.fromDate,
@@ -194,7 +193,7 @@ function LandingHeader() {
                 dispatch(setAssetReceiveAction(serviceReceive));
                 history.push({
                   pathname:
-                    "/inventory-management/warehouse-management/assetReceive/create",
+                    '/inventory-management/warehouse-management/assetReceive/create',
                   state: { sbu, plant, warehouse },
                 });
               }}
@@ -225,7 +224,7 @@ function LandingHeader() {
                 onChange={(valueOption) => {
                   setPlant(valueOption);
                   onChangeForPlant(valueOption);
-                  setWarehouse("");
+                  setWarehouse('');
                 }}
                 options={plantDDL}
                 value={plant}
@@ -273,7 +272,7 @@ function LandingHeader() {
             </div>
             <div className="ml-3">
               <button
-                style={{ marginTop: "14px" }}
+                style={{ marginTop: '14px' }}
                 className="btn btn-primary"
                 onClick={(e) => viewGridData()}
                 disabled={!sbu || !plant || !warehouse}
@@ -332,7 +331,11 @@ function LandingHeader() {
             placeholder="Asset Code Search"
             paginationSearchHandler={paginationSearchHandler}
           />
-          <AssetReceiveLandingTable gridData={gridData} viewGridData={viewGridData} setLoading={setLoading} />
+          <AssetReceiveLandingTable
+            gridData={gridData}
+            viewGridData={viewGridData}
+            setLoading={setLoading}
+          />
 
           {/* Pagination Code */}
           {gridData?.length > 0 && (

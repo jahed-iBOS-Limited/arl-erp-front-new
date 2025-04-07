@@ -71,7 +71,7 @@ export default function FormCmp({
               13,
               24,
               false,
-              1,
+              1
             );
           });
         }}
@@ -143,7 +143,7 @@ export default function FormCmp({
                                 className="disabled-feedback disable-border str-achievement"
                                 onClick={() => {
                                   setClickedMonth(
-                                    Object.keys(target?.objRow)[index],
+                                    Object.keys(target?.objRow)[index]
                                   );
                                 }}
                               >
@@ -158,7 +158,7 @@ export default function FormCmp({
                                     getDailyTargetData(
                                       target?.kpiid,
                                       target?.objRow[index]?.monthId,
-                                      setDailyEntryRow,
+                                      setDailyEntryRow
                                     );
                                   }}
                                   onChange={(e) =>
@@ -166,7 +166,7 @@ export default function FormCmp({
                                       'numAchivment',
                                       e.target.value,
                                       index,
-                                      itm.rowId,
+                                      itm.rowId
                                     )
                                   }
                                   disabled={
@@ -196,7 +196,7 @@ export default function FormCmp({
                                       'remarks',
                                       e.target.value,
                                       index,
-                                      itm.rowId,
+                                      itm.rowId
                                     );
                                   }}
                                   max={1000}
@@ -223,10 +223,10 @@ export default function FormCmp({
                       {target?.objRow?.[clickedMonth]?.monthName
                         ? `Month : ${target?.objRow?.[clickedMonth]?.monthName}`
                         : Object.values(target?.objHeader)[clickedMonth] ===
-                          'Yearly'
-                        ? 'Year ' + year
-                        : Object.values(target?.objHeader)[clickedMonth] +
-                          ' Quarter'}
+                            'Yearly'
+                          ? 'Year ' + year
+                          : Object.values(target?.objHeader)[clickedMonth] +
+                            ' Quarter'}
                     </b>{' '}
                   </span>
                   {(target?.objRow?.[clickedMonth]?.documentString ||
@@ -236,8 +236,8 @@ export default function FormCmp({
                         dispatch(
                           getDownlloadFileView_Action(
                             rowDto[clickedMonth]?.documentString ||
-                              target?.objRow?.[clickedMonth]?.documentString,
-                          ),
+                              target?.objRow?.[clickedMonth]?.documentString
+                          )
                         );
                       }}
                     />
@@ -265,7 +265,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}
@@ -278,7 +278,7 @@ export default function FormCmp({
                           'documentString',
                           data?.[0]?.id,
                           clickedMonth,
-                          target?.objRow?.[clickedMonth]?.rowId,
+                          target?.objRow?.[clickedMonth]?.rowId
                         );
                         setFileObjects([]);
                       });

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import ICard from "../../../../_helper/_card";
-import { useSelector, shallowEqual } from "react-redux";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard";
+import React, { useEffect, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import ICard from '../../../../_helper/_card';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard';
 
 export default function DepBSCPrint() {
   const location = useLocation();
@@ -36,7 +36,6 @@ export default function DepBSCPrint() {
         2
       );
     }
-
   }, [selectedBusinessUnit, state]);
 
   return (
@@ -49,13 +48,13 @@ export default function DepBSCPrint() {
         isShowPrintBtn={true}
         componentRef={printRef}
         backHandler={() =>
-          history.push("/performance-management/departmental-kpi/scorecard")
+          history.push('/performance-management/departmental-kpi/scorecard')
         }
       >
         <div className="bsc-print-section" ref={printRef}>
           <div className="mx-auto my-2">
             <div className="text-center my-2">
-              <b className="display-5"> {selectedBusinessUnit?.label} </b>{" "}
+              <b className="display-5"> {selectedBusinessUnit?.label} </b>{' '}
               <br />
               <b className="display-5"> Departmental Balanced Scorecard </b>
             </div>

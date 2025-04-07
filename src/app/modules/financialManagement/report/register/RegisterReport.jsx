@@ -1,4 +1,3 @@
-
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -54,12 +53,12 @@ export function RegisterReport({
 }) {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
   const dispatch = useDispatch();
   const { registerReport } = useSelector(
     (state) => state?.localStorage,
-    shallowEqual,
+    shallowEqual
   );
   // const history = useHistory();
   const [sbuDDL, setSbuDDL] = useState([]);
@@ -91,7 +90,7 @@ export function RegisterReport({
     getSbuDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setSbuDDL,
+      setSbuDDL
     );
 
     if (registerReport?.sbu?.value) {
@@ -105,10 +104,9 @@ export function RegisterReport({
         null,
         (resData) => {
           setRowDtoAll(resData);
-        },
+        }
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const ths = ['SL', 'Partner', 'Partner Code', 'Debit', 'Credit', 'Action'];
@@ -194,7 +192,7 @@ export function RegisterReport({
                           setDistributionChannelDDL([]);
                           if (valueOption) {
                             getDistributionChannelDDL(
-                              `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`,
+                              `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`
                             );
                           }
                         }}
@@ -218,7 +216,7 @@ export function RegisterReport({
                           onChange={(valueOption) => {
                             setFieldValue(
                               'distributionChannel',
-                              valueOption || '',
+                              valueOption || ''
                             );
                           }}
                           placeholder="Distribution Channel"
@@ -283,7 +281,7 @@ export function RegisterReport({
                                 (data) => {
                                   data.unshift({ value: 0, label: 'All' });
                                   setProfitCenterDDL(data);
-                                },
+                                }
                               );
                             setIsDetailsReport(false);
                           }}
@@ -345,7 +343,7 @@ export function RegisterReport({
                               partnerTypeId,
                               (resData) => {
                                 setRowDtoAll(resData);
-                              },
+                              }
                             );
                             dispatch(setRegisterReportAction(values));
                           }}
@@ -358,7 +356,7 @@ export function RegisterReport({
                             onClick={() => {
                               if (!values?.generalLedger?.value)
                                 return toast.warn(
-                                  'Please select a general Ledger',
+                                  'Please select a general Ledger'
                                 );
                               setRowDto([]);
                               setIsDetailsReport(true);
@@ -416,7 +414,7 @@ export function RegisterReport({
                                   <td className="text-right">
                                     {item?.numLedgerBalance >= 0
                                       ? _formatMoney(
-                                          item?.numLedgerBalance?.toFixed(2),
+                                          item?.numLedgerBalance?.toFixed(2)
                                         )
                                       : '-'}
                                   </td>
@@ -424,8 +422,8 @@ export function RegisterReport({
                                     {item?.numLedgerBalance < 0
                                       ? _formatMoney(
                                           Math.abs(
-                                            item?.numLedgerBalance,
-                                          )?.toFixed(2),
+                                            item?.numLedgerBalance
+                                          )?.toFixed(2)
                                         )
                                       : '-'}
                                   </td>
@@ -472,21 +470,21 @@ export function RegisterReport({
                                   <td className="text-right">
                                     {item?.numBalance >= 0
                                       ? _formatMoney(
-                                          item?.numOppening?.toFixed(2),
+                                          item?.numOppening?.toFixed(2)
                                         )
                                       : '-'}
                                   </td>
                                   <td className="text-right">
                                     {item?.numBalance >= 0
                                       ? _formatMoney(
-                                          item?.numBalance?.toFixed(2),
+                                          item?.numBalance?.toFixed(2)
                                         )
                                       : '-'}
                                   </td>
                                   <td className="text-right">
                                     {item?.numBalance < 0
                                       ? _formatMoney(
-                                          item?.numBalance?.toFixed(2),
+                                          item?.numBalance?.toFixed(2)
                                         )
                                       : '-'}
                                   </td>
@@ -515,9 +513,9 @@ export function RegisterReport({
                                   rowDto
                                     ?.reduce(
                                       (acc, item) => acc + item?.numOppening,
-                                      0,
+                                      0
                                     )
-                                    .toFixed(2),
+                                    .toFixed(2)
                                 )}
                               </b>
                             </td>
@@ -527,9 +525,9 @@ export function RegisterReport({
                                   rowDto
                                     ?.reduce(
                                       (acc, item) => acc + item?.numDebit,
-                                      0,
+                                      0
                                     )
-                                    .toFixed(2),
+                                    .toFixed(2)
                                 )}
                               </b>
                             </td>
@@ -539,9 +537,9 @@ export function RegisterReport({
                                   rowDto
                                     ?.reduce(
                                       (acc, item) => acc + item?.numCredit,
-                                      0,
+                                      0
                                     )
-                                    .toFixed(2),
+                                    .toFixed(2)
                                 )}
                               </b>
                             </td>
@@ -595,7 +593,7 @@ export function RegisterReport({
                             className="text-center d-none"
                             colSpan={4}
                           >{`System Generated Report - ${moment().format(
-                            'LLLL',
+                            'LLLL'
                           )}`}</td>
                         </tr>
                       </ICustomTable>

@@ -1,10 +1,9 @@
-
-import { Formik } from "formik";
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import ICustomCard from "../../../../_helper/_customCard";
-import { validationSchema } from "../helper";
-import Loading from "../../../../_helper/_loading";
+import { Formik } from 'formik';
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import ICustomCard from '../../../../_helper/_customCard';
+import { validationSchema } from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 export default function Form({ obj }) {
   const {
@@ -53,7 +52,7 @@ export default function Form({ obj }) {
               ? () => {
                   resetForm(initData);
                 }
-              : ""
+              : ''
           }
           backHandler={() => {
             history.goBack();
@@ -63,7 +62,7 @@ export default function Form({ obj }) {
           {!id && (
             <marquee
               direction="left"
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               Note: Firstly configure WareHouse
             </marquee>
@@ -77,8 +76,8 @@ export default function Form({ obj }) {
                   value={values?.shippingPoint}
                   label="Shipping Point"
                   onChange={(valueOption) => {
-                    setFieldValue("shippingPoint", valueOption);
-                    setFieldValue("transportZone", "");
+                    setFieldValue('shippingPoint', valueOption);
+                    setFieldValue('transportZone', '');
                     if (valueOption) {
                       getWareHouseDDL(
                         `/wms/ShipPoint/GetTransportShipPointWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&ShipPointid=${valueOption?.value}`
@@ -97,8 +96,8 @@ export default function Form({ obj }) {
                   value={values?.transportZone}
                   label="Transport Zone"
                   onChange={(valueOption) => {
-                    setFieldValue("transportZone", valueOption);
-                    setFieldValue("route", "");
+                    setFieldValue('transportZone', valueOption);
+                    setFieldValue('route', '');
                     if (valueOption) {
                       getRouteDDL(
                         `/wms/ShipPoint/GetTransportZoneRouteDDL?accountId=${accId}&businessUnitId=${buId}&TransportZoneId=${valueOption?.value}`
@@ -117,9 +116,9 @@ export default function Form({ obj }) {
                   label="Route"
                   onChange={(valueOption) => {
                     if (valueOption) {
-                      setFieldValue("route", valueOption);
+                      setFieldValue('route', valueOption);
                       if (!id) {
-                        setFieldValue("wareHouse", "");
+                        setFieldValue('wareHouse', '');
                       }
                     }
                   }}
@@ -135,7 +134,7 @@ export default function Form({ obj }) {
                   value={values?.wareHouse}
                   label="WareHouse"
                   onChange={(valueOption) => {
-                    setFieldValue("wareHouse", valueOption);
+                    setFieldValue('wareHouse', valueOption);
                   }}
                   errors={errors}
                   touched={touched}

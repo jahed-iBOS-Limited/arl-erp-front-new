@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 
 const SubsidyRateTable = ({ obj }) => {
   const { rowData, allSelect, selectedAll, rowDataChange } = obj;
@@ -8,14 +8,14 @@ const SubsidyRateTable = ({ obj }) => {
       {rowData?.length > 0 && (
         <table
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
             <tr className="cursor-pointer">
               <th
                 className="text-center cursor-pointer"
-                style={{ width: "40px" }}
+                style={{ width: '40px' }}
                 onClick={() => allSelect(!selectedAll())}
               >
                 <input
@@ -34,7 +34,7 @@ const SubsidyRateTable = ({ obj }) => {
             <tr key={index}>
               <td
                 onClick={() => {
-                  rowDataChange(index, "isSelected", !row.isSelected);
+                  rowDataChange(index, 'isSelected', !row.isSelected);
                 }}
                 className="text-center"
               >
@@ -45,17 +45,17 @@ const SubsidyRateTable = ({ obj }) => {
                   // onChange={() => {}}
                 />
               </td>
-              <td className="text-center" style={{ width: "40px" }}>
+              <td className="text-center" style={{ width: '40px' }}>
                 {index + 1}
               </td>
               <td>{row?.label}</td>
-              <td className="text-right" style={{ width: "150px" }}>
+              <td className="text-right" style={{ width: '150px' }}>
                 <InputField
                   value={row?.rate}
                   name="rate"
                   type="number"
                   onChange={(e) => {
-                    rowDataChange(index, "rate", e?.target?.value);
+                    rowDataChange(index, 'rate', e?.target?.value);
                   }}
                 />
               </td>

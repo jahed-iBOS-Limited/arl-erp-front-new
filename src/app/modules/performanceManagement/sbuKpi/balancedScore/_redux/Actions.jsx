@@ -1,5 +1,5 @@
-import * as requestFromServer from "./Api";
-import { inDividualBalancedScoreSlice } from "./Slice";
+import * as requestFromServer from './Api';
+import { inDividualBalancedScoreSlice } from './Slice';
 const { actions: slice } = inDividualBalancedScoreSlice;
 
 export const getEmployeeDDLAction = (accId, buId) => (dispatch) => {

@@ -1,25 +1,24 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from './../../../../_helper/_loading';
 
 const initProduct = {
   id: undefined,
-  itemCategoryId: "",
-  itemCategoryName: "",
-  generalLedgerId: "",
-  generalLedgerName: "",
+  itemCategoryId: '',
+  itemCategoryName: '',
+  generalLedgerId: '',
+  generalLedgerName: '',
 };
 
 export default function ConfigItemTypeGLAddForm({
@@ -43,7 +42,7 @@ export default function ConfigItemTypeGLAddForm({
     if (!id && values) {
       const businessData = {
         accountId: profileData.accountId,
-        accountName: "Akij",
+        accountName: 'Akij',
         businessUnitid: selectedBusinessUnit.value,
         businessUnitName: selectedBusinessUnit.label,
         itemCategoryId: values?.itemCategoryName.value,
@@ -55,12 +54,12 @@ export default function ConfigItemTypeGLAddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/ItemCategoryGL/CreateItemCategoryGL",
+          '/item/ItemCategoryGL/CreateItemCategoryGL',
           businessData
         );
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -69,7 +68,6 @@ export default function ConfigItemTypeGLAddForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

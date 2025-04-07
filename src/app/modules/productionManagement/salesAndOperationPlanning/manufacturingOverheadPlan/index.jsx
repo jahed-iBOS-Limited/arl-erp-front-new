@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import { getPlantDDL, monthData } from "./helper";
-import MonthlyModal from "./monthlyModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import { getPlantDDL, monthData } from './helper';
+import MonthlyModal from './monthlyModal';
 
 const initData = {
-  plant: "",
-  fiscalYear: "",
-  gl: "",
-  glType: "",
-  accountGroup: "",
+  plant: '',
+  fiscalYear: '',
+  gl: '',
+  glType: '',
+  accountGroup: '',
 };
 
 export default function ManufacturingOverheadPlanLanding() {
@@ -27,11 +27,8 @@ export default function ManufacturingOverheadPlanLanding() {
   const [objProps, setObjprops] = useState({});
   const [isShowModal, setisShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-  const [
-    fiscalYearDDL,
-    getFiscalYearDDL,
-    loaderOnGetFiscalYearDDL,
-  ] = useAxiosGet();
+  const [fiscalYearDDL, getFiscalYearDDL, loaderOnGetFiscalYearDDL] =
+    useAxiosGet();
   const [glDDL, getGlDDL, loaderOnGetGlDDL, setGlDDL] = useAxiosGet();
   const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
   const [singleData, setSingleData] = useState();
@@ -44,24 +41,19 @@ export default function ManufacturingOverheadPlanLanding() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    alert('Working...');
   };
 
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    profitCenterDDLloader,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterDDLloader] =
+    useAxiosGet();
 
   useEffect(() => {
     getProfitCenterDDL(
       `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const commonGridDataLoad = (values) => {
@@ -84,7 +76,7 @@ export default function ManufacturingOverheadPlanLanding() {
                     value: item?.overheadTypeId,
                     label: item?.overheadTypeName,
                   }
-                : "",
+                : '',
           }));
           setSubGlRow(modiFyRow);
         }
@@ -134,7 +126,7 @@ export default function ManufacturingOverheadPlanLanding() {
                     label="Plant"
                     placeholder="Plant"
                     onChange={async (valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       commonGridDataLoad({
                         ...values,
                         plant: valueOption,
@@ -151,7 +143,7 @@ export default function ManufacturingOverheadPlanLanding() {
                     value={values?.profitCenter}
                     label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                       commonGridDataLoad({
                         ...values,
                         profitCenter: valueOption,
@@ -169,7 +161,7 @@ export default function ManufacturingOverheadPlanLanding() {
                     label="Year"
                     disabled={!values?.plant}
                     onChange={(valueOption) => {
-                      setFieldValue("fiscalYear", valueOption);
+                      setFieldValue('fiscalYear', valueOption);
                       commonGridDataLoad({
                         ...values,
                         fiscalYear: valueOption,
@@ -186,25 +178,25 @@ export default function ManufacturingOverheadPlanLanding() {
                     options={[
                       {
                         value: 3,
-                        label: "Income",
+                        label: 'Income',
                       },
                       {
                         value: 4,
-                        label: "Expense",
+                        label: 'Expense',
                       },
                     ]}
                     value={values?.accountGroup}
                     label="Account Group"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("accountGroup", valueOption);
-                        setFieldValue("gl", "");
+                        setFieldValue('accountGroup', valueOption);
+                        setFieldValue('gl', '');
                         setSubGlRow([]);
                         getGlDDL(
                           `/mes/SalesPlanning/GetGeneralLedgers?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&accountGroupId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("gl", "");
+                        setFieldValue('gl', '');
                         setGlDDL([]);
                         setSubGlRow([]);
                       }
@@ -221,7 +213,7 @@ export default function ManufacturingOverheadPlanLanding() {
                     value={values?.gl}
                     label="GL Name"
                     onChange={(valueOption) => {
-                      setFieldValue("gl", valueOption);
+                      setFieldValue('gl', valueOption);
                       commonGridDataLoad({
                         ...values,
                         gl: valueOption,
@@ -242,7 +234,7 @@ export default function ManufacturingOverheadPlanLanding() {
                           <th>SL</th>
                           <th>Code</th>
                           <th>Sub GL Name</th>
-                          <th style={{ minWidth: "200px" }}>Overhead Type</th>
+                          <th style={{ minWidth: '200px' }}>Overhead Type</th>
                           <th>Standard Value Per Unit/Montly</th>
                           <th>Action</th>
                         </tr>
@@ -257,21 +249,20 @@ export default function ManufacturingOverheadPlanLanding() {
                               <NewSelect
                                 name="overheadType"
                                 options={[
-                                  { value: 1, label: "Fixed" },
+                                  { value: 1, label: 'Fixed' },
                                   {
                                     value: 2,
-                                    label: "Variable/Per unit",
+                                    label: 'Variable/Per unit',
                                   },
                                 ]}
                                 value={item?.overheadType}
                                 onChange={(valueOption) => {
                                   let modiFyRow = [...subGlRow];
-                                  modiFyRow[index][
-                                    "overheadType"
-                                  ] = valueOption;
-                                  modiFyRow[index]["overheadTypeId"] =
+                                  modiFyRow[index]['overheadType'] =
+                                    valueOption;
+                                  modiFyRow[index]['overheadTypeId'] =
                                     valueOption?.value;
-                                  modiFyRow[index]["overheadTypeName"] =
+                                  modiFyRow[index]['overheadTypeName'] =
                                     valueOption?.label;
                                   setSubGlRow(modiFyRow);
                                 }}
@@ -279,18 +270,18 @@ export default function ManufacturingOverheadPlanLanding() {
                             </td>
                             <td>
                               <InputField
-                                value={+item?.universalAmount || ""}
+                                value={+item?.universalAmount || ''}
                                 type="number"
                                 onChange={(e) => {
                                   if (+e.target.value < 0) return;
                                   let modiFyRow = [...subGlRow];
-                                  modiFyRow[index]["universalAmount"] =
-                                    +e.target.value || "";
+                                  modiFyRow[index]['universalAmount'] =
+                                    +e.target.value || '';
 
                                   for (let i = 0; i < 12; i++) {
-                                    modiFyRow[index]["monthList"][i][
-                                      "intMonthLyValue"
-                                    ] = +e.target.value || "";
+                                    modiFyRow[index]['monthList'][i][
+                                      'intMonthLyValue'
+                                    ] = +e.target.value || '';
                                   }
 
                                   setSubGlRow(modiFyRow);
@@ -307,7 +298,7 @@ export default function ManufacturingOverheadPlanLanding() {
                                 values?.gl ? (
                                   <OverlayTrigger
                                     overlay={
-                                      <Tooltip id="cs-icon">{"Create"}</Tooltip>
+                                      <Tooltip id="cs-icon">{'Create'}</Tooltip>
                                     }
                                   >
                                     <span>
@@ -333,14 +324,14 @@ export default function ManufacturingOverheadPlanLanding() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

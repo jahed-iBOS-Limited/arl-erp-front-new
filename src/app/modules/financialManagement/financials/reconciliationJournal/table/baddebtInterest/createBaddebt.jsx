@@ -1,10 +1,10 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import Loading from "../../../../../_helper/_loading";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 const CreateBaddebt = ({ tableData }) => {
   const [, saveJournal, saveJournalLoading] = useAxiosGet();
@@ -63,8 +63,8 @@ const CreateBaddebt = ({ tableData }) => {
                         className="btn btn-primary"
                         onClick={() => {
                           IConfirmModal({
-                            title: "Create Journal",
-                            message: "Are you sure about creating the journal?",
+                            title: 'Create Journal',
+                            message: 'Are you sure about creating the journal?',
                             yesAlertFunc: () => {
                               handleSaveJournal(item);
                             },

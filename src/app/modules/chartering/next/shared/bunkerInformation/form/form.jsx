@@ -1,8 +1,8 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory, useLocation } from "react-router";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import ICustomTable from "../../../../_chartinghelper/_customTable";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory, useLocation } from 'react-router';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import ICustomTable from '../../../../_chartinghelper/_customTable';
 
 export default function Form({
   initData,
@@ -18,9 +18,9 @@ export default function Form({
   const history = useHistory();
 
   const headers = [
-    { name: "SL" },
-    { name: "Item Name" },
-    { name: "Item Quantity" },
+    { name: 'SL' },
+    { name: 'Item Name' },
+    { name: 'Item Quantity' },
   ];
 
   const setData = (
@@ -38,48 +38,48 @@ export default function Form({
     if (preData?.shipType?.value === 1) {
       if (targetValue > value) {
         setFieldValue(qtyFieldOne, targetValue - value);
-        setFieldValue(qtyFieldTwo, "");
+        setFieldValue(qtyFieldTwo, '');
         setFieldValue(
           valueFieldTwo,
           (targetValue - value) * values[rateFieldTwo]
         );
-        setFieldValue(valueFieldOne, "");
+        setFieldValue(valueFieldOne, '');
       } else if (targetValue < value) {
         setFieldValue(qtyFieldTwo, value - targetValue);
-        setFieldValue(qtyFieldOne, "");
+        setFieldValue(qtyFieldOne, '');
         setFieldValue(
           valueFieldOne,
           (value - targetValue) * values[rateFieldOne]
         );
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(valueFieldTwo, '');
       } else {
-        setFieldValue(qtyFieldOne, "");
-        setFieldValue(qtyFieldTwo, "");
-        setFieldValue(valueFieldOne, "");
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(qtyFieldOne, '');
+        setFieldValue(qtyFieldTwo, '');
+        setFieldValue(valueFieldOne, '');
+        setFieldValue(valueFieldTwo, '');
       }
     } else if (preData?.shipType?.value === 2) {
       if (targetValue > value) {
         setFieldValue(qtyFieldTwo, targetValue - value); // targetValue = bor, value = bod
-        setFieldValue(qtyFieldOne, "");
+        setFieldValue(qtyFieldOne, '');
         setFieldValue(
           valueFieldOne,
           (targetValue - value) * values[rateFieldTwo]
         );
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(valueFieldTwo, '');
       } else if (targetValue < value) {
         setFieldValue(qtyFieldOne, value - targetValue);
-        setFieldValue(qtyFieldTwo, "");
+        setFieldValue(qtyFieldTwo, '');
         setFieldValue(
           valueFieldTwo,
           (value - targetValue) * values[rateFieldOne]
         );
-        setFieldValue(valueFieldOne, "");
+        setFieldValue(valueFieldOne, '');
       } else {
-        setFieldValue(qtyFieldOne, "");
-        setFieldValue(qtyFieldTwo, "");
-        setFieldValue(valueFieldOne, "");
-        setFieldValue(valueFieldTwo, "");
+        setFieldValue(qtyFieldOne, '');
+        setFieldValue(qtyFieldTwo, '');
+        setFieldValue(valueFieldOne, '');
+        setFieldValue(valueFieldTwo, '');
       }
     }
   };
@@ -115,29 +115,29 @@ export default function Form({
                       history.push({
                         pathname: `/chartering/next/${
                           preData?.voyageType?.value === 1
-                            ? "ballastPassage"
-                            : "bunkerCost"
+                            ? 'ballastPassage'
+                            : 'bunkerCost'
                         }`,
                         state: preData,
                       });
                     }}
-                    className={"btn btn-danger px-3 py-2"}
+                    className={'btn btn-danger px-3 py-2'}
                   >
                     Skip
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -149,18 +149,19 @@ export default function Form({
               <div className="marine-form-card-content">
                 <div className="row p-3">
                   <div className="col-lg-6">
-                    <p style={{ fontSize: "15px" }}>
-                      <b>Vessel Name & Voyage No: </b>{" "}
-                      {values?.vesselName?.label} & V{values?.voyageNo?.label}{" "}
+                    <p style={{ fontSize: '15px' }}>
+                      <b>Vessel Name & Voyage No: </b>{' '}
+                      {values?.vesselName?.label} & V
+                      {values?.voyageNo?.label}{' '}
                     </p>
                   </div>
                   <div className="col-lg-3">
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: '15px' }}>
                       <b>Voyage Type: </b> {values?.voyageType?.label}
                     </p>
                   </div>
                   <div className="col-lg-3">
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: '15px' }}>
                       <b>Ship Type: </b> {values?.shipType?.label}
                     </p>
                   </div>
@@ -170,14 +171,14 @@ export default function Form({
                   BOD
                   
                   */}
-      {/* BOD editable instruction from sahil vai chartering */}
+                  {/* BOD editable instruction from sahil vai chartering */}
                   <div className="pt-3 px-2 col-lg-4">
                     <div
                       className="p-3 shadow-sm rounded"
-                      style={{ backgroundColor: "#dbeafe" }}
+                      style={{ backgroundColor: '#dbeafe' }}
                     >
                       <h6 className="text-center">
-                        <b>BOD</b>{" "}
+                        <b>BOD</b>{' '}
                       </h6>
 
                       <div className="">
@@ -189,7 +190,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={ viewType}
+                          disabled={viewType}
                         />
                       </div>
                       <div className="">
@@ -201,7 +202,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={ viewType}
+                          disabled={viewType}
                         />
                       </div>
                       <div className="">
@@ -213,7 +214,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={ viewType}
+                          disabled={viewType}
                         />
                       </div>
                     </div>
@@ -227,12 +228,12 @@ export default function Form({
                   <div className="pt-3 px-2 col-lg-4">
                     <div
                       className="p-3 shadow-sm rounded"
-                      style={{ backgroundColor: "#dbeafe" }}
+                      style={{ backgroundColor: '#dbeafe' }}
                     >
                       <div className="text-center">
                         <h6>
-                          {" "}
-                          <b>BOR</b>{" "}
+                          {' '}
+                          <b>BOR</b>{' '}
                         </h6>
                       </div>
                       <div className="">
@@ -243,18 +244,18 @@ export default function Form({
                           placeholder="LSMGO QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("borLsmgoQty", e?.target?.value);
+                            setFieldValue('borLsmgoQty', e?.target?.value);
                             setData(
                               values,
                               e?.target?.value,
                               values?.bodLsmgoQty,
                               setFieldValue,
-                              "bunkerPurchaseLsmgoQty",
-                              "bunkerSaleLsmgoQty",
-                              "bunkerSaleLsmgoValue",
-                              "bunkerPurchaseLsmgoValue",
-                              "bunkerSaleLsmgoRate",
-                              "bunkerPurchaseLsmgoRate"
+                              'bunkerPurchaseLsmgoQty',
+                              'bunkerSaleLsmgoQty',
+                              'bunkerSaleLsmgoValue',
+                              'bunkerPurchaseLsmgoValue',
+                              'bunkerSaleLsmgoRate',
+                              'bunkerPurchaseLsmgoRate'
                             );
                             // setFieldValue(
                             //   "consumptionLsmgoQty",
@@ -263,7 +264,7 @@ export default function Form({
                           }}
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="">
@@ -274,18 +275,18 @@ export default function Form({
                           placeholder="LSFO-1 QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("borLsfo1Qty", e?.target?.value);
+                            setFieldValue('borLsfo1Qty', e?.target?.value);
                             setData(
                               values,
                               e?.target?.value,
                               values?.bodLsfo1Qty,
                               setFieldValue,
-                              "bunkerPurchaseLsfo1Qty",
-                              "bunkerSaleLsfo1Qty",
-                              "bunkerSaleLsfo1Value",
-                              "bunkerPurchaseLsfo1Value",
-                              "bunkerSaleLsfo1Rate",
-                              "bunkerPurchaseLsfo1Rate"
+                              'bunkerPurchaseLsfo1Qty',
+                              'bunkerSaleLsfo1Qty',
+                              'bunkerSaleLsfo1Value',
+                              'bunkerPurchaseLsfo1Value',
+                              'bunkerSaleLsfo1Rate',
+                              'bunkerPurchaseLsfo1Rate'
                             );
                             // setFieldValue(
                             //   "consumptionLsfo1Qty",
@@ -294,7 +295,7 @@ export default function Form({
                           }}
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="">
@@ -305,19 +306,19 @@ export default function Form({
                           placeholder="LSFO-2 QTY"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("borLsfo2Qty", e.target.value);
+                            setFieldValue('borLsfo2Qty', e.target.value);
 
                             setData(
                               values,
                               e?.target?.value,
                               values?.bodLsfo2Qty,
                               setFieldValue,
-                              "bunkerPurchaseLsfo2Qty",
-                              "bunkerSaleLsfo2Qty",
-                              "bunkerSaleLsfo2Value",
-                              "bunkerPurchaseLsfo2Value",
-                              "bunkerSaleLsfo2Rate",
-                              "bunkerPurchaseLsfo2Rate"
+                              'bunkerPurchaseLsfo2Qty',
+                              'bunkerSaleLsfo2Qty',
+                              'bunkerSaleLsfo2Value',
+                              'bunkerPurchaseLsfo2Value',
+                              'bunkerSaleLsfo2Rate',
+                              'bunkerPurchaseLsfo2Rate'
                             );
                             // setFieldValue(
                             //   "consumptionLsfo2Qty",
@@ -326,7 +327,7 @@ export default function Form({
                           }}
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                     </div>
@@ -341,12 +342,12 @@ export default function Form({
                   <div className="pt-3 px-2 col-lg-4">
                     <div
                       className="p-3 shadow-sm rounded"
-                      style={{ backgroundColor: "#dbeafe" }}
+                      style={{ backgroundColor: '#dbeafe' }}
                     >
                       <div className="text-center">
                         <h6>
-                          {" "}
-                          <b>Adjustment</b>{" "}
+                          {' '}
+                          <b>Adjustment</b>{' '}
                         </h6>
                       </div>
                       <div className=" ">
@@ -358,7 +359,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className=" ">
@@ -370,7 +371,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className=" ">
@@ -382,15 +383,15 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                     </div>
                   </div>
 
                   {((values?.voyageNo?.voyageTypeName || values?.voyageType) ===
-                    "Voyage Charter" ||
-                    viewType === "view") && (
+                    'Voyage Charter' ||
+                    viewType === 'view') && (
                     <>
                       <div className="col-lg-6"> </div>
                       <div className="col-lg-6">
@@ -402,7 +403,7 @@ export default function Form({
                               <td>{item?.itemQty}</td>
                             </tr>
                           ))}
-                        </ICustomTable>{" "}
+                        </ICustomTable>{' '}
                       </div>
                     </>
                   )}
@@ -419,11 +420,11 @@ export default function Form({
                       <div className="pt-3 px-2 col-lg-6">
                         <div
                           className="p-3 shadow-sm rounded"
-                          style={{ backgroundColor: "#dbeafe" }}
+                          style={{ backgroundColor: '#dbeafe' }}
                         >
                           <div className="text-center">
                             <h6>
-                              <b>Bunker Sale</b>{" "}
+                              <b>Bunker Sale</b>{' '}
                             </h6>
                           </div>
                           <div className="row">
@@ -537,7 +538,7 @@ export default function Form({
                             </div>
                           </div>
                         </div>
-                      </div>{" "}
+                      </div>{' '}
                       {/* 
                       
                       Bunker Purchase
@@ -547,12 +548,12 @@ export default function Form({
                         <div className="pt-3 px-2 col-lg-6">
                           <div
                             className="p-3 shadow-sm rounded"
-                            style={{ backgroundColor: "#dbeafe" }}
+                            style={{ backgroundColor: '#dbeafe' }}
                           >
                             <div className="text-center">
                               <h6>
-                                {" "}
-                                <b>Bunker Purchase</b>{" "}
+                                {' '}
+                                <b>Bunker Purchase</b>{' '}
                               </h6>
                             </div>
                             <div className="row">
@@ -678,13 +679,13 @@ export default function Form({
                   <div className="pt-3 px-2 col-lg-4">
                     <div
                       className="p-3 shadow-sm rounded"
-                      style={{ backgroundColor: "#dbeafe" }}
+                      style={{ backgroundColor: '#dbeafe' }}
                     >
                       <div className="">
                         <div className="d-flex justify-content-center align-items-center">
                           <h6>
-                            {" "}
-                            <b>Consumption</b>{" "}
+                            {' '}
+                            <b>Consumption</b>{' '}
                           </h6>
                           {(values?.voyageType?.value ||
                             values?.voyageType?.value) === 2 && (
@@ -695,7 +696,7 @@ export default function Form({
                                 getConsumption(values, setFieldValue);
                               }}
                               disabled={
-                                viewType === "view" ||
+                                viewType === 'view' ||
                                 (values?.borLsmgoQty < 1 &&
                                   values?.borLsfo1Qty < 1 &&
                                   values?.borLsfo2Qty < 1) ||

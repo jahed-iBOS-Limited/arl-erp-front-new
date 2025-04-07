@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../_helper/_input";
-import ICustomTable from "../../../_helper/_customTable";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import ITooltip from "../../../_helper/_tooltip";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import MeasuringScale from "../../_helper/_measuringScale";
-const headers = ["SL", "Demonstrated Behaviour", "Type", "Action"];
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../_helper/_input';
+import ICustomTable from '../../../_helper/_customTable';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import ITooltip from '../../../_helper/_tooltip';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import MeasuringScale from '../../_helper/_measuringScale';
+const headers = ['SL', 'Demonstrated Behaviour', 'Type', 'Action'];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   competencyType: Yup.object().shape({
-    label: Yup.string().required("Competency type is required"),
-    value: Yup.string().required("Competency type is required"),
+    label: Yup.string().required('Competency type is required'),
+    value: Yup.string().required('Competency type is required'),
   }),
   competencyName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Competency name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Competency name is required'),
   competencyDefinition: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Competency definition is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Competency definition is required'),
 });
 
 export default function FormCmp({
@@ -76,8 +76,8 @@ export default function FormCmp({
                   <ISelect
                     label="Select competency type"
                     options={[
-                      { value: true, label: "Core competency" },
-                      { value: false, label: "Functional competency" },
+                      { value: true, label: 'Core competency' },
+                      { value: false, label: 'Functional competency' },
                     ]}
                     defaultValue={values.competencyType}
                     name="competencyType"
@@ -124,7 +124,7 @@ export default function FormCmp({
                           {rowDtoTwo?.map((td, index) => {
                             return (
                               <tr key={index}>
-                                <td style={{ textAlign: "left" }}>
+                                <td style={{ textAlign: 'left' }}>
                                   {td.employeeCompetencyClusterName ||
                                     td.employeeClusterName}
                                 </td>
@@ -138,7 +138,7 @@ export default function FormCmp({
                                     type="number"
                                     onChange={(e) => {
                                       rowDtoHandler(
-                                        "desiredValue",
+                                        'desiredValue',
                                         e.target.value,
                                         index
                                       );
@@ -159,34 +159,34 @@ export default function FormCmp({
               <div className="row my-3">
                 <div className="col-lg-10 disable-border disabled-feedback">
                   <IInput
-                    value={values.demonstratedBehaviour || ""}
+                    value={values.demonstratedBehaviour || ''}
                     label="Demonstrated behaviour"
                     name="demonstratedBehaviour"
                   />
                 </div>
                 <div
-                  style={{ marginTop: "24px" }}
+                  style={{ marginTop: '24px' }}
                   className="col-lg-1 disable-border disabled-feedback"
                 >
                   <label className="mr-1">Is Positive</label>
                   <input
-                    style={{ transform: "translateY(3px)" }}
+                    style={{ transform: 'translateY(3px)' }}
                     type="checkbox"
                     checked={values?.isPositive}
                     name="isPositive"
                     onChange={(e) =>
-                      setFieldValue("isPositive", e.target.checked)
+                      setFieldValue('isPositive', e.target.checked)
                     }
                   />
                 </div>
                 <div className="col-lg-1">
                   <button
                     type="button"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary ml-2"
                     onClick={() => {
                       setter(values);
-                      setFieldValue("demonstratedBehaviour", "");
+                      setFieldValue('demonstratedBehaviour', '');
                     }}
                     disabled={!values?.demonstratedBehaviour}
                   >
@@ -202,14 +202,14 @@ export default function FormCmp({
                     return (
                       <tr key={index}>
                         <td className="align-middle text-center">
-                          {" "}
-                          {index + 1}{" "}
+                          {' '}
+                          {index + 1}{' '}
                         </td>
                         <td className="align-middle">
                           {td.demonstratedBehaviour}
                         </td>
                         <td className="align-middle text-center">
-                          {td?.isPositive ? "Positive" : "Negative"}
+                          {td?.isPositive ? 'Positive' : 'Negative'}
                         </td>
                         <td className="align-middle text-center">
                           <IDelete
@@ -225,14 +225,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import {
   GetExportSales_api,
   GetCustomHouseDDL_api,
   GetLocalSales_api,
   GetLocalPurchase_api,
   GetBusinessPartnerByType_api,
-} from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import NewSelect from "./../../../../_helper/_select";
-import ExportSalesTable from "./exportSalesTable";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import Loading from "./../../../../_helper/_loading";
-import LocalSalesTable from "./localSalesTable";
-import { GetImportPurchase_api } from "./../helper";
-import ImportPurchaseTable from "./importPurchaseTable";
-import LocalPurchaseTable from "./localPurchaseTable";
-import { useLocation } from "react-router";
-import { useHistory } from "react-router";
-import ICustomCard from "./../../../../_helper/_customCard";
-import InputField from "./../../../../_helper/_inputField";
+} from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import NewSelect from './../../../../_helper/_select';
+import ExportSalesTable from './exportSalesTable';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import Loading from './../../../../_helper/_loading';
+import LocalSalesTable from './localSalesTable';
+import { GetImportPurchase_api } from './../helper';
+import ImportPurchaseTable from './importPurchaseTable';
+import LocalPurchaseTable from './localPurchaseTable';
+import { useLocation } from 'react-router';
+import { useHistory } from 'react-router';
+import ICustomCard from './../../../../_helper/_customCard';
+import InputField from './../../../../_helper/_inputField';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
-  customsHouse: "",
+  customsHouse: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
-  tarrifSchedule: "",
+  reportType: '',
+  tarrifSchedule: '',
 };
 
 export default function HeaderForm() {
@@ -60,7 +60,6 @@ export default function HeaderForm() {
         setPartnerByType
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
   const girdDataFunc = (values) => {
     setRowDto([]);
@@ -184,13 +183,13 @@ export default function HeaderForm() {
                         <NewSelect
                           name="customsHouse"
                           options={
-                            [{ value: 0, label: "All" }, ...customHouseDDL] ||
+                            [{ value: 0, label: 'All' }, ...customHouseDDL] ||
                             []
                           }
                           value={values?.customsHouse}
                           label="Customs House"
                           onChange={(valueOption) => {
-                            setFieldValue("customsHouse", valueOption);
+                            setFieldValue('customsHouse', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Customs House"
@@ -217,21 +216,21 @@ export default function HeaderForm() {
                         <NewSelect
                           name="partnerByType"
                           options={
-                            [{ value: 0, label: "All" }, ...partnerByType] || []
+                            [{ value: 0, label: 'All' }, ...partnerByType] || []
                           }
                           value={values?.partnerByType}
                           label={
                             landingData?.value === 1
-                              ? "Supplier Name"
-                              : "Customer Name"
+                              ? 'Supplier Name'
+                              : 'Customer Name'
                           }
                           onChange={(valueOption) => {
-                            setFieldValue("partnerByType", valueOption);
+                            setFieldValue('partnerByType', valueOption);
                           }}
                           placeholder={
                             landingData?.value === 1
-                              ? "Supplier Name"
-                              : "Customer Name"
+                              ? 'Supplier Name'
+                              : 'Customer Name'
                           }
                           errors={errors}
                           touched={touched}
@@ -245,7 +244,7 @@ export default function HeaderForm() {
                     <SearchAsyncSelect
                       selectedValue={values?.tarrifSchedule}
                       handleChange={(valueOption) => {
-                        setFieldValue("tarrifSchedule", valueOption);
+                        setFieldValue('tarrifSchedule', valueOption);
                       }}
                       placeholder="Search by HS Code / Description"
                       loadOptions={(v) => loadOptionsTarrifSchedule(v, values)}

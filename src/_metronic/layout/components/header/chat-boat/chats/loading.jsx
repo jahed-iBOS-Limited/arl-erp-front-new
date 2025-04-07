@@ -1,15 +1,15 @@
-import React from "react";
-import { Spinner } from "react-bootstrap";
+import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 const ChatAppLoading = () => {
   return (
     <div
       style={{
-        height: "60vh",
-        position: "absolute",
-        top: "0",
-        left: "0",
-        transform: "translateX(30%)",
+        height: '60vh',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        transform: 'translateX(30%)',
       }}
       className="d-flex justify-content-center align-items-center"
     >

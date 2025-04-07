@@ -29,9 +29,8 @@ export default function LogisticEquipment() {
 
   useEffect(() => {
     getShipPointList(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const saveHandler = (values, cb) => {};
@@ -42,10 +41,11 @@ export default function LogisticEquipment() {
     getGridData(
       `/oms/CastingSchedule/GetCastingScheduleToolsInfoPagination?businessUnitId=${
         selectedBusinessUnit?.value
-      }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${values?.shift
-        ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
+      }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${
+        values?.shift?.value || 0
+      }&FromDate=${values?.fromDate}&ToDate=${
         values?.toDate
-      }&pageNo=${pageNo}&pageSize=${pageSize}`,
+      }&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -91,7 +91,7 @@ export default function LogisticEquipment() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/inventory-management/warehouse-management/logisticequipmentavailability/entry',
+                        '/inventory-management/warehouse-management/logisticequipmentavailability/entry'
                       );
                     }}
                   >

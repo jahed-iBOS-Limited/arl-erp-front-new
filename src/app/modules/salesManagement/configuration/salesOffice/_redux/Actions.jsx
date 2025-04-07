@@ -1,8 +1,8 @@
-import * as requestFromServer from "./Api";
-import { salesOfficeSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
-import Axios from "axios";
+import * as requestFromServer from './Api';
+import { salesOfficeSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
+import Axios from 'axios';
 const { actions: slice } = salesOfficeSlice;
 
 // action for save created data
@@ -12,13 +12,12 @@ export const saveSalesOffice = (payload, setDisabled) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         setDisabled(false);
       }
     })
     .catch((err) => {
-     
       setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
@@ -32,7 +31,7 @@ export const saveEditedSalesOffice = (payload, setDisabled) => () => {
       if (res.status === 200) {
         console.log(res.data);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -42,47 +41,42 @@ export const saveEditedSalesOffice = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getSalesOfficeGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  search
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize,search)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getSalesOfficeGridData =
+  (accId, buId, setLoading, pageNo, pageSize, search) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, search)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 // action for get data by id single
 export const getSalesOfficeById = (id, setDisabled) => (dispatch) => {
-  setDisabled && setDisabled(true)
+  setDisabled && setDisabled(true);
   return requestFromServer
     .getDataById(id)
     .then((res) => {
-      setDisabled && setDisabled(false)
+      setDisabled && setDisabled(false);
       if (res.status === 200 && isArray(res?.data)) {
         const item = res?.data?.[0];
         const data = {
           ...item,
-          salesOrganization: item?.salesOrganizationId ? {
-            value: item?.salesOrganizationId,
-            label: item?.salesOrganizationName,
-          } : "",
+          salesOrganization: item?.salesOrganizationId
+            ? {
+                value: item?.salesOrganizationId,
+                label: item?.salesOrganizationName,
+              }
+            : '',
         };
         return dispatch(slice.SetDataById(data));
       }
     })
     .catch((err) => {
-      setDisabled && setDisabled(false)
+      setDisabled && setDisabled(false);
     });
 };
 // set single store empty
@@ -106,7 +100,5 @@ export const getSalesOrgDDL = async (accId, busId, setter) => {
       });
       setter(data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

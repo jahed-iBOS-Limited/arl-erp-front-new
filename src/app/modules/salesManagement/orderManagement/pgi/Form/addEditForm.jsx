@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveEditedPGI,
   getPGIById,
   setPGISingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 
 const initData = {
   id: undefined,
-  PGICode: "",
-  PGIName: "",
-  responsiblePerson: "",
+  PGICode: '',
+  PGIName: '',
+  responsiblePerson: '',
 };
 
 export default function PGIForm({
@@ -53,7 +52,6 @@ export default function PGIForm({
     } else {
       dispatch(setPGISingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {

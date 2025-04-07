@@ -45,21 +45,19 @@ export default function ChaShipmentBooking() {
 
   const commonGetData = (search, pageNo, pageSize, values) => {
     getyChaShipmentBooking(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}&tradeTypeId=${values?.chaType?.value}`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}&tradeTypeId=${values?.chaType?.value}`
     );
   };
 
   useEffect(() => {
     commonGetData('', pageNo, pageSize, initialValues);
-
-
   }, []);
   return (
     <ICustomCard
       title="CHA Shipment Booking List"
       createHandler={() => {
         history.push(
-          '/cargoManagement/cha-operation/cha-shipment-booking/create',
+          '/cargoManagement/cha-operation/cha-shipment-booking/create'
         );
       }}
     >
@@ -216,7 +214,7 @@ export default function ChaShipmentBooking() {
                                   <span
                                     onClick={() => {
                                       history.push(
-                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`,
+                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`
                                       );
                                     }}
                                   >

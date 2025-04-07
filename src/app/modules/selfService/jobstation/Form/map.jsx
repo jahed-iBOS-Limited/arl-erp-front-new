@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 // import { FullscreenControl } from "react-leaflet-fullscreen";
@@ -27,13 +26,12 @@ function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
             enableHighAccuracy: true,
             maximumAge: 100,
             timeout: 60000,
-          },
+          }
         );
       } else {
         console.log('else');
       }
     }, 2000);
-
   }, []);
   // const options = {
   //   position: "topleft",
@@ -136,7 +134,7 @@ const Markers = ({ markersData }) => {
                   className="cursor-pointer"
                   onClick={() => {
                     window.open(
-                      `https://www.google.com/maps/search/?api=1&query=${element?.latitude},${element?.longitude}`,
+                      `https://www.google.com/maps/search/?api=1&query=${element?.latitude},${element?.longitude}`
                     );
                   }}
                 >

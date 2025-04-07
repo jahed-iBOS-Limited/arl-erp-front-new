@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useSelector, shallowEqual } from "react-redux";
-import { _fixedPointVat } from "./../../../../_helper/_fixedPointVat";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _fixedPointVat } from './../../../../_helper/_fixedPointVat';
 const GridData = ({
   rowDto,
 
@@ -39,12 +39,12 @@ const GridData = ({
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ padding: "2px 5px" }}
+                    style={{ padding: '2px 5px' }}
                   >
                     <img
                       style={{
-                        width: "25px",
-                        paddingRight: "5px",
+                        width: '25px',
+                        paddingRight: '5px',
                       }}
                       src={printIcon}
                       alt="print-icon"
@@ -77,11 +77,11 @@ const GridData = ({
                 <div
                   className="MushakBox"
                   style={{
-                    position: "absolute",
-                    right: "14px",
-                    top: "17px",
-                    border: "1px solid",
-                    padding: "2px",
+                    position: 'absolute',
+                    right: '14px',
+                    top: '17px',
+                    border: '1px solid',
+                    padding: '2px',
                   }}
                 >
                   <h3 className="mb-0">Mushak 6.2</h3>
@@ -259,7 +259,7 @@ const GridData = ({
                       </tr>
                     );
                   })}
-                  <tr style={{ fontWeight: "bold" }}>
+                  <tr style={{ fontWeight: 'bold' }}>
                     <td colSpan="2">Total</td>
                     <td>
                       {!isMagnum && !isPat && (
@@ -299,23 +299,23 @@ const GridData = ({
               <div className="d-flex">
                 <div className="left mr-3">
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total opening quantity
                     </span>
                     : <b>{_fixedPointVat(rowDto?.[0]?.OpeningQty, 3)}</b>
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total procuction quantity
                     </span>
                     : <b>{_fixedPointVat(total?.ProduceQty, 3)}</b>
                   </p>
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total stock quantity
                     </span>
-                    :{" "}
+                    :{' '}
                     <b>
                       {_fixedPointVat(
                         rowDto?.[0]?.OpeningQty + total?.ProduceQty,
@@ -325,17 +325,17 @@ const GridData = ({
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total sales quantity
                     </span>
                     : <b>{_fixedPointVat(total?.SalesQty, 3)}</b>
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total closing quantity
                     </span>
-                    :{" "}
+                    :{' '}
                     <b>
                       {_fixedPointVat(
                         rowDto?.[0]?.OpeningQty +
@@ -348,23 +348,23 @@ const GridData = ({
                 </div>
                 <div className="right ">
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total opening value
                     </span>
                     : <b>{_fixedPointVat(rowDto?.[0]?.OpeningVal)}</b>
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total procuction value
                     </span>
                     : <b>{_fixedPointVat(total?.ProduceValue)}</b>
                   </p>
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total stock value
                     </span>
-                    :{" "}
+                    :{' '}
                     <b>
                       {_fixedPointVat(
                         rowDto?.[0]?.OpeningVal + total?.ProduceValue
@@ -373,17 +373,17 @@ const GridData = ({
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total sales value
                     </span>
                     : <b>{_fixedPointVat(total?.SalesVal)}</b>
                   </p>
 
                   <p className="mb-0">
-                    <span style={{ width: "150px", display: "inline-block" }}>
+                    <span style={{ width: '150px', display: 'inline-block' }}>
                       Total closing value
                     </span>
-                    :{" "}
+                    :{' '}
                     <b>
                       {_fixedPointVat(
                         rowDto?.[0]?.OpeningVal +

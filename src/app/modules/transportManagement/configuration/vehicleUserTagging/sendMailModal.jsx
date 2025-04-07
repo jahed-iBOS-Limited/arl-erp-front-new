@@ -15,7 +15,7 @@ import { marineBaseUrlPythonAPI } from '../../../../../App';
 const SendMailModal = ({ singleItem }) => {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ const SendMailModal = ({ singleItem }) => {
           onClick={async () => {
             const pdfBlob = await exportToPDF(
               'AssetAssignmailModal',
-              'vessel_nomination',
+              'vessel_nomination'
             );
             const uploadResponse = await uploadPDF(pdfBlob, setLoading);
             const pdfURL = uploadResponse?.[0]?.id || '';
@@ -64,7 +64,7 @@ const SendMailModal = ({ singleItem }) => {
               `${marineBaseUrlPythonAPI}/automation/erp_mail_sender`,
               payload,
               null,
-              true,
+              true
             );
           }}
           className="btn btn-primary"

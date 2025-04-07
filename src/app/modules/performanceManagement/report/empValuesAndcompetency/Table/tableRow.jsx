@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { Form, Formik } from "formik";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useHistory } from "react-router";
-import PaginationSearch from "./../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Form, Formik } from 'formik';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useHistory } from 'react-router';
+import PaginationSearch from './../../../../_helper/_search';
 import {
   GetDepartmentWithAccountIdDDL_api,
   GetDesignationDDLAction,
   GetLineManagerWithACCandBusDDL_api,
   getYearDDL_api,
-} from "../helper";
-import { setEmpValuesAndcompetency_Action } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { getEmployeeValuesCompetencyGrid_api } from "./../helper";
+} from '../helper';
+import { setEmpValuesAndcompetency_Action } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { getEmployeeValuesCompetencyGrid_api } from './../helper';
 
 const initData = {
-  department: "",
-  designation: "",
-  suppervisor: "",
-  year: "",
+  department: '',
+  designation: '',
+  suppervisor: '',
+  year: '',
   type: 0,
 };
 export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
@@ -51,7 +51,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
     return state.localStorage.empValuesAndcompetency;
   }, shallowEqual);
 
-
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetDepartmentWithAccountIdDDL_api(profileData?.accountId, setDepartment);
@@ -71,7 +70,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
         setYearDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const girdDataFunc = (
@@ -99,10 +97,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
   const paginationSearchHandler = (searchValue, values) => {
     girdDataFunc(
       searchValue || null,
-      values?.department?.value || "",
-      values?.designation?.value || "",
-      values?.suppervisor?.value || "",
-      values?.year?.value || "",
+      values?.department?.value || '',
+      values?.designation?.value || '',
+      values?.suppervisor?.value || '',
+      values?.year?.value || '',
       pageNo,
       pageSize
     );
@@ -111,10 +109,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
   const setPositionHandler = (pageNo, pageSize, values) => {
     girdDataFunc(
       null,
-      values?.department?.value || "",
-      values?.designation?.value || "",
-      values?.suppervisor?.value || "",
-      values?.year?.value || "",
+      values?.department?.value || '',
+      values?.designation?.value || '',
+      values?.suppervisor?.value || '',
+      values?.year?.value || '',
       pageNo,
       pageSize
     );
@@ -124,33 +122,31 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
     if (empValuesAndcompetency?.department?.value) {
       girdDataFunc(
         null,
-        empValuesAndcompetency?.department?.value || "",
-        empValuesAndcompetency?.designation?.value || "",
-        empValuesAndcompetency?.suppervisor?.value || "",
-        empValuesAndcompetency?.year?.value || "",
+        empValuesAndcompetency?.department?.value || '',
+        empValuesAndcompetency?.designation?.value || '',
+        empValuesAndcompetency?.suppervisor?.value || '',
+        empValuesAndcompetency?.year?.value || '',
         pageNo,
         pageSize
       );
     }
-
   }, [empValuesAndcompetency]);
 
   useEffect(() => {
     if (empValuesAndcompetency?.type === 0) {
       getEmployeeValuesCompetencyGrid_api(
-        "",
+        '',
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
         pageNo,
         pageSize,
         setGridData
       );
     }
-
   }, [empValuesAndcompetency]);
 
   return (
@@ -199,10 +195,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                       <NewSelect
                         name="department"
                         options={department || []}
-                        value={values?.department || ""}
+                        value={values?.department || ''}
                         label="Department"
                         onChange={(valueOption) => {
-                          setFieldValue("department", valueOption);
+                          setFieldValue('department', valueOption);
                           dispatch(
                             setEmpValuesAndcompetency_Action({
                               ...values,
@@ -213,10 +209,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
 
                           girdDataFunc(
                             null,
-                            valueOption?.value || "",
-                            values?.designation?.value || "",
-                            values?.suppervisor?.value || "",
-                            values?.year?.value || "",
+                            valueOption?.value || '',
+                            values?.designation?.value || '',
+                            values?.suppervisor?.value || '',
+                            values?.year?.value || '',
                             pageNo,
                             pageSize
                           );
@@ -230,10 +226,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                       <NewSelect
                         name="designation"
                         options={designation || []}
-                        value={values?.designation || ""}
+                        value={values?.designation || ''}
                         label="Designation"
                         onChange={(valueOption) => {
-                          setFieldValue("designation", valueOption);
+                          setFieldValue('designation', valueOption);
                           dispatch(
                             setEmpValuesAndcompetency_Action({
                               ...values,
@@ -244,10 +240,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
 
                           girdDataFunc(
                             null,
-                            values?.department?.value || "",
-                            valueOption?.value || "",
-                            values?.suppervisor?.value || "",
-                            values?.year?.value || "",
+                            values?.department?.value || '',
+                            valueOption?.value || '',
+                            values?.suppervisor?.value || '',
+                            values?.year?.value || '',
                             pageNo,
                             pageSize
                           );
@@ -261,10 +257,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                       <NewSelect
                         name="suppervisor"
                         options={lineManager || []}
-                        value={values?.suppervisor || ""}
+                        value={values?.suppervisor || ''}
                         label="Suppervisor"
                         onChange={(valueOption) => {
-                          setFieldValue("suppervisor", valueOption);
+                          setFieldValue('suppervisor', valueOption);
                           dispatch(
                             setEmpValuesAndcompetency_Action({
                               ...values,
@@ -275,10 +271,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
 
                           girdDataFunc(
                             null,
-                            values?.department?.value || "",
-                            values?.designation?.value || "",
-                            valueOption?.value?.value || "",
-                            values?.year?.value || "",
+                            values?.department?.value || '',
+                            values?.designation?.value || '',
+                            valueOption?.value?.value || '',
+                            values?.year?.value || '',
                             pageNo,
                             pageSize
                           );
@@ -292,10 +288,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                       <NewSelect
                         name="year"
                         options={yearDDL || []}
-                        value={values?.year || ""}
+                        value={values?.year || ''}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
+                          setFieldValue('year', valueOption);
                           dispatch(
                             setEmpValuesAndcompetency_Action({
                               ...values,
@@ -306,10 +302,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
 
                           girdDataFunc(
                             null,
-                            values?.department?.value || "",
-                            values?.designation?.value || "",
-                            values?.suppervisor?.value || "",
-                            valueOption?.value || "",
+                            values?.department?.value || '',
+                            values?.designation?.value || '',
+                            values?.suppervisor?.value || '',
+                            valueOption?.value || '',
                             pageNo,
                             pageSize
                           );
@@ -335,21 +331,21 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                           <table className="table table-striped table-bordered global-table ">
                             <thead>
                               <tr>
-                                <th style={{ width: "30px" }}>SL</th>
-                                <th style={{ width: "90px" }}>Employee Code</th>
-                                <th style={{ width: "90px" }}>Employee Name</th>
-                                <th style={{ width: "90px" }}>Department</th>
-                                <th style={{ width: "90px" }}>Designation</th>
-                                <th style={{ width: "90px" }}>Suppervisor</th>
-                                <th style={{ width: "90px" }}>Year</th>
-                                <th style={{ width: "90px" }}>
+                                <th style={{ width: '30px' }}>SL</th>
+                                <th style={{ width: '90px' }}>Employee Code</th>
+                                <th style={{ width: '90px' }}>Employee Name</th>
+                                <th style={{ width: '90px' }}>Department</th>
+                                <th style={{ width: '90px' }}>Designation</th>
+                                <th style={{ width: '90px' }}>Suppervisor</th>
+                                <th style={{ width: '90px' }}>Year</th>
+                                <th style={{ width: '90px' }}>
                                   Total Mark By Employee
                                 </th>
-                                <th style={{ width: "90px" }}>
+                                <th style={{ width: '90px' }}>
                                   Total Mark By Suppervisor
                                 </th>
-                                <th style={{ width: "90px" }}>GAP</th>
-                                <th style={{ width: "90px" }}>Action</th>
+                                <th style={{ width: '90px' }}>GAP</th>
+                                <th style={{ width: '90px' }}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -357,41 +353,41 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                                 <tr key={index}>
                                   <td>{index + 1}</td>
                                   <td className="text-center">
-                                    {item?.employeeCode || "-"}
+                                    {item?.employeeCode || '-'}
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.employeeName || "-"}
+                                      {item?.employeeName || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.departmentName || "-"}
+                                      {item?.departmentName || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.designationName || "-"}
+                                      {item?.designationName || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.supervisorName || "-"}
+                                      {item?.supervisorName || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.year || "-"}
+                                      {item?.year || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="pl-2">
-                                      {item?.totalMarkByEmployee || "-"}
+                                      {item?.totalMarkByEmployee || '-'}
                                     </div>
                                   </td>
                                   <td>
                                     <div className="text-right pr-2">
-                                      {item?.totalMarkBySupervisor || "-"}
+                                      {item?.totalMarkBySupervisor || '-'}
                                     </div>
                                   </td>
                                   <td>
@@ -438,14 +434,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(empValuesAndcompetency)}
                 ></button>

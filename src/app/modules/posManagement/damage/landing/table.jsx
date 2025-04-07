@@ -1,19 +1,18 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import moment from "moment";
-import { damageEntryLandingData } from "../helper";
-import Loading from "./../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
+import { damageEntryLandingData } from '../helper';
+import Loading from './../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../_metronic/_partials/controls";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import PaginationSearch from "../../../_helper/_search";
+} from './../../../../../_metronic/_partials/controls';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import PaginationTable from './../../../_helper/_tablePagination';
+import PaginationSearch from '../../../_helper/_search';
 
 const DamageEntryLanding = () => {
   const history = useHistory();
@@ -27,7 +26,6 @@ const DamageEntryLanding = () => {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -67,7 +65,7 @@ const DamageEntryLanding = () => {
           <CardHeaderToolbar>
             <button
               onClick={() =>
-                history.push("/pos-management/damage/damage-entry/create")
+                history.push('/pos-management/damage/damage-entry/create')
               }
               className="btn btn-primary"
             >
@@ -96,7 +94,7 @@ const DamageEntryLanding = () => {
                 gridData?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -106,9 +104,11 @@ const DamageEntryLanding = () => {
                         <span className="pl-2">{`${item?.narration}`}</span>
                       </td>
                       <td>
-                        <span className="pl-2">{moment(item?.dteDamageEntryDate).format('L')}</span>
+                        <span className="pl-2">
+                          {moment(item?.dteDamageEntryDate).format('L')}
+                        </span>
                       </td>
-                      <td style={{ width: "100px" }} className="text-center">
+                      <td style={{ width: '100px' }} className="text-center">
                         <span
                           className="edit"
                           onClick={(e) =>

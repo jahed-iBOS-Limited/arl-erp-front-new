@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getBusinessUnitYearConfigData, getTrailBalanceReport } from "./helper";
-import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
-import ICard from "../../../_helper/_card";
-import InputField from "../../../_helper/_inputField";
-import ILoader from "../../../_helper/loader/_loader";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getBusinessUnitYearConfigData, getTrailBalanceReport } from './helper';
+import { fromDateFromApi } from '../../../_helper/_formDateFromApi';
+import ICard from '../../../_helper/_card';
+import InputField from '../../../_helper/_inputField';
+import ILoader from '../../../_helper/loader/_loader';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
 
 const TrailBalanceReport = () => {
   const printRef = useRef();
   const [trailBalanceReportData, setTrailBalanceReportData] = useState([]);
   const [date, setDate] = useState({});
-  const [fromDateFApi, setFromDateFApi] = useState("");
+  const [fromDateFApi, setFromDateFApi] = useState('');
   const [loading, setLoading] = useState(false);
   const [initData, setInitData] = useState({
-    balanceType: "3",
-    fromDate: "",
+    balanceType: '3',
+    fromDate: '',
     toDate: _todayDate(),
   });
 
@@ -81,7 +81,7 @@ const TrailBalanceReport = () => {
                     value={values?.currentBusinessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("currentBusinessUnit", valueOption || "");
+                      setFieldValue('currentBusinessUnit', valueOption || '');
                     }}
                     placeholder="Business Unit"
                     errors={errors}
@@ -92,7 +92,7 @@ const TrailBalanceReport = () => {
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
-                    value={values?.fromDate ? values?.fromDate : ""}
+                    value={values?.fromDate ? values?.fromDate : ''}
                     name="fromDate"
                     placeholder="From Date"
                     type="date"
@@ -102,7 +102,7 @@ const TrailBalanceReport = () => {
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
-                    value={values?.toDate ? values?.toDate : ""}
+                    value={values?.toDate ? values?.toDate : ''}
                     name="toDate"
                     placeholder="To Date"
                     type="date"
@@ -131,7 +131,7 @@ const TrailBalanceReport = () => {
                 {trailBalanceReportData.length > 0 && (
                   <div
                     className="col-lg-auto d-flex"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: '25px' }}
                   >
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button"
@@ -143,7 +143,7 @@ const TrailBalanceReport = () => {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -164,9 +164,9 @@ const TrailBalanceReport = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "1"}
+                      checked={values?.balanceType === '1'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(valueOption) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -177,7 +177,7 @@ const TrailBalanceReport = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "1");
+                        setFieldValue('balanceType', '1');
                       }}
                     />
                     Account Class
@@ -186,9 +186,9 @@ const TrailBalanceReport = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "2"}
+                      checked={values?.balanceType === '2'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -199,7 +199,7 @@ const TrailBalanceReport = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "2");
+                        setFieldValue('balanceType', '2');
                       }}
                     />
                     Account Category
@@ -208,9 +208,9 @@ const TrailBalanceReport = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "3"}
+                      checked={values?.balanceType === '3'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -221,7 +221,7 @@ const TrailBalanceReport = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "3");
+                        setFieldValue('balanceType', '3');
                       }}
                     />
                     General Ledger
@@ -240,7 +240,7 @@ const TrailBalanceReport = () => {
                       <div className="col-12 text-center">
                         <h3>{selectedBusinessUnit?.label}</h3>
                         <p>
-                          From <span>{date?.fromDate}</span> To{" "}
+                          From <span>{date?.fromDate}</span> To{' '}
                           <span>{date?.toDate}</span>
                         </p>
                       </div>
@@ -249,7 +249,7 @@ const TrailBalanceReport = () => {
                       <table
                         id="table-to-xlsx"
                         className="table table-striped table-bordered global-table table-font-size-sm"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       >
                         <thead>
                           <tr>
@@ -278,7 +278,7 @@ const TrailBalanceReport = () => {
                                     ? numberWithCommas(
                                         Math.round(data?.debit) || 0
                                       )
-                                    : " "}
+                                    : ' '}
                                 </div>
                               </td>
                               <td>
@@ -287,7 +287,7 @@ const TrailBalanceReport = () => {
                                     ? numberWithCommas(
                                         Math.round(data?.credit) || 0
                                       )
-                                    : " "}
+                                    : ' '}
                                 </div>
                               </td>
                             </tr>
@@ -296,7 +296,7 @@ const TrailBalanceReport = () => {
                             <>
                               <tr>
                                 <td></td>
-                                <td style={{ textAlign: "right" }}>Total</td>
+                                <td style={{ textAlign: 'right' }}>Total</td>
                                 <td>
                                   <div className="text-right pr-2">
                                     {numberWithCommas(
@@ -317,7 +317,7 @@ const TrailBalanceReport = () => {
                                   className="text-center d-none"
                                   colSpan={4}
                                 >{`System Generated Report - ${moment().format(
-                                  "LLLL"
+                                  'LLLL'
                                 )}`}</td>
                               </tr>
                             </>

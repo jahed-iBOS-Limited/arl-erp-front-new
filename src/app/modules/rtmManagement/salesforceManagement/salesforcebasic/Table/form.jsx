@@ -1,22 +1,18 @@
-
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
-import {
-  employeeBasicInformation_landing_top_api,
-} from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
+import { employeeBasicInformation_landing_top_api } from '../helper';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import PaginationSearch from './../../../../_helper/_search';
 
 // Validation schema
@@ -77,7 +73,7 @@ export default function HeaderForm({ createHandler }) {
       pageSize,
       searchValue
     );
-  }
+  };
 
   return (
     <>
@@ -91,7 +87,7 @@ export default function HeaderForm({ createHandler }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Sales Force Information"}>
+              <CardHeader title={'Sales Force Information'}>
                 <CardHeaderToolbar>
                   <button onClick={createHandler} className="btn btn-primary">
                     Create

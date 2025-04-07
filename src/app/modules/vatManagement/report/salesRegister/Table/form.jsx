@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import InputField from './../../../../_helper/_inputField'
-import { useSelector } from 'react-redux'
-import GridData from './grid'
-import { shallowEqual } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,20 +12,20 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from './../../../../../../_metronic/_partials/controls'
+} from './../../../../../../_metronic/_partials/controls';
 
-import NewSelect from './../../../../_helper/_select'
+import NewSelect from './../../../../_helper/_select';
 import {
   GetItemTypeDDL_api,
   GetItemNameDDL_api,
   getVatBranches_api,
   SalesRegister_Report_api,
-} from '../helper'
-import { _todayDate } from './../../../../_helper/_todayDate'
+} from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
 import { getHeaderData_api } from './../../purchaseReg/helper';
 
 // Validation schema
-const validationSchema = Yup.object().shape({})
+const validationSchema = Yup.object().shape({});
 
 const initData = {
   id: undefined,
@@ -34,26 +34,26 @@ const initData = {
   itemType: '',
   branch: '',
   itemName: '',
-}
+};
 
 export default function HeaderForm() {
-  const [rowDto, setRowDto] = useState([])
-  const [loading, ] = useState(false)
-  const [itemName, setItemName] = useState([])
-  const [, setOrdertableRow] = React.useState('')
-  const [, setModelshow] = React.useState(false)
-  const [itemTypeDDL, setitemType] = useState([])
-  const [branchDDL, setBranchDDL] = useState([])
-  const [headerData, setHeaderData] = useState("")
+  const [rowDto, setRowDto] = useState([]);
+  const [loading] = useState(false);
+  const [itemName, setItemName] = useState([]);
+  const [, setOrdertableRow] = React.useState('');
+  const [, setModelshow] = React.useState(false);
+  const [itemTypeDDL, setitemType] = useState([]);
+  const [branchDDL, setBranchDDL] = useState([]);
+  const [headerData, setHeaderData] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData
-  }, shallowEqual)
+    return state.authData.profileData;
+  }, shallowEqual);
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit
-  }, shallowEqual)
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -62,11 +62,15 @@ export default function HeaderForm() {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setBranchDDL
-      )
-      GetItemTypeDDL_api(setitemType)
-      getHeaderData_api(  profileData?.accountId, selectedBusinessUnit?.value,setHeaderData )
+      );
+      GetItemTypeDDL_api(setitemType);
+      getHeaderData_api(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setHeaderData
+      );
     }
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   return (
     <>
@@ -81,8 +85,7 @@ export default function HeaderForm() {
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={'Sales Register (6.2)'}>
-                <CardHeaderToolbar>
-                </CardHeaderToolbar>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
@@ -94,14 +97,14 @@ export default function HeaderForm() {
                         value={values?.itemType}
                         label="Item Type"
                         onChange={(valueOption) => {
-                          setFieldValue('itemType', valueOption)
-                          setFieldValue('itemName', '')
+                          setFieldValue('itemType', valueOption);
+                          setFieldValue('itemName', '');
                           GetItemNameDDL_api(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
                             setItemName
-                          )
+                          );
                         }}
                         placeholder="Item Type"
                         errors={errors}
@@ -117,7 +120,7 @@ export default function HeaderForm() {
                         value={values?.itemName}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue('itemName', valueOption)
+                          setFieldValue('itemName', valueOption);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -132,7 +135,7 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue('branch', valueOption)
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -170,7 +173,7 @@ export default function HeaderForm() {
                             values?.itemName?.value,
                             values?.branch?.value,
                             setRowDto
-                          )
+                          );
                         }}
                       >
                         View
@@ -191,5 +194,5 @@ export default function HeaderForm() {
         )}
       </Formik>
     </>
-  )
+  );
 }

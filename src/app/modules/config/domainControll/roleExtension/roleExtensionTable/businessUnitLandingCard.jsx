@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { RoleExtensionTable } from "./businessUnitTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { RoleExtensionTable } from './businessUnitTableCard';
 
 export function BusinessUnitLandingCard() {
   let history = useHistory();
@@ -18,7 +18,7 @@ export function BusinessUnitLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/domain-controll/role-extension/add")
+              history.push('/config/domain-controll/role-extension/add')
             }
           >
             Create New
@@ -30,4 +30,4 @@ export function BusinessUnitLandingCard() {
       </CardBody>
     </Card>
   );
-};
+}

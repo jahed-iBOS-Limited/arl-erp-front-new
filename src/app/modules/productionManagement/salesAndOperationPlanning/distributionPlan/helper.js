@@ -1,55 +1,55 @@
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   channel: Yup.object()
     .shape({
-      label: Yup.string().required("Channel is required"),
-      value: Yup.string().required("Channel is required"),
+      label: Yup.string().required('Channel is required'),
+      value: Yup.string().required('Channel is required'),
     })
-    .typeError("Channel is required"),
+    .typeError('Channel is required'),
   region: Yup.object()
     .shape({
-      label: Yup.string().required("Region is required"),
-      value: Yup.string().required("Region is required"),
+      label: Yup.string().required('Region is required'),
+      value: Yup.string().required('Region is required'),
     })
-    .typeError("Region is required"),
+    .typeError('Region is required'),
   area: Yup.object()
     .shape({
-      label: Yup.string().required("Area is required"),
-      value: Yup.string().required("Area is required"),
+      label: Yup.string().required('Area is required'),
+      value: Yup.string().required('Area is required'),
     })
-    .typeError("Area is required"),
+    .typeError('Area is required'),
   territory: Yup.object()
     .shape({
-      label: Yup.string().required("Territory is required"),
-      value: Yup.string().required("Territory is required"),
+      label: Yup.string().required('Territory is required'),
+      value: Yup.string().required('Territory is required'),
     })
-    .typeError("Territory is required"),
+    .typeError('Territory is required'),
   plant: Yup.object()
     .shape({
-      label: Yup.string().required("Plant is required"),
-      value: Yup.string().required("Plant is required"),
+      label: Yup.string().required('Plant is required'),
+      value: Yup.string().required('Plant is required'),
     })
-    .typeError("Plant is required"),
+    .typeError('Plant is required'),
   warehouse: Yup.object()
     .shape({
-      label: Yup.string().required("Warehouse is required"),
-      value: Yup.string().required("Warehouse is required"),
+      label: Yup.string().required('Warehouse is required'),
+      value: Yup.string().required('Warehouse is required'),
     })
-    .typeError("Warehouse is required"),
+    .typeError('Warehouse is required'),
   year: Yup.object()
     .shape({
-      label: Yup.string().required("Year is required"),
-      value: Yup.string().required("Year is required"),
+      label: Yup.string().required('Year is required'),
+      value: Yup.string().required('Year is required'),
     })
-    .typeError("Year is required"),
+    .typeError('Year is required'),
   horizon: Yup.object()
     .shape({
-      label: Yup.string().required("Horizon is required"),
-      value: Yup.string().required("Horizon is required"),
+      label: Yup.string().required('Horizon is required'),
+      value: Yup.string().required('Horizon is required'),
     })
-    .typeError("Horizon is required"),
+    .typeError('Horizon is required'),
 });
 
 export const getModifiedInitData = (item) => {
@@ -61,31 +61,31 @@ export const getModifiedInitData = (item) => {
               value: item?.distributionChannelId,
               label: item?.distributionChannelName,
             }
-          : "",
+          : '',
       region:
         item?.regionId && item?.regionName
           ? { value: item?.regionId, label: item?.regionName }
-          : "",
+          : '',
       area:
         item?.areaId && item?.areaName
           ? { value: item?.areaId, label: item?.areaName }
-          : "",
+          : '',
       territory:
         item?.territoryId && item?.territoryName
           ? { value: item?.territoryId, label: item?.territoryName }
-          : "",
+          : '',
       plant:
         item?.plantHouseId && item?.plantHouseName
           ? { value: item?.plantHouseId, label: item?.plantHouseName }
-          : "",
+          : '',
       warehouse:
         item?.wareHouseId && item?.wareHouseName
           ? { value: item?.wareHouseId, label: item?.wareHouseName }
-          : "",
+          : '',
       year:
         item?.yearId && item?.yearId
           ? { value: item?.yearId, label: item?.yearId }
-          : "",
+          : '',
       horizon:
         item?.monthId && item?.monthName
           ? {
@@ -94,9 +94,9 @@ export const getModifiedInitData = (item) => {
               planHorizonHeaderId: item?.intPlanningHorizonId,
               monthId: item?.monthId,
             }
-          : "",
-      fromDate: item?.fromDate || "",
-      toDate: item?.toDate || "",
+          : '',
+      fromDate: item?.fromDate || '',
+      toDate: item?.toDate || '',
     };
   } else {
     return {};
@@ -113,16 +113,16 @@ export const saveHandler = ({
   cb,
 }) => {
   if (!tableData?.itemList?.length) {
-    return toast.warn("No Item Found");
+    return toast.warn('No Item Found');
   }
 
   for (let item of tableData?.itemList) {
     if (item?.planQty || item?.planRate) {
       if (!item?.planQty) {
-        return toast.warn("Plan Qty is required!");
+        return toast.warn('Plan Qty is required!');
       }
       if (!item?.planRate) {
-        return toast.warn("Plan Rate is required!");
+        return toast.warn('Plan Rate is required!');
       }
     }
   }

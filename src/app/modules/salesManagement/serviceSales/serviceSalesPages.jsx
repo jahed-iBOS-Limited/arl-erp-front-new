@@ -1,11 +1,11 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ServiceSalesCreate from "./serviceSalesOrder/serviceSales/create";
-import SalesInvoiceLanding from "./salesInvoice";
-import ServiceSalesLanding from "./serviceSalesOrder/serviceSales";
-import SalesCollectionLanding from "./salesCollection";
-import ServiceSalesReport from "./report/serviceSales";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ServiceSalesCreate from './serviceSalesOrder/serviceSales/create';
+import SalesInvoiceLanding from './salesInvoice';
+import ServiceSalesLanding from './serviceSalesOrder/serviceSales';
+import SalesCollectionLanding from './salesCollection';
+import ServiceSalesReport from './report/serviceSales';
 
 export function ServiceSalesPages() {
   return (
@@ -25,7 +25,6 @@ export function ServiceSalesPages() {
         from="/sales-management/servicesales/servsalesorder"
         component={ServiceSalesLanding}
       />
-
 
       <ContentRoute
         from="/sales-management/servicesales/servsalesinvoice"

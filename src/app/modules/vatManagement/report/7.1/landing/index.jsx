@@ -42,7 +42,7 @@ function MushakSevenPointOneLanding() {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setBranchDDL,
+        setBranchDDL
       );
     }
   }, [selectedBusinessUnit, profileData]);

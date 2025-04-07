@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getJournalTypeDDL = async (setter) => {
   try {
@@ -22,10 +22,10 @@ export const getCashJournalGridData = async (
   setter,
   setLoading,
   setTotalCount,
-  journalCode=""
+  journalCode = ''
 ) => {
   setLoading(true);
-  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : "";
+  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : '';
   try {
     const res = await axios.get(
       `/fino/TransferJournalToTaxAcc/GetCashJournalLandingPasignationTransf?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&AccountingJournalTypeId=${accJournalTypeId}&fromdate=${fromDate}&Todate=${toDate}${JournalCode}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -54,10 +54,10 @@ export const getBankJournalGridData = async (
   setter,
   setLoading,
   setTotalCount,
-  journalCode=""
+  journalCode = ''
 ) => {
   setLoading(true);
-  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : "";
+  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : '';
   try {
     const res = await axios.get(
       `/fino/TransferJournalToTaxAcc/GetBankJournalLandingPasignationTransf?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&AccountingJournalTypeId=${accJournalTypeId}&IsPosted=${isPosted}&IsActive=${isActive}${JournalCode}&fromdate=${fromDate}&Todate=${toDate}&viewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -86,10 +86,10 @@ export const getAdjustmentJournalGridData = async (
   setter,
   setLoading,
   setTotalCount,
-  journalCode=""
+  journalCode = ''
 ) => {
   setLoading(true);
-  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : "";
+  let JournalCode = journalCode ? `&JournalCode=${journalCode}` : '';
   try {
     const res = await axios.get(
       `/fino/TransferJournalToTaxAcc/GetAdjustmentJournalLandingPasignationTransf?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&AccountingJournalTypeId=${accJournalTypeId}&IsPosted=${isPosted}&IsActive=${isActive}${JournalCode}&fromdate=${fromDate}&Todate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -104,14 +104,7 @@ export const getAdjustmentJournalGridData = async (
   }
 };
 
-export const transferJournal = async (
-  
-  buId,
-  actionBy,
-  data,
-  setLoading,
-  cb
-) => {
+export const transferJournal = async (buId, actionBy, data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
@@ -127,26 +120,25 @@ export const transferJournal = async (
   }
 };
 
-export const getBankJournalView = async (url ,setter,setLoading, text = null) => {
+export const getBankJournalView = async (
+  url,
+  setter,
+  setLoading,
+  text = null
+) => {
   try {
-    setLoading(true)
-    const res = await axios.get(
-      url
-    );
+    setLoading(true);
+    const res = await axios.get(url);
     if (res.status === 200 && res?.data) {
-      setLoading(false)
-      text === "adjustment" ? setter(res?.data[0]) : setter(res?.data)
+      setLoading(false);
+      text === 'adjustment' ? setter(res?.data[0]) : setter(res?.data);
     }
   } catch (error) {
-    setLoading(false)
+    setLoading(false);
   }
 };
 
-
-export const commonTransferJournal = async (
-  payload,
-  cb
-) => {
+export const commonTransferJournal = async (payload, cb) => {
   try {
     const res = await axios.post(
       `/fino/AccountingJournalTax/AccountingJournalTaxEntry`,

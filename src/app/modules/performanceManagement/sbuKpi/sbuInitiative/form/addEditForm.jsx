@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getYearDDL, getCategoryDDL } from "../helper";
-import { getSbuDDLAction } from "../helper";
-import Help from "../../../help/Help";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getYearDDL, getCategoryDDL } from '../helper';
+import { getSbuDDLAction } from '../helper';
+import Help from '../../../help/Help';
 
 let initData = {
-  sbu: "",
-  year: "",
-  category: "",
+  sbu: '',
+  year: '',
+  category: '',
 };
 
 export function SBUInitiativeForm({
@@ -19,7 +19,6 @@ export function SBUInitiativeForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [sbuDDL, setSbuDDL] = useState([]);
   const [year, setYear] = useState([]);
@@ -36,7 +35,6 @@ export function SBUInitiativeForm({
       setSbuDDL
     );
     getYearDDL(profileData?.accountId, selectedBusinessUnit?.value, setYear);
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -49,7 +47,7 @@ export function SBUInitiativeForm({
 
   return (
     <IForm
-      title={"SBU Initiative"}
+      title={'SBU Initiative'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

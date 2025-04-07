@@ -1,21 +1,19 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/loader/_loader";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useHistory, useLocation } from "react-router-dom";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
-import { getReportAssetReceive } from "../helper/Actions";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/loader/_loader';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useHistory, useLocation } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
+import { getReportAssetReceive } from '../helper/Actions';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 let imageObj = {
   8: iMarineIcon,
@@ -26,7 +24,7 @@ const validationSchema = Yup.object().shape({});
 
 export function TableRow({ Asid }) {
   const [loading, setLoading] = useState(false);
-  const [assetReport, setAssetReport] = useState("");
+  const [assetReport, setAssetReport] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -115,7 +113,7 @@ export function TableRow({ Asid }) {
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit?.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -135,7 +133,7 @@ export function TableRow({ Asid }) {
                         Asset Receive Code:
                         <span className="font-weight-bold mr-2 ml-1">
                           {assetReport?.objHeader?.serviceCode}
-                        </span>{" "}
+                        </span>{' '}
                         Receive Amount:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {state?.receiveAmount}
@@ -158,7 +156,7 @@ export function TableRow({ Asid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {assetReport?.objHeader?.adjustmentJournalCode
                             ? assetReport?.objHeader?.adjustmentJournalCode
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         {/* Adjust Amount:
                         <sapn className='font-weight-bold mr-2 ml-1'>
@@ -171,7 +169,7 @@ export function TableRow({ Asid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {assetReport?.objHeader?.challan
                             ? assetReport?.objHeader?.challan
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Challan Date:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -179,13 +177,13 @@ export function TableRow({ Asid }) {
                             ? _dateFormatter(
                                 assetReport?.objHeader?.challanDateTime
                               )
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Vat Challan:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {assetReport?.objHeader?.vatChallan
                             ? assetReport?.objHeader?.vatChallan
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Vat Amount:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -201,7 +199,7 @@ export function TableRow({ Asid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {assetReport?.objHeader?.gateEntryNo
                             ? assetReport?.objHeader?.gateEntryNo
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Comments:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -272,7 +270,7 @@ export function TableRow({ Asid }) {
                             {
                               assetReport?.objHeader
                                 ?.actionByNameDesignationDept
-                            }{" "}
+                            }{' '}
                             {/* [
                             {_dateFormatter(
                               assetReport?.objHeader

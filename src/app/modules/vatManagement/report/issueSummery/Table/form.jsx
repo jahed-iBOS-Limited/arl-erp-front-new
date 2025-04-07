@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,11 +12,11 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import NewSelect from "./../../../../_helper/_select";
-import { getVatBranches_api, issueSummery_Report_api } from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import NewSelect from './../../../../_helper/_select';
+import { getVatBranches_api, issueSummery_Report_api } from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -25,8 +25,8 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  branch: "",
-  sortBy: "",
+  branch: '',
+  sortBy: '',
 };
 
 export default function HeaderForm() {
@@ -68,7 +68,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Issue Summary"}>
+              <CardHeader title={'Issue Summary'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -81,7 +81,7 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -92,13 +92,13 @@ export default function HeaderForm() {
                       <NewSelect
                         name="sortBy"
                         options={[
-                          { value: 1, label: "Day" },
-                          { value: 2, label: "Production" },
+                          { value: 1, label: 'Day' },
+                          { value: 2, label: 'Production' },
                         ]}
                         value={values?.sortBy}
                         label="Sort By"
                         onChange={(valueOption) => {
-                          setFieldValue("sortBy", valueOption);
+                          setFieldValue('sortBy', valueOption);
                         }}
                         placeholder="Sort By"
                         errors={errors}

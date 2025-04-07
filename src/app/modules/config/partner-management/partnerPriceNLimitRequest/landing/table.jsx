@@ -1,34 +1,33 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../chartering/_chartinghelper/icons/_view";
+} from '../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { Formik } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../chartering/_chartinghelper/icons/_view';
 
 const header = [
-  "SL",
-  "Customer Name",
-  "Address",
-  "Contact Person",
-  "Contact Number",
-  "Limit Days",
-  "Limit Amount",
-  "Payment Mode",
-  "Status",
-  "Actions",
+  'SL',
+  'Customer Name',
+  'Address',
+  'Contact Person',
+  'Contact Number',
+  'Limit Days',
+  'Limit Amount',
+  'Payment Mode',
+  'Status',
+  'Actions',
 ];
 
 const initData = {
@@ -80,7 +79,7 @@ const PartnerPriceAndLimitRequestTable = () => {
                     <button
                       onClick={() => {
                         history.push(
-                          "/config/partner-management/partnerpricenlimitrequest/create"
+                          '/config/partner-management/partnerpricenlimitrequest/create'
                         );
                       }}
                       className="btn btn-primary"
@@ -103,7 +102,7 @@ const PartnerPriceAndLimitRequestTable = () => {
                           placeholder="From Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e?.target?.value);
+                            setFieldValue('fromDate', e?.target?.value);
                             getData(
                               { ...values, fromDate: e?.target?.value },
                               pageNo,
@@ -120,7 +119,7 @@ const PartnerPriceAndLimitRequestTable = () => {
                           placeholder="To Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e?.target?.value);
+                            setFieldValue('toDate', e?.target?.value);
                             getData(
                               { ...values, toDate: e?.target?.value },
                               pageNo,
@@ -135,76 +134,76 @@ const PartnerPriceAndLimitRequestTable = () => {
                   {rowData?.data?.length > 0 && (
                     <div className="table-responsive">
                       <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {header.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      {rowData?.data?.map((item, index) => {
-                        return (
-                          <tr className="cursor-pointer" key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.strPartnerName}</td>
-                            <td>{item?.strAddress}</td>
-                            <td>{item?.strContactPersion}</td>
-                            <td>{item?.strPhone}</td>
-                            <td>{item?.intLimitDays}</td>
-                            <td>{item?.numCreditLimit}</td>
-                            <td>{item?.strPaymentMode}</td>
-                            <td>{item?.strStatus || "Pending"}</td>
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              {
-                                <div className="d-flex justify-content-around">
-                                  <IView
-                                    title={`${
-                                      !item?.isRejected &&
-                                      (!item?.isApproveByAccounts ||
-                                        !item?.isApproveSupervisor)
-                                        ? "View and Approve/Reject"
-                                        : "View"
-                                    }`}
-                                    clickHandler={() => {
-                                      history.push({
-                                        pathname: `/config/partner-management/partnerpricenlimitrequest/view/${item?.intConfigId}`,
-                                        state: item,
-                                      });
-                                    }}
-                                  />
-                                  {!item?.isRejected &&
-                                    !item?.isApproveByAccounts &&
-                                    !item?.isApproveSupervisor && (
-                                      <span>
-                                        <IEdit
-                                          onClick={() => {
-                                            history.push({
-                                              pathname: `/config/partner-management/partnerpricenlimitrequest/edit/${item?.intConfigId}`,
-                                              state: item,
-                                            });
-                                          }}
-                                        />
-                                      </span>
-                                    )}
-                                </div>
-                              }
-                            </td>
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {header.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
                           </tr>
-                        );
-                      })}
-                    </table>
+                        </thead>
+                        {rowData?.data?.map((item, index) => {
+                          return (
+                            <tr className="cursor-pointer" key={index}>
+                              <td
+                                style={{ width: '40px' }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.strPartnerName}</td>
+                              <td>{item?.strAddress}</td>
+                              <td>{item?.strContactPersion}</td>
+                              <td>{item?.strPhone}</td>
+                              <td>{item?.intLimitDays}</td>
+                              <td>{item?.numCreditLimit}</td>
+                              <td>{item?.strPaymentMode}</td>
+                              <td>{item?.strStatus || 'Pending'}</td>
+                              <td
+                                style={{ width: '80px' }}
+                                className="text-center"
+                              >
+                                {
+                                  <div className="d-flex justify-content-around">
+                                    <IView
+                                      title={`${
+                                        !item?.isRejected &&
+                                        (!item?.isApproveByAccounts ||
+                                          !item?.isApproveSupervisor)
+                                          ? 'View and Approve/Reject'
+                                          : 'View'
+                                      }`}
+                                      clickHandler={() => {
+                                        history.push({
+                                          pathname: `/config/partner-management/partnerpricenlimitrequest/view/${item?.intConfigId}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    />
+                                    {!item?.isRejected &&
+                                      !item?.isApproveByAccounts &&
+                                      !item?.isApproveSupervisor && (
+                                        <span>
+                                          <IEdit
+                                            onClick={() => {
+                                              history.push({
+                                                pathname: `/config/partner-management/partnerpricenlimitrequest/edit/${item?.intConfigId}`,
+                                                state: item,
+                                              });
+                                            }}
+                                          />
+                                        </span>
+                                      )}
+                                  </div>
+                                }
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </table>
                     </div>
                   )}
 

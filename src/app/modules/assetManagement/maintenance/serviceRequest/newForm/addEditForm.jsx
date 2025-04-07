@@ -1,8 +1,5 @@
-
-
-
-import React from "react";
-import WorkOrderForm from "../../workOrder/newForm/workOrderForm";
+import React from 'react';
+import WorkOrderForm from '../../workOrder/newForm/workOrderForm';
 
 export default function AssetOrderForm({
   currentRowData,
@@ -10,10 +7,8 @@ export default function AssetOrderForm({
   plantName,
   warehouseName,
   setGridData,
-  setisShowModalforCreate
+  setisShowModalforCreate,
 }) {
-
-
   return (
     <WorkOrderForm
       currentRowData={currentRowData}

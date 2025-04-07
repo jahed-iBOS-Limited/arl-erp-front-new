@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
-import { createPartnerWiseRentSetup } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
+import { createPartnerWiseRentSetup } from '../helper';
 
 const initData = {
   id: undefined,
-  shipPoint: "",
-  vehicle: "",
-  rent: "",
-  additionalRent: "",
-  reason: "",
+  shipPoint: '',
+  vehicle: '',
+  rent: '',
+  additionalRent: '',
+  reason: '',
 };
 
 export default function PartnerWiseRentSetupForm({
@@ -22,18 +22,18 @@ export default function PartnerWiseRentSetupForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, ] = useState("");
+  const [singleData] = useState('');
 
   const addItemToTheGrid = (values) => {
     if (values.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
 
     let data = rowDto.find(
       (data) => data.intshippointId === values?.shipPoint.value
     );
     if (data) {
-      toast.error("Item already added");
+      toast.error('Item already added');
     } else {
       let itemRow = {
         intAccountId: profileData?.accountId,
@@ -46,8 +46,8 @@ export default function PartnerWiseRentSetupForm({
         numRentAmount: +values?.rent,
         numAdditionalRentAmount: +values?.additionalRent,
         strReason: values?.reason,
-        dteLastActionDateTime: "2021-04-25T09:38:01.874Z",
-        dteServerDateTime: "2021-04-25T09:38:01.874Z",
+        dteLastActionDateTime: '2021-04-25T09:38:01.874Z',
+        dteServerDateTime: '2021-04-25T09:38:01.874Z',
         isActive: true,
       };
       setRowDto([...rowDto, itemRow]);
@@ -76,8 +76,8 @@ export default function PartnerWiseRentSetupForm({
         numRentAmount: +values?.rent,
         numAditionalRentAmount: +values?.additionalRent,
         strReason: values?.reason,
-        dteLastActionDateTime: "2021-04-26T04:46:00.991Z",
-        dteServerDateTime: "2021-04-26T04:46:00.991Z",
+        dteLastActionDateTime: '2021-04-26T04:46:00.991Z',
+        dteServerDateTime: '2021-04-26T04:46:00.991Z',
         isActive: true,
       };
       createPartnerWiseRentSetup(payload, cb, setDisabled);
@@ -92,8 +92,8 @@ export default function PartnerWiseRentSetupForm({
       title="Create Partner Wise Rent Setup"
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={type === "view"}
-      isHiddenReset={type === "view"}
+      isHiddenSave={type === 'view'}
+      isHiddenReset={type === 'view'}
     >
       <Form
         {...objProps}

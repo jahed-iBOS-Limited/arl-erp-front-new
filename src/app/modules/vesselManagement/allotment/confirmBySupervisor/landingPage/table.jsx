@@ -1,10 +1,10 @@
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const Table = ({ obj }) => {
   const {
@@ -21,45 +21,44 @@ const Table = ({ obj }) => {
     setPageSize,
     rowDataHandler,
     setPositionHandler,
-    deletHandler
+    deletHandler,
   } = obj;
-
 
   return (
     <>
       {rowData?.data?.length > 0 && (
-        <div className=''>
-          <div className='loan-scrollable-table inventory-statement-report'>
-            <div style={{ maxHeight: "500px" }} className='scroll-table _table'>
-              <table className='table table-striped table-bordered bj-table bj-table-landing table-font-size-sm'>
+        <div className="">
+          <div className="loan-scrollable-table inventory-statement-report">
+            <div style={{ maxHeight: '500px' }} className="scroll-table _table">
+              <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
                 <thead>
-                  <tr className='cursor-pointer'>
+                  <tr className="cursor-pointer">
                     {status && (
                       <th
                         onClick={() => allSelect(!selectedAll(), values)}
-                        style={{ minWidth: "30px" }}
+                        style={{ minWidth: '30px' }}
                       >
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           value={selectedAll()}
                           checked={selectedAll()}
                           onChange={() => {}}
                         />
                       </th>
                     )}
-                    <th style={{ minWidth: "30px" }}>SL</th>
-                    <th style={{ minWidth: "100px" }}>Sales Order No</th>
-                    <th style={{ minWidth: "180px" }}>Mother Vessel</th>
-                    <th style={{ minWidth: "190px" }}>Ghat Name</th>
-                    <th style={{ minWidth: "90px" }}>Vehicle No</th>
-                    <th style={{ minWidth: "90px" }}>Delivery Address</th>
-                    <th style={{ minWidth: "100px" }}>Quantity</th>
+                    <th style={{ minWidth: '30px' }}>SL</th>
+                    <th style={{ minWidth: '100px' }}>Sales Order No</th>
+                    <th style={{ minWidth: '180px' }}>Mother Vessel</th>
+                    <th style={{ minWidth: '190px' }}>Ghat Name</th>
+                    <th style={{ minWidth: '90px' }}>Vehicle No</th>
+                    <th style={{ minWidth: '90px' }}>Delivery Address</th>
+                    <th style={{ minWidth: '100px' }}>Quantity</th>
 
-                    <th style={{ minWidth: "100px" }}>
+                    <th style={{ minWidth: '100px' }}>
                       Transport Rate (per bag)
                     </th>
 
-                    <th style={{ minWidth: "100px" }}>
+                    <th style={{ minWidth: '100px' }}>
                       Godown Unloading Rate (per bag)
                     </th>
                     {/* {values?.confirmationType?.value !== 3 && (
@@ -72,30 +71,30 @@ const Table = ({ obj }) => {
                         Godown Unloading Rate (per bag)
                       </th>
                     )} */}
-                    <th style={{ minWidth: "100px" }}>Bill Amount</th>
+                    <th style={{ minWidth: '100px' }}>Bill Amount</th>
                     {[2, 3].includes(values?.confirmationType?.value) && (
-                      <th style={{ minWidth: "80px" }}>Price</th>
+                      <th style={{ minWidth: '80px' }}>Price</th>
                     )}
                     {[2, 3].includes(values?.confirmationType?.value) && (
-                      <th style={{ minWidth: "80px" }}>Total Revenue</th>
+                      <th style={{ minWidth: '80px' }}>Total Revenue</th>
                     )}
-                    <th style={{ minWidth: "200px" }}>Ship to Partner</th>
-                    <th style={{ minWidth: "160px" }}>{`${
+                    <th style={{ minWidth: '200px' }}>Ship to Partner</th>
+                    <th style={{ minWidth: '160px' }}>{`${
                       values?.confirmationType?.value === 1
-                        ? "Receive"
-                        : "Challan"
+                        ? 'Receive'
+                        : 'Challan'
                     } Date`}</th>
 
-                    <th style={{ minWidth: "180px" }}>Transport Supplier</th>
+                    <th style={{ minWidth: '180px' }}>Transport Supplier</th>
 
                     {/* {values?.confirmationType?.value !== 3 && (
                       <th style={{ minWidth: "180px" }}>Transport Supplier</th>
                     )} */}
-                    <th style={{ minWidth: "100px" }}>DO No</th>
-                    <th style={{ minWidth: "90px" }}>Driver Name</th>
-                    <th style={{ minWidth: "80px" }}>Driver Mobile No</th>
+                    <th style={{ minWidth: '100px' }}>DO No</th>
+                    <th style={{ minWidth: '90px' }}>Driver Name</th>
+                    <th style={{ minWidth: '80px' }}>Driver Mobile No</th>
 
-                    <th style={{ minWidth: "200px" }}>
+                    <th style={{ minWidth: '200px' }}>
                       Godown Labour Supplier
                     </th>
                     {/* {values?.confirmationType?.value !== 2 && (
@@ -103,8 +102,8 @@ const Table = ({ obj }) => {
                         Godown Labour Supplier
                       </th>
                     )} */}
-                    <th style={{ minWidth: "100px" }}>Insert By</th>
-                    <th style={{ minWidth: "50px" }}>Action</th>
+                    <th style={{ minWidth: '100px' }}>Insert By</th>
+                    <th style={{ minWidth: '50px' }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -120,7 +119,7 @@ const Table = ({ obj }) => {
                       <tr
                         key={index}
                         style={{
-                          background: pricelessThanZero ? "#ff0000a1" : "",
+                          background: pricelessThanZero ? '#ff0000a1' : '',
                         }}
                       >
                         {status && (
@@ -128,15 +127,15 @@ const Table = ({ obj }) => {
                             onClick={() => {
                               if (pricelessThanZero) return;
                               rowDataHandler(
-                                "isSelected",
+                                'isSelected',
                                 index,
                                 !item.isSelected
                               );
                             }}
-                            className='text-center'
+                            className="text-center"
                           >
                             <input
-                              type='checkbox'
+                              type="checkbox"
                               value={item?.isSelected}
                               checked={item?.isSelected}
                               onChange={() => {}}
@@ -145,20 +144,20 @@ const Table = ({ obj }) => {
                           </td>
                         )}
                         <td
-                          style={{ minWidth: "30px" }}
-                          className='text-center'
+                          style={{ minWidth: '30px' }}
+                          className="text-center"
                         >
                           {index + 1}
                         </td>
-                        <td className='' style={{ width: "100px" }}>
+                        <td className="" style={{ width: '100px' }}>
                           {status ? (
                             <InputField
-                              name='salesOrder'
-                              placeholder='Sales Order'
+                              name="salesOrder"
+                              placeholder="Sales Order"
                               value={item?.salesOrder}
                               onChange={(e) => {
                                 rowDataHandler(
-                                  "salesOrder",
+                                  'salesOrder',
                                   index,
                                   e?.target?.value
                                 );
@@ -172,13 +171,13 @@ const Table = ({ obj }) => {
                         <td>{item?.shipPointName}</td>
                         <td>{item?.vehicleRegNo}</td>
                         <td>{item?.address}</td>
-                        <td className='text-right' style={{ width: "100px" }}>
+                        <td className="text-right" style={{ width: '100px' }}>
                           {status ? (
                             <InputField
-                              name='quantity'
-                              placeholder='Quantity'
-                              type='number'
-                              min='0'
+                              name="quantity"
+                              placeholder="Quantity"
+                              type="number"
+                              min="0"
                               max={item?.maxQty}
                               value={item?.quantity}
                               disabled={
@@ -187,7 +186,7 @@ const Table = ({ obj }) => {
                               }
                               onChange={(e) => {
                                 rowDataHandler(
-                                  "quantity",
+                                  'quantity',
                                   index,
                                   e?.target?.value
                                 );
@@ -197,19 +196,19 @@ const Table = ({ obj }) => {
                             item?.quantity
                           )}
                         </td>
-                        <td className='text-right' style={{ width: "100px" }}>
+                        <td className="text-right" style={{ width: '100px' }}>
                           {status ? (
                             <InputField
-                              name='transportRate'
-                              placeholder='Transport Rate'
-                              value={item?.transportRate || ""}
-                              type='number'
-                              min='0'
+                              name="transportRate"
+                              placeholder="Transport Rate"
+                              value={item?.transportRate || ''}
+                              type="number"
+                              min="0"
                               disabled={values?.confirmationType?.value === 3}
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
                                 rowDataHandler(
-                                  "transportRate",
+                                  'transportRate',
                                   index,
                                   e?.target?.value
                                 );
@@ -219,19 +218,19 @@ const Table = ({ obj }) => {
                             item?.transportRate || 0
                           )}
                         </td>
-                        <td className='text-right'>
+                        <td className="text-right">
                           {status ? (
                             <InputField
-                              name='godownUnloadingRate'
-                              placeholder='Unloading Rate'
-                              value={item?.godownUnloadingRate || ""}
-                              type='number'
-                              min='0'
+                              name="godownUnloadingRate"
+                              placeholder="Unloading Rate"
+                              value={item?.godownUnloadingRate || ''}
+                              type="number"
+                              min="0"
                               disabled={values?.confirmationType?.value === 2}
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
                                 rowDataHandler(
-                                  "godownUnloadingRate",
+                                  'godownUnloadingRate',
                                   index,
                                   e?.target?.value
                                 );
@@ -289,23 +288,23 @@ const Table = ({ obj }) => {
                             )}
                           </td>
                         )} */}
-                        <td className='text-right' style={{ width: "100px" }}>
+                        <td className="text-right" style={{ width: '100px' }}>
                           {status ? (
                             <InputField
-                              name='billAmount'
+                              name="billAmount"
                               value={
                                 (values?.confirmationType?.value === 2
                                   ? +item?.transportRate
                                   : values?.confirmationType?.value === 3
-                                  ? +item?.godownUnloadingRate
-                                  : +item?.transportRate +
-                                    +item?.godownUnloadingRate) *
+                                    ? +item?.godownUnloadingRate
+                                    : +item?.transportRate +
+                                      +item?.godownUnloadingRate) *
                                 +item?.quantity
                               }
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
                                 rowDataHandler(
-                                  "billAmount",
+                                  'billAmount',
                                   index,
                                   e?.target?.value
                                 );
@@ -317,12 +316,12 @@ const Table = ({ obj }) => {
                           )}
                         </td>
                         {[2, 3].includes(values?.confirmationType?.value) && (
-                          <td style={{ width: "100px" }} className='text-right'>
+                          <td style={{ width: '100px' }} className="text-right">
                             {item?.numItemPrice}
                           </td>
                         )}
                         {[2, 3].includes(values?.confirmationType?.value) && (
-                          <td style={{ width: "100px" }} className='text-right'>
+                          <td style={{ width: '100px' }} className="text-right">
                             {_fixedPoint(
                               item?.numItemPrice * item?.quantityTon,
                               true,
@@ -330,37 +329,37 @@ const Table = ({ obj }) => {
                             )}
                           </td>
                         )}
-                        <td style={{ width: "150px" }}>
+                        <td style={{ width: '150px' }}>
                           {status ? (
                             <NewSelect
                               isClearable={false}
-                              name='shipToPartner'
+                              name="shipToPartner"
                               value={item?.shipToPartner}
                               options={godownDDL}
                               onChange={(e) => {
-                                rowDataHandler("shipToPartner", index, e);
+                                rowDataHandler('shipToPartner', index, e);
                               }}
                             />
                           ) : (
                             item?.shipToPartnerName
                           )}
                         </td>
-                        <td className='text-right' style={{ width: "100px" }}>
+                        <td className="text-right" style={{ width: '100px' }}>
                           {status ? (
                             <InputField
-                              name='date'
-                              placeholder='Date'
+                              name="date"
+                              placeholder="Date"
                               value={item?.date}
-                              type='date'
+                              type="date"
                               onChange={(e) => {
-                                rowDataHandler("date", index, e?.target?.value);
+                                rowDataHandler('date', index, e?.target?.value);
                               }}
                             />
                           ) : (
                             item?.date
                           )}
-                        </td>{" "}
-                        <td style={{ width: "100px" }}>{item?.supplierName}</td>
+                        </td>{' '}
+                        <td style={{ width: '100px' }}>{item?.supplierName}</td>
                         {/* {values?.confirmationType?.value !== 3 && (
                           <td style={{ width: "100px" }}>
                             {item?.supplierName}
@@ -369,13 +368,13 @@ const Table = ({ obj }) => {
                         <td>{item?.deliveryCode}</td>
                         <td>{item?.driverName}</td>
                         <td>{item?.driverPhone}</td>
-                        <td style={{ width: "150px" }}>
+                        <td style={{ width: '150px' }}>
                           {status ? (
                             <SearchAsyncSelect
                               selectedValue={item?.godownLabourSupplier}
                               handleChange={(valueOption) => {
                                 rowDataHandler(
-                                  "godownLabourSupplier",
+                                  'godownLabourSupplier',
                                   index,
                                   valueOption
                                 );
@@ -405,12 +404,12 @@ const Table = ({ obj }) => {
                             )}
                           </td>
                         )} */}
-                        <td style={{ width: "100px" }}>{item?.actionByName}</td>
+                        <td style={{ width: '100px' }}>{item?.actionByName}</td>
                         <td>
-                          <div className='d-flex justify-content-center align-items-center'>
+                          <div className="d-flex justify-content-center align-items-center">
                             <span
                               onClick={() => {
-                              deletHandler(item, values);
+                                deletHandler(item, values);
                               }}
                             >
                               <IDelete />

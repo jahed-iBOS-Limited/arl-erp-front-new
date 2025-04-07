@@ -1,7 +1,7 @@
-import React from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import "./style.css";
+import React from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import './style.css';
 function ImportPurchaseTable({ rowDto }) {
   let totalQty = 0,
     totalVat = 0,
@@ -18,7 +18,7 @@ function ImportPurchaseTable({ rowDto }) {
     <div className="ImportPurchaseTable">
       <div className="loan-scrollable-table">
         <div
-          style={{ maxHeight: "400px" }}
+          style={{ maxHeight: '400px' }}
           className="scroll-table _table scroll-table-auto"
         >
           <table
@@ -38,10 +38,10 @@ function ImportPurchaseTable({ rowDto }) {
                 <th>Branch Name </th>
                 <th>Supply Type </th>
                 <th>Trade Type </th>
-                <th style={{ minWidth: "120px" }}>Customs House</th>
+                <th style={{ minWidth: '120px' }}>Customs House</th>
                 <th>Customs Code</th>
-                <th style={{ minWidth: "120px" }}>Supplier Name </th>
-                <th style={{ minWidth: "220px" }}>Supplier Address</th>
+                <th style={{ minWidth: '120px' }}>Supplier Name </th>
+                <th style={{ minWidth: '220px' }}>Supplier Address</th>
                 <th>HS Code </th>
                 <th>Country Name </th>
                 <th>Total Quantity </th>
@@ -86,7 +86,7 @@ function ImportPurchaseTable({ rowDto }) {
                         <td>{item?.customerName}</td>
                         <td>{item?.customHouseCode}</td>
                         <td>{item?.supplierName}</td>
-                        <td style={{ fontSize: "11px" }}>
+                        <td style={{ fontSize: '11px' }}>
                           {item?.supplierAddress}
                         </td>
                         <td>{item?.hsCode}</td>

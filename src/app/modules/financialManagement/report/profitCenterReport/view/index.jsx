@@ -1,34 +1,53 @@
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { Form, Formik } from "formik";
-import { useMemo } from "react";
-import ReactToPrint from "react-to-print";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { Form, Formik } from 'formik';
+import { useMemo } from 'react';
+import ReactToPrint from 'react-to-print';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _todayDate } from '../../../../_helper/_todayDate';
 const ProfitCenterView = ({ currentRowData, landingValues }) => {
   const printRef = useRef();
   const [dataById, getDataById, getDataByIdLoading] = useAxiosGet([]);
-  const { selectedBusinessUnit } = useSelector((state) => state?.authData, shallowEqual);
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
-    if (currentRowData?.intCostRevId && currentRowData?.intElementId && currentRowData?.intProfitId) {
+    if (
+      currentRowData?.intCostRevId &&
+      currentRowData?.intElementId &&
+      currentRowData?.intProfitId
+    ) {
       getDataById(
         `/fino/FinancialStatement/CostCenterDetails?revId=${currentRowData?.intCostRevId}&elementId=${currentRowData?.intElementId}&profitId=${
           currentRowData?.intProfitId
         }&unitId=${selectedBusinessUnit?.value}&fromDate=${landingValues?.fromDate || _todayDate()}&toDate=${landingValues?.toDate || _todayDate()}`
       );
     }
-
   }, [selectedBusinessUnit, currentRowData]);
 
-  const totalAmount = useMemo(() => dataById.reduce((acc, item) => acc + (item?.numAmount || 0), 0), [dataById]);
+  const totalAmount = useMemo(
+    () => dataById.reduce((acc, item) => acc + (item?.numAmount || 0), 0),
+    [dataById]
+  );
   return (
     <>
-      <Formik enableReinitialize={true} initialValues={{}} onSubmit={(values, { setSubmitting, resetForm }) => {}}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={{}}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Card>
@@ -57,10 +76,19 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
                         ) : null}
 
                         <ReactToPrint
-                          pageStyle={"@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"}
+                          pageStyle={
+                            '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
+                          }
                           trigger={() => (
-                            <button type="button" className="btn btn-primary ml-2" style={{ marginTop: "18px" }}>
-                              <i class="fa fa-print pointer" aria-hidden="true"></i>
+                            <button
+                              type="button"
+                              className="btn btn-primary ml-2"
+                              style={{ marginTop: '18px' }}
+                            >
+                              <i
+                                class="fa fa-print pointer"
+                                aria-hidden="true"
+                              ></i>
                               Print
                             </button>
                           )}
@@ -74,10 +102,10 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
                       <h2>{selectedBusinessUnit?.label.toUpperCase()}</h2>
                       <h6
                         style={{
-                          borderBottom: "2px solid #ccc",
-                          paddingBottom: "10px",
-                          fontSize: "12px",
-                          fontWeight: "bold",
+                          borderBottom: '2px solid #ccc',
+                          paddingBottom: '10px',
+                          fontSize: '12px',
+                          fontWeight: 'bold',
                         }}
                       >
                         {selectedBusinessUnit?.address}
@@ -86,16 +114,25 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
                     </div>
 
                     <div className="react-bootstrap-table table-responsive">
-                      <table className="table table-striped table-bordered global-table" id="table-to-xls">
+                      <table
+                        className="table table-striped table-bordered global-table"
+                        id="table-to-xls"
+                      >
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}> SL </th>
-                            <th style={{ width: "100px" }}> Code </th>
-                            <th style={{ width: "150px" }}> Gl Name </th>
-                            <th style={{ width: "80px" }}> Business Transaction </th>
-                            <th style={{ minWidth: "80px" }}> Cost Center </th>
-                            <th style={{ minWidth: "120px" }}> Gl Narration </th>
-                            <th style={{ minWidth: "100px" }}> Amount </th>
+                            <th style={{ width: '30px' }}> SL </th>
+                            <th style={{ width: '100px' }}> Code </th>
+                            <th style={{ width: '150px' }}> Gl Name </th>
+                            <th style={{ width: '80px' }}>
+                              {' '}
+                              Business Transaction{' '}
+                            </th>
+                            <th style={{ minWidth: '80px' }}> Cost Center </th>
+                            <th style={{ minWidth: '120px' }}>
+                              {' '}
+                              Gl Narration{' '}
+                            </th>
+                            <th style={{ minWidth: '100px' }}> Amount </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -114,7 +151,9 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
                             <td className="text-right" colSpan="6">
                               Total:
                             </td>
-                            <td className="text-right">{_formatMoney(totalAmount)}</td>
+                            <td className="text-right">
+                              {_formatMoney(totalAmount)}
+                            </td>
                           </tr>
                         </tbody>
                       </table>

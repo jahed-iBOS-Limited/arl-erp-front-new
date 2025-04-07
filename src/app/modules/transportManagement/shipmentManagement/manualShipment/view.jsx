@@ -1,20 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 const initData = {};
 export default function ViewManualShipment({ viewData, intLoadingId }) {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [data, getData, dataLoader] = useAxiosGet();
   useEffect(() => {
     if (intLoadingId) {
       // getData(`/tms/Vehicle/GetLoadingSlip?ShipPointId=${intLoadingId}`)
-      getData(`/tms/Vehicle/GetLoadingSlipById?LoadingId=${intLoadingId}`)
+      getData(`/tms/Vehicle/GetLoadingSlipById?LoadingId=${intLoadingId}`);
     }
-
-  }, [])
+  }, []);
   return (
     <Formik
       enableReinitialize={true}
@@ -36,12 +35,7 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
       }) => (
         <>
           {dataLoader && <Loading />}
-          <IForm
-            title=""
-            isHiddenReset
-            isHiddenBack
-            isHiddenSave
-          >
+          <IForm title="" isHiddenReset isHiddenBack isHiddenSave>
             <Form>
               <div className="row">
                 <div className="col-lg-4">
@@ -65,7 +59,7 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Date</th>
                         <th>Item Name</th>
                         <th>Item Code</th>
@@ -80,16 +74,19 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
                           return (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td className="text-center">{_todayDate(item?.dteDate)}</td>
+                              <td className="text-center">
+                                {_todayDate(item?.dteDate)}
+                              </td>
                               <td>{item?.strItemName}</td>
-                              <td className="text-center">{item?.strItemCode}</td>
+                              <td className="text-center">
+                                {item?.strItemCode}
+                              </td>
                               <td>{item?.strUomname}</td>
                               <td className="text-center">{item?.numQnt}</td>
                               <td>{item?.strRemarks}</td>
                             </tr>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>

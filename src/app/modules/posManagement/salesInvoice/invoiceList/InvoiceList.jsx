@@ -1,34 +1,39 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../_helper/_select";
-import InputField from "./../../../_helper/_inputField";
-import { getSalesInvoiceLandingData } from "../helper"
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from './../../../_helper/_tablePagination';
+import { Formik, Form } from 'formik';
+import NewSelect from './../../../_helper/_select';
+import InputField from './../../../_helper/_inputField';
+import { getSalesInvoiceLandingData } from '../helper';
 import IViewModal from './../../../_helper/_viewModal';
-import { _todayDate } from "./../../../_helper/_todayDate";
+import { _todayDate } from './../../../_helper/_todayDate';
 //import Invoice from "../invoice/Invoice"
-
 
 const initData = {
   counter: '',
   fromDate: _todayDate(),
-  toDate: _todayDate()
-}
+  toDate: _todayDate(),
+};
 
-export default function InvoiceList({ show, onHide, shippointDDL, gridData, setGridData }) {
+export default function InvoiceList({
+  show,
+  onHide,
+  shippointDDL,
+  gridData,
+  setGridData,
+}) {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [, setSalesId] = React.useState('')
-  const [, setShowInvoiceModal] = React.useState(false)
+  const [, setSalesId] = React.useState('');
+  const [, setShowInvoiceModal] = React.useState(false);
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -38,7 +43,6 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -52,7 +56,7 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
       shippointDDL?.value,
       values?.fromDate,
       values?.toDate
-    )
+    );
   };
 
   return (
@@ -61,13 +65,13 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
       onHide={onHide}
       isShow={false}
       title="Invoice List"
-      style={{ fontSize: "1.2rem !important" }}
+      style={{ fontSize: '1.2rem !important' }}
     >
       {/* Table Start */}
       {loading && <Loading />}
       <Formik
         initialValues={initData}
-        onSubmit={(values, { setSubmitting }) => { }}
+        onSubmit={(values, { setSubmitting }) => {}}
       >
         {({
           handleSubmit,
@@ -88,7 +92,7 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
                     value={shippointDDL}
                     label="Counter"
                     onChange={(valueOption) => {
-                      setFieldValue("counter", valueOption);
+                      setFieldValue('counter', valueOption);
                     }}
                     placeholder="Counter"
                     errors={errors}
@@ -137,12 +141,10 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
                             <th>SL</th>
                             <th>Shipping Point</th>
                             <th>Customer Name</th>
-                            <th>
-                              Delivery Quantity
-                            </th>
+                            <th>Delivery Quantity</th>
                             <th>Delivery Code</th>
                             <th>Delivery Date</th>
-                            <th style={{ width: "60px" }}>Actions</th>
+                            <th style={{ width: '60px' }}>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -165,7 +167,7 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
                                   <span className="view">
                                     <IView
                                       clickHandler={() => {
-                                        setSalesId(td?.deliveryId)
+                                        setSalesId(td?.deliveryId);
                                         setShowInvoiceModal(true);
                                       }}
                                     />
@@ -178,7 +180,7 @@ export default function InvoiceList({ show, onHide, shippointDDL, gridData, setG
                                           pathname: `/pos-management/sales/sales-invoice/edit/${td.deliveryId}`,
                                           state: td,
                                         });
-                                        onHide()
+                                        onHide();
                                       }}
                                     >
                                       <IEdit />

@@ -1,29 +1,27 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import govLogo from "../images/govLogo.png";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState, useRef } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import govLogo from '../images/govLogo.png';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getGridDataOthers,
   getTreasuryChallanNoDDL,
   generate66,
   SetIsGenerated_api,
-} from "../helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import customStyles from "../../../../selectCustomStyle";
-import Select from "react-select";
+} from '../helper';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import customStyles from '../../../../selectCustomStyle';
+import Select from 'react-select';
 
 function ReportBodyOther({ values, setModalShowOther }) {
   const [singleData, setSingleData] = useState([]);
   const printRef = useRef();
   const [loading, setLoading] = useState(false);
-  const [treasuryDDL, setTreasuryDDL] = useState("");
+  const [treasuryDDL, setTreasuryDDL] = useState('');
   const [balance, setBalance] = useState(0);
   const storeData = useSelector((state) => {
     return {
@@ -36,9 +34,9 @@ function ReportBodyOther({ values, setModalShowOther }) {
 
   // State For Input
   const [date, setDate] = useState(_todayDate());
-  const [challanNo, setChallanNo] = useState("");
+  const [challanNo, setChallanNo] = useState('');
 
-  const [certificateNo, setCertificateNo] = useState("");
+  const [certificateNo, setCertificateNo] = useState('');
   const [dateIssue, setDateIssue] = useState(_todayDate());
 
   useEffect(() => {
@@ -92,7 +90,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
         businessUnitId: selectedBusinessUnit?.value,
         taxBranchId: values?.taxBranch?.value,
         nameofWithholdingEntity: singleData[0]?.businessUnitName,
-        certificateNo: "",
+        certificateNo: '',
         addressofWithholdingEntity: singleData[0]?.companyAddress,
         dateofIssue: dateIssue || _todayDate(),
         binofWithholdingEntity: singleData[0]?.companyBin,
@@ -108,7 +106,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
           supplierId: item?.supplierId,
           supplierName: item?.supplierName,
           biNno: item?.supplierBin,
-          invMushakChallanNo: item?.chalanNo || "",
+          invMushakChallanNo: item?.chalanNo || '',
           invIssueDate: item?.purchaseDateTime,
           totalValueofSupply: item?.total,
           amountofVat: item?.vdstotal,
@@ -136,7 +134,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
         <div className="text-right mt-4 mb-8">
           <button
             type="button"
-            style={{ padding: "6px 5px" }}
+            style={{ padding: '6px 5px' }}
             disabled={!challanNo}
             className="btn btn-primary mr-2"
             onClick={() => {
@@ -151,12 +149,12 @@ function ReportBodyOther({ values, setModalShowOther }) {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -174,7 +172,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
         {/* Header Part */}
         <div className="text-center d-flex justify-content-between mt-4 mb-8">
           <div>
-            <img src={govLogo} alt={"Ibos"} />
+            <img src={govLogo} alt={'Ibos'} />
           </div>
           <div>
             <h5 className="text-center">
@@ -193,8 +191,8 @@ function ReportBodyOther({ values, setModalShowOther }) {
           <div>
             <sapn
               style={{
-                border: "2px solid #808080",
-                padding: "2px",
+                border: '2px solid #808080',
+                padding: '2px',
               }}
               className="text-right font-weight-bold"
             >
@@ -205,8 +203,8 @@ function ReportBodyOther({ values, setModalShowOther }) {
         {/* Header Part End */}
 
         {/* Middle Part Start */}
-        <div style={{ width: "100%" }} className="row row-wrapper">
-          <div style={{ width: "50%" }} className="col-lg-6">
+        <div style={{ width: '100%' }} className="row row-wrapper">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>
               Name of withholding Entity : {singleData[0]?.businessUnitName}
             </h6>
@@ -214,21 +212,21 @@ function ReportBodyOther({ values, setModalShowOther }) {
               Address of Withholding Entity : {singleData[0]?.companyAddress}
             </h6>
             <h6>
-              BIN Of withholding Entity (if applicable) :{" "}
+              BIN Of withholding Entity (if applicable) :{' '}
               {singleData[0]?.companyBin}
             </h6>
           </div>
-          <div style={{ width: "50%" }} className="col-lg-6">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>Certificate No : {certificateNo}</h6>
             <h6 className="d-flex align-items-center">
               <span>Date of issue : </span>
               <sapn>
-                {" "}
+                {' '}
                 {certificateNo ? (
                   _dateFormatter(dateIssue)
                 ) : (
                   <input
-                    style={{ padding: ".1rem .5rem" }}
+                    style={{ padding: '.1rem .5rem' }}
                     type="date"
                     value={dateIssue}
                     className="form-control ml-2"
@@ -258,7 +256,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
               <span>Tr. Deposit Date :</span>
               <span>
                 <input
-                  style={{ padding: ".1rem .5rem" }}
+                  style={{ padding: '.1rem .5rem' }}
                   type="date"
                   value={date}
                   className="form-control ml-2"
@@ -343,7 +341,7 @@ function ReportBodyOther({ values, setModalShowOther }) {
           <h6 className="mb-10">Signature of In-Charge</h6>
         </div>
         <div>
-          <span style={{ borderTop: "1px solid #808080", fontSize: "1rem" }}>
+          <span style={{ borderTop: '1px solid #808080', fontSize: '1rem' }}>
             1 VAT & SD (if any inclusive price)
           </span>
         </div>

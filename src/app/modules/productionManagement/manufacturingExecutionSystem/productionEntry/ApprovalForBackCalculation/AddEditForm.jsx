@@ -1,11 +1,10 @@
-
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getPlantNameDDL,
   getShiftDDL,
@@ -13,27 +12,27 @@ import {
   getsbuDDL,
   getSingleDataByForBackCalculation,
   editApprovalProductionEntryForBackCalculation,
-} from "../helper";
-import Form from "./Form";
-import Loading from "./../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import Form from './Form';
+import Loading from './../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 let initData = {
   id: undefined,
-  plantName: "",
-  productionOrder: "",
-  orderQty: "",
+  plantName: '',
+  productionOrder: '',
+  orderQty: '',
   dteProductionDate: _todayDate(),
-  shift: "",
-  itemName: "",
-  goodQty: "",
-  goodReceivedQty: "",
-  othersOutputItem: "",
-  othersOutputQty: "",
-  sbu: "",
-  productionEntryCode: "",
+  shift: '',
+  itemName: '',
+  goodQty: '',
+  goodReceivedQty: '',
+  othersOutputItem: '',
+  othersOutputQty: '',
+  sbu: '',
+  productionEntryCode: '',
   // costCenter: "",
   // profitcenter: "",
 };
@@ -49,7 +48,8 @@ export default function ProductionEntryBackCalculationApprovalForm() {
   const [singleBackCalculationData, setSingleBackCalculationData] = useState(
     {}
   );
-  const [singleDataForLocation, getSingleDataForLocation, locationLoading] = useAxiosGet()
+  const [singleDataForLocation, getSingleDataForLocation, locationLoading] =
+    useAxiosGet();
 
   const params = useParams();
 
@@ -101,7 +101,7 @@ export default function ProductionEntryBackCalculationApprovalForm() {
             itemQty: +item?.approvedQuantity,
             uoMId: item?.uomid,
             uoMName: item?.uomname,
-            isMain: item?.isMain
+            isMain: item?.isMain,
           };
         });
 
@@ -129,22 +129,23 @@ export default function ProductionEntryBackCalculationApprovalForm() {
             warehouseId: values?.wareHouse?.value,
             warehouseName: values?.wareHouse?.label,
             locationId: singleDataForLocation?.header?.locationData?.value || 0,
-            locationName: singleDataForLocation?.header?.locationData?.label || "",
+            locationName:
+              singleDataForLocation?.header?.locationData?.label || '',
             shiftId: values?.shift?.value,
             shiftName: values?.shift?.label,
             actionBy: profileData?.userId,
             shopFloorId: values?.shopFloor?.value,
             shopFloorName: values?.shopFloor?.label,
             costCenterId: values?.costCenter?.value || 0,
-            costCenterName: values?.costCenter?.label || "",
-            profitCenterId:values?.profitcenter?.value || 0,
-            profitCenterName: values?.profitcenter?.label || "",
+            costCenterName: values?.costCenter?.label || '',
+            profitCenterId: values?.profitcenter?.value || 0,
+            profitCenterName: values?.profitcenter?.label || '',
           },
           row: objRowData,
         };
         window.paylaod = payload;
         if (!values?.sbu?.value) {
-          toast.warn("Please select SBU");
+          toast.warn('Please select SBU');
         } else {
           editApprovalProductionEntryForBackCalculation(
             payload,

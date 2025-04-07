@@ -39,11 +39,11 @@ const validationSchema = Yup.object().shape({});
 function ExpBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual,
+    shallowEqual
   );
   const [
     shipBookingReqLanding,
@@ -70,18 +70,18 @@ function ExpBookingList() {
 
     // Encrypt the token and userID using base64 encoding
     const encryptedToken = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(token),
+      CryptoJS.enc.Utf8.parse(token)
     );
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(userID),
+      CryptoJS.enc.Utf8.parse(userID)
     );
     const superAdmin = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse('superAdmin'),
+      CryptoJS.enc.Utf8.parse('superAdmin')
     );
     // Open the new window with the URL
     window.open(
       `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
-      '_blank',
+      '_blank'
     );
   };
 
@@ -93,7 +93,7 @@ function ExpBookingList() {
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
-    modeOfTransportId = 1,
+    modeOfTransportId = 1
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
@@ -103,12 +103,12 @@ function ExpBookingList() {
         profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
         searchValue || ''
-      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`,
+      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`
     );
   };
 
   const selectedRow = shipBookingReqLanding?.data?.filter(
-    (item) => item?.isCheck,
+    (item) => item?.isCheck
   );
 
   const getDisabledCheckbox = (item) => {
@@ -236,7 +236,7 @@ function ExpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        valueOption?.value,
+                        valueOption?.value
                       );
                     }}
                     placeholder="Booking Type"
@@ -253,7 +253,7 @@ function ExpBookingList() {
                       searchValue,
                       1,
                       100,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                 />
@@ -362,7 +362,7 @@ function ExpBookingList() {
                           Shipment Order Invoice
                         </th>
                         {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
                           <th
                             style={{
@@ -380,7 +380,7 @@ function ExpBookingList() {
                           Receive
                         </th>
                         {['Sea', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
                           <th
                             style={{
@@ -407,7 +407,7 @@ function ExpBookingList() {
                         </th>
                         <th style={{ minWidth: '50px' }}>FC</th>
                         {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
                           <th
                             style={{
@@ -612,7 +612,7 @@ function ExpBookingList() {
                                               null,
                                               pageNo,
                                               pageSize,
-                                              values?.modeOfTransport?.value,
+                                              values?.modeOfTransport?.value
                                             );
                                           },
                                         });
@@ -665,7 +665,7 @@ function ExpBookingList() {
                                   </span>
                                 </td>
                                 {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
+                                  item?.modeOfTransport
                                 ) && (
                                   <td>
                                     <span>
@@ -711,7 +711,7 @@ function ExpBookingList() {
                                   )}
                                 </td>
                                 {['Sea', 'Sea-Air'].includes(
-                                  values?.modeOfTransport?.label,
+                                  values?.modeOfTransport?.label
                                 ) && (
                                   <td>
                                     {' '}
@@ -805,7 +805,7 @@ function ExpBookingList() {
                                   </span>
                                 </td>
                                 {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
+                                  item?.modeOfTransport
                                 ) && (
                                   <td>
                                     <span>
@@ -1006,7 +1006,7 @@ function ExpBookingList() {
                       null,
                       pageNo,
                       pageSize,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                   values={values}
@@ -1039,7 +1039,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1072,7 +1072,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1105,7 +1105,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1155,7 +1155,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1188,7 +1188,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1274,7 +1274,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1307,7 +1307,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1342,7 +1342,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1377,7 +1377,7 @@ function ExpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        values?.modeOfTransport?.value,
+                        values?.modeOfTransport?.value
                       );
                     }}
                   />
@@ -1405,7 +1405,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                       }}
                       isEPBInvoice={true}
@@ -1433,7 +1433,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1474,7 +1474,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1506,7 +1506,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1597,7 +1597,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,

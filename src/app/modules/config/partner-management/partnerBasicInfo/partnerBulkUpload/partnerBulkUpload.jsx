@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import { partnerListExcelGenerator, readAndPrintExcelData } from "./helper";
-import Styles from "./partnerBulkUpload.module.css";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useRef, useState } from 'react';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import { partnerListExcelGenerator, readAndPrintExcelData } from './helper';
+import Styles from './partnerBulkUpload.module.css';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export default function PartnerBulkUpload() {
   const [objProps, setObjprops] = useState({});
@@ -35,7 +35,7 @@ export default function PartnerBulkUpload() {
       setIsValidationError,
       setRowData,
       cb: () => {
-        inputFileRef.current.value = "";
+        inputFileRef.current.value = '';
       },
     });
   };
@@ -44,8 +44,8 @@ export default function PartnerBulkUpload() {
   const handleExportExcelFormat = () => {
     downloadFile(
       `/domain/Document/DownlloadFile?id=638300520980375759_PartnerBulkUpload.xlsx`,
-      "Partner List Excel Format",
-      "xlsx",
+      'Partner List Excel Format',
+      'xlsx',
       setLoading
     );
   };
@@ -53,28 +53,28 @@ export default function PartnerBulkUpload() {
   // submit handler
   const saveHandler = () => {
     if (isValidationError) {
-      return toast.warn("Invalid data set! please update and try again");
+      return toast.warn('Invalid data set! please update and try again');
     }
     if (!rowData?.length > 0) {
-      return toast.warn("No partner found!");
+      return toast.warn('No partner found!');
     }
     const newPartnerList = rowData?.map((item) => {
       const newPartner = {
         businessUnitId: buId,
         accountId: accountId,
         actionBy: userId,
-        businessPartnerName: item?.businessPartnerName || "",
-        businessPartnerAddress: item?.businessPartnerAddress || "",
-        propitor: item?.propitor || "",
-        contactNumber: item?.contactNumber || "",
-        contactPerson: item?.contactPerson || "",
-        contactPersonNumber: item?.contactPersonNumber || "",
-        email: item?.email || "",
-        bin: item?.bin || "",
-        licenseNo: item?.licenseNo || "",
-        divisionName: item?.divisionName || "",
-        districtName: item?.districtName || "",
-        upazilaName: item?.upazilaName || "",
+        businessPartnerName: item?.businessPartnerName || '',
+        businessPartnerAddress: item?.businessPartnerAddress || '',
+        propitor: item?.propitor || '',
+        contactNumber: item?.contactNumber || '',
+        contactPerson: item?.contactPerson || '',
+        contactPersonNumber: item?.contactPersonNumber || '',
+        email: item?.email || '',
+        bin: item?.bin || '',
+        licenseNo: item?.licenseNo || '',
+        divisionName: item?.divisionName || '',
+        districtName: item?.districtName || '',
+        upazilaName: item?.upazilaName || '',
       };
       return newPartner;
     });
@@ -83,7 +83,12 @@ export default function PartnerBulkUpload() {
       setRowData(updatedList || []);
       setIsValidationError(false);
     };
-    savePartnerList(`/partner/BusinessPartnerBasicInfo/CreateBusinessCustomerBulk`, newPartnerList, callback, true);
+    savePartnerList(
+      `/partner/BusinessPartnerBasicInfo/CreateBusinessCustomerBulk`,
+      newPartnerList,
+      callback,
+      true
+    );
   };
 
   return (
@@ -108,8 +113,14 @@ export default function PartnerBulkUpload() {
           );
         }}
       >
-        <div className={`form-group row global-form ${Styles["partner-bulk-upload-wrapper"]}`}>
-          <button type="button" className="btn btn-primary" onClick={handleExportExcelFormat}>
+        <div
+          className={`form-group row global-form ${Styles['partner-bulk-upload-wrapper']}`}
+        >
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleExportExcelFormat}
+          >
             Export Excel Format
           </button>
           <input
@@ -122,7 +133,7 @@ export default function PartnerBulkUpload() {
           />
           <label
             htmlFor="excel-upload"
-            className={`btn btn-primary ml-10 ${Styles["import-excel-btn"]}`}
+            className={`btn btn-primary ml-10 ${Styles['import-excel-btn']}`}
           >
             Import Excel
           </label>
@@ -164,34 +175,52 @@ export default function PartnerBulkUpload() {
                   {rowData?.map((item, index) => (
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
-                      <td className="text-center">{item?.businessPartnerCode || ""}</td>
-                      <td className={!item?.businessPartnerName ? Styles["red-bg"] : ""}>
-                        {item?.businessPartnerName || ""}
+                      <td className="text-center">
+                        {item?.businessPartnerCode || ''}
                       </td>
-                      <td className={!item?.businessPartnerAddress ? Styles["red-bg"] : ""}>
-                        {item?.businessPartnerAddress || ""}
+                      <td
+                        className={
+                          !item?.businessPartnerName ? Styles['red-bg'] : ''
+                        }
+                      >
+                        {item?.businessPartnerName || ''}
                       </td>
-                      <td className={!item?.propitor ? Styles["red-bg"] : ""}>
-                        {item?.propitor || ""}
+                      <td
+                        className={
+                          !item?.businessPartnerAddress ? Styles['red-bg'] : ''
+                        }
+                      >
+                        {item?.businessPartnerAddress || ''}
                       </td>
-                      <td className={!item?.contactNumber ? Styles["red-bg"] : ""}>
-                        {item?.contactNumber || ""}
+                      <td className={!item?.propitor ? Styles['red-bg'] : ''}>
+                        {item?.propitor || ''}
                       </td>
-                      <td className={!item?.contactPerson ? Styles["red-bg"] : ""}>
-                        {item?.contactPerson || ""}
+                      <td
+                        className={!item?.contactNumber ? Styles['red-bg'] : ''}
+                      >
+                        {item?.contactNumber || ''}
                       </td>
-                      <td className={!item?.contactPersonNumber ? Styles["red-bg"] : ""}>
-                        {item?.contactPersonNumber || ""}
+                      <td
+                        className={!item?.contactPerson ? Styles['red-bg'] : ''}
+                      >
+                        {item?.contactPerson || ''}
                       </td>
-                      <td>{item?.email || ""}</td>
-                      <td>{item?.bin || ""}</td>
-                      <td className={!item?.licenseNo ? Styles["red-bg"] : ""}>
-                        {item?.licenseNo || ""}
+                      <td
+                        className={
+                          !item?.contactPersonNumber ? Styles['red-bg'] : ''
+                        }
+                      >
+                        {item?.contactPersonNumber || ''}
                       </td>
-                      <td>{item?.divisionName || ""}</td>
-                      <td>{item?.districtName || ""}</td>
-                      <td>{item?.upazilaName || ""}</td>
-                      <td>{item?.status || ""}</td>
+                      <td>{item?.email || ''}</td>
+                      <td>{item?.bin || ''}</td>
+                      <td className={!item?.licenseNo ? Styles['red-bg'] : ''}>
+                        {item?.licenseNo || ''}
+                      </td>
+                      <td>{item?.divisionName || ''}</td>
+                      <td>{item?.districtName || ''}</td>
+                      <td>{item?.upazilaName || ''}</td>
+                      <td>{item?.status || ''}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -203,14 +232,14 @@ export default function PartnerBulkUpload() {
         {/* hidded buttons */}
         <button
           type="button"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           ref={objProps?.btnRef}
           onClick={saveHandler}
         ></button>
 
         <button
           type="button"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           ref={objProps?.resetBtnRef}
           onClick={() => {
             setRowData([]);

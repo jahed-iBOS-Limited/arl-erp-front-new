@@ -1,13 +1,12 @@
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import ICustomTable from '../../../../_helper/_customTable';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../customHooks/useAxiosGet';
 
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import ICustomTable from "../../../../_helper/_customTable";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../customHooks/useAxiosGet";
-
-const ths = ["SL", "Attachment"];
+const ths = ['SL', 'Attachment'];
 
 export default function AttachmentView({ singleData, orderTypeId }) {
   const dispatch = useDispatch();
@@ -15,7 +14,7 @@ export default function AttachmentView({ singleData, orderTypeId }) {
 
   useEffect(() => {
     getRowData(
-      `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${singleData?.purchaseOrderId}&OrderTypeId=${singleData?.purchaseOrderTypeId ? singleData?.purchaseOrderTypeId: orderTypeId}`
+      `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${singleData?.purchaseOrderId}&OrderTypeId=${singleData?.purchaseOrderTypeId ? singleData?.purchaseOrderTypeId : orderTypeId}`
     );
   }, []);
 
@@ -30,8 +29,8 @@ export default function AttachmentView({ singleData, orderTypeId }) {
                 <td> {index + 1} </td>
                 <td className="text-center">
                   <IView
-                    title={"Attachment"}
-                    classes={"text-primary"}
+                    title={'Attachment'}
+                    classes={'text-primary'}
                     clickHandler={() => {
                       dispatch(getDownlloadFileView_Action(item?.imageId));
                     }}

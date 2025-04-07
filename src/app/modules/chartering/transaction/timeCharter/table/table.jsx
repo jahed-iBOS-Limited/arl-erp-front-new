@@ -1,30 +1,29 @@
-
-import { Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { CharteringContext } from "../../../charteringContext";
-import { getTimeCharterLandingData } from "../../../../_helper/_commonApi";
+import { Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { CharteringContext } from '../../../charteringContext';
+import { getTimeCharterLandingData } from '../../../../_helper/_commonApi';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Transaction Name" },
-  { name: "Transaction Date" },
-  { name: "Transaction Amount" },
-  { name: "JV Code" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Transaction Name' },
+  { name: 'Transaction Date' },
+  { name: 'Transaction Amount' },
+  { name: 'JV Code' },
+  { name: 'Actions' },
 ];
 
 export default function TimeCharterTable() {
@@ -59,7 +58,7 @@ export default function TimeCharterTable() {
       values?.voyageNo?.value,
       _pageNo,
       _pageSize,
-      "",
+      '',
       setGridData,
       setLoading
     );
@@ -110,15 +109,14 @@ export default function TimeCharterTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
                       history.push({
-                        pathname:"/chartering/transaction/timecharter/create",
+                        pathname: '/chartering/transaction/timecharter/create',
                         state: values,
-                        type:"create"
-                      }
-                      );
+                        type: 'create',
+                      });
                     }}
                     disabled={false}
                   >
@@ -130,7 +128,7 @@ export default function TimeCharterTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -138,8 +136,8 @@ export default function TimeCharterTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", "");
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('voyageNo', '');
+                        setFieldValue('vesselName', valueOption);
                         setGridData([]);
                         const updatedValues = {
                           ...values,
@@ -155,7 +153,7 @@ export default function TimeCharterTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -163,7 +161,7 @@ export default function TimeCharterTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         setGridData([]);
                         const updatedValues = {
                           ...values,
@@ -201,7 +199,7 @@ export default function TimeCharterTable() {
                             history.push({
                               pathname: `/chartering/transaction/timecharter/view/${item?.tcTransactionId}`,
                               state: item,
-                              actionType:"view"
+                              actionType: 'view',
                             });
                           }}
                         />

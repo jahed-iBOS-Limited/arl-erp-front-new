@@ -16,11 +16,11 @@ export function HeaderMenuWrapper() {
       ktMenuClasses: uiService.getClasses('header_menu', true),
       rootArrowEnabled: objectPath.get(
         uiService.config,
-        'header.menu.self.root-arrow',
+        'header.menu.self.root-arrow'
       ),
       menuDesktopToggle: objectPath.get(
         uiService.config,
-        'header.menu.desktop.toggle',
+        'header.menu.desktop.toggle'
       ),
       headerMenuAttributes: uiService.getAttributes('header_menu'),
       headerSelfTheme: objectPath.get(uiService.config, 'header.self.theme'),

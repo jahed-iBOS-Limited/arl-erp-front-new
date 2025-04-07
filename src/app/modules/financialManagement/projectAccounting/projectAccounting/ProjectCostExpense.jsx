@@ -30,7 +30,6 @@ const ProjectExpense = ({
   projectCostingExpense = [],
   isEdit = false,
 }) => {
-
   // DDL
   const [costDDL, setCostDDL] = useState([]);
   const [profitDDL, setProfitDDL] = useState([]);
@@ -44,7 +43,7 @@ const ProjectExpense = ({
   // get account data
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const validationSchema = yup.object().shape({
     intProfitCenterId: yup
@@ -74,7 +73,6 @@ const ProjectExpense = ({
       }));
       setExpenseData(modifiedData);
     }
-
   }, [isEdit, projectCostingExpense]);
 
   // cost DDL
@@ -84,10 +82,8 @@ const ProjectExpense = ({
       `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`,
       (res) => {
         setProfitDDL(res);
-      },
+      }
     );
-
-
   }, [selectedBusinessUnit?.value, profileData?.accountId, profileData?.sbuId]);
 
   // responsible DDL
@@ -101,15 +97,14 @@ const ProjectExpense = ({
         }`,
         (res) => {
           setResponsibleDDL(res);
-        },
+        }
       );
-
   }, [selectedBusinessUnit?.value, profileData?.accountId, project]);
 
   // remove team member method
   const removeExpense = (expenseDataIndex) => {
     const updateExpenseData = expenseData.filter(
-      (expense, index) => index !== expenseDataIndex,
+      (expense, index) => index !== expenseDataIndex
     );
     setExpenseData(updateExpenseData);
   };
@@ -156,7 +151,7 @@ const ProjectExpense = ({
                       project,
                       expenseData,
                       isEdit,
-                      postData,
+                      postData
                     );
                   }}
                 />
@@ -184,7 +179,7 @@ const ProjectExpense = ({
                               (res) => {
                                 // console.log("ss", res);
                                 setCostCenterDDL(res);
-                              },
+                              }
                             );
                           }
                         }}
@@ -209,7 +204,7 @@ const ProjectExpense = ({
                               `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`,
                               (res) => {
                                 setCostDDL(res);
-                              },
+                              }
                             );
                           }
                         }}

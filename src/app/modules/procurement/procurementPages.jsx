@@ -1,10 +1,10 @@
-import React from 'react'
-import { Redirect, Switch } from 'react-router-dom'
-import { PurchasePages } from './purchase-management/purchasePages'
-import { ContentRoute } from '../../../_metronic/layout'
-import { POConfigurationPages } from './configuration/configurationPages'
-import { ReportsPages } from './reports/reportsPages'
-import { ComparativeStatementShippingPages } from './purchase-management/comparativeStatement/comparativeStatementPages'
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { PurchasePages } from './purchase-management/purchasePages';
+import { ContentRoute } from '../../../_metronic/layout';
+import { POConfigurationPages } from './configuration/configurationPages';
+import { ReportsPages } from './reports/reportsPages';
+import { ComparativeStatementShippingPages } from './purchase-management/comparativeStatement/comparativeStatementPages';
 
 export function ProcurementPages() {
   return (
@@ -27,15 +27,9 @@ export function ProcurementPages() {
         component={POConfigurationPages}
       />
 
-    {/* report */}
-    <ContentRoute
-        path="/mngProcurement/report"
-        component={ReportsPages}
-      />
-
-
-
+      {/* report */}
+      <ContentRoute path="/mngProcurement/report" component={ReportsPages} />
     </Switch>
-  )
+  );
 }
-export default ProcurementPages
+export default ProcurementPages;

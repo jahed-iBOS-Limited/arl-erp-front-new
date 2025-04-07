@@ -1,6 +1,6 @@
-import React from "react";
-import { TableRow } from "./tableRow";
-import { ITable } from "../../../../_helper/_table";
+import React from 'react';
+import { TableRow } from './tableRow';
+import { ITable } from '../../../../_helper/_table';
 
 export function CostCenterGroupTable() {
   return (
@@ -8,7 +8,7 @@ export function CostCenterGroupTable() {
       title="Cost Center Group"
       link="/financial-management/cost-controlling/costcenter-group/add"
     >
-      <TableRow/>
+      <TableRow />
     </ITable>
   );
 }

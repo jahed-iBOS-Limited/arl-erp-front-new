@@ -1,24 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { setItemQualityCheckLandingInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import QualityCheckViewModal from "./modal/viewModal";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { setItemQualityCheckLandingInitDataAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { InventoryTransactionReportViewTableRow } from '../invTransaction/report/tableRow';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import QualityCheckViewModal from './modal/viewModal';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 export default function ItemQualityCheckLanding() {
   const initData = useSelector((state) => {
@@ -33,12 +32,8 @@ export default function ItemQualityCheckLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
-  const [
-    landingData,
-    getLandingData,
-    loadingLandingData,
-    setLandingData,
-  ] = useAxiosGet();
+  const [landingData, getLandingData, loadingLandingData, setLandingData] =
+    useAxiosGet();
   const dispatch = useDispatch();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
@@ -46,18 +41,15 @@ export default function ItemQualityCheckLanding() {
   const [singleData, setSingleData] = useState({});
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [, onDelete] = useAxiosPost();
 
-
-  useEffect(()=>{
+  useEffect(() => {
     handleGetLandingData(pageNo, pageSize, initData);
+  }, []);
 
-
-  },[])
-
-  const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
-    const searchTerm = searchValue ? `&search=${searchValue}` : ""
+  const handleGetLandingData = (pageNo, pageSize, values, searchValue = '') => {
+    const searchTerm = searchValue ? `&search=${searchValue}` : '';
     getLandingData(
       `/mes/QCTest/GetItemQualityCheckLanding?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${searchTerm}`,
       (landingData) => {
@@ -73,7 +65,7 @@ export default function ItemQualityCheckLanding() {
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     handleGetLandingData(pageNo, pageSize, values, searchValue);
   };
 
@@ -97,7 +89,6 @@ export default function ItemQualityCheckLanding() {
     getPlantDDL(
       `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
   return (
     <Formik
@@ -153,8 +144,8 @@ export default function ItemQualityCheckLanding() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", "");
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('warehouse', '');
+                      setFieldValue('plant', valueOption);
                       if (!valueOption) return;
                       getWarehouseDDL(
                         `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`
@@ -171,7 +162,7 @@ export default function ItemQualityCheckLanding() {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('warehouse', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -184,7 +175,7 @@ export default function ItemQualityCheckLanding() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -195,7 +186,7 @@ export default function ItemQualityCheckLanding() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
@@ -204,7 +195,9 @@ export default function ItemQualityCheckLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      dispatch(setItemQualityCheckLandingInitDataAction(values));
+                      dispatch(
+                        setItemQualityCheckLandingInitDataAction(values)
+                      );
                       handleGetLandingData(pageNo, pageSize, values);
                       setSingleItemForMRR(false);
                     }}
@@ -217,8 +210,8 @@ export default function ItemQualityCheckLanding() {
               <div
                 style={{
                   marginTop: 25,
-                  display: "flex",
-                  justifyContent: "end",
+                  display: 'flex',
+                  justifyContent: 'end',
                 }}
               >
                 <button
@@ -234,7 +227,7 @@ export default function ItemQualityCheckLanding() {
                       // search: `?potype=${singleItemForMRR?.transactionGroupId}`,
                       state: {
                         ...singleItemForMRR,
-                        pageFrom: "ItemQualityCheck",
+                        pageFrom: 'ItemQualityCheck',
                       },
                     });
                   }}
@@ -243,16 +236,16 @@ export default function ItemQualityCheckLanding() {
                 </button>
               </div>
               {landingData?.data?.length > 0 && (
-                  <div className="my-3">
-                    <PaginationSearch
-                      placeholder="PO code & MRR code & Entry Code"
-                      paginationSearchHandler={paginationSearchHandler}
-                      values={values}
-                    />
-                  </div>
-                )}
+                <div className="my-3">
+                  <PaginationSearch
+                    placeholder="PO code & MRR code & Entry Code"
+                    paginationSearchHandler={paginationSearchHandler}
+                    values={values}
+                  />
+                </div>
+              )}
               <div
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: '20px' }}
                 className="scroll-table _table table-responsive"
               >
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -303,17 +296,21 @@ export default function ItemQualityCheckLanding() {
                               setIsShowModalTwo(true);
                             }}
                             style={{
-                              color: "blue",
-                              textDecoration: "underline",
-                              cursor: "pointer",
+                              color: 'blue',
+                              textDecoration: 'underline',
+                              cursor: 'pointer',
                             }}
                           >
                             {item?.inventoryTransactionCode}
                           </span>
                         </td>
-                        <td className="text-center">{item?.purchaseOrderCode}</td>
+                        <td className="text-center">
+                          {item?.purchaseOrderCode}
+                        </td>
                         <td className="text-center">{item?.entryCode}</td>
-                        <td className="text-center">{item?.isGateOut ? "Gate Out" : "Gate In"}</td>
+                        <td className="text-center">
+                          {item?.isGateOut ? 'Gate Out' : 'Gate In'}
+                        </td>
                         <td>{_dateFormatter(item?.createdAt)}</td>
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>
@@ -327,33 +324,46 @@ export default function ItemQualityCheckLanding() {
                         <td>{item?.warehouseComment}</td>
                         <td>{item?.status}</td>
 
-                        <td style={{minWidth:"30px"}} className="text-center">
+                        <td
+                          style={{ minWidth: '30px' }}
+                          className="text-center"
+                        >
                           <div className="d-flex justify-content-between">
-                          <span
-                            onClick={() => {
-                              setShowModal(true);
-                              setSingleData(item);
-                            }}
-                          >
-                            <IView />
-                          </span>
-                          {!item?.isInventoryPosted && (<span onClick={(e)=>{
-                               e.stopPropagation();
-                               IConfirmModal({
-                                message: `Are you sure to delete?`,
-                                yesAlertFunc: () => {
-                                  onDelete(
-                                    `/mes/QCTest/DeleteQCItem?businessUnitId=${buId}&qualityCheckId=${item?.qualityCheckId}&actionBy=${userId}`,
-                                    null,
-                                    () => {
-                                      handleGetLandingData(pageNo, pageSize, values);
+                            <span
+                              onClick={() => {
+                                setShowModal(true);
+                                setSingleData(item);
+                              }}
+                            >
+                              <IView />
+                            </span>
+                            {!item?.isInventoryPosted && (
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  IConfirmModal({
+                                    message: `Are you sure to delete?`,
+                                    yesAlertFunc: () => {
+                                      onDelete(
+                                        `/mes/QCTest/DeleteQCItem?businessUnitId=${buId}&qualityCheckId=${item?.qualityCheckId}&actionBy=${userId}`,
+                                        null,
+                                        () => {
+                                          handleGetLandingData(
+                                            pageNo,
+                                            pageSize,
+                                            values
+                                          );
+                                        },
+                                        true
+                                      );
                                     },
-                                    true
-                                  );
-                                },
-                                noAlertFunc: () => {},
-                              });
-                              }}><IDelete /></span>)}
+                                    noAlertFunc: () => {},
+                                  });
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -388,8 +398,8 @@ export default function ItemQualityCheckLanding() {
                 <IViewModal
                   show={isShowModalTwo}
                   onHide={() => {
-                    setIsShowModalTwo(false)
-                    setCurrentRowData("")
+                    setIsShowModalTwo(false);
+                    setCurrentRowData('');
                   }}
                 >
                   <InventoryTransactionReportViewTableRow

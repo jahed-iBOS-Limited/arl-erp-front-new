@@ -1,29 +1,28 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./Form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './Form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getDifferenceBetweenTime,
   getPurposeDDL,
   saveOverTime,
-} from "../helper";
-import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { getWorkplaceDDL_api } from '../../../../_helper/_commonApi';
 
 let initData = {
-  workPlace: "",
-  employee: "",
-  enroll: "",
-  designation: "",
-  code: "",
+  workPlace: '',
+  employee: '',
+  enroll: '',
+  designation: '',
+  code: '',
   date: _todayDate(),
-  startTime: "",
-  endTime: "",
-  overTimeHour: "",
-  purpose: "",
-  remarks: "",
+  startTime: '',
+  endTime: '',
+  overTimeHour: '',
+  purpose: '',
+  remarks: '',
 };
 
 export function OverTimeEntry({
@@ -105,7 +104,7 @@ export function OverTimeEntry({
 
   return (
     <IForm
-      title={id ? "Edit Overtime Entry" : "Overtime Entry"}
+      title={id ? 'Edit Overtime Entry' : 'Overtime Entry'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

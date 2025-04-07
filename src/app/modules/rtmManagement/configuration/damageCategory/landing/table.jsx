@@ -1,28 +1,27 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData,getDamageTypeDDL } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData, getDamageTypeDDL } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle"
-import IView from "../../../../_helper/_helperIcons/_view"
+} from './../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import IView from '../../../../_helper/_helperIcons/_view';
 
 const DamageCategoryLanding = () => {
   const history = useHistory();
 
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
-  const [damageType, setDamageType] = useState("")
-  const [damageTypeDDL, setDamageTypeDDL] = useState([])
+  const [damageType, setDamageType] = useState('');
+  const [damageTypeDDL, setDamageTypeDDL] = useState([]);
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -39,10 +38,14 @@ const DamageCategoryLanding = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
-    getDamageTypeDDL(profileData?.accountId, selectedBusinessUnit?.value, setDamageTypeDDL)
-  }
-  }, [profileData?.accountId, selectedBusinessUnit?.value])
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getDamageTypeDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setDamageTypeDDL
+      );
+    }
+  }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
@@ -54,7 +57,7 @@ const DamageCategoryLanding = () => {
       pageSize,
       setIsLoading,
       setGridData
-    )
+    );
   };
 
   return (
@@ -64,7 +67,9 @@ const DamageCategoryLanding = () => {
           <CardHeaderToolbar>
             <button
               onClick={() =>
-                history.push("/rtm-management/configuration/damageCategory/create")
+                history.push(
+                  '/rtm-management/configuration/damageCategory/create'
+                )
               }
               className="btn btn-primary"
             >
@@ -75,50 +80,50 @@ const DamageCategoryLanding = () => {
         <CardBody>
           {isloading && <Loading />}
           <div className="form-card-content">
-          <div className="row">
-            <div className="col-lg-3">
-              <label>Select Damage Type </label>
-              <Select
-                onChange={(valueOption) => {
-                  setDamageType(valueOption);
-                }}
-                options={damageTypeDDL}
-                value={damageType}
-                isSearchable={true}
-                name="damageType"
-                styles={customStyles}
-                placeholder="Select Damage Type"
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                })}
-              />
-            </div>
-            <div className="col-lg-2" style={{ marginTop: "18px" }}>
-              <button
-                className="btn btn-primary"
-                onClick={() =>
-                  getLandingData(
-                    damageType.value,
-                    profileData?.accountId,
-                    selectedBusinessUnit?.value,
-                    pageNo,
-                    pageSize,
-                    setIsLoading,
-                    setGridData
-                  )
-                }
-                disabled={!damageType}
-              >
-                View
-              </button>
+            <div className="row">
+              <div className="col-lg-3">
+                <label>Select Damage Type </label>
+                <Select
+                  onChange={(valueOption) => {
+                    setDamageType(valueOption);
+                  }}
+                  options={damageTypeDDL}
+                  value={damageType}
+                  isSearchable={true}
+                  name="damageType"
+                  styles={customStyles}
+                  placeholder="Select Damage Type"
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                  })}
+                />
+              </div>
+              <div className="col-lg-2" style={{ marginTop: '18px' }}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() =>
+                    getLandingData(
+                      damageType.value,
+                      profileData?.accountId,
+                      selectedBusinessUnit?.value,
+                      pageNo,
+                      pageSize,
+                      setIsLoading,
+                      setGridData
+                    )
+                  }
+                  disabled={!damageType}
+                >
+                  View
+                </button>
+              </div>
             </div>
           </div>
-        </div>
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-              <th>SL</th>
+                <th>SL</th>
                 <th>Damage Category Name</th>
                 <th>Damage Type Name</th>
                 <th>Action</th>
@@ -132,7 +137,7 @@ const DamageCategoryLanding = () => {
                       <td className="text-center">{index + 1}</td>
                       <td>{item?.dmgCatagoryName}</td>
                       <td>{item?.damageTypeName}</td>
-                      <td style={{ width: "100px" }} className="text-center">
+                      <td style={{ width: '100px' }} className="text-center">
                         <span
                           className="edit mr-2"
                           onClick={(e) =>

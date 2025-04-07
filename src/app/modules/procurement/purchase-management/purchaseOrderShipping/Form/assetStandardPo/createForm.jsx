@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -84,7 +83,6 @@ export default function AssetStandardPOCreateForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   // add single item to row or add all item to row
@@ -150,11 +148,11 @@ export default function AssetStandardPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -245,8 +243,8 @@ export default function AssetStandardPOCreateForm({
         location?.state?.sbu?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -267,7 +265,7 @@ export default function AssetStandardPOCreateForm({
       location?.state?.purchaseOrg?.value,
       location?.state?.plant?.value,
       location?.state?.warehouse?.value,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -308,7 +306,7 @@ export default function AssetStandardPOCreateForm({
             excelElement?.Price || 0,
             rowIndex,
             rowDto,
-            setRowDto,
+            setRowDto
           );
         }
       });
@@ -329,7 +327,7 @@ export default function AssetStandardPOCreateForm({
 
     const totalBasic = discountData.reduce(
       (acc, cur) => acc + +cur?.netValue,
-      0,
+      0
     );
     const discount = (totalBasic * discountData[0]?.discountPercentage) / 100;
     return Number((discount || 0).toFixed(2));
@@ -337,20 +335,20 @@ export default function AssetStandardPOCreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`
     );
     getBuTransaction(
-      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
 
   const totalValueWithoutDiscountAndVat = rowDto?.reduce(
     (acc, cur) => acc + cur?.netValue,
-    0,
+    0
   );
   console.log(
     'totalValueWithoutDiscoutnAndVat',
-    totalValueWithoutDiscountAndVat,
+    totalValueWithoutDiscountAndVat
   );
   return (
     <>
@@ -406,7 +404,7 @@ export default function AssetStandardPOCreateForm({
                             location?.state?.purchaseOrg?.value,
                             location?.state?.plant?.value,
                             location?.state?.warehouse?.value,
-                            setRefNoDDL,
+                            setRefNoDDL
                           );
                         }
                         setRowDto([]);
@@ -416,7 +414,7 @@ export default function AssetStandardPOCreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -513,7 +511,7 @@ export default function AssetStandardPOCreateForm({
                           />
                         </div>
                       )
-                    ),
+                    )
                   )}
                   <div className="col-lg-2">
                     <IInput
@@ -568,7 +566,7 @@ export default function AssetStandardPOCreateForm({
                               (e.target?.value /
                                 totalValueWithoutDiscountAndVat) *
                               100
-                            ).toFixed(2),
+                            ).toFixed(2)
                           );
                         } else {
                           setFieldValue('discount', '');
@@ -590,7 +588,7 @@ export default function AssetStandardPOCreateForm({
                             'discount',
                             (totalValueWithoutDiscountAndVat *
                               e.target?.value) /
-                              100,
+                              100
                           );
                         } else {
                           setFieldValue('discountPercent', '');
@@ -694,10 +692,10 @@ export default function AssetStandardPOCreateForm({
                             if (valueOption) {
                               setFieldValue(
                                 'transferBusinessUnit',
-                                valueOption,
+                                valueOption
                               );
                               getTransferUnitSupplierDDL(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`,
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`
                               );
                             } else {
                               setFieldValue('transferBusinessUnit', '');
@@ -738,7 +736,7 @@ export default function AssetStandardPOCreateForm({
                           onChange={(valueOption) => {
                             setFieldValue(
                               'transferBusinessUnitSupplier',
-                              valueOption,
+                              valueOption
                             );
                           }}
                           errors={errors}
@@ -830,7 +828,7 @@ export default function AssetStandardPOCreateForm({
                         allValues,
                         setFieldValue,
                         label,
-                        valueOption,
+                        valueOption
                       ) => {
                         if (valueOption) {
                           setRowDto([]);
@@ -839,17 +837,17 @@ export default function AssetStandardPOCreateForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               location?.state?.refType?.value,
-                              value,
+                              value
                             );
                           }
                           if (location?.state?.refType?.value === 4) {
                             setFieldValue(
                               'othersCharge',
-                              valueOption?.numOthersCost,
+                              valueOption?.numOthersCost
                             );
                             setFieldValue(
                               'freight',
-                              valueOption?.numTransportCost,
+                              valueOption?.numTransportCost
                             );
                             //setFieldValue("discount", getPercentageValue(valueOption))
                           }
@@ -895,7 +893,7 @@ export default function AssetStandardPOCreateForm({
                                 location?.state?.warehouse?.value
                               }&RefTypeId=${
                                 location?.state?.refType?.value
-                              }&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -975,8 +973,8 @@ export default function AssetStandardPOCreateForm({
                             ? !values.item
                             : false
                           : !values.isAllItem
-                          ? !values.referenceNo || !values.item
-                          : !values.referenceNo
+                            ? !values.referenceNo || !values.item
+                            : !values.referenceNo
                       }
                       style={{
                         marginTop: '20px',
@@ -1042,7 +1040,7 @@ export default function AssetStandardPOCreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = excelFiles.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setExcelFiles(newData);
                 }}
@@ -1052,7 +1050,7 @@ export default function AssetStandardPOCreateForm({
                   setDisabled(true);
                   const data = await excelFileToArray(
                     excelFiles[0].file,
-                    excelFiles[0].name,
+                    excelFiles[0].name
                   );
                   //setExcelDataForAmount(data);
                   setExcelFiles([]);

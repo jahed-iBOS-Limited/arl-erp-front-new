@@ -1,22 +1,18 @@
-
-import React, { useCallback, useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import {
-  getBudgetTypeDDLAction,
-  saveBudgetCreate,
-} from "../helper";
-import Form from "./form";
+import React, { useCallback, useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getBudgetTypeDDLAction, saveBudgetCreate } from '../helper';
+import Form from './form';
 
 let initData = {
-  month: "",
-  monthId: "",
-  yearId: "",
-  budgetType: "",
-  costRev: "",
+  month: '',
+  monthId: '',
+  yearId: '',
+  budgetType: '',
+  costRev: '',
 };
 
 export function BudgetEntryCreate() {
@@ -38,13 +34,13 @@ export function BudgetEntryCreate() {
   const typeDDL = [
     {
       value: 1,
-      label: "Yearly by Month",
+      label: 'Yearly by Month',
     },
   ];
 
   const saveHandler = async (values, cb) => {
     if (rowDto?.length <= 0) {
-      return toast.warning("Budget List empty!!!");
+      return toast.warning('Budget List empty!!!');
     }
     const modifyRowData = rowDto.map((item, index) => {
       let nameQty = item?.levelVariableQty;
@@ -74,8 +70,7 @@ export function BudgetEntryCreate() {
       };
     });
 
-    const filterData = modifyRowData?.filter(
-      (itm) => itm?.intRowId <= 0 );
+    const filterData = modifyRowData?.filter((itm) => itm?.intRowId <= 0);
 
     // const isValueZeroForSales = filterData?.filter(
     //   (itm) => itm?.numBudgetQty <= 0 && itm?.numBudgetValue <= 0
@@ -86,7 +81,7 @@ export function BudgetEntryCreate() {
     // );
 
     if (filterData?.length <= 0) {
-      return toast.warning("Budget List Empty");
+      return toast.warning('Budget List Empty');
     }
 
     if (state?.budgetType?.value === 4) {

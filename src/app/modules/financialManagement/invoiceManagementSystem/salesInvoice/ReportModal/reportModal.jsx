@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getCommercialInvoiceById } from "../helper";
-import "./reportModal.css";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getCommercialInvoiceById } from '../helper';
+import './reportModal.css';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import { useRef } from "react";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+} from '../../../../../../_metronic/_partials/controls';
+import { useRef } from 'react';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 
 export default function CommercialInvoiceReport({ setLoading }) {
   const printRef = useRef();
@@ -37,7 +37,7 @@ export default function CommercialInvoiceReport({ setLoading }) {
     totalAmount: 0,
   });
 
-  console.log("grandTotal: ", grandTotal);
+  console.log('grandTotal: ', grandTotal);
 
   useEffect(() => {
     if (rowDto?.row?.length > 0) {
@@ -51,7 +51,7 @@ export default function CommercialInvoiceReport({ setLoading }) {
         { totalQuantity: 0, totalAmount: 0 }
       );
       setGrandTotal(reduceObj);
-      console.log(reduceObj, "sdf");
+      console.log(reduceObj, 'sdf');
     } else {
       setGrandTotal({ totalQuantity: 0, totalAmount: 0 });
     }
@@ -63,39 +63,39 @@ export default function CommercialInvoiceReport({ setLoading }) {
         {/* {disabled && <Loading />} */}
 
         <Card>
-          <CardHeader title={"Sales Invoice"}></CardHeader>
+          <CardHeader title={'Sales Invoice'}></CardHeader>
           <CardBody>
             <div
               className="form form-label-right approveBillRegisterView"
               componentRef={printRef}
               ref={printRef}
             >
-              <div style={{ width: "90%", marginLeft: "5%" }}>
+              <div style={{ width: '90%', marginLeft: '5%' }}>
                 <div
                   className="text-center"
-                  style={{ paddingTop: "20px", paddingBottom: "40px" }}
+                  style={{ paddingTop: '20px', paddingBottom: '40px' }}
                 >
                   <h2>{selectedBusinessUnit?.organizationUnitReffName}</h2>
                   <p>{selectedBusinessUnit?.address}</p>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                     }
                     trigger={() => (
                       <button
                         type="button"
                         className="btn btn-primary printSectionNone"
                         style={{
-                          padding: "2px 5px",
-                          position: "absolute",
-                          top: "0",
-                          right: "0",
+                          padding: '2px 5px',
+                          position: 'absolute',
+                          top: '0',
+                          right: '0',
                         }}
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -109,15 +109,15 @@ export default function CommercialInvoiceReport({ setLoading }) {
                 <div className="mt-3">
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "flex-start",
+                      display: 'flex',
+                      justifyContent: 'flex-start',
                     }}
                   >
-                    <div style={{ width: "60%" }}>
+                    <div style={{ width: '60%' }}>
                       <div
                         style={{
-                          display: "flex",
-                          justifyContent: "space-between",
+                          display: 'flex',
+                          justifyContent: 'space-between',
                         }}
                       >
                         <p style={{ fontWeight: 600 }}>
@@ -127,10 +127,10 @@ export default function CommercialInvoiceReport({ setLoading }) {
                           Date : {_dateFormatter(rowDto?.header?.invoiceDate)}
                         </p>
                       </div>
-                      <div style={{ border: "1px solid black" }}>
+                      <div style={{ border: '1px solid black' }}>
                         <table
                           border="1"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                           className="text-center"
                           // className="table table-striped table-bordered global-table table-font-size-sm "
                         >
@@ -144,8 +144,8 @@ export default function CommercialInvoiceReport({ setLoading }) {
                             <tr>
                               <td>{rowDto?.header?.doNo}</td>
                               <td className="secondLevelTd">
-                                <table style={{ width: "100%" }}>
-                                  <tbody style={{ width: "100%" }}>
+                                <table style={{ width: '100%' }}>
+                                  <tbody style={{ width: '100%' }}>
                                     {rowDto?.objDelivery?.map((item) => (
                                       <tr>
                                         <td className="text-center">
@@ -158,8 +158,8 @@ export default function CommercialInvoiceReport({ setLoading }) {
                               </td>
                               {/* h */}
                               <td className="secondLevelTd">
-                                <table style={{ width: "100%" }}>
-                                  <tbody style={{ width: "100%" }}>
+                                <table style={{ width: '100%' }}>
+                                  <tbody style={{ width: '100%' }}>
                                     {rowDto?.objDelivery?.map((item) => (
                                       <tr>
                                         <td className="text-center">
@@ -175,11 +175,11 @@ export default function CommercialInvoiceReport({ setLoading }) {
                           {/* ))} */}
                         </table>
 
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                           <div
                             style={{
-                              width: "50%",
-                              padding: "10px 0px 0px 10px",
+                              width: '50%',
+                              padding: '10px 0px 0px 10px',
                             }}
                           >
                             <p style={{ fontWeight: 600 }}>
@@ -190,13 +190,13 @@ export default function CommercialInvoiceReport({ setLoading }) {
                             <p style={{ fontWeight: 600 }}>
                               {
                                 rowDto?.header?.compnayNameAndAddress.split(
-                                  "_"
+                                  '_'
                                 )[0]
                               }
                             </p>
                             {
                               rowDto?.header?.compnayNameAndAddress.split(
-                                "_"
+                                '_'
                               )[1]
                             }
                             <p>Phone : </p>
@@ -212,15 +212,15 @@ export default function CommercialInvoiceReport({ setLoading }) {
                               }
                             >
                               <span style={{ fontWeight: 700 }}>
-                                Project Name:{" "}
+                                Project Name:{' '}
                               </span>
                               <span>{rowDto?.header?.projectName}</span>
                             </div>
                           </div>
-                          <div style={{ width: "50%" }}>
+                          <div style={{ width: '50%' }}>
                             <table
                               border="1"
-                              style={{ width: "100%" }}
+                              style={{ width: '100%' }}
                               className="text-center"
                             >
                               <thead>
@@ -238,11 +238,11 @@ export default function CommercialInvoiceReport({ setLoading }) {
                         </div>
                       </div>
                     </div>
-                    <div style={{ width: "40%" }}>
+                    <div style={{ width: '40%' }}>
                       <div
                         style={{
-                          width: "100%",
-                          padding: "23px 0px",
+                          width: '100%',
+                          padding: '23px 0px',
                         }}
                         className="text-center"
                       >
@@ -250,9 +250,9 @@ export default function CommercialInvoiceReport({ setLoading }) {
                       </div>
                       <div
                         style={{
-                          border: "1px solid black",
-                          width: "100%",
-                          padding: "10px 0px 0px 10px",
+                          border: '1px solid black',
+                          width: '100%',
+                          padding: '10px 0px 0px 10px',
                         }}
                       >
                         <p style={{ fontWeight: 700 }}>
@@ -268,15 +268,15 @@ export default function CommercialInvoiceReport({ setLoading }) {
                       </div>
                       <div
                         style={{
-                          border: "1px solid black",
-                          width: "100%",
-                          padding: "10px 0px 45px 10px",
+                          border: '1px solid black',
+                          width: '100%',
+                          padding: '10px 0px 45px 10px',
                         }}
                       >
                         <p style={{ fontWeight: 700 }}>Contact Number</p>
                         <p style={{ fontWeight: 700 }}>
                           Mobile No : {rowDto?.header?.contactNo}
-                        </p>{" "}
+                        </p>{' '}
                         <br />
                       </div>
                     </div>
@@ -284,7 +284,7 @@ export default function CommercialInvoiceReport({ setLoading }) {
                 </div>
                 <div>
                   <div className="table-responsive">
-                    <table style={{ width: "100%" }}>
+                    <table style={{ width: '100%' }}>
                       <thead className="text-center">
                         <tr>
                           <th>No</th>
@@ -299,32 +299,32 @@ export default function CommercialInvoiceReport({ setLoading }) {
                           rowDto?.row?.map((tableData, index) => (
                             <>
                               <tr key={index}>
-                                <td style={{ width: "50px" }}> {index + 1} </td>
+                                <td style={{ width: '50px' }}> {index + 1} </td>
                                 <td
                                   className="text-left"
-                                  style={{ width: "350px" }}
+                                  style={{ width: '350px' }}
                                 >
-                                  {"  "}
-                                  {tableData?.productDescription}{" "}
+                                  {'  '}
+                                  {tableData?.productDescription}{' '}
                                 </td>
                                 <td
-                                  style={{ minWidth: "20px" }}
+                                  style={{ minWidth: '20px' }}
                                   className="text-right"
                                 >
                                   {_formatMoney(tableData?.quantity, 2)}
                                 </td>
                                 <td
-                                  style={{ minWidth: "20px" }}
+                                  style={{ minWidth: '20px' }}
                                   className="text-right"
                                 >
                                   {_formatMoney(tableData?.unitPrice, 2)}
                                 </td>
                                 <td
-                                  style={{ minWidth: "30px" }}
+                                  style={{ minWidth: '30px' }}
                                   className="text-right"
                                 >
-                                  {" "}
-                                  {_formatMoney(tableData?.amount, 2)}{" "}
+                                  {' '}
+                                  {_formatMoney(tableData?.amount, 2)}{' '}
                                 </td>
                               </tr>
                             </>
@@ -417,24 +417,24 @@ export default function CommercialInvoiceReport({ setLoading }) {
                     </table>
                   </div>
                 </div>
-                <div style={{ marginTop: "10px" }}>
+                <div style={{ marginTop: '10px' }}>
                   <p>
-                    <span style={{ fontWeight: 600 }}>Inword :</span>{" "}
+                    <span style={{ fontWeight: 600 }}>Inword :</span>{' '}
                     {rowDto?.header?.amountInWords.toUpperCase()}
                   </p>
                 </div>
                 <div
                   style={{
-                    marginTop: "180px",
-                    marginBottom: "50px",
+                    marginTop: '180px',
+                    marginBottom: '50px',
                     fontWeight: 600,
-                    display: "flex",
-                    justifyContent: "space-around",
+                    display: 'flex',
+                    justifyContent: 'space-around',
                   }}
                 >
-                  <p style={{ borderTop: "dashed" }}>Customer Signature</p>
-                  <p style={{ borderTop: "dashed" }}>Authorised Signature</p>
-                  <p style={{ borderTop: "dashed" }}>Approved by</p>
+                  <p style={{ borderTop: 'dashed' }}>Customer Signature</p>
+                  <p style={{ borderTop: 'dashed' }}>Authorised Signature</p>
+                  <p style={{ borderTop: 'dashed' }}>Approved by</p>
                 </div>
               </div>
             </div>

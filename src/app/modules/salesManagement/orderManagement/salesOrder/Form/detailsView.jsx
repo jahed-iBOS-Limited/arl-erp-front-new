@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const DetailsView = ({ gridData, tableType }) => {
   // Totals for order table
@@ -16,7 +16,7 @@ const DetailsView = ({ gridData, tableType }) => {
 
   return (
     <>
-      {tableType === "order" ? (
+      {tableType === 'order' ? (
         <div className="table-responsive">
           <table className="table table-striped table-bordered global-table sales_order_landing_table">
             <thead>
@@ -41,15 +41,15 @@ const DetailsView = ({ gridData, tableType }) => {
                     <td> {_dateFormatter(td?.orderDate)} </td>
                     <td> {td?.shippointName} </td>
                     <td className="text-right">
-                      {_fixedPoint(td?.undeliverQuantity, true, 0)}{" "}
+                      {_fixedPoint(td?.undeliverQuantity, true, 0)}{' '}
                     </td>
                     <td className="text-right">
-                      {_fixedPoint(td?.undeliverAmount, true)}{" "}
+                      {_fixedPoint(td?.undeliverAmount, true)}{' '}
                     </td>
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td className="text-right" colSpan={4}>
                   Total
                 </td>
@@ -57,9 +57,9 @@ const DetailsView = ({ gridData, tableType }) => {
                 <td>{_fixedPoint(totalUnDeliveredAmount, true)}</td>
               </tr>
             </tbody>
-          </table>{" "}
+          </table>{' '}
         </div>
-      ) : tableType === "delivery" ? (
+      ) : tableType === 'delivery' ? (
         <div className="table-responsive">
           <table className="table table-striped table-bordered global-table sales_order_landing_table">
             <thead>
@@ -82,7 +82,7 @@ const DetailsView = ({ gridData, tableType }) => {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td className="text-right" colSpan={3}>
                   Total
                 </td>
@@ -117,7 +117,7 @@ const DetailsView = ({ gridData, tableType }) => {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td className="text-right" colSpan={3}>
                   Total
                 </td>

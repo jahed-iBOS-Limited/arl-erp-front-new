@@ -1,15 +1,13 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getCostSheetLanding } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getCostSheetLanding } from '../helper';
 
 const initData = {
   fromDate: _todayDate(),
@@ -22,18 +20,18 @@ function CostSheetLanding() {
   const [obj, setObj] = useState({});
   const printRef = useRef();
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   //get number in date
@@ -66,7 +64,7 @@ function CostSheetLanding() {
           <button type="button" className="btn btn-primary">
             <ReactToPrint
               trigger={() => (
-                <i style={{ fontSize: "18px" }} className="fas fa-print"></i>
+                <i style={{ fontSize: '18px' }} className="fas fa-print"></i>
               )}
               content={() => printRef.current}
             />
@@ -85,7 +83,7 @@ function CostSheetLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -97,12 +95,12 @@ function CostSheetLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
 
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -152,10 +150,10 @@ function CostSheetLanding() {
                             style={
                               item?.isBold
                                 ? {
-                                    background: "#D6DADD",
-                                    fontWeight: "bolder",
+                                    background: '#D6DADD',
+                                    fontWeight: 'bolder',
                                   }
-                                : { background: "white" }
+                                : { background: 'white' }
                             }
                           >
                             <td>

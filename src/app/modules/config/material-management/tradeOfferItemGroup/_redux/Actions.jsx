@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { tradeOfferItemGroupSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { tradeOfferItemGroupSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = tradeOfferItemGroupSlice;
 
 // save trade offer
@@ -10,42 +10,35 @@ export const saveTradeOfferItemGroup = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "saveTradeOfferItemGroup",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'saveTradeOfferItemGroup',
         });
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message, {
-        toastId: "saveTradeOfferItemGroupError",
+        toastId: 'saveTradeOfferItemGroupError',
       });
       payload.setDisabled(false);
     });
 };
 
 // grid data
-export const getTradeOfferItemGroupGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-     
-      setLoading(false);
-    });
-};
+export const getTradeOfferItemGroupGridData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // Save edited data into DB
 export const saveEditedTradeOfferItemGroup = (payload, setDisabled) => () => {
@@ -54,17 +47,16 @@ export const saveEditedTradeOfferItemGroup = (payload, setDisabled) => () => {
     .saveEditedData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "saveEditedTradeOfferItemGroup",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'saveEditedTradeOfferItemGroup',
         });
         payload.cb();
         setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message, {
-        toastId: "saveEditedTradeOfferItemGroupError",
+        toastId: 'saveEditedTradeOfferItemGroupError',
       });
       setDisabled(false);
     });
@@ -79,9 +71,7 @@ export const getTradeItemGroupById = (id) => (dispatch) => {
         dispatch(slice.SetSingleData(res.data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // Controlling unit single to empty

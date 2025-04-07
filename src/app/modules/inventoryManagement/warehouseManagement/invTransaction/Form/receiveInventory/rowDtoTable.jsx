@@ -1,12 +1,12 @@
-import React from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../../_helper/_inputField";
-import IHistory from "../../../../../_helper/_helperIcons/_history";
-import IViewModal from "../../../../../_helper/_viewModal";
-import ItemInformation from "./view/ItemInformation";
-import { toast } from "react-toastify";
+import React from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../../_helper/_inputField';
+import IHistory from '../../../../../_helper/_helperIcons/_history';
+import IViewModal from '../../../../../_helper/_viewModal';
+import ItemInformation from './view/ItemInformation';
+import { toast } from 'react-toastify';
 
 export const getUpdatedFirstLevelList = (list, key, index, value) => {
   const prevList = [...list];
@@ -27,7 +27,7 @@ const RowDtoTable = ({
   setInLineRowItemView,
   inLineRowItemView,
   setFieldValue,
-  isWorkable
+  isWorkable,
 }) => {
   const getSerialList = (row) => {
     const list = [];
@@ -38,13 +38,22 @@ const RowDtoTable = ({
   };
 
   const onRowSerialClick = (item, index) => {
-    if (+item?.quantity <= 0) return toast.warn("quantity is zero");
+    if (+item?.quantity <= 0) return toast.warn('quantity is zero');
     if (!Number.isInteger(item?.quantity)) {
-      return toast.warn("Quantity must be a whole number!");
+      return toast.warn('Quantity must be a whole number!');
     }
 
-    const serialList = item?.serialList?.length > 0 && item?.serialList?.length === +item?.quantity ? item?.serialList : getSerialList(item);
-    const updateRowDto = getUpdatedFirstLevelList(rowDto, "serialList", index, serialList);
+    const serialList =
+      item?.serialList?.length > 0 &&
+      item?.serialList?.length === +item?.quantity
+        ? item?.serialList
+        : getSerialList(item);
+    const updateRowDto = getUpdatedFirstLevelList(
+      rowDto,
+      'serialList',
+      index,
+      serialList
+    );
     setRowDto(updateRowDto);
     setInLineRowItemView({
       isView: true,
@@ -64,14 +73,14 @@ const RowDtoTable = ({
                 <th>Item Code</th>
                 <th>Item Name</th>
                 <th>Uom</th>
-                {values?.refType?.label === "PO (Purchase Order)" && (
+                {values?.refType?.label === 'PO (Purchase Order)' && (
                   <>
                     <th>Ref. Qty.</th>
                     <th>Rest Qty.</th>
                     <th>Vat</th>
                   </>
                 )}
-                {values?.refType?.label === "Inventory Request" && (
+                {values?.refType?.label === 'Inventory Request' && (
                   <>
                     <th>Request Qty.</th>
                     <th>Issue Qty.</th>
@@ -83,18 +92,20 @@ const RowDtoTable = ({
                 <th>Bin Number</th>
                 {/* <th>Stock Type</th> */}
                 <th>Quantity</th>
-                {values?.refType?.value === 1 && landingData?.warehouse?.isPOS && (
-                  <>
-                    <th>MRP</th>
-                    <th>Sales Rate</th>
-                    <th>Expired</th>
-                  </>
-                )}
-                {values?.refType?.value === 1 && values?.refNo?.refTypeId === 1 && <th>Price</th>}
-                {values?.refType?.label === "NA (Without Reference)" && (
+                {values?.refType?.value === 1 &&
+                  landingData?.warehouse?.isPOS && (
+                    <>
+                      <th>MRP</th>
+                      <th>Sales Rate</th>
+                      <th>Expired</th>
+                    </>
+                  )}
+                {values?.refType?.value === 1 &&
+                  values?.refNo?.refTypeId === 1 && <th>Price</th>}
+                {values?.refType?.label === 'NA (Without Reference)' && (
                   <>
                     <th>Rate</th>
-                    <th>Amount</th>{" "}
+                    <th>Amount</th>{' '}
                   </>
                 )}
                 <th>Action</th>
@@ -104,12 +115,15 @@ const RowDtoTable = ({
               {rowDto?.map((item, index) => (
                 <tr key={index}>
                   <td className="text-center align-middle"> {index + 1} </td>
-                  <td className="text-center align-middle"> {item?.itemCode} </td>
+                  <td className="text-center align-middle">
+                    {' '}
+                    {item?.itemCode}{' '}
+                  </td>
                   <td className="">
-                    {(item?.isSerialMaintain && isWorkable) && (
+                    {item?.isSerialMaintain && isWorkable && (
                       <IHistory
-                        title={"Info"}
-                        styles={{ margin: "5px" }}
+                        title={'Info'}
+                        styles={{ margin: '5px' }}
                         clickHandler={() => {
                           onRowSerialClick(item, index);
                         }}
@@ -118,25 +132,44 @@ const RowDtoTable = ({
                     {item?.itemName}
                   </td>
                   <td className="">{item?.uoMname}</td>
-                  {values?.refType?.label === "PO (Purchase Order)" && (
+                  {values?.refType?.label === 'PO (Purchase Order)' && (
                     <>
-                      <td className="text-center align-middle">{item?.refQty}</td>
-                      <td className="text-center align-middle"> {item?.restQty || 0} </td>
-                      <td className="text-center align-middle"> {item?.vatValue || 0} </td>
+                      <td className="text-center align-middle">
+                        {item?.refQty}
+                      </td>
+                      <td className="text-center align-middle">
+                        {' '}
+                        {item?.restQty || 0}{' '}
+                      </td>
+                      <td className="text-center align-middle">
+                        {' '}
+                        {item?.vatValue || 0}{' '}
+                      </td>
                     </>
                   )}
-                  {values?.refType?.label === "Inventory Request" && (
+                  {values?.refType?.label === 'Inventory Request' && (
                     <>
-                      <td className="text-center align-middle">{item?.refQty}</td>
-                      <td className="text-center align-middle"> {item?.issueQuantity || 0} </td>
-                      <td className="text-center align-middle"> {item?.returnQuntity || 0} </td>
+                      <td className="text-center align-middle">
+                        {item?.refQty}
+                      </td>
+                      <td className="text-center align-middle">
+                        {' '}
+                        {item?.issueQuantity || 0}{' '}
+                      </td>
+                      <td className="text-center align-middle">
+                        {' '}
+                        {item?.returnQuntity || 0}{' '}
+                      </td>
                     </>
                   )}
-                  <td className="text-center align-middle" style={{ width: "150px" }}>
+                  <td
+                    className="text-center align-middle"
+                    style={{ width: '150px' }}
+                  >
                     <Select
                       onChange={(valueOption) => {
                         rowDtoHandler(
-                          "location",
+                          'location',
                           {
                             value: valueOption?.value,
                             label: valueOption?.label,
@@ -145,14 +178,17 @@ const RowDtoTable = ({
                           index
                         );
                       }}
-                      value={item?.location || ""}
+                      value={item?.location || ''}
                       isSearchable={true}
                       styles={customStyles}
                       options={item.locationddl}
                       placeholder="Location"
                     />
                   </td>
-                  <td className="text-center align-middle"> {item?.location?.binNumber}</td>
+                  <td className="text-center align-middle">
+                    {' '}
+                    {item?.location?.binNumber}
+                  </td>
                   {/* <td className="disabled-feedback disable-border">
                   <Select
                       onChange={(valueOption) => {
@@ -171,7 +207,10 @@ const RowDtoTable = ({
                       placeholder="Stock"
                     />
                   </td> */}
-                  <td style={{ width: "100px" }} className="disabled-feedback disable-border">
+                  <td
+                    style={{ width: '100px' }}
+                    className="disabled-feedback disable-border"
+                  >
                     <InputField
                       value={rowDto[index]?.quantity}
                       name="quantity"
@@ -179,89 +218,112 @@ const RowDtoTable = ({
                       placeholder="Quantity"
                       required
                       onChange={(e) => {
-                        if (values.refType.label !== "NA (Without Reference)") {
+                        if (values.refType.label !== 'NA (Without Reference)') {
                           //user can take 5% extra qty
                           let calcWithFivePercent = (item?.refQty * 5) / 100;
-                          let canTakeQty = (item?.restQty + calcWithFivePercent).toFixed(4);
+                          let canTakeQty = (
+                            item?.restQty + calcWithFivePercent
+                          ).toFixed(4);
                           if (+e.target.value > canTakeQty) {
                             alert(`Max ${canTakeQty}`);
                             return null;
                           }
                         }
-                        rowDtoHandler("quantity", e.target.value, index);
+                        rowDtoHandler('quantity', e.target.value, index);
                       }}
                       min={0.1}
                       step="any"
                       max={
-                        values.refType.label === "NA (Without Reference)"
+                        values.refType.label === 'NA (Without Reference)'
                           ? item.quantity
-                          : values.refType.label === "Inventory Request"
-                          ? item?.issueQuantity - item?.returnQuntity
-                          : item?.restQty
+                          : values.refType.label === 'Inventory Request'
+                            ? item?.issueQuantity - item?.returnQuntity
+                            : item?.restQty
                       }
                     />
                   </td>
-                  {values?.refType?.value === 1 && landingData?.warehouse?.isPOS && (
+                  {values?.refType?.value === 1 &&
+                    landingData?.warehouse?.isPOS && (
+                      <>
+                        <td
+                          style={{ width: '100px' }}
+                          className="disabled-feedback disable-border"
+                        >
+                          <InputField
+                            value={rowDto[index]?.mrpRate}
+                            name="mrpRate"
+                            type="number"
+                            placeholder="MRP"
+                            onChange={(e) => {
+                              rowDtoHandler('mrpRate', e.target.value, index);
+                            }}
+                            min={0.1}
+                            step="any"
+                          />
+                        </td>
+                        <td
+                          style={{ width: '100px' }}
+                          className="disabled-feedback disable-border"
+                        >
+                          <InputField
+                            value={rowDto[index]?.salesRate}
+                            name="salesRate"
+                            type="number"
+                            placeholder="Sales Rate"
+                            onChange={(e) => {
+                              rowDtoHandler('salesRate', e.target.value, index);
+                            }}
+                            min={0.1}
+                            step="any"
+                          />
+                        </td>
+                        <td
+                          style={{ width: '100px' }}
+                          className="disabled-feedback disable-border"
+                        >
+                          <InputField
+                            value={item.expiredDate}
+                            placeholder="Expired Date"
+                            name="expiredDate"
+                            type="date"
+                            onChange={(e) => {
+                              rowDtoHandler(
+                                'expiredDate',
+                                e.target.value,
+                                index
+                              );
+                            }}
+                          />
+                        </td>
+                      </>
+                    )}
+                  {values?.refType?.value === 1 &&
+                    values?.refNo?.refTypeId === 1 && (
+                      <>
+                        <td
+                          style={{ width: '100px' }}
+                          className="disabled-feedback disable-border"
+                        >
+                          <InputField
+                            value={rowDto[index]?.mrpRate}
+                            name="mrpRate"
+                            type="number"
+                            placeholder="MRP"
+                            onChange={(e) => {
+                              rowDtoHandler('mrpRate', e.target.value, index);
+                            }}
+                            min={0.1}
+                            step="any"
+                          />
+                        </td>
+                      </>
+                    )}
+                  {values.refType.label === 'NA (Without Reference)' && (
                     <>
-                      <td style={{ width: "100px" }} className="disabled-feedback disable-border">
-                        <InputField
-                          value={rowDto[index]?.mrpRate}
-                          name="mrpRate"
-                          type="number"
-                          placeholder="MRP"
-                          onChange={(e) => {
-                            rowDtoHandler("mrpRate", e.target.value, index);
-                          }}
-                          min={0.1}
-                          step="any"
-                        />
-                      </td>
-                      <td style={{ width: "100px" }} className="disabled-feedback disable-border">
-                        <InputField
-                          value={rowDto[index]?.salesRate}
-                          name="salesRate"
-                          type="number"
-                          placeholder="Sales Rate"
-                          onChange={(e) => {
-                            rowDtoHandler("salesRate", e.target.value, index);
-                          }}
-                          min={0.1}
-                          step="any"
-                        />
-                      </td>
-                      <td style={{ width: "100px" }} className="disabled-feedback disable-border">
-                        <InputField
-                          value={item.expiredDate}
-                          placeholder="Expired Date"
-                          name="expiredDate"
-                          type="date"
-                          onChange={(e) => {
-                            rowDtoHandler("expiredDate", e.target.value, index);
-                          }}
-                        />
-                      </td>
-                    </>
-                  )}
-                  {values?.refType?.value === 1 && values?.refNo?.refTypeId === 1 && (
-                    <>
-                      <td style={{ width: "100px" }} className="disabled-feedback disable-border">
-                        <InputField
-                          value={rowDto[index]?.mrpRate}
-                          name="mrpRate"
-                          type="number"
-                          placeholder="MRP"
-                          onChange={(e) => {
-                            rowDtoHandler("mrpRate", e.target.value, index);
-                          }}
-                          min={0.1}
-                          step="any"
-                        />
-                      </td>
-                    </>
-                  )}
-                  {values.refType.label === "NA (Without Reference)" && (
-                    <>
-                      <td style={{ width: "100px" }} className="disabled-feedback disable-border">
+                      <td
+                        style={{ width: '100px' }}
+                        className="disabled-feedback disable-border"
+                      >
                         <input
                           value={rowDto[index]?.baseValue}
                           name="baseValue"
@@ -270,13 +332,15 @@ const RowDtoTable = ({
                           step="any"
                           required
                           onChange={(e) => {
-                            rowDtoHandler("baseValue", e.target.value, index);
+                            rowDtoHandler('baseValue', e.target.value, index);
                           }}
                           min="0"
                           //max={item?.restQty}
                         />
                       </td>
-                      <td className="text-center align-middle">{item?.quantity * item?.baseValue}</td>{" "}
+                      <td className="text-center align-middle">
+                        {item?.quantity * item?.baseValue}
+                      </td>{' '}
                     </>
                   )}
                   <td className="text-center align-middle">

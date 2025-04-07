@@ -9,7 +9,7 @@ import { YearDDL } from '../../../_helper/_yearDDL';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { generateMonthlyData, months } from './helper';
 import MonthTable from './monthTable';
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import InputField from '../../../_helper/_inputField';
 import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 import { toast } from 'react-toastify';
@@ -23,18 +23,13 @@ const initData = {
 export default function ProductionScheduling() {
   const { profileData } = useSelector((state) => state.authData, shallowEqual);
   const formikRef = React.useRef(null);
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const [objProps, setObjprops] = useState({});
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
   const [singleData, setSingleData] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-
 
   console.log('tableData', tableData);
 
@@ -47,19 +42,18 @@ export default function ProductionScheduling() {
             ...item,
             value: item?.organizationUnitReffId,
             label: item?.organizationUnitReffName,
-          })),
-        ),
+          }))
+        )
     );
-
   }, [profileData]);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
     // Generate daily schedules based on the provided month and year
     const dailySchedulesList = generateMonthlyData(
       values?.month?.value,
-      values?.year?.value,
+      values?.year?.value
     );
 
     getTableData(
@@ -72,7 +66,7 @@ export default function ProductionScheduling() {
               ...workCenter,
               dailySchedules:
                 !workCenter.dailySchedules ||
-                  workCenter.dailySchedules.length === 0
+                workCenter.dailySchedules.length === 0
                   ? dailySchedulesList
                   : workCenter.dailySchedules,
             };
@@ -86,7 +80,7 @@ export default function ProductionScheduling() {
 
         // Update the table data state with the modified data
         setTableData(modifiedData);
-      },
+      }
     );
   };
 
@@ -100,7 +94,7 @@ export default function ProductionScheduling() {
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => { });
+        saveHandler(values, () => {});
       }}
     >
       {({
@@ -134,8 +128,16 @@ export default function ProductionScheduling() {
                     onChange={(valueOption) => {
                       setFieldValue('businessUnit', valueOption);
                       setFieldValue('plant', '');
-                      setFieldValue('strManagementUomName', valueOption?.strManagementUomName || "");
-                      getPlantDDL(profileData?.userId, profileData?.accountId, valueOption?.value, setPlantDDL)
+                      setFieldValue(
+                        'strManagementUomName',
+                        valueOption?.strManagementUomName || ''
+                      );
+                      getPlantDDL(
+                        profileData?.userId,
+                        profileData?.accountId,
+                        valueOption?.value,
+                        setPlantDDL
+                      );
                       setTableData([]);
                     }}
                   />
@@ -147,7 +149,7 @@ export default function ProductionScheduling() {
                     value={values?.plant}
                     label="Select Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       setTableData([]);
                     }}
                     placeholder="Select Plant"
@@ -183,7 +185,7 @@ export default function ProductionScheduling() {
                 <div className="col-lg-3">
                   <InputField
                     name="strManagementUomName"
-                    value={values?.strManagementUomName || ""}
+                    value={values?.strManagementUomName || ''}
                     label="Management UOM"
                     disabled
                   />
@@ -205,11 +207,11 @@ export default function ProductionScheduling() {
                 {tableData.length > 0 && (
                   <div className="mt-5 ml-4">
                     <ReactHTMLTableToExcel
-                      id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table
+                      id="date-wise-table-xls-button-production-scheduling" // this id always uniqe for every table
                       className="btn btn-primary"
-                      table="production-scheduling-table-to-xlsx"  // always same with table id
-                      filename={"Date Wise Report"}
-                      sheet={"Production Scheduling Report"}
+                      table="production-scheduling-table-to-xlsx" // always same with table id
+                      filename={'Date Wise Report'}
+                      sheet={'Production Scheduling Report'}
                       buttonText="Export Excel"
                     />
                   </div>
@@ -222,7 +224,10 @@ export default function ProductionScheduling() {
                     style={{ maxHeight: '500px' }}
                     className="scroll-table _table"
                   >
-                    <table id="production-scheduling-table-to-xlsx" className="table table-striped table-bordered bj-table bj-table-landing">
+                    <table
+                      id="production-scheduling-table-to-xlsx"
+                      className="table table-striped table-bordered bj-table bj-table-landing"
+                    >
                       <thead>
                         <tr>
                           <th>Product Name</th>
@@ -246,7 +251,9 @@ export default function ProductionScheduling() {
                                 <span
                                   onClick={() => {
                                     if (!values?.plant?.value) {
-                                      return toast.warn("Please select plant first")
+                                      return toast.warn(
+                                        'Please select plant first'
+                                      );
                                     }
                                     setSingleData({
                                       ...product,
@@ -266,21 +273,32 @@ export default function ProductionScheduling() {
                             ))}
                             <td className="text-center">
                               {product?.workCenters.reduce(
-                                (sum, workCenter) => sum + (workCenter.workCenterQty || 0),
+                                (sum, workCenter) =>
+                                  sum + (workCenter.workCenterQty || 0),
                                 0
                               ) || 0}
                             </td>
                           </tr>
                         ))}
                         <tr>
-                          <td className="text-center font-weight-bold">Total</td>
                           <td className="text-center font-weight-bold">
-                            {tableData.reduce((sum, product) => sum + (product.productQty || 0), 0)}
+                            Total
+                          </td>
+                          <td className="text-center font-weight-bold">
+                            {tableData.reduce(
+                              (sum, product) => sum + (product.productQty || 0),
+                              0
+                            )}
                           </td>
                           {tableData[0]?.workCenters.map((_, i) => (
-                            <td key={i} className="text-center font-weight-bold">
+                            <td
+                              key={i}
+                              className="text-center font-weight-bold"
+                            >
                               {tableData.reduce(
-                                (sum, product) => sum + (product.workCenters[i]?.workCenterQty || 0),
+                                (sum, product) =>
+                                  sum +
+                                  (product.workCenters[i]?.workCenterQty || 0),
                                 0
                               )}
                             </td>
@@ -290,7 +308,8 @@ export default function ProductionScheduling() {
                               (grandTotal, product) =>
                                 grandTotal +
                                 product.workCenters.reduce(
-                                  (sum, workCenter) => sum + (workCenter.workCenterQty || 0),
+                                  (sum, workCenter) =>
+                                    sum + (workCenter.workCenterQty || 0),
                                   0
                                 ),
                               0

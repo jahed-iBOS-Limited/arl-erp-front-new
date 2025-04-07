@@ -1,14 +1,14 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //validation schema;
 export const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
-  toDate: Yup.date().required("To Date is required"),
-  lcNumber: Yup.string().required("LC Number is required"),
-  providor: Yup.string().required("Providor is required"),
+  fromDate: Yup.date().required('From Date is required'),
+  toDate: Yup.date().required('To Date is required'),
+  lcNumber: Yup.string().required('LC Number is required'),
+  providor: Yup.string().required('Providor is required'),
 });
 
 // bank ddl
@@ -57,7 +57,7 @@ export const getInsuranceCoverNoteReport = async (
       query += `&providerId=${providerId}`;
     }
 
-    query += fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : "";
+    query += fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : '';
 
     setLoading(true);
     const res = await axios.get(query);

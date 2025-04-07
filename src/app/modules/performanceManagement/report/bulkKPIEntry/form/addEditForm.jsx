@@ -1,24 +1,23 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { GetSalesOrganizationDDL_api } from "../../../../salesManagement/report/shipToPartyDelivery/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getEmployeeDDL } from "../../performanceAppraisal/helper";
-import { bulkKPIEntry } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { GetSalesOrganizationDDL_api } from '../../../../salesManagement/report/shipToPartyDelivery/helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getEmployeeDDL } from '../../performanceAppraisal/helper';
+import { bulkKPIEntry } from '../helper';
+import Form from './form';
 
 const initData = {
-  SO: "",
+  SO: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  channel: "",
-  region: "",
-  area: "",
-  employee: "",
-  month: "",
-  year: "",
+  channel: '',
+  region: '',
+  area: '',
+  employee: '',
+  month: '',
+  year: '',
 };
 
 export default function BulkKPIEntryForm() {

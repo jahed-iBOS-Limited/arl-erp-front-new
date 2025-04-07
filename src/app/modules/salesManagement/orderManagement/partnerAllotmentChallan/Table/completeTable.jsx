@@ -1,7 +1,7 @@
-import React from "react";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ChallanPrintModal from "./../challanPrintModal/challanPrintModal";
+import React from 'react';
+import IView from './../../../../_helper/_helperIcons/_view';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ChallanPrintModal from './../challanPrintModal/challanPrintModal';
 function CompleteTable({
   rowDto,
   values,
@@ -21,7 +21,7 @@ function CompleteTable({
     <>
       {gridData?.length > 0 && (
         <div className="react-bootstrap-table table-responsive">
-          <table className={"table table-striped table-bordered global-table "}>
+          <table className={'table table-striped table-bordered global-table '}>
             <thead>
               <tr>
                 <th>SL</th>
@@ -39,7 +39,7 @@ function CompleteTable({
                 <th>Quantity</th>
                 <th>Total Price</th>
                 <th>Bill Register Code</th>
-                <th style={{ width: "100px" }}>Action</th>
+                <th style={{ width: '100px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@ function CompleteTable({
                 return (
                   <>
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.secondaryDeliveryCode}</td>

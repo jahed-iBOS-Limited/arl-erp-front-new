@@ -1,19 +1,19 @@
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
 
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-
-import { getLandingData } from "./../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import { getLandingData } from './../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 const validationSchema = Yup.object().shape({
-  businessTypeName: Yup.string().required("Outlet type is required"),
-  isOnlyTmsAllowed: Yup.bool().required("Tms Allowed is required"),
+  businessTypeName: Yup.string().required('Outlet type is required'),
+  isOnlyTmsAllowed: Yup.bool().required('Tms Allowed is required'),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -97,20 +97,20 @@ function FormCmp({  initData,
                   type="text"
                 />
               </div>
-              <div className="col-lg-3 d-flex" style={{ marginTop: "15px" }}>
+              <div className="col-lg-3 d-flex" style={{ marginTop: '15px' }}>
                 <input
                   style={{
-                    width: "15px",
-                    height: "15px",
-                    position: "relative",
-                    top: "3px",
+                    width: '15px',
+                    height: '15px',
+                    position: 'relative',
+                    top: '3px',
                   }}
                   name="isOnlyTmsAllowed"
                   checked={values?.isOnlyTmsAllowed}
                   className="mr-2"
                   type="checkbox"
                   onChange={(e) =>
-                    setFieldValue("isOnlyTmsAllowed", e.target.checked)
+                    setFieldValue('isOnlyTmsAllowed', e.target.checked)
                   }
                 />
                 <label>Is Only Tms Allowed</label>
@@ -119,14 +119,14 @@ function FormCmp({  initData,
 
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>
@@ -140,14 +140,14 @@ function FormCmp({  initData,
                   <tr>
                     <th>SL</th>
                     <th>Outlet Type Name</th>
-                    <th style={{ width: "120px" }}>Tms Allowed</th>
+                    <th style={{ width: '120px' }}>Tms Allowed</th>
                   </tr>
                 </thead>
                 <tbody>
                   {gridData?.data?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td>
@@ -157,8 +157,8 @@ function FormCmp({  initData,
                           <div className="text-center">
                             <input
                               style={{
-                                width: "15px",
-                                height: "15px",
+                                width: '15px',
+                                height: '15px',
                               }}
                               name="isOnlyTmsAllowed"
                               checked={item?.isOnlyTmsAllowed}

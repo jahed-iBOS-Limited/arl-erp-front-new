@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import { GetDomesticPortDDL } from "../../loadingInformation/helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import { GetDomesticPortDDL } from '../../loadingInformation/helper';
 
 export default function MotherVesselTransferForm({ obj }) {
   const { rowDto, addRow, history, initData, removeRow, saveHandler } = obj;
@@ -25,22 +25,21 @@ export default function MotherVesselTransferForm({ obj }) {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
-
   }, [accId, buId]);
 
   const onChangeHandler = (currentField, allValues, setFieldValue) => {
-    const fields = ["fromMotherVessel", "toMotherVessel"];
-    if (currentField === "fromMotherVessel") {
-      setFieldValue("item", allValues?.fromMotherVessel?.itemName);
+    const fields = ['fromMotherVessel', 'toMotherVessel'];
+    if (currentField === 'fromMotherVessel') {
+      setFieldValue('item', allValues?.fromMotherVessel?.itemName);
     }
     if (fields.includes(currentField)) {
       if (
         allValues?.fromMotherVessel?.value === allValues?.toMotherVessel?.value
       ) {
         toast.warn(
-          "From Mother Vessel and To Mother Vessel must be different! please select another one."
+          'From Mother Vessel and To Mother Vessel must be different! please select another one.'
         );
-        setFieldValue(currentField, "");
+        setFieldValue(currentField, '');
       }
     }
   };
@@ -54,7 +53,7 @@ export default function MotherVesselTransferForm({ obj }) {
       >
         {({ values, setFieldValue, resetForm }) => (
           <ICustomCard
-            title={"Mother vessel to Mother vessel transfer --OUT--"}
+            title={'Mother vessel to Mother vessel transfer --OUT--'}
             backHandler={() => {
               history.goBack();
             }}
@@ -77,7 +76,7 @@ export default function MotherVesselTransferForm({ obj }) {
                     value={values?.organization}
                     label="Organization"
                     onChange={(valueOption) => {
-                      setFieldValue("organization", valueOption);
+                      setFieldValue('organization', valueOption);
                     }}
                     placeholder="Organization"
                   />
@@ -190,14 +189,14 @@ const FromPortAndMotherVessel = ({ obj }) => {
           placeholder="Port"
           isDisabled={!values?.organization}
           onChange={(e) => {
-            setFieldValue("fromPort", e);
-            setFieldValue("fromMotherVessel", "");
+            setFieldValue('fromPort', e);
+            setFieldValue('fromMotherVessel', '');
 
             getMotherVesselDDL(
               `/tms/LigterLoadUnload/GetMotherVesselTenderDDL?businessUnitId=${buId}&portId=${e?.value}&businessPartnerId=${values?.organization?.value}`
             );
             onChange &&
-              onChange("fromPort", {
+              onChange('fromPort', {
                 ...values,
                 fromPort: e,
               });
@@ -213,9 +212,9 @@ const FromPortAndMotherVessel = ({ obj }) => {
           label="Mother Vessel"
           placeholder="Mother Vessel"
           onChange={(e) => {
-            setFieldValue("fromMotherVessel", e);
+            setFieldValue('fromMotherVessel', e);
             onChange &&
-              onChange("fromMotherVessel", {
+              onChange('fromMotherVessel', {
                 ...values,
                 fromMotherVessel: e,
               });
@@ -252,12 +251,12 @@ const ToPortAndMotherVessel = ({ obj }) => {
           placeholder="Port"
           isDisabled={!values?.organization}
           onChange={(e) => {
-            setFieldValue("toPort", e);
-            setFieldValue("toMotherVessel", "");
+            setFieldValue('toPort', e);
+            setFieldValue('toMotherVessel', '');
             getMotherVesselDDL(
               `/tms/LigterLoadUnload/GetMotherVesselTenderDDL?businessUnitId=${buId}&portId=${e?.value}&businessPartnerId=${values?.organization?.value}`
             );
-            onChange && onChange("toPort", { ...values, toPort: e });
+            onChange && onChange('toPort', { ...values, toPort: e });
           }}
         />
       </div>
@@ -271,14 +270,14 @@ const ToPortAndMotherVessel = ({ obj }) => {
           placeholder="Mother Vessel"
           onChange={(e) => {
             if (e?.itemId === values?.fromMotherVessel?.itemId) {
-              setFieldValue("toMotherVessel", e);
+              setFieldValue('toMotherVessel', e);
               onChange &&
-                onChange("toMotherVessel", { ...values, toMotherVessel: e });
+                onChange('toMotherVessel', { ...values, toMotherVessel: e });
             } else {
               toast.warn(
-                "Item of both mother vessels must have to be the same"
+                'Item of both mother vessels must have to be the same'
               );
-               setFieldValue("toMotherVessel", "");
+              setFieldValue('toMotherVessel', '');
             }
           }}
           isDisabled={!values?.toPort}
@@ -297,7 +296,7 @@ const Table = ({ obj }) => {
           <table className="global-table table table-font-size-sm">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
 
                 <th>From Mother Vessel</th>
                 <th>To Mother Vessel</th>

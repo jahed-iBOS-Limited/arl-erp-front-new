@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
   //  cashMarginCode: '',
-  refType: "",
-  refNo: "",
-  bankName: "",
-  principleAmount: "",
-  marginPercent: "",
-  marginAmount: "",
+  refType: '',
+  refNo: '',
+  bankName: '',
+  principleAmount: '',
+  marginPercent: '',
+  marginAmount: '',
   //  balance: '',
-  maturityDate: "",
-  narration: "",
-  cashMarginType: "",
-  bankAccountNo: "",
+  maturityDate: '',
+  narration: '',
+  cashMarginType: '',
+  bankAccountNo: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -33,31 +33,31 @@ const validationSchema = Yup.object().shape({
   //     .typeError('Cash Margin Code is required'),
   refType: Yup.object()
     .shape({
-      label: Yup.string().required("Ref Type is required"),
-      value: Yup.string().required("Ref Type is required"),
+      label: Yup.string().required('Ref Type is required'),
+      value: Yup.string().required('Ref Type is required'),
     })
-    .typeError("Ref Type is required"),
+    .typeError('Ref Type is required'),
   cashMarginType: Yup.object().shape({
-    label: Yup.string().required("Cash Margin Type is required"),
-    value: Yup.string().required("Cash Margin Type is required"),
+    label: Yup.string().required('Cash Margin Type is required'),
+    value: Yup.string().required('Cash Margin Type is required'),
   }),
   bankAccountNo: Yup.object().shape({
-    label: Yup.string().required("Bank Account No is required"),
-    value: Yup.string().required("Bank Account No is required"),
+    label: Yup.string().required('Bank Account No is required'),
+    value: Yup.string().required('Bank Account No is required'),
   }),
   bankName: Yup.object()
     .shape({
-      label: Yup.string().required("Bank Name is required"),
-      value: Yup.string().required("Bank Name is required"),
+      label: Yup.string().required('Bank Name is required'),
+      value: Yup.string().required('Bank Name is required'),
     })
-    .typeError("Bank Name is required"),
+    .typeError('Bank Name is required'),
 
-  principleAmount: Yup.number().required("Principal Amount is required"),
-  marginPercent: Yup.number().required("Margin Percent is required"),
-  marginAmount: Yup.number().required("Margin Amount is required"),
-  narration: Yup.string().required("Narration is required"),
+  principleAmount: Yup.number().required('Principal Amount is required'),
+  marginPercent: Yup.number().required('Margin Percent is required'),
+  marginAmount: Yup.number().required('Margin Amount is required'),
+  narration: Yup.string().required('Narration is required'),
   //  balance: Yup.number().required('Balance is required'),
-  maturityDate: Yup.date().required("Maturity Date is required"),
+  maturityDate: Yup.date().required('Maturity Date is required'),
 });
 
 export default function CreateCashMargin() {
@@ -75,7 +75,6 @@ export default function CreateCashMargin() {
     getBankAccountDDL(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
@@ -102,7 +101,7 @@ export default function CreateCashMargin() {
     };
 
     createHandler(
-      "/fino/FundManagement/CreateFundCashMargin",
+      '/fino/FundManagement/CreateFundCashMargin',
       payload,
       cb,
       true
@@ -130,20 +129,20 @@ export default function CreateCashMargin() {
       }) => (
         <>
           {saveLoading && <Loading />}
-          <IForm title={"Create Cash Margin"} getProps={setObjprops}>
+          <IForm title={'Create Cash Margin'} getProps={setObjprops}>
             <div className="bank-guarantee-entry">
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
                     name="cashMarginType"
                     options={[
-                      { value: 1, label: "Cash Refund" },
-                      { value: 2, label: "Cash Payment" },
+                      { value: 1, label: 'Cash Refund' },
+                      { value: 2, label: 'Cash Payment' },
                     ]}
-                    value={values?.cashMarginType || ""}
+                    value={values?.cashMarginType || ''}
                     label="Cash Margin Type"
                     onChange={(valueOption) => {
-                      setFieldValue("cashMarginType", valueOption);
+                      setFieldValue('cashMarginType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -155,9 +154,9 @@ export default function CreateCashMargin() {
                     options={bankAccountDDL || []}
                     name="bankAccountNo"
                     placeholder="Bank Account No"
-                    value={values?.bankAccountNo || ""}
+                    value={values?.bankAccountNo || ''}
                     onChange={(valueOption) => {
-                      setFieldValue("bankAccountNo", valueOption);
+                      setFieldValue('bankAccountNo', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -167,13 +166,13 @@ export default function CreateCashMargin() {
                   <NewSelect
                     name="refType"
                     options={[
-                      { value: "LC", label: "LC" },
-                      { value: "Bank Guarantee", label: "Bank Guarantee" },
+                      { value: 'LC', label: 'LC' },
+                      { value: 'Bank Guarantee', label: 'Bank Guarantee' },
                     ]}
                     value={values?.refType}
                     label="Ref Type"
                     onChange={(valueOption) => {
-                      setFieldValue("refType", valueOption);
+                      setFieldValue('refType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -187,7 +186,7 @@ export default function CreateCashMargin() {
                     name="refNo"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("refNo", e.target.value);
+                      setFieldValue('refNo', e.target.value);
                     }}
                   />
                 </div>
@@ -200,9 +199,9 @@ export default function CreateCashMargin() {
                     label="Bank"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("bankName", valueOption);
+                        setFieldValue('bankName', valueOption);
                       } else {
-                        setFieldValue("bank", "");
+                        setFieldValue('bank', '');
                       }
                     }}
                     errors={errors}
@@ -218,9 +217,9 @@ export default function CreateCashMargin() {
                     type="number"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("principleAmount", e.target.value);
+                        setFieldValue('principleAmount', e.target.value);
                         setFieldValue(
-                          "marginAmount",
+                          'marginAmount',
                           (
                             ((+values?.marginPercent || 0) *
                               (+e.target.value || 0)) /
@@ -228,8 +227,8 @@ export default function CreateCashMargin() {
                           ).toFixed(2)
                         );
                       } else {
-                        setFieldValue("principleAmount", "");
-                        setFieldValue("marginAmount", "");
+                        setFieldValue('principleAmount', '');
+                        setFieldValue('marginAmount', '');
                       }
                     }}
                   />
@@ -243,9 +242,9 @@ export default function CreateCashMargin() {
                     type="number"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("marginPercent", e.target.value);
+                        setFieldValue('marginPercent', e.target.value);
                         setFieldValue(
-                          "marginAmount",
+                          'marginAmount',
                           (
                             ((+values?.principleAmount || 0) *
                               (+e.target.value || 0)) /
@@ -253,8 +252,8 @@ export default function CreateCashMargin() {
                           ).toFixed(2)
                         );
                       } else {
-                        setFieldValue("marginPercent", "");
-                        setFieldValue("marginAmount", "");
+                        setFieldValue('marginPercent', '');
+                        setFieldValue('marginAmount', '');
                       }
                     }}
                   />
@@ -284,7 +283,7 @@ export default function CreateCashMargin() {
                     name="maturityDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("maturityDate", e.target.value);
+                      setFieldValue('maturityDate', e.target.value);
                     }}
                   />
                 </div>
@@ -296,7 +295,7 @@ export default function CreateCashMargin() {
                     name="narration"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("narration", e.target.value);
+                      setFieldValue('narration', e.target.value);
                     }}
                   />
                 </div>
@@ -305,14 +304,14 @@ export default function CreateCashMargin() {
             <Form>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

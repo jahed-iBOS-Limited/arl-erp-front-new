@@ -58,16 +58,15 @@ export default function FormCmp({
 
   useEffect(() => {
     getChargeTypeDDL(
-      `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const loadPoLcList = (v) => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/imp/ImportCommonDDL/GetPONumberListFromShipment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`,
+        `/imp/ImportCommonDDL/GetPONumberListFromShipment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -91,7 +90,7 @@ export default function FormCmp({
       pageNo,
       pageSize,
       setDisabled,
-      setTotalCount,
+      setTotalCount
     );
   };
   return (
@@ -155,7 +154,7 @@ export default function FormCmp({
                             values?.supplier?.value,
                             0,
                             values?.chargeType?.label || '',
-                            values?.subChargeType?.value || 0,
+                            values?.subChargeType?.value || 0
                           );
                         }}
                         loadOptions={loadPoLcList || []}
@@ -176,12 +175,11 @@ export default function FormCmp({
                             valueOption?.value,
                             0,
                             values?.chargeType?.label || '',
-                            valueOption?.value || 0,
+                            valueOption?.value || 0
                           );
                         }}
                       />
                     </div>
-
 
                     <div className="col-lg-2">
                       <NewSelect
@@ -201,14 +199,14 @@ export default function FormCmp({
                                   label: item?.subChargeTypeName,
                                 }));
                                 setSubChargeTypeDDL(result);
-                              },
+                              }
                             );
                             getLandingDataForCommercialBill(
                               values?.poLc?.label,
                               values?.supplier?.value || 0,
                               0,
                               valueOption?.label,
-                              0,
+                              0
                             );
                           } else {
                             setFieldValue('chargeType', '');
@@ -219,7 +217,7 @@ export default function FormCmp({
                               values?.supplier?.value || 0,
                               0,
                               '',
-                              values?.subChargeType?.value || 0,
+                              values?.subChargeType?.value || 0
                             );
                           }
                         }}
@@ -239,7 +237,7 @@ export default function FormCmp({
                               valueOption?.value,
                               0,
                               values?.chargeType?.label || '',
-                              valueOption?.value || 0,
+                              valueOption?.value || 0
                             );
                           }}
                         />
@@ -256,11 +254,9 @@ export default function FormCmp({
                           name="billNo"
                           placeholder="Bill No"
                           type="text"
-
                         />
                       </div>
                     )}
-
 
                     <div className="col-lg-2">
                       <button
@@ -284,7 +280,7 @@ export default function FormCmp({
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name,
+                          (item) => item.file.name !== deleteFileObj.file.name
                         );
                         setFileObjects(newData);
                       }}
@@ -305,13 +301,13 @@ export default function FormCmp({
                         Total Bill Amount (with VAT) :{' '}
                         {rowDto?.length > 0
                           ? rowDto
-                            ?.filter((item) => item?.isSelect)
-                            ?.reduce(
-                              (accumulator, currentValue) =>
-                                accumulator +
-                                +currentValue?.totalBilledAmount || 0,
-                              0,
-                            )
+                              ?.filter((item) => item?.isSelect)
+                              ?.reduce(
+                                (accumulator, currentValue) =>
+                                  accumulator +
+                                    +currentValue?.totalBilledAmount || 0,
+                                0
+                              )
                           : 0}
                       </strong>
                     </div>
@@ -327,12 +323,12 @@ export default function FormCmp({
                         onChange={(e) => {
                           setFieldValue(
                             'modifyVatPercentage',
-                            e.target.value || '',
+                            e.target.value || ''
                           );
                           const modifyData = rowDto?.map((item) => {
                             let numericTotalAmount =
                               parseFloat(
-                                +item?.totalAmount.replace(/,/g, ''),
+                                +item?.totalAmount.replace(/,/g, '')
                               ) || 0;
 
                             let modifyVatAmount =
@@ -342,13 +338,13 @@ export default function FormCmp({
 
                             return item?.isSelect
                               ? {
-                                ...item,
-                                vatamount: modifyVatAmount,
-                                modifyVatPercentage: +e.target.value || 0,
-                                totalBilledAmount:
-                                  (+item?.totalAmount || 0) +
-                                  (+modifyVatAmount || 0),
-                              }
+                                  ...item,
+                                  vatamount: modifyVatAmount,
+                                  modifyVatPercentage: +e.target.value || 0,
+                                  totalBilledAmount:
+                                    (+item?.totalAmount || 0) +
+                                    (+modifyVatAmount || 0),
+                                }
                               : item;
                           });
                           setRowDto(modifyData);
@@ -395,10 +391,7 @@ export default function FormCmp({
                             key={index}
                             style={{ cursor: 'pointer' }}
                             onClick={(e) => {
-                              if (
-
-                                item.isMultipleSupplier
-                              ) {
+                              if (item.isMultipleSupplier) {
                                 setIsShowModal(true);
                                 setPoNumber(item?.ponumber);
                                 setShipmentNo(item?.shipmentCode);
@@ -412,7 +405,6 @@ export default function FormCmp({
                               <input
                                 type="checkbox"
                                 name="isSelect"
-
                                 disabled={item.isMultipleSupplier}
                                 checked={item?.isSelect}
                                 onClick={(e) => {
@@ -424,7 +416,7 @@ export default function FormCmp({
                                     'isSelect',
                                     !item?.isSelect,
                                     index,
-                                    values,
+                                    values
                                   );
                                 }}
                               />
@@ -444,12 +436,10 @@ export default function FormCmp({
                             </td>
                             <td className="text-right">{item?.totalAmount}</td>
                             <td className="text-right">
-
                               <InputField
                                 name="totalBilledAmount"
                                 type="number"
                                 className="form-control"
-
                                 value={item?.totalBilledAmount}
                                 placeholder="Total Billed Amount"
                                 onClick={(e) => {
@@ -459,19 +449,17 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'totalBilledAmount',
                                     valueOption?.target?.value,
-                                    index,
+                                    index
                                   );
                                 }}
                               />
                               {/* )} */}
                             </td>
                             <td className="text-right">
-
                               <InputField
                                 name="vatamount"
                                 placeholder="VAT"
                                 value={rowDto[index]?.vatamount}
-
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
@@ -479,12 +467,12 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'vatamount',
                                     e?.target?.value,
-                                    index,
+                                    index
                                   );
 
                                   let data = [...rowDto];
                                   let numericTotalAmount = parseFloat(
-                                    item?.totalAmount.replace(/,/g, ''),
+                                    item?.totalAmount.replace(/,/g, '')
                                   );
 
                                   data[index]['totalBilledAmount'] =
@@ -496,7 +484,6 @@ export default function FormCmp({
                               {/* )} */}
                             </td>
                             <td className="text-center">
-
                               <InputField
                                 value={item?.dueDate}
                                 type="date"
@@ -509,7 +496,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'dueDate',
                                     valueOption?.target?.value,
-                                    index,
+                                    index
                                   );
                                 }}
                                 disabled={

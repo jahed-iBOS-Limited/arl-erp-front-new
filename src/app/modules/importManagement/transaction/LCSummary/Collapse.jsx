@@ -43,7 +43,6 @@ export default function LCSummaryCollapsePanel() {
     } else if (state?.checkbox === 'shipmentWisePolicy') {
       setExpanded('panel3');
     }
-
   }, [state]);
 
   return (

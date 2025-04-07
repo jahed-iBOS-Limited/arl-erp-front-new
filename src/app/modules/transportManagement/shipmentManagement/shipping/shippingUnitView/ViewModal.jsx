@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ShippingPrint from "./shippingPrint";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ShippingPrint from './shippingPrint';
 export function ViewModal({ id, shipmentCode, show, onHide, history }) {
   const [isLoading, setLoading] = useState(true);
   const { state } = useLocation();

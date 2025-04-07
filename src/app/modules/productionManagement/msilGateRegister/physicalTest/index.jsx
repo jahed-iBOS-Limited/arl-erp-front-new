@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import InputField from "../../../_helper/_inputField";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "./../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import IForm from "./../../../_helper/_form";
-import IEdit from "./../../../_helper/_helperIcons/_edit";
-import Loading from "./../../../_helper/_loading";
-import { _timeFormatter } from "./../../../_helper/_timeFormatter";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import InputField from '../../../_helper/_inputField';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from './../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import IForm from './../../../_helper/_form';
+import IEdit from './../../../_helper/_helperIcons/_edit';
+import Loading from './../../../_helper/_loading';
+import { _timeFormatter } from './../../../_helper/_timeFormatter';
 
 const initData = {
   fromDate: _todayDate(),
@@ -67,7 +67,7 @@ export default function PhysicalTestLanding() {
                     className="btn btn-primary mr-4"
                     onClick={() => {
                       history.push(
-                        "/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/report"
+                        '/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/report'
                       );
                     }}
                   >
@@ -78,7 +78,7 @@ export default function PhysicalTestLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/create"
+                        '/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/create'
                       );
                     }}
                   >
@@ -99,7 +99,7 @@ export default function PhysicalTestLanding() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -111,7 +111,7 @@ export default function PhysicalTestLanding() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -123,7 +123,7 @@ export default function PhysicalTestLanding() {
                           `/hcm/QCTest/QCTransactionView?BusinessUnitId=${selectedBusinessUnit?.value}&QcTestType=PhysicalTest&FromDate=${values?.fromDate}&Todate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`
                         );
                       }}
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="btn btn-primary"
                     >
                       View
@@ -163,7 +163,7 @@ export default function PhysicalTestLanding() {
                               {_dateFormatter(dataItem?.transactionDate)}
                             </td>
                             <td>{dataItem?.shiftName}</td>
-                            <td>{_timeFormatter(dataItem?.startTime || "")}</td>
+                            <td>{_timeFormatter(dataItem?.startTime || '')}</td>
                             <td>{dataItem?.machineName}</td>
                             <td>{dataItem?.itemTypeName}</td>
                             {dataItem?.row?.map((item, i) => (
@@ -179,7 +179,7 @@ export default function PhysicalTestLanding() {
                             </td>
                             <td>{dataItem?.comments}</td>
                             <td
-                              style={{ minWidth: "30px" }}
+                              style={{ minWidth: '30px' }}
                               className="text-center"
                             >
                               <IEdit

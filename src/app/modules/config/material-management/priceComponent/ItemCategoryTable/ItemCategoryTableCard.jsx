@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 export function ItemCategoryTable() {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState(null);
@@ -26,22 +25,22 @@ export function ItemCategoryTable() {
       const res = await Axios.get(
         `/item/PriceComponent/GetPriceInfoLandingPasignation?AccountId=${accId}&BusniessUnitId=${buId}&viewOrder=desc&Status=true&PageNo=${pageNo}&PageSize=${pageSize}`
       );
-      console.log(res?.data)
-      const updatedData = res?.data?.data.map(item => {
+      console.log(res?.data);
+      const updatedData = res?.data?.data.map((item) => {
         let numFactor;
 
-        if(item?.numFactor === 1){
-          numFactor = "positive"
+        if (item?.numFactor === 1) {
+          numFactor = 'positive';
         }
-        if(item?.numFactor === -1){
-          numFactor = "negative"
+        if (item?.numFactor === -1) {
+          numFactor = 'negative';
         }
         return {
           ...item,
-          numFactor
-        }
-      })
-      setProducts({...res?.data,data:updatedData});
+          numFactor,
+        };
+      });
+      setProducts({ ...res?.data, data: updatedData });
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -72,36 +71,36 @@ export function ItemCategoryTable() {
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "priceComponentCode",
-      text: "Code",
+      dataField: 'priceComponentCode',
+      text: 'Code',
     },
     {
-      dataField: "priceComponentName",
-      text: "Component",
+      dataField: 'priceComponentName',
+      text: 'Component',
     },
     {
-      dataField: "priceComponentTypeName",
-      text: "Type",
+      dataField: 'priceComponentTypeName',
+      text: 'Type',
     },
     {
-      dataField: "numFactor",
-      text: "Factor",
+      dataField: 'numFactor',
+      text: 'Factor',
     },
     {
-      dataField: "roundingTypeName",
-      text: "rounding Type",
+      dataField: 'roundingTypeName',
+      text: 'rounding Type',
     },
     {
-      dataField: "generalLedgerName",
-      text: "General Ledger",
+      dataField: 'generalLedgerName',
+      text: 'General Ledger',
     },
     {
-      dataField: "priceStructureTypeName",
-      text: "Price Structure",
+      dataField: 'priceStructureTypeName',
+      text: 'Price Structure',
     },
   ];
 

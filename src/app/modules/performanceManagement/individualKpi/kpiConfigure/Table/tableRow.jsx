@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import { getDDL, getKPIConfigureLanding } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import Loading from "../../../../_helper/_loading";
-import IExtend from "../../../../_helper/_helperIcons/_extend";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import { getDDL, getKPIConfigureLanding } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import Loading from '../../../../_helper/_loading';
+import IExtend from '../../../../_helper/_helperIcons/_extend';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 
 export function TableRow() {
   const history = useHistory();
@@ -32,7 +32,6 @@ export function TableRow() {
     if (selectedBusinessUnit && profileData) {
       getDDL(`/pms/CommonDDL/BSCPerspectiveDDL`, setBSCPerspectiveDDL);
     }
-
   }, []);
 
   useEffect(() => {
@@ -44,7 +43,6 @@ export function TableRow() {
       setGridData,
       setLoading
     );
-
   }, [selectedBusinessUnit, profileData]);
 
   // setPositionHandler
@@ -89,7 +87,7 @@ export function TableRow() {
                 pageSize,
                 setGridData,
                 setLoading,
-                "",
+                '',
                 e.value
               );
             }}

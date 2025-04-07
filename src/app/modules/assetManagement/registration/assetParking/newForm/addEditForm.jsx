@@ -1,9 +1,6 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   getAssignToDDLforCreate,
   getresponsiblePersonDDLforCreate,
@@ -13,65 +10,65 @@ import {
   getSupplierDDLforCreate,
   getItemAttributeforCreate,
   getBrtaDDL,
-  getAssetCategoryList
-} from "../helper";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import "../assetParking.css";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+  getAssetCategoryList,
+} from '../helper';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import '../assetParking.css';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { confirmAlert } from 'react-confirm-alert';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const _WrrentyDate = () => {
   var today = new Date();
   const warentyDate =
     today.getFullYear() +
     1 +
-    "-" +
-    ("0" + (today.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + today.getDate()).slice(-2);
+    '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
   return warentyDate;
 };
 
 const initData = {
-  itemName: "",
+  itemName: '',
   // uoMname: "",
-  transactionQuantity: "",
-  referenceCode: "",
-  businessPartnerName: "",
+  transactionQuantity: '',
+  referenceCode: '',
+  businessPartnerName: '',
   transactionDate: _todayDate(),
-  transactionValue: "",
-  acquisitionValue: "",
-  manuName: "",
-  countryOrigin: "",
+  transactionValue: '',
+  acquisitionValue: '',
+  manuName: '',
+  countryOrigin: '',
   warrentyEnd: _WrrentyDate(),
-  location: "",
-  depriValue: "",
+  location: '',
+  depriValue: '',
   depriRunDate: _todayDate(),
-  assignTo: "",
-  usageType: "",
-  resPerson: "",
-  assetDes: "",
-  departnemt: "",
-  assetType: "",
-  manuSerialNumber: "",
-  brtaType:"",
-  assetName:"",
-  category:"",
-  itemCategory:"",
-  lifeTimeYear: "",
-  depRunRate: "",
-  profitCenter: "",
+  assignTo: '',
+  usageType: '',
+  resPerson: '',
+  assetDes: '',
+  departnemt: '',
+  assetType: '',
+  manuSerialNumber: '',
+  brtaType: '',
+  assetName: '',
+  category: '',
+  itemCategory: '',
+  lifeTimeYear: '',
+  depRunRate: '',
+  profitCenter: '',
 };
 
 export default function AssetParkingCreateForm({
   sbuName,
   plantName,
   warehouseName,
-  setIsShowModal
+  setIsShowModal,
 }) {
   const location = useLocation();
   const [isDisabled, setDisabled] = useState(false);
@@ -94,8 +91,13 @@ export default function AssetParkingCreateForm({
   const [itemAttribute, setItemAttribute] = useState([]);
   const [uomList, setUOMList] = useState([]);
   const [brtaList, setbrtaList] = useState([]);
-  const [categoryDDL, setCategoryDDL] = useState([])
-  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet()
+  const [categoryDDL, setCategoryDDL] = useState([]);
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    profitCenterLoading,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
 
   useEffect(() => {
     getDepartmenttDDL(
@@ -128,23 +130,24 @@ export default function AssetParkingCreateForm({
       selectedBusinessUnit?.value,
       setSupplierList
     );
-    getBrtaDDL(setbrtaList)
+    getBrtaDDL(setbrtaList);
 
-    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
-    data => {
-      const newData = data?.map(itm => {
-         itm.value = itm?.profitCenterId;
-         itm.label = itm?.profitCenterName;
-         return itm;
-      });
-      setProfitCenterDDL(newData);
-   })
-
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        const newData = data?.map((itm) => {
+          itm.value = itm?.profitCenterId;
+          itm.label = itm?.profitCenterName;
+          return itm;
+        });
+        setProfitCenterDDL(newData);
+      }
+    );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
-    getAssetCategoryList(setCategoryDDL)
-  },[])
+    getAssetCategoryList(setCategoryDDL);
+  }, []);
 
   const onChangeForItem = (item) => {
     getItemAttributeforCreate(
@@ -155,15 +158,15 @@ export default function AssetParkingCreateForm({
     );
   };
 
-   //save event Modal (code see)
-   const IConfirmModal = (props) => {
+  //save event Modal (code see)
+  const IConfirmModal = (props) => {
     const { title, message, noAlertFunc } = props;
     return confirmAlert({
       title: title,
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -171,63 +174,68 @@ export default function AssetParkingCreateForm({
   };
 
   const saveHandler = async (values, cb) => {
-
-
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
-        assetId:0,
-        assetDescription: values.assetDes || "",
+        assetId: 0,
+        assetDescription: values.assetDes || '',
         accountId: profileData?.accountId || 0,
         plantId: plantName.value || 0,
-        plantName: plantName.label || "",
+        plantName: plantName.label || '',
         businessUnitId: selectedBusinessUnit?.value || 0,
-        businessUnitName: selectedBusinessUnit?.label || "",
+        businessUnitName: selectedBusinessUnit?.label || '',
         sbuId: sbuName.value || 0,
-        sbuName: sbuName.label || "",
+        sbuName: sbuName.label || '',
         warehouseId: warehouseName.value || 0,
-        warehouseName: warehouseName.label || "",
+        warehouseName: warehouseName.label || '',
         itemId: values.itemName.value || 0,
-        itemCode: values.itemName.code || "",
-        itemName: values.itemName.label || "",
-        nameManufacturer: values.manuName || "",
-        inventoryTransectionId:0,
-        countryOrigin: values.countryOrigin || "",
+        itemCode: values.itemName.code || '',
+        itemName: values.itemName.label || '',
+        nameManufacturer: values.manuName || '',
+        inventoryTransectionId: 0,
+        countryOrigin: values.countryOrigin || '',
         supplierId: values.businessPartnerName.value || 0,
-        supplierName: values.businessPartnerName.label || "",
+        supplierName: values.businessPartnerName.label || '',
         poId: 0,
-        poNo: values.referenceCode || "",
+        poNo: values.referenceCode || '',
         acquisitionDate: values.transactionDate,
         numInvoiceValue: +values.transactionValue || 0,
         numOtherCost: 0,
         numAcquisitionValue: +values.acquisitionValue || 0,
         numBookValue: 0,
         numTotalDepValue: +values.depriValue || 0,
-        depRunDate: values.depriRunDate || "",
-        warrentyEndDate: values.warrentyEnd || "",
-        location: values.location || "",
+        depRunDate: values.depriRunDate || '',
+        warrentyEndDate: values.warrentyEnd || '',
+        location: values.location || '',
         useTypeId: values.usageType.value || 0,
-        useTypeName: values.usageType.label || "",
+        useTypeName: values.usageType.label || '',
         useStatusId: 0,
         usingEmployeeId: values.assignTo.value || 0,
-        usingEmployeName: values.assignTo.label || "",
+        usingEmployeName: values.assignTo.label || '',
         usingDepartmentId: values.departnemt.value || 0,
-        departmentName: values.departnemt.label || "",
+        departmentName: values.departnemt.label || '',
         responsibleEmployeeId: values.resPerson.value || 0,
-        responsibleEmpName: values.resPerson.label || "",
+        responsibleEmpName: values.resPerson.label || '',
         actionBy: profileData.userId,
-        assetTypeName: values?.assetType?.label || "",
+        assetTypeName: values?.assetType?.label || '',
         depRate: +values?.depRunRate || 0,
         lifeTimeYear: +values?.lifeTimeYear || 0,
         serialNo: values?.manuSerialNumber,
         brtaVehicelTypeId: values?.brtaType?.value || 0,
-        assetName: values?.assetName || "",
+        assetName: values?.assetName || '',
         assetCategoryId: values?.category?.value || 0,
-        assetCategoryName: values?.category?.label || "",
+        assetCategoryName: values?.category?.label || '',
         profitCenterId: +values?.profitCenter?.value || 0,
-        profitCenterName: values?.profitCenter?.label || "",
+        profitCenterName: values?.profitCenter?.label || '',
       };
-     // window.payload = payload
-      saveAssetForData(payload, cb, setItemAttribute, setDisabled, setIsShowModal ,IConfirmModal);
+      // window.payload = payload
+      saveAssetForData(
+        payload,
+        cb,
+        setItemAttribute,
+        setDisabled,
+        setIsShowModal,
+        IConfirmModal
+      );
     }
   };
 
@@ -260,8 +268,8 @@ export default function AssetParkingCreateForm({
           department={department}
           onChangeForItem={onChangeForItem}
           itemAttribute={itemAttribute}
-          plId= {plantName.value}
-          whId = {warehouseName.value}
+          plId={plantName.value}
+          whId={warehouseName.value}
           setUOMList={setUOMList}
           uomList={uomList}
           profileData={profileData}

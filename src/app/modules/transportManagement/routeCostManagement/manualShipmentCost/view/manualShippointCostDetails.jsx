@@ -23,7 +23,6 @@ export function ManualShippointCostDetails({
 
   const { shippointId, vehicleId } = currentItem;
 
-
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -44,9 +43,8 @@ export function ManualShippointCostDetails({
         valuesfordate?.fromDate || ''
       }&ToDate=${
         valuesfordate?.toDate || ''
-      }&isBillSubmited=${false}&intVehicleId=${vehicleId}`,
+      }&isBillSubmited=${false}&intVehicleId=${vehicleId}`
     );
-
   }, [shippointId, vehicleId, profileData, selectedBusinessUnit]);
 
   const printRef = useRef();
@@ -262,7 +260,7 @@ export function ManualShippointCostDetails({
                                     <td>{data?.netPayable}</td>
                                   </tr>
                                 </>
-                              ),
+                              )
                             )}
                           </tbody>
                         </table>

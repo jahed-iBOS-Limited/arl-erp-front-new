@@ -39,7 +39,7 @@ function AllReport() {
           _list.map((item) => [
             `${item?.datasource}-${item?.standardreportname}-${item?.process}`,
             item,
-          ]),
+          ])
         ).values(),
       ];
       setAllList(uniqueCombinations || []);

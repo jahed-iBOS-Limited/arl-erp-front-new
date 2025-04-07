@@ -1,5 +1,5 @@
-import * as requestFromServer from "./Api";
-import { partnerSalesSlice } from "./Slice";
+import * as requestFromServer from './Api';
+import { partnerSalesSlice } from './Slice';
 const { actions: slice } = partnerSalesSlice;
 
 // action for sbuDDL data
@@ -13,18 +13,17 @@ export const getSbuDDLAction = (accId, buId) => (dispatch) => {
 };
 
 // action for salesOrganaizationDDL data
-export const getSalesOrganaizationDDLAction = (accId, buId, sbuId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getSalesOrganaizationDDL(accId, buId, sbuId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetSalesOrganaizationDDL(data));
-      }
-    });
-};
+export const getSalesOrganaizationDDLAction =
+  (accId, buId, sbuId) => (dispatch) => {
+    return requestFromServer
+      .getSalesOrganaizationDDL(accId, buId, sbuId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetSalesOrganaizationDDL(data));
+        }
+      });
+  };
 
 // action for distributionChannelDDL data
 export const getDistributionChannelDDLAction = (accId, buId) => (dispatch) => {
@@ -59,45 +58,43 @@ export const getTransportZoneDDLAction = (accId, buId) => (dispatch) => {
 };
 
 // action for reconGeneralLedgerDDL data
-export const GeneralLedgerDDLAction = (accId, buId, accountGroupId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getGeneralLedgerDDL(accId, buId, accountGroupId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        const newData = data.map((itm) => {
-          return {
-            ...itm,
-            value: itm?.generalLedgerId,
-            label: itm?.generalLedgerName,
-          };
-        });
-        dispatch(slice.SetGeneralLedgerDDL(newData));
-      }
-    });
-};
+export const GeneralLedgerDDLAction =
+  (accId, buId, accountGroupId) => (dispatch) => {
+    return requestFromServer
+      .getGeneralLedgerDDL(accId, buId, accountGroupId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          const newData = data.map((itm) => {
+            return {
+              ...itm,
+              value: itm?.generalLedgerId,
+              label: itm?.generalLedgerName,
+            };
+          });
+          dispatch(slice.SetGeneralLedgerDDL(newData));
+        }
+      });
+  };
 //Alternate Generale
-export const AlternateGeneraleDDLAction = (accId, buId, accountGroupId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getGeneralLedgerDDL(accId, buId, accountGroupId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        const newData = data.map((itm) => {
-          return {
-            ...itm,
-            value: itm?.generalLedgerId,
-            label: itm?.generalLedgerName,
-          };
-        });
-        dispatch(slice.SetAlternateGeneraleDDL(newData));
-      }
-    });
-};
+export const AlternateGeneraleDDLAction =
+  (accId, buId, accountGroupId) => (dispatch) => {
+    return requestFromServer
+      .getGeneralLedgerDDL(accId, buId, accountGroupId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          const newData = data.map((itm) => {
+            return {
+              ...itm,
+              value: itm?.generalLedgerId,
+              label: itm?.generalLedgerName,
+            };
+          });
+          dispatch(slice.SetAlternateGeneraleDDL(newData));
+        }
+      });
+  };
 
 // action for soldToPartyDDL data
 export const getSoldToPartyDDLAction = (accId, buId) => (dispatch) => {
@@ -120,18 +117,17 @@ export const getShippingPointDDLAction = (accId, buId) => (dispatch) => {
 };
 
 // action for alternateShippingPointDDL data
-export const getAlternateShippingPointDDLAction = (accId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getAlternateShippingPointDDL(accId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetAlternateShippingPointDDL(data));
-      }
-    });
-};
+export const getAlternateShippingPointDDLAction =
+  (accId, buId) => (dispatch) => {
+    return requestFromServer
+      .getAlternateShippingPointDDL(accId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetAlternateShippingPointDDL(data));
+        }
+      });
+  };
 
 // action for priceStructureDDL data
 export const getPriceStructureDDLAction = (accId, buId) => (dispatch) => {

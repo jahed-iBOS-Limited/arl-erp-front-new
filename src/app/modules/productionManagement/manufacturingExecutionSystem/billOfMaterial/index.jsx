@@ -1,8 +1,8 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
 // import  ViewForm  from "./ViewOld/viewModal";
-import { BillofMaterialTable } from "./Table/tableHeader";
+import { BillofMaterialTable } from './Table/tableHeader';
 
 export function BillOfMaterialLanding({ history }) {
   const uIEvents = {

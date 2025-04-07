@@ -1,6 +1,6 @@
-import React from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
+import React from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
 const RowDtoTable = ({
   rowDto,
   remover,
@@ -37,8 +37,8 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="">{item?.uoMname}</td>
@@ -51,12 +51,12 @@ const RowDtoTable = ({
                   </td> */}
                     <td
                       className="text-center align-middle"
-                      style={{ width: "200px" }}
+                      style={{ width: '200px' }}
                     >
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "location",
+                            'location',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -65,14 +65,14 @@ const RowDtoTable = ({
                             index
                           );
 
-                          console.log(valueOption, "cueent stock");
+                          console.log(valueOption, 'cueent stock');
                           rowDtoHandler(
-                            "currentStock",
+                            'currentStock',
                             valueOption?.currentStock,
                             index
                           );
                         }}
-                        defaultValue={item?.location || ""}
+                        defaultValue={item?.location || ''}
                         isSearchable={true}
                         styles={customStyles}
                         options={item?.locationddl}
@@ -102,7 +102,7 @@ const RowDtoTable = ({
                       placeholder="Stock"
                     />
                   </td> */}
-                    <td style={{ width: "100px" }} className="text-center">
+                    <td style={{ width: '100px' }} className="text-center">
                       {item?.quantity}
                       {/* <IInput
                       value={rowDto[index]?.quantity}

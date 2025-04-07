@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import Loading from "../../../_helper/_loading";
-import Form from "./form";
-import { getSalesConfigPagination, saveSalesConfigItem } from "./helper";
+} from '../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import Form from './form';
+import { getSalesConfigPagination, saveSalesConfigItem } from './helper';
 
 const initData = {
   isUse: false,
@@ -47,7 +47,6 @@ export default function SalesConfig() {
         setRowDto
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveBusTaxConfig = async (values, cb) => {
@@ -75,7 +74,7 @@ export default function SalesConfig() {
           inventory: itm?.inventory,
           isSouseOnProductionOrder: itm?.isSouseOnProductionOrder,
           stockCheckOnShipment: itm?.isStockCheckOnShipment,
-          autoInvoice: itm?.autoInvoice||false,
+          autoInvoice: itm?.autoInvoice || false,
           actionBy,
         };
       });

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getLandingData = async (
   accId,
@@ -64,13 +64,13 @@ export const createProductionLine = async (payload, cb, setDisabled) => {
     );
 
     if (res.data && res.status) {
-      toast.success("Successfully Created!");
+      toast.success('Successfully Created!');
       cb();
       setDisabled(false);
     }
   } catch (error) {
     toast.warning(
-      error?.response?.data?.message || "Sorry can not perform the action!"
+      error?.response?.data?.message || 'Sorry can not perform the action!'
     );
     setDisabled(false);
   }
@@ -86,7 +86,7 @@ export const editProductionLine = async (payload, cb, setDisabled) => {
     );
 
     if (res.status === 200 && res.data) {
-      toast.success("Updated Successfully!");
+      toast.success('Updated Successfully!');
       setDisabled(false);
     }
   } catch (error) {
@@ -98,7 +98,8 @@ export const editProductionLine = async (payload, cb, setDisabled) => {
 // SINGLE DATA BY ID
 export const getSingleDataById = async (id, setter) => {
   try {
-    const res = await axios.get(`/mes/ProductionLine/GetProductionLineById?ProductionLineId=${id}
+    const res =
+      await axios.get(`/mes/ProductionLine/GetProductionLineById?ProductionLineId=${id}
         `);
 
     if (res.data && res.status) {

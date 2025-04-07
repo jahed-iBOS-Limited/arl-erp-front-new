@@ -15,7 +15,7 @@ export default function Approve() {
             history={history}
             onHide={() => {
               history.push(
-                '/performance-management/individual-kpi/individual-kpi-approve',
+                '/performance-management/individual-kpi/individual-kpi-approve'
               );
             }}
           />

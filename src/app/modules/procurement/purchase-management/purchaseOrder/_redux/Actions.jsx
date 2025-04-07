@@ -71,7 +71,7 @@ export const getPOItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -85,7 +85,7 @@ export const getPOItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { status, data } = res;
@@ -114,7 +114,7 @@ export const getPOItemForStandradItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -128,7 +128,7 @@ export const getPOItemForStandradItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { data } = res;
@@ -149,7 +149,7 @@ export const getPOItemForContractItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -163,7 +163,7 @@ export const getPOItemForContractItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { status, data } = res;
@@ -185,7 +185,7 @@ export const getPOItemForServiceItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -199,7 +199,7 @@ export const getPOItemForServiceItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { data } = res;
@@ -220,7 +220,7 @@ export const getPOItemForAssetItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -234,7 +234,7 @@ export const getPOItemForAssetItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { data } = res;
@@ -255,7 +255,7 @@ export const getPOItemForReturnItemDDLAction =
     whId,
     partnerId,
     refTypeId,
-    refNoId,
+    refNoId
   ) =>
   (dispatch) => {
     return requestFromServer
@@ -269,7 +269,7 @@ export const getPOItemForReturnItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { status, data } = res;
@@ -292,7 +292,7 @@ export const getPOWihoutServiceItemDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { data } = res;
@@ -314,7 +314,7 @@ export const getPOItemWithoutRefDDLAction =
         whId,
         partnerId,
         refTypeId,
-        refNoId,
+        refNoId
       )
       .then((res) => {
         const { status, data } = res;
@@ -382,7 +382,7 @@ export const getGridAction =
     pageNo,
     pageSize,
     searchValue,
-    isClose,
+    isClose
   ) =>
   (dispatch) => {
     setLoading(true);
@@ -417,7 +417,7 @@ export const getGridAction =
         pageNo,
         pageSize,
         searchValue,
-        isClose,
+        isClose
       )
       .then((res) => {
         setLoading(false);
@@ -476,7 +476,7 @@ export const savePurchaseOrderForAssetStandardService =
               cb: () => {
                 setTimeout(() => {
                   payload.history.push(
-                    `/ShippingAgency/Transaction/EstimatePDA/edit/${estimatePdaid}`,
+                    `/ShippingAgency/Transaction/EstimatePDA/edit/${estimatePdaid}`
                   );
                 }, 2000);
               },
@@ -545,7 +545,7 @@ const savePoEstimatePDARowApi = async ({
 }) => {
   const estimatePDAList =
     payload.estimatePDAPOPage?.estimatePDAList?.map(
-      (itm) => itm?.estimatePdarowId,
+      (itm) => itm?.estimatePdarowId
     ) || [];
 
   const splitMessage = message.split(':');
@@ -561,7 +561,7 @@ const savePoEstimatePDARowApi = async ({
     setDisabled(true);
     const res = await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/SavePoEstimatePDARow`,
-      _payload,
+      _payload
     );
 
     toast.success('Submitted Successfully');

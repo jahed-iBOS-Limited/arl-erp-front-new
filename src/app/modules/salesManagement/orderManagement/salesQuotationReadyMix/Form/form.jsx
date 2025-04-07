@@ -1,36 +1,35 @@
-
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { _numberValidation } from "./../../../../_helper/_numberValidation";
-import InvoiceRecept from "../invoice/invoiceRecept";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import TextArea from "../../../../_helper/TextArea";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import NewSelect from '../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { _numberValidation } from './../../../../_helper/_numberValidation';
+import InvoiceRecept from '../invoice/invoiceRecept';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import TextArea from '../../../../_helper/TextArea';
+import { shallowEqual, useSelector } from 'react-redux';
 // import CementInvoice from "../invoice/cementInvoice";
-import SalesQuotationForCement from "../../salesQuotation/cementSalesQuotation/invoiceRecept";
+import SalesQuotationForCement from '../../salesQuotation/cementSalesQuotation/invoiceRecept';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   salesOrg: Yup.object().shape({
-    label: Yup.string().required("Sales organization is required"),
-    value: Yup.string().required("Sales organization is required"),
+    label: Yup.string().required('Sales organization is required'),
+    value: Yup.string().required('Sales organization is required'),
   }),
   channel: Yup.object().shape({
-    label: Yup.string().required("Channel is required"),
-    value: Yup.string().required("Channel is required"),
+    label: Yup.string().required('Channel is required'),
+    value: Yup.string().required('Channel is required'),
   }),
   salesOffice: Yup.object().shape({
-    label: Yup.string().required("Sales office is required"),
-    value: Yup.string().required("Sales office is required"),
+    label: Yup.string().required('Sales office is required'),
+    value: Yup.string().required('Sales office is required'),
   }),
   // soldToParty: Yup.object().shape({
   //   label: Yup.string().required("Sales office is required"),
@@ -45,17 +44,17 @@ const validationSchema = Yup.object().shape({
     value: Yup.string(),
   }),
   partnerReffNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Reference no is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Reference no is required'),
   quantity: Yup.number()
-    .min(1, "Minimum 1 number")
-    .max(10000000000000, "Maximum 10000000000000 number"),
+    .min(1, 'Minimum 1 number')
+    .max(10000000000000, 'Maximum 10000000000000 number'),
   price: Yup.number()
-    .min(1, "Minimum 1 number")
-    .max(10000000000000, "Maximum 10000000000000 number"),
-  pricingDate: Yup.date().required("Date is required"),
-  quotationEndDate: Yup.date().required("Date is required"),
+    .min(1, 'Minimum 1 number')
+    .max(10000000000000, 'Maximum 10000000000000 number'),
+  pricingDate: Yup.date().required('Date is required'),
+  quotationEndDate: Yup.date().required('Date is required'),
 });
 
 export default function FormCmp({
@@ -147,8 +146,8 @@ export default function FormCmp({
                         value={values?.salesOrg}
                         label="Sales Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
-                          setFieldValue("salesOffice", "");
+                          setFieldValue('salesOrg', valueOption);
+                          setFieldValue('salesOffice', '');
                           salesOfficeDDLDispatcher(valueOption?.value);
                         }}
                         placeholder="Sales Organization"
@@ -164,7 +163,7 @@ export default function FormCmp({
                         value={values?.channel}
                         label="Dest. Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                         }}
                         placeholder="Dest. Channel"
                         errors={errors}
@@ -179,7 +178,7 @@ export default function FormCmp({
                         value={values?.salesOffice}
                         label="Sales Office"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOffice", valueOption);
+                          setFieldValue('salesOffice', valueOption);
                         }}
                         placeholder="Sales Office"
                         errors={errors}
@@ -191,13 +190,13 @@ export default function FormCmp({
                       <NewSelect
                         name="customerType"
                         options={[
-                          { label: "Existing Customer", value: 1 },
-                          { label: "New Customer", value: 2 },
+                          { label: 'Existing Customer', value: 1 },
+                          { label: 'New Customer', value: 2 },
                         ]}
                         value={values?.customerType}
                         label="Customer Type"
                         onChange={(valueOption) => {
-                          setFieldValue("customerType", valueOption);
+                          setFieldValue('customerType', valueOption);
                         }}
                         placeholder="Customer Type"
                         errors={errors}
@@ -213,7 +212,7 @@ export default function FormCmp({
                           value={values?.soldToParty}
                           label="Sold to Party"
                           onChange={(valueOption) => {
-                            setFieldValue("soldToParty", valueOption);
+                            setFieldValue('soldToParty', valueOption);
                           }}
                           placeholder="Sold to Party"
                           errors={errors}
@@ -236,7 +235,7 @@ export default function FormCmp({
                         <div className="col-lg-2">
                           <InputField
                             label="Customer Address"
-                            value={values?.customerAddress || ""}
+                            value={values?.customerAddress || ''}
                             name="customerAddress"
                             placeholder="Customer Address"
                             type="text"
@@ -249,13 +248,13 @@ export default function FormCmp({
                       <NewSelect
                         name="includeVat"
                         options={[
-                          { label: "Yes", value: 1 },
-                          { label: "No", value: 2 },
+                          { label: 'Yes', value: 1 },
+                          { label: 'No', value: 2 },
                         ]}
                         value={values?.includeVat}
                         label="Include VAT"
                         onChange={(valueOption) => {
-                          setFieldValue("includeVat", valueOption);
+                          setFieldValue('includeVat', valueOption);
                         }}
                         placeholder="Include VAT"
                         errors={errors}
@@ -267,13 +266,13 @@ export default function FormCmp({
                       <NewSelect
                         name="includeAit"
                         options={[
-                          { label: "Yes", value: 1 },
-                          { label: "No", value: 2 },
+                          { label: 'Yes', value: 1 },
+                          { label: 'No', value: 2 },
                         ]}
                         value={values?.includeAit}
                         label="Include AIT"
                         onChange={(valueOption) => {
-                          setFieldValue("includeAit", valueOption);
+                          setFieldValue('includeAit', valueOption);
                         }}
                         placeholder="Include AIT"
                         errors={errors}
@@ -288,7 +287,7 @@ export default function FormCmp({
                         value={values?.shippingPoint}
                         label="Shipping Point"
                         onChange={(valueOption) => {
-                          setFieldValue("shippingPoint", valueOption);
+                          setFieldValue('shippingPoint', valueOption);
                         }}
                         placeholder="Shipping Point"
                         errors={errors}
@@ -316,7 +315,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-2">
                       <ICalendar
-                        value={_dateFormatter(values.pricingDate || "")}
+                        value={_dateFormatter(values.pricingDate || '')}
                         label="Submission Date"
                         name="pricingDate"
                         disabled={isEdit}
@@ -324,7 +323,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-2">
                       <ICalendar
-                        value={_dateFormatter(values.quotationEndDate || "")}
+                        value={_dateFormatter(values.quotationEndDate || '')}
                         label="Quotation End Date"
                         name="quotationEndDate"
                         disabled={isEdit}
@@ -336,7 +335,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.officerName}
                         handleChange={(valueOption) => {
-                          setFieldValue("officerName", valueOption);
+                          setFieldValue('officerName', valueOption);
                         }}
                         loadOptions={loadEmployeeInfo}
                       />
@@ -350,7 +349,7 @@ export default function FormCmp({
                     <div className="col-lg-2">
                       <InputField
                         label="Delivery Address"
-                        value={values?.address || ""}
+                        value={values?.address || ''}
                         name="address"
                         placeholder="Delivery Address"
                         type="text"
@@ -360,7 +359,7 @@ export default function FormCmp({
                     <div className="col-lg-2">
                       <InputField
                         label="Distance"
-                        value={values?.distance || ""}
+                        value={values?.distance || ''}
                         name="distance"
                         placeholder="Distance"
                         type="text"
@@ -371,7 +370,7 @@ export default function FormCmp({
                       <>
                         <div className="col-lg-2">
                           <InputField
-                            value={values?.validityDays || ""}
+                            value={values?.validityDays || ''}
                             name="validityDays"
                             type="number"
                             placeholder="Validity Days"
@@ -382,14 +381,14 @@ export default function FormCmp({
                           <NewSelect
                             name="transportType"
                             options={[
-                              { value: 1, label: "Truck" },
-                              { value: 2, label: "Bulk Carrier" },
-                              { value: 3, label: "Troller" },
+                              { value: 1, label: 'Truck' },
+                              { value: 2, label: 'Bulk Carrier' },
+                              { value: 3, label: 'Troller' },
                             ]}
                             value={values?.transportType}
                             label="Transport Type"
                             onChange={(valueOption) => {
-                              setFieldValue("transportType", valueOption);
+                              setFieldValue('transportType', valueOption);
                             }}
                             placeholder="Transport Type"
                             errors={errors}
@@ -402,23 +401,23 @@ export default function FormCmp({
                             label="Credit Backup"
                             placeholder="Credit Backup"
                             options={[
-                              { value: 1, label: "Bank Guarantee" },
-                              { value: 2, label: "PD Cheque" },
-                              { value: 3, label: "Work Order" },
-                              { value: 4, label: "Advance" },
+                              { value: 1, label: 'Bank Guarantee' },
+                              { value: 2, label: 'PD Cheque' },
+                              { value: 3, label: 'Work Order' },
+                              { value: 4, label: 'Advance' },
                             ]}
                             name="creditBackUp"
                             errors={errors}
                             touched={touched}
                             value={values.creditBackUp}
                             onChange={(valueOption) => {
-                              setFieldValue("creditBackUp", valueOption);
+                              setFieldValue('creditBackUp', valueOption);
                             }}
                           />
                         </div>
                         <div className="col-lg-2">
                           <InputField
-                            value={values?.destination || ""}
+                            value={values?.destination || ''}
                             label="Destination"
                             placeholder="Destination"
                             name="destination"
@@ -427,7 +426,7 @@ export default function FormCmp({
                         </div>
                         <div className="col-lg-2">
                           <InputField
-                            value={values?.creditLimitDaysPropose || ""}
+                            value={values?.creditLimitDaysPropose || ''}
                             label="Credit Limit Day"
                             placeholder="Credit Limit Day"
                             name="creditLimitDaysPropose"
@@ -436,7 +435,7 @@ export default function FormCmp({
                         </div>
                         <div className="col-lg-2">
                           <InputField
-                            value={values?.creditLimitAmountsPropose || ""}
+                            value={values?.creditLimitAmountsPropose || ''}
                             label="Credit Limit Amount"
                             placeholder="Credit Limit Amount"
                             name="creditLimitAmountsPropose"
@@ -449,7 +448,7 @@ export default function FormCmp({
                     <div className="col-lg-4">
                       <label>Remarks</label>
                       <TextArea
-                        value={values?.remark || ""}
+                        value={values?.remark || ''}
                         name="remark"
                         placeholder="Remarks"
                         type="text"
@@ -475,9 +474,9 @@ export default function FormCmp({
                         value={values.itemList}
                         onChange={(valueOption) => {
                           itemListHandelar(valueOption?.value, setFieldValue);
-                          setFieldValue("itemList", valueOption);
-                          setFieldValue("specification", "");
-                          setFieldValue("value", "");
+                          setFieldValue('itemList', valueOption);
+                          setFieldValue('specification', '');
+                          setFieldValue('value', '');
                           setEditItemOnChange(true);
                         }}
 
@@ -498,7 +497,7 @@ export default function FormCmp({
                         type="tel"
                         min="1"
                         onChange={(e) => {
-                          setFieldValue("quantity", _numberValidation(e));
+                          setFieldValue('quantity', _numberValidation(e));
                         }}
                       />
                     </div>
@@ -511,7 +510,7 @@ export default function FormCmp({
                         name="price"
                         min="1"
                         onChange={(e) => {
-                          setFieldValue("price", _numberValidation(e));
+                          setFieldValue('price', _numberValidation(e));
                         }}
                       />
                     </div>
@@ -523,7 +522,7 @@ export default function FormCmp({
                         options={uomDDL}
                         name="uom"
                         onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -533,7 +532,7 @@ export default function FormCmp({
 
                     <div className="col-lg-4 d-flex align-items-center justify-content-between">
                       <div className="d-flex justify-content-center align-items-center">
-                        <div className="w-10" style={{ width: "75px" }}>
+                        <div className="w-10" style={{ width: '75px' }}>
                           <Field
                             name="isSpecification"
                             component={() => (
@@ -547,7 +546,7 @@ export default function FormCmp({
                                 name="isSpecification"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "isSpecification",
+                                    'isSpecification',
                                     e.target.checked
                                   );
                                 }}
@@ -569,10 +568,10 @@ export default function FormCmp({
                           }
                           onClick={() => {
                             setter(values);
-                            setFieldValue("itemList", "");
-                            setFieldValue("quantity", "");
-                            setFieldValue("price", "");
-                            setFieldValue("uom", "");
+                            setFieldValue('itemList', '');
+                            setFieldValue('quantity', '');
+                            setFieldValue('price', '');
+                            setFieldValue('uom', '');
                           }}
                         >
                           Add
@@ -632,14 +631,14 @@ export default function FormCmp({
                             min="0"
                             disabled={!values.itemList}
                             onChange={(e) => {
-                              setFieldValue("value", _numberValidation(e));
+                              setFieldValue('value', _numberValidation(e));
                             }}
                           />
                         </div>
                         <div className="col-lg-2">
                           <button
                             type="button"
-                            style={{ marginTop: "14px" }}
+                            style={{ marginTop: '14px' }}
                             className="btn btn-primary ml-2"
                             disabled={
                               !values.itemList ||
@@ -648,8 +647,8 @@ export default function FormCmp({
                             }
                             onClick={() => {
                               setterTwo(values);
-                              setFieldValue("specification", "");
-                              setFieldValue("value", "");
+                              setFieldValue('specification', '');
+                              setFieldValue('value', '');
                             }}
                           >
                             Add
@@ -667,7 +666,7 @@ export default function FormCmp({
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                           <thead>
                             <tr>
-                              <th style={{ width: "35px" }}>SL</th>
+                              <th style={{ width: '35px' }}>SL</th>
                               <th>Specification</th>
                               <th>Value</th>
                               <th>Item Id</th>
@@ -696,7 +695,7 @@ export default function FormCmp({
                               </tr>
                             ))}
                           </tbody>
-                        </table>{" "}
+                        </table>{' '}
                       </div>
                     )}
                   </div>
@@ -704,7 +703,7 @@ export default function FormCmp({
                     <div className="col-lg-2 offset-4 d-flex justify-content-center align-items-center">
                       <button
                         type="button"
-                        style={{ marginTop: "14px", padding: "6px 16px" }}
+                        style={{ marginTop: '14px', padding: '6px 16px' }}
                         className="btn btn-primary ml-2"
                         onClick={() => {
                           quotationClosedFunc();
@@ -724,7 +723,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Item Name</th>
                             <th>Item Code</th>
                             <th>Quantity</th>
@@ -761,7 +760,7 @@ export default function FormCmp({
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>
@@ -769,13 +768,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

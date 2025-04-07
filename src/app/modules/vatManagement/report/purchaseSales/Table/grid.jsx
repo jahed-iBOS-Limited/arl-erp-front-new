@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _fixedPointVat } from "./../../../../_helper/_fixedPointVat";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _fixedPointVat } from './../../../../_helper/_fixedPointVat';
 const GridData = ({
   history,
   rowDto,
@@ -39,12 +39,12 @@ const GridData = ({
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ padding: "2px 5px" }}
+                    style={{ padding: '2px 5px' }}
                   >
                     <img
                       style={{
-                        width: "25px",
-                        paddingRight: "5px",
+                        width: '25px',
+                        paddingRight: '5px',
                       }}
                       src={printIcon}
                       alt="print-icon"
@@ -79,7 +79,7 @@ const GridData = ({
                     <th colSpan="2">মোট পণ্য </th>
                     <th colSpan="3">বিক্রেতার তথ্য </th>
                     <th colSpan="2">
-                      ক্রয় চালানপত্রের/ বিল অব এন্ট্রির বিবরণ{" "}
+                      ক্রয় চালানপত্রের/ বিল অব এন্ট্রির বিবরণ{' '}
                     </th>
                     <th colSpan="5">বিক্রিত/সরবরাহকৃত পণ্যের বিবরণ </th>
                     <th colSpan="3">ক্রেতার তথ্য </th>
@@ -180,7 +180,7 @@ const GridData = ({
                       </tr>
                     );
                   })}
-                  <tr style={{ fontWeight: "bold" }}>
+                  <tr style={{ fontWeight: 'bold' }}>
                     <td colSpan="2">Total</td>
                     <td>{_fixedPointVat(total?.OpeningQty, 3)}</td>
                     <td>{_fixedPointVat(total?.OpeningVal)}</td>

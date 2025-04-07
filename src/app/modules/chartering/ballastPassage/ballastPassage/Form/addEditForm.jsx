@@ -1,31 +1,29 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
 import {
   createBallastPassge,
   editBallastPassge,
   getSingleBallastDataById,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  ballastStartDate: "",
-  ballastEndDate: "",
-  ballastDuration: "",
-  lsmgoperDayQty: "",
-  lsmgoballastQty: "",
-  lsmgoballastRate: "",
-  lsmgoballastAmount: "",
-  lsfoperDayQty: "",
-  lsfoballastQty: "",
-  lsfoballastRate: "",
-  lsfoballastAmount: "",
+  vesselName: '',
+  voyageNo: '',
+  ballastStartDate: '',
+  ballastEndDate: '',
+  ballastDuration: '',
+  lsmgoperDayQty: '',
+  lsmgoballastQty: '',
+  lsmgoballastRate: '',
+  lsmgoballastAmount: '',
+  lsfoperDayQty: '',
+  lsfoballastQty: '',
+  lsfoballastRate: '',
+  lsfoballastAmount: '',
 };
 
 export default function BallastPassageForm() {
@@ -104,11 +102,11 @@ export default function BallastPassageForm() {
   };
 
   const title =
-    type === "view"
-      ? "View Ballast Passage"
-      : type === "edit"
-      ? "Edit Ballast Passage"
-      : "Create Ballast Passage";
+    type === 'view'
+      ? 'View Ballast Passage'
+      : type === 'edit'
+        ? 'Edit Ballast Passage'
+        : 'Create Ballast Passage';
 
   return (
     <>

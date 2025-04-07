@@ -1,24 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   groupDDL: [],
   classDDL: [],
   categoryDDL: [],
   accountTypeDDL: [],
   buDDL: [],
   gridData: [],
-  singleData: "",
-  extendData:"",
+  singleData: '',
+  extendData: '',
   accountClass: [],
   accountCategory: [],
-  generalLedger: []
+  generalLedger: [],
 };
 
 export const generalLedgerSlice = createSlice({
-  name: "generalLedger",
+  name: 'generalLedger',
   initialState: initState,
   reducers: {
     SetGroupDDL: (state, action) => {
@@ -57,19 +57,19 @@ export const generalLedgerSlice = createSlice({
       state.extendData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
-    SetAccountClass : (state, action) => {
+    SetAccountClass: (state, action) => {
       const { payload } = action;
       state.accountClass = payload;
     },
-    SetAccountCategory : (state, action) => {
+    SetAccountCategory: (state, action) => {
       const { payload } = action;
       state.accountCategory = payload;
     },
-    SetGeneralLedger : (state, action) => {
+    SetGeneralLedger: (state, action) => {
       const { payload } = action;
       state.generalLedger = payload;
-    }
+    },
   },
 });

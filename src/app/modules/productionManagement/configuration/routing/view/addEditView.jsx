@@ -1,10 +1,9 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './view';
 
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./view";
-
-import { saveCreateData, getSinglePageData, saveEditData } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
+import { saveCreateData, getSinglePageData, saveEditData } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
 
 export function RoutingView({
   history,
@@ -89,17 +88,17 @@ export function RoutingView({
   const [objProps, setObjprops] = useState({});
   const isView = history?.location?.state?.isView;
 
-  function backHandler(){
-    history.push("/production-management/configuration/routing/view")
+  function backHandler() {
+    history.push('/production-management/configuration/routing/view');
   }
 
   return (
     <ICustomCard
-      title={"View Routing"}
+      title={'View Routing'}
       getProps={setObjprops}
       isDisabled={isDisabled}
-      backHandler = {backHandler}
-      >
+      backHandler={backHandler}
+    >
       <div className="mt-0">
         <Form
           {...objProps}

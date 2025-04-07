@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   getLCSummaryBasicInformation,
   getLCSummaryCostSummary,
   getShipmentListForLCSummaryReport,
-} from "../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
-import { useHistory } from "react-router-dom";
+} from '../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import { useHistory } from 'react-router-dom';
 
 const TableRow = () => {
   const [loader, setLoader] = useState(false);
@@ -29,14 +29,14 @@ const TableRow = () => {
   const [costSummary, setCostSummary] = useState({});
   const [shipmentDDL, setShipmentDDL] = useState([]);
   // const [poLc, setPoLc] = useState({});
-  const [totalLandingCost, setTotalLandingCost] = useState("");
+  const [totalLandingCost, setTotalLandingCost] = useState('');
   const [isPrintable, setIsPrintable] = useState(false);
   const [headerInfo, setHeaderInfo] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
   const history = useHistory();
 
   const initData = {
-    poLc: "",
+    poLc: '',
   };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -105,7 +105,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -136,13 +136,13 @@ const TableRow = () => {
                     isSearchIcon={true}
                     paddingRight={10}
                     handleChange={(valueOption) => {
-                      setFieldValue("poLc", valueOption);
+                      setFieldValue('poLc', valueOption);
                       if (!valueOption) {
                         setBasicInformation({});
                         setShipmentDDL([]);
-                        setFieldValue("shipment", "");
+                        setFieldValue('shipment', '');
                         setCostSummary({});
-                        setTotalLandingCost("");
+                        setTotalLandingCost('');
                       } else {
                         getBasicInformation(valueOption?.label);
                         getShipmentListForLCSummaryReport(
@@ -166,14 +166,14 @@ const TableRow = () => {
                     <b>PO Number: </b>
                     <span
                       className="text-primary font-weight-bold cursor-pointer mr-2"
-                      style={{ textDecoration: "underline" }}
+                      style={{ textDecoration: 'underline' }}
                       onClick={() => {
                         setIsShowModal(true);
                       }}
                     >
                       {basicInformation?.poNumber
                         ? basicInformation?.poNumber
-                        : ""}
+                        : ''}
                     </span>
                   </div>
                 )}
@@ -182,7 +182,7 @@ const TableRow = () => {
                     <b>{`LC Number: ${
                       basicInformation?.lcNumber
                         ? basicInformation?.lcNumber
-                        : ""
+                        : ''
                     }`}</b>
                   </div>
                 )}
@@ -208,7 +208,7 @@ const TableRow = () => {
                             <td className="w-50">
                               {basicInformation?.supplierName
                                 ? basicInformation.supplierName
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -220,7 +220,7 @@ const TableRow = () => {
                             <td>
                               {basicInformation?.lcNumber
                                 ? basicInformation?.lcNumber
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -248,7 +248,7 @@ const TableRow = () => {
                             <td>
                               {basicInformation?.hsCode
                                 ? basicInformation.hsCode
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -302,7 +302,7 @@ const TableRow = () => {
                             <td>
                               {basicInformation?.coverNoteNumber
                                 ? basicInformation.coverNoteNumber
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -337,10 +337,10 @@ const TableRow = () => {
                                 options={shipmentDDL || []}
                                 value={values?.shipment}
                                 onChange={(valueOption) => {
-                                  setFieldValue("shipment", valueOption);
+                                  setFieldValue('shipment', valueOption);
                                   if (!valueOption) {
                                     setCostSummary({});
-                                    setTotalLandingCost("");
+                                    setTotalLandingCost('');
                                   } else {
                                     getCostSummary(
                                       values?.poLc?.label,
@@ -359,27 +359,27 @@ const TableRow = () => {
                               <span
                                 className="text-primary font-weight-bold cursor-pointer mr-2"
                                 style={{
-                                  textDecoration: "underline",
+                                  textDecoration: 'underline',
                                 }}
                                 onClick={() => {
                                   history.push({
                                     pathname: `/managementImport/transaction/shipment/view/${costSummary?.shipmentId}`,
                                     state: {
                                       ...costSummary,
-                                      checkbox: "shipmentInformation",
+                                      checkbox: 'shipmentInformation',
                                       ponumber: basicInformation?.poNumber
                                         ? basicInformation?.poNumber
-                                        : "",
+                                        : '',
                                       lcnumber: basicInformation?.lcNumber
                                         ? basicInformation?.lcNumber
-                                        : "",
+                                        : '',
                                     },
                                   });
                                 }}
                               >
                                 {costSummary?.blawbtrNo
                                   ? costSummary?.blawbtrNo
-                                  : ""}
+                                  : ''}
                               </span>
                             </td>
                           </tr>
@@ -466,7 +466,7 @@ const TableRow = () => {
                             <td className="text-right">
                               <b>{_formatMoney(totalLandingCost)}</b>
                             </td>
-                          </tr>{" "}
+                          </tr>{' '}
                           {/* </>
                         ) : (
                           <>

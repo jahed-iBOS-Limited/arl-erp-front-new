@@ -1,42 +1,40 @@
-
-
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import * as Yup from "yup";
-import TextArea from "../../../../_helper/TextArea";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { CreateJournalVoucher, getLineExpense } from "../helper";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import * as Yup from 'yup';
+import TextArea from '../../../../_helper/TextArea';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { CreateJournalVoucher, getLineExpense } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Date" },
-  { name: "Lighter Name" },
-  { name: "JV Code" },
-  { name: "Trip No" },
-  { name: "Amount" },
-  { name: "Signature" },
-  { name: "Remarks" },
+  { name: 'SL' },
+  { name: 'Date' },
+  { name: 'Lighter Name' },
+  { name: 'JV Code' },
+  { name: 'Trip No' },
+  { name: 'Amount' },
+  { name: 'Signature' },
+  { name: 'Remarks' },
 ];
 
 const validationSchema = Yup.object().shape({
-  narration: Yup.string().required("Narration is required"),
+  narration: Yup.string().required('Narration is required'),
 });
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   date: _todayDate(),
-  narration: "",
+  narration: '',
 };
 
 export default function LineExpenseReport() {
@@ -76,7 +74,7 @@ export default function LineExpenseReport() {
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
           CreateJournalVoucher(
-            "lineExp",
+            'lineExp',
             profileData?.accountId,
             buId,
             new Date(values?.date).getMonth(),
@@ -112,7 +110,7 @@ export default function LineExpenseReport() {
                       placeholder="Narration"
                       rows="3"
                       onChange={(e) =>
-                        setFieldValue("narration", e.target.value)
+                        setFieldValue('narration', e.target.value)
                       }
                       max={1000}
                       errors={errors}
@@ -124,7 +122,11 @@ export default function LineExpenseReport() {
                       className="btn btn-primary px-3 py-2"
                       type="button"
                       onClick={handleSubmit}
-                      disabled={totalJVAmount < 1 || !values?.fromDate || !values?.toDate}
+                      disabled={
+                        totalJVAmount < 1 ||
+                        !values?.fromDate ||
+                        !values?.toDate
+                      }
                     >
                       JV Create
                     </button>
@@ -140,7 +142,7 @@ export default function LineExpenseReport() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -157,7 +159,7 @@ export default function LineExpenseReport() {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -177,20 +179,20 @@ export default function LineExpenseReport() {
                 </div>
               </div>
               <div ref={printRef}>
-                <div className="text-center" style={{ margin: "15px 0" }}>
+                <div className="text-center" style={{ margin: '15px 0' }}>
                   <h4>Akij Shipping Line Ltd</h4>
                   <p>198,Gulshan Link Road, Tejgaon-1208</p>
                 </div>
                 <div
                   className="d-flex justify-content-between"
-                  style={{ margin: "10px 0" }}
+                  style={{ margin: '10px 0' }}
                 >
                   <p>Sub: Lighters Staffs Line Expense</p>
                   <p> Date: {_todayDate()} </p>
                 </div>
                 <ICustomTable id="table-to-xlsx" ths={headers}>
                   <div className="d-none">
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{ textAlign: 'center' }}>
                       <h4>Akij Shipping Line Ltd</h4>
                       <p>198,Gulshan Link Road, Tejgaon-1208</p>
                     </div>
@@ -205,17 +207,17 @@ export default function LineExpenseReport() {
                           <tr key={index}>
                             <td
                               className="text-center"
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                             >
                               {index + 1}
                             </td>
                             <td
-                              style={{ width: "180px" }}
+                              style={{ width: '180px' }}
                               className="text-center"
                             >{`${moment(item?.startDate).format(
-                              "YYYY-MM-DD "
+                              'YYYY-MM-DD '
                             )}To${moment(item?.endDate).format(
-                              " YYYY-MM-DD"
+                              ' YYYY-MM-DD'
                             )}`}</td>
                             <td>{item?.lighterVesselName}</td>
                             <td className="text-center">
@@ -231,7 +233,7 @@ export default function LineExpenseReport() {
                           {element?.length - 1 === index && (
                             <tr
                               style={{
-                                fontWeight: "bold",
+                                fontWeight: 'bold',
                                 // background: "#eff6ff",
                               }}
                             >
@@ -239,13 +241,13 @@ export default function LineExpenseReport() {
                                 Total
                               </td>
                               <td className="text-right">
-                                {" "}
+                                {' '}
                                 {_formatMoney(
                                   element?.reduce((a, b) => {
                                     return a + b.costAmount;
                                   }, 0),
                                   0
-                                )}{" "}
+                                )}{' '}
                               </td>
                               <td colSpan={2}></td>
                             </tr>
@@ -256,7 +258,7 @@ export default function LineExpenseReport() {
                   })}
 
                   {gridData?.length > 0 && (
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td className="text-right" colSpan="5">
                         Grand Total
                       </td>

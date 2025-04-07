@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import essentialLogo from "./assets/essentialLogo.png";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import essentialLogo from './assets/essentialLogo.png';
 const initData = {};
 export default function JobOrderView({ salesQuotationId }) {
   const selectedBusinessUnit = useSelector((state) => {
@@ -18,12 +18,8 @@ export default function JobOrderView({ salesQuotationId }) {
   }, shallowEqual);
   const saveHandler = (values, cb) => {};
   const printRef = useRef();
-  const [
-    jobOrderData,
-    getJobOrderData,
-    jobOrderLoader,
-    setJobOrderData,
-  ] = useAxiosGet();
+  const [jobOrderData, getJobOrderData, jobOrderLoader, setJobOrderData] =
+    useAxiosGet();
   useEffect(() => {
     if (salesQuotationId) {
       getJobOrderData(
@@ -33,7 +29,6 @@ export default function JobOrderView({ salesQuotationId }) {
         }
       );
     }
-
   }, [salesQuotationId]);
 
   const totalFOBValue = (soRow, type) => {
@@ -83,7 +78,7 @@ export default function JobOrderView({ salesQuotationId }) {
                 <div>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}'
                     }
                     trigger={() => (
                       <button type="button" className="btn btn-primary ml-3">
@@ -100,7 +95,7 @@ export default function JobOrderView({ salesQuotationId }) {
             <Form>
               <div componentRef={printRef} ref={printRef}>
                 <img
-                  style={{ width: "130px", height: "60px" }}
+                  style={{ width: '130px', height: '60px' }}
                   src={essentialLogo}
                   alt="logo"
                 />
@@ -132,7 +127,7 @@ export default function JobOrderView({ salesQuotationId }) {
                   </tr>
                   <tr>
                     <td className="font-weight-bold text-start" colSpan={4}>
-                      Order Date:{" "}
+                      Order Date:{' '}
                       {_dateFormatter(jobOrderData?.HeaderData?.PricingDate)}
                     </td>
                   </tr>
@@ -161,40 +156,40 @@ export default function JobOrderView({ salesQuotationId }) {
                         <td>
                           {item?.Headings?.length > 0
                             ? `${item?.Headings[0]?.HeaderValue}`
-                            : ""}
+                            : ''}
                         </td>
                         <td>
-                          {" "}
+                          {' '}
                           {item?.Headings?.length > 0
                             ? `${item?.Headings[1]?.HeaderValue}`
-                            : ""}
+                            : ''}
                         </td>
-                        <td>{item?.TotalCarton ? item?.TotalCarton : "0"}</td>
-                        <td>{item?.TotalPieces ? item?.TotalPieces : "0"}</td>
+                        <td>{item?.TotalCarton ? item?.TotalCarton : '0'}</td>
+                        <td>{item?.TotalPieces ? item?.TotalPieces : '0'}</td>
                         <td>
-                          {item?.PackingDetails ? item?.PackingDetails : "-"}
-                        </td>
-                        <td>
-                          {item?.MfgDate ? _dateFormatter(item?.MfgDate) : "-"}
+                          {item?.PackingDetails ? item?.PackingDetails : '-'}
                         </td>
                         <td>
-                          {item?.MfgDate ? _dateFormatter(item?.MfgDate) : "-"}
+                          {item?.MfgDate ? _dateFormatter(item?.MfgDate) : '-'}
                         </td>
                         <td>
-                          {item?.SelfLife ? `${item?.SelfLife} Months` : "-"}
+                          {item?.MfgDate ? _dateFormatter(item?.MfgDate) : '-'}
+                        </td>
+                        <td>
+                          {item?.SelfLife ? `${item?.SelfLife} Months` : '-'}
                         </td>
                         <td>
                           {item?.NetWeightManual
                             ? `${item?.NetWeightManual}`
-                            : "-"}
+                            : '-'}
                         </td>
                         <td>
                           {item?.ForeignCustomsSample
                             ? item?.ForeignCustomsSample
-                            : "-"}
+                            : '-'}
                         </td>
                         <td>
-                          {item?.BdCustomsSample ? item?.BdCustomsSample : "-"}
+                          {item?.BdCustomsSample ? item?.BdCustomsSample : '-'}
                         </td>
                       </tr>
                     ))}
@@ -206,7 +201,7 @@ export default function JobOrderView({ salesQuotationId }) {
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td colSpan={6} style={{ backgroundColor: "yellow" }}>
+                      <td colSpan={6} style={{ backgroundColor: 'yellow' }}>
                         ENGLISH CODING
                       </td>
                     </tr>
@@ -229,7 +224,7 @@ export default function JobOrderView({ salesQuotationId }) {
                 <div className="mt-5">
                   <h6>
                     {jobOrderData?.JobOrderReq?.length > 0 &&
-                      "Order Execution Requirements"}
+                      'Order Execution Requirements'}
                   </h6>
                   <ol>
                     {jobOrderData?.JobOrderReq?.length > 0
@@ -254,12 +249,17 @@ export default function JobOrderView({ salesQuotationId }) {
                     </ol>
                   </div> */}
                   <div
-                    style={{ border: "1px solid black",width:"45%",padding:"10px",margin:"10px"}}
+                    style={{
+                      border: '1px solid black',
+                      width: '45%',
+                      padding: '10px',
+                      margin: '10px',
+                    }}
                   >
-                    <h5 style={{ backgroundColor: "yellow" }}>
+                    <h5 style={{ backgroundColor: 'yellow' }}>
                       SHIPPING MARKS:
                     </h5>
-                    <span style={{ fontWeight: "bold" }}>
+                    <span style={{ fontWeight: 'bold' }}>
                       Imported & Distributed by:
                     </span>
                     <span>{jobOrderData?.HeaderData?.SoldToPartnerName}</span>
@@ -272,12 +272,12 @@ export default function JobOrderView({ salesQuotationId }) {
                       {jobOrderData?.HeaderData?.SoldToPartnerAddress}
                     </span>
                     <br />
-                    <span style={{ fontWeight: "bold" }}>
+                    <span style={{ fontWeight: 'bold' }}>
                       NET CONTENT : KG X PCS
                     </span>
                     <br />
                     <span>
-                      EXP DATE:{" "}
+                      EXP DATE:{' '}
                       {_dateFormatter(
                         jobOrderData?.HeaderData?.QuotationEndDate
                       )}
@@ -286,9 +286,9 @@ export default function JobOrderView({ salesQuotationId }) {
                 </div>
                 <div
                   style={{
-                    gap: "20px",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    gap: '20px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                   }}
                   className="mt-40"
                 >

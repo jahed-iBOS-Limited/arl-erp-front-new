@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getAllDates = (month, year) => {
   const dates = [];
@@ -24,7 +24,8 @@ export const getItemList = async (
 ) => {
   setLoading(true);
   try {
-    const res = await axios.get(`/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${channelId}&SalesOrgId=${saleOrgId}
+    const res =
+      await axios.get(`/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${channelId}&SalesOrgId=${saleOrgId}
     `);
     setter(res?.data);
     setLoading(false);
@@ -53,7 +54,8 @@ export const getSalesOrgList = async (accId, buId, setter, setLoading) => {
 export const getRegionList = async (channelId, setter, setLoading) => {
   setLoading(true);
   try {
-    const res = await axios.get(`/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}
+    const res =
+      await axios.get(`/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}
     `);
     setter(
       res?.data?.map((item) => ({
@@ -147,9 +149,9 @@ export const getTargetQtyList = async (
         date: _dateFormatter(item?.dteFromDate),
         avgTargetQty: avgQty || 0,
         liftingQty: item?.numTargetQuantity || 0,
-        remarks: item?.strRemarks || "",
+        remarks: item?.strRemarks || '',
         totalTarget: item?.numTargetQuantity || 0,
-        areaName: item?.strNl6 || "",
+        areaName: item?.strNl6 || '',
         areaId: item?.intL6id || 0,
         isSelected: true,
       };

@@ -1,14 +1,13 @@
-
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { getEmployeeBasicInfoByIdAction } from "../../../_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import { useState } from "react";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard.jsx";
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { getEmployeeBasicInfoByIdAction } from '../../../_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import { useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard.jsx';
 
 export default function AchievementTableFromReport() {
   const { id } = useParams();
@@ -16,8 +15,8 @@ export default function AchievementTableFromReport() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const location = useLocation()
-  console.log("location", location);
+  const location = useLocation();
+  console.log('location', location);
 
   const [report, setReport] = useState({});
 
@@ -71,8 +70,8 @@ export default function AchievementTableFromReport() {
         <div
           className="text-right"
           style={{
-            marginTop: "-42px",
-            paddingBottom: "30px",
+            marginTop: '-42px',
+            paddingBottom: '30px',
           }}
         >
           <button onClick={backHandler} className="btn btn-light mr-2">
@@ -85,7 +84,7 @@ export default function AchievementTableFromReport() {
                 className="btn btn-primary sales_invoice_btn"
               >
                 <img
-                  style={{ width: "25px", paddingRight: "5px" }}
+                  style={{ width: '25px', paddingRight: '5px' }}
                   src={printIcon}
                   alt="print-icon"
                 />
@@ -98,11 +97,11 @@ export default function AchievementTableFromReport() {
 
         {employeeBasicInfo && (
           <p className="mt-3 employee_info">
-            <b>Name</b> : {employeeBasicInfo?.employeeFullName},<b> Enroll</b> :{" "}
-            {id}, <b> Designation</b> : {employeeBasicInfo?.designationName},{" "}
-            <b> Department</b> : {employeeBasicInfo?.departmentName},{" "}
-            <b> Supervisor</b> : {employeeBasicInfo?.supervisorName},{" "}
-            <b> Sbu</b> : {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{" "}
+            <b>Name</b> : {employeeBasicInfo?.employeeFullName},<b> Enroll</b> :{' '}
+            {id}, <b> Designation</b> : {employeeBasicInfo?.designationName},{' '}
+            <b> Department</b> : {employeeBasicInfo?.departmentName},{' '}
+            <b> Supervisor</b> : {employeeBasicInfo?.supervisorName},{' '}
+            <b> Sbu</b> : {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{' '}
             {employeeBasicInfo?.businessUnitName}
           </p>
         )}

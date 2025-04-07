@@ -1,22 +1,21 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { toast } from "react-toastify";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import IDelete from "./../../../_helper/_helperIcons/_delete";
-import "../style.css";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import NewSelect from "./../../../_helper/_select";
-import AddCustomerForm from "../addCustomer/AddCustomer";
-import InvoiceList from "../invoiceList/InvoiceList";
-import AddPayment from "./../addPayment/AddPayment";
-import VoucherReprint from "../invoiceList/voucherReprint";
-import HoldInvoice from "../invoiceList/holdInvoice";
-import SalesReturn from "../invoiceList/salesReturn";
-import { getSalesOrderByOrderId } from "../helper"
-
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import IDelete from './../../../_helper/_helperIcons/_delete';
+import '../style.css';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import NewSelect from './../../../_helper/_select';
+import AddCustomerForm from '../addCustomer/AddCustomer';
+import InvoiceList from '../invoiceList/InvoiceList';
+import AddPayment from './../addPayment/AddPayment';
+import VoucherReprint from '../invoiceList/voucherReprint';
+import HoldInvoice from '../invoiceList/holdInvoice';
+import SalesReturn from '../invoiceList/salesReturn';
+import { getSalesOrderByOrderId } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -66,7 +65,7 @@ export default function FormCmp({
   deleteHoldingDataHandler,
   isDisabled,
   cashReturnAmount,
-  setCashReturnAmount
+  setCashReturnAmount,
 }) {
   const [loader] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -127,28 +126,28 @@ export default function FormCmp({
           <>
             <Form
               className="form form-label-right"
-              style={{ marginBottom: "-50px" }}
+              style={{ marginBottom: '-50px' }}
             >
               <div
                 className="global-form"
                 style={{
-                  padding: "0px 10px 3px 10px",
-                  margin: "5px 0px",
-                  borderRadius: "5px",
+                  padding: '0px 10px 3px 10px',
+                  margin: '5px 0px',
+                  borderRadius: '5px',
                 }}
               >
                 <div className="row">
                   <div className="col-lg-3">
                     <div>
-                      <label style={{ fontSize: "12px", fontWeight: "600" }}>
+                      <label style={{ fontSize: '12px', fontWeight: '600' }}>
                         Customer
                       </label>
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         name="customer"
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
-                          setVoucherCode("")
+                          setFieldValue('customer', valueOption);
+                          setVoucherCode('');
                         }}
                         placeholder="Name and Mobile Number"
                         loadOptions={loadCustomerList}
@@ -173,44 +172,47 @@ export default function FormCmp({
                         <label style={{ fontSize: "15px", paddingLeft: "5px", fontWeight: "600" }}>Online Sales</label>
                       </div> */}
                       <div className="col-lg-4 text-center">
-                        <label style={{ fontSize: "12px", fontWeight: "600" }}>
+                        <label style={{ fontSize: '12px', fontWeight: '600' }}>
                           Credit Limit
                         </label>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600 }}>
+                        <h2 style={{ fontSize: '16px', fontWeight: 600 }}>
                           {values?.customer?.creditLimit || 0}
                         </h2>
                       </div>
                       <div className="col-lg-4 text-center">
-                        <label style={{ fontSize: "12px", fontWeight: "600" }}>
+                        <label style={{ fontSize: '12px', fontWeight: '600' }}>
                           Remaining Amount
                         </label>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600 }}>
+                        <h2 style={{ fontSize: '16px', fontWeight: 600 }}>
                           {values?.customer?.remainingLimit || 0}
                         </h2>
                       </div>
                       <div className="col-lg-4 text-center">
-                        <label style={{ fontSize: "12px", fontWeight: "600" }}>
+                        <label style={{ fontSize: '12px', fontWeight: '600' }}>
                           Membership Point
                         </label>
-                        <h2 style={{ fontSize: "16px", fontWeight: 600 }}>
+                        <h2 style={{ fontSize: '16px', fontWeight: 600 }}>
                           {values?.customer?.points || 0}
                         </h2>
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-4" style={{borderLeft: '1px solid black', marginTop: "2px"}}>
-                  <div className="row">
+                  <div
+                    className="col-lg-4"
+                    style={{ borderLeft: '1px solid black', marginTop: '2px' }}
+                  >
+                    <div className="row">
                       <div className="image-icon balance-data-show">
                         <h6
                           style={{
-                            color: "white",
-                            fontSize: "12px",
-                            marginTop: "4px",
+                            color: 'white',
+                            fontSize: '12px',
+                            marginTop: '4px',
                           }}
                         >
                           Today's Sales
                         </h6>
-                        <h6 style={{ color: "white", fontSize: "12px" }}>
+                        <h6 style={{ color: 'white', fontSize: '12px' }}>
                           {(
                             (counterSummary?.cashAmount || 0) +
                             (counterSummary.creditAmount || 0) +
@@ -222,28 +224,28 @@ export default function FormCmp({
                       <div className="image-icon balance-data-show">
                         <h6
                           style={{
-                            color: "white",
-                            fontSize: "12px",
-                            marginTop: "4px",
+                            color: 'white',
+                            fontSize: '12px',
+                            marginTop: '4px',
                           }}
                         >
                           Cash Amount
                         </h6>
-                        <h6 style={{ color: "white", fontSize: "12px" }}>
+                        <h6 style={{ color: 'white', fontSize: '12px' }}>
                           {(counterSummary?.cashAmount || 0).toFixed(2)}
                         </h6>
                       </div>
                       <div className="image-icon balance-data-show">
                         <h6
                           style={{
-                            color: "white",
-                            fontSize: "12px",
-                            marginTop: "4px",
+                            color: 'white',
+                            fontSize: '12px',
+                            marginTop: '4px',
                           }}
                         >
                           Credit Amount
                         </h6>
-                        <h6 style={{ color: "white", fontSize: "12px" }}>
+                        <h6 style={{ color: 'white', fontSize: '12px' }}>
                           {(counterSummary?.creditAmount || 0).toFixed(2)}
                         </h6>
                       </div>
@@ -254,13 +256,13 @@ export default function FormCmp({
               <div
                 className="global-form"
                 style={{
-                  padding: "0px 10px 8px 10px",
-                  margin: "5px 0px -3px 0px",
-                  borderRadius: "5px",
+                  padding: '0px 10px 8px 10px',
+                  margin: '5px 0px -3px 0px',
+                  borderRadius: '5px',
                 }}
               >
                 <div className="row">
-                  {isCheck?
+                  {isCheck ? (
                     <div className="col-lg-3">
                       <NewSelect
                         name="salesOrder"
@@ -268,7 +270,7 @@ export default function FormCmp({
                         value={values?.salesOrder}
                         label="Sales Order"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrder", valueOption);
+                          setFieldValue('salesOrder', valueOption);
                           getSalesOrderByOrderId(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -276,23 +278,24 @@ export default function FormCmp({
                             valueOption?.value,
                             setSingleData,
                             setRowDto
-                          )
+                          );
                         }}
                         placeholder="Sales Order"
                         errors={errors}
                         touched={touched}
                       />
-                    </div>:
+                    </div>
+                  ) : (
                     <div className="col-lg-3">
                       <label>Search Item/Scan Item</label>
                       <SearchAsyncSelect
                         selectedValue={values?.item}
                         name="item"
                         handleChange={(valueOption) => {
-                          setFieldValue("item", "");
+                          setFieldValue('item', '');
                           if (valueOption) {
                             setter({
-                              rowId:0,
+                              rowId: 0,
                               itemId: valueOption?.value,
                               mrp: valueOption?.mrp,
                               rate: valueOption?.rate,
@@ -306,11 +309,11 @@ export default function FormCmp({
                               cogs: valueOption?.cogs || 0,
                               quantity: 0,
                               returnQuantity: 0,
-                              itemRateDDL:itemRateDDL,
+                              itemRateDDL: itemRateDDL,
                               previousQuantity: 0,
                               locationId: valueOption?.locationId,
-                              locationName: "string",
-                              specification: "string",
+                              locationName: 'string',
+                              specification: 'string',
                               isFreeItem: true,
                               isReturn: false,
                               total:
@@ -323,24 +326,33 @@ export default function FormCmp({
                         loadOptions={loadItemList}
                       />
                     </div>
-                  }
+                  )}
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-9">
-                  <div style={{ height: "235px", overflow: 'auto', marginTop:"10px" }}>
+                  <div
+                    style={{
+                      height: '235px',
+                      overflow: 'auto',
+                      marginTop: '10px',
+                    }}
+                  >
                     {loader && <Loading />}
-                    <table className="table table-striped table-bordered global-table" style={{margin:0}}>
+                    <table
+                      className="table table-striped table-bordered global-table"
+                      style={{ margin: 0 }}
+                    >
                       <thead>
                         <tr>
                           <th>SL</th>
                           <th>Item Name</th>
                           <th>UOM</th>
                           <th>Stock</th>
-                          <th style={{ width: "120px" }}>Quantity</th>
-                          <th style={{ width: "120px" }}>Rate</th>
+                          <th style={{ width: '120px' }}>Quantity</th>
+                          <th style={{ width: '120px' }}>Rate</th>
                           <th>Sub Total</th>
-                          <th style={{ width: "60px" }}>Action</th>
+                          <th style={{ width: '60px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody className="itemList">
@@ -352,16 +364,20 @@ export default function FormCmp({
                             <td>{item?.availableStock}</td>
                             <td className="text-center">
                               <input
-                                style={{ width: "100%", borderRadius: "5px" }}
+                                style={{ width: '100%', borderRadius: '5px' }}
                                 key={item?.quantity}
                                 type="number"
                                 name="quantity"
-                                value={item?.quantity?item?.quantity:item?.returnQuantity}
+                                value={
+                                  item?.quantity
+                                    ? item?.quantity
+                                    : item?.returnQuantity
+                                }
                                 onChange={(e) => {
-                                  if(e.target.value> -1){
-                                    setFieldValue("quantity", e.target.value);
+                                  if (e.target.value > -1) {
+                                    setFieldValue('quantity', e.target.value);
                                     updateQuantity(e.target.value, index);
-                                    setFieldValue("rowDto", rowDto);
+                                    setFieldValue('rowDto', rowDto);
                                   }
                                 }}
                                 disabled={item?.returnQuantity}
@@ -369,35 +385,52 @@ export default function FormCmp({
                               />
                             </td>
                             <td className="text-center">
-                              {(item?.isReturn || item?.isHold || item?.itemRateDDL?.length===1)?item?.rate:
-                               <select
-                                  style={{ width: "100%", borderRadius: "5px" }}
+                              {item?.isReturn ||
+                              item?.isHold ||
+                              item?.itemRateDDL?.length === 1 ? (
+                                item?.rate
+                              ) : (
+                                <select
+                                  style={{ width: '100%', borderRadius: '5px' }}
                                   name="rate"
                                   defaultValue={item?.rate}
                                   onChange={(e) => {
-                                    setFieldValue("rate", e.target.value)
-                                    updateItemRate(item?.itemRateDDL[e.target.value], index)
+                                    setFieldValue('rate', e.target.value);
+                                    updateItemRate(
+                                      item?.itemRateDDL[e.target.value],
+                                      index
+                                    );
                                   }}
                                 >
-                                  <option hidden disabled selected="selected">Select Rate</option>
+                                  <option hidden disabled selected="selected">
+                                    Select Rate
+                                  </option>
                                   {item?.itemRateDDL.map((data, i) => {
-                                    return <option key={i} value={i}>{data.label}</option>;
+                                    return (
+                                      <option key={i} value={i}>
+                                        {data.label}
+                                      </option>
+                                    );
                                   })}
                                 </select>
-                              }
+                              )}
                             </td>
                             <td className="text-right">
-                              {item?.isReturn?(-item?.returnQuantity * item?.rate -
-                                item?.totalDiscountValue || 0).toFixed(2):
-                                (item?.quantity * item?.rate -
-                                  item?.totalDiscountValue || 0).toFixed(2)
-                              }
+                              {item?.isReturn
+                                ? (
+                                    -item?.returnQuantity * item?.rate -
+                                      item?.totalDiscountValue || 0
+                                  ).toFixed(2)
+                                : (
+                                    item?.quantity * item?.rate -
+                                      item?.totalDiscountValue || 0
+                                  ).toFixed(2)}
                             </td>
                             <td
                               className="text-right"
                               style={{
-                                display: "flex",
-                                justifyContent: "space-around",
+                                display: 'flex',
+                                justifyContent: 'space-around',
                               }}
                             >
                               <IDelete remover={remover} id={item?.itemName} />
@@ -406,11 +439,21 @@ export default function FormCmp({
                         ))}
                         {rowDto.length > 0 && (
                           <tr key="total">
-                            <td colSpan="5" style={{ fontWeight: "bold" }}>
+                            <td colSpan="5" style={{ fontWeight: 'bold' }}>
                               Total
                             </td>
-                            <td className="text-center" style={{ fontWeight: "bold" }}>{totalRate || 0}</td>
-                            <td className="text-right" style={{ fontWeight: "bold" }}>{total.toFixed(2)}</td>
+                            <td
+                              className="text-center"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {totalRate || 0}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ fontWeight: 'bold' }}
+                            >
+                              {total.toFixed(2)}
+                            </td>
                             <td className="text-center"></td>
                           </tr>
                         )}
@@ -419,10 +462,10 @@ export default function FormCmp({
                   </div>
                   <div
                     style={{
-                      float: "left",
-                      display: "flex",
-                      marginBottom: "10px",
-                      width: "100%"
+                      float: 'left',
+                      display: 'flex',
+                      marginBottom: '10px',
+                      width: '100%',
                     }}
                   >
                     <div className="payment-button">
@@ -430,18 +473,18 @@ export default function FormCmp({
                         type="button"
                         className={
                           holdInvoiceButtonClicked
-                            ? "btn btn-primary clicked-button"
-                            : "btn btn-primary"
+                            ? 'btn btn-primary clicked-button'
+                            : 'btn btn-primary'
                         }
                         style={{
-                          float: "left",
-                          padding: "5px 10px 5px 10px",
-                          margin: "0px",
-                          borderRadius: "0px"
+                          float: 'left',
+                          padding: '5px 10px 5px 10px',
+                          margin: '0px',
+                          borderRadius: '0px',
                         }}
                         onClick={(e) => {
                           e.preventDefault();
-                          setFieldValue("type", "cash");
+                          setFieldValue('type', 'cash');
                           setHoldInvoiceButtonClicked(true);
                           setVoucherReprintButtonClicked(false);
                           setSalesReturnButtonClicked(false);
@@ -453,20 +496,20 @@ export default function FormCmp({
                         type="button"
                         className={
                           voucherReprintButtonClicked
-                            ? "btn btn-primary clicked-button"
-                            : "btn btn-primary"
+                            ? 'btn btn-primary clicked-button'
+                            : 'btn btn-primary'
                         }
                         style={{
-                          float: "left",
-                          marginLeft: "5px",
-                          padding: "5px 10px 5px 10px",
-                          margin: "0px",
-                          borderRadius: "0px",
-                          borderLeft: "1px solid"
+                          float: 'left',
+                          marginLeft: '5px',
+                          padding: '5px 10px 5px 10px',
+                          margin: '0px',
+                          borderRadius: '0px',
+                          borderLeft: '1px solid',
                         }}
                         onClick={(e) => {
                           e.preventDefault();
-                          setFieldValue("type", "card");
+                          setFieldValue('type', 'card');
                           setHoldInvoiceButtonClicked(false);
                           setVoucherReprintButtonClicked(true);
                           setSalesReturnButtonClicked(false);
@@ -551,7 +594,7 @@ export default function FormCmp({
                       <h6>Total Bill</h6>
                       <h5>
                         {parseFloat(
-                          total +(values?.shippingCharge || 0)
+                          total + (values?.shippingCharge || 0)
                         ).toFixed(2)}
                       </h5>
                     </div>
@@ -602,17 +645,20 @@ export default function FormCmp({
                     </div>
                     <div className="bill-info pay-button">
                       <h6
-                        onClick={() =>{
-                          if(rowDto?.length===0){
-                            return toast.warning("Please Select Item")
+                        onClick={() => {
+                          if (rowDto?.length === 0) {
+                            return toast.warning('Please Select Item');
                           }
-                          showPaymentModalForm()
-                          setFieldValue("creditAmount", Math.round(
-                            total +
-                              (values?.shippingCharge || 0) +
-                              total * (0 / 100) -
-                              (values?.discountValueOnTotal || 0)
-                          ))
+                          showPaymentModalForm();
+                          setFieldValue(
+                            'creditAmount',
+                            Math.round(
+                              total +
+                                (values?.shippingCharge || 0) +
+                                total * (0 / 100) -
+                                (values?.discountValueOnTotal || 0)
+                            )
+                          );
                         }}
                       >
                         Pay {rowDto.length} Items TK. &nbsp;
@@ -629,10 +675,10 @@ export default function FormCmp({
               </div>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
-                onSubmit={() =>{
-                  resetForm(initData)
+                onSubmit={() => {
+                  resetForm(initData);
                 }}
               ></button>
             </Form>
@@ -642,11 +688,12 @@ export default function FormCmp({
               setPaymentMode={setPaymentMode}
               paidAmount={paidAmount}
               totalBill={Math.round(total + (values?.shippingCharge || 0))}
-              netTotal={Math.round(total +
+              netTotal={Math.round(
+                total +
                   (values?.shippingCharge || 0) +
                   total * (0 / 100) -
-                  (values?.discountValueOnTotal || 0))
-              }
+                  (values?.discountValueOnTotal || 0)
+              )}
               totalDiscount={values?.discountValueOnTotal}
               setPaidAmount={setPaidAmount}
               setValues={setValues}

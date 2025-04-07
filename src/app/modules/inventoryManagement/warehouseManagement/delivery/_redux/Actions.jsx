@@ -177,7 +177,7 @@ export const getDeliveryGridData =
     channelId,
     status,
     fromDate,
-    toDate,
+    toDate
   ) =>
   (dispatch) => {
     setLoading(true);
@@ -193,7 +193,7 @@ export const getDeliveryGridData =
         channelId,
         status,
         fromDate,
-        toDate,
+        toDate
       )
       .then((res) => {
         setLoading(false);
@@ -257,7 +257,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               const itemFindIdx = modifiedSalesOrderList?.findIndex(
                 (i) =>
                   i?.itemId === ele?.itemAgainstOffer &&
-                  i?.salesOrderId === ele?.salesOrderId,
+                  i?.salesOrderId === ele?.salesOrderId
               );
               if (itemFindIdx !== -1) {
                 const prvOffer =

@@ -1,15 +1,14 @@
-
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { getModuleFeature } from "../helper";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { getModuleFeature } from '../helper';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
-  featureGroupName: Yup.string().required("Feature Group Name is required"),
+  featureGroupName: Yup.string().required('Feature Group Name is required'),
 });
 
 function FormCmp({
@@ -146,12 +145,12 @@ function FormCmp({
 
   // Add new feature in Row data
   const addNewFeatureHandler = (values) => {
-    console.log("values => ", values);
+    console.log('values => ', values);
     let foundData = rowData?.filter(
       (item) => item?.featureId === values?.feature?.value
     );
     if (foundData.length > 0) {
-      toast.warning("Feature already exist", { toastId: "Fae" });
+      toast.warning('Feature already exist', { toastId: 'Fae' });
     } else {
       let payload = {
         featureId: values?.feature?.value,
@@ -208,7 +207,7 @@ function FormCmp({
                     value={values?.module}
                     label="Module Name"
                     onChange={(valueOption) => {
-                      setFieldValue("module", valueOption);
+                      setFieldValue('module', valueOption);
                       getModuleFeature(
                         valueOption?.moduleId,
                         setRowData,
@@ -231,7 +230,7 @@ function FormCmp({
                         value={values?.feature}
                         label="Feature"
                         onChange={(valueOption) => {
-                          setFieldValue("feature", valueOption);
+                          setFieldValue('feature', valueOption);
                         }}
                         placeholder="Feature"
                         errors={errors}
@@ -256,14 +255,14 @@ function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -281,7 +280,7 @@ function FormCmp({
                   <span>
                     <label>Select</label>
                     <input
-                      style={{ width: "15px", height: "15px" }}
+                      style={{ width: '15px', height: '15px' }}
                       name="isSelect"
                       checked={allSelect}
                       className="form-control ml-3"
@@ -299,7 +298,7 @@ function FormCmp({
                   Feature Name
                   <span className="position-absolute right-0 bottom-0 m-2">
                     <input
-                      style={{ width: "15px", height: "15px" }}
+                      style={{ width: '15px', height: '15px' }}
                       name="isSelectAllSelected"
                       checked={allActivities}
                       className="form-control ml-3"
@@ -325,13 +324,13 @@ function FormCmp({
               rowData?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td style={{ width: "30px" }} className="text-center">
+                    <td style={{ width: '30px' }} className="text-center">
                       {index + 1}
                     </td>
-                    <td style={{ width: "70px" }} className="text-center pl-2">
+                    <td style={{ width: '70px' }} className="text-center pl-2">
                       <span>
                         <input
-                          style={{ width: "15px", height: "15px" }}
+                          style={{ width: '15px', height: '15px' }}
                           name="isSelect"
                           checked={item?.isSelect}
                           className="form-control ml-8"
@@ -343,10 +342,10 @@ function FormCmp({
                     <td>
                       <span className="pl-2">{item?.featureName}</span>
                     </td>
-                    <td style={{ width: "50px" }} className="text-center pl-2">
+                    <td style={{ width: '50px' }} className="text-center pl-2">
                       <span>
                         <input
-                          style={{ width: "15px", height: "15px" }}
+                          style={{ width: '15px', height: '15px' }}
                           name="isCreate"
                           checked={item?.isCreate}
                           className="form-control ml-5"
@@ -361,10 +360,10 @@ function FormCmp({
                         />
                       </span>
                     </td>
-                    <td style={{ width: "50px" }} className="text-center pl-2">
+                    <td style={{ width: '50px' }} className="text-center pl-2">
                       <span>
                         <input
-                          style={{ width: "15px", height: "15px" }}
+                          style={{ width: '15px', height: '15px' }}
                           value={item?.isEdit}
                           name="isEdit"
                           checked={item?.isEdit}
@@ -380,10 +379,10 @@ function FormCmp({
                         />
                       </span>
                     </td>
-                    <td style={{ width: "50px" }} className="text-center pl-2">
+                    <td style={{ width: '50px' }} className="text-center pl-2">
                       <span>
                         <input
-                          style={{ width: "15px", height: "15px" }}
+                          style={{ width: '15px', height: '15px' }}
                           value={item?.isView}
                           checked={item?.isView}
                           name="isView"
@@ -399,10 +398,10 @@ function FormCmp({
                         />
                       </span>
                     </td>
-                    <td style={{ width: "50px" }} className="text-center pl-2">
+                    <td style={{ width: '50px' }} className="text-center pl-2">
                       <span>
                         <input
-                          style={{ width: "15px", height: "15px" }}
+                          style={{ width: '15px', height: '15px' }}
                           value={item?.isClose}
                           checked={item?.isClose}
                           name="isClose"

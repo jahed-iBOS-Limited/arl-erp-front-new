@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import XLSX from "xlsx";
-import { make_cols } from "./MakeColumns";
-import { SheetJSFT } from "./types";
+import React, { Component } from 'react';
+import XLSX from 'xlsx';
+import { make_cols } from './MakeColumns';
+import { SheetJSFT } from './types';
 
 class ExcelReader extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class ExcelReader extends Component {
       /* Parse data */
       const bstr = e.target.result;
       const wb = XLSX.read(bstr, {
-        type: rABS ? "binary" : "array",
+        type: rABS ? 'binary' : 'array',
         bookVBA: true,
       });
       /* Get first worksheet */
@@ -38,7 +38,7 @@ class ExcelReader extends Component {
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws);
       /* Update state */
-      this.setState({ data: data, cols: make_cols(ws["!ref"]) }, () => {
+      this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
         console.log(JSON.stringify(this.state.data, null, 2));
       });
     };

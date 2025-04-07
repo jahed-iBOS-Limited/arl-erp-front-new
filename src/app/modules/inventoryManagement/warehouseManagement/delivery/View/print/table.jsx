@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import "../../style.css";
-import CommonTable from "./commonTable";
-import BongTradersTable from "./bongTradersTable";
-import ReactToPrint from "react-to-print";
-import { printCount } from "../../utils";
+import React, { useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import '../../style.css';
+import CommonTable from './commonTable';
+import BongTradersTable from './bongTradersTable';
+import ReactToPrint from 'react-to-print';
+import { printCount } from '../../utils';
 
 export default function ChallanPrint({ deliveryChallanInfo, row }) {
   const printRef = useRef();
@@ -66,15 +66,17 @@ export default function ChallanPrint({ deliveryChallanInfo, row }) {
             }}
             content={() => printRef.current}
             pageStyle={
-              "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+              '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
             }
           />
         ) : null}
       </div>
       <div ref={printRef}>
         <div
-          className={`mx-auto print_wrapper delivery_challan_print_wrapper ${selectedBusinessUnit?.value ===
-            178 && "bongoTradersLtdChalanPrintMargin"}`}
+          className={`mx-auto print_wrapper delivery_challan_print_wrapper ${
+            selectedBusinessUnit?.value === 178 &&
+            'bongoTradersLtdChalanPrintMargin'
+          }`}
         >
           <div>
             <div className="text-center my-2 delivery_challan">
@@ -87,14 +89,14 @@ export default function ChallanPrint({ deliveryChallanInfo, row }) {
               <table className="table delivery_challan_top_table mt-8">
                 <tbody>
                   <tr>
-                    <td style={{ width: "107px" }}>
+                    <td style={{ width: '107px' }}>
                       <b>Challan No</b>
                     </td>
                     <td>:</td>
                     <td>
                       <b>{challanNo}</b>
                     </td>
-                    <td style={{ width: "120px" }}>Delivery From:</td>
+                    <td style={{ width: '120px' }}>Delivery From:</td>
                     <td>:</td>
                     <td>{shippointName}</td>
                   </tr>
@@ -102,7 +104,7 @@ export default function ChallanPrint({ deliveryChallanInfo, row }) {
                     <td>Sold To Partner</td>
                     <td>:</td>
                     <td>{soldToPartner}</td>
-                    <td style={{ width: "120px" }}>Delivery Order</td>
+                    <td style={{ width: '120px' }}>Delivery Order</td>
                     <td>:</td>
                     <td>{deliveryOrder}</td>
                   </tr>
@@ -149,7 +151,7 @@ export default function ChallanPrint({ deliveryChallanInfo, row }) {
                   {(selectedBusinessUnit?.value === 171 ||
                     selectedBusinessUnit?.value === 224) && (
                     <>
-                      {" "}
+                      {' '}
                       <tr>
                         <td>Total Bundle</td>
                         <td>:</td>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 export default function AssessmentForm() {
   const [isDisabled] = useState(false);
@@ -16,12 +16,11 @@ export default function AssessmentForm() {
 
   useEffect(() => {
     getLandingData(`/hcm/Training/TrainingScheduleDDL`);
-
   }, []);
 
   return (
     <IForm
-      title={"Assessment Form Landing"}
+      title={'Assessment Form Landing'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}
@@ -34,7 +33,7 @@ export default function AssessmentForm() {
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Training Schedule</th>
                 <th>Date</th>
                 <th>Pre-Assessment</th>
@@ -49,17 +48,21 @@ export default function AssessmentForm() {
                     <td>{index + 1}</td>
                     <td>{item?.name}</td>
                     <td className="text-center">
-                      {_dateFormatter(item?.fromDate)} to{" "}
+                      {_dateFormatter(item?.fromDate)} to{' '}
                       {_dateFormatter(item?.toDate)}
                     </td>
-                    <td style={{ width: "100px" }} className="text-center">
+                    <td style={{ width: '100px' }} className="text-center">
                       <div className="d-flex justify-content-around">
                         <IView
                           title="View	Pre-Assessment"
                           clickHandler={() =>
                             history.push({
                               pathname: `/learningDevelopment/assessment/assessmentForm/view/${item?.value}`,
-                              state: { ...item, isPreAssesment: true, intRequisitionId: item?.value },
+                              state: {
+                                ...item,
+                                isPreAssesment: true,
+                                intRequisitionId: item?.value,
+                              },
                             })
                           }
                         />
@@ -73,13 +76,17 @@ export default function AssessmentForm() {
                         />
                       </div>
                     </td>
-                    <td style={{ width: "100px" }} className="text-center">
+                    <td style={{ width: '100px' }} className="text-center">
                       <div className="d-flex justify-content-around">
                         <IView
                           clickHandler={() =>
                             history.push({
                               pathname: `/learningDevelopment/assessment/assessmentForm/view/${item?.value}`,
-                              state: { ...item, isPreAssesment: false, intRequisitionId: item?.value },
+                              state: {
+                                ...item,
+                                isPreAssesment: false,
+                                intRequisitionId: item?.value,
+                              },
                             })
                           }
                         />
@@ -93,10 +100,10 @@ export default function AssessmentForm() {
                         />
                       </div>
                     </td>
-                    <td style={{ width: "100px" }} className="text-center">
+                    <td style={{ width: '100px' }} className="text-center">
                       <OverlayTrigger
                         overlay={
-                          <Tooltip id="cs-icon">{"Submissions"}</Tooltip>
+                          <Tooltip id="cs-icon">{'Submissions'}</Tooltip>
                         }
                       >
                         <span className="cursor-pointer">
@@ -106,7 +113,7 @@ export default function AssessmentForm() {
                               history.push({
                                 pathname: `/learningDevelopment/assessment/assessmentForm/submission/${item?.value}`,
                                 state: { ...item, isPreAssesment: false },
-                              })
+                              });
                             }}
                           ></i>
                         </span>

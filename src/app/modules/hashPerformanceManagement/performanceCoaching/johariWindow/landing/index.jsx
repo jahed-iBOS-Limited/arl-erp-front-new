@@ -74,17 +74,15 @@ export default function JohariWindowLanding() {
       data['unknown'] = [...data?.unknown, ...rowData?.unknown];
       setChipList(data);
     }
-
   }, [rowData]);
 
   useEffect(() => {
     getYearDDL(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
     );
     getEmployeeDDL(
-      `/pms/PerformanceMgmt/GetEmployeeWithSupervisorStatusDDL?intEmployeeId=${employeeId}&strEmployeeName=${employeeFullName}`,
+      `/pms/PerformanceMgmt/GetEmployeeWithSupervisorStatusDDL?intEmployeeId=${employeeId}&strEmployeeName=${employeeFullName}`
     );
-
   }, []);
 
   const addChipHandler = (name, valueOption) => {
@@ -171,7 +169,7 @@ export default function JohariWindowLanding() {
       '/pms/PerformanceMgmt/CreateJohariWindow',
       johariWindowPayload,
       null,
-      true,
+      true
     );
   };
 
@@ -330,10 +328,10 @@ export default function JohariWindowLanding() {
                               unknown: [],
                             });
                             getRowData(
-                              `/pms/PerformanceMgmt/GetJohariWindow?EmployeeId=${values?.employee.value}&YearId=${valueOption.value}`,
+                              `/pms/PerformanceMgmt/GetJohariWindow?EmployeeId=${values?.employee.value}&YearId=${valueOption.value}`
                             );
                             getChipsDDL(
-                              `/pms/PerformanceMgmt/GetJohariWindoWChips`,
+                              `/pms/PerformanceMgmt/GetJohariWindoWChips`
                             );
                           } else {
                             setFieldValue('year', '');

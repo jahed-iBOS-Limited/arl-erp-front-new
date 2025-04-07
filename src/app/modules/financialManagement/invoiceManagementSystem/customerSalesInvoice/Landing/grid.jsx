@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { withRouter } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { withRouter } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const GridData = ({
   rowdata,
@@ -34,7 +34,7 @@ const GridData = ({
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              {ReportType !== "Complete" && (
+              {ReportType !== 'Complete' && (
                 <th>
                   <input
                     label="Select"
@@ -60,13 +60,13 @@ const GridData = ({
             {rowdata?.map((td, index) => {
               return (
                 <tr>
-                  {ReportType !== "Complete" && (
+                  {ReportType !== 'Complete' && (
                     <td align="center">
                       <input
                         id="isForDepartment"
                         type="checkbox"
                         className=""
-                        value={td.itemcheck || ""}
+                        value={td.itemcheck || ''}
                         checked={td.itemcheck}
                         name={td.itemcheck}
                         onChange={(e) => {
@@ -81,7 +81,7 @@ const GridData = ({
                   <td> {td.billToPartnerCode} </td>
                   <td> {td.billToPartnerName} </td>
                   <td>
-                    {td.shipToPartnerName}, {td.shipToPartnerAddress}{" "}
+                    {td.shipToPartnerName}, {td.shipToPartnerAddress}{' '}
                   </td>
                   <td className="text-center"> {td.totalNetValue} </td>
                 </tr>

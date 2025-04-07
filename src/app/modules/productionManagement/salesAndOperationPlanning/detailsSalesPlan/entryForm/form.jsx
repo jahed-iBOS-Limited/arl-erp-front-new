@@ -1,54 +1,54 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { ExcelRenderer } from "react-excel-renderer";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { ExcelRenderer } from 'react-excel-renderer';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getItemListSalesPlanDDL } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { exportToCSV } from "./utils";
-import { toast } from "react-toastify";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewModal from "../viewModal";
-import { getHorizonDDL, getYearDDL } from "../../../../_helper/_commonApi";
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getItemListSalesPlanDDL } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { exportToCSV } from './utils';
+import { toast } from 'react-toastify';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewModal from '../viewModal';
+import { getHorizonDDL, getYearDDL } from '../../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   profitCenter: Yup.object().shape({
-    value: Yup.string().required("Profit Center is required"),
-    label: Yup.string().required("Profit Center is required"),
+    value: Yup.string().required('Profit Center is required'),
+    label: Yup.string().required('Profit Center is required'),
   }),
   plant: Yup.object()
     .shape({
-      value: Yup.string().required("Plant Name is required"),
-      label: Yup.string().required("Plant Name is required"),
+      value: Yup.string().required('Plant Name is required'),
+      label: Yup.string().required('Plant Name is required'),
     })
-    .required("Plant Name is required"),
+    .required('Plant Name is required'),
   channel: Yup.object().shape({
-    value: Yup.string().required("Distribution Channel is required"),
-    label: Yup.string().required("Distribution Channel is required"),
+    value: Yup.string().required('Distribution Channel is required'),
+    label: Yup.string().required('Distribution Channel is required'),
   }),
   region: Yup.object().shape({
-    value: Yup.string().required("Region is required"),
-    label: Yup.string().required("Region is required"),
+    value: Yup.string().required('Region is required'),
+    label: Yup.string().required('Region is required'),
   }),
   area: Yup.object().shape({
-    value: Yup.string().required("Area is required"),
-    label: Yup.string().required("Area is required"),
+    value: Yup.string().required('Area is required'),
+    label: Yup.string().required('Area is required'),
   }),
   territory: Yup.object().shape({
-    value: Yup.string().required("Territory is required"),
-    label: Yup.string().required("Territory is required"),
+    value: Yup.string().required('Territory is required'),
+    label: Yup.string().required('Territory is required'),
   }),
   year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
+    value: Yup.string().required('Year is required'),
+    label: Yup.string().required('Year is required'),
   }),
   horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
+    value: Yup.string().required('Planning Horizon is required'),
+    label: Yup.string().required('Planning Horizon is required'),
   }),
 });
 
@@ -84,7 +84,7 @@ export default function FormCmp({
   location,
   profitCenterDDl,
 }) {
-  const [fileObject, setFileObject] = useState("");
+  const [fileObject, setFileObject] = useState('');
   const hiddenFileInput = React.useRef(null);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20000);
@@ -120,11 +120,10 @@ export default function FormCmp({
             data: rowData,
             totalCount: rowDto?.totalCount,
           });
-          toast.success("Successfully Uploaded!");
+          toast.success('Successfully Uploaded!');
         }
       });
     }
-
   }, [fileObject]);
 
   useEffect(() => {
@@ -137,7 +136,6 @@ export default function FormCmp({
       pageSize,
       setRowDto
     );
-
   }, [itemNameDDL]);
 
   const handleClick = (event) => {
@@ -156,7 +154,7 @@ export default function FormCmp({
     );
   };
 
-  console.log("row", rowDto);
+  console.log('row', rowDto);
 
   return (
     <>
@@ -200,8 +198,8 @@ export default function FormCmp({
                       placeholder="Plant"
                       onChange={async (valueOption) => {
                         await setRowDto([]);
-                        setFileObject("");
-                        setFieldValue("plant", valueOption);
+                        setFileObject('');
+                        setFieldValue('plant', valueOption);
                         setPlant(valueOption);
                         getItemListSalesPlanDDL(
                           profileData?.accountId,
@@ -231,7 +229,7 @@ export default function FormCmp({
                       touched={touched}
                     />
                   </div>
-                  {console.log("errors", errors)}
+                  {console.log('errors', errors)}
                   <div className="col-lg-3">
                     <NewSelect
                       name="year"
@@ -240,9 +238,9 @@ export default function FormCmp({
                       label="Year"
                       placeholder="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
-                        setFileObject("");
-                        setFieldValue("horizon", "");
+                        setFieldValue('year', valueOption);
+                        setFileObject('');
+                        setFieldValue('horizon', '');
                         getHorizonDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -264,13 +262,13 @@ export default function FormCmp({
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
-                        setFieldValue("horizon", valueOption);
+                        setFieldValue('horizon', valueOption);
                         setFieldValue(
-                          "startDate",
+                          'startDate',
                           _dateFormatter(valueOption?.startdatetime)
                         );
                         setFieldValue(
-                          "endDate",
+                          'endDate',
                           _dateFormatter(valueOption?.enddatetime)
                         );
                       }}
@@ -287,7 +285,7 @@ export default function FormCmp({
                       label="Profit Center"
                       placeholder="profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -303,13 +301,14 @@ export default function FormCmp({
                       label="Distribution Channel"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("channel", valueOption);
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('channel', valueOption);
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           getRegionDDL(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value ||
-                            0}`,
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                              valueOption?.value || 0
+                            }`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
                                 ...item,
@@ -322,10 +321,10 @@ export default function FormCmp({
                           setAreaDDL([]);
                           setTerritoryDDL([]);
                         } else {
-                          setFieldValue("channel", "");
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('channel', '');
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setRegionDDL([]);
                           setAreaDDL([]);
                           setTerritoryDDL([]);
@@ -344,11 +343,12 @@ export default function FormCmp({
                       label="Region"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("region", valueOption);
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('region', valueOption);
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           getAreaDDL(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                              values?.channel?.value
                             }&regionId=${valueOption?.value || 0}`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
@@ -361,9 +361,9 @@ export default function FormCmp({
                           );
                           setTerritoryDDL([]);
                         } else {
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setAreaDDL([]);
                           setTerritoryDDL([]);
                         }
@@ -382,11 +382,13 @@ export default function FormCmp({
                       label="Area"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("area", valueOption);
-                          setFieldValue("territory", "");
+                          setFieldValue('area', valueOption);
+                          setFieldValue('territory', '');
                           getTerritoryDDL(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value
-                            }&regionId=${values?.region?.value
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                              values?.channel?.value
+                            }&regionId=${
+                              values?.region?.value
                             }&areaId=${valueOption?.value || 0}`,
                             (res) => {
                               const newDDL = res?.map((item) => ({
@@ -398,8 +400,8 @@ export default function FormCmp({
                             }
                           );
                         } else {
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setTerritoryDDL([]);
                         }
                       }}
@@ -416,7 +418,7 @@ export default function FormCmp({
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
+                        setFieldValue('territory', valueOption);
                       }}
                       placeholder="Territory"
                       isDisabled={!values?.area || id}
@@ -452,8 +454,8 @@ export default function FormCmp({
                     onClick={handleClick}
                     type="button"
                     style={{
-                      marginLeft: "10px",
-                      height: "30px",
+                      marginLeft: '10px',
+                      height: '30px',
                     }}
                   >
                     Import Excel
@@ -462,10 +464,10 @@ export default function FormCmp({
                     type="file"
                     onChange={(e) => {
                       setFileObject(e.target.files[0]);
-                      e.target.value = "";
+                      e.target.value = '';
                     }}
                     ref={hiddenFileInput}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   />
                 </div>
                 <button
@@ -475,23 +477,23 @@ export default function FormCmp({
                   }}
                   type="button"
                   style={{
-                    marginLeft: "20px",
-                    height: "30px",
+                    marginLeft: '20px',
+                    height: '30px',
                   }}
                 >
                   Export Excel
                 </button>
                 <div className="mt-5 ml-5">
                   <h4>
-                    Monthly Total Sales Plan Quantity :{" "}
+                    Monthly Total Sales Plan Quantity :{' '}
                     <span
                       onClick={() => {
                         setIsShowModal(true);
                       }}
                       style={{
-                        color: "blue",
-                        cursor: "pointer",
-                        textDecoration: "underline",
+                        color: 'blue',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
                       }}
                     >
                       {location?.state?.monthlyItem?.planQTY}
@@ -521,9 +523,9 @@ export default function FormCmp({
                         <td className="text-center">{index + 1}</td>
                         <td className="pl-2">{item?.itemName}</td>
                         <td className="pl-2">{item?.itemCode}</td>
-                        <td style={{ width: "180px" }}>
+                        <td style={{ width: '180px' }}>
                           {id ? (
-                            item?.bomname || ""
+                            item?.bomname || ''
                           ) : (
                             <>
                               {item?.isMultiple ? (
@@ -533,7 +535,7 @@ export default function FormCmp({
                                   value={item?.bom}
                                   onChange={(valueOption) => {
                                     dataHandler(
-                                      "bom",
+                                      'bom',
                                       item,
                                       valueOption,
                                       setRowDto,
@@ -551,18 +553,18 @@ export default function FormCmp({
                           )}
                         </td>
                         <td className="text-center">{item?.uomName}</td>
-                        <td style={{ width: "150px" }} className="text-center">
+                        <td style={{ width: '150px' }} className="text-center">
                           {id ? (
                             <input
                               type="number"
                               name="entryItemPlanQty"
-                              value={+item?.entryItemPlanQty || ""}
+                              value={+item?.entryItemPlanQty || ''}
                               onChange={(e) => {
                                 if (+e.target.value < 0) {
                                   return;
                                 }
                                 dataHandler(
-                                  "entryItemPlanQty",
+                                  'entryItemPlanQty',
                                   item,
                                   +e.target.value,
                                   setRowDto,
@@ -575,13 +577,13 @@ export default function FormCmp({
                             <input
                               type="number"
                               name="itemPlanQty"
-                              value={+item?.itemPlanQty || ""}
+                              value={+item?.itemPlanQty || ''}
                               onChange={(e) => {
                                 if (+e.target.value < 0) {
                                   return;
                                 }
                                 dataHandler(
-                                  "itemPlanQty",
+                                  'itemPlanQty',
                                   item,
                                   +e.target.value,
                                   setRowDto,
@@ -592,17 +594,17 @@ export default function FormCmp({
                             />
                           )}
                         </td>
-                        <td style={{ width: "150px" }} className="text-center">
+                        <td style={{ width: '150px' }} className="text-center">
                           <input
                             type="number"
                             name="rate"
-                            value={+item?.rate || ""}
+                            value={+item?.rate || ''}
                             onChange={(e) => {
                               if (+e.target.value < 0) {
                                 return;
                               }
                               dataHandler(
-                                "rate",
+                                'rate',
                                 item,
                                 +e.target.value,
                                 setRowDto,
@@ -614,7 +616,8 @@ export default function FormCmp({
                         </td>
                         <td className="text-center">
                           {id
-                            ? (+item?.entryItemPlanQty || 0) * (+item?.rate || 0)
+                            ? (+item?.entryItemPlanQty || 0) *
+                              (+item?.rate || 0)
                             : (+item?.itemPlanQty || 0) * (+item?.rate || 0)}
                         </td>
                         {/* <td className="text-center">
@@ -640,14 +643,14 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

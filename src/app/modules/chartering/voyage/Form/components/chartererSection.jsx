@@ -93,7 +93,7 @@ export default function ChartererSection({
                       ...values,
                       brokerCommission: e?.target?.value,
                     },
-                    setFieldValue,
+                    setFieldValue
                   );
                 }
               }}
@@ -119,7 +119,7 @@ export default function ChartererSection({
                       ...values,
                       addressCommission: e?.target?.value,
                     },
-                    setFieldValue,
+                    setFieldValue
                   );
                 }
               }}

@@ -1,6 +1,6 @@
-import React from "react";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
+import React from 'react';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
 const RowDtoTable = ({
   rowDto,
   remover,
@@ -36,14 +36,14 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="">{item?.uoMname}</td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "200px" }}
+                      style={{ width: '200px' }}
                     >
                       {item?.location?.label}
                       {/* <Select
@@ -93,11 +93,11 @@ const RowDtoTable = ({
                 </td> */}
                     {/* <td className="text-center align-middle"> {item?.blockStockQty} </td> */}
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.openStockQty}{" "}
+                      {' '}
+                      {item?.openStockQty}{' '}
                     </td>
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -107,7 +107,7 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          rowDtoHandler("quantity", e.target.value, index);
+                          rowDtoHandler('quantity', e.target.value, index);
                         }}
                         step="any"
                       />

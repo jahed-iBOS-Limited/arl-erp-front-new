@@ -1,23 +1,21 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import NewSelect from '../../../../_helper/_select';
 import {
   GetTransferChallanDetails,
   GetTransferChallanShipPointToShipPoint,
-} from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import IViewModal from "../../../../_helper/_viewModal";
-import TransferChallanDetails from "./details";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../_helper/_currentTime';
+import IViewModal from '../../../../_helper/_viewModal';
+import TransferChallanDetails from './details';
+import Loading from '../../../../_helper/_loading';
 
 export function TransferChallan(props) {
   // get user profile data from store
@@ -31,8 +29,8 @@ export function TransferChallan(props) {
   }, shallowEqual);
 
   const initData = {
-    fromShipPoint: "",
-    toShipPoint: "",
+    fromShipPoint: '',
+    toShipPoint: '',
     fromDate: _todayDate(),
     fromTime: _todaysStartTime(),
     toDate: _todayDate(),
@@ -46,8 +44,6 @@ export function TransferChallan(props) {
   const shipPintDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
-
-
 
   const GetTransferChallanReport = (values) => {
     GetTransferChallanShipPointToShipPoint(
@@ -116,7 +112,7 @@ export function TransferChallan(props) {
                       value={values?.fromShipPoint}
                       label="From ShipPoint"
                       onChange={(valueOption) => {
-                        setFieldValue("fromShipPoint", valueOption);
+                        setFieldValue('fromShipPoint', valueOption);
                       }}
                       placeholder="From ShipPoint"
                       errors={errors}
@@ -126,11 +122,11 @@ export function TransferChallan(props) {
                   <div className="col-lg-3">
                     <NewSelect
                       name="toShipPoint"
-                      options={[{ value: 0, label: "All" }, ...shipPintDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipPintDDL]}
                       value={values?.toShipPoint}
                       label="To ShipPoint"
                       onChange={(valueOption) => {
-                        setFieldValue("toShipPoint", valueOption);
+                        setFieldValue('toShipPoint', valueOption);
                       }}
                       placeholder="To ShipPoint"
                       errors={errors}
@@ -145,7 +141,7 @@ export function TransferChallan(props) {
                         type="date"
                         name="fromDate"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                         }}
                       />
                       <InputField
@@ -163,7 +159,7 @@ export function TransferChallan(props) {
                         type="date"
                         name="toDate"
                         onChange={(e) => {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                         }}
                       />
                       <InputField
@@ -186,7 +182,7 @@ export function TransferChallan(props) {
                 <div className="product-wise-shipment-report">
                   <div className="loan-scrollable-table scroll-table-auto">
                     <div
-                      style={{ maxHeight: "540px" }}
+                      style={{ maxHeight: '540px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
@@ -197,12 +193,12 @@ export function TransferChallan(props) {
                         <thead>
                           <tr>
                             {gridData?.head?.length && (
-                              <th style={{ minWidth: "30px" }}>SL</th>
+                              <th style={{ minWidth: '30px' }}>SL</th>
                             )}
                             {gridData?.head?.map((item, index) => (
                               <React.Fragment key={index}>
                                 {index < 4 ? (
-                                  <th style={{ minWidth: "100px" }}>{item}</th>
+                                  <th style={{ minWidth: '100px' }}>{item}</th>
                                 ) : (
                                   <th>{item}</th>
                                 )}
@@ -211,8 +207,8 @@ export function TransferChallan(props) {
                             {gridData?.head?.length && (
                               <th
                                 style={{
-                                  minWidth: "60px",
-                                  maxWidth: "80px !important",
+                                  minWidth: '60px',
+                                  maxWidth: '80px !important',
                                 }}
                               >
                                 Action
@@ -228,21 +224,21 @@ export function TransferChallan(props) {
                                 style={
                                   !itm?.toShipPoint
                                     ? {
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                       }
-                                    : { fontWeight: "normal" }
+                                    : { fontWeight: 'normal' }
                                 }
                                 key={i}
                               >
                                 <td className="text-center">
-                                  {" "}
-                                  {`${itm?.toShipPoint ? i + 1 : ""}`}
+                                  {' '}
+                                  {`${itm?.toShipPoint ? i + 1 : ''}`}
                                 </td>
                                 {itm?.row?.map((singleRow, index) => {
                                   return (
                                     <td
                                       className={`${
-                                        index < 1 ? "text-left" : "text-right"
+                                        index < 1 ? 'text-left' : 'text-right'
                                       }`}
                                       key={index}
                                     >
@@ -262,7 +258,7 @@ export function TransferChallan(props) {
                                       Details
                                     </button>
                                   ) : (
-                                    ""
+                                    ''
                                   )}
                                 </td>
                               </tr>

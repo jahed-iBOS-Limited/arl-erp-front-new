@@ -1,8 +1,8 @@
-import React from "react";
-import { toast } from "react-toastify";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import IDelete from "../../../_chartinghelper/_delete";
+import React from 'react';
+import { toast } from 'react-toastify';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import IDelete from '../../../_chartinghelper/_delete';
 
 export const addCargoShipper = (
   values,
@@ -11,29 +11,29 @@ export const addCargoShipper = (
   setCargoList
 ) => {
   if (!values?.cargo?.value) {
-    toast.warn("Please select a cargo");
+    toast.warn('Please select a cargo');
     return;
   }
 
   if (cargoList?.find((item) => item?.cargoId === values?.cargo?.value)) {
-    toast.warn("Item already added");
+    toast.warn('Item already added');
     return;
   } else {
     const newItem = {
       chartererId: values?.charterName?.value,
       cargoId: values?.cargo?.value,
       cargoName: values?.cargo?.label,
-      cargoQty: "",
-      freightRate: "",
-      totalFreight: "",
+      cargoQty: '',
+      freightRate: '',
+      totalFreight: '',
       numVoyageCargoQty: values?.cargo?.cargoQty,
       loadPortId: values?.cargo?.cargoLoadPortId || 0,
-      loadPortName: values?.cargo?.cargoLoadPortName || "",
+      loadPortName: values?.cargo?.cargoLoadPortName || '',
       dischargePortId: values?.cargo?.cargoDischargePortId || 0,
-      dischargePortName: values?.cargo?.cargoDischargePortName || "",
+      dischargePortName: values?.cargo?.cargoDischargePortName || '',
     };
     setCargoList([...cargoList, newItem]);
-    setFieldValue("cargo", "");
+    setFieldValue('cargo', '');
   }
 };
 
@@ -50,10 +50,10 @@ export default function CargoTable({
     let newItemList = [...cargoList];
     newItemList[index][key] = +value;
     const freightValue =
-      key === "freightRate"
-        ? value * (+newItemList[index]["cargoQty"] || 0)
-        : value * (+newItemList[index]["freightRate"] || 0);
-    newItemList[index]["totalFreight"] = +freightValue;
+      key === 'freightRate'
+        ? value * (+newItemList[index]['cargoQty'] || 0)
+        : value * (+newItemList[index]['freightRate'] || 0);
+    newItemList[index]['totalFreight'] = +freightValue;
 
     setCargoList(newItemList);
   };
@@ -70,19 +70,19 @@ export default function CargoTable({
             <h6 className="">Cargo List</h6>
             <ICustomTable
               ths={[
-                { name: "SL" },
-                { name: "Cargo Name" },
-                { name: "Cargo Qty" },
-                { name: "Start Port" },
-                { name: "End Port" },
+                { name: 'SL' },
+                { name: 'Cargo Name' },
+                { name: 'Cargo Qty' },
+                { name: 'Start Port' },
+                { name: 'End Port' },
                 // { name: "Freight/MT" },
                 // { name: "Freight Value" },
-                { name: "Action", isHide: viewType === "View" },
+                { name: 'Action', isHide: viewType === 'View' },
               ]}
             >
               {cargoList?.map((item, index) => (
                 <tr key={index}>
-                  <td className="text-center" style={{ maxWidth: "30px" }}>
+                  <td className="text-center" style={{ maxWidth: '30px' }}>
                     {index + 1}
                   </td>
                   <td>{item?.cargoName}</td>
@@ -94,12 +94,12 @@ export default function CargoTable({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "View" || item?.rowId}
+                      disabled={viewType === 'View' || item?.rowId}
                       onChange={(e) => {
                         if (item?.numVoyageCargoQty < e?.target?.value) {
                         } else {
                           cargoRowDataHandler(
-                            "cargoQty",
+                            'cargoQty',
                             e?.target?.value,
                             index,
                             cargoList,
@@ -109,8 +109,8 @@ export default function CargoTable({
                       }}
                     />
                   </td>
-                  <td>{item?.loadPortName || ""}</td>
-                  <td>{item?.dischargePortName || ""}</td>
+                  <td>{item?.loadPortName || ''}</td>
+                  <td>{item?.dischargePortName || ''}</td>
                   {/* <td>
                     <FormikInput
                       value={item?.freightRate}
@@ -132,7 +132,7 @@ export default function CargoTable({
                     />
                   </td>
                   <td className="text-right">{item?.totalFreight}</td> */}
-                  {viewType !== "View" ? (
+                  {viewType !== 'View' ? (
                     <td className="text-center">
                       <p
                         onClick={() => {
@@ -170,7 +170,7 @@ export default function CargoTable({
                   {cargoList?.reduce((acc, cur) => acc + cur?.totalFreight, 0)}
                 </td> */}
 
-                <td colSpan={viewType !== "View" ? "3" : "2"}></td>
+                <td colSpan={viewType !== 'View' ? '3' : '2'}></td>
               </tr>
             </ICustomTable>
           </>

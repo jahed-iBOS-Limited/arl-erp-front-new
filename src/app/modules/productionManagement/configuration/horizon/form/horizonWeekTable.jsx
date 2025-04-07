@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Formik } from "formik";
+import React from 'react';
+import { Formik } from 'formik';
 
 const HorizonWeekTable = ({ gridWeekData }) => {
   return (
@@ -21,7 +20,7 @@ const HorizonWeekTable = ({ gridWeekData }) => {
                 gridWeekData.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {item.intSubHorizonId}
                       </td>
                       <td>

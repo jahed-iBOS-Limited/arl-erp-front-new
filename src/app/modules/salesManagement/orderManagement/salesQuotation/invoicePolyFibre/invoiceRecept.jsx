@@ -1,16 +1,16 @@
-import React from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import "./polyStyle.css";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import moment from "moment";
-import logo from "../../../../_helper/images/apfil.svg";
+import React from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import './polyStyle.css';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import moment from 'moment';
+import logo from '../../../../_helper/images/apfil.svg';
 
 const SalesQuotationForPolyFibreInvoice = ({
   printRef,
   invoiceData,
   businessPartnerInfo,
 }) => {
-  console.log(invoiceData, businessPartnerInfo, "print");
+  console.log(invoiceData, businessPartnerInfo, 'print');
   const {
     profileData: { employeeFullName, designationName },
   } = useSelector((state) => {
@@ -20,19 +20,19 @@ const SalesQuotationForPolyFibreInvoice = ({
   return (
     <div className="poly_fibre_quotation_print" ref={printRef}>
       <div className="poly_header text-center">
-        <img style={{ height: "90px" }} src={logo} alt="logo" />
+        <img style={{ height: '90px' }} src={logo} alt="logo" />
         <div className="  ml-2">
           <p
-            style={{ marginBottom: "0", fontSize: "50px", fontWeight: "bold" }}
+            style={{ marginBottom: '0', fontSize: '50px', fontWeight: 'bold' }}
           >
             Akij Poly Fibre Industries Limited
           </p>
         </div>
-        <p style={{ marginBottom: "0", fontSize: "16px" }}>
+        <p style={{ marginBottom: '0', fontSize: '16px' }}>
           Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan Link Road,
           Tejgaon I/A, Dhaka-1208 <br />
           Phone: 09613313131, 09604313131 Hotline: 16609 <br />
-          <span style={{ letterSpacing: "-0.5px" }}>
+          <span style={{ letterSpacing: '-0.5px' }}>
             Factory: Nabiganj, Kadam Rasul, Narayangonj, Phone: 7661224, Fax:
             0088-9572292, E-mail: info@akij.net
           </span>
@@ -44,10 +44,10 @@ const SalesQuotationForPolyFibreInvoice = ({
           <div className="d-flex justify-content-between mb-3">
             <p>
               <b>Ref: </b>
-              {invoiceData?.[0]?.partnerReffNo || ""}
+              {invoiceData?.[0]?.partnerReffNo || ''}
             </p>
             <p>
-              <b>Date: {moment(_todayDate()).format("DD MMM YYYY")}</b>
+              <b>Date: {moment(_todayDate()).format('DD MMM YYYY')}</b>
             </p>
           </div>
           <div className="bold">
@@ -89,7 +89,7 @@ const SalesQuotationForPolyFibreInvoice = ({
                     <td className="text-center">{index + 1}</td>
                     <td className="text-left">{item?.itemName}</td>
                     <td className="text-center">
-                      {item?.specification || "N/A"}
+                      {item?.specification || 'N/A'}
                     </td>
                     <td className="text-center">{item?.itemPrice}</td>
                   </tr>
@@ -122,7 +122,7 @@ const SalesQuotationForPolyFibreInvoice = ({
             </p>
             <p>
               <span>Offer Validity </span>
-              {moment(invoiceData?.[0]?.quotationEndDate).format("DD MMM YYYY")}
+              {moment(invoiceData?.[0]?.quotationEndDate).format('DD MMM YYYY')}
             </p>
             <p>
               <span>Offer Quantity </span>
@@ -130,7 +130,7 @@ const SalesQuotationForPolyFibreInvoice = ({
                 {invoiceData?.reduce(
                   (acc, cur) => acc + (+cur?.quotationQuantity || 0),
                   0
-                )}{" "}
+                )}{' '}
               </b>
               Pcs
             </p>

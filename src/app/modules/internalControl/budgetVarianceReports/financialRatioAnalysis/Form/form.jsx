@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import TableOne from "../Table/tableOne";
-import TableTwo from "../Table/tableTwo";
-import { getFinancialRatioApi } from "./helper";
-const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-const reportId = "8f548c85-83d5-4c4b-938e-b99be47b0289";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import TableOne from '../Table/tableOne';
+import TableTwo from '../Table/tableTwo';
+import { getFinancialRatioApi } from './helper';
+const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
+const reportId = '8f548c85-83d5-4c4b-938e-b99be47b0289';
 const parameterValues = (values) => {
   const agingParameters = [
-    { name: "dteStartDate", value: `${values?.fromDate}` },
-    { name: "dteEndDate", value: `${values?.toDate}` },
-    { name: "isForecast", value: `${values?.isForecast?.value}` },
+    { name: 'dteStartDate', value: `${values?.fromDate}` },
+    { name: 'dteEndDate', value: `${values?.toDate}` },
+    { name: 'isForecast', value: `${values?.isForecast?.value}` },
   ];
   return agingParameters;
 };
@@ -45,7 +45,7 @@ export default function FormCmp({ initData }) {
                     value={values?.currentBusinessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("currentBusinessUnit", valueOption || "");
+                      setFieldValue('currentBusinessUnit', valueOption || '');
                     }}
                     placeholder="Business Unit"
                   />
@@ -62,7 +62,7 @@ export default function FormCmp({ initData }) {
                       setShowRDLC(false);
                       setRightRowDto([]);
                       setLeftRowDto([]);
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -78,7 +78,7 @@ export default function FormCmp({ initData }) {
                       setShowRDLC(false);
                       setRightRowDto([]);
                       setLeftRowDto([]);
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -88,27 +88,27 @@ export default function FormCmp({ initData }) {
                     options={[
                       {
                         value: 0,
-                        label: "Budget",
+                        label: 'Budget',
                       },
                       {
                         value: 1,
-                        label: "Forecast",
+                        label: 'Forecast',
                       },
                     ]}
                     value={values?.isForecast}
                     label="Budget/Forecast"
                     onChange={(valueOption) => {
-                      setFieldValue("isForecast", valueOption);
+                      setFieldValue('isForecast', valueOption);
                     }}
                     placeholder="Budget/Forecast"
                   />
                 </div>
                 <div
                   style={{
-                    marginTop: "18px",
-                    display: "flex",
-                    gap: "5px",
-                    alignItems: "center",
+                    marginTop: '18px',
+                    display: 'flex',
+                    gap: '5px',
+                    alignItems: 'center',
                   }}
                 >
                   <button

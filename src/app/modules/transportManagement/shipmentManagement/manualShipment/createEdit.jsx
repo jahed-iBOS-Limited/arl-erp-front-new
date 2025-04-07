@@ -1,36 +1,36 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IClose from "../../../_helper/_helperIcons/_close";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { updateLoadingSlip } from "./utils";
-import IViewModal from "../../../_helper/_viewModal";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IClose from '../../../_helper/_helperIcons/_close';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { updateLoadingSlip } from './utils';
+import IViewModal from '../../../_helper/_viewModal';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 
 const initData = {
   dteDate: _todayDate(),
-  strCardNumber: "",
-  entryCode: "",
-  vehicaleNumber: "",
-  salesBU: "",
-  salesOrg: "",
-  distributionChannel: "",
-  item: "",
-  uom: "",
-  numQnt: "",
-  strRemarks: "",
-  shipPoint: "",
+  strCardNumber: '',
+  entryCode: '',
+  vehicaleNumber: '',
+  salesBU: '',
+  salesOrg: '',
+  distributionChannel: '',
+  item: '',
+  uom: '',
+  numQnt: '',
+  strRemarks: '',
+  shipPoint: '',
 };
 
 export default function ManualShipmentCreate() {
@@ -45,12 +45,8 @@ export default function ManualShipmentCreate() {
     getDistributionChannel,
     distributionChannelLoader,
   ] = useAxiosGet();
-  const [
-    shippointDDL,
-    getShippointDDL,
-    shippointDDLloader,
-    setShippointDDL,
-  ] = useAxiosGet();
+  const [shippointDDL, getShippointDDL, shippointDDLloader, setShippointDDL] =
+    useAxiosGet();
   const [, getRegDDL, regDDLloader] = useAxiosGet();
   const [regData, getRegData, regDataLoader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
@@ -140,39 +136,38 @@ export default function ManualShipmentCreate() {
     getUom(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const saveHandler = (values, cb) => {
     if (rowData?.length <= 0) {
-      return toast.warn("Add at least one item");
+      return toast.warn('Add at least one item');
     }
     if (!values?.dteDate) {
-      return toast.warn("Date is required");
+      return toast.warn('Date is required');
     }
     if (!values?.shipPoint) {
-      return toast.warn("Ship Point is required");
+      return toast.warn('Ship Point is required');
     }
     if (!values?.entryCode) {
-      return toast.warn("Entry Code is required");
+      return toast.warn('Entry Code is required');
     }
     if (!values?.vehicaleNumber) {
-      return toast.warn("Vehicle number is required");
+      return toast.warn('Vehicle number is required');
     }
     if (!values?.salesBU) {
-      return toast.warn("Sales BU is required");
+      return toast.warn('Sales BU is required');
     }
     if (!values?.salesOrg) {
-      return toast.warn("Sales Org is required");
+      return toast.warn('Sales Org is required');
     }
     if (!values?.distributionChannel) {
-      return toast.warn("Distribution Channel  is required");
+      return toast.warn('Distribution Channel  is required');
     }
     const payload = {
       headerDTO: {
         intLoadingId: loadingId ? loadingId : 0,
         intShipmentId: loadingId ? modifyData?.intShipmentId : 0,
-        strShipmentCode: loadingId ? modifyData?.strShipmentCode : "",
+        strShipmentCode: loadingId ? modifyData?.strShipmentCode : '',
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
         intShipPointId: values?.shipPoint?.value,
@@ -190,7 +185,7 @@ export default function ManualShipmentCreate() {
           : regData[0]?.intVeichleEntryId,
         strGateEntryCode: values?.entryCode?.label,
         strCardNumber: values?.strCardNumber,
-        strRemarks: loadingId ? modifyData?.strRemarks : "",
+        strRemarks: loadingId ? modifyData?.strRemarks : '',
         intSalesBuid: values?.salesBU?.value,
         intSalesOrgId: values?.salesOrg?.value,
         intDistributionChannelId: values?.distributionChannel?.value,
@@ -203,41 +198,34 @@ export default function ManualShipmentCreate() {
       : saveData(`/tms/Vehicle/CreateLoadingSlip`, payload, cb, true);
   };
 
-  const qurScanHandler  = ({ setFieldValue, values }) => {
-    document.getElementById(
-        "cardNoInput"
-      ).disabled = true;
-      getRegDDL(
-        `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
-        (data) => {
-          if (data.length > 0) {
-            getRegData(
-              `/mes/MSIL/GetAllMSIL?PartName=EntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${data[0]?.label}`,
-              (data) => {
-                if (data.length > 0) {
-                  setFieldValue("entryCode", data[0]);
-                  setFieldValue("shipPoint", {
-                    value: data[0]?.intShipPointId,
-                    label: data[0]?.strShipPointName,
-                  });
-                  setFieldValue(
-                    "vehicaleNumber",
-                    data[0]?.vehicleNo
-                  );
-                }
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById('cardNoInput').disabled = true;
+    getRegDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
+      (data) => {
+        if (data.length > 0) {
+          getRegData(
+            `/mes/MSIL/GetAllMSIL?PartName=EntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${data[0]?.label}`,
+            (data) => {
+              if (data.length > 0) {
+                setFieldValue('entryCode', data[0]);
+                setFieldValue('shipPoint', {
+                  value: data[0]?.intShipPointId,
+                  label: data[0]?.strShipPointName,
+                });
+                setFieldValue('vehicaleNumber', data[0]?.vehicleNo);
               }
-            );
-          } else {
-            toast.warn("Wrong Card No");
-            setFieldValue("strCardNumber", "");
-            document.getElementById(
-              "cardNoInput"
-            ).disabled = false;
-            document.getElementById("cardNoInput").focus();
-          }
+            }
+          );
+        } else {
+          toast.warn('Wrong Card No');
+          setFieldValue('strCardNumber', '');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
         }
-      );
-  }
+      }
+    );
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -269,7 +257,7 @@ export default function ManualShipmentCreate() {
             loader) && <Loading />}
           <IForm
             title={
-              loadingId ? "Edit Manual Shipment" : "Create Manual Shipment"
+              loadingId ? 'Edit Manual Shipment' : 'Create Manual Shipment'
             }
             getProps={setObjprops}
           >
@@ -282,25 +270,25 @@ export default function ManualShipmentCreate() {
                     name="dteDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("dteDate", e.target.value);
-                      document.getElementById("strCardNoId").focus();
+                      setFieldValue('dteDate', e.target.value);
+                      document.getElementById('strCardNoId').focus();
                     }}
                   />
                 </div>
                 <div
                   className="col-lg-2 d-flex"
                   style={{
-                    position: "relative",
+                    position: 'relative',
                   }}
                 >
                   <div
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       right: 0,
                       top: 0,
-                      cursor: "pointer",
-                      color: "blue",
-                      zIndex: "1",
+                      cursor: 'pointer',
+                      color: 'blue',
+                      zIndex: '1',
                     }}
                     onClick={() => {
                       setQRCodeScannerModal(true);
@@ -308,7 +296,7 @@ export default function ManualShipmentCreate() {
                   >
                     QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                   </div>
-                  <div style={{ width: "inherit" }}>
+                  <div style={{ width: 'inherit' }}>
                     <InputField
                       id="cardNoInput"
                       autoFocus
@@ -317,10 +305,9 @@ export default function ManualShipmentCreate() {
                       name="strCardNumber"
                       type="text"
                       onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          document.getElementById(
-                            "cardNoInput"
-                          ).disabled = true;
+                        if (e.key === 'Enter') {
+                          document.getElementById('cardNoInput').disabled =
+                            true;
                           getRegDDL(
                             `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
                             (data) => {
@@ -329,32 +316,32 @@ export default function ManualShipmentCreate() {
                                   `/mes/MSIL/GetAllMSIL?PartName=EntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${data[0]?.label}`,
                                   (data) => {
                                     if (data.length > 0) {
-                                      setFieldValue("entryCode", data[0]);
-                                      setFieldValue("shipPoint", {
+                                      setFieldValue('entryCode', data[0]);
+                                      setFieldValue('shipPoint', {
                                         value: data[0]?.intShipPointId,
                                         label: data[0]?.strShipPointName,
                                       });
                                       setFieldValue(
-                                        "vehicaleNumber",
+                                        'vehicaleNumber',
                                         data[0]?.vehicleNo
                                       );
                                     }
                                   }
                                 );
                               } else {
-                                toast.warn("Wrong Card No");
-                                setFieldValue("strCardNumber", "");
+                                toast.warn('Wrong Card No');
+                                setFieldValue('strCardNumber', '');
                                 document.getElementById(
-                                  "cardNoInput"
+                                  'cardNoInput'
                                 ).disabled = false;
-                                document.getElementById("cardNoInput").focus();
+                                document.getElementById('cardNoInput').focus();
                               }
                             }
                           );
                         }
                       }}
                       onChange={(e) => {
-                        setFieldValue("strCardNumber", e.target.value);
+                        setFieldValue('strCardNumber', e.target.value);
                       }}
                       disabled={loadingId ? true : false}
                     />
@@ -362,23 +349,23 @@ export default function ManualShipmentCreate() {
                   {!loadingId && (
                     <span
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginLeft: "5px",
-                        cursor: "pointer",
-                        marginTop: "20px",
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginLeft: '5px',
+                        cursor: 'pointer',
+                        marginTop: '20px',
                       }}
                       onClick={() => {
                         setRowData([]);
-                        setFieldValue("strCardNumber", "");
-                        document.getElementById("cardNoInput").disabled = false;
-                        document.getElementById("cardNoInput").focus();
+                        setFieldValue('strCardNumber', '');
+                        document.getElementById('cardNoInput').disabled = false;
+                        document.getElementById('cardNoInput').focus();
                         resetForm(initData);
                       }}
                     >
                       <i
-                        style={{ color: "blue" }}
+                        style={{ color: 'blue' }}
                         className="fa fa-refresh"
                         aria-hidden="true"
                       ></i>
@@ -391,17 +378,17 @@ export default function ManualShipmentCreate() {
                     selectedValue={values?.entryCode}
                     handleChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("entryCode", valueOption);
-                        setFieldValue("vehicaleNumber", valueOption?.vehicleNo);
-                        setFieldValue("shipPoint", {
+                        setFieldValue('entryCode', valueOption);
+                        setFieldValue('vehicaleNumber', valueOption?.vehicleNo);
+                        setFieldValue('shipPoint', {
                           value: valueOption?.intShipPointId,
                           label: valueOption?.strShipPointName,
                         });
                       } else {
-                        setFieldValue("entryCode", "");
-                        setFieldValue("vehicaleNumber", "");
-                        setFieldValue("shipPoint", "");
-                        document.getElementById("cardNoInput").disabled = false;
+                        setFieldValue('entryCode', '');
+                        setFieldValue('vehicaleNumber', '');
+                        setFieldValue('shipPoint', '');
+                        document.getElementById('cardNoInput').disabled = false;
                       }
                     }}
                     isDisabled={rowData?.length > 0 ? true : false}
@@ -436,12 +423,12 @@ export default function ManualShipmentCreate() {
                     label="Sales BU"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("salesBU", valueOption);
+                        setFieldValue('salesBU', valueOption);
                         getSalesOrg(
                           `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("salesBU", "");
+                        setFieldValue('salesBU', '');
                       }
                     }}
                     placeholder="Sales BU"
@@ -458,9 +445,9 @@ export default function ManualShipmentCreate() {
                     label="Ship Point"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       } else {
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('shipPoint', '');
                       }
                     }}
                     placeholder="Ship Point"
@@ -477,9 +464,9 @@ export default function ManualShipmentCreate() {
                     label="Sales Org"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("salesOrg", valueOption);
+                        setFieldValue('salesOrg', valueOption);
                       } else {
-                        setFieldValue("salesOrg", "");
+                        setFieldValue('salesOrg', '');
                       }
                     }}
                     placeholder="Sales Org"
@@ -496,12 +483,12 @@ export default function ManualShipmentCreate() {
                     label="Distribution Channel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                         getItemDDL(
                           `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&DistributionChannelId=${valueOption?.value}&SalesOrgId=${values?.salesOrg?.value}`
                         );
                       } else {
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('distributionChannel', '');
                       }
                     }}
                     placeholder="Distribution Channel"
@@ -518,11 +505,11 @@ export default function ManualShipmentCreate() {
                     label="Item"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("item", valueOption);
-                        setFieldValue("uom", "");
+                        setFieldValue('item', valueOption);
+                        setFieldValue('uom', '');
                       } else {
-                        setFieldValue("item", "");
-                        setFieldValue("uom", "");
+                        setFieldValue('item', '');
+                        setFieldValue('uom', '');
                       }
                     }}
                     placeholder="Item"
@@ -539,9 +526,9 @@ export default function ManualShipmentCreate() {
                     label="Uom"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("uom", valueOption);
+                        setFieldValue('uom', valueOption);
                       } else {
-                        setFieldValue("uom", "");
+                        setFieldValue('uom', '');
                       }
                     }}
                     placeholder="uom"
@@ -557,7 +544,7 @@ export default function ManualShipmentCreate() {
                     name="numQnt"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("numQnt", e.target.value);
+                      setFieldValue('numQnt', e.target.value);
                     }}
                   />
                 </div>
@@ -568,7 +555,7 @@ export default function ManualShipmentCreate() {
                     name="strRemarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("strRemarks", e.target.value);
+                      setFieldValue('strRemarks', e.target.value);
                     }}
                   />
                 </div>
@@ -579,19 +566,19 @@ export default function ManualShipmentCreate() {
                         (itm) => itm.intItemId === values?.item?.value
                       );
                       if (isItemAlreadyAdded) {
-                        return toast.warn("Item already added");
+                        return toast.warn('Item already added');
                       }
                       if (!values?.item?.value) {
-                        return toast.warn("Item is required");
+                        return toast.warn('Item is required');
                       }
                       if (!values?.uom?.value) {
-                        return toast.warn("Uom is required");
+                        return toast.warn('Uom is required');
                       }
                       if (!values?.numQnt) {
-                        return toast.warn("Quantity is required");
+                        return toast.warn('Quantity is required');
                       }
                       if (!values?.strRemarks) {
-                        return toast.warn("Remarks is required");
+                        return toast.warn('Remarks is required');
                       }
                       setRowData([
                         ...rowData,
@@ -608,10 +595,10 @@ export default function ManualShipmentCreate() {
                           strItemCode: values?.item?.code,
                         },
                       ]);
-                      setFieldValue("item", "");
-                      setFieldValue("uom", "");
-                      setFieldValue("numQnt", "");
-                      setFieldValue("strRemarks", "");
+                      setFieldValue('item', '');
+                      setFieldValue('uom', '');
+                      setFieldValue('numQnt', '');
+                      setFieldValue('strRemarks', '');
                     }}
                     type="button"
                     className="btn btn-primary mt-5"
@@ -626,7 +613,7 @@ export default function ManualShipmentCreate() {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Item Code</th>
                         <th>Item Name</th>
                         <th>UoM</th>
@@ -670,7 +657,7 @@ export default function ManualShipmentCreate() {
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNumber", result);
+                        setFieldValue('strCardNumber', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
@@ -686,14 +673,14 @@ export default function ManualShipmentCreate() {
               )}
               <button
                 type="button"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onClick={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

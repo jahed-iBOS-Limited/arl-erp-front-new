@@ -46,7 +46,6 @@ export default function FormCmp({
   outletId,
   collerCompanyDDL,
 }) {
-
   const classes = useStyles();
 
   return (

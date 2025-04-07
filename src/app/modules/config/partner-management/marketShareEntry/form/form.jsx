@@ -1,23 +1,22 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 import {
   monthDDL,
   yearsDDL,
-} from "../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";
-import NewSelect from "../../../../_helper/_select";
-import { validationSchema } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import AddCompanyForm from "./addCompany";
+} from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import NewSelect from '../../../../_helper/_select';
+import { validationSchema } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import IViewModal from '../../../../_helper/_viewModal';
+import AddCompanyForm from './addCompany';
 
 export default function FormCmp({
   rowData,
@@ -70,7 +69,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <>
                         <button
                           type="reset"
@@ -78,7 +77,7 @@ export default function FormCmp({
                             resetForm(initData);
                           }}
                           className="btn btn-light ml-2"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         >
                           <i className="fa fa-redo"></i>
                           Reset
@@ -111,7 +110,7 @@ export default function FormCmp({
                               label="Distribution Channel"
                               onChange={(e) => {
                                 onChangeHandler(
-                                  "channel",
+                                  'channel',
                                   values,
                                   e,
                                   setFieldValue
@@ -130,7 +129,7 @@ export default function FormCmp({
                               label="Region"
                               onChange={(e) => {
                                 onChangeHandler(
-                                  "region",
+                                  'region',
                                   values,
                                   e,
                                   setFieldValue
@@ -150,7 +149,7 @@ export default function FormCmp({
                               label="Area"
                               onChange={(e) => {
                                 onChangeHandler(
-                                  "area",
+                                  'area',
                                   values,
                                   e,
                                   setFieldValue
@@ -171,7 +170,7 @@ export default function FormCmp({
                           value={values?.territory}
                           label="Territory"
                           onChange={(valueOption) => {
-                            setFieldValue("territory", valueOption);
+                            setFieldValue('territory', valueOption);
                           }}
                           placeholder="Territory"
                           errors={errors}
@@ -189,7 +188,7 @@ export default function FormCmp({
                           value={values?.month}
                           label="Month"
                           onChange={(valueOption) => {
-                            setFieldValue("month", valueOption);
+                            setFieldValue('month', valueOption);
                           }}
                           placeholder="Month"
                           errors={errors}
@@ -204,7 +203,7 @@ export default function FormCmp({
                           value={values?.year}
                           label="Year"
                           onChange={(valueOption) => {
-                            setFieldValue("year", valueOption);
+                            setFieldValue('year', valueOption);
                           }}
                           placeholder="Year"
                           errors={errors}
@@ -278,56 +277,56 @@ export default function FormCmp({
                   <div className="row">
                     <div className="col-lg-6">
                       {rowData?.length > 0 && (
-                       <div className="table-responsive">
-                         <table
-                          id="table-to-xlsx"
-                          className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                          }
-                        >
-                          <thead>
-                            <tr className="cursor-pointer">
-                              {["SL", "Company Name", "Sales Qty"]?.map(
-                                (th, i) => {
-                                  return <th key={i}> {th} </th>;
-                                }
-                              )}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.map((item, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    style={{ width: "40px" }}
-                                    className="text-center"
-                                  >
-                                    {index + 1}
-                                  </td>
-                                  <td>{item?.companyName}</td>
-                                  <td style={{ width: "140px" }}>
-                                    <InputField
-                                      value={item?.quantity}
-                                      name="quantity"
-                                      placeholder="Sales Qty"
-                                      type="number"
-                                      min={0}
-                                      disabled={viewType === "view"}
-                                      onChange={(e) => {
-                                        rowDtoHandler(
-                                          index,
-                                          "quantity",
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                       </div>
+                        <div className="table-responsive">
+                          <table
+                            id="table-to-xlsx"
+                            className={
+                              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                            }
+                          >
+                            <thead>
+                              <tr className="cursor-pointer">
+                                {['SL', 'Company Name', 'Sales Qty']?.map(
+                                  (th, i) => {
+                                    return <th key={i}> {th} </th>;
+                                  }
+                                )}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      style={{ width: '40px' }}
+                                      className="text-center"
+                                    >
+                                      {index + 1}
+                                    </td>
+                                    <td>{item?.companyName}</td>
+                                    <td style={{ width: '140px' }}>
+                                      <InputField
+                                        value={item?.quantity}
+                                        name="quantity"
+                                        placeholder="Sales Qty"
+                                        type="number"
+                                        min={0}
+                                        disabled={viewType === 'view'}
+                                        onChange={(e) => {
+                                          rowDtoHandler(
+                                            index,
+                                            'quantity',
+                                            e?.target?.value
+                                          );
+                                        }}
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       )}
                     </div>
                     <div className="col-lg-6"></div>
@@ -336,7 +335,7 @@ export default function FormCmp({
               </CardBody>
             </Card>
             <IViewModal
-              modelSize={"md"}
+              modelSize={'md'}
               show={show}
               onHide={() => setShow(false)}
             >

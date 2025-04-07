@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   getAreaList,
   getItemList,
   getApproveLiftingEntryList,
   getRegionList,
-} from "../helper";
-import { ApprovedList } from "./components/approvedList";
-import { UnApprovedList } from "./components/unApprovedList";
+} from '../helper';
+import { ApprovedList } from './components/approvedList';
+import { UnApprovedList } from './components/unApprovedList';
 
 export default function FormCmp({
   initData,
@@ -71,13 +71,13 @@ export default function FormCmp({
                       <NewSelect
                         name="liftingPlanType"
                         options={[
-                          { value: 1, label: "Lifting Entry" },
-                          { value: 2, label: "Bag Production" },
+                          { value: 1, label: 'Lifting Entry' },
+                          { value: 2, label: 'Bag Production' },
                         ]}
                         value={values?.liftingPlanType}
                         label="Lifting Plan Type"
                         onChange={(valueOption) => {
-                          setFieldValue("liftingPlanType", valueOption);
+                          setFieldValue('liftingPlanType', valueOption);
                         }}
                         placeholder="Lifting Plan Type"
                         errors={errors}
@@ -92,7 +92,7 @@ export default function FormCmp({
                         value={values?.month}
                         label="Month"
                         onChange={(valueOption) => {
-                          setFieldValue("month", valueOption);
+                          setFieldValue('month', valueOption);
                         }}
                         placeholder="Month"
                         errors={errors}
@@ -106,7 +106,7 @@ export default function FormCmp({
                         value={values?.year}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
+                          setFieldValue('year', valueOption);
                         }}
                         placeholder="Year"
                         errors={errors}
@@ -120,7 +120,7 @@ export default function FormCmp({
                         value={values?.salesOrg}
                         label="Sales Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
+                          setFieldValue('salesOrg', valueOption);
                         }}
                         placeholder="Sales Organization"
                         errors={errors}
@@ -134,7 +134,7 @@ export default function FormCmp({
                         value={values?.channel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                           getItemList(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -162,7 +162,7 @@ export default function FormCmp({
                         value={values?.item}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Item"
                         errors={errors}
@@ -177,7 +177,7 @@ export default function FormCmp({
                         value={values?.region}
                         label="Region"
                         onChange={(valueOption) => {
-                          setFieldValue("region", valueOption);
+                          setFieldValue('region', valueOption);
                           getAreaList(
                             values?.channel?.value,
                             valueOption?.value,
@@ -198,7 +198,7 @@ export default function FormCmp({
                         value={values?.area}
                         label="Area"
                         onChange={(valueOption) => {
-                          setFieldValue("area", valueOption);
+                          setFieldValue('area', valueOption);
                         }}
                         placeholder="Area"
                         errors={errors}
@@ -217,9 +217,9 @@ export default function FormCmp({
                           type="radio"
                           name="status"
                           onChange={(valueOption) => {
-                            setFieldValue("status", "unapproved");
+                            setFieldValue('status', 'unapproved');
                           }}
-                          checked={values?.status === "unapproved"}
+                          checked={values?.status === 'unapproved'}
                         />
                         <label className="mx-2">Unapproved</label>
                       </div>
@@ -228,9 +228,9 @@ export default function FormCmp({
                           type="radio"
                           name="status"
                           onChange={() => {
-                            setFieldValue("status", "approve");
+                            setFieldValue('status', 'approve');
                           }}
-                          checked={values?.status === "approve"}
+                          checked={values?.status === 'approve'}
                         />
                         <label className="mx-2">Approved</label>
                       </div>
@@ -244,7 +244,7 @@ export default function FormCmp({
                           !values?.month || !values?.year || !values?.area
                         }
                         onClick={() => {
-                          if (values?.status === "unapproved") {
+                          if (values?.status === 'unapproved') {
                             setGridData([]);
                             commonGridFunc(values);
                           } else {
@@ -257,9 +257,9 @@ export default function FormCmp({
                       </button>
                     </div>
                     <div className="col d-flex justify-content-between mt-5">
-                      <h3 style={{ color: "green" }}>
-                        Total Lifting Qty:{" "}
-                        {values?.status === "unapproved"
+                      <h3 style={{ color: 'green' }}>
+                        Total Lifting Qty:{' '}
+                        {values?.status === 'unapproved'
                           ? totalLiftingQty
                           : gridData?.reduce(
                               (acc, obj) => acc + +obj?.numTargetQuantity,
@@ -272,7 +272,7 @@ export default function FormCmp({
               </div>
 
               {/* UnApproved Data List & Form */}
-              {values?.status === "unapproved" ? (
+              {values?.status === 'unapproved' ? (
                 <ApprovedList
                   rowData={rowData}
                   dataChangeHandler={dataChangeHandler}
@@ -282,7 +282,7 @@ export default function FormCmp({
               ) : null}
 
               {/* Approved Data List & Form */}
-              {values?.status === "approve" ? (
+              {values?.status === 'approve' ? (
                 <>
                   <UnApprovedList
                     rowData={gridData}
@@ -295,7 +295,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getLoanRegisterById } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import SCFRegisterViewForm from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getLoanRegisterById } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import SCFRegisterViewForm from './form';
+import IForm from '../../../../_helper/_form';
 
 const initData = {
-  bank: "",
-  facility: "",
-  account: "",
+  bank: '',
+  facility: '',
+  account: '',
   openingDate: _todayDate(),
-  loanAccNo: "",
-  termDays: "",
-  principle: "",
-  interestRate: "",
-  remarks: "",
+  loanAccNo: '',
+  termDays: '',
+  principle: '',
+  interestRate: '',
+  remarks: '',
 };
 
 export default function SCFRegisterViewPage({

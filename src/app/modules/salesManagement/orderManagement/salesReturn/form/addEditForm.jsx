@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getSalesReturnPreData, salesReturnEntry } from "../helper";
-import Form from "./form";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getSalesReturnPreData, salesReturnEntry } from '../helper';
+import Form from './form';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  channel: "",
-  customer: "",
-  challan: "",
-  returnType: "",
+  channel: '',
+  customer: '',
+  challan: '',
+  returnType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reason: "",
+  reason: '',
 };
 
 function SalesReturnForm() {
@@ -51,7 +51,7 @@ function SalesReturnForm() {
         const modifyData = resData?.data?.map((item) => ({
           ...item,
           isSelected: false,
-          rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: "" })),
+          rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: '' })),
         }));
 
         setGridData(modifyData);
@@ -79,7 +79,7 @@ function SalesReturnForm() {
 
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0 && returnType === 2) {
-      toast.warn("Please select at least one item");
+      toast.warn('Please select at least one item');
       return;
     }
 
@@ -119,7 +119,7 @@ function SalesReturnForm() {
           totalAmount: totalAmount,
           salesReturnType: returnType,
           shipmentId: item?.intshipmentid,
-          reassons: values?.reason || "",
+          reassons: values?.reason || '',
         };
       }),
 
@@ -130,7 +130,7 @@ function SalesReturnForm() {
           itemId: item?.intItemID,
           itemName: item?.strItemName,
           uoMId: 0,
-          uoMName: "",
+          uoMName: '',
           issueQty: +item?.numDeliveryQnt,
           returnQty:
             returnType === 1 ? +item?.numDeliveryQnt : +item?.numDamageQnt,
@@ -169,11 +169,11 @@ function SalesReturnForm() {
         row: header?.rowData?.map((row) => {
           return {
             referenceId: 0,
-            referenceCode: "string",
+            referenceCode: 'string',
             itemId: row?.itemId,
             itemName: row?.itemName,
             uoMId: 0,
-            uoMName: "string",
+            uoMName: 'string',
             issueQty: 0,
             returnQty: row?.returnQty || 0,
             basePrice: row?.itemPrice,
@@ -185,7 +185,7 @@ function SalesReturnForm() {
         }),
 
         img: {
-          attatchment: "string",
+          attatchment: 'string',
         },
       };
     });

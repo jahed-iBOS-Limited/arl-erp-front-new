@@ -25,10 +25,11 @@ const ItemWiseSerialDetails = () => {
 
   const getReportData = (values) => {
     getItemWiseSerialDetailsReport(
-      `/wms/Delivery/ItemSerialWiseSalesReport?ItemId=${values?.item?.value ||
-        0}&UsingStatus=${values?.usingStatus?.value || 0}&FromDate=${
+      `/wms/Delivery/ItemSerialWiseSalesReport?ItemId=${
+        values?.item?.value || 0
+      }&UsingStatus=${values?.usingStatus?.value || 0}&FromDate=${
         values?.fromDate
-      }&ToDate=${values?.toDate}&SearchableText=${values?.serialNumber || ''}`,
+      }&ToDate=${values?.toDate}&SearchableText=${values?.serialNumber || ''}`
     );
   };
 

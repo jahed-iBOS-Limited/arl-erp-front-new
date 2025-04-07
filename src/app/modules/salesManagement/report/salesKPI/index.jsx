@@ -30,16 +30,16 @@ export default function SalesKPILanding() {
   // save handler/handle submit
   const saveHandler = (values, cb) => {
     let parmas = `AccountId=${accountId}&BUnitId=${buUnId}&FromMonth=${getLastDateOfMonth(
-      values?.startMonth,
+      values?.startMonth
     )}`;
 
     getRGRSalesKPI(`/oms/KPIsforRevenue/GetRevenueGrowthRate?${parmas}`);
     getNRRSalesKPI(`/oms/KPIsforRevenue/getNetRevenueRetention?${parmas}`);
     getARPCSalesKPI(
-      `/oms/KPIsforRevenue/getAverageRevenuePerCustomer?${parmas}`,
+      `/oms/KPIsforRevenue/getAverageRevenuePerCustomer?${parmas}`
     );
     getCACSalesKPI(
-      `/oms/KPIsforRevenue/getCustomerAcquisitionCostByChannel?${parmas}`,
+      `/oms/KPIsforRevenue/getCustomerAcquisitionCostByChannel?${parmas}`
     );
   };
 

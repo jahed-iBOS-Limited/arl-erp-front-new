@@ -1,24 +1,22 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   createRouteCostComponent,
   getRouteCostComponent,
   editRouteCostComponent,
   getGeneralLedgerDDL_api,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { getBusinessTransactionDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  transportRouteCostComponent: "",
-  businessTransaction: "",
-  generalLedger: "",
+  transportRouteCostComponent: '',
+  businessTransaction: '',
+  generalLedger: '',
 };
 
 export default function CostComponentCreateForm() {
@@ -26,7 +24,7 @@ export default function CostComponentCreateForm() {
   const [businessTransactionDDL, setBusinessTransactionDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [generalLedger, setgeneralLedger] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const params = useParams();
   const storeData = useSelector((state) => {
@@ -85,7 +83,7 @@ export default function CostComponentCreateForm() {
   };
   return (
     <IForm
-      title={"Create Cost Component"}
+      title={'Create Cost Component'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik } from "formik";
-import { editOrCashReceive, getAdditionalCostById } from "../helper";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
+import React from 'react';
+import { Formik } from 'formik';
+import { editOrCashReceive, getAdditionalCostById } from '../helper';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
 
 export default function CashReceiveForm({
   title,
@@ -59,7 +59,7 @@ export default function CashReceiveForm({
         enableReinitialize={true}
         initialValues={{
           ...singleRow,
-          receiveAmount: "",
+          receiveAmount: '',
           transactionDate: _todayDate(),
         }}
         // validationSchema={validationSchema}
@@ -96,21 +96,21 @@ export default function CashReceiveForm({
                       errors={errors}
                       touched={touched}
                       onChange={(e) => {
-                        setFieldValue("totalAmount", e?.target?.value);
+                        setFieldValue('totalAmount', e?.target?.value);
                         if (e?.target?.value < values?.advanceAmount) {
                           setFieldValue(
-                            "receiveOrPayAmount",
+                            'receiveOrPayAmount',
                             Number(values?.advanceAmount) -
                               Number(e?.target?.value)
                           );
                         } else if (e?.target?.value > values?.advanceAmount) {
                           setFieldValue(
-                            "receiveOrPayAmount",
+                            'receiveOrPayAmount',
                             Number(e?.target?.value) -
                               Number(values?.advanceAmount)
                           );
                         } else {
-                          setFieldValue("receiveOrPayAmount", 0);
+                          setFieldValue('receiveOrPayAmount', 0);
                         }
                       }}
                     />
@@ -121,10 +121,10 @@ export default function CashReceiveForm({
                       <label>
                         {`${
                           values?.totalAmount > values?.advanceAmount
-                            ? "Payable "
+                            ? 'Payable '
                             : values?.totalAmount < values?.advanceAmount
-                            ? "Receivable "
-                            : "Payable/Receivable "
+                              ? 'Receivable '
+                              : 'Payable/Receivable '
                         }`}
                         Amount
                       </label>
@@ -165,10 +165,10 @@ export default function CashReceiveForm({
                       >
                         {`${
                           values?.totalAmount > values?.advanceAmount
-                            ? "Pay"
+                            ? 'Pay'
                             : values?.totalAmount < values?.advanceAmount
-                            ? "Receive"
-                            : "Save"
+                              ? 'Receive'
+                              : 'Save'
                         }`}
                       </button>
                     </div>

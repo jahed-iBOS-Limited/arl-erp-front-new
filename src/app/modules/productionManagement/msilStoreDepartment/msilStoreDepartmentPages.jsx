@@ -1,10 +1,10 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import PreRawMaterialReceive from "./preRawMaterialReceive";
-import PreRawMaterialReceiveCreate from "./preRawMaterialReceive/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import PreRawMaterialReceive from './preRawMaterialReceive';
+import PreRawMaterialReceiveCreate from './preRawMaterialReceive/Form/addEditForm';
 
 export function MsilStoreDepartmentPages() {
   const userRole = useSelector(

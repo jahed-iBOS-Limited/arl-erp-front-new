@@ -1,5 +1,5 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const OrderDetailsReport = ({ landingData }) => {
   return (
@@ -7,7 +7,7 @@ const OrderDetailsReport = ({ landingData }) => {
       {landingData?.objSalesHeader && (
         <div className="row global-form">
           <div className="col-lg-3">
-            <label style={{ fontWeight: 600, fontSize: "11px" }}>
+            <label style={{ fontWeight: 600, fontSize: '11px' }}>
               Sales Order No:
             </label>
             <div className="d-flex">
@@ -34,7 +34,7 @@ const OrderDetailsReport = ({ landingData }) => {
           <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
             <thead>
               <tr>
-                <th style={{ width: "50px" }}>SL</th>
+                <th style={{ width: '50px' }}>SL</th>
                 <th>Item Code</th>
                 <th>Item Name</th>
                 <th>UOM</th>
@@ -101,7 +101,7 @@ const OrderDetailsReport = ({ landingData }) => {
                 <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
                   <thead>
                     <tr>
-                      <th style={{ width: "50px" }}>SL</th>
+                      <th style={{ width: '50px' }}>SL</th>
                       <th>Item Code</th>
                       <th>Item Name</th>
                       <th>UOM</th>
@@ -201,7 +201,7 @@ const OrderDetailsReport = ({ landingData }) => {
                 <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
                   <thead>
                     <tr>
-                      <th style={{ width: "50px" }}>SL</th>
+                      <th style={{ width: '50px' }}>SL</th>
                       <th>Item Name</th>
                       <th>UOM</th>
                       <th>Quantity</th>

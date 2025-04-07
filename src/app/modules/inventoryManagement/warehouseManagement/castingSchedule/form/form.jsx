@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getItemList } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import { removeRowData, rowDataAddHandler } from "../landing/utils";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getItemList } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
+import { removeRowData, rowDataAddHandler } from '../landing/utils';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { useParams } from 'react-router-dom';
 
 export default function FormCmp({
   btnRef,
@@ -103,7 +103,7 @@ export default function FormCmp({
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
 
                             if (values?.salesOrg?.value) {
                               getItemList(
@@ -129,7 +129,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                           }}
                           isDisabled={!values?.channel}
                           placeholder="Search Customer"
@@ -182,24 +182,24 @@ export default function FormCmp({
                       <NewSelect
                         name="workType"
                         options={[
-                          { value: 1, label: "Slab" },
-                          { value: 2, label: "Basement" },
-                          { value: 3, label: "Column" },
-                          { value: 4, label: "Retaining Wall" },
-                          { value: 5, label: "Floor" },
-                          { value: 6, label: "Cast in situ pile" },
-                          { value: 7, label: "Pre-cast pile" },
-                          { value: 8, label: "Footing" },
-                          { value: 9, label: "Pile Cap" },
-                          { value: 10, label: "Padstone Floor" },
-                          { value: 11, label: "Ramp" },
-                          { value: 12, label: "Foundation" },
-                          { value: 13, label: "Others" },
+                          { value: 1, label: 'Slab' },
+                          { value: 2, label: 'Basement' },
+                          { value: 3, label: 'Column' },
+                          { value: 4, label: 'Retaining Wall' },
+                          { value: 5, label: 'Floor' },
+                          { value: 6, label: 'Cast in situ pile' },
+                          { value: 7, label: 'Pre-cast pile' },
+                          { value: 8, label: 'Footing' },
+                          { value: 9, label: 'Pile Cap' },
+                          { value: 10, label: 'Padstone Floor' },
+                          { value: 11, label: 'Ramp' },
+                          { value: 12, label: 'Foundation' },
+                          { value: 13, label: 'Others' },
                         ]}
                         value={values?.workType}
                         label="Type of Work"
                         onChange={(valueOption) => {
-                          setFieldValue("workType", valueOption);
+                          setFieldValue('workType', valueOption);
                         }}
                         placeholder="Type of Work"
                         errors={errors}
@@ -214,7 +214,7 @@ export default function FormCmp({
                         value={values?.shipPoint}
                         label="Ship Point"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                         }}
                         placeholder="Ship Point"
                         errors={errors}
@@ -225,16 +225,16 @@ export default function FormCmp({
                       <NewSelect
                         name="buetTestReportDay"
                         options={[
-                          { value: 0, label: "0 Days" },
-                          { value: 1, label: "7 Days" },
-                          { value: 2, label: "14 Days" },
-                          { value: 3, label: "21 Days" },
-                          { value: 4, label: "28 Days" },
+                          { value: 0, label: '0 Days' },
+                          { value: 1, label: '7 Days' },
+                          { value: 2, label: '14 Days' },
+                          { value: 3, label: '21 Days' },
+                          { value: 4, label: '28 Days' },
                         ]}
                         value={values?.buetTestReportDay}
                         label="BUET Test Report Day"
                         onChange={(valueOption) => {
-                          setFieldValue("buetTestReportDay", valueOption);
+                          setFieldValue('buetTestReportDay', valueOption);
                         }}
                         placeholder="BUET Test Report Day"
                         errors={errors}
@@ -247,7 +247,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.castingProcedure}
                         handleChange={(valueOption) => {
-                          setFieldValue("castingProcedure", valueOption);
+                          setFieldValue('castingProcedure', valueOption);
                         }}
                         loadOptions={loadUserList}
                         disabled={true}
@@ -279,7 +279,7 @@ export default function FormCmp({
                         value={values?.salesOrg}
                         label="Sales Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
+                          setFieldValue('salesOrg', valueOption);
 
                           if (values?.channel?.value) {
                             getItemList(
@@ -306,7 +306,7 @@ export default function FormCmp({
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
 
                             if (values?.salesOrg?.value) {
                               getItemList(
@@ -333,7 +333,7 @@ export default function FormCmp({
                         value={values?.item}
                         label="PSI Item"
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="PSI"
                         errors={errors}
@@ -357,8 +357,8 @@ export default function FormCmp({
                       <NewSelect
                         name="strShift"
                         options={[
-                          { value: 1, label: "Day" },
-                          { value: 2, label: "Night" },
+                          { value: 1, label: 'Day' },
+                          { value: 2, label: 'Night' },
                           // { value: 1, label: "A Shift" },
                           // { value: 2, label: "B Shift" },
                           // { value: 3, label: "C Shift" },
@@ -366,7 +366,7 @@ export default function FormCmp({
                         value={values?.strShift}
                         label="Shift"
                         onChange={(valueOption) => {
-                          setFieldValue("strShift", valueOption);
+                          setFieldValue('strShift', valueOption);
                         }}
                         placeholder="Shift"
                         errors={errors}
@@ -443,13 +443,13 @@ export default function FormCmp({
                       <NewSelect
                         name="waterproof"
                         options={[
-                          { value: 1, label: "Yes" },
-                          { value: 2, label: "No" },
+                          { value: 1, label: 'Yes' },
+                          { value: 2, label: 'No' },
                         ]}
                         value={values?.waterproof}
                         label="Waterproof"
                         onChange={(valueOption) => {
-                          setFieldValue("waterproof", valueOption);
+                          setFieldValue('waterproof', valueOption);
                         }}
                         placeholder="Waterproof"
                         errors={errors}
@@ -466,7 +466,7 @@ export default function FormCmp({
                         }
                         onClick={() => {
                           rowDataAddHandler(rowData, setRowData, values);
-                          setFieldValue("numQuantity", "");
+                          setFieldValue('numQuantity', '');
                         }}
                       >
                         + Add
@@ -482,7 +482,7 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>PSI Item</th>
                         <th>PSI Qty</th>
                         <th>Shift</th>
@@ -502,15 +502,15 @@ export default function FormCmp({
                           <td>{td?.strItemName}</td>
                           <td>{td?.numQuantity}</td>
                           <td>{td?.strShift}</td>
-                          <td>{td?.isWaterProof ? "Yes" : "No"}</td>
+                          <td>{td?.isWaterProof ? 'Yes' : 'No'}</td>
                           <td>{td?.intNumberOfPump}</td>
                           <td>{td?.intPipeFeet}</td>
                           {/* <td>{td?.intLargeTyre}</td>
                           <td>{td?.intSmallTyre}</td> */}
                           <td>{td?.intBagCementUse}</td>
                           <td className="text-center">
-                            {params?.type === "view" ? (
-                              "-"
+                            {params?.type === 'view' ? (
+                              '-'
                             ) : (
                               <span
                                 onClick={() => {
@@ -537,7 +537,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

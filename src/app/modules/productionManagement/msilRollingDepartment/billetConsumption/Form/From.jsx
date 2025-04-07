@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function BilletConsumptionForm({
   initData,
@@ -10,7 +10,7 @@ export default function BilletConsumptionForm({
   resetBtnRef,
   productDDL,
   validationSchema,
-  id
+  id,
 }) {
   return (
     <>
@@ -49,15 +49,15 @@ export default function BilletConsumptionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -70,7 +70,7 @@ export default function BilletConsumptionForm({
                     value={values?.mainProductName}
                     label="Main Product Name"
                     onChange={(valueOption) => {
-                      setFieldValue("mainProductName", valueOption);
+                      setFieldValue('mainProductName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -84,9 +84,9 @@ export default function BilletConsumptionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return null;
-                      setFieldValue("billetWtKgs", e.target.value);
+                      setFieldValue('billetWtKgs', e.target.value);
                       setFieldValue(
-                        "billetInKgs",
+                        'billetInKgs',
                         Number(e.target.value) * values?.billetInPcs || 0
                       );
                     }}
@@ -100,13 +100,13 @@ export default function BilletConsumptionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return null;
-                      setFieldValue("billetInPcs", e.target.value);
+                      setFieldValue('billetInPcs', e.target.value);
                       setFieldValue(
-                        "billetInKgs",
+                        'billetInKgs',
                         Number(e.target.value) * values?.billetWtKgs || 0
                       );
                       setFieldValue(
-                        "totalBilletConsumedInPcs",
+                        'totalBilletConsumedInPcs',
                         Number(e.target.value) +
                           Number(values?.directBilletConsumedInPcs) || 0
                       );
@@ -130,9 +130,9 @@ export default function BilletConsumptionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return null;
-                      setFieldValue("directBilletWtKgs", e.target.value);
+                      setFieldValue('directBilletWtKgs', e.target.value);
                       setFieldValue(
-                        "directBilletConsumedInKgs",
+                        'directBilletConsumedInKgs',
                         Number(e.target.value) *
                           values?.directBilletConsumedInPcs || 0
                       );
@@ -148,15 +148,15 @@ export default function BilletConsumptionForm({
                     onChange={(e) => {
                       if (+e.target.value < 0) return null;
                       setFieldValue(
-                        "directBilletConsumedInPcs",
+                        'directBilletConsumedInPcs',
                         e.target.value
                       );
                       setFieldValue(
-                        "directBilletConsumedInKgs",
+                        'directBilletConsumedInKgs',
                         Number(e.target.value) * values?.directBilletWtKgs || 0
                       );
                       setFieldValue(
-                        "totalBilletConsumedInPcs",
+                        'totalBilletConsumedInPcs',
                         Number(e.target.value) + Number(values?.billetInPcs) ||
                           0
                       );
@@ -199,14 +199,14 @@ export default function BilletConsumptionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

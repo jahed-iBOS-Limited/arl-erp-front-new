@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getWorkplaceGroupDDLAction = async (accId, setter) => {
   try {
@@ -25,7 +25,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
       }));
       setter(data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getAllTableData = async (empId, setter) => {
@@ -37,7 +37,7 @@ export const getAllTableData = async (empId, setter) => {
     if (res?.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBusinessUnitDDL = async (accId, setter) => {
@@ -49,7 +49,7 @@ export const getBusinessUnitDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSBUDDL = async (accId, buId, setter) => {
@@ -61,7 +61,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWorkplaceDDL_api = async (accId, buId, setter) => {
@@ -78,7 +78,7 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
       }));
       setter(modfid);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDepartmentDDL = async (
@@ -92,7 +92,7 @@ export const getDepartmentDDL = async (
       `/hcm/HCMDDL/GetDepartmentWithAcIdBuIdDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
     );
     let data = res?.data;
-    isAddAllField && data.unshift({ value: 0, label: "All" });
+    isAddAllField && data.unshift({ value: 0, label: 'All' });
     setter(data);
   } catch (error) {
     setter([]);
@@ -123,12 +123,12 @@ export const getDesignationDDLAction = async (accId, buId, setter) => {
 
 export const getEmployeeGradeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeGradeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeGradeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getEmpTypeDDLAction = async (accId, buId, setter) => {
@@ -144,12 +144,12 @@ export const getEmpTypeDDLAction = async (accId, buId, setter) => {
 
 export const getEmpStatusDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeStatusDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeStatusDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getLineManagerDDL = async (accId, setter) => {
   try {
@@ -160,7 +160,7 @@ export const getLineManagerDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getLineManagersDDL = async (accId, buId, setter) => {
@@ -172,7 +172,7 @@ export const getLineManagersDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //create EmployeeBasicInformation
@@ -210,7 +210,7 @@ export const employeeBasicInformation_landing_api_new = async (
   search
 ) => {
   setLoading(true);
-  const searchPath = search ? `${search}&` : "";
+  const searchPath = search ? `${search}&` : '';
 
   try {
     const res = await axios.get(
@@ -238,7 +238,7 @@ export const employeeBasicInformation_landing_api_Fof_Filtering = async (
   pageSize
 ) => {
   setLoading(true);
-  const searchPath = searchValue ? `${searchValue}` : "";
+  const searchPath = searchValue ? `${searchValue}` : '';
   try {
     const res = await axios.get(
       `/hcm/EmployeeBasicInformation/EmployeeBasicInfoLandingPasignationWithFiltering?SearchText=${searchPath}&EmpStatusId=${empStatusId}&WorkplaceGroupId=${workPlaceGrpId}&Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -259,7 +259,7 @@ export const getempInfoGridforOwnView = async (setter, setLoading, empId) => {
     setter(res?.data);
     setLoading(false);
   } catch (error) {
-    setter("");
+    setter('');
     setLoading(false);
   }
 };
@@ -287,7 +287,6 @@ export const employeeBasicInformation_landing_top_api = async (
   }
 };
 
-
 export const getImageFile_api = async (id) => {
   try {
     const res = await axios.get(`/sme/Document/DownlloadFile?id=${id}`);
@@ -295,21 +294,21 @@ export const getImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const religionDDL_api = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/ReligionDDL");
+    const res = await axios.get('/hcm/HCMDDL/ReligionDDL');
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBankDDL_api = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetBankDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetBankDDL');
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getBankBranchDDL_api = async (bankId, setter) => {
   try {
@@ -317,12 +316,12 @@ export const getBankBranchDDL_api = async (bankId, setter) => {
       `/hcm/HCMDDL/GetBankBranchDDL?BankId=${bankId}`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getAllDistrictAction = async (setter) => {
   try {
     const res = await axios.get(`/hcm/HCMDDL/GetBDAllDistrictDDL`);
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };

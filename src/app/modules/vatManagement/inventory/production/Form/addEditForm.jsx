@@ -1,9 +1,9 @@
 //
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation } from "react-router";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation } from 'react-router';
+import IForm from '../../../../_helper/_form';
 import {
   getItemNameDDL_api,
   GetProductionView,
@@ -11,32 +11,31 @@ import {
   getTransactionTypeDDL_api,
   saveEditedProduction,
   saveProduction,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 const initData = {
-  branchName: "",
-  branchAddress: "",
-  transactionType: "",
-  referanceNo: "",
+  branchName: '',
+  branchAddress: '',
+  transactionType: '',
+  referanceNo: '',
   referenceDate: _todayDate(),
-  itemName: "",
-  quantity: "",
+  itemName: '',
+  quantity: '',
 };
 
 export default function ProductionForm({ viewClick }) {
-  const {id} = useParams();
+  const { id } = useParams();
   let taxPurId = id || viewClick?.taxPurchaseId;
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [taxBranchDDL, setTaxBranchDDL] = useState("");
+  const [taxBranchDDL, setTaxBranchDDL] = useState('');
   const [transactionType, setTransactionType] = useState([]);
-  const [itemNameDDL, setItemNameDDL] = useState("");
+  const [itemNameDDL, setItemNameDDL] = useState('');
   const [rowDto, setRowDto] = useState([]);
-
 
   const [total, setTotal] = useState({ totalAmount: 0 });
   const { state: landingData } = useLocation();
@@ -73,12 +72,11 @@ export default function ProductionForm({ viewClick }) {
   }, [profileData, selectedBusinessUnit]);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   useEffect(() => {
     if (taxPurId) {
       GetProductionView(taxPurId, setSingleData, setRowDto);
     }
-
   }, [taxPurId]);
 
   const saveHandler = async (values, cb) => {
@@ -107,7 +105,7 @@ export default function ProductionForm({ viewClick }) {
         };
 
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           saveEditedProduction(payload, setDisabled);
         }
@@ -133,14 +131,14 @@ export default function ProductionForm({ viewClick }) {
             taxBranchId: values?.branchName?.value,
             taxBranchName: values?.branchName?.label,
             taxBranchAddress: values?.branchAddress,
-            referanceNo: values?.referanceNo || "",
+            referanceNo: values?.referanceNo || '',
             referanceDate: values?.referenceDate,
             actionBy: profileData?.userId,
           },
           objRow: newRowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           saveProduction(payload, cb, setDisabled);
         }

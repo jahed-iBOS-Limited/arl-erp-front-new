@@ -1,7 +1,7 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getLandingData = async (
   accId,
@@ -21,7 +21,7 @@ export const getLandingData = async (
     if (res?.status === 200) {
       setter(res?.data);
       if (res?.data?.objdata?.length === 0) {
-        toast.warn("No Data Found");
+        toast.warn('No Data Found');
       }
       setIsLoading(false);
     }
@@ -37,12 +37,12 @@ export const saveSurvey = async (payload, setIsLoading, cb) => {
     let res = await axios.post(`/rtm/RTMSurvey/CreateRTMSurvey`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "saveSurvey" });
+      toast.success(res?.data?.message, { toastId: 'saveSurvey' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "saveSurveyErr",
+      toastId: 'saveSurveyErr',
     });
     setIsLoading(false);
   }
@@ -50,14 +50,14 @@ export const saveSurvey = async (payload, setIsLoading, cb) => {
 
 // Hardcode!! But In Future It will be change i guess
 const fieldTypeMaker = (fieldType) => {
-  if (fieldType === "List") {
-    return { value: 4, label: "List" };
-  } else if (fieldType === "Multiple Option") {
-    return { value: 3, label: "Multiple Option" };
-  } else if (fieldType === "Number") {
-    return { value: 2, label: "Number" };
-  } else if (fieldType === "Text") {
-    return { value: 1, label: "Text" };
+  if (fieldType === 'List') {
+    return { value: 4, label: 'List' };
+  } else if (fieldType === 'Multiple Option') {
+    return { value: 3, label: 'Multiple Option' };
+  } else if (fieldType === 'Number') {
+    return { value: 2, label: 'Number' };
+  } else if (fieldType === 'Text') {
+    return { value: 1, label: 'Text' };
   }
 };
 
@@ -81,7 +81,7 @@ export const getSurveyById = async (
           questionName: item?.surveyLineName,
           questionFieldType: fieldTypeMaker(item?.controlType),
           multipleQuestionOptionList:
-            item?.controlType === "Multiple Option"
+            item?.controlType === 'Multiple Option'
               ? item?.objAttributes?.map((opt) => {
                   return {
                     ...opt,
@@ -90,7 +90,7 @@ export const getSurveyById = async (
                 })
               : [],
           questionList:
-            item?.controlType === "List"
+            item?.controlType === 'List'
               ? item?.objAttributes?.map((opt) => {
                   return {
                     ...opt,
@@ -104,7 +104,7 @@ export const getSurveyById = async (
         surveyHeaderId: objheader?.surveyHeaderId,
         surveyName: objheader?.surveyName,
         fromDate: _dateFormatter(objheader?.valiedFrom),
-        toDate: _dateFormatter(objheader?.valiedTo) || "",
+        toDate: _dateFormatter(objheader?.valiedTo) || '',
         isContinue: objheader?.isContinue,
       });
       setQuestionRowData(rowdata);

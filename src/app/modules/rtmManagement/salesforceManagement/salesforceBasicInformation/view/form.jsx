@@ -1,57 +1,58 @@
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({
   // DDL
   designation: Yup.object().shape({
-    value: Yup.string().required("Designation is required"),
-    label: Yup.string().required("Designation is required"),
+    value: Yup.string().required('Designation is required'),
+    label: Yup.string().required('Designation is required'),
   }),
   sbu: Yup.object().shape({
-    value: Yup.string().required("SBU is required"),
-    label: Yup.string().required("SBU is required"),
+    value: Yup.string().required('SBU is required'),
+    label: Yup.string().required('SBU is required'),
   }),
   department: Yup.object().shape({
-    value: Yup.string().required("Department is required"),
-    label: Yup.string().required("Department is required"),
+    value: Yup.string().required('Department is required'),
+    label: Yup.string().required('Department is required'),
   }),
   workplaceGroup: Yup.object().shape({
-    value: Yup.string().required("Workplace Group is required"),
-    label: Yup.string().required("Workplace Group is required"),
+    value: Yup.string().required('Workplace Group is required'),
+    label: Yup.string().required('Workplace Group is required'),
   }),
   hrPostion: Yup.object().shape({
-    value: Yup.string().required("HR Postion is required"),
-    label: Yup.string().required("HR Postion is required"),
+    value: Yup.string().required('HR Postion is required'),
+    label: Yup.string().required('HR Postion is required'),
   }),
   empType: Yup.object().shape({
-    value: Yup.string().required("Employee Type is required"),
-    label: Yup.string().required("Employee Type is required"),
+    value: Yup.string().required('Employee Type is required'),
+    label: Yup.string().required('Employee Type is required'),
   }),
   lineManager: Yup.object().shape({
-    value: Yup.string().required("Line Manager is required"),
-    label: Yup.string().required("Line Manager is required"),
+    value: Yup.string().required('Line Manager is required'),
+    label: Yup.string().required('Line Manager is required'),
   }),
   empLavel: Yup.object().shape({
-    value: Yup.string().required("Employee Lavel is required"),
-    label: Yup.string().required("Employee Lavel is required"),
+    value: Yup.string().required('Employee Lavel is required'),
+    label: Yup.string().required('Employee Lavel is required'),
   }),
 
   // Basic Info
-  employeeFirstName: Yup.string().required("First Name is required"),
-  joiningDate: Yup.string().required("Joining Date is required"),
-  presentAddress: Yup.string().required("Present Address is required"),
-  permanentAddress: Yup.string().required("Permanent Address is required"),
-  dateOfBirth: Yup.string().required("Date Of Birth is required"),
-  fatherName: Yup.string().required("FatherName is required"),
-  motherName: Yup.string().required("MotherName is required"),
-  email: Yup.string().required("Email is required"),
-  contactNumber: Yup.string().required("Contact Number is required"),
+  employeeFirstName: Yup.string().required('First Name is required'),
+  joiningDate: Yup.string().required('Joining Date is required'),
+  presentAddress: Yup.string().required('Present Address is required'),
+  permanentAddress: Yup.string().required('Permanent Address is required'),
+  dateOfBirth: Yup.string().required('Date Of Birth is required'),
+  fatherName: Yup.string().required('FatherName is required'),
+  motherName: Yup.string().required('MotherName is required'),
+  email: Yup.string().required('Email is required'),
+  contactNumber: Yup.string().required('Contact Number is required'),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -131,7 +132,7 @@ function FormCmp({  initData,
                   value={values?.designation}
                   label="Designation"
                   onChange={(valueOption) => {
-                    setFieldValue("designation", valueOption);
+                    setFieldValue('designation', valueOption);
                   }}
                   placeholder="Designation"
                   errors={errors}
@@ -146,7 +147,7 @@ function FormCmp({  initData,
                   value={values?.sbu}
                   label="SBU Name"
                   onChange={(valueOption) => {
-                    setFieldValue("sbu", valueOption);
+                    setFieldValue('sbu', valueOption);
                   }}
                   placeholder="SBU Name"
                   errors={errors}
@@ -161,7 +162,7 @@ function FormCmp({  initData,
                   value={values?.department}
                   label="Department"
                   onChange={(valueOption) => {
-                    setFieldValue("department", valueOption);
+                    setFieldValue('department', valueOption);
                   }}
                   placeholder="Department"
                   errors={errors}
@@ -176,7 +177,7 @@ function FormCmp({  initData,
                   value={values?.workplaceGroup}
                   label="Workplace Group"
                   onChange={(valueOption) => {
-                    setFieldValue("workplaceGroup", valueOption);
+                    setFieldValue('workplaceGroup', valueOption);
                   }}
                   placeholder="Workplace Group"
                   errors={errors}
@@ -191,7 +192,7 @@ function FormCmp({  initData,
                   value={values?.hrPostion}
                   label="HR Postion"
                   onChange={(valueOption) => {
-                    setFieldValue("hrPostion", valueOption);
+                    setFieldValue('hrPostion', valueOption);
                   }}
                   placeholder="HR Postion"
                   errors={errors}
@@ -246,7 +247,7 @@ function FormCmp({  initData,
                   value={values?.empGrade}
                   label="Employee Grade (Optional)"
                   onChange={(valueOption) => {
-                    setFieldValue("empGrade", valueOption);
+                    setFieldValue('empGrade', valueOption);
                   }}
                   placeholder="Employee Grade"
                   errors={errors}
@@ -261,7 +262,7 @@ function FormCmp({  initData,
                   value={values?.empType}
                   label="Employee Type"
                   onChange={(valueOption) => {
-                    setFieldValue("empType", valueOption);
+                    setFieldValue('empType', valueOption);
                   }}
                   placeholder="Employee Type"
                   errors={errors}
@@ -276,7 +277,7 @@ function FormCmp({  initData,
                   value={values?.lineManager}
                   label="Line Manager"
                   onChange={(valueOption) => {
-                    setFieldValue("lineManager", valueOption);
+                    setFieldValue('lineManager', valueOption);
                   }}
                   placeholder="Line Manager"
                   errors={errors}
@@ -291,7 +292,7 @@ function FormCmp({  initData,
                   value={values?.empLavel}
                   label="Employee Lavel"
                   onChange={(valueOption) => {
-                    setFieldValue("empLavel", valueOption);
+                    setFieldValue('empLavel', valueOption);
                   }}
                   placeholder="Employee Lavel"
                   errors={errors}
@@ -336,7 +337,7 @@ function FormCmp({  initData,
                   value={values?.bloodGroup}
                   label="Blood Group (Optional)"
                   onChange={(valueOption) => {
-                    setFieldValue("bloodGroup", valueOption);
+                    setFieldValue('bloodGroup', valueOption);
                   }}
                   placeholder="Blood Group"
                   errors={errors}
@@ -368,14 +369,14 @@ function FormCmp({  initData,
 
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>

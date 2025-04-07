@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getShipPointist } from "../../castingSchedule/helper";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getShipPointist } from '../../castingSchedule/helper';
 import {
   ApproveCastingScheduleData,
   getCastingEntryListApprovePage,
   RejectCastingScheduleData,
-} from "../helper";
-import { Formik } from "formik";
-import { toast } from "react-toastify";
+} from '../helper';
+import { Formik } from 'formik';
+import { toast } from 'react-toastify';
 
 const initData = {
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  shipPoint: "",
+  shipPoint: '',
 };
 
 export default function CastingScheduleApproveLanding() {
@@ -41,7 +40,7 @@ export default function CastingScheduleApproveLanding() {
 
   const saveHandler = async (values) => {
     const lData = rowData?.filter((item) => item?.isSelected);
-    if (lData?.length === 0) return toast.warn("Please select atleast one row");
+    if (lData?.length === 0) return toast.warn('Please select atleast one row');
 
     const data = lData?.map((item) => {
       return {
@@ -117,7 +116,7 @@ export default function CastingScheduleApproveLanding() {
 
   const rejectHandler = (values) => {
     const lData = rowData?.filter((item) => item?.isSelected);
-    if (lData?.length === 0) return toast.warn("Please select atleast one row");
+    if (lData?.length === 0) return toast.warn('Please select atleast one row');
 
     const data = lData?.map((item) => {
       return {
@@ -158,13 +157,13 @@ export default function CastingScheduleApproveLanding() {
           <>
             <IForm
               isHiddenReset={true}
-              title={"Casting Schedule Approve"}
+              title={'Casting Schedule Approve'}
               getProps={setObjProps}
               isDisabled={
                 isDisabled ||
                 rowData?.filter((item) => item.isSelected)?.length < 1
               }
-              submitBtnText={"Approve"}
+              submitBtnText={'Approve'}
               renderProps={() => (
                 <button
                   type="button"

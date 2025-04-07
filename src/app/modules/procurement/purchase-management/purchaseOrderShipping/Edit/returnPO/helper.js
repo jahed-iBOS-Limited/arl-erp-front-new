@@ -1,36 +1,36 @@
-import Axios from "axios";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import Axios from 'axios';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 export const initData = {
   //header
-  supplierName: "",
-  deliveryAddress: "",
-  orderDate: "",
-  lastShipmentDate: "",
-  currency: "",
-  paymentTerms: "",
-  cash: "",
-  payDays: "",
-  incoterms: "",
-  supplierReference: "",
-  referenceDate: "",
-  validity: "",
+  supplierName: '',
+  deliveryAddress: '',
+  orderDate: '',
+  lastShipmentDate: '',
+  currency: '',
+  paymentTerms: '',
+  cash: '',
+  payDays: '',
+  incoterms: '',
+  supplierReference: '',
+  referenceDate: '',
+  validity: '',
   returnDate: _todayDate(),
-  otherTerms: "",
+  otherTerms: '',
 
   // row
-  referenceNo: "",
-  item: "",
+  referenceNo: '',
+  item: '',
   isAllItem: false,
 };
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required("Supplier name is required"),
-    value: Yup.string().required("Supplier name is required"),
+    label: Yup.string().required('Supplier name is required'),
+    value: Yup.string().required('Supplier name is required'),
   }),
   // deliveryAddress: Yup.string().required("Delivery address is required"),
   // orderDate: Yup.date().required("Order date is required"),
@@ -55,64 +55,59 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const getReturnPOInfoById = async (poIdRefId, setFieldValue) => {
-  
   try {
     const res = await Axios.get(
       `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPO_Id?PurchaseOrderId=${poIdRefId}`
     );
     if (res.status === 200 && res?.data) {
       const { objHeaderDTO } = res?.data[0];
-     
-      setFieldValue("deliveryAddress",  objHeaderDTO?.deliveryAddress);
+
+      setFieldValue('deliveryAddress', objHeaderDTO?.deliveryAddress);
       // setFieldValue("returnDate", objHeaderDTO?.returnDate);
-      setFieldValue("payDays", objHeaderDTO?.paymentDaysAfterDelivery);
-      setFieldValue("cash", objHeaderDTO?.cashOrAdvancePercent);
-      setFieldValue("supplierReference", objHeaderDTO?.supplierReference);
+      setFieldValue('payDays', objHeaderDTO?.paymentDaysAfterDelivery);
+      setFieldValue('cash', objHeaderDTO?.cashOrAdvancePercent);
+      setFieldValue('supplierReference', objHeaderDTO?.supplierReference);
       setFieldValue(
-        "referenceDate",
+        'referenceDate',
         objHeaderDTO?.referenceDate
           ? _dateFormatter(objHeaderDTO?.referenceDate)
-          : ""
+          : ''
       );
       setFieldValue(
-        "returnDate",
-        objHeaderDTO?.returnDate
-          ? _dateFormatter(objHeaderDTO?.returnDate)
-          : ""
+        'returnDate',
+        objHeaderDTO?.returnDate ? _dateFormatter(objHeaderDTO?.returnDate) : ''
       );
-      
+
       setFieldValue(
-        "validity",
+        'validity',
         objHeaderDTO?.validityDate
           ? _dateFormatter(objHeaderDTO?.validityDate)
-          : ""
+          : ''
       );
       setFieldValue(
-        "orderDate",
+        'orderDate',
         objHeaderDTO?.purchaseOrderDate
           ? _dateFormatter(objHeaderDTO?.purchaseOrderDate)
-          : ""
+          : ''
       );
       setFieldValue(
-        "lastShipmentDate",
+        'lastShipmentDate',
         objHeaderDTO?.lastShipmentDate
           ? _dateFormatter(objHeaderDTO?.lastShipmentDate)
-          : ""
+          : ''
       );
-      setFieldValue("currency", {
+      setFieldValue('currency', {
         value: objHeaderDTO?.currencyId,
         label: objHeaderDTO?.currencyCode,
       });
-      setFieldValue("paymentTerms", {
+      setFieldValue('paymentTerms', {
         value: objHeaderDTO?.paymentTerms,
         label: objHeaderDTO?.paymentTermsName,
       });
-      setFieldValue("incoterms", {
+      setFieldValue('incoterms', {
         value: objHeaderDTO?.incotermsId,
         label: objHeaderDTO?.incotermsName,
       });
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

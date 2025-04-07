@@ -1,35 +1,33 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { getSingleData } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { getSingleData } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
 
 const initData = {
-  travelDate: "",
-  fromAddress: "",
-  fromTime: "",
-  toAddress: "",
-  toTime: "",
-  startMileage: "",
-  endMileage: "",
-  consumedMileage: "",
-  usageType: "",
+  travelDate: '',
+  fromAddress: '',
+  fromTime: '',
+  toAddress: '',
+  toTime: '',
+  startMileage: '',
+  endMileage: '',
+  consumedMileage: '',
+  usageType: '',
   fuelPurchased: false,
-  fuelType: "",
-  quantity: "",
-  totalAmount: "",
-  paymentMethod: "",
-  supplier: "",
-  fuelStation: "",
-  referenceNo: "",
-  comments: "",
+  fuelType: '',
+  quantity: '',
+  totalAmount: '',
+  paymentMethod: '',
+  supplier: '',
+  fuelStation: '',
+  referenceNo: '',
+  comments: '',
 };
 
 export default function VehicleLogBook({ id }) {
   const [isDisabled, setDisabled] = useState(true);
-  const [fuelCost,setFuelCost] = useState([])
+  const [fuelCost, setFuelCost] = useState([]);
 
   // redux store data
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -40,20 +38,17 @@ export default function VehicleLogBook({ id }) {
     shallowEqual
   );
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get initial data
   useEffect(() => {
     if (!id) {
     } else {
-      getSingleData(id, setSingleData,(data)=>{
-        setFuelCost(data)
+      getSingleData(id, setSingleData, (data) => {
+        setFuelCost(data);
       });
     }
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
-
-
-
 
   const disableHandler = (cond) => {
     setDisabled(cond);

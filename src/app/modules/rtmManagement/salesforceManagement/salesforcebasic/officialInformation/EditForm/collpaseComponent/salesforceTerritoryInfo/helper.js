@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTerritoryTypeDDL = async (accId, buId, setter) => {
   try {
@@ -75,11 +75,11 @@ export const createSalesForceTerritory = async (
 ) => {
   try {
     const res = await axios.post(
-      "/rtm/SalesForceTransfer/CreateSalesForceTerritory",
+      '/rtm/SalesForceTransfer/CreateSalesForceTerritory',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       cb2();
       setDisabled(false);

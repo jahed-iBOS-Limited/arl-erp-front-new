@@ -1,40 +1,38 @@
-
-
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getShippointDDL_Action } from "../../pendingOrder/_redux/Actions";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getShippointDDL_Action } from '../../pendingOrder/_redux/Actions';
 import {
   CreateTransportScheduleTypeApi,
   getOrderVsShipmentVsPending_api,
   getShipmentForTransportPlanning,
   getTransportScheduleTypeData_api,
-} from "../helper";
-import "../style.css";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from '../helper';
+import '../style.css';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const initData = {
-  reportType: "",
-  shipPoint: "",
+  reportType: '',
+  shipPoint: '',
   // fromDate: moment(date).format("YYYY-MM-DD HH:mm"),
   // toDate: moment(date).format("YYYY-MM-DD HH:mm"),
   fromDate: _todayDate(),
-  fromTime: "",
+  fromTime: '',
   toDate: _todayDate(),
-  toTime: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
+  toTime: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
 };
 
 export default function DeliverySalesPending() {
@@ -221,8 +219,8 @@ export default function DeliverySalesPending() {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setFieldValue }) => {
-          setFieldValue("trackingCompleteBtnClick", false);
-          setFieldValue("logisticBy", "");
+          setFieldValue('trackingCompleteBtnClick', false);
+          setFieldValue('logisticBy', '');
           viewHandler(values, setGridData);
         }}
       >
@@ -240,13 +238,13 @@ export default function DeliverySalesPending() {
                   : false
               }
               excelFileNameWillbe={`Delivery Sales Pending (${
-                values?.reportType?.value === 1 ? "Top Sheet" : "Details"
+                values?.reportType?.value === 1 ? 'Top Sheet' : 'Details'
               } )`}
             >
               <div>
                 <marquee
                   direction="left"
-                  style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                  style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
                 >
                   Excel export allow for only one month
                 </marquee>
@@ -258,15 +256,15 @@ export default function DeliverySalesPending() {
                         <NewSelect
                           name="reportType"
                           options={[
-                            { value: 1, label: "Top Sheet (Pending)" },
-                            { value: 3, label: "Top Sheet (Complete)" },
-                            { value: 4, label: "Details" },
-                            { value: 2, label: "Transport Schedule" },
+                            { value: 1, label: 'Top Sheet (Pending)' },
+                            { value: 3, label: 'Top Sheet (Complete)' },
+                            { value: 4, label: 'Details' },
+                            { value: 2, label: 'Transport Schedule' },
                           ]}
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setGridData([]);
                             setValues({ ...initData, reportType: valueOption });
                           }}
@@ -279,13 +277,13 @@ export default function DeliverySalesPending() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shippointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="Select Ship Point"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                           placeholder="Select Ship Point"
                           errors={errors}
@@ -302,7 +300,7 @@ export default function DeliverySalesPending() {
                             type="date"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                             }}
                             max={values?.toDate}
                           />
@@ -313,7 +311,7 @@ export default function DeliverySalesPending() {
                             type="time"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("fromTime", e.target.value);
+                              setFieldValue('fromTime', e.target.value);
                             }}
                           />
                         </span>
@@ -328,7 +326,7 @@ export default function DeliverySalesPending() {
                             type="date"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                             }}
                             min={values?.fromDate}
                           />
@@ -339,7 +337,7 @@ export default function DeliverySalesPending() {
                             type="time"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("toTime", e.target.value);
+                              setFieldValue('toTime', e.target.value);
                             }}
                           />
                         </span>
@@ -351,15 +349,15 @@ export default function DeliverySalesPending() {
                             name="logisticBy"
                             options={[
                               ...(values?.trackingCompleteBtnClick
-                                ? [{ value: 0, label: "All" }]
+                                ? [{ value: 0, label: 'All' }]
                                 : []),
-                              { value: 1, label: "Company" },
-                              { value: 2, label: "Supplier" },
+                              { value: 1, label: 'Company' },
+                              { value: 2, label: 'Supplier' },
                             ]}
                             value={values?.logisticBy}
                             label="Logistic By"
                             onChange={(valueOption) => {
-                              setFieldValue("logisticBy", valueOption);
+                              setFieldValue('logisticBy', valueOption);
                             }}
                             placeholder="Logistic By"
                             errors={errors}
@@ -419,7 +417,7 @@ export default function DeliverySalesPending() {
                                   values,
                                   setGridData
                                 );
-                                setFieldValue("trackingCompleteBtnClick", true);
+                                setFieldValue('trackingCompleteBtnClick', true);
                               }}
                             >
                               Tracking Complete
@@ -479,7 +477,7 @@ export default function DeliverySalesPending() {
                         <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
                           <div className="sta-scrollable-table scroll-table-auto">
                             <div
-                              style={{ maxHeight: "500px" }}
+                              style={{ maxHeight: '500px' }}
                               className="scroll-table _table scroll-table-auto"
                             >
                               <table
@@ -488,7 +486,7 @@ export default function DeliverySalesPending() {
                                 className="table table-striped table-bordered global-table table-font-size-sm"
                               >
                                 <thead>
-                                  <th style={{ minWidth: "35px" }}>SL</th>
+                                  <th style={{ minWidth: '35px' }}>SL</th>
                                   {values?.trackingCompleteBtnClick && (
                                     <th>Logistic By</th>
                                   )}
@@ -526,13 +524,13 @@ export default function DeliverySalesPending() {
                                       <tr key={index}>
                                         <td
                                           className="text-center"
-                                          style={{ width: "30px" }}
+                                          style={{ width: '30px' }}
                                         >
                                           {index + 1}
                                         </td>
                                         {values?.trackingCompleteBtnClick && (
                                           <td>
-                                            {item?.providerTypeName || ""}
+                                            {item?.providerTypeName || ''}
                                           </td>
                                         )}
                                         <td>{item?.region}</td>
@@ -543,7 +541,7 @@ export default function DeliverySalesPending() {
                                         <td>
                                           {item?.deliveryDate &&
                                             moment(item?.deliveryDate).format(
-                                              "DD-MMM-yyyy, hh:mm A "
+                                              'DD-MMM-yyyy, hh:mm A '
                                             )}
                                         </td>
                                         <td>{item?.itemName}</td>
@@ -552,7 +550,7 @@ export default function DeliverySalesPending() {
                                         <td>
                                           {item?.salesOrderDate &&
                                             moment(item?.salesOrderDate).format(
-                                              "DD-MMM-yyyy"
+                                              'DD-MMM-yyyy'
                                             )}
                                         </td>
                                         <td className="text-right">
@@ -577,10 +575,10 @@ export default function DeliverySalesPending() {
                                         </td>
                                         <td className="text-right">
                                           {item?.shipmentQty === 0
-                                            ? "Pending"
+                                            ? 'Pending'
                                             : item?.shipmentQty > 0
-                                            ? "Complete"
-                                            : ""}
+                                              ? 'Complete'
+                                              : ''}
                                         </td>
                                         <td className="text-right">
                                           {_fixedPoint(
@@ -623,7 +621,7 @@ export default function DeliverySalesPending() {
                       >
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>SO No</th>
                             <th>SO Qty</th>
                             <th>Customer Delivery Qty</th>
@@ -663,7 +661,7 @@ export default function DeliverySalesPending() {
                             );
                           })}
                           <tr
-                            style={{ textAlign: "right", fontWeight: "bold" }}
+                            style={{ textAlign: 'right', fontWeight: 'bold' }}
                           >
                             <td colSpan={2}>Total</td>
                             <td>{_fixedPoint(totalOrderQty, true)}</td>
@@ -687,7 +685,7 @@ export default function DeliverySalesPending() {
                         <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
                           <div className="sta-scrollable-table scroll-table-auto">
                             <div
-                              style={{ maxHeight: "500px" }}
+                              style={{ maxHeight: '500px' }}
                               className="scroll-table _table scroll-table-auto"
                             >
                               <table
@@ -699,7 +697,7 @@ export default function DeliverySalesPending() {
                                   {[2]?.includes(values?.reportType?.value) &&
                                     !values?.trackingCompleteBtnClick && (
                                       <th
-                                        style={{ minWidth: "25px" }}
+                                        style={{ minWidth: '25px' }}
                                         className="printSectionNone"
                                       >
                                         <input
@@ -712,7 +710,7 @@ export default function DeliverySalesPending() {
                                       </th>
                                     )}
 
-                                  <th style={{ minWidth: "35px" }}>SL</th>
+                                  <th style={{ minWidth: '35px' }}>SL</th>
                                   {values?.trackingCompleteBtnClick && (
                                     <th>Logistic By</th>
                                   )}
@@ -755,13 +753,13 @@ export default function DeliverySalesPending() {
                                           )}
                                         <td
                                           className="text-center"
-                                          style={{ width: "30px" }}
+                                          style={{ width: '30px' }}
                                         >
                                           {index + 1}
                                         </td>
                                         {values?.trackingCompleteBtnClick && (
                                           <td>
-                                            {item?.providerTypeName || ""}
+                                            {item?.providerTypeName || ''}
                                           </td>
                                         )}
                                         <td>{item?.region}</td>

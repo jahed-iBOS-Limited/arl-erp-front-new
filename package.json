@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "node --max_old_space_size=16096 ./node_modules/typescript/bin/tsc -b && node --max_old_space_size=16096 ./node_modules/vite/bin/vite.js build",
     "lint": "eslint src --ext .ts,.tsx,.js,jsx",
-    "prettier": "prettier --write src/**/*.ts{,x}",
+    "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -91,6 +91,8 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",

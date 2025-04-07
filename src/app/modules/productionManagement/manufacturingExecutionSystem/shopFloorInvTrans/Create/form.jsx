@@ -1,19 +1,18 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { useEffect } from "react";
-import NewSelect from "../../../../_helper/_select";
-import { useParams } from "react-router-dom";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { useEffect } from 'react';
+import NewSelect from '../../../../_helper/_select';
+import { useParams } from 'react-router-dom';
 import {
   getShopFloorReferenceCodeDDL,
   getShopFloorTransferDDL,
   getShopFloorItemDDL,
   getInventoryTransactionData,
   getShopFloorFGItemDDL,
-} from "../helper";
+} from '../helper';
 
 // Validation schema for bank payment
 const validationSchema = Yup.object().shape({});
@@ -39,7 +38,7 @@ export default function FormCmp({
 }) {
   const { viewId } = useParams();
 
-  console.log("itemDDL: ", itemDDL);
+  console.log('itemDDL: ', itemDDL);
 
   useEffect(() => {
     if (location?.state?.selectedTransactionType?.value) {
@@ -127,7 +126,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pb-2">
                       <label>Plant Name</label>
                       <IInput
-                        value={location?.state?.selectedPlant?.label || ""}
+                        value={location?.state?.selectedPlant?.label || ''}
                         name="plantName"
                         type="text"
                         disabled={true}
@@ -137,7 +136,7 @@ export default function FormCmp({
                       <label>Shop Floor</label>
                       <IInput
                         value={
-                          location?.state?.selectedShopFloorDDL?.label || ""
+                          location?.state?.selectedShopFloorDDL?.label || ''
                         }
                         name="transferFrpm"
                         type="text"
@@ -147,7 +146,7 @@ export default function FormCmp({
                     <div className="col-lg-4"></div>
                     <div className="col-lg-3 pb-2">
                       <IInput
-                        value={values?.transactionDate || ""}
+                        value={values?.transactionDate || ''}
                         label="Transaction Date"
                         name="transactionDate"
                         type="date"
@@ -159,14 +158,14 @@ export default function FormCmp({
                       <NewSelect
                         name="referenceType"
                         options={transactionTypeDDL}
-                        value={values?.referenceType || ""}
+                        value={values?.referenceType || ''}
                         onChange={(valueOption) => {
-                          setFieldValue("transferTo", "");
-                          setFieldValue("referenceCode", "");
-                          setFieldValue("receiveFrom", "");
-                          setFieldValue("item", "");
-                          setFieldValue("qty", "");
-                          setFieldValue("checkbox", false);
+                          setFieldValue('transferTo', '');
+                          setFieldValue('referenceCode', '');
+                          setFieldValue('receiveFrom', '');
+                          setFieldValue('item', '');
+                          setFieldValue('qty', '');
+                          setFieldValue('checkbox', false);
                           setRowDto([]);
                           getShopFloorReferenceCodeDDL(
                             valueOption?.value,
@@ -197,8 +196,8 @@ export default function FormCmp({
                               setItemDDL
                             );
                           }
-                          setFieldValue("referenceCode", "");
-                          setFieldValue("referenceType", valueOption);
+                          setFieldValue('referenceCode', '');
+                          setFieldValue('referenceType', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -212,11 +211,11 @@ export default function FormCmp({
                       <NewSelect
                         name="referenceCode"
                         options={shopFloorRefCodeDDL}
-                        value={values?.referenceCode || ""}
+                        value={values?.referenceCode || ''}
                         onChange={(valueOption) => {
-                          setFieldValue("referenceCode", valueOption);
+                          setFieldValue('referenceCode', valueOption);
                           setFieldValue(
-                            "receiveFrom",
+                            'receiveFrom',
                             valueOption?.description
                           );
                           getInventoryTransactionData(
@@ -231,17 +230,17 @@ export default function FormCmp({
                         placeholder="Reference Code"
                         isDisabled={
                           values?.referenceType?.label ===
-                            "Transfer to Warehouse" ||
+                            'Transfer to Warehouse' ||
                           values?.referenceType?.label ===
-                            "Transfer to Shop Floor" ||
-                          values?.referenceType?.label === "Adjustment" ||
+                            'Transfer to Shop Floor' ||
+                          values?.referenceType?.label === 'Adjustment' ||
                           viewId
                         }
                       />
                     </div>
                     <div className="col-lg-3 pb-2">
                       <IInput
-                        value={values?.receiveFrom || ""}
+                        value={values?.receiveFrom || ''}
                         label="Receive From"
                         name="receiveFrom"
                         disabled={true}
@@ -253,7 +252,7 @@ export default function FormCmp({
                         options={transerDDL}
                         value={values?.transferTo}
                         onChange={(valueOption) => {
-                          setFieldValue("transferTo", valueOption);
+                          setFieldValue('transferTo', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -263,7 +262,7 @@ export default function FormCmp({
                           values?.referenceType?.value === 2 ||
                           values?.referenceType?.value === 3 ||
                           values?.referenceType?.value === 6 ||
-                          values?.referenceType?.value === "Adjustment" ||
+                          values?.referenceType?.value === 'Adjustment' ||
                           viewId
                         }
                       />
@@ -280,7 +279,7 @@ export default function FormCmp({
                           options={itemDDL}
                           value={values?.item}
                           onChange={(valueOption) => {
-                            setFieldValue("item", valueOption);
+                            setFieldValue('item', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -303,9 +302,9 @@ export default function FormCmp({
                             checked={values?.checkbox}
                             type="checkbox"
                             onChange={(e) => {
-                              setFieldValue("checkbox", e.target.checked);
+                              setFieldValue('checkbox', e.target.checked);
                               setRowDto([]);
-                              setFieldValue("qty", "");
+                              setFieldValue('qty', '');
                             }}
                             disabled={viewId}
                           />
@@ -315,7 +314,7 @@ export default function FormCmp({
                       {!values?.checkbox && (
                         <div className="col-lg-3">
                           <IInput
-                            value={values?.qty || ""}
+                            value={values?.qty || ''}
                             label="Quantity"
                             name="qty"
                             min="0"
@@ -328,9 +327,9 @@ export default function FormCmp({
                             }
                             onChange={(e) => {
                               if (e.target.value >= 0) {
-                                setFieldValue("qty", e.target.value);
+                                setFieldValue('qty', e.target.value);
                               } else {
-                                setFieldValue("qty", "");
+                                setFieldValue('qty', '');
                               }
                             }}
                           />
@@ -347,9 +346,9 @@ export default function FormCmp({
                           }
                           className="btn btn-primary mt-5"
                           onClick={() => {
-                            setFieldValue("transaction", "");
-                            setFieldValue("amount", "");
-                            setFieldValue("narration", "");
+                            setFieldValue('transaction', '');
+                            setFieldValue('amount', '');
+                            setFieldValue('narration', '');
                             setter(values);
                           }}
                         >
@@ -357,24 +356,24 @@ export default function FormCmp({
                         </button>
                       </div>
                     </div>
-                  )}{" "}
+                  )}{' '}
                   {/* Table Header input end */}
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   {values?.referenceType?.value !== 4 && (
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="table-responsive">
-                          <table className={"table global-table mt-0"}>
-                            <thead className={rowDto?.length < 1 && "d-none"}>
+                          <table className={'table global-table mt-0'}>
+                            <thead className={rowDto?.length < 1 && 'd-none'}>
                               <tr>
-                                <th style={{ width: "20px" }}>SL</th>
-                                <th style={{ width: "100px" }}>Item code</th>
-                                <th style={{ width: "100px" }}>Item Name</th>
+                                <th style={{ width: '20px' }}>SL</th>
+                                <th style={{ width: '100px' }}>Item code</th>
+                                <th style={{ width: '100px' }}>Item Name</th>
 
-                                <th style={{ width: "100px" }}>UoM</th>
-                                <th style={{ width: "100px" }}>Quantity</th>
+                                <th style={{ width: '100px' }}>UoM</th>
+                                <th style={{ width: '100px' }}>Quantity</th>
                                 {!viewId && (
-                                  <th style={{ width: "50px" }}>Actions</th>
+                                  <th style={{ width: '50px' }}>Actions</th>
                                 )}
                               </tr>
                             </thead>
@@ -431,21 +430,21 @@ export default function FormCmp({
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="table-responsive">
-                          <table className={"table global-table mt-0"}>
-                            <thead className={rowDto?.length < 1 && "d-none"}>
+                          <table className={'table global-table mt-0'}>
+                            <thead className={rowDto?.length < 1 && 'd-none'}>
                               <tr>
-                                <th style={{ width: "20px" }}>SL</th>
-                                <th style={{ width: "100px" }}>Item Name</th>
-                                <th style={{ width: "100px" }}>Item code</th>
-                                <th style={{ width: "100px" }}>UoM</th>
+                                <th style={{ width: '20px' }}>SL</th>
+                                <th style={{ width: '100px' }}>Item Name</th>
+                                <th style={{ width: '100px' }}>Item code</th>
+                                <th style={{ width: '100px' }}>UoM</th>
                                 {!viewId && (
-                                  <th style={{ width: "100px" }}>
+                                  <th style={{ width: '100px' }}>
                                     Current Stock
                                   </th>
                                 )}
-                                <th style={{ width: "100px" }}>Quantity</th>
+                                <th style={{ width: '100px' }}>Quantity</th>
                                 {!viewId && (
-                                  <th style={{ width: "50px" }}>Actions</th>
+                                  <th style={{ width: '50px' }}>Actions</th>
                                 )}
                               </tr>
                             </thead>
@@ -484,13 +483,13 @@ export default function FormCmp({
                                         </div>
                                       </td>
                                     )}
-                                    <td style={{ width: "70px" }}>
+                                    <td style={{ width: '70px' }}>
                                       <div className="text-center">
                                         {viewId ? (
                                           item.item.transactionQuantity
                                         ) : (
                                           <IInput
-                                            value={item?.qty || ""}
+                                            value={item?.qty || ''}
                                             name="qty"
                                             type="number"
                                             step="any"
@@ -500,7 +499,7 @@ export default function FormCmp({
                                                 copy[index].qty =
                                                   e.target.value;
                                               } else {
-                                                copy[index].qty = "";
+                                                copy[index].qty = '';
                                               }
                                               setRowDto(copy);
                                             }}
@@ -528,14 +527,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,10 +1,10 @@
-import moment from "moment";
-import React from "react";
-import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
-import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
-import { addHandlerLayTimeRowValidator, hourDDL, minDDL } from "../utils";
-import FormikError from "../../../../../chartering/_chartinghelper/common/formikError";
+import moment from 'moment';
+import React from 'react';
+import FormikInput from '../../../../../chartering/_chartinghelper/common/formikInput';
+import FormikSelect from '../../../../../chartering/_chartinghelper/common/formikSelect';
+import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
+import { addHandlerLayTimeRowValidator, hourDDL, minDDL } from '../utils';
+import FormikError from '../../../../../chartering/_chartinghelper/common/formikError';
 
 export default function CreateRowForm({
   /* Formik */
@@ -22,28 +22,28 @@ export default function CreateRowForm({
   const timeSetter = (valueOption, values, setFieldValue, type, format) => {
     switch (type) {
       /* From Time Condition Goes Here!! */
-      case "from":
+      case 'from':
         switch (format) {
-          case "HH":
+          case 'HH':
             valueOption?.value &&
-              setFieldValue("workingTimeFrom", `${valueOption?.value}:00`);
+              setFieldValue('workingTimeFrom', `${valueOption?.value}:00`);
 
-            setFieldValue("workingFromMM", {
-              value: "00",
-              label: "00",
+            setFieldValue('workingFromMM', {
+              value: '00',
+              label: '00',
             });
-            setFieldValue("workingFromHH", valueOption);
+            setFieldValue('workingFromHH', valueOption);
             break;
 
           default:
             valueOption?.value &&
               values?.workingFromHH?.value &&
               setFieldValue(
-                "workingTimeFrom",
+                'workingTimeFrom',
                 `${values?.workingFromHH?.value}:${valueOption?.value}`
               );
 
-            setFieldValue("workingFromMM", valueOption);
+            setFieldValue('workingFromMM', valueOption);
             break;
         }
         break;
@@ -51,26 +51,26 @@ export default function CreateRowForm({
       /* To Time Condition Goes Here */
       default:
         switch (format) {
-          case "HH":
+          case 'HH':
             valueOption?.value &&
-              setFieldValue("workingTime", `${valueOption?.value}:00`);
+              setFieldValue('workingTime', `${valueOption?.value}:00`);
 
-            setFieldValue("workingToMM", {
-              value: "00",
-              label: "00",
+            setFieldValue('workingToMM', {
+              value: '00',
+              label: '00',
             });
-            setFieldValue("workingToHH", valueOption);
+            setFieldValue('workingToHH', valueOption);
             break;
 
           default:
             valueOption?.value &&
               values?.workingToHH?.value &&
               setFieldValue(
-                "workingTime",
+                'workingTime',
                 `${values?.workingToHH?.value}:${valueOption?.value}`
               );
 
-            setFieldValue("workingToMM", valueOption);
+            setFieldValue('workingToMM', valueOption);
             break;
         }
         break;
@@ -89,12 +89,10 @@ export default function CreateRowForm({
               type="date"
               onChange={(e) => {
                 setFieldValue(
-                  "layhTimeDay",
-                  moment(e.target.value)
-                    .format("ddd")
-                    .toUpperCase()
+                  'layhTimeDay',
+                  moment(e.target.value).format('ddd').toUpperCase()
                 );
-                setFieldValue("layTimeDate", e.target.value);
+                setFieldValue('layTimeDate', e.target.value);
               }}
               errors={errors}
               touched={touched}
@@ -116,9 +114,9 @@ export default function CreateRowForm({
           <div className="col-lg-2">
             <label>Working From HH:MM</label>
             <div className="d-flex">
-              <div style={{ width: "50%" }}>
+              <div style={{ width: '50%' }}>
                 <FormikSelect
-                  value={values?.workingFromHH || ""}
+                  value={values?.workingFromHH || ''}
                   isSearchable={true}
                   options={hourDDL() || []}
                   styles={customStyles}
@@ -128,8 +126,8 @@ export default function CreateRowForm({
                       valueOption,
                       values,
                       setFieldValue,
-                      "from",
-                      "HH"
+                      'from',
+                      'HH'
                     );
                   }}
                   placeholder="HH"
@@ -138,9 +136,9 @@ export default function CreateRowForm({
                   isClearable={false}
                 />
               </div>
-              <div style={{ width: "50%" }}>
+              <div style={{ width: '50%' }}>
                 <FormikSelect
-                  value={values?.workingFromMM || ""}
+                  value={values?.workingFromMM || ''}
                   isSearchable={true}
                   options={minDDL() || []}
                   styles={customStyles}
@@ -150,13 +148,13 @@ export default function CreateRowForm({
                       valueOption,
                       values,
                       setFieldValue,
-                      "from",
-                      "MM"
+                      'from',
+                      'MM'
                     );
                   }}
                   placeholder="MM"
                   errors={errors}
-                  isDisabled={values?.workingFromHH?.value === "24"}
+                  isDisabled={values?.workingFromHH?.value === '24'}
                   touched={touched}
                   isClearable={false}
                 />
@@ -164,7 +162,7 @@ export default function CreateRowForm({
             </div>
             <FormikError
               errors={errors}
-              name={"workingTimeFrom"}
+              name={'workingTimeFrom'}
               touched={touched}
             />
           </div>
@@ -172,15 +170,15 @@ export default function CreateRowForm({
           <div className="col-lg-2">
             <label>Working To HH:MM</label>
             <div className="d-flex">
-              <div style={{ width: "50%" }}>
+              <div style={{ width: '50%' }}>
                 <FormikSelect
-                  value={values?.workingToHH || ""}
+                  value={values?.workingToHH || ''}
                   isSearchable={true}
                   options={hourDDL() || []}
                   styles={customStyles}
                   name="workingToHH"
                   onChange={(valueOption) => {
-                    timeSetter(valueOption, values, setFieldValue, "to", "HH");
+                    timeSetter(valueOption, values, setFieldValue, 'to', 'HH');
                   }}
                   placeholder="HH"
                   errors={errors}
@@ -188,18 +186,18 @@ export default function CreateRowForm({
                   isClearable={false}
                 />
               </div>
-              <div style={{ width: "50%" }}>
+              <div style={{ width: '50%' }}>
                 <FormikSelect
-                  value={values?.workingToMM || ""}
+                  value={values?.workingToMM || ''}
                   isSearchable={true}
                   options={minDDL() || []}
                   styles={customStyles}
                   name="workingToMM"
                   onChange={(valueOption) => {
-                    timeSetter(valueOption, values, setFieldValue, "to", "MM");
+                    timeSetter(valueOption, values, setFieldValue, 'to', 'MM');
                   }}
                   placeholder="MM"
-                  isDisabled={values?.workingToHH?.value === "24"}
+                  isDisabled={values?.workingToHH?.value === '24'}
                   errors={errors}
                   touched={touched}
                   isClearable={false}
@@ -208,7 +206,7 @@ export default function CreateRowForm({
             </div>
             <FormikError
               errors={errors}
-              name={"workingTime"}
+              name={'workingTime'}
               touched={touched}
             />
           </div>
@@ -222,7 +220,7 @@ export default function CreateRowForm({
               type="number"
               onChange={(e) => {
                 if (e.target.value <= 200) {
-                  setFieldValue("ratio", Math.abs(e.target.value));
+                  setFieldValue('ratio', Math.abs(e.target.value));
                 }
               }}
               errors={errors}

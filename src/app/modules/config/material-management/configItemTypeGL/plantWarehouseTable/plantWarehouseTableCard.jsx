@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -32,7 +31,7 @@ export function PlantWarehouseTable() {
     const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
-        `/item/ItemCategoryGL/ItemCategoryGeneralLeaderLandingSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/item/ItemCategoryGL/ItemCategoryGeneralLeaderLandingSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -47,7 +46,7 @@ export function PlantWarehouseTable() {
         profileData.accountId,
         selectedBusinessUnit.value,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -72,7 +71,7 @@ export function PlantWarehouseTable() {
       selectedBusinessUnit.value,
       pageNo,
       pageSize,
-      searchValue,
+      searchValue
     );
   };
 

@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -38,7 +37,6 @@ export default function ReceiveInvCreateForm({
   landingData,
   isEdit,
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
@@ -82,10 +80,10 @@ export default function ReceiveInvCreateForm({
       profileData.accountId,
       selectedBusinessUnit.value,
       landingData?.sbu?.value,
-      setSupplierDDL,
+      setSupplierDDL
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(getStockDDLAction());
     return () => {
@@ -94,7 +92,6 @@ export default function ReceiveInvCreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   // const onChaneForRefType = (refTyp, setFieldValue) => {
@@ -130,8 +127,8 @@ export default function ReceiveInvCreateForm({
       getItemforReceiveInvAction(
         values?.refType?.value,
         values?.refType?.label,
-        refNo?.value,
-      ),
+        refNo?.value
+      )
     );
   };
 
@@ -364,13 +361,13 @@ export default function ReceiveInvCreateForm({
             };
             modifyPlyload.objHeader['isPOS'] =
               landingData?.warehouse?.isPOS &&
-                modifyPlyload?.objHeader?.referenceTypeId === 1
+              modifyPlyload?.objHeader?.referenceTypeId === 1
                 ? true
                 : false;
             let compressedFile = [];
             if (fileObjects.length > 0) {
               compressedFile = await compressfile(
-                fileObjects?.map((f) => f.file),
+                fileObjects?.map((f) => f.file)
               );
             }
             const r = await getImageuploadStatus(profileData?.accountId);
@@ -380,7 +377,7 @@ export default function ReceiveInvCreateForm({
                 return toast.warn('Attachment required');
               } else {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item })),
+                  compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
                     if (res?.data?.length) {
@@ -396,8 +393,8 @@ export default function ReceiveInvCreateForm({
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal,
-                        ),
+                          IConfirmModal
+                        )
                       );
                     }
                   })
@@ -408,7 +405,7 @@ export default function ReceiveInvCreateForm({
             } else {
               if (compressedFile.length > 0) {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item })),
+                  compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
                     if (res?.data?.length) {
@@ -424,8 +421,8 @@ export default function ReceiveInvCreateForm({
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal,
-                        ),
+                          IConfirmModal
+                        )
                       );
                     }
                   })
@@ -439,8 +436,8 @@ export default function ReceiveInvCreateForm({
                     setRowDto,
                     setDisabled,
                     setFileObjects,
-                    IConfirmModal,
-                  ),
+                    IConfirmModal
+                  )
                 );
               }
             }
@@ -519,10 +516,10 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           valueOption?.actionBy
                             ? {
-                              value: valueOption?.actionBy || 0,
-                              label: valueOption?.actionName || "",
-                            }
-                            : ""
+                                value: valueOption?.actionBy || 0,
+                                label: valueOption?.actionName || '',
+                              }
+                            : ''
                         );
                         setFieldValue('item', '');
                         setRowDto([]);
@@ -531,7 +528,7 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetReferenceNoForInventoryRequest?searchTerm=${v}&RefTypeId=5&RefTypeName=Inventory%20Request&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&IsActive=true&IsClosed=false`,
+                            `/wms/InventoryTransaction/GetReferenceNoForInventoryRequest?searchTerm=${v}&RefTypeId=5&RefTypeName=Inventory%20Request&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&IsActive=true&IsClosed=false`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -567,7 +564,7 @@ export default function ReceiveInvCreateForm({
                           getForeignPurchaseDDL(
                             data?.value,
                             landingData?.plant?.value,
-                            setForeginPurchase,
+                            setForeginPurchase
                           );
                         } else {
                           dispatch(
@@ -575,8 +572,8 @@ export default function ReceiveInvCreateForm({
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               data?.value,
-                              0,
-                            ),
+                              0
+                            )
                           );
                         }
 
@@ -593,10 +590,10 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           data?.supplierId
                             ? {
-                              value: data?.supplierId || 0,
-                              label: data?.supplierName || "",
-                            }
-                            : ""
+                                value: data?.supplierId || 0,
+                                label: data?.supplierName || '',
+                              }
+                            : ''
                         );
                         setFieldValue('freight', data?.freight);
                         setFieldValue('grossDiscount', data?.grossDiscount);
@@ -609,7 +606,7 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetPoNoForInventoryTrading?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&Search=${v}`,
+                            `/wms/InventoryTransaction/GetPoNoForInventoryTrading?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&Search=${v}`
                           )
                           .then((res) => {
                             // const updateList = res?.data.map((item) => ({
@@ -647,7 +644,7 @@ export default function ReceiveInvCreateForm({
                           getForeignPurchaseDDL(
                             data?.value,
                             landingData?.plant?.value,
-                            setForeginPurchase,
+                            setForeginPurchase
                           );
                         } else {
                           dispatch(
@@ -655,8 +652,8 @@ export default function ReceiveInvCreateForm({
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               data?.value,
-                              0,
-                            ),
+                              0
+                            )
                           );
                         }
 
@@ -673,10 +670,10 @@ export default function ReceiveInvCreateForm({
                           'busiPartner',
                           data?.supplierId
                             ? {
-                              value: data?.supplierId || 0,
-                              label: data?.supplierName || "",
-                            }
-                            : ""
+                                value: data?.supplierId || 0,
+                                label: data?.supplierName || '',
+                              }
+                            : ''
                         );
                         setFieldValue('freight', data?.freight);
                         setFieldValue('grossDiscount', data?.grossDiscount);
@@ -696,33 +693,33 @@ export default function ReceiveInvCreateForm({
                   </div>
                 )}
                 {values?.refNo?.purchaseOrganizationName ===
-                  "Foreign Procurement" && (
-                    <div className="col-lg-2">
-                      <NewSelect
-                        label="Invoice"
-                        options={foreignPurchaseDDL}
-                        value={values?.foreignPurchase}
-                        placeholder="Invoice"
-                        name="foreignPurchase"
-                        onChange={(value) => {
-                          setFieldValue("foreignPurchase", value);
-                          setRowDto([]);
-                          dispatch(
-                            getItemforReceiveInvForeignPOAction(
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              values?.refNo?.value,
-                              value?.value
-                            )
-                          );
-                        }}
-                        //setFieldValue={setFieldValue}
-                        isDisabled={values.refType === ""}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  )}
+                  'Foreign Procurement' && (
+                  <div className="col-lg-2">
+                    <NewSelect
+                      label="Invoice"
+                      options={foreignPurchaseDDL}
+                      value={values?.foreignPurchase}
+                      placeholder="Invoice"
+                      name="foreignPurchase"
+                      onChange={(value) => {
+                        setFieldValue('foreignPurchase', value);
+                        setRowDto([]);
+                        dispatch(
+                          getItemforReceiveInvForeignPOAction(
+                            profileData?.accountId,
+                            selectedBusinessUnit?.value,
+                            values?.refNo?.value,
+                            value?.value
+                          )
+                        );
+                      }}
+                      //setFieldValue={setFieldValue}
+                      isDisabled={values.refType === ''}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-2">
                   <NewSelect
                     label="Transaction Type"
@@ -968,7 +965,7 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`,
+                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -1056,7 +1053,7 @@ export default function ReceiveInvCreateForm({
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                  // style={{ marginTop: "45px" }}
+                    // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}
@@ -1097,7 +1094,7 @@ export default function ReceiveInvCreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

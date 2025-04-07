@@ -1,11 +1,11 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { shallowEqual, useSelector } from "react-redux";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { ProfitCenter } from "./profitCenter";
-import ProfitCenterForm from "./profitCenter/Form/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import findIndex from '../../_helper/_findIndex'
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { ProfitCenter } from './profitCenter';
+import ProfitCenterForm from './profitCenter/Form/addEditForm';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import findIndex from '../../_helper/_findIndex';
 
 export function InternalControlConfigurationPages() {
   const userRole = useSelector(
@@ -13,7 +13,7 @@ export function InternalControlConfigurationPages() {
     shallowEqual
   );
 
-  const profitCenter = userRole[findIndex(userRole, "Profit Center")];
+  const profitCenter = userRole[findIndex(userRole, 'Profit Center')];
 
   return (
     <Switch>
@@ -26,7 +26,7 @@ export function InternalControlConfigurationPages() {
 
       <ContentRoute
         path="/internal-control/configuration/profitcenter/edit/:id"
-        component={profitCenter?.isEdit ? ProfitCenterForm : NotPermittedPage }
+        component={profitCenter?.isEdit ? ProfitCenterForm : NotPermittedPage}
       />
 
       <ContentRoute

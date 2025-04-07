@@ -1,29 +1,25 @@
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import {
-  getVehicleDDL,
-  getVehicleFuelReportData,
-} from "../helper";
+} from '../../../../../../_metronic/_partials/controls/Card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { getVehicleDDL, getVehicleFuelReportData } from '../helper';
 
 const initData = {
-  ownerType: "",
-  vehicle: "",
+  ownerType: '',
+  vehicle: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -52,7 +48,7 @@ function VehicleFuelReport() {
         {({ values, setFieldValue, touched, errors }) => (
           <Card>
             {true && <ModalProgressBar />}
-            <CardHeader title={"Vehicle Fuel Report"}>
+            <CardHeader title={'Vehicle Fuel Report'}>
               <CardHeaderToolbar>
                 {gridData?.length > 0 && (
                   <ReactToPrint
@@ -63,8 +59,8 @@ function VehicleFuelReport() {
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -86,13 +82,13 @@ function VehicleFuelReport() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="Shippoint"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             setGridData([]);
                           }}
                           placeholder="Shippoint"
@@ -104,13 +100,13 @@ function VehicleFuelReport() {
                         <NewSelect
                           name="ownerType"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 3, label: "Customer" },
+                            { value: 1, label: 'Company' },
+                            { value: 3, label: 'Customer' },
                           ]}
                           value={values?.ownerType}
                           onChange={(valueOption) => {
-                            setFieldValue("ownerType", valueOption);
-                            setFieldValue("vehicle", "");
+                            setFieldValue('ownerType', valueOption);
+                            setFieldValue('vehicle', '');
                             getVehicleDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -130,7 +126,7 @@ function VehicleFuelReport() {
                           value={values?.vehicle}
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("vehicle", valueOption);
+                            setFieldValue('vehicle', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -188,55 +184,57 @@ function VehicleFuelReport() {
                   </div>
 
                   <div className="table-responsive">
-                  <table
-                    ref={printRef}
-                    className="table table-striped table-bordered global-table"
-                  >
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Date</th>
-                        <th>Fuel Memo No.</th>
-                        <th>Deisel</th>
-                        <th>CNG</th>
-                        <th>Octen</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center"> {index + 1}</td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.fuelDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {item?.fuelMemoNo}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {item?.diesel}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">{item?.cng}</div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">{item?.octen}</div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {+item?.diesel + +item?.cng + +item?.octen}
-                            </div>
-                          </td>
+                    <table
+                      ref={printRef}
+                      className="table table-striped table-bordered global-table"
+                    >
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Date</th>
+                          <th>Fuel Memo No.</th>
+                          <th>Deisel</th>
+                          <th>CNG</th>
+                          <th>Octen</th>
+                          <th>Total</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center"> {index + 1}</td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.fuelDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center pr-2">
+                                {item?.fuelMemoNo}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {item?.diesel}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">{item?.cng}</div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {item?.octen}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {+item?.diesel + +item?.cng + +item?.octen}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </Form>
               </>

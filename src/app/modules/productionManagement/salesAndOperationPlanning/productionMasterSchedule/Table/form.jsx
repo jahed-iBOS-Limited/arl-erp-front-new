@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,24 +12,24 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import NewSelect from "./../../../../_helper/_select";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import NewSelect from './../../../../_helper/_select';
 import {
   getMasterSchedulingLandingPlant,
   getMasterSchedulingLandingYear,
   getMasterSchedulingLandingHorizon,
   getMasterSchedulingLandingPageData,
-} from "../helper";
+} from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   id: undefined,
-  plant: "",
-  year: "",
-  horizon: "",
+  plant: '',
+  year: '',
+  horizon: '',
 };
 
 export default function HeaderForm() {
@@ -66,7 +66,6 @@ export default function HeaderForm() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-
   }, []);
 
   return (
@@ -81,12 +80,12 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Production Master Schedule"}>
+              <CardHeader title={'Production Master Schedule'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
                       history.push(
-                        "/production-management/salesAndOperationsPlanning/productionMasterSchedule/add"
+                        '/production-management/salesAndOperationsPlanning/productionMasterSchedule/add'
                       );
                     }}
                     className="btn btn-primary"
@@ -105,9 +104,9 @@ export default function HeaderForm() {
                         value={values?.plant}
                         label="Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("year", "");
-                          setFieldValue("horizon", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('year', '');
+                          setFieldValue('horizon', '');
                           getMasterSchedulingLandingYear(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -127,8 +126,8 @@ export default function HeaderForm() {
                         value={values?.year}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
-                          setFieldValue("horizon", "");
+                          setFieldValue('year', valueOption);
+                          setFieldValue('horizon', '');
                           getMasterSchedulingLandingHorizon(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -149,7 +148,7 @@ export default function HeaderForm() {
                         value={values?.horizon}
                         label="Horizon"
                         onChange={(valueOption) => {
-                          setFieldValue("horizon", valueOption);
+                          setFieldValue('horizon', valueOption);
                         }}
                         placeholder="Horizon"
                         errors={errors}
@@ -170,9 +169,7 @@ export default function HeaderForm() {
                         }}
                         className="btn btn-primary"
                         type="button"
-                        disabled={
-                          !values?.plant || !values?.year
-                        }
+                        disabled={!values?.plant || !values?.year}
                       >
                         View
                       </button>

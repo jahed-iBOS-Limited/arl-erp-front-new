@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import printIcon from "./../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import printIcon from './../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import { _fixedPointVat } from './../../../../_helper/_fixedPointVat';
 const GridData = ({ rowDto, values }) => {
   // get selected business unit from store
@@ -26,12 +26,12 @@ const GridData = ({ rowDto, values }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -52,37 +52,37 @@ const GridData = ({ rowDto, values }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "38px" }}>SL</th>
+                  <th style={{ width: '38px' }}>SL</th>
 
-                  <th style={{ width: "100px" }}>Challan/Boe No</th>
+                  <th style={{ width: '100px' }}>Challan/Boe No</th>
                   {values?.sortBy?.value === 1 && (
-                    <th style={{ width: "100px" }}>Challan/Boe Date</th>
+                    <th style={{ width: '100px' }}>Challan/Boe Date</th>
                   )}
                   {values?.sortBy?.value === 2 && (
-                    <th style={{ width: "50px" }}>HS.code</th>
+                    <th style={{ width: '50px' }}>HS.code</th>
                   )}
                   {values?.sortBy?.value === 2 && (
-                    <th style={{ width: "200px" }}>Product Name</th>
+                    <th style={{ width: '200px' }}>Product Name</th>
                   )}
                   {values?.sortBy?.value === 3 && (
-                    <th style={{ width: "50px" }}>Trade Type</th>
+                    <th style={{ width: '50px' }}>Trade Type</th>
                   )}
 
                   {values?.sortBy?.value === 4 && (
-                    <th style={{ width: "50px" }}>Customer Name</th>
+                    <th style={{ width: '50px' }}>Customer Name</th>
                   )}
-                  <th style={{ width: "100px" }}>Quantity</th>
-                  <th style={{ width: "100px" }}>Without SD/VAT</th>
-                  <th style={{ width: "100px" }}>SD Amount</th>
-                  <th style={{ width: "100px" }}>VAT Amount</th>
-                  <th style={{ width: "100px" }}>TOTAL</th>
+                  <th style={{ width: '100px' }}>Quantity</th>
+                  <th style={{ width: '100px' }}>Without SD/VAT</th>
+                  <th style={{ width: '100px' }}>SD Amount</th>
+                  <th style={{ width: '100px' }}>VAT Amount</th>
+                  <th style={{ width: '100px' }}>TOTAL</th>
                 </tr>
               </thead>
               <tbody>
                 {rowDto?.map((tableData, index) => (
                   <tr key={index}>
                     <td> {index + 1} </td>
-                    <td> {"All Challan"}</td>
+                    <td> {'All Challan'}</td>
                     {values?.sortBy?.value === 1 && (
                       <td> {_dateFormatter(tableData?.date)}</td>
                     )}
@@ -98,11 +98,25 @@ const GridData = ({ rowDto, values }) => {
                     {values?.sortBy?.value === 4 && (
                       <td> {tableData?.customerName}</td>
                     )}
-                    <td className="text-right"> {_fixedPointVat(tableData?.quantity, 3)}</td>
-                    <td className="text-right"> {_fixedPointVat(tableData?.amount)}</td>
-                    <td className="text-right"> {_fixedPointVat(tableData?.sdTotal)}</td>
-                    <td className="text-right"> {_fixedPointVat(tableData?.vatTotal)}</td>
-                    <td className="text-right">{_fixedPointVat(tableData?.grandTotal)}</td>
+                    <td className="text-right">
+                      {' '}
+                      {_fixedPointVat(tableData?.quantity, 3)}
+                    </td>
+                    <td className="text-right">
+                      {' '}
+                      {_fixedPointVat(tableData?.amount)}
+                    </td>
+                    <td className="text-right">
+                      {' '}
+                      {_fixedPointVat(tableData?.sdTotal)}
+                    </td>
+                    <td className="text-right">
+                      {' '}
+                      {_fixedPointVat(tableData?.vatTotal)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPointVat(tableData?.grandTotal)}
+                    </td>
                   </tr>
                 ))}
                 <tr>
@@ -111,8 +125,8 @@ const GridData = ({ rowDto, values }) => {
                       values?.sortBy?.value === 1
                         ? 3
                         : values?.sortBy?.value === 2
-                        ? 4
-                        : 3
+                          ? 4
+                          : 3
                     }
                     className="text-right"
                   >
@@ -120,32 +134,32 @@ const GridData = ({ rowDto, values }) => {
                   </td>
                   <td className="text-right">
                     <b>
-                      {" "}
-                      {toatalCalculationFunc(rowDto, "quantity")?.toFixed(3)}
+                      {' '}
+                      {toatalCalculationFunc(rowDto, 'quantity')?.toFixed(3)}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {" "}
-                      {toatalCalculationFunc(rowDto, "amount")?.toFixed(2)}
+                      {' '}
+                      {toatalCalculationFunc(rowDto, 'amount')?.toFixed(2)}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {" "}
-                      {toatalCalculationFunc(rowDto, "sdTotal")?.toFixed(2)}
+                      {' '}
+                      {toatalCalculationFunc(rowDto, 'sdTotal')?.toFixed(2)}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {" "}
-                      {toatalCalculationFunc(rowDto, "vatTotal")?.toFixed(2)}
+                      {' '}
+                      {toatalCalculationFunc(rowDto, 'vatTotal')?.toFixed(2)}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {" "}
-                      {toatalCalculationFunc(rowDto, "grandTotal")?.toFixed(2)}
+                      {' '}
+                      {toatalCalculationFunc(rowDto, 'grandTotal')?.toFixed(2)}
                     </b>
                   </td>
                 </tr>

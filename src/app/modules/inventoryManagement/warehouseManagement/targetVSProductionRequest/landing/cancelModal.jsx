@@ -1,10 +1,9 @@
-
-import React, { useState } from "react";
-import { Formik } from "formik";
-import TextArea from "../../../../_helper/TextArea";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import TextArea from '../../../../_helper/TextArea';
+import Loading from '../../../../_helper/_loading';
 const initData = {
-  remarks: "",
+  remarks: '',
 };
 
 export default function CancelProductionRequest({ cancelHandler, id, value }) {
@@ -17,7 +16,7 @@ export default function CancelProductionRequest({ cancelHandler, id, value }) {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values) => {
-          cancelHandler(id, { ...values, ...value },setLoading);
+          cancelHandler(id, { ...values, ...value }, setLoading);
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

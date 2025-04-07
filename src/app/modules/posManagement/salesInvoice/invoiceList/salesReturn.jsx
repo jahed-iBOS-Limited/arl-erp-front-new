@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import InputField from './../../../_helper/_inputField';
-import { getSalesInvoiceByVoucherCode } from "../helper"
+import { getSalesInvoiceByVoucherCode } from '../helper';
 import { useSelector, shallowEqual } from 'react-redux';
 
-export default function SalesReturn({ 
-  rowDto, 
-  setVoucherCode, 
-  values, 
+export default function SalesReturn({
+  rowDto,
+  setVoucherCode,
+  values,
   updateSalesReturnQty,
   setSingleData,
-  setSalesReturnDto
+  setSalesReturnDto,
 }) {
-  const [voucher, setVoucher] = useState("")
-  
+  const [voucher, setVoucher] = useState('');
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -22,17 +22,21 @@ export default function SalesReturn({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const updateReturnQty=(value, index)=>{
-    const data=rowDto
+  const updateReturnQty = (value, index) => {
+    const data = rowDto;
     data[index].returnQuantity = parseInt(value);
-    setSalesReturnDto(data)
-  }
-
+    setSalesReturnDto(data);
+  };
 
   return (
     <>
-      <div className="row global-form" 
-        style={{ width:'100%', padding:"0px 0px 8px 0px", marginBottom:"0px"}}
+      <div
+        className="row global-form"
+        style={{
+          width: '100%',
+          padding: '0px 0px 8px 0px',
+          marginBottom: '0px',
+        }}
       >
         <div className="col-lg-3">
           <label>Sales Voucher Code</label>
@@ -40,7 +44,7 @@ export default function SalesReturn({
             value={values?.salesVoucherCode}
             name="salesVoucherCode"
             placeholder="Search....."
-            onChange={(e)=>setVoucher(e.target.value)}
+            onChange={(e) => setVoucher(e.target.value)}
             type="text"
           />
         </div>
@@ -50,14 +54,14 @@ export default function SalesReturn({
             className="btn btn-primary mt-5"
             type="button"
             onClick={() => {
-              setVoucherCode(voucher)
+              setVoucherCode(voucher);
               getSalesInvoiceByVoucherCode(
                 profileData?.accountId,
                 selectedBusinessUnit?.value,
-                voucher, 
-                setSingleData, 
+                voucher,
+                setSingleData,
                 setSalesReturnDto
-              )
+              );
             }}
           >
             View
@@ -71,12 +75,12 @@ export default function SalesReturn({
             <th>Item Name</th>
             <th>UOM</th>
             <th>Quantity</th>
-            <th style={{ width: "120px" }}>Return Qty</th>
+            <th style={{ width: '120px' }}>Return Qty</th>
             <th>Rate</th>
             <th>VAT</th>
             <th>Discount</th>
             <th>Sub Total</th>
-            <th style={{ width: "70px" }}>Action</th>
+            <th style={{ width: '70px' }}>Action</th>
           </tr>
         </thead>
         <tbody className="itemList">
@@ -88,33 +92,30 @@ export default function SalesReturn({
               <td>{item?.quantity}</td>
               <td className="text-center">
                 <input
-                  style={{ width: "100%", borderRadius: "5px" }}
+                  style={{ width: '100%', borderRadius: '5px' }}
                   key={index}
                   type="number"
                   name="quantity"
                   defaultValue={item?.returnQuantity}
                   onChange={(e) => {
-                    if(e.target.value>=0){
-                      updateReturnQty(e.target.value, index)
+                    if (e.target.value >= 0) {
+                      updateReturnQty(e.target.value, index);
                     }
                   }}
                 />
               </td>
               <td className="text-center">{item?.rate}</td>
               <td className="text-center">{item?.vat}</td>
-              <td className="text-center">
-                {item?.totalDiscountValue}
-              </td>
+              <td className="text-center">{item?.totalDiscountValue}</td>
               <td className="text-right">
-                {item?.quantity * item?.rate -
-                  item?.totalDiscountValue}
+                {item?.quantity * item?.rate - item?.totalDiscountValue}
               </td>
               <td className="text-center">
                 <button
                   type="button"
                   className="btn btn-outline-dark pointer"
-                  style={{ padding: "1px 10px", fontSize: "11px" }}
-                  onClick={() =>{
+                  style={{ padding: '1px 10px', fontSize: '11px' }}
+                  onClick={() => {
                     updateSalesReturnQty(item);
                   }}
                 >
@@ -125,6 +126,6 @@ export default function SalesReturn({
           ))}
         </tbody>
       </table>
-    </>  
+    </>
   );
 }

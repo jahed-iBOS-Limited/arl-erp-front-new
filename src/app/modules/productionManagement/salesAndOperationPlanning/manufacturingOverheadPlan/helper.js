@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // year ddl for create page
 export const getYearDDL = async (accId, buId, plantId, setter) => {
@@ -7,7 +7,7 @@ export const getYearDDL = async (accId, buId, plantId, setter) => {
       `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantDDL = async (accId, userId, buId, setter) => {
@@ -16,17 +16,15 @@ export const getPlantDDL = async (accId, userId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
 
 export const monthData = [
   {
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 7,
-    strMonthName: "July",
+    strMonthName: 'July',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -34,7 +32,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 8,
-    strMonthName: "August",
+    strMonthName: 'August',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -42,7 +40,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 9,
-    strMonthName: "September",
+    strMonthName: 'September',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -50,7 +48,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 10,
-    strMonthName: "October",
+    strMonthName: 'October',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -58,7 +56,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 11,
-    strMonthName: "November",
+    strMonthName: 'November',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -66,7 +64,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 12,
-    strMonthName: "December",
+    strMonthName: 'December',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -74,7 +72,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 1,
-    strMonthName: "January",
+    strMonthName: 'January',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -82,7 +80,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 2,
-    strMonthName: "February",
+    strMonthName: 'February',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -90,7 +88,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 3,
-    strMonthName: "March",
+    strMonthName: 'March',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -98,7 +96,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 4,
-    strMonthName: "April",
+    strMonthName: 'April',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -106,7 +104,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 5,
-    strMonthName: "May",
+    strMonthName: 'May',
     intMonthLyValue: 0,
     isActive: true,
   },
@@ -114,7 +112,7 @@ export const monthData = [
     intMopplanRowId: 0,
     intMopplanId: 0,
     intMonthId: 6,
-    strMonthName: "June",
+    strMonthName: 'June',
     intMonthLyValue: 0,
     isActive: true,
   },

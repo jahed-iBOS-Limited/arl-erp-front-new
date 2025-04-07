@@ -1,10 +1,10 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import ProductionBreakdown from "./productionBreakdown";
-import ProductionBreakdownCreate from "./productionBreakdown/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import ProductionBreakdown from './productionBreakdown';
+import ProductionBreakdownCreate from './productionBreakdown/Form/addEditForm';
 
 export function MsilProductionBreakdownPages() {
   const userRole = useSelector(

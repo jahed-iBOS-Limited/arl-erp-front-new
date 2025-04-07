@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import {
   setControllingUnitSingleEmpty,
   saveEditedTradeOfferItemGroup,
   saveTradeOfferItemGroup,
   getTradeItemGroupById,
-} from "../_redux/Actions";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { getItemSaleDDLAction } from "../../../../_helper/_redux/Actions";
+} from '../_redux/Actions';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { getItemSaleDDLAction } from '../../../../_helper/_redux/Actions';
 import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  tradeOfferItemGroupName: "",
-  item: "",
+  tradeOfferItemGroupName: '',
+  item: '',
 };
 
 export default function TradeOfferItemGroupForm({
@@ -67,7 +66,6 @@ export default function TradeOfferItemGroupForm({
       } else {
       }
     }
-
   }, [selectedBusinessUnit, profileData, id]);
 
   useEffect(() => {
@@ -93,7 +91,7 @@ export default function TradeOfferItemGroupForm({
           tradeOfferItemGroupRow: rowData,
           tradeOfferItemGroupHeader: {
             actionBy: profileData.userId,
-            lastActionDateTime: "2020-08-30T10:38:35.066Z",
+            lastActionDateTime: '2020-08-30T10:38:35.066Z',
             tradeOfferGroupId: values.tradeOfferItemGroupId,
             tradeOfferItemGroupName:
               singleData?.objHeaderDTO?.tradeOfferItemGroupName,
@@ -116,7 +114,7 @@ export default function TradeOfferItemGroupForm({
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             actionBy: profileData.userId,
-            lastActionDateTime: "2020-08-30T06:48:34.037Z",
+            lastActionDateTime: '2020-08-30T06:48:34.037Z',
           },
         };
         dispatch(saveTradeOfferItemGroup({ data: payload, cb, setDisabled }));
@@ -127,7 +125,7 @@ export default function TradeOfferItemGroupForm({
   };
 
   const setter = (payload) => {
-    if (isUniq("itemId", payload.itemId, rowDto)) {
+    if (isUniq('itemId', payload.itemId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
@@ -142,7 +140,7 @@ export default function TradeOfferItemGroupForm({
   return (
     <IForm
       title={
-        id ? "Edit Trade Offer Item Group" : "Create Trade Offer Item Group"
+        id ? 'Edit Trade Offer Item Group' : 'Create Trade Offer Item Group'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

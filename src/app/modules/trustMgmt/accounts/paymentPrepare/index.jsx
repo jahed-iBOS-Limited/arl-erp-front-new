@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "./../../../../../_metronic/_partials/controls";
-import Loading from "./../../../_helper/_loading";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import AttachmentField from "./AttachmentField";
+} from './../../../../../_metronic/_partials/controls';
+import Loading from './../../../_helper/_loading';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import AttachmentField from './AttachmentField';
 
 const initData = {
-  fromDate: "",
-  toDate: "",
-  businessUnit: "",
-  paymentType: "",
-  bankAccount: "",
-  instrumentType: "",
-  attachment: "",
+  fromDate: '',
+  toDate: '',
+  businessUnit: '',
+  paymentType: '',
+  bankAccount: '',
+  instrumentType: '',
+  attachment: '',
 };
 
 const PaymentPrepare = () => {
@@ -33,7 +33,7 @@ const PaymentPrepare = () => {
 
   const [data, getApproveData, getLoading, setData] = useAxiosPost();
   const [voucherBtn, setVoucherBtn] = useState(true);
-  const [filterData, setFilterData] = useState("");
+  const [filterData, setFilterData] = useState('');
   const [bankAccountDDL, getBankAccountDDL] = useAxiosGet();
   const [instrumentTypeDDL, getInstrumentTypeDDL] = useAxiosGet();
 
@@ -43,7 +43,6 @@ const PaymentPrepare = () => {
     return `/hcm/TrustManagement/GetTrustAllDDL?PartName=${name}&AutoId=${autoId}&TypeId=${typeId}`;
   };
 
-
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
       return state?.authData;
@@ -52,13 +51,13 @@ const PaymentPrepare = () => {
   );
 
   useEffect(() => {
-    getUnitNameDDL(generateAPI("UnitDDL"));
+    getUnitNameDDL(generateAPI('UnitDDL'));
     getBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${
+        profileData?.accountId
       }&BusinssUnitId=${4}`
     );
     getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
-
   }, []);
 
   const getTrustAllLanding = (
@@ -80,30 +79,30 @@ const PaymentPrepare = () => {
         paymentScheduleId: itm?.PaymentScheduleId,
         userId: profileData?.userId,
         bankId: values?.bankAccount?.bankId || 0,
-        bankName: values?.bankAccount?.bankName || "",
+        bankName: values?.bankAccount?.bankName || '',
         bankBranchId: values?.bankAccount?.bankBranch_Id || 0,
-        bankBranchName: values?.bankAccount?.bankBranchName || "",
+        bankBranchName: values?.bankAccount?.bankBranchName || '',
         bankAccountId: values?.bankAccount?.value || 0,
-        bankAccountNumber: values?.bankAccount?.bankAccNo || "",
+        bankAccountNumber: values?.bankAccount?.bankAccNo || '',
         instrumentTypeId: values?.instrumentType?.value,
         instrumentTypeName: values?.instrumentType?.label,
       })
     );
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected voucher submit`,
       yesAlertFunc: () => {
         getApproveData(
           `/hcm/TrustManagement/PreparePaymentApprove?UserId=${profileData?.userId}&Attachment=${values?.attachment?.[0]?.id}`,
           payload,
           (data) => {
-            toast.success(data[0]?.Column1 || "Submitted successfully");
-            setFieldValue("bankAccount", "");
-            setFieldValue("instrumentType", "");
-            setFieldValue("attachment", "");
+            toast.success(data[0]?.Column1 || 'Submitted successfully');
+            setFieldValue('bankAccount', '');
+            setFieldValue('instrumentType', '');
+            setFieldValue('attachment', '');
             getData(
               getTrustAllLanding(
-                "GetAllPaymentStatusNDonationReciverList",
+                'GetAllPaymentStatusNDonationReciverList',
                 2,
                 filterData?.businessUnit || 4,
                 filterData?.paymentType,
@@ -114,7 +113,7 @@ const PaymentPrepare = () => {
           }
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
     //
@@ -144,7 +143,7 @@ const PaymentPrepare = () => {
             <Form className="form form-label-right">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Prepare Payment"}></CardHeader>
+                <CardHeader title={'Prepare Payment'}></CardHeader>
                 <CardBody>
                   <div className="mt-0">
                     <div className="form-group row global-form">
@@ -165,7 +164,7 @@ const PaymentPrepare = () => {
                                 options={unitNameDDL || []}
                                 value={values?.businessUnit}
                                 onChange={(valueOption) => {
-                                  setFieldValue("businessUnit", valueOption);
+                                  setFieldValue('businessUnit', valueOption);
                                 }}
                                 placeholder="Unit Name"
                                 errors={errors}
@@ -186,12 +185,12 @@ const PaymentPrepare = () => {
                                 name="paymentType"
                                 isHiddenLabel={true}
                                 options={[
-                                  { value: 1, label: "Zakat" },
-                                  { value: 2, label: "Donation/Sadaka" },
+                                  { value: 1, label: 'Zakat' },
+                                  { value: 2, label: 'Donation/Sadaka' },
                                 ]}
                                 value={values?.paymentType}
                                 onChange={(valueOption) => {
-                                  setFieldValue("paymentType", valueOption);
+                                  setFieldValue('paymentType', valueOption);
                                 }}
                                 placeholder="Payment Type"
                                 errors={errors}
@@ -241,11 +240,11 @@ const PaymentPrepare = () => {
                             <button
                               type="button"
                               className="btn btn-primary"
-                              style={{ fontSize: "12px" }}
+                              style={{ fontSize: '12px' }}
                               onClick={() => {
                                 getData(
                                   getTrustAllLanding(
-                                    "GetAllPaymentStatusNDonationReciverList",
+                                    'GetAllPaymentStatusNDonationReciverList',
                                     2,
                                     values?.businessUnit?.value || 4,
                                     values?.paymentType?.value,
@@ -282,10 +281,10 @@ const PaymentPrepare = () => {
                           value={values?.instrumentType}
                           label="Instrument Type"
                           onChange={(valueOption) => {
-                            if (["Cash"].includes(valueOption?.label)) {
-                              setFieldValue("bankAccount", "");
+                            if (['Cash'].includes(valueOption?.label)) {
+                              setFieldValue('bankAccount', '');
                             }
-                            setFieldValue("instrumentType", valueOption);
+                            setFieldValue('instrumentType', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -298,11 +297,11 @@ const PaymentPrepare = () => {
                           value={values?.bankAccount}
                           label="Select Bank AC"
                           onChange={(valueOption) => {
-                            setFieldValue("bankAccount", valueOption);
+                            setFieldValue('bankAccount', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
-                          isDisabled={["Cash"].includes(
+                          isDisabled={['Cash'].includes(
                             values?.instrumentType?.label
                           )}
                         />
@@ -311,10 +310,10 @@ const PaymentPrepare = () => {
                         <button
                           type="button"
                           className="btn btn-primary"
-                          style={{ fontSize: "12px", marginTop: "15px" }}
+                          style={{ fontSize: '12px', marginTop: '15px' }}
                           disabled={
                             voucherBtn ||
-                            (!["Cash"].includes(
+                            (!['Cash'].includes(
                               values?.instrumentType?.label
                             ) &&
                               !values?.bankAccount) ||
@@ -329,7 +328,7 @@ const PaymentPrepare = () => {
                       </div>
                     </div>
                     <div>
-                      <h6 style={{ marginBottom: 0, marginTop: "15px" }}>
+                      <h6 style={{ marginBottom: 0, marginTop: '15px' }}>
                         Daily Donation Application For Prepare Voucher:
                       </h6>
                     </div>
@@ -339,7 +338,7 @@ const PaymentPrepare = () => {
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                             <thead>
                               <tr>
-                                <th style={{ width: "20px" }}>
+                                <th style={{ width: '20px' }}>
                                   <input
                                     type="checkbox"
                                     id="parent"
@@ -362,7 +361,7 @@ const PaymentPrepare = () => {
                                     }}
                                   />
                                 </th>
-                                <th style={{ width: "20px" }}>SL</th>
+                                <th style={{ width: '20px' }}>SL</th>
                                 <th>Application Id</th>
                                 <th>Applicant Name</th>
                                 <th>Mode Of Payment</th>

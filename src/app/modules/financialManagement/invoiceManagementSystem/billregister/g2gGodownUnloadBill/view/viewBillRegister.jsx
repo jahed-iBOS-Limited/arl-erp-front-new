@@ -1,18 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
   const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
   const dispatch = useDispatch();
-
 
   // get profile data from redux store
   const {
@@ -26,11 +25,14 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
     getGridData(
       `/tms/LigterLoadUnload/GetTruckNLabourSupplierByBillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}&billTypeId=21`
     );
-
   }, [accId, buId]);
 
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={(values) => {}}>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{}}
+      onSubmit={(values) => {}}
+    >
       {() => (
         <IForm
           title="View G2G Godown Unload Bill"
@@ -43,7 +45,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
           <form className="form form-label-right ">
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
-              {/* <div className="table-responsive"> */}
+                {/* <div className="table-responsive"> */}
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -67,7 +69,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
                     {gridData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>{item?.shipPointName}</td>
@@ -80,9 +82,13 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
                           <td className="text-center">{item?.delveryDate}</td>
                           <td className="text-right">{item?.quantity}</td>
                           <td className="text-right">{item?.quantityTon}</td>
-                          <td className="text-right">{item?.godownUnloadLabouRate}</td>
                           <td className="text-right">
-                            {Number(item?.quantity * item?.godownUnloadLabouRate)}
+                            {item?.godownUnloadLabouRate}
+                          </td>
+                          <td className="text-right">
+                            {Number(
+                              item?.quantity * item?.godownUnloadLabouRate
+                            )}
                           </td>
                           <td className="text-center">
                             <OverlayTrigger
@@ -93,23 +99,23 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
                               <span
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                 if(item?.attachment){
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      item?.attachment,
-                                      null,
-                                      null,
-                                      setLoading
-                                    )
-                                  );
-                                 }else{
-                                  toast.warn("No Attachment Found")
-                                 }
+                                  if (item?.attachment) {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.attachment,
+                                        null,
+                                        null,
+                                        setLoading
+                                      )
+                                    );
+                                  } else {
+                                    toast.warn('No Attachment Found');
+                                  }
                                 }}
                                 className="ml-2"
                               >
                                 <i
-                                  style={{ fontSize: "16px" }}
+                                  style={{ fontSize: '16px' }}
                                   className={`fa pointer fa-eye`}
                                   aria-hidden="true"
                                 ></i>

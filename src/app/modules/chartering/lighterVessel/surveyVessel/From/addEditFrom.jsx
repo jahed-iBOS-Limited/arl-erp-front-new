@@ -1,21 +1,19 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import { createSurveyVessel, editSurveyVessel } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import { createSurveyVessel, editSurveyVessel } from '../helper';
+import Form from './form';
 
 const initData = {
-  motherVessel: "",
-  ref: "",
-  cargo: "",
-  lc: "",
-  unit: "",
+  motherVessel: '',
+  ref: '',
+  cargo: '',
+  lc: '',
+  unit: '',
   arrivalDate: _todayDate(),
-  quantity: "",
+  quantity: '',
 };
 
 export default function SurveyVesselForm({
@@ -47,20 +45,19 @@ export default function SurveyVesselForm({
         quantity: singleData?.blqty,
       });
     }
-
   }, [editViewTag]);
 
   const saveHandler = (values, cb) => {
-    if (editViewTag === "edit") {
+    if (editViewTag === 'edit') {
       const payload = {
         surveyId: singleData?.surveyId,
-        motherVesselName: values?.motherVessel || "",
+        motherVesselName: values?.motherVessel || '',
         referenceNo: values?.ref,
         cargoId: values?.cargo?.value || 0,
-        cargoName: values?.cargo?.label || "",
+        cargoName: values?.cargo?.label || '',
         lcno: values?.lc,
         surveyBusinessUnitId: values?.unit?.value || 0,
-        surveyBusinessUnitName: values?.unit?.label || "",
+        surveyBusinessUnitName: values?.unit?.label || '',
         arrivalDate: values?.arrivalDate,
         blqty: values?.quantity,
       };
@@ -73,12 +70,12 @@ export default function SurveyVesselForm({
       const payload = {
         accountId: profileData?.accountId,
         businessunitId: selectedBusinessUnit?.value,
-        motherVesselName: values?.motherVessel || "",
+        motherVesselName: values?.motherVessel || '',
         referenceNo: values?.ref,
-        cargoName: values?.cargo?.label || "",
+        cargoName: values?.cargo?.label || '',
         lcno: values?.lc,
         surveyBusinessUnitId: values?.unit?.value || 0,
-        surveyBusinessUnitName: values?.unit?.label || "",
+        surveyBusinessUnitName: values?.unit?.label || '',
         arrivalDate: values?.arrivalDate,
         blqty: values?.quantity,
         actionBy: profileData?.userId,
@@ -92,11 +89,11 @@ export default function SurveyVesselForm({
   };
 
   const title =
-    editViewTag === "view"
-      ? "View Survey Vessel"
-      : editViewTag === "edit"
-      ? "Edit Survey Vessel"
-      : "Create Survey Vessel";
+    editViewTag === 'view'
+      ? 'View Survey Vessel'
+      : editViewTag === 'edit'
+        ? 'Edit Survey Vessel'
+        : 'Create Survey Vessel';
 
   return (
     <>

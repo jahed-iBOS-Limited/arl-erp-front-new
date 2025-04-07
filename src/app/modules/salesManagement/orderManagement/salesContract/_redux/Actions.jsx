@@ -1,21 +1,20 @@
-import axios from "axios";
-import * as requestFromServer from "./Api";
-import { salesContactSlice } from "./Slice";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import * as requestFromServer from './Api';
+import { salesContactSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = salesContactSlice;
 
-export const getSalesOfficeDDLAction = (accId, buId, SalesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .GetSalesOfficeDDLbyId(accId, buId, SalesOrgId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetSalesOfficeDDL(data));
-      }
-    });
-};
+export const getSalesOfficeDDLAction =
+  (accId, buId, SalesOrgId) => (dispatch) => {
+    return requestFromServer
+      .GetSalesOfficeDDLbyId(accId, buId, SalesOrgId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetSalesOfficeDDL(data));
+        }
+      });
+  };
 export const getSoldToPDDLAction = (accId, buId) => (dispatch) => {
   return requestFromServer.GetSoldToPPId(accId, buId).then((res) => {
     const { status, data } = res;
@@ -24,28 +23,26 @@ export const getSoldToPDDLAction = (accId, buId) => (dispatch) => {
     }
   });
 };
-export const getBUsalesOrgIncotermDDLAction = (accId, buId, salesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .GetBUsalesOrgIncotermDDL(accId, buId, salesOrgId)
-    .then((res) => {
+export const getBUsalesOrgIncotermDDLAction =
+  (accId, buId, salesOrgId) => (dispatch) => {
+    return requestFromServer
+      .GetBUsalesOrgIncotermDDL(accId, buId, salesOrgId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetBUsalesOrgIncotermDDL(data));
+        }
+      });
+  };
+export const getPaymentTermsDDLAction =
+  (accId, buId, salesOrgId) => (dispatch) => {
+    return requestFromServer.GetPaymentTermsDDL().then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
-        dispatch(slice.SetBUsalesOrgIncotermDDL(data));
+        dispatch(slice.SetPaymentTermsDDL(data));
       }
     });
-};
-export const getPaymentTermsDDLAction = (accId, buId, salesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer.GetPaymentTermsDDL().then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetPaymentTermsDDL(data));
-    }
-  });
-};
+  };
 // action for save created data
 export const saveSalesContact = (payload) => () => {
   payload.setDisabled(true);
@@ -54,7 +51,7 @@ export const saveSalesContact = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         payload.setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -73,7 +70,7 @@ export const saveEditedSalesContact = (payload, setLoading) => () => {
       if (res.status === 200) {
         // console.log(res.data);
         setLoading(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -83,26 +80,20 @@ export const saveEditedSalesContact = (payload, setLoading) => () => {
     });
 };
 // action for get grid data
-export const getSalesContactGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  searchValue
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize, searchValue)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getSalesContactGridData =
+  (accId, buId, setLoading, pageNo, pageSize, searchValue) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, searchValue)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 // action for get data by id single
 export const getSalesContactById = (accId, buId, id) => (dispatch) => {
   return requestFromServer
@@ -173,21 +164,20 @@ export const getSalesOrgDDLAction = (accId, buId) => (dispatch) => {
     }
   });
 };
-export const getDeliveryAddressAction = (accId, buId, partnerId, setter) => (
-  dispatch
-) => {
-  requestFromServer
-    .getDeliveryAddress(accId, buId, partnerId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        setter("deliveryAddress", res?.data || "");
-      }
-    })
-    .catch((error) => {
-      setter("deliveryAddress", "");
-    });
-};
+export const getDeliveryAddressAction =
+  (accId, buId, partnerId, setter) => (dispatch) => {
+    requestFromServer
+      .getDeliveryAddress(accId, buId, partnerId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          setter('deliveryAddress', res?.data || '');
+        }
+      })
+      .catch((error) => {
+        setter('deliveryAddress', '');
+      });
+  };
 
 export const GetSalesContractInfoApi = async (
   accId,

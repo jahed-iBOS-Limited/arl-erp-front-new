@@ -1,5 +1,3 @@
-
-
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -46,12 +44,12 @@ export function BankJournalViewTableRow({ id, headerData }) {
           setbankJournalReport(bankJournalReportData);
           const specificBusinessUnit = businessUnitList?.find(
             (item) =>
-              item?.value === bankJournalReportData?.objHeader?.businessUnitId,
+              item?.value === bankJournalReportData?.objHeader?.businessUnitId
           );
           setTheBusinessUnit(specificBusinessUnit);
         },
         setLoading,
-        headerData,
+        headerData
       );
     }
   }, [id, headerData, selectedBusinessUnit]);
@@ -76,8 +74,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                   onClick={() => {
                     dispatch(
                       getDownlloadFileView_Action(
-                        bankJournalReport?.objHeader?.attachment,
-                      ),
+                        bankJournalReport?.objHeader?.attachment
+                      )
                     );
                   }}
                   className="btn btn-primary mr-4"
@@ -156,7 +154,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                             Cheque Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.chequeDate,
+                                bankJournalReport?.objHeader?.chequeDate
                               )}
                             </sapn>
                           </div>
@@ -191,7 +189,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.journalDate,
+                                bankJournalReport?.objHeader?.journalDate
                               )}
                             </sapn>
                           </div>
@@ -246,8 +244,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount,
-                                  ),
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
                                 )}
                               </td>
                               <td
@@ -256,8 +254,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount,
-                                  ),
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
                                 )}
                               </td>
                             </tr>

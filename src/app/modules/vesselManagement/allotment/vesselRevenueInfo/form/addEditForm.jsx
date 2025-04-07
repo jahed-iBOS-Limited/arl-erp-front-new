@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 import {
   GetGeneralInfoById,
   rateUpdateAPI,
   updateLighterAllotmentCarrierRate,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 export default function VesselRevenueInfoForm() {
   const { id, type } = useParams();
@@ -24,7 +24,7 @@ export default function VesselRevenueInfoForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const commonGetByIdFunc = (searchTerm = "") => {
+  const commonGetByIdFunc = (searchTerm = '') => {
     // console.log(searchTerm, 'search');
     GetGeneralInfoById({
       id,
@@ -39,16 +39,13 @@ export default function VesselRevenueInfoForm() {
     if (id) {
       commonGetByIdFunc();
     }
-
   }, [accId, buId]);
-
-
 
   const saveHandler = async (values) => {
     if (values?.rowType?.value === 2) {
       const selectedItems = rowDtoTwo?.filter((item) => item?.isSelected);
       if (selectedItems?.length === 0)
-        return toast.warn("Please select at least one item");
+        return toast.warn('Please select at least one item');
       const payload = selectedItems?.map((item) => ({
         rowId: item?.rowId,
         carrierRate: +item?.carrierRate || 0,
@@ -58,7 +55,7 @@ export default function VesselRevenueInfoForm() {
     } else {
       const selectedItems = rowDto?.filter((item) => item?.isSelected);
       if (selectedItems?.length === 0)
-        return toast.warn("Please select at least one item");
+        return toast.warn('Please select at least one item');
       const payload = selectedItems?.map((item) => ({
         rowId: item?.rowId,
         localRateDoller: item?.localRateDoller,
@@ -72,7 +69,7 @@ export default function VesselRevenueInfoForm() {
     if (id) {
       let _data = [...rowDto];
       _data[index][name] = value;
-      if (name !== "isSelected") {
+      if (name !== 'isSelected') {
         _data[index].localRateTaka = value;
         _data[index].localTotalAmountTaka = value * _data[index]?.surveyQty;
         // _data[index].localTotalAmountDoller = value * _data[index]?.surveyQty;
@@ -140,7 +137,7 @@ export default function VesselRevenueInfoForm() {
       : false;
   };
 
-  const title = `${type === "view" ? "View " : "Update"} Vessel Carrier Info`;
+  const title = `${type === 'view' ? 'View ' : 'Update'} Vessel Carrier Info`;
 
   return (
     <>

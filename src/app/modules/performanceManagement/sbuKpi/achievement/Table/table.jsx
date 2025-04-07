@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { getYearDDLAction } from '../../../_redux/Actions';
@@ -29,7 +28,7 @@ export default function AchievementTable() {
         sbuDDL: state.inDividualBalancedScore.sbuDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
   let { profileData, selectedBusinessUnit, yearDDL, monthDDL, sbuDDL } =
     storeData;
@@ -51,10 +50,10 @@ export default function AchievementTable() {
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
       dispatch(
-        getSbuDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
+        getSbuDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
       dispatch(
-        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
+        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -76,10 +75,9 @@ export default function AchievementTable() {
         0,
         0,
         false,
-        3,
+        3
       );
     }
-
   }, [selectedBusinessUnit, sbu]);
 
   useEffect(() => {
@@ -128,7 +126,7 @@ export default function AchievementTable() {
                 to?.value,
                 false,
                 3,
-                section?.value,
+                section?.value
               );
             }}
             isDisabled={!sbuKpiResultPublic?.isView}
@@ -158,7 +156,7 @@ export default function AchievementTable() {
                 to?.value,
                 false,
                 3,
-                section?.value,
+                section?.value
               );
             }}
             className="mb-3"
@@ -186,7 +184,7 @@ export default function AchievementTable() {
                 to?.value,
                 false,
                 3,
-                section?.value,
+                section?.value
               );
             }}
             className="mb-3"
@@ -216,7 +214,7 @@ export default function AchievementTable() {
                 valueOption?.value,
                 false,
                 3,
-                section?.value,
+                section?.value
               );
             }}
             className="mb-3"
@@ -250,7 +248,7 @@ export default function AchievementTable() {
                 to?.value,
                 false,
                 3,
-                valueOption?.value,
+                valueOption?.value
               );
             }}
           />
@@ -350,8 +348,8 @@ export default function AchievementTable() {
                         ? item?.progress >= 80
                           ? 'green'
                           : item?.progress >= 60
-                          ? 'yellow'
-                          : 'red'
+                            ? 'yellow'
+                            : 'red'
                         : ''
                     }
                   >

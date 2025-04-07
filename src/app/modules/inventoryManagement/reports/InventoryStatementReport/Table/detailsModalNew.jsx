@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { InventoryLedger_api_new } from "../helper";
-import { useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import React, { useEffect, useState, useRef } from 'react';
+import { InventoryLedger_api_new } from '../helper';
+import { useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const DetailsModalNew = ({ tableItem, values, type, whId }) => {
   const [inventoryLedger, setInventoryLedger] = useState([]);
@@ -32,7 +32,6 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
       setLoading,
       type
     );
-
   }, [tableItem]);
 
   const printRef = useRef();
@@ -41,12 +40,12 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
       {loading && <Loading />}
       <div
         className="text-right pointer"
-        style={{ position: "absolute", top: "16px", right: "16px" }}
+        style={{ position: 'absolute', top: '16px', right: '16px' }}
       >
         <ReactToPrint
           trigger={() => (
             <i
-              style={{ fontSize: "18px", marginRight: "5px" }}
+              style={{ fontSize: '18px', marginRight: '5px' }}
               className="fas fa-print"
             ></i>
           )}
@@ -65,7 +64,7 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
       <div className="inventoryStatement-reports mt-6 " ref={printRef}>
         <div
           className="text-right pointer"
-          style={{ position: "absolute", top: "161px", right: "42px" }}
+          style={{ position: 'absolute', top: '161px', right: '42px' }}
         ></div>
         <div className="text-center">
           <h3>Business Unit : {selectedBusinessUnit?.label}</h3>
@@ -81,13 +80,16 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
           <h6 className="text-center">
             Item Name: {`${tableItem?.strItemName} (${tableItem?.strItemCode}`})
             <span className="ml-2">
-              UOM: {[5,6].includes(type) ? tableItem?.strBaseUOM : tableItem?.strUomName}
+              UOM:{' '}
+              {[5, 6].includes(type)
+                ? tableItem?.strBaseUOM
+                : tableItem?.strUomName}
             </span>
           </h6>
         </div>
         <div className="d-flex justify-content-between">
           <h6>
-            From Date: {values?.fromDate} Time:{" "}
+            From Date: {values?.fromDate} Time:{' '}
             {_timeFormatter(values?.fromTime)}
           </h6>
           <h6>
@@ -132,7 +134,9 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
                         {item?.issueOrReceiveValue?.toFixed(4)}
                       </td>
                       <td className="text-right">{item?.closingStock}</td>
-                      <td className="text-right">{(item?.runingRate)?.toFixed(4)}</td>
+                      <td className="text-right">
+                        {item?.runingRate?.toFixed(4)}
+                      </td>
                       <td className="text-right">
                         {item?.avgRate?.toFixed(4)}
                       </td>

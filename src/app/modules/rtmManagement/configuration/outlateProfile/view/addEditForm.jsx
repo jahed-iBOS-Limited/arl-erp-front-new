@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 import {
   createOutlateProfile,
@@ -12,25 +12,25 @@ import {
   editOutlateProfile,
   getFileListDDL,
   commonCollerCompanyDDL,
-} from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { operation } from "../../../../_helper/_commonApi";
+} from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
+import { operation } from '../../../../_helper/_commonApi';
 
 const initData = {
-  businessType: "",
-  routeName: "",
-  outletName: "",
-  outletAddress: "",
-  ownerName: "",
-  contactType: "",
-  mobileNumber: "",
-  emailAddress: "",
+  businessType: '',
+  routeName: '',
+  outletName: '',
+  outletAddress: '',
+  ownerName: '',
+  contactType: '',
+  mobileNumber: '',
+  emailAddress: '',
   dateOfBirth: _todayDate(),
   marriageDate: _todayDate(),
-  lattitude: "",
-  longitude: "",
+  lattitude: '',
+  longitude: '',
   isColler: false,
-  collerCompany: "",
+  collerCompany: '',
 };
 
 export default function ViewOutletProfile() {
@@ -40,7 +40,7 @@ export default function ViewOutletProfile() {
 
   const [outletData, setOutlet] = useState([]);
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [imageDTO, setImageDTO] = useState([]);
 
   const [attributes, setAttributes] = useState([]);
@@ -57,7 +57,6 @@ export default function ViewOutletProfile() {
       isCollerCompany(commonCollerCompanyDDL);
     }
   }, [profileData, selectedBusinessUnit]);
-
 
   useEffect(() => {
     operation({
@@ -93,8 +92,8 @@ export default function ViewOutletProfile() {
             rowId: +find.rowId,
             attributeValueId: selectedValue?.value || 0,
             outletAttributeValueName:
-              selectedValue?.label || selectedValue || "",
-            attributeValueDate: "2021-01-11T05:41:45.587Z",
+              selectedValue?.label || selectedValue || '',
+            attributeValueDate: '2021-01-11T05:41:45.587Z',
             actionBy: 0,
           };
         });
@@ -108,15 +107,15 @@ export default function ViewOutletProfile() {
             ownerName: values.ownerName,
             mobileNumber: values.mobileNumber,
             businessType: values.businessType.value,
-            dateOfBirth: values.dateOfBirth || "2021-01-11T05:41:45.587Z",
-            marriageDate: values.marriageDate || "2021-01-11T05:41:45.587Z",
+            dateOfBirth: values.dateOfBirth || '2021-01-11T05:41:45.587Z',
+            marriageDate: values.marriageDate || '2021-01-11T05:41:45.587Z',
             emailAddress: values.emailAddress,
             latitude: values.lattitude,
             longitude: values.longitude,
-            outletImagePath: "string",
+            outletImagePath: 'string',
             outletAddress: values.outletAddress,
             contactType: values.contactType,
-            outletImagePathNew: "string",
+            outletImagePathNew: 'string',
           },
           objAttr: attributeData,
         };
@@ -135,10 +134,10 @@ export default function ViewOutletProfile() {
               0,
             attributeValueId: selectedValue?.attributeValueId || 0,
             outletAttributeValueName:
-              selectedValue?.outletAttributeValueName || selectedValue || "",
-            attributeValueDate: "2021-01-11T05:41:45.587Z",
+              selectedValue?.outletAttributeValueName || selectedValue || '',
+            attributeValueDate: '2021-01-11T05:41:45.587Z',
             actionBy: 0,
-            lastActionDateTime: "2021-01-11T05:41:45.587Z",
+            lastActionDateTime: '2021-01-11T05:41:45.587Z',
           };
         });
         const payload = {
@@ -151,16 +150,16 @@ export default function ViewOutletProfile() {
             ownerName: values.ownerName,
             mobileNumber: values.mobileNumber,
             businessType: values.businessType.value,
-            dateOfBirth: values.dateOfBirth || "2021-01-11T05:41:45.587Z",
-            marriageDate: values.marriageDate || "2021-01-11T05:41:45.587Z",
+            dateOfBirth: values.dateOfBirth || '2021-01-11T05:41:45.587Z',
+            marriageDate: values.marriageDate || '2021-01-11T05:41:45.587Z',
             emailAddress: values.emailAddress,
             latitude: values.lattitude,
             longitude: values.longitude,
-            outletImagePath: "string",
+            outletImagePath: 'string',
             outletAddress: values.outletAddress,
             contactType: values.contactType,
             isProfileComplete: true,
-            outletImagePathNew: "string",
+            outletImagePathNew: 'string',
           },
           attibute: attributeData,
         };

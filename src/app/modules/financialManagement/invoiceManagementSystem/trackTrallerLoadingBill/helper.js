@@ -27,9 +27,7 @@ export const trackTrallerLBInitData = {
 
 // validation schema
 export const trackTrallerLBIValidationSchema = Yup.object().shape({
-  supplier: Yup.object()
-    .nullable()
-    .required('Supplier is required'),
+  supplier: Yup.object().nullable().required('Supplier is required'),
   billNo: Yup.string().required('Bill no is required'),
   billDate: Yup.date().required('Bill date is required'),
   paymentDueDate: Yup.date().required('Payment date is required'),
@@ -47,7 +45,7 @@ export const getSupplierDDL = (obj) => {
     .get(
       `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${value}&AccountId=${
         profileData?.accountId
-      }&UnitId=${selectedBusinessUnit?.value}&SBUId=${0}`,
+      }&UnitId=${selectedBusinessUnit?.value}&SBUId=${0}`
     )
     .then((res) => {
       return res?.data;
@@ -113,9 +111,9 @@ export const getTrackTrallerLoadingBillData = async (obj) => {
   getTrackTrallerLBData(
     `/oms/SalesInformation/GetLoadingLaborBillInfo?partId=2&businessUnitId=${
       selectedBusinessUnit?.value
-    }&loadingLabourSupplierId=${supplier?.value ||
-      0}&fromShipPointId=${shippoint?.value ||
-      0}&fromDate=${fromDate}&toDate=${toDate}`,
+    }&loadingLabourSupplierId=${supplier?.value || 0}&fromShipPointId=${
+      shippoint?.value || 0
+    }&fromDate=${fromDate}&toDate=${toDate}`,
     (res) => {
       if (res?.length < 1) return toast.warn('No Data Found');
       if (res?.length > 0) {
@@ -130,7 +128,7 @@ export const getTrackTrallerLoadingBillData = async (obj) => {
 
         setTrackTrallerLBData(updatedData);
       }
-    },
+    }
   );
 };
 
@@ -144,8 +142,8 @@ export const totalApproveAmount = (data, filtered = false) => {
   return numberWithCommas(
     data?.reduce(
       (acc, item) => acc + (item.checked ? +item.approvedAmount : 0),
-      0,
-    ),
+      0
+    )
   );
 };
 
@@ -234,6 +232,6 @@ export const handleTTLBSaveData = (obj, cb) => {
     () => {
       cb();
     },
-    true,
+    true
   );
 };

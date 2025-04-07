@@ -47,8 +47,8 @@ const GodownsEntryReport = ({
                       e.stopPropagation();
                       dispatch(
                         getDownlloadFileView_Action(
-                          values?.godownsEntryAttachment,
-                        ),
+                          values?.godownsEntryAttachment
+                        )
                       );
                     }}
                     className="ml-2"
@@ -158,7 +158,7 @@ const GodownsEntryReport = ({
                           onChange={(e) => {
                             setFieldValue(
                               'godownsEntryTopDate',
-                              e.target.value,
+                              e.target.value
                             );
                           }}
                         />
@@ -198,7 +198,7 @@ const GodownsEntryReport = ({
                           onChange={(e) => {
                             setFieldValue(
                               'godownsEntryBottomDate',
-                              e.target.value,
+                              e.target.value
                             );
                           }}
                         />
@@ -255,7 +255,7 @@ const GodownsEntryReport = ({
                                 gridData?.reduce((acc, cur) => {
                                   return (acc +=
                                     +cur?.totalDeliveryQuantityTon || 0);
-                                }, 0),
+                                }, 0)
                               )}
                             </b>
                           </td>
@@ -265,7 +265,7 @@ const GodownsEntryReport = ({
                                 gridData?.reduce((acc, cur) => {
                                   return (acc +=
                                     +cur?.totalDeliveryQuantityBag || 0);
-                                }, 0),
+                                }, 0)
                               )}
                             </b>
                           </td>
@@ -274,7 +274,7 @@ const GodownsEntryReport = ({
                               {_fixedPoint(
                                 gridData?.reduce((acc, cur) => {
                                   return (acc += +cur?.emptyBag || 0);
-                                }, 0),
+                                }, 0)
                               )}
                             </b>
                           </td>
@@ -336,7 +336,7 @@ const GodownsEntryReport = ({
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name,
+            (item) => item.file.name !== deleteFileObj.file.name
           );
           setFileObjects(newData);
         }}

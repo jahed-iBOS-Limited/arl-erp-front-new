@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../../_helper/_viewModal";
-import ReferenceViewModal from "./referenceView";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../../_helper/_viewModal';
+import ReferenceViewModal from './referenceView';
 
 const RowDtoTable = ({
   rowDto,
@@ -46,28 +46,28 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="text-left">{item?.itemName}</td>
                     <td className="text-left">{item?.uoMname}</td>
                     <td className="text-center align-middle">{item?.refQty}</td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.restQty || 0}{" "}
+                      {' '}
+                      {item?.restQty || 0}{' '}
                     </td>
                     <td className="text-center align-middle">
-                      {" "}
+                      {' '}
                       {item?.availableStock}
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "150px" }}
+                      style={{ width: '150px' }}
                     >
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "location",
+                            'location',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -76,12 +76,12 @@ const RowDtoTable = ({
                             index
                           );
                           rowDtoHandler(
-                            "availableStock",
+                            'availableStock',
                             valueOption?.currentStock,
                             index
                           );
                         }}
-                        value={item?.location || ""}
+                        value={item?.location || ''}
                         isSearchable={true}
                         styles={customStyles}
                         options={item?.LocationDDL}
@@ -89,7 +89,7 @@ const RowDtoTable = ({
                       />
                     </td>
                     <td className="text-center align-middle">
-                      {" "}
+                      {' '}
                       {item?.location?.binNumber}
                     </td>
                     {/* <td className="disabled-feedback disable-border">
@@ -114,7 +114,7 @@ const RowDtoTable = ({
                   />
                 </td> */}
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -136,9 +136,9 @@ const RowDtoTable = ({
                               : item?.restQty;
                           if (e.target.value && e.target.value > validQty) {
                             alert(`Accepted qty is ${validQty}`);
-                            rowDtoHandler("quantity", "", index);
+                            rowDtoHandler('quantity', '', index);
                           } else {
-                            rowDtoHandler("quantity", e.target.value, index);
+                            rowDtoHandler('quantity', e.target.value, index);
                           }
                         }}
                         min={0.00001}
@@ -151,7 +151,7 @@ const RowDtoTable = ({
                         <IDelete
                           remover={remover}
                           id={item?.itemId}
-                          style={{ fontSize: "14px" }}
+                          style={{ fontSize: '14px' }}
                         />
                         {item?.issueRef?.length ? (
                           <OverlayTrigger
@@ -159,7 +159,7 @@ const RowDtoTable = ({
                           >
                             <span>
                               <i
-                                style={{ fontSize: "14px" }}
+                                style={{ fontSize: '14px' }}
                                 onClick={() => {
                                   setRefData(item?.issueRef);
                                   setIsShowRefView(true);

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   getAvailableBalance_Action,
   getPartnerBalance_action,
   GetSalesConfigurationBalanceCheck_acion,
   getUndeliveryValues_action,
-} from "../../../../salesManagement/orderManagement/salesOrder/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../salesManagement/orderManagement/salesOrder/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   GetCategoryDDLAction,
   GetDataBySalesOrderAction,
@@ -21,22 +21,22 @@ import {
   GetWarehouseDDLAction,
   saveCreateDelivery,
   saveEditedDelivery,
-} from "../../delivery/_redux/Actions";
-import { getInfoBySOCode } from "../helper";
-import Form from "./form";
+} from '../../delivery/_redux/Actions';
+import { getInfoBySOCode } from '../helper';
+import Form from './form';
 
 const initData = {
-  soCode: "",
-  salesOrder: "",
-  warehouse: "",
-  soldToParty: "",
-  deliveryType: "",
+  soCode: '',
+  salesOrder: '',
+  warehouse: '',
+  soldToParty: '',
+  deliveryType: '',
   deliveryDate: _todayDate(),
-  mode: "",
-  carType: "",
-  bagType: "",
-  deliveryMode: "",
-  category: "",
+  mode: '',
+  carType: '',
+  bagType: '',
+  deliveryMode: '',
+  category: '',
   itemLists: [],
 };
 
@@ -46,7 +46,7 @@ const HologramBaseDeliveryForm = () => {
   const history = useHistory();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [deliveryCode, setDeliveryCode] = useState("");
+  const [deliveryCode, setDeliveryCode] = useState('');
 
   // get user data from store
   const {
@@ -64,14 +64,10 @@ const HologramBaseDeliveryForm = () => {
     return state?.delivery;
   }, shallowEqual);
 
-  const {
-    partnerBalance,
-    availableBalance,
-    undeliveryValues,
-    isBalanceCheck,
-  } = useSelector((state) => {
-    return state?.salesOrder;
-  }, shallowEqual);
+  const { partnerBalance, availableBalance, undeliveryValues, isBalanceCheck } =
+    useSelector((state) => {
+      return state?.salesOrder;
+    }, shallowEqual);
 
   const dispatch = useDispatch();
 
@@ -85,7 +81,6 @@ const HologramBaseDeliveryForm = () => {
     if (id) {
       dispatch(getDeliveryById(id));
     }
-
   }, [buId, accId]);
 
   const barcodeHandler = (soCode, values, setFieldValue) => {
@@ -97,11 +92,11 @@ const HologramBaseDeliveryForm = () => {
         soldToPartnerId,
         soldToPartnerName,
       } = resData;
-      setFieldValue("soldToParty", {
+      setFieldValue('soldToParty', {
         value: soldToPartnerId,
         label: soldToPartnerName,
       });
-      setFieldValue("salesOrder", {
+      setFieldValue('salesOrder', {
         value: salesOrderId,
         label: salesOrderCode,
       });
@@ -132,14 +127,14 @@ const HologramBaseDeliveryForm = () => {
             warehouse: values?.warehouse?.label,
             warehouseId: values?.warehouse?.value,
             shipToParty: values?.shipToParty?.label,
-            deliveryQty: ele?.objRowData?.pendingQty || "",
+            deliveryQty: ele?.objRowData?.pendingQty || '',
             salesOrderId: values?.salesOrder?.value,
             salesOrder: values?.salesOrder?.label,
             salesOrderRowId: ele.objRowData.rowId,
             objLocation: ele?.objLocation,
             amount: ele.objRowData.numItemPrice * ele.objRowData.pendingQty,
             specification: ele.objRowData.specification,
-            selectLocation: ele?.objLocation?.[0] || "",
+            selectLocation: ele?.objLocation?.[0] || '',
             vatAmount:
               ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
             isItemShow: true,
@@ -163,7 +158,7 @@ const HologramBaseDeliveryForm = () => {
       }
 
       if (
-        isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)
+        isUniq('salesOrderId', values?.salesOrder?.value, values?.itemLists)
       ) {
         const itemList = [...values?.itemLists, ...modifiedSalesOrderList];
         setValues({
@@ -183,7 +178,7 @@ const HologramBaseDeliveryForm = () => {
         );
       }
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
     }
   };
 
@@ -216,7 +211,7 @@ const HologramBaseDeliveryForm = () => {
         if (array?.length > 0 && availableBalance > 0) {
           const totalQty = array?.reduce((acc, cur) => acc + +cur?.amount, 0);
           if (availableBalance < totalQty) {
-            toast.warning("Balance not available", { toastId: 465656 });
+            toast.warning('Balance not available', { toastId: 465656 });
             return true;
           }
         } else {
@@ -233,7 +228,7 @@ const HologramBaseDeliveryForm = () => {
   };
 
   const saveHandler = async (values, cb) => {
-    console.log("clicked");
+    console.log('clicked');
     if (values && accId && buId) {
       let list = [];
       if (values?.itemLists?.length > 0) {
@@ -254,16 +249,16 @@ const HologramBaseDeliveryForm = () => {
           salesOrderId: itm?.salesOrderId || itm?.rowId || 0,
           salesOrderRowId: itm?.salesOrderRowId || 0,
           itemId: itm?.itemId || 0,
-          itemCode: itm?.itemCode || "",
-          itemName: itm?.itemName || "",
+          itemCode: itm?.itemCode || '',
+          itemName: itm?.itemName || '',
           intUomId: itm?.uomId || 0,
-          uomName: itm.uomName || "",
+          uomName: itm.uomName || '',
           quantity: +itm.deliveryQty || 0,
           locationId: itm?.selectLocation?.value || 0,
-          locationName: itm?.selectLocation?.label || "",
+          locationName: itm?.selectLocation?.label || '',
           transportRate: itm?.transportRate || 0,
           salesOrder: itm?.salesOrder,
-          specification: itm?.specification || "",
+          specification: itm?.specification || '',
           vatAmount: itm?.vatAmount || 0,
         };
       });
@@ -285,7 +280,7 @@ const HologramBaseDeliveryForm = () => {
         if (rowData?.length > 0) {
           dispatch(saveEditedDelivery(payload, setLoading, history));
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         const payload = {
@@ -305,11 +300,11 @@ const HologramBaseDeliveryForm = () => {
             deliveryDate: values?.deliveryDate,
             mode: values?.mode?.label,
             carType: values?.carType?.label,
-            bagType: values?.bagType?.label || "",
+            bagType: values?.bagType?.label || '',
             category: values?.category?.label,
             deliveryMode: values?.deliveryMode?.label,
             strRequestNo: rowData[rowData.length - 1].salesOrder,
-            vehicleNo: "",
+            vehicleNo: '',
           },
         };
 
@@ -323,7 +318,7 @@ const HologramBaseDeliveryForm = () => {
             })
           );
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       }
     } else {
@@ -332,7 +327,7 @@ const HologramBaseDeliveryForm = () => {
   };
 
   const title = `Create Hologram Base Delivery`;
-  console.log(singleData, "singleData");
+  console.log(singleData, 'singleData');
   return (
     <>
       {loading && <Loading />}

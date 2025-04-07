@@ -1,54 +1,56 @@
+import React, { useEffect, useRef, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
 
-import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-
-import { Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import // setIndentStatementAction,
 
-  //setIndentTableIndexAction
-  "../../../../_helper/reduxForLocalStorage/Actions";
+//setIndentTableIndexAction
+'../../../../_helper/reduxForLocalStorage/Actions';
 import {
   // getProcureToPayReportXMLDownload,
   generateExcel,
   getProcureToPayExcelReport,
   getProcureToPayReport,
   getWarehouseList,
-} from "../helper";
+} from '../helper';
 
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // import IViewModal from "../../../../_helper/_viewModal";
-import { SetReportBillBySupplierAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { SetReportBillBySupplierAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 // import ReactToPrint from "react-to-print";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
-import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
-import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
-import "../style.css";
-import { getPlantList, getPurchaseOrganizationDDL } from "../../../../_helper/_commonApi";
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import { InventoryTransactionReportViewTableRow } from '../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
+import { PurchaseOrderViewTableRow } from '../../../purchase-management/purchaseOrder/report/tableRow';
+import { ItemReqViewTableRow } from '../../../purchase-management/purchaseRequestNew/report/tableRow';
+import '../style.css';
+import {
+  getPlantList,
+  getPurchaseOrganizationDDL,
+} from '../../../../_helper/_commonApi';
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 const parameterValues = (values, unitId) => {
-  console.log("values", values);
+  console.log('values', values);
   return [
-    { name: "fDate", value: `${values?.fromDate}` },
-    { name: "intUnit", value: `${unitId}` },
-    { name: "tDate", value: `${values?.toDate}` },
-    { name: "intPurchOrg", value: `${+values?.purchaseOrganization?.value}` },
-    { name: "intPlantId", value: `${values?.plant?.value}` },
-    { name: "intWarehouseId", value: `${values?.wareHouse?.value}` },
+    { name: 'fDate', value: `${values?.fromDate}` },
+    { name: 'intUnit', value: `${unitId}` },
+    { name: 'tDate', value: `${values?.toDate}` },
+    { name: 'intPurchOrg', value: `${+values?.purchaseOrganization?.value}` },
+    { name: 'intPlantId', value: `${values?.plant?.value}` },
+    { name: 'intWarehouseId', value: `${values?.wareHouse?.value}` },
   ];
 };
 
@@ -58,16 +60,16 @@ const ProcureToPayReportTable = () => {
   const { reportBillBySupplier } = useSelector((state) => state?.localStorage);
 
   let initData = {
-    sbu: reportBillBySupplier?.sbu || "",
-    issuer: reportBillBySupplier?.issuer || "",
-    partner: reportBillBySupplier?.partner || "",
-    po: reportBillBySupplier?.po || "",
-    status: reportBillBySupplier?.status || "",
+    sbu: reportBillBySupplier?.sbu || '',
+    issuer: reportBillBySupplier?.issuer || '',
+    partner: reportBillBySupplier?.partner || '',
+    po: reportBillBySupplier?.po || '',
+    status: reportBillBySupplier?.status || '',
     fromDate: reportBillBySupplier?.fromDate || _todayDate(),
     toDate: reportBillBySupplier?.toDate || _todayDate(),
-    purchaseOrganization: reportBillBySupplier?.purchaseOrganization || "",
-    plant: reportBillBySupplier?.plant || "",
-    wareHouse: reportBillBySupplier?.wareHouse || "",
+    purchaseOrganization: reportBillBySupplier?.purchaseOrganization || '',
+    plant: reportBillBySupplier?.plant || '',
+    wareHouse: reportBillBySupplier?.wareHouse || '',
   };
 
   // //paginationState
@@ -78,9 +80,9 @@ const ProcureToPayReportTable = () => {
 
   const dispatch = useDispatch();
 
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [wareHouseList, setWareHouseList] = useState("");
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [wareHouseList, setWareHouseList] = useState('');
   const [isReportShow, setIsReportShow] = useState(false);
 
   // landing
@@ -115,7 +117,6 @@ const ProcureToPayReportTable = () => {
         setPlantList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   //  const history = useHistory()
@@ -176,7 +177,7 @@ const ProcureToPayReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -200,7 +201,7 @@ const ProcureToPayReportTable = () => {
                       onChange={(v) => {
                         setLanding([]);
                         setIsReportShow(false);
-                        setFieldValue("purchaseOrganization", v);
+                        setFieldValue('purchaseOrganization', v);
                         dispatch(
                           SetReportBillBySupplierAction({
                             ...values,
@@ -222,8 +223,8 @@ const ProcureToPayReportTable = () => {
                       onChange={(v) => {
                         setLanding([]);
                         setIsReportShow(false);
-                        setFieldValue("plant", v);
-                        setFieldValue("wareHouse", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wareHouse', '');
                         setWareHouseList([]);
                         if (v?.value) {
                           getWarehouseList(
@@ -249,7 +250,7 @@ const ProcureToPayReportTable = () => {
                       onChange={(v) => {
                         setLanding([]);
                         setIsReportShow(false);
-                        setFieldValue("wareHouse", v);
+                        setFieldValue('wareHouse', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -260,13 +261,13 @@ const ProcureToPayReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values);
+                          console.log('Values', values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -283,13 +284,13 @@ const ProcureToPayReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values);
+                          console.log('Values', values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -316,7 +317,7 @@ const ProcureToPayReportTable = () => {
                             search: e?.target?.value,
                           })
                         );
-                        setFieldValue("search", e.target.value);
+                        setFieldValue('search', e.target.value);
                       }}
                       placeholder="Search"
                       errors={errors}
@@ -326,10 +327,10 @@ const ProcureToPayReportTable = () => {
                   <div
                     className="col-lg-6 text-right mt-5"
                     style={{
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                      width: " 100%",
-                      gap: "5px",
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      width: ' 100%',
+                      gap: '5px',
                     }}
                   >
                     <button
@@ -359,211 +360,211 @@ const ProcureToPayReportTable = () => {
                           generateExcel(
                             [
                               {
-                                text: "SL",
+                                text: 'SL',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Warehouse",
+                                text: 'Warehouse',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PR No",
+                                text: 'PR No',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PR Date",
+                                text: 'PR Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Approved Date",
+                                text: 'Approved Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Due Date",
+                                text: 'Due Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PO No",
+                                text: 'PO No',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Pay Term",
+                                text: 'Pay Term',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PO Date",
+                                text: 'PO Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PO Value",
+                                text: 'PO Value',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "MRR No",
+                                text: 'MRR No',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "MRR Date",
+                                text: 'MRR Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Inv Value",
+                                text: 'Inv Value',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Payment Date",
+                                text: 'Payment Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Supplier",
+                                text: 'Supplier',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "PO Prepare By",
+                                text: 'PO Prepare By',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Bill Code",
+                                text: 'Bill Code',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Bill No",
+                                text: 'Bill No',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Bill Type",
+                                text: 'Bill Type',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Bill Amount",
+                                text: 'Bill Amount',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Pay Date",
+                                text: 'Pay Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Pay Amount",
+                                text: 'Pay Amount',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Billing Date",
+                                text: 'Billing Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Audit Date",
+                                text: 'Audit Date',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Total PO Adjustment",
+                                text: 'Total PO Adjustment',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                               {
-                                text: "Total PO Advance",
+                                text: 'Total PO Advance',
                                 fontSize: 9,
-                                border: "all 000000 thin",
-                                alignment: "center",
-                                textFormat: "text",
+                                border: 'all 000000 thin',
+                                alignment: 'center',
+                                textFormat: 'text',
                                 bold: true,
                               },
                             ],
@@ -575,7 +576,7 @@ const ProcureToPayReportTable = () => {
                     >
                       Export Excel
                     </button>
-                    {console.log("valuesvalues", values)}
+                    {console.log('valuesvalues', values)}
                     <button
                       type="button"
                       disabled={
@@ -612,7 +613,7 @@ const ProcureToPayReportTable = () => {
               </Form>
               {!isReportShow ? (
                 <>
-                  {" "}
+                  {' '}
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="procureTopay scroll-table-auto">
@@ -669,7 +670,7 @@ const ProcureToPayReportTable = () => {
                                 <td>
                                   <span
                                     className="text-primary font-weight-bold cursor-pointer"
-                                    style={{ textDecoration: "underline" }}
+                                    style={{ textDecoration: 'underline' }}
                                     onClick={() => {
                                       setModalState({
                                         isShow: true,
@@ -691,7 +692,7 @@ const ProcureToPayReportTable = () => {
                                 <td>
                                   <span
                                     className="text-primary font-weight-bold cursor-pointer"
-                                    style={{ textDecoration: "underline" }}
+                                    style={{ textDecoration: 'underline' }}
                                     onClick={() => {
                                       setModalState({
                                         isShow: true,
@@ -712,7 +713,7 @@ const ProcureToPayReportTable = () => {
                                 <td>
                                   <span
                                     className="text-primary font-weight-bold cursor-pointer"
-                                    style={{ textDecoration: "underline" }}
+                                    style={{ textDecoration: 'underline' }}
                                     onClick={() => {
                                       setModalState({
                                         isShow: true,
@@ -743,8 +744,14 @@ const ProcureToPayReportTable = () => {
                                 <td>{item?.numBillAmount}</td>
                                 <td>{_dateFormatter(item?.payDate)}</td>
                                 <td>{item?.monReqestAmount}</td>
-                                <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
-                                <td>{_dateFormatter(item?.dteBillRegisterApprovedDate)}</td>
+                                <td>
+                                  {_dateFormatter(item?.dteBillRegisterDate)}
+                                </td>
+                                <td>
+                                  {_dateFormatter(
+                                    item?.dteBillRegisterApprovedDate
+                                  )}
+                                </td>
                                 <td>{item?.monTotalAdjustment}</td>
                                 <td>{item?.monTotalAdvance}</td>
                                 {/* <td></td> */}
@@ -767,15 +774,7 @@ const ProcureToPayReportTable = () => {
                       }}
                       values={values}
                       rowsPerPageOptions={[
-                        5,
-                        10,
-                        20,
-                        50,
-                        100,
-                        200,
-                        300,
-                        400,
-                        500,
+                        5, 10, 20, 50, 100, 200, 300, 400, 500,
                       ]}
                     />
                   )}
@@ -811,8 +810,8 @@ const ProcureToPayReportTable = () => {
               ) : null}
               {isReportShow ? (
                 <PowerBIReport
-                  groupId={"e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a"}
-                  reportId={"40362af0-7312-4e45-a4f1-e54d71c3c209"}
+                  groupId={'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a'}
+                  reportId={'40362af0-7312-4e45-a4f1-e54d71c3c209'}
                   parameterValues={parameterValues(
                     values,
                     selectedBusinessUnit?.value

@@ -1,19 +1,18 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import RequisitionApproval from "./requisitionApproval";
-import TrainingRequisitionApprovalEdit from "./requisitionApproval/editForm/addEditForm";
-import RequisitionApprovalView from "./requisitionApproval/view";
-import TrainingAttendence from "./trainingAttendence";
-import TrainingRequisitionCreateForm from "./trainingRequisition/Form/addEditForm";
-import TrainingSchedule from "./trainingSchedule";
-import TrainingScheduleCreateForm from "./trainingSchedule/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import RequisitionApproval from './requisitionApproval';
+import TrainingRequisitionApprovalEdit from './requisitionApproval/editForm/addEditForm';
+import RequisitionApprovalView from './requisitionApproval/view';
+import TrainingAttendence from './trainingAttendence';
+import TrainingRequisitionCreateForm from './trainingRequisition/Form/addEditForm';
+import TrainingSchedule from './trainingSchedule';
+import TrainingScheduleCreateForm from './trainingSchedule/Form/addEditForm';
 // import TrainingSchedule from "./trainingSchedule";
 
 export function TrainingPages() {
-
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
     shallowEqual
@@ -47,35 +46,63 @@ export function TrainingPages() {
       />
       <ContentRoute
         path="/learningDevelopment/training/schedule/edit/:id"
-        component={trainingSchedule?.isEdit ? TrainingScheduleCreateForm : NotPermittedPage}
+        component={
+          trainingSchedule?.isEdit
+            ? TrainingScheduleCreateForm
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/schedule/create"
-        component={trainingSchedule?.isCreate ? TrainingScheduleCreateForm : NotPermittedPage}
+        component={
+          trainingSchedule?.isCreate
+            ? TrainingScheduleCreateForm
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/schedule"
-        component={trainingSchedule?.isView ? TrainingSchedule : NotPermittedPage}
+        component={
+          trainingSchedule?.isView ? TrainingSchedule : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/requisition"
-        component={trainingRequisition?.isView ? TrainingRequisitionCreateForm : NotPermittedPage}
+        component={
+          trainingRequisition?.isView
+            ? TrainingRequisitionCreateForm
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/approval/edit/:editId"
-        component={trainingRequestApproval?.isCreate ? TrainingRequisitionApprovalEdit : NotPermittedPage}
+        component={
+          trainingRequestApproval?.isCreate
+            ? TrainingRequisitionApprovalEdit
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/approval/view/:viewId"
-        component={trainingRequestApproval?.isView ? RequisitionApprovalView : NotPermittedPage}
+        component={
+          trainingRequestApproval?.isView
+            ? RequisitionApprovalView
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/approval"
-        component={trainingRequestApproval?.isView ? RequisitionApproval : NotPermittedPage}
+        component={
+          trainingRequestApproval?.isView
+            ? RequisitionApproval
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/training/attendance"
-        component={trainingAttendence?.isView ? TrainingAttendence : NotPermittedPage}
+        component={
+          trainingAttendence?.isView ? TrainingAttendence : NotPermittedPage
+        }
       />
     </Switch>
   );

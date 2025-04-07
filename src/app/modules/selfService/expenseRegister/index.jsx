@@ -1,9 +1,8 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import ViewModal  from "./View/viewModal";
-import ExpenseRegisterLanding from "./Table/table";
-import './style.css'
-
+import React from 'react';
+import { Route } from 'react-router-dom';
+import ViewModal from './View/viewModal';
+import ExpenseRegisterLanding from './Table/table';
+import './style.css';
 
 export function ExpenseRegister() {
   return (
@@ -15,7 +14,7 @@ export function ExpenseRegister() {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/self-service/tada-application");
+              history.push('/self-service/tada-application');
             }}
           />
         )}

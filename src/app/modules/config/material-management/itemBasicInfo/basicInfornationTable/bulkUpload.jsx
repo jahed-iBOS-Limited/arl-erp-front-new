@@ -46,7 +46,7 @@ export default function BulkUpload() {
       `/domain/Document/DownlloadFile?id=638681076616563402_Item List Format.xlsx`,
       'Item List Format',
       'xlsx',
-      setLoading,
+      setLoading
     );
   };
 
@@ -90,7 +90,7 @@ export default function BulkUpload() {
       `/item/ItemMaster/ItemBulkUpload`,
       newItemList,
       callback,
-      true,
+      true
     );
   };
   return (

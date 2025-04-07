@@ -1,16 +1,15 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { GetPurchaseInvoiceDetails } from "../helper";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { GetPurchaseInvoiceDetails } from '../helper';
+import Form from './form';
 
 const initData = {
-  invoiceCode: "",
-  poAmount: "",
-  grnAmount: "",
-  invoiceAmount: "",
-  wareHouseName: "",
+  invoiceCode: '',
+  poAmount: '',
+  grnAmount: '',
+  invoiceAmount: '',
+  wareHouseName: '',
 };
 
 export default function ClearPurchaseInvoiceViewForm({
@@ -32,7 +31,7 @@ export default function ClearPurchaseInvoiceViewForm({
   }, shallowEqual);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // Get BusinessUnitTaxInfo view data
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function ClearPurchaseInvoiceViewForm({
 
   return (
     <ICard getProps={setObjprops} isDisabled={isDisabled}>
-      <div className="row" style={{ marginTop: "-45px" }}>
+      <div className="row" style={{ marginTop: '-45px' }}>
         <div className="col-lg-2 offset-10 text-right">
           <button
             onClick={backHandler}

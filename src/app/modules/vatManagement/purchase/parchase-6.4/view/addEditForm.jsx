@@ -47,10 +47,9 @@ export default function PurchaseView({ viewClick, singleData, setSingleData }) {
         viewClick?.taxPurchaseId,
         setSingleData,
         setRowDto,
-        setDisabled,
+        setDisabled
       );
     }
-
   }, []);
 
   return (

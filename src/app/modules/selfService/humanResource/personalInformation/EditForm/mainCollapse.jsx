@@ -65,7 +65,6 @@ export default function PersonalInfoCollapsePanel() {
     } else if (state?.checkbox === 'nomineeInformation') {
       setExpanded('panel9');
     }
-
   }, [state]);
 
   const backHandler = () => {

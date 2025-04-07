@@ -1,26 +1,26 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import IButton from "../../../_helper/iButton";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import IButton from '../../../_helper/iButton';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import {
   getReportId,
   groupId,
   parameterValues,
   serviceChargeReportTypeOptions,
-} from "./helper";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../_helper/_formikError";
-import axios from "axios";
+} from './helper';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../_helper/_formikError';
+import axios from 'axios';
 
 const initData = {
-  reportType: { value: 1, label: "Service Charges Report" },
-  poId: { value: 0, label: "All" },
+  reportType: { value: 1, label: 'Service Charges Report' },
+  poId: { value: 0, label: 'All' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -38,7 +38,7 @@ export default function ServiceChargesReportPage() {
       .get(
         `/imp/ImportCommonDDL/GetPONoDDL?searchTerm=${v}&accountId=${accId}&businessUnitId=${buUnId}`
       )
-      .then((res) => [...res?.data, { value: 0, label: "All" }]);
+      .then((res) => [...res?.data, { value: 0, label: 'All' }]);
   };
 
   return (
@@ -66,7 +66,7 @@ export default function ServiceChargesReportPage() {
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setShow(false);
                     }}
                   />
@@ -76,7 +76,7 @@ export default function ServiceChargesReportPage() {
                   <SearchAsyncSelect
                     selectedValue={values?.poId}
                     handleChange={(valueOption) => {
-                      setFieldValue("poId", valueOption);
+                      setFieldValue('poId', valueOption);
                       setShow(false);
                     }}
                     loadOptions={loadPOID}
@@ -91,7 +91,7 @@ export default function ServiceChargesReportPage() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setShow(false);
                     }}
                   />
@@ -103,7 +103,7 @@ export default function ServiceChargesReportPage() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setShow(false);
                     }}
                   />

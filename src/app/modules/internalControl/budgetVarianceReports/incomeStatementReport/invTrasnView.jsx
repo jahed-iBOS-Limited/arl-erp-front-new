@@ -1,16 +1,14 @@
-
-
-import { Formik, Form as FormikForm } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../_helper/_customCard";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import { getCashJournalView } from "./helper";
+import { Formik, Form as FormikForm } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../_helper/_customCard';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import { getCashJournalView } from './helper';
 
 export function InvTransViewTableRow({ id, headerData }) {
   const [loading, setLoading] = useState(false);
@@ -91,7 +89,7 @@ export function InvTransViewTableRow({ id, headerData }) {
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div>
-                          <span className="font-weight-bold mr-2"></span>{" "}
+                          <span className="font-weight-bold mr-2"></span>{' '}
                         </div>
                         <div>
                           <div>
@@ -133,14 +131,14 @@ export function InvTransViewTableRow({ id, headerData }) {
                                   <div className="text-right pr-2">
                                     {data.debit
                                       ? _formatMoney(Math.abs(data?.debit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-right pr-2">
                                     {data.credit
                                       ? _formatMoney(Math.abs(data?.credit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                               </tr>
@@ -173,7 +171,7 @@ export function InvTransViewTableRow({ id, headerData }) {
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
+                            Sum Of Taka :{' '}
                           </p>
                           <p>{cashJournalReport?.objHeader?.amount}</p>
                         </div>
@@ -183,7 +181,7 @@ export function InvTransViewTableRow({ id, headerData }) {
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Description :{" "}
+                            Description :{' '}
                           </p>
                           <p>{cashJournalReport?.objHeader?.narration}</p>
                         </div>

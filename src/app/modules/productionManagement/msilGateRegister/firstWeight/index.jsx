@@ -1,33 +1,33 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import QcViewModal from "../qualityCheck/qcViewModal";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import QcViewModal from '../qualityCheck/qcViewModal';
 
 const initData = {
-  date: "",
-  receiveType: "",
-  status: { value: 1, label: "Pending" },
-  businessUnit: "",
-  shipPoint: "",
+  date: '',
+  receiveType: '',
+  status: { value: 1, label: 'Pending' },
+  businessUnit: '',
+  shipPoint: '',
 };
 
 function FirstWeight() {
@@ -37,12 +37,8 @@ function FirstWeight() {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [weightmentId, setWeightmentId] = useState(null);
-  const [
-    shipPoint,
-    getShipPoint,
-    shipPointLoader,
-    setShipPoint,
-  ] = useAxiosGet();
+  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] =
+    useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -65,22 +61,25 @@ function FirstWeight() {
       (data) => {
         initData.shipPoint = data[0];
         getRowData(
-          `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
-          }&BusinessUnitId=${initData.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value
-          }&WeightDate=${""}&WeightTypeId=1&Status=1`
+          `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
+            profileData?.accountId
+          }&BusinessUnitId=${initData.businessUnit?.value}&shipPointId=${
+            initData?.shipPoint?.value
+          }&WeightDate=${''}&WeightTypeId=1&Status=1`
         );
       }
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
-      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
-      }&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value
-      }&WeightDate=${values?.date ||
-      ""}&WeightTypeId=1&search=${searchValue}&Status=${values?.status?.value
-      }`
+      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${
+        initData?.shipPoint?.value
+      }&WeightDate=${
+        values?.date || ''
+      }&WeightTypeId=1&search=${searchValue}&Status=${values?.status?.value}`
     );
   };
 
@@ -90,9 +89,9 @@ function FirstWeight() {
 
   const extractTimeFromDateTime = (dateTime) => {
     let date = new Date(dateTime);
-    let time = date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
+    let time = date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
       hour12: true,
     });
     return time;
@@ -103,13 +102,13 @@ function FirstWeight() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"First Weight"}>
+              <CardHeader title={'First Weight'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -128,16 +127,16 @@ function FirstWeight() {
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
                                 if (data?.length < 1)
-                                  return toast.warn("No Ship Point Found");
-                                setFieldValue("shipPoint", data[0]);
+                                  return toast.warn('No Ship Point Found');
+                                setFieldValue('shipPoint', data[0]);
                               }
                             );
-                            setFieldValue("businessUnit", valueOption);
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('businessUnit', valueOption);
+                            setFieldValue('shipPoint', '');
                             setRowData([]);
                           } else {
-                            setFieldValue("shipPoint", "");
-                            setFieldValue("businessUnit", "");
+                            setFieldValue('shipPoint', '');
+                            setFieldValue('businessUnit', '');
                             setShipPoint([]);
                             setRowData([]);
                           }
@@ -153,10 +152,10 @@ function FirstWeight() {
                         label="Ship Point"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('shipPoint', '');
                             setRowData([]);
                           }
                         }}
@@ -170,7 +169,7 @@ function FirstWeight() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -179,30 +178,33 @@ function FirstWeight() {
                       <NewSelect
                         name="status"
                         options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "Pending" },
+                          { value: 0, label: 'All' },
+                          { value: 1, label: 'Pending' },
                         ]}
                         value={values?.status}
                         label="Status"
                         onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setRowData([]);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary"
                         disabled={!values?.status}
                         onClick={() => {
                           getRowData(
-                            `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId
-                            }&BusinessUnitId=${values?.businessUnit?.value
-                            }&shipPointId=${values?.shipPoint?.value
-                            }&WeightDate=${values?.date ||
-                            ""}&WeightTypeId=1&Status=${values?.status?.value
-                            }`
+                            `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
+                              profileData?.accountId
+                            }&BusinessUnitId=${
+                              values?.businessUnit?.value
+                            }&shipPointId=${
+                              values?.shipPoint?.value
+                            }&WeightDate=${
+                              values?.date || ''
+                            }&WeightTypeId=1&Status=${values?.status?.value}`
                           );
                         }}
                       >
@@ -224,7 +226,7 @@ function FirstWeight() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>গাড়ীর নাম্বার</th>
                             <th>রেজি. নং</th>
@@ -238,12 +240,12 @@ function FirstWeight() {
                             <th>Packer Name</th>
 
                             {selectedBusinessUnit?.value === 171 ||
-                              selectedBusinessUnit?.value === 224 ? (
+                            selectedBusinessUnit?.value === 224 ? (
                               <>
-                                <th style={{ width: "110px" }}>
+                                <th style={{ width: '110px' }}>
                                   Quality Checked
                                 </th>
-                                <th style={{ width: "60px" }}>Action</th>
+                                <th style={{ width: '60px' }}>Action</th>
                               </>
                             ) : null}
                           </tr>
@@ -264,8 +266,8 @@ function FirstWeight() {
                                 <td>{item?.strMaterialName}</td>
                                 <td>
                                   {item?.intClientTypeId === 2
-                                    ? "কাস্টমার"
-                                    : "সাপ্লায়ার"}
+                                    ? 'কাস্টমার'
+                                    : 'সাপ্লায়ার'}
                                 </td>
                                 <td>{item?.strSupplierName}</td>
                                 <td className="text-center">
@@ -284,20 +286,21 @@ function FirstWeight() {
                                   {item?.strPackerName}
                                 </td>
                                 {selectedBusinessUnit?.value === 171 ||
-                                  selectedBusinessUnit?.value === 224 ? (
+                                selectedBusinessUnit?.value === 224 ? (
                                   <>
                                     {item?.intClientTypeId === 1 ? (
                                       <td
                                         style={{
-                                          backgroundColor: item?.isQualityChecked
-                                            ? "#2EFF2E"
-                                            : "#FF5C5C",
+                                          backgroundColor:
+                                            item?.isQualityChecked
+                                              ? '#2EFF2E'
+                                              : '#FF5C5C',
                                         }}
                                         className="text-center"
                                       >
                                         {item?.isQualityChecked
-                                          ? "QC Passed"
-                                          : "QC Not Passed"}
+                                          ? 'QC Passed'
+                                          : 'QC Not Passed'}
                                       </td>
                                     ) : (
                                       <td></td>
@@ -309,18 +312,18 @@ function FirstWeight() {
                                             <OverlayTrigger
                                               overlay={
                                                 <Tooltip id="cs-icon">
-                                                  {"Grading"}
+                                                  {'Grading'}
                                                 </Tooltip>
                                               }
                                             >
                                               <span>
                                                 <i
                                                   className={`fas fa-plus-square`}
-                                                  style={{ cursor: "pointer" }}
+                                                  style={{ cursor: 'pointer' }}
                                                   onClick={() => {
                                                     if (item?.isQualityChecked)
                                                       return toast.warn(
-                                                        "QC already passed"
+                                                        'QC already passed'
                                                       );
                                                     history.push({
                                                       pathname: `/production-management/msil-gate-register/First-Weight/grading/${item?.intWeightmentId}`,
@@ -336,7 +339,7 @@ function FirstWeight() {
                                               onClick={() => {
                                                 if (!item?.isQualityChecked)
                                                   return toast.warn(
-                                                    "Please enter QC grade first"
+                                                    'Please enter QC grade first'
                                                   );
                                                 setWeightmentId(
                                                   item?.intWeightmentId
@@ -345,7 +348,7 @@ function FirstWeight() {
                                               }}
                                             >
                                               <IView
-                                                styles={{ fontSize: "17px" }}
+                                                styles={{ fontSize: '17px' }}
                                               />
                                             </span>
                                           </div>

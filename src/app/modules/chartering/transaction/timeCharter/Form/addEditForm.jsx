@@ -1,45 +1,44 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { getSBUListDDL } from "../../../../assetManagement/assetRentManagement/assetRent/helper";
-import { getAccDDL } from "../../../../financialManagement/banking/chequeRegister/helper";
-import { getOwnerInfoDDL, getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import { getDifference } from "../../../_chartinghelper/_getDateDiff";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { getSBUListDDL } from '../../../../assetManagement/assetRentManagement/assetRent/helper';
+import { getAccDDL } from '../../../../financialManagement/banking/chequeRegister/helper';
+import { getOwnerInfoDDL, getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import { getDifference } from '../../../_chartinghelper/_getDateDiff';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
 import {
   GetTransactionNameList,
   saveTimeCharterTransaction,
   editTimeCharterTransaction,
   getTransactionById,
   getPreOffHires,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  transactionName: "",
-  transactionType: "",
+  vesselName: '',
+  voyageNo: '',
+  transactionName: '',
+  transactionType: '',
   transactionDate: _todayDate(),
-  transactionAmount: "",
+  transactionAmount: '',
   dueDate: _todayDate(),
-  refNo: "",
+  refNo: '',
 
-  redeliveryDate: "",
-  receiveAmount: "",
-  beneficiary: "",
-  bankAccNo: "",
+  redeliveryDate: '',
+  receiveAmount: '',
+  beneficiary: '',
+  bankAccNo: '',
 
-  sbu: "",
-  salesOrg: "",
-  narration: "",
-  receivedDate: "",
+  sbu: '',
+  salesOrg: '',
+  narration: '',
+  receivedDate: '',
   journalDate: _todayDate(),
-  voyageDays: "",
+  voyageDays: '',
 };
 
 export default function TimeCharterForm() {
@@ -80,7 +79,6 @@ export default function TimeCharterForm() {
         }
       );
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -104,18 +102,18 @@ export default function TimeCharterForm() {
           voyageNo: values?.voyageNo?.label,
           currentTransactionId: values?.transactionName?.value || 0,
           ownerid: values?.invoiceHireData?.ownerid || 0,
-          ownerName: values?.invoiceHireData?.ownerName || "",
-          refNo: values?.invoiceHireData?.refNo || "",
+          ownerName: values?.invoiceHireData?.ownerName || '',
+          refNo: values?.invoiceHireData?.refNo || '',
           cpdtd: _dateFormatter(values?.invoiceHireData?.cpdtd) || _todayDate(),
           chtrId: values?.invoiceHireData?.chtrId || 0,
-          chtrName: values?.invoiceHireData?.chtrName || "",
+          chtrName: values?.invoiceHireData?.chtrName || '',
           dueDate: values?.dueDate || _todayDate(),
           deliveryDate: values?.invoiceHireData?.deliveryDate || new Date(),
           deliveryAddressId: values?.invoiceHireData?.deliveryAddressId || 0,
-          deliveryAddress: values?.invoiceHireData?.deliveryAddress || "",
+          deliveryAddress: values?.invoiceHireData?.deliveryAddress || '',
           reDeliveryAddressId:
             values?.invoiceHireData?.reDeliveryAddressId || 0,
-          reDeliveryAddress: values?.invoiceHireData?.reDeliveryAddress || "",
+          reDeliveryAddress: values?.invoiceHireData?.reDeliveryAddress || '',
           totalDuration: parseFloat(
             getDifference(
               values?.invoiceHireData?.deliveryDate,
@@ -263,11 +261,11 @@ export default function TimeCharterForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Time Charter Transaction"
-            : type === "view"
-            ? "View Time Charter Transaction"
-            : "Create Time Charter Transaction"
+          type === 'edit'
+            ? 'Edit Time Charter Transaction'
+            : type === 'view'
+              ? 'View Time Charter Transaction'
+              : 'Create Time Charter Transaction'
         }
         initData={
           id

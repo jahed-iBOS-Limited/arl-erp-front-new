@@ -1,10 +1,8 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   EditShipmentStandardCost_api,
   getChalanInfo,
@@ -12,7 +10,7 @@ import {
   getShippingInfo,
   getSupplierDDL,
   getFormDataByShipmentId,
-} from "./helper";
+} from './helper';
 
 // const initData = {
 //   rentAmount: 0,
@@ -85,12 +83,12 @@ export default function RentalVehicleViewForm({ id }) {
         {
           tripId: values?.tripId || 0,
           additionalCost: +values?.additionalCost || 0,
-          additionalCostReason: values?.additionalCostReason || "",
+          additionalCostReason: values?.additionalCostReason || '',
           deductionCost: +values?.deductionCost || 0,
-          deductionCostReason: values?.deductionCostReason || "",
+          deductionCostReason: values?.deductionCostReason || '',
           actionBy: profileData?.userId,
           vehicleSupplierId: values?.supplier?.value || 0,
-          vehicleSupplierName: values?.supplier?.label || "",
+          vehicleSupplierName: values?.supplier?.label || '',
         },
       ];
       EditShipmentStandardCost_api(payload, () => {}, setDisabled);

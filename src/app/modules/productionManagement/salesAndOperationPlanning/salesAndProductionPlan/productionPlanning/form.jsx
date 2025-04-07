@@ -1,14 +1,13 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { getItemListSalesPlanDDL } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { salesAndOperationPlaningValidationSchema } from "../../purchasePricePlan/formView/form";
-import { getHorizonDDL } from "../../../../_helper/_commonApi";
-
+import { getItemListSalesPlanDDL } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { salesAndOperationPlaningValidationSchema } from '../../purchasePricePlan/formView/form';
+import { getHorizonDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,
@@ -30,8 +29,6 @@ export default function FormCmp({
   setHorizonDDL,
   inputHandler,
 }) {
-
-
   return (
     <>
       <Formik
@@ -63,8 +60,8 @@ export default function FormCmp({
                       value={values?.plant}
                       label="Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("itemName", {});
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('itemName', {});
                         getItemListSalesPlanDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -84,8 +81,8 @@ export default function FormCmp({
                       value={values?.year}
                       label="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
-                        setFieldValue("horizon", {});
+                        setFieldValue('year', valueOption);
+                        setFieldValue('horizon', {});
                         getHorizonDDL(valueOption?.value, setHorizonDDL);
                       }}
                       isDisabled={true}
@@ -100,13 +97,13 @@ export default function FormCmp({
                       value={values?.horizon}
                       label="Planning Horizon"
                       onChange={(valueOption) => {
-                        setFieldValue("horizon", valueOption);
+                        setFieldValue('horizon', valueOption);
                         setFieldValue(
-                          "startDate",
+                          'startDate',
                           _dateFormatter(valueOption?.startDate)
                         );
                         setFieldValue(
-                          "endDate",
+                          'endDate',
                           _dateFormatter(valueOption?.endDate)
                         );
                       }}
@@ -161,7 +158,7 @@ export default function FormCmp({
                               inputHandler(
                                 item,
                                 e?.target?.value,
-                                "itemPlanQty",
+                                'itemPlanQty',
                                 rowDto,
                                 setRowDto
                               );
@@ -172,7 +169,7 @@ export default function FormCmp({
                         </td>
                         <td className="text-center">
                           <InputField
-                            value={+item?.productionPlanningQty || ""}
+                            value={+item?.productionPlanningQty || ''}
                             name="productionPlanningQty"
                             type="number"
                             onChange={(e) => {
@@ -182,7 +179,7 @@ export default function FormCmp({
                               inputHandler(
                                 item,
                                 e?.target?.value,
-                                "productionPlanningQty",
+                                'productionPlanningQty',
                                 rowDto,
                                 setRowDto
                               );
@@ -203,14 +200,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

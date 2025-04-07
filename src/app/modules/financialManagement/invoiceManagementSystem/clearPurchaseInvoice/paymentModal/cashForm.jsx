@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useEffect } from 'react';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 export function CashForm({
   errors,
@@ -39,7 +39,7 @@ export function CashForm({
             value={values?.cashGl}
             label="Select Cash GL"
             onChange={(valueOption) => {
-              setFieldValue("cashGl", valueOption);
+              setFieldValue('cashGl', valueOption);
               // if(onCashGlChange) onCashGlChange(valueOption)
             }}
             placeholder=" Select Cash GL"
@@ -50,19 +50,22 @@ export function CashForm({
 
         <div className="col-lg-2">
           <InputField
-            value={values?.amount || ""}
+            value={values?.amount || ''}
             label="Amount"
             min="0"
             type="number"
             name="amount"
             placeholder="Amount"
             onChange={(e) => {
-              console.log(e.target.value)
-              if (+e.target.value > 0 && +e.target.value <= +selectedPurchase?.invoiceAmount) {
-                setFieldValue("amount", e.target.value);
+              console.log(e.target.value);
+              if (
+                +e.target.value > 0 &&
+                +e.target.value <= +selectedPurchase?.invoiceAmount
+              ) {
+                setFieldValue('amount', e.target.value);
                 if (onAmountChange) onAmountChange(e.target.value);
-              }else {
-                setFieldValue("amount", "");
+              } else {
+                setFieldValue('amount', '');
               }
             }}
           />

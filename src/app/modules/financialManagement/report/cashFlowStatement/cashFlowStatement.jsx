@@ -63,7 +63,7 @@ export function CashFlowStatement() {
       if (formikRef.current) {
         const apiFormDate = date ? _dateFormatter(date) : '';
         const modifyInitData = initDataFuction(
-          financialManagementReportCashFlowStatement,
+          financialManagementReportCashFlowStatement
         );
         formikRef.current.setValues({
           ...modifyInitData,
@@ -75,7 +75,7 @@ export function CashFlowStatement() {
     getEnterpriseDivisionDDL(accountId, (enterpriseDivisionData) => {
       setEnterpriseDivisionDDL(enterpriseDivisionData);
       let initData = initDataFuction(
-        financialManagementReportCashFlowStatement,
+        financialManagementReportCashFlowStatement
       );
       let initialEntepriceDivision = initData?.enterpriseDivision;
       if (!initData?.enterpriseDivision) {
@@ -85,7 +85,7 @@ export function CashFlowStatement() {
             ...initData,
             enterpriseDivision: enterpriseDivisionData?.[0] || '',
             businessUnit: '',
-          }),
+          })
         );
       }
       if (initialEntepriceDivision) {
@@ -99,14 +99,13 @@ export function CashFlowStatement() {
                 SetFinancialManagementReportCashFlowStatementAction({
                   ...initData,
                   businessUnit: businessUnitDDLData?.[0] || '',
-                }),
+                })
               );
             }
-          },
+          }
         );
       }
     });
-
   }, [accountId]);
 
   const printRef = useRef();
@@ -151,7 +150,7 @@ export function CashFlowStatement() {
                             getBusinessDDLByED(
                               accountId,
                               valueOption?.value,
-                              setBusinessUnitDDL,
+                              setBusinessUnitDDL
                             );
                           }
                         }}
@@ -227,8 +226,8 @@ export function CashFlowStatement() {
                             SetFinancialManagementReportCashFlowStatementAction(
                               {
                                 ...values,
-                              },
-                            ),
+                              }
+                            )
                           );
                           setShowRDLC(false);
                           getCashFlowStatement(
@@ -239,7 +238,7 @@ export function CashFlowStatement() {
                             setRowDto,
                             setLoading,
                             values?.enterpriseDivision,
-                            values?.convertionRate,
+                            values?.convertionRate
                           );
                         }}
                         style={{ marginTop: '19px' }}
@@ -307,7 +306,7 @@ export function CashFlowStatement() {
                             </h4>
                             <p className="mt-4" style={{ fontWeight: 'bold' }}>
                               {`For the period of: ${_dateFormatter(
-                                values?.fromDate,
+                                values?.fromDate
                               )}  to  ${_dateFormatter(values?.toDate)}`}{' '}
                             </p>
                           </div>
@@ -344,7 +343,7 @@ export function CashFlowStatement() {
                               >
                                 {_formatMoney(
                                   rowDto[0]['numPlannedOpening'] -
-                                    rowDto[0]['numOpening'],
+                                    rowDto[0]['numOpening']
                                 )}
                               </td>
                             </tr>
@@ -400,7 +399,7 @@ export function CashFlowStatement() {
                                         >
                                           {_formatMoney(
                                             item?.numPlannedAmount -
-                                              item?.numAmount,
+                                              item?.numAmount
                                           )}
                                         </td>
                                       </tr>
@@ -427,7 +426,7 @@ export function CashFlowStatement() {
                                         >
                                           {_formatMoney(
                                             item?.numPlannedAmount -
-                                              item?.numAmount,
+                                              item?.numAmount
                                           )}
                                         </td>
                                       </tr>
@@ -495,7 +494,7 @@ export function CashFlowStatement() {
                                       >
                                         {_formatMoney(
                                           item?.numPlannedAmount -
-                                            item?.numAmount,
+                                            item?.numAmount
                                         )}
                                       </td>
                                     </tr>

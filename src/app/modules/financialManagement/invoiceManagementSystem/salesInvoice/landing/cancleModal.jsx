@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { cancelSalesInvoice } from "../helper";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { cancelSalesInvoice } from '../helper';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const initData = {
-  remarks: "",
+  remarks: '',
 };
 
 export default function CancelModal({
@@ -15,7 +15,7 @@ export default function CancelModal({
   setSingleRowItem,
   setIsCancelModalShow,
   additionalInfo: { accId, buId, getGridData, pageNo, pageSize, setLoading },
-  parentValues
+  parentValues,
 }) {
   const [objProps, setObjprops] = useState({});
   const {
@@ -77,7 +77,7 @@ export default function CancelModal({
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                   />
                 </div>
@@ -85,14 +85,14 @@ export default function CancelModal({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

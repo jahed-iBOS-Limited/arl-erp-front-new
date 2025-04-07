@@ -42,10 +42,9 @@ export default function CreateonHireBunkerAndContionalSurvey() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
       );
     }
-
   }, [paramId]);
 
   const saveHandler = (values, cb) => {
@@ -82,17 +81,17 @@ export default function CreateonHireBunkerAndContionalSurvey() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateRfqonHireBunkerQty`,
       payload,
       cb,
-      true,
+      true
     );
   };
 
   const validationSchema = Yup.object().shape({
     strVesselNominationCode: Yup.string().required('Code is required'),
     numBunkerSurveyAmount: Yup.number().required(
-      'Bunker Survey Amount is required',
+      'Bunker Survey Amount is required'
     ),
     numBunkerAndConditionSurveyAmount: Yup.number().required(
-      'Bunker + Condition Survey Amount is required',
+      'Bunker + Condition Survey Amount is required'
     ),
     strName: Yup.string().required('Name is required'),
     strEmail: Yup.string()
@@ -240,7 +239,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                     onChange={(e) =>
                       setFieldValue(
                         'numBunkerAndConditionSurveyAmount',
-                        e.target.value,
+                        e.target.value
                       )
                     }
                     errors={errors}

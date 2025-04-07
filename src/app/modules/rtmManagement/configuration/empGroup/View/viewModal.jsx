@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { getEmployeeGroupNameById } from "../helper";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { getEmployeeGroupNameById } from '../helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
 export default function EmployeeGroupViewForm() {
-
   const history = useHistory();
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -35,13 +34,13 @@ export default function EmployeeGroupViewForm() {
     history.goBack();
   };
 
-  console.log("id", params?.id);
-  console.log("singleData", singleData);
+  console.log('id', params?.id);
+  console.log('singleData', singleData);
   return (
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"View Employee Group"}>
+        <CardHeader title={'View Employee Group'}>
           <CardHeaderToolbar>
             <button onClick={backHandler} className="btn btn-light">
               Back

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getYearDDL = async (accId, buId, setter) => {
   try {
@@ -47,12 +47,12 @@ export const getKpiLandingPagination = async (
   search
 ) => {
   setLoader(true);
-  const searchPath = search ? `Search=${search}&` : "";
-  const departmentSearch = departmentId ? `DepartmentId=${departmentId}&` : "";
+  const searchPath = search ? `Search=${search}&` : '';
+  const departmentSearch = departmentId ? `DepartmentId=${departmentId}&` : '';
   const designationSearch = designationId
     ? `DesignationId=${designationId}&`
-    : "";
-  const yearSearch = yearId ? `Year=${yearId}&` : "";
+    : '';
+  const yearSearch = yearId ? `Year=${yearId}&` : '';
   try {
     const res = await axios.get(
       `/pms/KPI/GetKpiLanding?${departmentSearch}${designationSearch}${yearSearch}${searchPath}AccountId=${accId}&BusinessUnit=${buId}&Emp_Dept_SbuType=1&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`

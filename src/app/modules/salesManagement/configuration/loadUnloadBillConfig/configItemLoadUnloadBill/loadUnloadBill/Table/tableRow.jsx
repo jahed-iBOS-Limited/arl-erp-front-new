@@ -1,16 +1,15 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../../../_helper/_helperIcons/_edit";
-import Select from "react-select";
-import { GetLoadUnloadBillPagination, getShipPointDDL } from "../helper";
-import customStyles from "../../../../../../selectCustomStyle";
-import Loading from "../../../../../../_helper/_loading";
-import PaginationTable from "../../../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../../../_helper/_helperIcons/_edit';
+import Select from 'react-select';
+import { GetLoadUnloadBillPagination, getShipPointDDL } from '../helper';
+import customStyles from '../../../../../../selectCustomStyle';
+import Loading from '../../../../../../_helper/_loading';
+import PaginationTable from '../../../../../../_helper/_tablePagination';
 export function TableRow() {
   const [shipPointDDL, setShipPointDDL] = useState([]);
-  const [selectShipPoint, setSelectShipPoint] = useState("");
+  const [selectShipPoint, setSelectShipPoint] = useState('');
   const [landingPageData, setLandingPageData] = useState([]);
   const [loading, setLoading] = useState(false);
   //paginationState
@@ -66,7 +65,6 @@ export function TableRow() {
         pageSize
       );
     }
-
   }, [profileData, selectedBusinessUnit, shipPointDDL]);
   return (
     <>

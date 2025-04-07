@@ -39,7 +39,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${APIUrl}/imp/LayTime/CreateLayTimeInfo`,
-      data,
+      data
     );
     cb(res?.data);
     toast.success(res?.data?.message, { toastId: 2345 });
@@ -77,12 +77,12 @@ export const getLayTime = async (
   setLoading,
   setSingleData,
   setRowData,
-  setId,
+  setId
 ) => {
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/imp/LayTime/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`,
+      `${imarineBaseUrl}/imp/LayTime/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
     );
 
     if (!data?.objHeader?.layTimeId) {
@@ -97,7 +97,7 @@ export const getLayTime = async (
         data?.objHeader,
         data?.objRow,
         setSingleData,
-        setRowData,
+        setRowData
       );
       setLoading(false);
     }

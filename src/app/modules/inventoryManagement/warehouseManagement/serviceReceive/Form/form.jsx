@@ -96,7 +96,7 @@ export default function FormCmp({
                         getForeignPurchaseDDL(
                           valueOption?.value,
                           plantId,
-                          setForeginPurchase,
+                          setForeginPurchase
                         );
                       } else {
                         getRowDtoData(
@@ -104,13 +104,13 @@ export default function FormCmp({
                           selectedBusinessUnit?.value,
                           valueOption?.value,
                           0,
-                          setRowDto,
+                          setRowDto
                         );
                       }
                       setFieldValue('poAmount', valueOption?.poAmount);
                       setFieldValue(
                         'adjustedAmount',
-                        valueOption?.adjustAmount,
+                        valueOption?.adjustAmount
                       );
                       setFieldValue('supplier', {
                         value: valueOption?.supplierId,
@@ -119,13 +119,13 @@ export default function FormCmp({
                       setFieldValue('freight', valueOption?.freight);
                       setFieldValue(
                         'grossDiscount',
-                        valueOption?.grossDiscount,
+                        valueOption?.grossDiscount
                       );
                       setFieldValue('commission', valueOption?.commission);
                       setFieldValue('productCost', valueOption?.productCost);
                       setFieldValue(
                         'othersCharge',
-                        valueOption?.othersCharge || 0,
+                        valueOption?.othersCharge || 0
                       );
                       setFieldValue('vatAmmount', valueOption?.vatAmount || 0);
                       setRowDto([]);
@@ -152,7 +152,7 @@ export default function FormCmp({
                           selectedBusinessUnit?.value,
                           values?.poNumber?.value,
                           valueOption?.value,
-                          setRowDto,
+                          setRowDto
                         );
                       }}
                       errors={errors}
@@ -457,7 +457,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

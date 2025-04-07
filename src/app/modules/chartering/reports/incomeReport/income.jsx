@@ -1,5 +1,3 @@
-
-
 import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -143,7 +141,7 @@ export default function IncomeReport() {
       values?.fromDate,
       values?.toDate,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -156,7 +154,7 @@ export default function IncomeReport() {
         } else {
           toast.warn('Data not found!');
         }
-      },
+      }
     );
   };
 
@@ -196,7 +194,7 @@ export default function IncomeReport() {
           _data[index]['jvDisable'] = true;
           setGridData(_data);
         },
-        true,
+        true
       );
     } else if (journalType === 'adjustmentJournal') {
       const ajAmount =
@@ -206,9 +204,9 @@ export default function IncomeReport() {
               item?.dollarConversionRate
             : item?.totalJournalAmount - item?.timeCharterRevinueAmount
           : buId === 17
-          ? (item?.totalJournalAmount - item?.totalIncome) *
-            item?.dollarConversionRate
-          : item?.totalJournalAmount - item?.totalIncome;
+            ? (item?.totalJournalAmount - item?.totalIncome) *
+              item?.dollarConversionRate
+            : item?.totalJournalAmount - item?.totalIncome;
 
       const payload = {
         accountId: accId,
@@ -231,7 +229,7 @@ export default function IncomeReport() {
           _data[index]['ajDisable'] = true;
           setGridData(_data);
         },
-        true,
+        true
       );
     }
   };
@@ -398,7 +396,7 @@ export default function IncomeReport() {
                                   buId,
                                   valueOption?.value,
                                   setSalesOrgList,
-                                  setLoading,
+                                  setLoading
                                 );
                               }
                             }}
@@ -432,7 +430,7 @@ export default function IncomeReport() {
                         <IButton
                           onClick={() => {
                             postAllJV(
-                              `${imarineBaseUrl}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
+                              `${imarineBaseUrl}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
                             );
                           }}
                         >
@@ -530,7 +528,7 @@ export default function IncomeReport() {
                                         rowDataHandler(
                                           index,
                                           'dollarConversionRate',
-                                          e?.target?.value,
+                                          e?.target?.value
                                         );
                                       }}
                                     />
@@ -539,7 +537,7 @@ export default function IncomeReport() {
                                     {_fixedPoint(
                                       item?.finalRevenue *
                                         item?.dollarConversionRate,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                 </>
@@ -554,7 +552,7 @@ export default function IncomeReport() {
                                 <td className="text-right">
                                   {_fixedPoint(
                                     ajAmount * item?.dollarConversionRate,
-                                    true,
+                                    true
                                   )}
                                 </td>
                               )}
@@ -580,7 +578,7 @@ export default function IncomeReport() {
                                         values,
                                         item,
                                         index,
-                                        'journalVoucher',
+                                        'journalVoucher'
                                       );
                                     }}
                                   >

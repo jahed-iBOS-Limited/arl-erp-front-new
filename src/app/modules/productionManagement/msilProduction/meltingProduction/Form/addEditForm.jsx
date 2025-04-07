@@ -1,61 +1,61 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import MeltingProductionForm from "./From";
-import * as Yup from "yup";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import MeltingProductionForm from './From';
+import * as Yup from 'yup';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
-  date: "",
-  heatNo: "",
-  shift: "",
-  heatStartTime: "",
-  heatEndTime: "",
-  totalHeatTime: "",
-  siliconManganese: "",
-  ferroSilicon: "",
-  numFerroManganese:"",
-  productionQty: "",
+  date: '',
+  heatNo: '',
+  shift: '',
+  heatStartTime: '',
+  heatEndTime: '',
+  totalHeatTime: '',
+  siliconManganese: '',
+  ferroSilicon: '',
+  numFerroManganese: '',
+  productionQty: '',
   perBilletWeight: 287,
   wastage: 7,
   rebConsumption: 0,
-  hours: "",
-  minutes: "",
-  mpanelNo: "",
-  crucibleNo: "",
-  crucibleLiningHeatNo: "",
+  hours: '',
+  minutes: '',
+  mpanelNo: '',
+  crucibleNo: '',
+  crucibleLiningHeatNo: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  heatNo: Yup.string().required("Heat no is required"),
-  mpanelNo: Yup.number().required("M.Panel no is required"),
-  crucibleNo: Yup.number().required("Crucible no is required"),
+  date: Yup.string().required('Date is required'),
+  heatNo: Yup.string().required('Heat no is required'),
+  mpanelNo: Yup.number().required('M.Panel no is required'),
+  crucibleNo: Yup.number().required('Crucible no is required'),
   crucibleLiningHeatNo: Yup.number().required(
-    "Crucible lining heat no is required"
+    'Crucible lining heat no is required'
   ),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
 
-  heatStartTime: Yup.string().required("Start Time is required"),
-  heatEndTime: Yup.string().required("End Time is required"),
-  productionQty: Yup.number().required("Production Qty is required"),
-  perBilletWeight: Yup.number().required("Billet Weight is required"),
-  wastage: Yup.number().required("Wastage is required"),
+  heatStartTime: Yup.string().required('Start Time is required'),
+  heatEndTime: Yup.string().required('End Time is required'),
+  productionQty: Yup.number().required('Production Qty is required'),
+  perBilletWeight: Yup.number().required('Billet Weight is required'),
+  wastage: Yup.number().required('Wastage is required'),
 });
 
 export default function MeltingProductionCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [, saveData] = useAxiosPost();
   const params = useParams();
   const location = useLocation();
@@ -77,13 +77,13 @@ export default function MeltingProductionCreate() {
       totalHeatTime: location?.state?.tmTotalHeatTime,
       siliconManganese: location?.state?.numSiliconManganese,
       ferroSilicon: location?.state?.numFerroSilicon,
-      numFerroManganese:location?.state?.numFerroManganese,
+      numFerroManganese: location?.state?.numFerroManganese,
       productionQty: location?.state?.intProductionQtyPcs,
       perBilletWeight: location?.state?.numPerBilletWeight,
       wastage: location?.state?.numWastagePercentage,
       rebConsumption: location?.state?.numRebconsumption,
-      hours: location?.state?.tmPowerCutHours?.split(":")[0],
-      minutes: location?.state?.tmPowerCutMitutes?.split(":")[1],
+      hours: location?.state?.tmPowerCutHours?.split(':')[0],
+      minutes: location?.state?.tmPowerCutMitutes?.split(':')[1],
       mpanelNo: location?.state?.intMpanelNo,
       crucibleNo: location?.state?.intCrucibleNo,
       crucibleLiningHeatNo: location?.state?.intCrucibleLiningHeatNo,
@@ -120,10 +120,10 @@ export default function MeltingProductionCreate() {
           numRebconsumption: values?.rebConsumption || 0,
           numPerMtrebusedCal: 0,
           tmPowerCutHours: `${
-            values?.hours?.toString()?.length < 2 ? "0" : ""
+            values?.hours?.toString()?.length < 2 ? '0' : ''
           }${values?.hours}:00:00`,
           tmPowerCutMitutes: `00:${
-            values?.minutes?.toString()?.length < 2 ? "0" : ""
+            values?.minutes?.toString()?.length < 2 ? '0' : ''
           }${values?.minutes}:00`,
           intMpanelNo: values?.mpanelNo,
           intCrucibleNo: values?.crucibleNo,
@@ -133,7 +133,7 @@ export default function MeltingProductionCreate() {
           isActive: true,
         },
       },
-      params?.id ? "" : cb,
+      params?.id ? '' : cb,
       true
     );
   };
@@ -146,8 +146,8 @@ export default function MeltingProductionCreate() {
     <IForm
       title={
         params?.id
-          ? "Edit Production Entry From (Melting)"
-          : "Production Entry From (Melting)"
+          ? 'Edit Production Entry From (Melting)'
+          : 'Production Entry From (Melting)'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

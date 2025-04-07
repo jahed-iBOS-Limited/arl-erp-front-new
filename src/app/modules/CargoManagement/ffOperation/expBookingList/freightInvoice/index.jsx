@@ -14,7 +14,7 @@ import './style.css';
 const FreightInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getCargoBookingInvoice, cargoBookingInvoiceLoading, ,] =
@@ -26,7 +26,6 @@ const FreightInvoice = ({ rowClickData }) => {
   ] = useAxiosGet();
   useEffect(() => {
     commonGetByIdHandler();
-
   }, [bookingRequestId]);
   const bookingData = {
     ...shipBookingRequestGetById,
@@ -57,7 +56,7 @@ const FreightInvoice = ({ rowClickData }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
   };
@@ -391,7 +390,7 @@ const FreightInvoice = ({ rowClickData }) => {
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr 1fr 1fr ',
-                gap: 0
+                gap: 0,
               }}
             >
               <div
@@ -439,7 +438,7 @@ const FreightInvoice = ({ rowClickData }) => {
                   textTransform: 'uppercase',
                   padding: 2,
                   borderRight: '1px solid #000',
-                  borderLeft: "none"
+                  borderLeft: 'none',
                 }}
               >
                 <span>{bookingData?.shipperName}</span>
@@ -462,7 +461,7 @@ const FreightInvoice = ({ rowClickData }) => {
                 {bookingData?.modeOfTransportId !== 4 && (
                   <>
                     {bookingData?.seaMasterBlCode &&
-                      bookingData?.airMasterBlCode ? (
+                    bookingData?.airMasterBlCode ? (
                       <>
                         {bookingData?.seaMasterBlCode}{' '}
                         {bookingData?.airMasterBlCode
@@ -482,8 +481,8 @@ const FreightInvoice = ({ rowClickData }) => {
                 <span>
                   {bookingData?.arrivalDateTime
                     ? moment(bookingData?.arrivalDateTime).format(
-                      'YYYY-MM-DD HH:mm A',
-                    )
+                        'YYYY-MM-DD HH:mm A'
+                      )
                     : 'N/A'}
                 </span>
               </div>
@@ -548,23 +547,23 @@ const FreightInvoice = ({ rowClickData }) => {
                   <>
                     <span>
                       {bookingData?.seaMasterBlCode &&
-                        bookingData?.airMasterBlCode ? (
+                      bookingData?.airMasterBlCode ? (
                         <>
                           {bookingData?.seaMasterBlDate &&
                             moment(bookingData?.seaMasterBlDate).format(
-                              'YYYY-MM-DD',
+                              'YYYY-MM-DD'
                             )}
                           {', '}
                           {bookingData?.airMasterBlDate &&
                             moment(bookingData?.airMasterBlDate).format(
-                              'YYYY-MM-DD',
+                              'YYYY-MM-DD'
                             )}{' '}
                         </>
                       ) : bookingData?.seaMasterBlDate ||
                         bookingData?.airMasterBlDate ? (
                         moment(
                           bookingData?.seaMasterBlDate ||
-                          bookingData?.airMasterBlDate,
+                            bookingData?.airMasterBlDate
                         ).format('YYYY-MM-DD')
                       ) : (
                         ''
@@ -649,7 +648,7 @@ const FreightInvoice = ({ rowClickData }) => {
                 {amountToWords(
                   bookingData?.billingData?.reduce((acc, cur) => {
                     return acc + (+cur?.chargeAmount || 0);
-                  }, 0) || 0,
+                  }, 0) || 0
                 )}
               </td>
             </tr>

@@ -19,9 +19,8 @@ export default function InventoryAdjustApprove() {
 
   useEffect(() => {
     getRowData(
-      `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};

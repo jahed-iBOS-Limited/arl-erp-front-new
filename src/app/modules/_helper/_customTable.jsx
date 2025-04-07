@@ -1,9 +1,14 @@
-import React from "react";
+import React from 'react';
 
 export default function ICustomTable({ ths, children, className, id }) {
   return (
     <div className="react-bootstrap-table table-responsive">
-      <table className={"table table-striped table-bordered global-table "+className} id={id}>
+      <table
+        className={
+          'table table-striped table-bordered global-table ' + className
+        }
+        id={id}
+      >
         <thead>
           <tr>
             {ths?.map((th, index) => {

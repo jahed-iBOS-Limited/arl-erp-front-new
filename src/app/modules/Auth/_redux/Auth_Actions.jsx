@@ -55,7 +55,7 @@ export const otpSendAndVerify = async (
   userId,
   type,
   otp,
-  loginAction,
+  loginAction
 ) => {
   setLoading(true);
   axios({
@@ -100,7 +100,7 @@ export const Login =
               response?.data?.token,
               setLoading,
               response?.data?.userId,
-              1,
+              1
             );
             setIsOtp(true);
             setUserId(response?.data?.userId);
@@ -108,7 +108,7 @@ export const Login =
             return null;
           }
           dispatch(
-            actions.LoginFetched({ isAuth: true, tokenData: response?.data }),
+            actions.LoginFetched({ isAuth: true, tokenData: response?.data })
           );
           setLoading && setLoading(false);
 

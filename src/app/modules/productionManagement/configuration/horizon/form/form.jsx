@@ -1,15 +1,16 @@
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../../_helper/_select";
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import NewSelect from './../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({
-  plant: Yup.string().required("Plant Name is required"),
-  horizon: Yup.string().required("Horizon Type is required"),
-  year: Yup.string().required("Year is required"),
+  plant: Yup.string().required('Plant Name is required'),
+  horizon: Yup.string().required('Horizon Type is required'),
+  year: Yup.string().required('Year is required'),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -59,7 +60,7 @@ function FormCmp({  initData,
                   value={values?.plant}
                   label="Plant"
                   onChange={(valueOption) => {
-                    setFieldValue("plant", valueOption);
+                    setFieldValue('plant', valueOption);
                   }}
                   errors={errors}
                   touched={touched}
@@ -72,8 +73,7 @@ function FormCmp({  initData,
                   value={values?.year}
                   label="Year"
                   onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
-
+                    setFieldValue('year', valueOption);
                   }}
                   errors={errors}
                   touched={touched}
@@ -86,7 +86,7 @@ function FormCmp({  initData,
                   value={values?.horizon}
                   label="Horizon Type"
                   onChange={(valueOption) => {
-                    setFieldValue("horizon", valueOption);
+                    setFieldValue('horizon', valueOption);
                   }}
                   placeholder="Horizon Type"
                   errors={errors}
@@ -98,15 +98,17 @@ function FormCmp({  initData,
               <div className="col-lg-2 mt-2">
                 {values?.horizon ? (
                   <button
-                    onClick={()=> visibleDataHandle(values?.year, values?.horizon)}
+                    onClick={() =>
+                      visibleDataHandle(values?.year, values?.horizon)
+                    }
                     className="btn btn-primary"
-                    style={{ float: "right" }}
+                    style={{ float: 'right' }}
                     type="button"
                   >
                     View Data
                   </button>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             </div>
@@ -114,14 +116,14 @@ function FormCmp({  initData,
 
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>

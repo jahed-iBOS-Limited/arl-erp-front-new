@@ -5,7 +5,7 @@ export function generateDataset(monthId, yearId, holidays = []) {
 
   for (let day = 2; day <= daysInMonth + 1; day++) {
     const date = new Date(yearId, monthId - 1, day);
-    const formatDate = date.toISOString().split("T")[0];
+    const formatDate = date.toISOString().split('T')[0];
     const dayName = getDayName(formatDate);
 
     dataset.push({
@@ -29,13 +29,13 @@ function getDayName(dateStr) {
 
   // Use an array to map dayOfWeek values to day names
   const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ];
 
   // Return the day name using the mapped index
@@ -47,84 +47,84 @@ export const getMonthList = () => {
     {
       collectionPlanId: 0,
       monthId: 1,
-      monthName: "January",
+      monthName: 'January',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 2,
-      monthName: "February",
+      monthName: 'February',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 3,
-      monthName: "March",
+      monthName: 'March',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 4,
-      monthName: "April",
+      monthName: 'April',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 5,
-      monthName: "May",
+      monthName: 'May',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 6,
-      monthName: "June",
+      monthName: 'June',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 7,
-      monthName: "July",
+      monthName: 'July',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 8,
-      monthName: "August",
+      monthName: 'August',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 9,
-      monthName: "September",
+      monthName: 'September',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 10,
-      monthName: "October",
+      monthName: 'October',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 11,
-      monthName: "November",
+      monthName: 'November',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },
     {
       collectionPlanId: 0,
       monthId: 12,
-      monthName: "December",
+      monthName: 'December',
       budgetedSalesQnt: 0,
       budgetedSalesAmount: 0,
     },

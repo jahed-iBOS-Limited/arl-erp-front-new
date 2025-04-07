@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const inputLabel = ({ label, touched, error, customFeedbackLabel }) => {
   if (touched && error) {
@@ -43,15 +43,15 @@ export function FieldFeedbackLabel({
   touched,
   error,
   type,
-  customFeedbackLabel
+  customFeedbackLabel,
 }) {
   // console.log(customFeedbackLabel)
   switch (type) {
-    case "text":
+    case 'text':
       return inputLabel({ label, touched, error, customFeedbackLabel });
-    case "email":
+    case 'email':
       return inputLabel({ label, touched, error, customFeedbackLabel });
-    case "password":
+    case 'password':
       return inputLabel({ label, touched, error, customFeedbackLabel });
     default:
       return selectLabel({ label, touched, error, customFeedbackLabel });

@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   transportZoneName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Zone Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Zone Name is required'),
   // divisionName: Yup.object().shape({
   //   value: Yup.number().required("Division is required"),
   //   label: Yup.string().required("Division is required"),
@@ -37,8 +37,7 @@ export default function FormCmp({
     );
   };
   React.useEffect(() => {
-    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
-
+    getDivisionDDL('/oms/TerritoryInfo/GetDivisionDDL?countryId=18');
   }, []);
 
   return (
@@ -52,9 +51,16 @@ export default function FormCmp({
             resetForm(initData);
           });
         }}
-
       >
-        {({ errors, touched, setFieldValue, isValid, values, resetForm, handleSubmit }) => (
+        {({
+          errors,
+          touched,
+          setFieldValue,
+          isValid,
+          values,
+          resetForm,
+          handleSubmit,
+        }) => (
           <>
             {/* <h1>
               {
@@ -74,13 +80,13 @@ export default function FormCmp({
                 {/* divisionName */}
                 <div className="col-lg-3">
                   <NewSelect
-                    label={"Division"}
+                    label={'Division'}
                     options={divisionDDL || []}
                     value={values?.divisionName}
                     name="divisionName"
                     onChange={(valueOption) => {
-                      setFieldValue("divisionName", valueOption || "");
-                      setFieldValue("districtName", "");
+                      setFieldValue('divisionName', valueOption || '');
+                      setFieldValue('districtName', '');
                       valueOption?.value && getDistrict(valueOption?.value);
                     }}
                     errors={errors}
@@ -90,12 +96,12 @@ export default function FormCmp({
                 {/* districtName */}
                 <div className="col-lg-3">
                   <NewSelect
-                    label={"District"}
+                    label={'District'}
                     options={districtDDL || []}
                     value={values?.districtName}
                     name="districtName"
                     onChange={(valueOption) => {
-                      setFieldValue("districtName", valueOption || "");
+                      setFieldValue('districtName', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -105,13 +111,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

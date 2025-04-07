@@ -1,6 +1,3 @@
-
-
-
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -57,7 +54,7 @@ export function ShippingViewReport2({
 
   let totalSum = purchaseOrderReport?.objRowListDTO?.reduce(
     (acc, sum) => sum?.totalValue + acc,
-    0,
+    0
   );
 
   const printRef = useRef();
@@ -136,7 +133,7 @@ export function ShippingViewReport2({
                   `/procurement/Report/GetShippingPurchaseOrderInformationByPOIdPDF?PurchaseOrderId=${poId}&OrderTypeId=${orId}`,
                   `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`,
                   'pdf',
-                  setLoading,
+                  setLoading
                 )
               }
             >
@@ -221,7 +218,7 @@ export function ShippingViewReport2({
                             <td>
                               {_dateFormatter(
                                 purchaseOrderReport?.objHeaderDTO
-                                  ?.purchaseOrderDateTime,
+                                  ?.purchaseOrderDateTime
                               )}
                             </td>
                           </tr>
@@ -273,8 +270,8 @@ export function ShippingViewReport2({
                               {!purchaseOrderReport?.objHeaderDTO?.leadDay
                                 ? ''
                                 : purchaseOrderReport?.objHeaderDTO?.leadDay < 2
-                                ? `${purchaseOrderReport?.objHeaderDTO?.leadDay} day`
-                                : `${purchaseOrderReport?.objHeaderDTO?.leadDay} days`}
+                                  ? `${purchaseOrderReport?.objHeaderDTO?.leadDay} day`
+                                  : `${purchaseOrderReport?.objHeaderDTO?.leadDay} days`}
                             </td>
                             <td>Terms:</td>
                             <td>
@@ -372,7 +369,7 @@ export function ShippingViewReport2({
                                   </td>
                                 </tr>
                               </>
-                            ),
+                            )
                           )}
                           <tr>
                             <td

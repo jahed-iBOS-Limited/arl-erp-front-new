@@ -1,23 +1,22 @@
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import { getReportAction, setReportEmpty } from '../_redux/Actions';
 
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import { getReportAction, setReportEmpty } from "../_redux/Actions";
-
-import ICard from "./../../../../../app/modules/_helper/_card";
+import ICard from './../../../../../app/modules/_helper/_card';
 import {
   getEmployeeBasicInfoByIdAction,
   getYearDDLAction,
-} from "./../../../../../app/modules/performanceManagement/_redux/Actions";
-import { getMonthDDLAction } from "./../../../../../app/modules/performanceManagement/individualKpi/PerformanceChart/_redux/Actions";
+} from './../../../../../app/modules/performanceManagement/_redux/Actions';
+import { getMonthDDLAction } from './../../../../../app/modules/performanceManagement/individualKpi/PerformanceChart/_redux/Actions';
 
 const initData = {
   id: undefined,
-  unpavorite: "",
-  year: "",
-  from: "",
-  to: "",
-  employee: "",
+  unpavorite: '',
+  year: '',
+  from: '',
+  to: '',
+  employee: '',
 };
 
 export default function KpiDashboardForm() {
@@ -34,14 +33,8 @@ export default function KpiDashboardForm() {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    month,
-    empDDL,
-    unPavDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, yearDDL, month, empDDL, unPavDDL } =
+    storeData;
 
   const dispatch = useDispatch();
 
@@ -56,14 +49,12 @@ export default function KpiDashboardForm() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-
   }, [yearDDL]);
 
   useEffect(() => {
@@ -80,21 +71,18 @@ export default function KpiDashboardForm() {
         )
       );
     }
-
   }, [yearDDL, month]);
 
   useEffect(() => {
     if (profileData?.userId) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.employeeId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, []);
 
   return (

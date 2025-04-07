@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 
-import { useLocation } from "react-router-dom";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { useEffect } from "react";
-import { GetLandingComponentData, getGeneralLedgerDDL } from "./../../helper";
-import { updateGeneralLedger } from "./../../helper";
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { useEffect } from 'react';
+import { GetLandingComponentData, getGeneralLedgerDDL } from './../../helper';
+import { updateGeneralLedger } from './../../helper';
 
 const initData = {
-  generalLeadger: "",
+  generalLeadger: '',
 };
 
 export function PriceStructureGlLanding({
@@ -21,7 +21,7 @@ export function PriceStructureGlLanding({
 }) {
   const [generalLeadgerDDL, setGeneralLeadgerDDL] = useState([]);
   const [componentData, setComponentData] = useState([]);
-  const [isDisabled, ] = useState(false);
+  const [isDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   // get user profile data from store

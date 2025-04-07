@@ -1,32 +1,29 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import FormikError from "../../../../_helper/_formikError";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
-import customStyles from "../../../../selectCustomStyle";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import FormikError from '../../../../_helper/_formikError';
+import { bankJournalValidationSchema } from '../../../../_helper/_validationSchema';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getPaymentOrReceiveLandingPasignation_Api,
   getReferenceNoDDL_Api,
-} from "../helper";
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { setReceiveOrPaymentAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import GridData from "./grid";
-
+} from './../../../../../../_metronic/_partials/controls';
+import { setReceiveOrPaymentAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import GridData from './grid';
 
 const initData = {
-  transactionType: "",
-  ReferanceNo: "",
-  employeeEnroll: "",
+  transactionType: '',
+  ReferanceNo: '',
+  employeeEnroll: '',
 };
 
 export default function HeaderForm({
@@ -53,11 +50,8 @@ export default function HeaderForm({
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    receiveOrPaymentIntData,
-  } = receivepaymentAuthData;
+  let { profileData, selectedBusinessUnit, receiveOrPaymentIntData } =
+    receivepaymentAuthData;
   const backHandler = () => {
     history.goBack();
   };
@@ -78,28 +72,28 @@ export default function HeaderForm({
 
   useEffect(() => {
     if (receiveOrPaymentIntData?.transactionType?.value) {
-      gridDataFunc(receiveOrPaymentIntData)
+      gridDataFunc(receiveOrPaymentIntData);
     }
-  }, [receiveOrPaymentIntData])
+  }, [receiveOrPaymentIntData]);
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={receiveOrPaymentIntData || initData}
         validationSchema={bankJournalValidationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Form className="form form-label-right cj">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Receive Or Payment"}>
+                <CardHeader title={'Receive Or Payment'}>
                   <CardHeaderToolbar>
                     <button
                       type="button"
                       onClick={backHandler}
-                      className={"btn btn-light"}
+                      className={'btn btn-light'}
                     >
                       <i className="fa fa-arrow-left"></i>
                       Back
@@ -107,10 +101,10 @@ export default function HeaderForm({
                     <button
                       type="button"
                       onClick={() => {
-                        setFieldValue("referanceNo", "");
-                        setFieldValue("employeeEnroll", "");
+                        setFieldValue('referanceNo', '');
+                        setFieldValue('employeeEnroll', '');
                       }}
-                      className={"btn btn-light ml-2"}
+                      className={'btn btn-light ml-2'}
                     >
                       <i className="fa fa-redo"></i>
                       Reset
@@ -124,24 +118,24 @@ export default function HeaderForm({
                         {/* box-one start */}
                         <div
                           className="box_one mr-2"
-                          style={{ width: "590px" }}
+                          style={{ width: '590px' }}
                         >
                           <div
                             style={{
-                              paddingBottom: "7px",
-                              marginLeft: "-13px",
-                              paddingLeft: ".50rem",
-                              paddingRight: ".50rem",
+                              paddingBottom: '7px',
+                              marginLeft: '-13px',
+                              paddingLeft: '.50rem',
+                              paddingRight: '.50rem',
                             }}
                             className="d-flex mt-3 bank-journal bank-journal-custom bj-left"
                           >
-                            <div style={{ width: "195px" }} className="mr-2">
+                            <div style={{ width: '195px' }} className="mr-2">
                               <label>Transaction Type</label>
                               <Select
                                 onChange={(valueOption) => {
-                                  setFieldValue("transactionType", valueOption);
-                                  setFieldValue("referanceNo", "");
-                                  setFieldValue("employeeEnroll", "");
+                                  setFieldValue('transactionType', valueOption);
+                                  setFieldValue('referanceNo', '');
+                                  setFieldValue('employeeEnroll', '');
                                   getReferenceNoDDL_Api(
                                     valueOption?.label,
                                     profileData?.accountId,
@@ -149,18 +143,18 @@ export default function HeaderForm({
                                     0,
                                     SetReferanceNo
                                   );
-                                  setGirdData([])
+                                  setGirdData([]);
                                 }}
                                 options={[
-                                  { value: 3, label: "Advance Pay" },
-                                  { value: 4, label: "Expense Pay" },
+                                  { value: 3, label: 'Advance Pay' },
+                                  { value: 4, label: 'Expense Pay' },
                                   {
                                     value: 1,
-                                    label: "Receive Against Advance",
+                                    label: 'Receive Against Advance',
                                   },
                                   {
                                     value: 2,
-                                    label: "Receive Without Reference",
+                                    label: 'Receive Without Reference',
                                   },
                                 ]}
                                 value={values?.transactionType}
@@ -175,7 +169,7 @@ export default function HeaderForm({
                                 touched={touched}
                               />
                             </div>
-                            <div className="mr-2" style={{ width: "195px" }}>
+                            <div className="mr-2" style={{ width: '195px' }}>
                               <label>Referance No</label>
                               <Select
                                 options={referanceNo || []}
@@ -188,12 +182,12 @@ export default function HeaderForm({
                                 styles={customStyles}
                                 placeholder="Referance No"
                                 onChange={(valueOption) => {
-                                  setFieldValue("referanceNo", valueOption);
-                                  setFieldValue("employeeEnroll", {
+                                  setFieldValue('referanceNo', valueOption);
+                                  setFieldValue('employeeEnroll', {
                                     value: valueOption?.employeeId,
                                     label: `${valueOption?.employeeName} (${valueOption?.employeeId})`,
                                   });
-                                  setGirdData([])
+                                  setGirdData([]);
                                 }}
                                 isDisabled={
                                   values?.transactionType?.value === 2
@@ -205,7 +199,7 @@ export default function HeaderForm({
                                 touched={touched}
                               />
                             </div>
-                            <div className="mr-2" style={{ width: "195px" }}>
+                            <div className="mr-2" style={{ width: '195px' }}>
                               <label>Employee Enroll</label>
                               <Select
                                 options={employeeDDL || []}
@@ -218,8 +212,8 @@ export default function HeaderForm({
                                 styles={customStyles}
                                 placeholder="Employee Enroll"
                                 onChange={(valueOption) => {
-                                  setFieldValue("employeeEnroll", valueOption);
-                                  setFieldValue("referanceNo", "");
+                                  setFieldValue('employeeEnroll', valueOption);
+                                  setFieldValue('referanceNo', '');
                                   getReferenceNoDDL_Api(
                                     values.transactionType.label,
                                     profileData?.accountId,
@@ -227,7 +221,7 @@ export default function HeaderForm({
                                     valueOption?.value,
                                     SetReferanceNo
                                   );
-                                  setGirdData([])
+                                  setGirdData([]);
                                 }}
                               />
                               <FormikError
@@ -239,20 +233,20 @@ export default function HeaderForm({
 
                             <div
                               className="text-right"
-                              style={{ marginTop: "11px" }}
+                              style={{ marginTop: '11px' }}
                             >
                               {values?.transactionType?.value === 2 ? (
                                 <button
                                   type="button"
                                   className="btn btn-primary mt-1"
-                                  style={{ padding: "4px 6px" }}
+                                  style={{ padding: '4px 6px' }}
                                   onClick={() => {
                                     dispatch(setReceiveOrPaymentAction(values));
                                     history.push({
                                       pathname: `/financial-management/expense/receivepayment/cash/${1}`,
                                       state: {
                                         values,
-                                        gridBtnType: "Cash",
+                                        gridBtnType: 'Cash',
                                       },
                                     });
                                   }}

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 import PropTypes from 'prop-types';
-import {
-  iconContainerClassName,
-  iconClassName,
-} from '../utils/iconUtils';
-import { getTerritoryTypeDDLAction } from '../../../../../salesManagement/configuration/salesTerritory/_redux/Actions'
-import { createSalesTerritory } from '../../helper'
+import { iconContainerClassName, iconClassName } from '../utils/iconUtils';
+import { getTerritoryTypeDDLAction } from '../../../../../salesManagement/configuration/salesTerritory/_redux/Actions';
+import { createSalesTerritory } from '../../helper';
 
 const EditableName = ({
   isEditing,
@@ -20,7 +17,7 @@ const EditableName = ({
   const { name } = nodeData;
   const [inputVal, setInputVal] = useState(name);
   const [territoryTypeId, setTerritoryTypeId] = useState('');
-  const onInputChange = e => setInputVal(e.target.value);
+  const onInputChange = (e) => setInputVal(e.target.value);
   const dispatch = useDispatch();
 
   // get user profile data from store
@@ -47,14 +44,13 @@ const EditableName = ({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
-  const handleChange=(value)=>{
-    if(value!=="new territory"){
+  const handleChange = (value) => {
+    if (value !== 'new territory') {
       localStorage.setItem('parentTerritory', value);
     }
-  }
+  };
 
   const cancelEditing = () => {
     setInputVal(name);
@@ -62,7 +58,7 @@ const EditableName = ({
   };
 
   const handleNameChange = () => {
-    const parentTerritory = localStorage.getItem('parentTerritory')
+    const parentTerritory = localStorage.getItem('parentTerritory');
     const payload = {
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit.value,
@@ -74,59 +70,56 @@ const EditableName = ({
       address: '',
       actionBy: profileData.userId,
     };
-    createSalesTerritory(payload)
+    createSalesTerritory(payload);
     onNameChange(inputVal);
     setIsEditing(false);
   };
 
   const editingName = (
-    <span className='editingName'>
-      <input
-        type='text'
-        value={ inputVal }
-        onChange={ onInputChange }
-      />
+    <span className="editingName">
+      <input type="text" value={inputVal} onChange={onInputChange} />
       <select
         name="cars"
         id="cars"
-        style={{marginLeft: 10, height: 25, width: 150 }}
-        onChange={(e)=>{
-          setTerritoryTypeId(e.target.value)
+        style={{ marginLeft: 10, height: 25, width: 150 }}
+        onChange={(e) => {
+          setTerritoryTypeId(e.target.value);
         }}
       >
-        {territoryTypeDDL && territoryTypeDDL.map(data=>(
-          <option value={data?.value}>{data?.label}</option>
-        ))}
+        {territoryTypeDDL &&
+          territoryTypeDDL.map((data) => (
+            <option value={data?.value}>{data?.label}</option>
+          ))}
       </select>
-      <span className={ iconContainerClassName('editableNameToolbar') }>
+      <span className={iconContainerClassName('editableNameToolbar')}>
         <OKIcon
-          className={ iconClassName('OKIcon') }
-          onClick={ handleNameChange }
-          nodeData={ nodeData }
+          className={iconClassName('OKIcon')}
+          onClick={handleNameChange}
+          nodeData={nodeData}
         />
         <CancelIcon
-          className={ iconClassName('CancelIcon') }
-          onClick={ cancelEditing }
-          nodeData={ nodeData }
+          className={iconClassName('CancelIcon')}
+          onClick={cancelEditing}
+          nodeData={nodeData}
         />
       </span>
     </span>
   );
 
   const displayName = (
-    <span className='displayName'
-      onClick={()=>{
-        handleChange(name)
-        }
-      }
+    <span
+      className="displayName"
+      onClick={() => {
+        handleChange(name);
+      }}
     >
-      { name }
+      {name}
     </span>
   );
 
   return (
-    <span className='EditableName'>
-      { isEditing ? editingName : displayName }
+    <span className="EditableName">
+      {isEditing ? editingName : displayName}
     </span>
   );
 };

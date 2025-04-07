@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getVesselDDL = async (type, buId, setter, setLoading) => {
   setLoading(true);

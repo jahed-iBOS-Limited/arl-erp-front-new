@@ -1,52 +1,52 @@
-import { Formik } from "formik";
-import moment from "moment";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
-import { getDifference } from "../../../../_chartinghelper/_getDateDiff";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../../_chartinghelper/common/selectCustomStyle';
+import { getDifference } from '../../../../_chartinghelper/_getDateDiff';
+import { validationSchema } from '../helper';
 export const dateHandler = (e, values, setFieldValue, type) => {
   /* Calculate Duration */
   const diff = getDifference(
-    type === "endDate"
-      ? moment(values?.ballastStartDate).format("YYYY-MM-DDTHH:mm:ss")
-      : moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss"),
-    type === "endDate"
-      ? moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
-      : moment(values?.ballastEndDate).format("YYYY-MM-DDTHH:mm:ss")
+    type === 'endDate'
+      ? moment(values?.ballastStartDate).format('YYYY-MM-DDTHH:mm:ss')
+      : moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss'),
+    type === 'endDate'
+      ? moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
+      : moment(values?.ballastEndDate).format('YYYY-MM-DDTHH:mm:ss')
   );
 
   /* Set Ballast Duration */
 
-  setFieldValue("ballastDuration", isNaN(diff) ? 0 : parseFloat(diff));
+  setFieldValue('ballastDuration', isNaN(diff) ? 0 : parseFloat(diff));
 
   /* Set Current Input Field Value */
-  if (type === "endDate") {
+  if (type === 'endDate') {
     setFieldValue(
-      "ballastEndDate",
-      moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
+      'ballastEndDate',
+      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
     );
   } else {
     setFieldValue(
-      "ballastStartDate",
-      moment(e.target.value).format("YYYY-MM-DDTHH:mm:ss")
+      'ballastStartDate',
+      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
     );
   }
 
   const lsfoQty = (values?.lsfoperDayQty * diff).toFixed(2);
   const lsmgoQty = (values?.lsmgoperDayQty * diff).toFixed(2);
 
-  setFieldValue("lsfoballastQty", lsfoQty);
-  setFieldValue("lsmgoballastQty", lsmgoQty);
+  setFieldValue('lsfoballastQty', lsfoQty);
+  setFieldValue('lsmgoballastQty', lsmgoQty);
 
   setFieldValue(
-    "lsfoballastAmount",
+    'lsfoballastAmount',
     (lsfoQty * values?.lsfoballastRate).toFixed(2)
   );
   setFieldValue(
-    "lsmgoballastAmount",
+    'lsmgoballastAmount',
     (lsmgoQty * values?.lsmgoballastRate).toFixed(2)
   );
 };
@@ -103,20 +103,20 @@ export default function FormCmp({
                   >
                     Back
                   </button> */}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
 
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -129,7 +129,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable
                       styles={customStyles}
                       name="vesselName"
@@ -142,7 +142,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable
                       styles={customStyles}
                       name="voyageNo"
@@ -161,19 +161,19 @@ export default function FormCmp({
                       name="ballastStartDate"
                       placeholder="Ballast Start Date-Time"
                       onChange={(e) => {
-                        dateHandler(e, values, setFieldValue, "startDate");
+                        dateHandler(e, values, setFieldValue, 'startDate');
                       }}
                       max={
                         values?.ballastEndDate
                           ? moment(values?.ballastEndDate).format(
-                            "YYYY-MM-DDTHH:mm:ss"
-                          )
-                          : ""
+                              'YYYY-MM-DDTHH:mm:ss'
+                            )
+                          : ''
                       }
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -183,22 +183,22 @@ export default function FormCmp({
                       name="ballastEndDate"
                       placeholder="Ballast End Date-Time"
                       min={moment(values?.ballastStartDate).format(
-                        "YYYY-MM-DDTHH:mm:ss"
+                        'YYYY-MM-DDTHH:mm:ss'
                       )}
                       onChange={(e) => {
-                        dateHandler(e, values, setFieldValue, "endDate");
+                        dateHandler(e, values, setFieldValue, 'endDate');
                       }}
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
                   <div className="col-lg-3">
                     <label>Ballast Duration</label>
                     <FormikInput
-                      value={values?.ballastDuration || ""}
+                      value={values?.ballastDuration || ''}
                       name="ballastDuration"
                       placeholder="Ballast Duration"
                       type="text"
@@ -217,18 +217,18 @@ export default function FormCmp({
                         let cal = Number(
                           values?.ballastDuration * e.target.value
                         );
-                        setFieldValue("lsmgoballastQty", cal);
+                        setFieldValue('lsmgoballastQty', cal);
                         setFieldValue(
-                          "lsmgoballastAmount",
+                          'lsmgoballastAmount',
                           values?.lsmgoballastRate * cal
                         );
 
-                        setFieldValue("lsmgoperDayQty", Number(e.target.value));
+                        setFieldValue('lsmgoperDayQty', Number(e.target.value));
                       }}
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -283,15 +283,15 @@ export default function FormCmp({
                         let cal = Number(
                           values?.ballastDuration * e.target.value
                         );
-                        setFieldValue("lsfoballastQty", cal);
+                        setFieldValue('lsfoballastQty', cal);
                         setFieldValue(
-                          "lsfoballastAmount",
+                          'lsfoballastAmount',
                           values?.lsfoballastRate * cal
                         );
 
-                        setFieldValue("lsfoperDayQty", Number(e.target.value));
+                        setFieldValue('lsfoperDayQty', Number(e.target.value));
                       }}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 

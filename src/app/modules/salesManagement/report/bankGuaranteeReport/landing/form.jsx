@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import React, { useState } from 'react';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 const types = [
-  { value: 1, label: "Bank Guarantee Report" },
-  { value: 2, label: "Bank Guarantee Dataset (with excel format)" },
-  { value: 3, label: "Bank Guarantee Excel Upload" },
-  { value: 4, label: "Submitted Bank Guarantee" },
+  { value: 1, label: 'Bank Guarantee Report' },
+  { value: 2, label: 'Bank Guarantee Dataset (with excel format)' },
+  { value: 3, label: 'Bank Guarantee Excel Upload' },
+  { value: 4, label: 'Submitted Bank Guarantee' },
 ];
 
 const BankGuaranteeReportLandingForm = ({ obj }) => {
@@ -53,7 +53,7 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
               value={values?.type}
               label="Operation Type"
               onChange={(valueOption) => {
-                setFieldValue("type", valueOption);
+                setFieldValue('type', valueOption);
                 setRowDto([]);
                 setShowReport(false);
               }}
@@ -71,7 +71,7 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
                 name="date"
                 type="date"
                 onChange={(e) => {
-                  setFieldValue("date", e?.target?.value);
+                  setFieldValue('date', e?.target?.value);
                   setRowDto([]);
                   setShowReport(false);
                 }}
@@ -83,13 +83,13 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
               <NewSelect
                 name="distributionChannel"
                 options={[
-                  { value: 0, label: "All" },
+                  { value: 0, label: 'All' },
                   ...distributionChannelDDL,
                 ]}
                 value={values?.distributionChannel}
                 label="Distribution Channel"
                 onChange={(valueOption) => {
-                  setFieldValue("distributionChannel", valueOption);
+                  setFieldValue('distributionChannel', valueOption);
                   setChannelId(valueOption?.value);
                   setRowDto([]);
                   setShowReport(false);
@@ -111,7 +111,7 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
                   selectedValue={values?.customer}
                   handleChange={(valueOption) => {
                     setShowReport(false);
-                    setFieldValue("customer", valueOption);
+                    setFieldValue('customer', valueOption);
                     setRowDto([]);
                   }}
                   placeholder="Search Customer"
@@ -123,13 +123,13 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
                   name="status"
                   options={[
                     // { value: 0, label: "All" },
-                    { value: true, label: "Approved" },
-                    { value: false, label: "Pending" },
+                    { value: true, label: 'Approved' },
+                    { value: false, label: 'Pending' },
                   ]}
                   value={values?.status}
                   label="Status"
                   onChange={(valueOption) => {
-                    setFieldValue("status", valueOption);
+                    setFieldValue('status', valueOption);
                     setRowDto([]);
                     setShowReport(false);
                   }}
@@ -152,7 +152,7 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
                 }
                 type="button"
                 className="btn btn-primary mt-5"
-                style={{ marginLeft: "13px" }}
+                style={{ marginLeft: '13px' }}
                 onClick={() => {
                   viewHandler(values);
                   setShowReport(true);
@@ -177,7 +177,7 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
                   setFileObject(e.target.files[0]);
                 }}
                 ref={hiddenFileInput}
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 accept=".csv, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               />
             </div>

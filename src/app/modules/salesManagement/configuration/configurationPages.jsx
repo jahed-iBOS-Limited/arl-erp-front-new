@@ -41,7 +41,7 @@ import ComplainAssignConfigLanding from '../../common/fetures/complainManagement
 export function SalesConfigurationPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   const salesOrganization = userRole[findIndex(userRole, 'Sales Organization')];
