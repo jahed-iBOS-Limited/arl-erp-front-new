@@ -14,14 +14,12 @@ import {
 } from './_metronic/layout';
 import './app.css';
 
-createRoot(document.getElementById("root")!).render(
-  <>
-    <MetronicLayoutProvider>
-      <MetronicSubheaderProvider>
-        <MetronicSplashScreenProvider>
-          <App store={store} persistor={persistor} basename={'/'} />
-        </MetronicSplashScreenProvider>
-      </MetronicSubheaderProvider>
-    </MetronicLayoutProvider>
-  </>
+createRoot(document.getElementById('root')!).render(
+  <MetronicLayoutProvider>
+    <MetronicSubheaderProvider>
+      <MetronicSplashScreenProvider>
+        <App store={store} persistor={persistor} basename={'/'} />
+      </MetronicSplashScreenProvider>
+    </MetronicSubheaderProvider>
+  </MetronicLayoutProvider>
 );

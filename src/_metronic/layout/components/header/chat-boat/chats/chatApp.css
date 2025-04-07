@@ -126,7 +126,10 @@
   gap: 10px;
 }
 
-.message-box .cheklist-notification-section .checklist-message-body.checklist-order {}
+.message-box
+  .cheklist-notification-section
+  .checklist-message-body.checklist-order {
+}
 
 .message-box .checklist-message-head {
   display: flex;
@@ -405,7 +408,7 @@
   width: 100% !important;
 }
 
-.wmde-markdown>table {
+.wmde-markdown > table {
   overflow-y: scroll !important;
 }
 

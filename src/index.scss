@@ -1,14 +1,14 @@
 // 3rd-party Plugins
-@import "perfect-scrollbar/css/perfect-scrollbar.css";
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 // Theme Styles
-@import "./_metronic/_assets/sass/style.react.scss";
+@import './_metronic/_assets/sass/style.react.scss';
 
 // Default Layout themes
-@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
-@import "./_metronic/_assets/sass/themes/layout/header/menu/light.scss";
-@import "./_metronic/_assets/sass/themes/layout/brand/dark.scss";
-@import "./_metronic/_assets/sass/themes/layout/aside/dark.scss";
+@import './_metronic/_assets/sass/themes/layout/header/base/light.scss';
+@import './_metronic/_assets/sass/themes/layout/header/menu/light.scss';
+@import './_metronic/_assets/sass/themes/layout/brand/dark.scss';
+@import './_metronic/_assets/sass/themes/layout/aside/dark.scss';
 
 // Header themes
 // Light
@@ -24,11 +24,11 @@
 
 // Brand themes
 .brand-dark {
-  @import "./_metronic/_assets/sass/themes/layout/brand/dark.scss";
+  @import './_metronic/_assets/sass/themes/layout/brand/dark.scss';
 }
 // Light
 .brand-light {
-  @import "./_metronic/_assets/sass/themes/layout/brand/light.scss";
+  @import './_metronic/_assets/sass/themes/layout/brand/light.scss';
 }
 
 // Aside themes
@@ -46,18 +46,17 @@
   margin: 0 !important;
   padding-top: 0.5rem;
   code {
-      overflow-y: auto;
-      display: block;
+    overflow-y: auto;
+    display: block;
 
-      span {
-        background: none transparent !important;
-      }
+    span {
+      background: none transparent !important;
+    }
   }
 }
 
 .json > pre {
   background: none #fff !important;
-
 }
 
 .example-code > .json {
@@ -95,12 +94,10 @@
 
   .table.table-head-custom thead tr {
     .sortable-active {
-        color: $primary !important;
+      color: $primary !important;
     }
   }
 }
-
-
 
 // .nav-link:focus {
 //     outline: none;

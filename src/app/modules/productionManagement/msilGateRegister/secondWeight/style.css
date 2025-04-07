@@ -1,6 +1,6 @@
 .weight-scale-report-wrapper {
   width: 80%;
-  margin:0 auto;
+  margin: 0 auto;
   margin-top: 20px;
 }
 
@@ -8,7 +8,7 @@
   text-align: center;
 }
 .weight-scale-report-wrapper .width-150px {
-  width: 150px
+  width: 150px;
 }
 
 .weight-scale-report-wrapper .border {
@@ -35,12 +35,12 @@
 /* serial section */
 .weight-scale-report-wrapper .weight-report-serial {
   display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-style: double;
-    border-top: none;
-    border-left: none;
-    border-right: none;
+  flex-direction: row;
+  justify-content: space-between;
+  border-style: double;
+  border-top: none;
+  border-left: none;
+  border-right: none;
 }
 
 /* weight report details */

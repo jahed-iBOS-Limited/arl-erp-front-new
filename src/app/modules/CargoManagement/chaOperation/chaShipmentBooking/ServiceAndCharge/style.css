@@ -3,17 +3,17 @@
 } */
 
 .chargesModal .global-table thead .collection-header {
-    background: #9be4eb !important;
+  background: #9be4eb !important;
 }
 
 .chargesModal .global-table thead .payment-header {
-    background: #c9757e !important
+  background: #c9757e !important;
 }
 
 .chargesModal .global-table tbody .collection-border-right {
-    border-right: 1px solid #9be4eb !important;
+  border-right: 1px solid #9be4eb !important;
 }
 
 .chargesModal .global-table tbody .payment-border-right {
-    border-right: 1px solid #c9757e !important;
+  border-right: 1px solid #c9757e !important;
 }

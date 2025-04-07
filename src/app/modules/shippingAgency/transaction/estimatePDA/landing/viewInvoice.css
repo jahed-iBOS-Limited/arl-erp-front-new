@@ -1,4 +1,3 @@
-
 .EstimatePDAView .EstimatePDAViewTopBar {
   text-align: center;
   display: block !important;
@@ -19,7 +18,7 @@
   padding: 1px 0;
 }
 
-.EstimatePDAView .footer p b{
+.EstimatePDAView .footer p b {
   width: 130px;
   display: inline-block;
 }

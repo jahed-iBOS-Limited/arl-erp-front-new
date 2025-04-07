@@ -1,51 +1,51 @@
 .general-ledger-collapse-custom.MuiAccordion-root.Mui-expanded {
-    margin: 3px 0;
+  margin: 3px 0;
 }
 
 .general-ledger-collapse-custom .MuiAccordionSummary-root {
-    min-height: 35px;
+  min-height: 35px;
 }
 
 .general-ledger-collapse-custom .MuiAccordionSummary-root.Mui-expanded {
-    min-height: 34px;
+  min-height: 34px;
 }
 
 .general-ledger-collapse-custom .MuiAccordionSummary-content {
-    margin: 0px 0;
+  margin: 0px 0;
 }
 
 .general-ledger-collapse-custom .MuiAccordionSummary-content.Mui-expanded {
-    margin: 0px 0;
+  margin: 0px 0;
 }
 
 .general-ledger-collapse-custom .gutter-b {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .general-ledger-collapse-custom .MuiAccordionDetails-root {
-    padding: 3px 16px 16px;
+  padding: 3px 16px 16px;
 }
 
 .general-ledger-collapse-custom .MuiIconButton-root {
-    padding: 7px;
+  padding: 7px;
 }
 
 .general-ledger-collapse-custom svg.MuiSvgIcon-root {
-    top: 0px;
+  top: 0px;
 }
 
-.general-ledger-collapse-custom .card.card-custom>.card-header .card-title {
-    margin: 0;
+.general-ledger-collapse-custom .card.card-custom > .card-header .card-title {
+  margin: 0;
 }
 
-.general-ledger-collapse-custom .card.card-custom>.card-header {
-    min-height: 40px;
+.general-ledger-collapse-custom .card.card-custom > .card-header {
+  min-height: 40px;
 }
 
-.general-ledger-collapse-custom .card.card-custom>.card-header .card-toolbar {
-    margin: 0;
+.general-ledger-collapse-custom .card.card-custom > .card-header .card-toolbar {
+  margin: 0;
 }
 
 .general-ledger-collapse-custom .card-header {
-    padding: 0rem 2.25rem;
+  padding: 0rem 2.25rem;
 }

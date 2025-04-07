@@ -1,5 +1,5 @@
-.itemRequest button[type="reset"]{
-    display: none;
+.itemRequest button[type='reset'] {
+  display: none;
 }
 
 /* 
@@ -24,4 +24,3 @@
   .grnCard{
       padding: 0px !important;
   } */
-

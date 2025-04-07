@@ -33,9 +33,9 @@
   margin-right: -8px;
 }
 .global-form_j .css-2b097c-container,
-.global-form_j input[type="text"],
-.global-form_j input[type="number"],
-.global-form_j input[type="date"] {
+.global-form_j input[type='text'],
+.global-form_j input[type='number'],
+.global-form_j input[type='date'] {
   width: 100% !important;
 }
 .border-gray input {
@@ -52,7 +52,7 @@
   font-size: 1rem;
   line-height: 12px;
 }
-.global-form_j .h-narration input[type="text"] {
+.global-form_j .h-narration input[type='text'] {
   width: 100% !important;
 }
 .global-form-hr {
@@ -78,18 +78,18 @@
   padding-left: 0 !important;
   transform: translateX(-0px) !important;
 }
-.global-form-date input[type="date"]::-webkit-calendar-picker-indicator {
+.global-form-date input[type='date']::-webkit-calendar-picker-indicator {
   font-size: 8px !important;
   margin-right: 4px !important;
 }
-.global-form-date input[type="date"]::-webkit-calendar-picker-indicator {
+.global-form-date input[type='date']::-webkit-calendar-picker-indicator {
   font-size: 8px !important;
   margin-right: 4px !important;
 }
-.global-form-custom input[type="number"] {
+.global-form-custom input[type='number'] {
   border: none !important;
 }
-.pl-date input[type="date"] {
+.pl-date input[type='date'] {
   padding-right: 2px !important;
 }
 .bj-left,
@@ -162,12 +162,12 @@
 .employeeInformation .editForm .css-6q0nyr-Svg {
   display: none !important;
 }
-.employeeInformation .editForm input[type="number"] {
+.employeeInformation .editForm input[type='number'] {
   background: hsl(207deg 19% 89%) !important;
   border-color: hsl(207deg 19% 89%) !important;
   margin-left: -9px;
 }
-.employeeInformation .editForm input[type="date"] {
+.employeeInformation .editForm input[type='date'] {
   background: hsl(207deg 19% 89%) !important;
   border-color: hsl(207deg 19% 89%) !important;
   margin-left: -9px;
@@ -177,7 +177,7 @@
   border-color: hsl(207deg 19% 89%) !important;
   margin-left: -9px;
 } */
-.employeeInformation .editForm input[type="email"] {
+.employeeInformation .editForm input[type='email'] {
   background: hsl(207deg 19% 89%) !important;
   border-color: hsl(207deg 19% 89%) !important;
   margin-left: -9px;
@@ -217,6 +217,6 @@
   background: #d6dadd !important;
   border-color: #d6dadd !important;
 }
-.baiscInfo_table button:hover{
+.baiscInfo_table button:hover {
   background: #000 !important;
 }
