@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "node --max_old_space_size=16096 ./node_modules/typescript/bin/tsc -b && node --max_old_space_size=16096 ./node_modules/vite/bin/vite.js build",
-    "lint": "eslint .",
+    "lint": "eslint src --ext .ts,.tsx,.js,jsx",
+    "prettier": "prettier --write src/**/*.ts{,x}",
     "preview": "vite preview"
   },
   "dependencies": {
