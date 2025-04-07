@@ -1,5 +1,5 @@
+import { partnerSalesSlice } from "../../../../../partnerBasicInfo/patnerEdit/collpaseComponent/partnerSales/_redux/Slice";
 import * as requestFromServer from "./Api";
-import { partnerSalesSlice } from "./Slice";
 const { actions: slice } = partnerSalesSlice;
 
 // action for salesTerrioryDDL data
