@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ViewForm from "./viewForm";
+import ViewForm from "../../partnerInformation/businessUnitView/viewForm";
 export function ViewModal({ id, show, onHide, history }) {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
