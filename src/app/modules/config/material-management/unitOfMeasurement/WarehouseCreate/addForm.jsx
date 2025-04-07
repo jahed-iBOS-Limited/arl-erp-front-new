@@ -80,7 +80,7 @@ export default function UOMAddForm({
   };
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Unit Of Measurement">
         <CardHeaderToolbar>
           <button
@@ -91,7 +91,6 @@ export default function UOMAddForm({
             <i className="fa fa-arrow-left"></i>
             Back
           </button>
-          {`  `}
           <button
             type="reset"
             onClick={ResetProductClick}
@@ -101,7 +100,6 @@ export default function UOMAddForm({
             <i className="fa fa-redo"></i>
             Reset
           </button>
-          {`  `}
           <button
             type="submit"
             className="btn btn-primary ml-2"
